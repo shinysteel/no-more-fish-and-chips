@@ -104,6 +104,11 @@ public class GameManager : MonoBehaviour
 
     private void Shutdown()
     {
+        if (Instance != this)
+        {
+            return;
+        }
+
         for (int i = _managers.Length - 1; i >= 0; i--)
         {
             _managers[i].Shutdown();

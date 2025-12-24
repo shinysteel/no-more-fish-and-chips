@@ -14,10 +14,9 @@ namespace FishFlingers.States
 {
     public enum EMenusState { }
 
-    public class MenusState : State<MainState, EMenusState>, INetworkManagerListener
+    public class MenusState : State<MainState, EMenusState>
     {
         private UIManager _uiManager;
-        private NetworkManager _networkManager;
         private CameraManager _cameraManager;
         private TransitionManager _transitionManager;
 
@@ -27,16 +26,8 @@ namespace FishFlingers.States
         public MenusState(StateMachine<MainState> parent) : base(parent)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _transitionManager = GameManager.Instance.Get<TransitionManager>();
-
-            _networkManager.AddListener(this);
-        }
-
-        ~MenusState()
-        {
-            _networkManager?.RemoveListener(this);
         }
 
         public override void Enter()
@@ -67,17 +58,5 @@ namespace FishFlingers.States
 
             SceneManager.UnloadSceneAsync(SceneRegistry.GetSceneName(EScene.EnvironmentMainMenu));
         }
-
-        public void OnLobbyJoined(Lobby lobby)
-        {
-            if (_parentStateMachine.CurrentState != this)
-            {
-                return;
-            }
-
-            _transitionManager.CoverScreen(() => _parentStateMachine.ChangeState(MainState.Gameplay));
-        }
-
-        public void OnLobbySearchResults(List<Lobby> results) { }
     }
 }

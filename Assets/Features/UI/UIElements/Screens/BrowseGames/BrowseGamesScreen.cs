@@ -1,5 +1,4 @@
 using FishFlingers.Networking;
-using PurrLobby;
 using ShinyOwl.Common;
 using System;
 using System.Collections;
@@ -9,7 +8,7 @@ using UnityEngine.UI;
 
 namespace FishFlingers.UI
 {
-    public class BrowseGamesScreen : UIElement, INetworkManagerListener
+    public class BrowseGamesScreen : UIElement
     {
         [SerializeField] private Button _closeButton;
         [SerializeField] private Transform _lobbyEntryContainer;
@@ -24,7 +23,6 @@ namespace FishFlingers.UI
         public override void Load()
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
-            _networkManager.AddListener(this);
 
             _closeButton.onClick.AddListener(CloseClicked);
         }
@@ -33,12 +31,7 @@ namespace FishFlingers.UI
         {
             base.Show(onComplete);
 
-            Search();
-        }
-
-        public override void Unload()
-        {
-            _networkManager?.RemoveListener(this);
+            SearchAsync();
         }
 
         private void Update()
@@ -59,44 +52,39 @@ namespace FishFlingers.UI
                 return;
             }
 
-            Search();
+            SearchAsync();
         }
 
-        private void Search()
+        // Use pooling once we allow the scroll rect to display only what is on screen
+        private async void SearchAsync()
         {
-            _networkManager.SearchLobbies();
             _searchTimer = 0f;
+            SteamLobby[] lobbies = await _networkManager.SearchLobbies();
+
+            if (!_isVisible)
+            {
+                return;
+            }
+
+            for (int i = _lobbyEntries.Count; i < lobbies.Length; i++)
+            {
+                _lobbyEntries.Add(Instantiate(_lobbyEntryPrefab, _lobbyEntryContainer));
+            }
+
+            for (int i = 0; i < lobbies.Length; i++)
+            {
+                _lobbyEntries[i].Setup(lobbies[i]);
+            }
+
+            for (int i = _lobbyEntries.Count - 1; i >= lobbies.Length; i--)
+            {
+                _lobbyEntries.RemoveAt(i);
+            }
         }
 
         private void CloseClicked()
         {
             Hide(null);
         }
-
-        // Use pooling once we allow the scroll rect to display only what is on screen
-        public void OnLobbySearchResults(List<Lobby> results)
-        {
-            if (!_isVisible)
-            {
-                return;
-            }
-
-            for (int i = _lobbyEntries.Count; i < results.Count; i++)
-            {
-                _lobbyEntries.Add(Instantiate(_lobbyEntryPrefab, _lobbyEntryContainer));
-            }
-
-            for (int i = 0; i < results.Count; i++)
-            {
-                _lobbyEntries[i].Setup(results[i]);
-            }
-
-            for (int i = _lobbyEntries.Count - 1; i >= results.Count; i--)
-            {
-                _lobbyEntries.RemoveAt(i);
-            }
-        }
-
-        public void OnLobbyJoined(Lobby lobby) { }
     }
 }

@@ -80,11 +80,13 @@ namespace ShinyOwl.Common.Framework
         {
             if (!_enumStateMap.TryGetValue(stateEnum, out IState state))
             {
+                Debugger.LogError(this, "Tried to change to a state that has not been mapped");
                 return;
             }
 
             if (_currentState == state)
             {
+                Debugger.LogError(this, "Tried to change to a state we are already in");
                 return;
             }
 

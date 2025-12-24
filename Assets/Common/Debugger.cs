@@ -11,8 +11,8 @@ namespace ShinyOwl.Common
 
         public static void AssertIsTrue(bool condition, object context, string message)  => Assert.IsTrue(condition, FormatLog(context, message));
         public static void AssertIsFalse(bool condition, object context, string message) => Assert.IsFalse(condition, FormatLog(context, message));
-        public static void AssertIsNull(Object value, object context, string message)    => Assert.IsNull(value, FormatLog(context, message));
-        public static void AssertIsNotNull(Object value, object context, string message) => Assert.IsNotNull(value, FormatLog(context, message));
+        public static void AssertIsNull(object value, object context, string message)    => Assert.IsNull(value, FormatLog(context, message));
+        public static void AssertIsNotNull(object value, object context, string message) => Assert.IsNotNull(value, FormatLog(context, message));
 
         private static string FormatLog(object context, string message)
         {

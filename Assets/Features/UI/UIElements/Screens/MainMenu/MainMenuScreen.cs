@@ -28,22 +28,22 @@ namespace FishFlingers.UI
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
 
-            _browseGamesButton.onClick.AddListener(BrowseGamesClicked);
-            _hostGameButton.onClick.AddListener(HostGameClicked);
-            _quitButton.onClick.AddListener(QuitClicked);
+            _browseGamesButton.onClick.AddListener(BrowseGamesPressed);
+            _hostGameButton.onClick.AddListener(HostGamePressed);
+            _quitButton.onClick.AddListener(QuitPressed);
         }
 
-        private void BrowseGamesClicked()
+        private void BrowseGamesPressed()
         {
             _browseGamesScreen.Show(null);
         }
 
-        private void HostGameClicked()
+        private void HostGamePressed()
         {
-            _networkManager.CreateLobby();
+            _networkManager.CreateLobbyAsync();
         }
 
-        private void QuitClicked()
+        private void QuitPressed()
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

@@ -16,4 +16,5 @@ MonoBehaviour:
   _eventSystemPrefab: {fileID: 4836926237432439950, guid: 8a82de54485014b45a720335ce9afb87, type: 3}
   _mainMenuScreen: {fileID: 5756083684919418670, guid: 2e0fe2dce38be71479cc859c1b98ac80, type: 3}
   _browseGamesScreen: {fileID: 2927604314630142956, guid: 3afdc92196ba1ce4f85c14b2a83ec362, type: 3}
+  _gameplayScreen: {fileID: 5670193213575206993, guid: e99bd13e3529bdb4abd31a1786f353f4, type: 3}
   _fadeOverlay: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}
