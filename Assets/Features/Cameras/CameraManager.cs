@@ -34,9 +34,6 @@ namespace FishFlingers.Cameras
 
         public override void Shutdown()
         {
-            _camera = null;
-            _mode = null;
-
             base.Shutdown();
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace FishFlingers.UI
@@ -14,6 +15,12 @@ namespace FishFlingers.UI
 
         public virtual void Show(Action onComplete)
         {
+            if (_isVisible)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
             _isVisible = true;
             gameObject.SetActive(true);
             onComplete?.Invoke();
@@ -21,6 +28,12 @@ namespace FishFlingers.UI
 
         public virtual void Hide(Action onComplete)
         {
+            if (!_isVisible)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
             _isVisible = false;
             gameObject.SetActive(false);
             onComplete?.Invoke();

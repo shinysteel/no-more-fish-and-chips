@@ -89,6 +89,8 @@ namespace FishFlingers.Pools
             _container = new GameObject(ContainerName).transform;
             UnityEngine.Object.DontDestroyOnLoad(_container.gameObject);
 
+            // Register config prefabs here
+
             base.Initialise(gameManagerConfig);
         }
 

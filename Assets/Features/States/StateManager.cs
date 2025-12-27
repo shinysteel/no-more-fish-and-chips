@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Framework;
-using UnityEngine.SceneManagement;
 using ShinyOwl.Common;
+using FishFlingers.Scenes;
 
 namespace FishFlingers.States
 {
@@ -18,9 +18,11 @@ namespace FishFlingers.States
         Gameplay
     }
 
-    public class StateManager : GameSystem<IStateManagerListener>
+    public class StateManager : GameSystem<IStateManagerListener>, ISceneManagerListener
     {
         private StateManagerConfig _config;
+
+        private SceneManager _sceneManager;
 
         private StateMachine<MainState> _stateMachine;
         private MenusState _menusState;
@@ -30,6 +32,10 @@ namespace FishFlingers.States
         {
             _config = gameManagerConfig.StateManagerConfig;
 
+            _sceneManager = GameManager.Instance.Get<SceneManager>();
+
+            _sceneManager.AddListener(this);
+
             _stateMachine = new();
             _menusState = new MenusState(_stateMachine);
             _gameplayState = new GameplayState(_stateMachine);
@@ -38,18 +44,13 @@ namespace FishFlingers.States
             _stateMachine.AddState(MainState.Gameplay, _gameplayState);
 
             base.Initialise(gameManagerConfig);
+        }
 
-            SceneManager.sceneUnloaded += HandleSceneUnloaded;
-            void HandleSceneUnloaded(Scene scene)
-            {
-                if (scene.name != SceneRegistry.GetSceneName(EScene.Startup))
-                {
-                    return;
-                }
+        public override void Shutdown()
+        {
+            _sceneManager?.RemoveListener(this);
 
-                _stateMachine.ChangeState(MainState.Menus);
-                SceneManager.sceneUnloaded -= HandleSceneUnloaded;
-            }
+            base.Shutdown();
         }
 
         public override void Update()
@@ -61,5 +62,17 @@ namespace FishFlingers.States
         {
             _stateMachine.ChangeState(state);
         }
+
+        public void OnSceneUnloaded(EScene scene)
+        { 
+            // Only once do we listen for the startup scene to unload before starting the state machine
+            if (scene == EScene.Startup)
+            {
+                _sceneManager.RemoveListener(this);
+                _stateMachine.ChangeState(MainState.Menus);
+            }
+        }
+
+        public void OnSceneLoaded(EScene scene, LoadSceneMode mode) { }
     }
 }

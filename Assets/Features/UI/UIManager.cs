@@ -1,9 +1,11 @@
+using ShinyOwl.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using ShinyOwl.Common.Framework;
 
 using Object = UnityEngine.Object;
 
@@ -50,9 +52,6 @@ namespace FishFlingers.UI
 
         public override void Shutdown()
         {
-            _gameCanvas = null;
-            _eventSystem = null;
-
             base.Shutdown();
         }
 
@@ -88,27 +87,52 @@ namespace FishFlingers.UI
             return rect;
         }
 
-        public T CreateUIElementInLayer<T>(T prefab, UILayer layer, UILayerInsertMode mode = UILayerInsertMode.LastSibling) where T : UIElement
+        public AsyncOperationBridge<UIElement> CreateUIElementAsync<T>(T prefab, UILayer layer, UILayerInsertMode mode = UILayerInsertMode.LastSibling) where T : UIElement
         {
-            T uiElement = Object.Instantiate(prefab);
-            uiElement.transform.SetParent(_layers[(int)layer], false);
-
-            if (mode == UILayerInsertMode.LastSibling)
+            if (prefab == null)
             {
-                uiElement.transform.SetAsLastSibling();
-            }
-            else if (mode == UILayerInsertMode.FirstSibling)
-            {
-                uiElement.transform.SetAsFirstSibling();
+                Debugger.LogError(this, "Tried to create a ui element, but the prefab given was null");
+                return null;
             }
 
-            uiElement.Load();
-            uiElement.gameObject.SetActive(false);
-            return uiElement;
+            InstantiateParameters parameters = new()
+            {
+                parent = _layers[(int)layer], 
+                worldSpace = false
+            };
+
+            AsyncOperation op = Object.InstantiateAsync(prefab, parameters);
+
+            AsyncOperationBridge<UIElement> bridge = new AsyncOperationBridge<UIElement>(op, _ =>
+            {
+                AsyncInstantiateOperation instantiateOp = (AsyncInstantiateOperation)op;
+                T uiElement = (T)instantiateOp.Result[0];
+
+                if (mode == UILayerInsertMode.LastSibling)
+                {
+                    uiElement.transform.SetAsLastSibling();
+                }
+                else if (mode == UILayerInsertMode.FirstSibling)
+                {
+                    uiElement.transform.SetAsFirstSibling();
+                }
+
+                uiElement.Load();
+                uiElement.gameObject.SetActive(false);
+                return uiElement;
+            });
+
+            return bridge;
         }
 
-        public void DestroyUIElementInLayer(UIElement uiElement, UILayer layer)
+        public void DestroyUIElement(UIElement uiElement, UILayer layer)
         {
+            if (uiElement == null)
+            {
+                Debugger.LogError(this, "Tried to destroy a ui element, but the ui element given was null");
+                return;
+            }
+
             if (!uiElement.transform.IsChildOf(_layers[(int)layer]))
             {
                 return;

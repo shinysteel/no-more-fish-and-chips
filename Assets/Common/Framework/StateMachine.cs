@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace ShinyOwl.Common.Framework
@@ -17,8 +18,10 @@ namespace ShinyOwl.Common.Framework
     public interface IState
     {
         void Enter();
+        Task EnterAsync();
         void Update();
         void Exit();
+        Task ExitAsync();
     }
 
     public class State<TParentStateEnum, TSubStateEnum> : IState
@@ -38,6 +41,11 @@ namespace ShinyOwl.Common.Framework
             _subStateMachine?.Enter();
         }
 
+        public virtual async Task EnterAsync()
+        {
+            await (_subStateMachine?.EnterAsync() ?? Task.CompletedTask);
+        }
+
         public virtual void Update()
         {
             _subStateMachine?.Update();
@@ -46,6 +54,11 @@ namespace ShinyOwl.Common.Framework
         public virtual void Exit()
         {
             _subStateMachine?.Exit();
+        }
+
+        public virtual async Task ExitAsync()
+        {
+            await (_subStateMachine?.ExitAsync() ?? Task.CompletedTask);
         }
 
         protected void ChangeState(TSubStateEnum stateEnum)
@@ -91,13 +104,20 @@ namespace ShinyOwl.Common.Framework
             }
 
             _currentState?.Exit();
+            _ = _currentState?.ExitAsync();
             _currentState = state;
             _currentState?.Enter();
+            _ = _currentState?.EnterAsync();
         }
 
         public void Enter()
         {
             _currentState?.Enter();
+        }
+
+        public async Task EnterAsync()
+        {
+            await (_currentState?.EnterAsync() ?? Task.CompletedTask);
         }
 
         public void Update()
@@ -108,6 +128,11 @@ namespace ShinyOwl.Common.Framework
         public void Exit()
         {
             _currentState?.Exit();
+        }
+
+        public async Task ExitAsync()
+        {
+            await (_currentState?.ExitAsync() ?? Task.CompletedTask);
         }
     }
 }

@@ -19,3 +19,4 @@ MonoBehaviour:
   _uiManagerConfig: {fileID: 11400000, guid: daa9a11ac22697944aa3c0e00cd5258b, type: 2}
   _poolManagerConfig: {fileID: 11400000, guid: 795fa2137580ffe4aa41acac8240970a, type: 2}
   _transitionManagerConfig: {fileID: 11400000, guid: 8602e473d3e751b4496939b6153579ff, type: 2}
+  _sceneManagerConfig: {fileID: 11400000, guid: bd46a7b359290964f82404aba5c65526, type: 2}

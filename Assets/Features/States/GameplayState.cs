@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Framework;
-using UnityEngine.SceneManagement;
 using FishFlingers.UI.Transitions;
 using FishFlingers.UI;
 using FishFlingers.Networking;
 using System;
 using Steamworks;
 using ShinyOwl.Common;
+using FishFlingers.Scenes;
+using System.Threading.Tasks;
 
 namespace FishFlingers.States
 {
@@ -20,6 +21,7 @@ namespace FishFlingers.States
         private UIManager _uiManager;
         private StateManager _stateManager;
         private NetworkManager _networkManager;
+        private SceneManager _sceneManager;
 
         private GameplayScreen _gameplayScreen;
 
@@ -29,6 +31,7 @@ namespace FishFlingers.States
             _uiManager = GameManager.Instance.Get<UIManager>();
             _stateManager = GameManager.Instance.Get<StateManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _sceneManager = GameManager.Instance.Get<SceneManager>();
 
             _networkManager.AddListener(this);
         }
@@ -40,17 +43,6 @@ namespace FishFlingers.States
 
         public override void Enter()
         {
-            _gameplayScreen = _uiManager.CreateUIElementInLayer(_uiManager.Config.GameplayScreen, UILayer.Screens);
-            _gameplayScreen.Show(null);
-
-            // Load the environment
-            AsyncOperation op = SceneManager.LoadSceneAsync(SceneRegistry.GetSceneName(EScene.EnvironmentGameplay), LoadSceneMode.Additive);
-            op.completed += _ =>
-            {
-                SceneManager.SetActiveScene(SceneRegistry.GetScene(EScene.EnvironmentGameplay));
-                _transitionManager.UncoverScreen(null);
-            };
-
             if (_networkManager.CurrentLobby.OwnerId == SteamUser.GetSteamID())
             {
                 _networkManager.StartServer();
@@ -59,14 +51,34 @@ namespace FishFlingers.States
             _networkManager.StartClient();
         }
 
+        public override async Task EnterAsync()
+        {
+            _gameplayScreen = (GameplayScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
+            _gameplayScreen.Show(null);
+
+            // Use the network manager to load the game scene so that it can be networked
+            await _sceneManager.LoadSceneAsync(EScene.Game, LoadSceneMode.Additive, LoadSceneContext.Networked);
+
+            await _sceneManager.LoadSceneAsync(EScene.EnvironmentGameplay, LoadSceneMode.Additive, LoadSceneContext.Local);
+
+            _sceneManager.SetActiveScene(EScene.Game);
+            _transitionManager.UncoverScreen(null);
+        }
+
         public override void Exit()
         {
-            _uiManager.DestroyUIElementInLayer(_gameplayScreen, UILayer.Screens);
+            _uiManager.DestroyUIElement(_gameplayScreen, UILayer.Screens);
             _gameplayScreen = null;
 
-            SceneManager.UnloadSceneAsync(SceneRegistry.GetSceneName(EScene.EnvironmentGameplay));
-
             _networkManager.LeaveLobby();
+        }
+
+        public override async Task ExitAsync()
+        {
+            await _sceneManager.UnloadSceneAsync(EScene.Game);
+            await _sceneManager.UnloadSceneAsync(EScene.EnvironmentGameplay);
+
+            _sceneManager.SetActiveScene(EScene.Default);
         }
 
         public void OnLobbyEnter(SteamLobby lobby)

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace FishFlingers.UI.Transitions
 {
-    public class FadeOverlay : UIElement
+    public class FadeOverlay : UIElementAnimated
     {
         [SerializeField] private Image _image;
 
@@ -17,25 +17,14 @@ namespace FishFlingers.UI.Transitions
             _transitionManager = GameManager.Instance.Get<TransitionManager>();
         }
 
-        public override void Show(Action onComplete)
+        public override Sequence CreateShowSequence()
         {
-            gameObject.SetActive(true);
-            _isVisible = true;
-
-            Tween.Alpha(_image, startValue: 0f, endValue: 1f, duration: _transitionManager.Config.Duration, ease: _transitionManager.Config.Ease)
-                .OnComplete(onComplete);
+            return Sequence.Create(Tween.Alpha(_image, startValue: 0f, endValue: 1f, duration: _transitionManager.Config.Duration, ease: _transitionManager.Config.Ease));
         }
 
-        public override void Hide(Action onComplete)
+        public override Sequence CreateHideSequence()
         {
-            onComplete += () =>
-            {
-                gameObject.SetActive(false);
-                _isVisible = false;
-            };
-
-            Tween.Alpha(_image, startValue: 1f, endValue: 0f, duration: _transitionManager.Config.Duration, ease: _transitionManager.Config.Ease)
-                .OnComplete(onComplete);
+            return Sequence.Create(Tween.Alpha(_image, startValue: 1f, endValue: 0f, duration: _transitionManager.Config.Duration, ease: _transitionManager.Config.Ease));
         }
     }
 }

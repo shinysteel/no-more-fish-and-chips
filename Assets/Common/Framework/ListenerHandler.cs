@@ -12,11 +12,23 @@ namespace ShinyOwl.Common.Framework
 
         public void AddListener(TListener listener)
         {
+            if (_listeners.Contains(listener))
+            {
+                Debugger.LogError(this, "A listener is trying to add itself more than once");
+                return;
+            }
+
             _listeners.Add(listener);
         }
 
         public void RemoveListener(TListener listener)
         {
+            // This can happen when a listener has potential to stop listening during its lifetime, and wants to be doubly sure on shutdown
+            if (!_listeners.Contains(listener))
+            {
+                return;
+            }
+
             _listeners.Remove(listener);
         }
 

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using ShinyOwl.Common.Utils;
 using NUnit.Framework;
 using ShinyOwl.Common;
 using Steam;
+using FishFlingers.Scenes;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     {
         SteamManager      ,
         NetworkManager    ,
+        SceneManager      ,
         CameraManager     ,
         UIManager         ,
         StateManager      ,
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
 
         InitialiseManagers();
 
-        SceneManager.LoadSceneAsync(SceneRegistry.GetSceneName(EScene.Game));
+        Get<SceneManager>().LoadScene(EScene.Default);
     }
 
     private void InitialiseManagers()
@@ -98,26 +99,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnApplicationQuit()
     {
         Shutdown();
     }
 
     private void Shutdown()
     {
-        if (Instance != this)
+        foreach (IGameSystem manager in _managers)
         {
-            return;
-        }
-
-        for (int i = _managers.Length - 1; i >= 0; i--)
-        {
-            _managers[i].Shutdown();
-        }
-
-        for (int i = _managers.Length - 1; i >= 0; i--)
-        {
-            _managers[i] = null;
+            manager.Shutdown();
         }
 
         Instance = null;

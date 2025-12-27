@@ -6,9 +6,10 @@ using FishFlingers.UI;
 using FishFlingers.Networking;
 using PurrLobby;
 using ShinyOwl.Common;
-using UnityEngine.SceneManagement;
 using FishFlingers.Cameras;
 using FishFlingers.UI.Transitions;
+using FishFlingers.Scenes;
+using System.Threading.Tasks;
 
 namespace FishFlingers.States
 {
@@ -19,6 +20,7 @@ namespace FishFlingers.States
         private UIManager _uiManager;
         private CameraManager _cameraManager;
         private TransitionManager _transitionManager;
+        private SceneManager _sceneManager;
 
         private MainMenuScreen _mainMenuScreen;
         private BrowseGamesScreen _browseGamesScreen;
@@ -28,35 +30,36 @@ namespace FishFlingers.States
             _uiManager = GameManager.Instance.Get<UIManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _transitionManager = GameManager.Instance.Get<TransitionManager>();
+            _sceneManager = GameManager.Instance.Get<SceneManager>();
         }
 
         public override void Enter()
         {
-            _browseGamesScreen = _uiManager.CreateUIElementInLayer(_uiManager.Config.BrowseGamesScreen, UILayer.Screens);
+            _cameraManager.SetMode(new OrbitCameraMode(Vector3.zero, 5f, 3f, 0.1f));
+        }
 
-            _mainMenuScreen = _uiManager.CreateUIElementInLayer(_uiManager.Config.MainMenuScreen, UILayer.Screens, UILayerInsertMode.FirstSibling);
+        public override async Task EnterAsync()
+        {
+            _browseGamesScreen = (BrowseGamesScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.BrowseGamesScreen, UILayer.Screens);
+            _mainMenuScreen = (MainMenuScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.MainMenuScreen, UILayer.Screens);
+
             _mainMenuScreen.Configure(_browseGamesScreen);
             _mainMenuScreen.Show(null);
 
-            AsyncOperation op = SceneManager.LoadSceneAsync(SceneRegistry.GetSceneName(EScene.EnvironmentMainMenu), LoadSceneMode.Additive);
-            op.completed += _ =>
-            {
-                SceneManager.SetActiveScene(SceneRegistry.GetScene(EScene.EnvironmentMainMenu));
-                _transitionManager.UncoverScreen(null);
-            };
+            await _sceneManager.LoadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneMode.Additive);
 
-            _cameraManager.SetMode(new OrbitCameraMode(Vector3.zero, 5f, 3f, 0.1f));
+            _transitionManager.UncoverScreen(null);
         }
 
         public override void Exit()
         {
-            _uiManager.DestroyUIElementInLayer(_mainMenuScreen, UILayer.Screens);
+            _uiManager.DestroyUIElement(_mainMenuScreen, UILayer.Screens);
             _mainMenuScreen = null;
 
-            _uiManager.DestroyUIElementInLayer(_browseGamesScreen, UILayer.Screens);
+            _uiManager.DestroyUIElement(_browseGamesScreen, UILayer.Screens);
             _browseGamesScreen = null;
 
-            SceneManager.UnloadSceneAsync(SceneRegistry.GetSceneName(EScene.EnvironmentMainMenu));
+            _sceneManager.UnloadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneContext.Local);
         }
     }
 }

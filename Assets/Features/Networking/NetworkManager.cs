@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FishFlingers.Networking
 {
@@ -53,16 +54,24 @@ namespace FishFlingers.Networking
             _purrnetNetworkManager.onPlayerJoined -= HandlePlayerJoined;
             _purrnetNetworkManager.onPlayerLeft -= HandlePlayerLeft;
             _purrnetNetworkManager.onNetworkShutdown -= HandleNetworkShutdown;
-            _purrnetNetworkManager = null;
 
             _steamLobbyService.OnLobbyCreated -= HandleLobbyCreated;
             _steamLobbyService.OnLobbyEnter -= HandleLobbyEnter;
             _steamLobbyService.OnLobbyLeave -= HandleLobbyLeave;
             _steamLobbyService.OnLobbyGameServerSet -= HandleLobbyGameServerSet;
             _steamLobbyService.Shutdown();
-            _steamLobbyService = null;
 
             base.Shutdown();
+        }
+
+        public AsyncOperation LoadSceneAsync(string sceneName, LoadSceneMode mode)
+        {
+            return _purrnetNetworkManager.sceneModule.LoadSceneAsync(sceneName, mode);
+        }
+
+        public AsyncOperation UnloadSceneAsync(string sceneName)
+        {
+            return _purrnetNetworkManager.sceneModule.UnloadSceneAsync(sceneName);
         }
 
         public async Task<SteamLobby[]> SearchLobbies()
@@ -73,51 +82,43 @@ namespace FishFlingers.Networking
 
         public async Task<SteamLobby> CreateLobbyAsync()
         {
-            Debugger.Log(this, "create lobby");
             SteamLobby lobby = await _steamLobbyService.CreateLobbyAsync();
             return lobby;
         }
 
         public async Task<SteamLobby> JoinLobbyAsync(CSteamID lobbyId)
         {
-            Debugger.Log(this, "join lobby");
             SteamLobby lobby = await _steamLobbyService.JoinLobbyAsync(lobbyId);
             return lobby;
         }
 
         public void StartLobby()
         {
-            Debugger.Log(this, "start lobby");
             _steamLobbyService.StartLobby();
         }
 
         public void LeaveLobby()
         {
-            Debugger.Log(this, "leave lobby");
             _steamLobbyService.LeaveLobby();
         }
 
         public void StartServer()
         {
-            Debugger.Log(this, "start server");
             _purrnetNetworkManager.StartServer();
         }
 
         public void StartClient()
         {
-            Debugger.Log(this, "start client");
             _purrnetNetworkManager.StartClient();
         }
 
         public void StopServer()
         {
-            Debugger.Log(this, "stop server");
             _purrnetNetworkManager.StopServer();
         }
 
         public void StopClient()
         {
-            Debugger.Log(this, "stop client");
             _purrnetNetworkManager.StopClient();
         }
 

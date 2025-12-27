@@ -1,4 +1,5 @@
 using FishFlingers.UI;
+using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
@@ -22,7 +23,10 @@ namespace FishFlingers.UI.Transitions
 
             _uiManager = GameManager.Instance.Get<UIManager>();
 
-            _fadeOverlay = _uiManager.CreateUIElementInLayer(_uiManager.Config.FadeOverlay, UILayer.Overlay);
+            _uiManager.CreateUIElementAsync(_uiManager.Config.FadeOverlay, UILayer.Overlay).completed += (UIElement uiElement) =>
+            {
+                _fadeOverlay = (FadeOverlay)uiElement;
+            };
 
             base.Initialise(gameManagerConfig);
         }

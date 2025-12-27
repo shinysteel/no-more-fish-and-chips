@@ -3,6 +3,7 @@ using ShinyOwl.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -52,11 +53,11 @@ namespace FishFlingers.UI
                 return;
             }
 
-            SearchAsync();
+            _ = SearchAsync();
         }
 
         // Use pooling once we allow the scroll rect to display only what is on screen
-        private async void SearchAsync()
+        private async Task SearchAsync()
         {
             _searchTimer = 0f;
             SteamLobby[] lobbies = await _networkManager.SearchLobbies();
