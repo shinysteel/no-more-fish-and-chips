@@ -33,7 +33,7 @@ namespace FishFlingers.UI
             _pending.Add(onComplete);
 
             _showSequence = CreateShowSequence();
-            _showSequence.OnComplete(target: this, target => ExecutePending());
+            _showSequence.OnComplete(ExecutePending);
         }
 
         public override void Hide(Action onComplete)
@@ -53,7 +53,7 @@ namespace FishFlingers.UI
             _pending.Add(onComplete);
 
             _hideSequence = CreateHideSequence();
-            _hideSequence.OnComplete(target: this, target =>
+            _hideSequence.OnComplete(() =>
             {
                 _isVisible = false;
                 gameObject.SetActive(false);

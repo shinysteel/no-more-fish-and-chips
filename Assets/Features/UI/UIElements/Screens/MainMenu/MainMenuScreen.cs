@@ -40,7 +40,7 @@ namespace FishFlingers.UI
 
         private void HostGamePressed()
         {
-            _networkManager.CreateLobbyAsync();
+            _ = _networkManager.CreateLobbyAsync();
         }
 
         private void QuitPressed()

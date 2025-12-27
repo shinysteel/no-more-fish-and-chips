@@ -18,8 +18,9 @@ namespace FishFlingers.UI
         private NetworkManager _networkManager;
 
         private List<LobbyEntry> _lobbyEntries = new();
-        private float _searchInterval = 3f;
         private float _searchTimer;
+
+        private const float SearchInterval = 2.5f;
 
         public override void Load()
         {
@@ -32,7 +33,7 @@ namespace FishFlingers.UI
         {
             base.Show(onComplete);
 
-            SearchAsync();
+            _ = SearchAsync();
         }
 
         private void Update()
@@ -48,7 +49,7 @@ namespace FishFlingers.UI
             }
 
             _searchTimer += Time.deltaTime;
-            if (_searchTimer < _searchInterval)
+            if (_searchTimer < SearchInterval)
             {
                 return;
             }

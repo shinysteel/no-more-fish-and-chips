@@ -40,13 +40,13 @@ namespace FishFlingers.States
 
         public override async Task EnterAsync()
         {
+            await _sceneManager.LoadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneMode.Additive);
+
             _browseGamesScreen = (BrowseGamesScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.BrowseGamesScreen, UILayer.Screens);
             _mainMenuScreen = (MainMenuScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.MainMenuScreen, UILayer.Screens);
 
             _mainMenuScreen.Configure(_browseGamesScreen);
             _mainMenuScreen.Show(null);
-
-            await _sceneManager.LoadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneMode.Additive);
 
             _transitionManager.UncoverScreen(null);
         }

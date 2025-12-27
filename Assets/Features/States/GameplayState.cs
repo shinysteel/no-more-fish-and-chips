@@ -10,6 +10,7 @@ using Steamworks;
 using ShinyOwl.Common;
 using FishFlingers.Scenes;
 using System.Threading.Tasks;
+using PurrNet.Transports;
 
 namespace FishFlingers.States
 {
@@ -53,15 +54,16 @@ namespace FishFlingers.States
 
         public override async Task EnterAsync()
         {
-            _gameplayScreen = (GameplayScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
-            _gameplayScreen.Show(null);
-
             // Use the network manager to load the game scene so that it can be networked
             await _sceneManager.LoadSceneAsync(EScene.Game, LoadSceneMode.Additive, LoadSceneContext.Networked);
 
+            _sceneManager.SetActiveScene(EScene.Game);
+
             await _sceneManager.LoadSceneAsync(EScene.EnvironmentGameplay, LoadSceneMode.Additive, LoadSceneContext.Local);
 
-            _sceneManager.SetActiveScene(EScene.Game);
+            _gameplayScreen = (GameplayScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
+            _gameplayScreen.Show(null);
+
             _transitionManager.UncoverScreen(null);
         }
 
@@ -132,5 +134,7 @@ namespace FishFlingers.States
         public void OnLobbyCreated(SteamLobby lobby) { }
         public void OnPlayerJoined(PurrNet.PlayerID id, bool isReconnect) { }
         public void OnPlayerLeft(PurrNet.PlayerID id) { }
+        public void OnClientConnectionState(ConnectionState state) { }
+        public void OnNetworkStarted(bool asServer) { }
     }
 }

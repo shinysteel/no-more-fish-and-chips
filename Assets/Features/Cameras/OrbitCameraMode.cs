@@ -27,8 +27,9 @@ namespace FishFlingers.Cameras
         {
             _timer += Time.deltaTime;
 
-            float x = _center.x + _radius * Mathf.Cos(_speed * _timer);
-            float z = _center.z + _radius * Mathf.Sin(_speed * _timer);
+            float angle = -_speed * _timer;
+            float x = _center.x - _radius * Mathf.Cos(angle);
+            float z = _center.z + _radius * Mathf.Sin(angle);
 
             camera.transform.position = new Vector3(x, _center.y + _yOffset, z);
 
