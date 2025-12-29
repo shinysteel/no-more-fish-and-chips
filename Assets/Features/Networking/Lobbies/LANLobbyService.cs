@@ -13,16 +13,75 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using Newtonsoft.Json;
+using ParrelSync;
 
 namespace FishFlingers.Networking
 {
+    // These packets are 1:1 with the base class Lobby & LobbyMember. It's only here to use the LANLobby
+    // constructor, which is nice as it initialises TimeCreated and whatever else we add later
+    public struct LANLobbyMemberPacket : IPackedAuto
+    {
+        public string Id;
+        public string DisplayName;
+
+        public static LANLobbyMemberPacket FromMember(LobbyMember member)
+        {
+            return new LANLobbyMemberPacket()
+            {
+                Id = member.Id,
+                DisplayName = member.DisplayName
+            };
+        }
+
+        public static LobbyMember ToMember(LANLobbyMemberPacket packet)
+        {
+            return new LobbyMember(packet.Id, packet.DisplayName);
+        }
+    }
+
+    public struct LANLobbyPacket : IPackedAuto
+    {
+        public string Name;
+        public string LobbyId;
+        public string OwnerId;
+        public int MemberLimit;
+        public List<LANLobbyMemberPacket> Members;
+        public Dictionary<string, string> Properties;
+
+        public static LANLobbyPacket FromLobby(LANLobby lobby)
+        {
+            return new LANLobbyPacket()
+            {
+                Name = lobby.Name,
+                LobbyId = lobby.LobbyId,
+                OwnerId = lobby.OwnerId,
+                MemberLimit = lobby.MemberLimit,
+                Members = lobby.Members.Select(member => LANLobbyMemberPacket.FromMember(member)).ToList(),
+                Properties = lobby.Properties
+            };
+        }
+
+        public static LANLobby ToLobby(LANLobbyPacket packet)
+        {
+            return new LANLobby(new LobbyParams()
+            {
+                Name = packet.Name,
+                LobbyId = packet.LobbyId,
+                OwnerId = packet.OwnerId,
+                MemberLimit = packet.MemberLimit,
+                Members = packet.Members.Select(member => LANLobbyMemberPacket.ToMember(member)).ToList(),
+                Properties = packet.Properties
+            });
+        }
+    }
+
     public class LANLobby : Lobby
     {
-        public float TimeCreated { get; private set; }
+        public DateTime TimeCreated { get; private set; }
 
         public LANLobby(LobbyParams parameters) : base(parameters)
         {
-            TimeCreated = Time.time;
+            TimeCreated = DateTime.UtcNow;
         }
     }
 
@@ -32,6 +91,8 @@ namespace FishFlingers.Networking
 
         private Dictionary<string, LANLobby> _knownLobbies = new();
 
+        private string _lanId;
+
         private UdpClient _broadcastClient;
         private bool _isBroadcasting;
 
@@ -40,24 +101,26 @@ namespace FishFlingers.Networking
 
         private const int BroadcastInterval = 2500; // ms
 
-        private const float LobbyTimeout = 10f;
+        private const float LobbyTimeout = 5f;
 
         private const string AddressKey = "address";
-
-        private struct JoinAcceptMessage : IPackedAuto
-        {
-            public string lobbyId;
-        }
 
         public LANLobbyService()
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _networkManager.AddListener(this);
 
+            _lanId = $"{Environment.UserName}-{Guid.NewGuid().ToString().Substring(0, 5)}";
+
             _broadcastClient = new();
             _broadcastClient.EnableBroadcast = true;
 
-            _listenerClient = new UdpClient(_networkManager.Config.BroadcastPort);
+            // Allow testing on the same computer. The clone just won't be able to listen, but
+            // they will still broadcast to our main editor
+            if (!ClonesManager.IsClone())
+            {
+                _listenerClient = new UdpClient(_networkManager.Config.BroadcastPort);
+            }
 
             StartListening();
         }
@@ -79,7 +142,7 @@ namespace FishFlingers.Networking
         public override Task<Lobby[]> SearchLobbiesAsync()
         {
             List<string> expiredLobbies = _knownLobbies
-                .Where(kvp => Time.time - kvp.Value.TimeCreated >= LobbyTimeout)
+                .Where(kvp => (DateTime.UtcNow - kvp.Value.TimeCreated).TotalSeconds >= LobbyTimeout)
                 .Select(kvp => kvp.Key)
                 .ToList();
 
@@ -93,20 +156,18 @@ namespace FishFlingers.Networking
 
         public override Task<Lobby> CreateLobbyAsync()
         {
-            string ownerId = _networkManager.LocalPlayer.ToString();
             string address = Utils.Network.GetLocalIpAddress();
+            string ownerId = _lanId;
 
-            _currentLobby = new LANLobby(new LobbyParams() 
+            CurrentLobby = new LANLobby(new LobbyParams() 
             { 
                 Name = $"{ownerId}'s Lobby",
                 LobbyId = Guid.NewGuid().ToString(),
-                OwnerId = _networkManager.LocalPlayer.ToString(),
+                OwnerId = ownerId,
                 MemberLimit = DefaultMemberLimit,
                 Members = new List<LobbyMember>() { new LobbyMember(ownerId, ownerId) },
                 Properties = new Dictionary<string, string>() { { AddressKey, address }, { StartedKey, false.ToString() } }
             });
-
-            StartBroadcasting();
 
             _networkManager.SetClientTransport<UDPTransport>();
             _networkManager.TryGetClientTransport(out UDPTransport transport);
@@ -115,10 +176,12 @@ namespace FishFlingers.Networking
             _networkManager.StartServer();
             _networkManager.StartClient();
 
-            RaiseOnLobbyCreated(_currentLobby);
-            RaiseOnLobbyEnter(_currentLobby);
+            StartBroadcasting();
 
-            return Task.FromResult(_currentLobby);
+            RaiseOnLobbyCreated(CurrentLobby);
+            RaiseOnLobbyEnter(CurrentLobby);
+
+            return Task.FromResult(CurrentLobby);
         }
 
         public override Task<Lobby> JoinLobbyAsync(string lobbyId)
@@ -133,7 +196,7 @@ namespace FishFlingers.Networking
                 return Task.FromException<Lobby>(new Exception("This lobby is not providing an address to join to"));
             }
 
-            _currentLobby = lobby;
+            CurrentLobby = lobby;
 
             _networkManager.SetClientTransport<UDPTransport>();
             _networkManager.TryGetClientTransport(out UDPTransport transport);
@@ -143,19 +206,27 @@ namespace FishFlingers.Networking
 
             RaiseOnLobbyEnter(lobby);
 
+            RaiseLobbyEvents(null, lobby);
+
             return Task.FromResult((Lobby)lobby);
         }
 
         public override void StartLobby()
         {
-            _currentLobby.Properties[StartedKey] = true.ToString();
+            if (CurrentLobby.OwnerId != _lanId)
+            {
+                Debugger.LogError(this, "You need to be the host to start the lobby");
+                return;
+            }
 
-            RaiseOnLobbyStart();
+            CurrentLobby.Properties[StartedKey] = true.ToString();
+
+            RaiseOnLobbyStart(CurrentLobby);
         }
 
         public override void LeaveLobby()
         {
-            _currentLobby = null;
+            CurrentLobby = null;
 
             StopBroadcasting();
 
@@ -164,12 +235,12 @@ namespace FishFlingers.Networking
 
         public override bool IsLobbyOwner(Lobby lobby)
         {
-            return lobby.OwnerId == _networkManager.LocalPlayer.ToString();
+            return lobby.OwnerId == _lanId;
         }
 
         private void StartBroadcasting()
         {
-            if (_currentLobby.OwnerId != _networkManager.LocalPlayer.ToString())
+            if (CurrentLobby.OwnerId != _lanId)
             {
                 Debugger.LogError(this, "Tried to broadcast a lobby we do not own");
                 return;
@@ -187,8 +258,12 @@ namespace FishFlingers.Networking
             {
                 while (_isBroadcasting)
                 {
-                    string json = JsonConvert.SerializeObject(_currentLobby);
-                    byte[] bytes = Encoding.UTF8.GetBytes(json);
+                    LANLobbyPacket packet = LANLobbyPacket.FromLobby((LANLobby)CurrentLobby);
+                    using BitPacker writer = BitPackerPool.Get();
+                    Packer<LANLobbyPacket>.Write(writer, packet);
+
+                    byte[] bytes = writer.buffer;
+
                     await _broadcastClient.SendAsync(bytes, bytes.Length, new IPEndPoint(IPAddress.Broadcast, _networkManager.Config.BroadcastPort));
                     await Task.Delay(BroadcastInterval);
                 }
@@ -212,9 +287,15 @@ namespace FishFlingers.Networking
                     try
                     {
                         UdpReceiveResult result = await _listenerClient.ReceiveAsync();
-                        string json = Encoding.UTF8.GetString(result.Buffer);
-                        LANLobby lobby = JsonConvert.DeserializeObject<LANLobby>(json);
-                        RaiseLobbyEvents(lobby);
+                        byte[] bytes = result.Buffer;
+                        using BitPacker reader = BitPackerPool.Get(bytes);
+                        LANLobbyPacket packet = default;
+                        Packer<LANLobbyPacket>.Read(reader, ref packet);
+
+                        LANLobby lobby = LANLobbyPacket.ToLobby(packet);
+
+                        RaiseLobbyEvents(_knownLobbies.GetValueOrDefault(lobby.LobbyId), lobby);
+
                         _knownLobbies[lobby.LobbyId] = lobby;
                     }
                     catch { } // Preserve the loop and ignore
@@ -222,29 +303,51 @@ namespace FishFlingers.Networking
             });
         }
 
-        // Since this is LAN, we have to manually relay changes to lobby properties that
-        // would normally raise events for all clients, such as OnLobbyStart
-        private void RaiseLobbyEvents(Lobby lobby)
+        /// <summary>
+        /// Since this is LAN, we have to manually relay changes to lobby properties that
+        /// would normally raise events for all clients, such as OnLobbyStart
+        /// </summary>
+        /// <param name="previous">The lobby we are in, in its previous state</param>
+        /// <param name="current">The lobby we are in, in its current state</param>
+        private void RaiseLobbyEvents(LANLobby previous, LANLobby current)
         {
-            if (_currentLobby == null)
+            // We only care if we are in this lobby
+            if (current == null || CurrentLobby == null || current.LobbyId != CurrentLobby.LobbyId)
             {
                 return;
             }
 
             // Ignore our own broadcasts, since we as the host raise them locally
-            if (_currentLobby.OwnerId == _networkManager.LocalPlayer.ToString())
+            if (current.OwnerId == _lanId)
             {
                 return;
             }
 
             // Detects when the 'started' property goes from false to true and relays it
-            if (_currentLobby.LobbyId == lobby.LobbyId)
+            if (GetBool(previous, StartedKey) == false && GetBool(current, StartedKey) == true)
             {
-                if (bool.Parse(_currentLobby.Properties[StartedKey]) == false && bool.Parse(lobby.Properties[StartedKey]) == true)
-                {
-                    RaiseOnLobbyStart();
-                }
+                RaiseOnLobbyStart(current);
             }
+        }
+
+        private static bool GetBool(LANLobby lobby, string key)
+        {
+            if (lobby == null)
+            {
+                return false;
+            }
+
+            if (!lobby.Properties.TryGetValue(key, out string value))
+            {
+                return false;
+            }
+
+            if (!bool.TryParse(value, out bool result))
+            {
+                return false;
+            }
+
+            return result;
         }
 
         private void StopBroadcasting()
@@ -257,63 +360,49 @@ namespace FishFlingers.Networking
             _isListening = false;
         }
 
-        public void OnNetworkStarted(bool asServer)
+        public void OnPlayerLeft(PlayerID id, bool asServer) 
         {
             if (asServer)
             {
                 return;
             }
 
-            _networkManager.Subscribe<JoinAcceptMessage>(HandleJoinAcceptMessage, _networkManager.IsServer);
-        }
-
-        public void OnNetworkShutdown(bool asServer)
-        {
-            if (asServer)
+            if (_networkManager.IsServer == false || _networkManager.LocalPlayer == id)
             {
                 return;
             }
 
-            _networkManager.Unsubscribe<JoinAcceptMessage>(HandleJoinAcceptMessage);
+            CurrentLobby.Members.RemoveAll(member => member.Id == id.ToString());
         }
 
-        private void HandleJoinAcceptMessage(PlayerID id, JoinAcceptMessage message, bool asServer)
-        {
-            Debugger.Log(this, $"Received join accept message. Id: {id}, message.lobbyyId: {message.lobbyId}, asServer: {asServer}");
-        }
-
-        public void OnPlayerLeft(PlayerID id) 
-        {
-            if (_networkManager.LocalPlayer == id)
-            {
-                return;
-            }
-
-            _currentLobby.Members.RemoveAll(member => member.Id == id.ToString());
-        }
-
-        public void OnPlayerJoined(PlayerID id, bool isReconnect) 
+        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) 
         { 
-            if (_networkManager.LocalPlayer == id)
+            if (asServer)
             {
                 return;
             }
 
-            if (_currentLobby.Members.Count >= _currentLobby.MemberLimit)
+            if (_networkManager.IsServer == false || _networkManager.LocalPlayer == id)
+            {
+                return;
+            }
+
+            if (CurrentLobby.Members.Count >= CurrentLobby.MemberLimit)
             {
                 _networkManager.KickPlayer(id);
                 return;
             }
 
             LobbyMember member = new LobbyMember(id.ToString(), $"Player {id}");
-            _currentLobby.Members.Add(member);
-            _networkManager.Send(id, new JoinAcceptMessage() { lobbyId = _currentLobby.LobbyId });
+            CurrentLobby.Members.Add(member);
         }
 
         public void OnLobbyCreated(Lobby lobby) { }
         public void OnLobbyEnter(Lobby lobby) { }
+        public void OnLobbyStart(Lobby lobby) { }
         public void OnLobbyLeave() { }
-        public void OnLobbyStart() { }
         public void OnClientConnectionState(ConnectionState state) { }
+        public void OnNetworkStarted(bool asServer) { }
+        public void OnNetworkShutdown(bool asServer) { }
     }
 }

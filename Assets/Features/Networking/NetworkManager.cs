@@ -34,13 +34,13 @@ namespace FishFlingers.Networking
     {
         void OnLobbyCreated(Lobby lobby);
         void OnLobbyEnter(Lobby lobby);
+        void OnLobbyStart(Lobby lobby);
         void OnLobbyLeave();
-        void OnLobbyStart();
         void OnNetworkStarted(bool asServer);
         void OnNetworkShutdown(bool asServer);
         void OnClientConnectionState(ConnectionState state);
-        void OnPlayerJoined(PlayerID id, bool isReconnect);
-        void OnPlayerLeft(PlayerID id);
+        void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer);
+        void OnPlayerLeft(PlayerID id, bool asServer);
     }
 
     public class NetworkManager : GameSystem<INetworkManagerListener>
@@ -133,8 +133,8 @@ namespace FishFlingers.Networking
             {
                 _currentLobbyService.OnLobbyCreated -= HandleLobbyCreated;
                 _currentLobbyService.OnLobbyEnter -= HandleLobbyEnter;
-                _currentLobbyService.OnLobbyLeave -= HandleLobbyLeave;
                 _currentLobbyService.OnLobbyStart -= HandleLobbyStart;
+                _currentLobbyService.OnLobbyLeave -= HandleLobbyLeave;
             }
 
             if (!_lobbyServices.TryGetValue(service, out _currentLobbyService))
@@ -147,8 +147,8 @@ namespace FishFlingers.Networking
             {
                 _currentLobbyService.OnLobbyCreated += HandleLobbyCreated;
                 _currentLobbyService.OnLobbyEnter += HandleLobbyEnter;
-                _currentLobbyService.OnLobbyLeave += HandleLobbyLeave;
                 _currentLobbyService.OnLobbyStart += HandleLobbyStart;
+                _currentLobbyService.OnLobbyLeave += HandleLobbyLeave;
             }
         }
 
@@ -203,27 +203,23 @@ namespace FishFlingers.Networking
 
         public async Task<Lobby> CreateLobbyAsync()
         {
-            Debugger.Log(this, "create lobby");
             Lobby lobby = await _currentLobbyService.CreateLobbyAsync();
             return lobby;
         }
 
         public async Task<Lobby> JoinLobbyAsync(string lobbyId)
         {
-            Debugger.Log(this, "join lobby");
             Lobby lobby = await _currentLobbyService.JoinLobbyAsync(lobbyId);
             return lobby;
         }
 
         public void StartLobby()
         {
-            Debugger.Log(this, "start lobby");
             _currentLobbyService.StartLobby();
         }
 
         public void LeaveLobby()
         {
-            Debugger.Log(this, "leave lobby");
             _currentLobbyService.LeaveLobby();
         }
 
@@ -234,32 +230,28 @@ namespace FishFlingers.Networking
 
         public void StartServer()
         {
-            Debugger.Log(this, "start server");
             _purrnetNetworkManager.StartServer();
         }
 
         public void StartClient()
         {
-            Debugger.Log(this, "start client");
             _purrnetNetworkManager.StartClient();
         }
 
         public void StopServer()
         {
-            Debugger.Log(this, "stop server");
             _purrnetNetworkManager.StopServer();
         }
 
         public void StopClient()
         {
-            Debugger.Log(this, "stop client");
             _purrnetNetworkManager.StopClient();
         }
 
         private void HandleLobbyCreated(Lobby lobby) => Listeners.Dispatch(NotifyOnLobbyCreated, lobby);
         private void HandleLobbyEnter(Lobby lobby) => Listeners.Dispatch(NotifyOnLobbyEnter, lobby);
+        private void HandleLobbyStart(Lobby lobby) => Listeners.Dispatch(NotifyOnLobbyStart, lobby);
         private void HandleLobbyLeave() => Listeners.Dispatch(NotifyOnLobbyLeave);
-        private void HandleLobbyStart() => Listeners.Dispatch(NotifyOnLobbyStart);
         private void HandleNetworkStarted(PurrNet.NetworkManager manager, bool asServer) => Listeners.Dispatch(NotifyOnNetworkStarted, asServer);
         private void HandleNetworkShutdown(PurrNet.NetworkManager manager, bool asServer) => Listeners.Dispatch(NotifyOnNetworkShutdown, asServer);
         private void HandleClientConnectionState(ConnectionState state) => Listeners.Dispatch(NotifyOnClientConnectionState, state);
@@ -268,12 +260,12 @@ namespace FishFlingers.Networking
 
         private static void NotifyOnLobbyCreated(INetworkManagerListener listener, Lobby lobby) => listener.OnLobbyCreated(lobby);
         private static void NotifyOnLobbyEnter(INetworkManagerListener listener, Lobby lobby) => listener.OnLobbyEnter(lobby);
+        private static void NotifyOnLobbyStart(INetworkManagerListener listener, Lobby lobby) => listener.OnLobbyStart(lobby);
         private static void NotifyOnLobbyLeave(INetworkManagerListener listener) => listener.OnLobbyLeave();
-        private static void NotifyOnLobbyStart(INetworkManagerListener listener) => listener.OnLobbyStart();
         private static void NotifyOnNetworkStarted(INetworkManagerListener listener, bool asServer) => listener.OnNetworkStarted(asServer);
         private static void NotifyOnNetworkShutdown(INetworkManagerListener listener, bool asServer) => listener.OnNetworkShutdown(asServer);
         private static void NotifyOnClientConnectionState(INetworkManagerListener listener, ConnectionState state) => listener.OnClientConnectionState(state);
-        private static void NotifyOnPlayerJoined(INetworkManagerListener listener, PlayerID id, bool isReconnect, bool asServer) => listener.OnPlayerJoined(id, isReconnect);
-        private static void NotifyOnPlayerLeft(INetworkManagerListener listener, PlayerID id, bool asServer) => listener.OnPlayerLeft(id);
+        private static void NotifyOnPlayerJoined(INetworkManagerListener listener, PlayerID id, bool isReconnect, bool asServer) => listener.OnPlayerJoined(id, isReconnect, asServer);
+        private static void NotifyOnPlayerLeft(INetworkManagerListener listener, PlayerID id, bool asServer) => listener.OnPlayerLeft(id, asServer);
     }
 }

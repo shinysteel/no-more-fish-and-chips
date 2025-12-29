@@ -44,7 +44,7 @@ namespace FishFlingers.Networking
         // and in _currentLobby.LobbyId, let's just point to it. The tradeoff is we need to create it for each request
         private CSteamID GetLobbyId()
         {
-            return new CSteamID(ulong.Parse(_currentLobby.LobbyId));
+            return new CSteamID(ulong.Parse(CurrentLobby.LobbyId));
         }
 
         public override async Task<Lobby[]> SearchLobbiesAsync()
@@ -119,7 +119,7 @@ namespace FishFlingers.Networking
             string lobbyName = $"{SteamFriends.GetPersonaName()}'s Lobby";
             SteamMatchmaking.SetLobbyData(lobbyId, NameKey, lobbyName);
 
-            _currentLobby = new Lobby(new LobbyParams()
+            CurrentLobby = new Lobby(new LobbyParams()
             {
                 Name = lobbyName,
                 LobbyId = lobbyId.ToString(),
@@ -129,9 +129,9 @@ namespace FishFlingers.Networking
                 Properties = GetLobbyProperties(lobbyId)
             });
 
-            RaiseOnLobbyCreated(_currentLobby);
-            RaiseOnLobbyEnter(_currentLobby);
-            return _currentLobby;
+            RaiseOnLobbyCreated(CurrentLobby);
+            RaiseOnLobbyEnter(CurrentLobby);
+            return CurrentLobby;
         }
 
         public override async Task<Lobby> JoinLobbyAsync(string lobbyId)
@@ -160,7 +160,7 @@ namespace FishFlingers.Networking
                 return null;
             }
 
-            _currentLobby = new Lobby(new LobbyParams()
+            CurrentLobby = new Lobby(new LobbyParams()
             {
                 Name = SteamMatchmaking.GetLobbyData(cLobbyId, NameKey),
                 LobbyId = lobbyId,
@@ -170,8 +170,8 @@ namespace FishFlingers.Networking
                 Properties = GetLobbyProperties(cLobbyId)
             });
 
-            RaiseOnLobbyEnter(_currentLobby);
-            return _currentLobby;
+            RaiseOnLobbyEnter(CurrentLobby);
+            return CurrentLobby;
         }
 
         public override void StartLobby()
@@ -181,14 +181,14 @@ namespace FishFlingers.Networking
                 return;
             }
 
-            if (_currentLobby == null)
+            if (CurrentLobby == null)
             {
                 return;
             }
 
             SteamMatchmaking.SetLobbyGameServer(GetLobbyId(), 0, 0, SteamUser.GetSteamID());
             
-            RaiseOnLobbyStart();
+            RaiseOnLobbyStart(CurrentLobby);
         }
 
         public override void LeaveLobby()
@@ -198,13 +198,13 @@ namespace FishFlingers.Networking
                 return;
             }
 
-            if (_currentLobby == null)
+            if (CurrentLobby == null)
             {
                 return;
             }
 
             SteamMatchmaking.LeaveLobby(GetLobbyId());
-            _currentLobby = null;
+            CurrentLobby = null;
 
             RaiseOnLobbyLeave();
         }

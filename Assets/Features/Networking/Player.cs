@@ -33,7 +33,7 @@ namespace FishFlingers.Networking
         {
             if (_networkManager.CurrentLobby.Properties[LobbyService.StartedKey] == true.ToString())
             {
-                OnLobbyStart();
+                OnLobbyStart(_networkManager.CurrentLobby);
             }
 
             _networkManager.AddListener(this);
@@ -49,7 +49,7 @@ namespace FishFlingers.Networking
             Destroy(gameObject);
         }
 
-        public void OnLobbyStart()
+        public void OnLobbyStart(Lobby lobby)
         {
             if (!isOwner)
             {
@@ -61,7 +61,7 @@ namespace FishFlingers.Networking
 
         private async Task SpawnHuman()
         {
-            while (!_sceneManager.GetScene(EScene.Game).isLoaded)
+            while (!_sceneManager.IsSceneActive(EScene.Game))
             {
                 await Task.Yield();
             }
@@ -77,7 +77,7 @@ namespace FishFlingers.Networking
         public void OnNetworkStarted(bool asServer) { }
         public void OnNetworkShutdown(bool asServer) { }
         public void OnClientConnectionState(ConnectionState state) { }
-        public void OnPlayerJoined(PlayerID id, bool isReconnect) { }
-        public void OnPlayerLeft(PlayerID id) { }
+        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
+        public void OnPlayerLeft(PlayerID id, bool asServer) { }
     }
 }

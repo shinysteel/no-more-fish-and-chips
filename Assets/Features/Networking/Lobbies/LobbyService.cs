@@ -1,5 +1,7 @@
+using PurrNet.Packing;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -54,8 +56,7 @@ namespace FishFlingers.Networking
 
     public abstract class LobbyService
     {
-        protected Lobby _currentLobby;
-        public Lobby CurrentLobby => _currentLobby;
+        public Lobby CurrentLobby { get; protected set; }
 
         public const int DefaultMemberLimit = 4;
 
@@ -63,8 +64,8 @@ namespace FishFlingers.Networking
 
         public event Action<Lobby> OnLobbyCreated;
         public event Action<Lobby> OnLobbyEnter;
+        public event Action<Lobby> OnLobbyStart;
         public event Action OnLobbyLeave;
-        public event Action OnLobbyStart;
 
         public abstract void Shutdown();
         public abstract Task<Lobby[]> SearchLobbiesAsync();
@@ -76,7 +77,7 @@ namespace FishFlingers.Networking
 
         protected void RaiseOnLobbyCreated(Lobby lobby) => OnLobbyCreated?.Invoke(lobby);
         protected void RaiseOnLobbyEnter(Lobby lobby) => OnLobbyEnter?.Invoke(lobby);
+        protected void RaiseOnLobbyStart(Lobby lobby) => OnLobbyStart?.Invoke(lobby);
         protected void RaiseOnLobbyLeave() => OnLobbyLeave?.Invoke();
-        protected void RaiseOnLobbyStart() => OnLobbyStart?.Invoke();
     }
 }

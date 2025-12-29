@@ -52,7 +52,7 @@ namespace FishFlingers.States
             else
             {
                 // Scenes are structs, so we need to keep requesting while awaiting
-                while (!_sceneManager.GetScene(EScene.Game).isLoaded)
+                while (!_sceneManager.IsSceneLoaded(EScene.Game))
                 {
                     await Task.Yield();
                 }
@@ -100,7 +100,7 @@ namespace FishFlingers.States
             }
         }
 
-        public void OnLobbyStart() 
+        public void OnLobbyStart(Lobby lobby) 
         {
             if (_parentStateMachine.CurrentState == this)
             {
@@ -128,8 +128,8 @@ namespace FishFlingers.States
 
         public void OnLobbyLeave()  { }
         public void OnLobbyCreated(Lobby lobby) { }
-        public void OnPlayerJoined(PurrNet.PlayerID id, bool isReconnect) { }
-        public void OnPlayerLeft(PurrNet.PlayerID id) { }
+        public void OnPlayerJoined(PurrNet.PlayerID id, bool isReconnect, bool asServer) { }
+        public void OnPlayerLeft(PurrNet.PlayerID id, bool asServer) { }
         public void OnClientConnectionState(ConnectionState state) { }
         public void OnNetworkStarted(bool asServer) { }
     }

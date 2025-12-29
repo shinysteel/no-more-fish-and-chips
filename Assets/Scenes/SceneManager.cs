@@ -71,20 +71,34 @@ namespace FishFlingers.Scenes
             base.Shutdown();
         }
 
-        private string GetSceneName(EScene scene)
+        private EScene GetSceneEnum(Scene scene)
+        {
+            return _sceneNameMap.FirstOrDefault(kvp => kvp.Value == scene.name).Key;
+        }
+
+        public string GetSceneName(EScene scene)
         {
             return _sceneNameMap[scene];
         }
 
-        // We use 'sceneEnum' here so that it is not to be confused with unity's Scene struct
-        public Scene GetScene(EScene sceneEnum)
+        public Scene GetScene(EScene scene)
         {
-            return UnityEngine.SceneManagement.SceneManager.GetSceneByName(GetSceneName(sceneEnum));
+            return UnityEngine.SceneManagement.SceneManager.GetSceneByName(GetSceneName(scene));
         }
 
-        private EScene GetSceneEnum(Scene scene)
+        private Scene GetActiveScene()
         {
-            return _sceneNameMap.FirstOrDefault(kvp => kvp.Value == scene.name).Key;
+            return UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        }
+
+        public bool IsSceneLoaded(EScene scene)
+        {
+            return GetScene(scene).isLoaded;
+        }
+
+        public bool IsSceneActive(EScene scene)
+        {
+            return GetActiveScene().name == GetSceneName(scene);
         }
 
         public void LoadScene(EScene scene, LoadSceneMode mode = LoadSceneMode.Single)
