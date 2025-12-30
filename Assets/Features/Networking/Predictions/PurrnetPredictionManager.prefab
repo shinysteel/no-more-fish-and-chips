@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6039493610036201549}
   - component: {fileID: -4379110518023426951}
-  - component: {fileID: 7248234434943172507}
   m_Layer: 0
   m_Name: PurrnetPredictionManager
   m_TagString: Untagged
@@ -63,19 +62,3 @@ MonoBehaviour:
     minInputs: 1
     maxInputs: 2
   _validateDeterministicData: 0
---- !u!114 &7248234434943172507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1176059506207250828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1ab7f53e9030874598d31696aadcbb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Networking.Predictions.PredictedSpawner
-  _playerPrefab: {fileID: 0}
-  _destroyOnDisconnect: 0
-  spawnPoints: []
-  PlayerPrefab: {fileID: 9019304176509047894, guid: 71eceeaf6ef081647ba1fb60c9f9d30b, type: 3}

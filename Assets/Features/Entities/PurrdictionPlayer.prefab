@@ -175,10 +175,10 @@ MonoBehaviour:
   _extrapolateInput: 1
   _visuals: {fileID: 842441042232873106}
   _rigidbody: {fileID: 4778677063623772926}
-  _moveSpeed: 2.5
+  _moveSpeed: 2
   _accelerationSpeed: 10
-  _decelerationSpeed: 5
-  _jumpForce: 2.5
+  _decelerationSpeed: 7.5
+  _jumpForce: 3
 --- !u!54 &7366413579655585675
 Rigidbody:
   m_ObjectHideFlags: 0

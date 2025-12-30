@@ -17,11 +17,11 @@ namespace FishFlingers.Entities
 
         [SerializeField] private PredictedRigidbody _rigidbody;
 
-        [SerializeField] private float _moveSpeed = 2.5f;
+        [SerializeField] private float _moveSpeed = 2f;
         [SerializeField] private float _accelerationSpeed = 10f;
-        [SerializeField] private float _decelerationSpeed = 5f;
+        [SerializeField] private float _decelerationSpeed = 7.5f;
 
-        [SerializeField] private float _jumpForce = 2.5f;
+        [SerializeField] private float _jumpForce = 3f;
         
         private CameraManager _cameraManager;
         private SceneManager _sceneManager;
@@ -85,9 +85,18 @@ namespace FishFlingers.Entities
 
         protected override void SanitizeInput(ref Input input)
         {
+            // We never trust clients, and need to validate any input we receive
             Vector2 direction = Vector2.ClampMagnitude(new Vector2(input.Horizontal, input.Vertical), 1f);
             input.Horizontal = direction.x;
             input.Vertical = direction.y;
+        }
+
+        protected override void ModifyExtrapolatedInput(ref Input input)
+        {
+            // Some input doesn't make sense to extrapolate, such as jumping. This essentially
+            // means if they jump and than we don't hear from them for a while, don't assume they
+            // will keep jumping
+            input.Jump = false;
         }
 
         protected override void Simulate(Input input, ref State state, float delta)

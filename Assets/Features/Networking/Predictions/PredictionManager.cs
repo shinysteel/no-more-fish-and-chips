@@ -2,6 +2,7 @@ using FishFlingers.Scenes;
 using FishFlingers.States;
 using PrimeTween;
 using PurrNet;
+using PurrNet.Prediction;
 using ShinyOwl.Common;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ namespace FishFlingers.Networking.Predictions
         private PredictionManagerConfig _config;
 
         private SceneManager _sceneManager;
+
+        private PurrNet.Prediction.PredictionManager _purrnetPredictionManager;
 
         public override void Initialise(GameManagerConfig config)
         {
@@ -33,29 +36,22 @@ namespace FishFlingers.Networking.Predictions
             base.Shutdown();
         }
 
-        public T Spawn<T>(T prefab, PlayerID? owner) where T : Component
+        public PredictedObjectID? Spawn(GameObject prefab, PlayerID? owner)
         {
-            return null;
+            return _purrnetPredictionManager.hierarchy.Create(prefab, owner);
         }
 
-        public void OnSceneSetActive(EScene previous, EScene current) 
+        public void OnSceneSetActive(EScene previous, EScene current)
         {
-            //if (current == EScene.Game)
-            //{
-            //    // Had to use this at one point, leaving this here if it comes up again
-            //    // _service = UnityProxy.InstantiateDirectly(_config.PredictionServicePrefab);
-
-            //    _service = Object.Instantiate(_config.PredictionServicePrefab);
-
-            //    // Not ideal to take references from a service like this, but it
-            //    // wasn't great having to define a method 3 times if it originated in the spawner
-            //    _spawner = _service.Spawner;
-            //}
-            //else if (previous == EScene.Game)
-            //{
-            //    _service = null;
-            //    _spawner = null;
-            //}
+            if (current == EScene.Game)
+            {
+                // Wish we could instantiate it ourselves, but the manager doesn't like that
+                _purrnetPredictionManager = Object.FindFirstObjectByType<PurrNet.Prediction.PredictionManager>();
+            }
+            else if (previous == EScene.Game)
+            {
+                _purrnetPredictionManager = null;
+            }
         }
 
         public void OnSceneLoaded(EScene scene, LoadSceneMode mode) { }
