@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
         StateManager      ,
         PoolManager       ,
         TransitionManager ,
-        PredictionManager ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem

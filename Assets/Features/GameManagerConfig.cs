@@ -8,7 +8,6 @@ using FishFlingers.UI;
 using FishFlingers.Pools;
 using FishFlingers.UI.Transitions;
 using FishFlingers.Scenes;
-using FishFlingers.Networking.Predictions;
 
 [CreateAssetMenu(fileName = "GameManagerConfig", menuName = "Configs/Managers/GameManagerConfig")]
 public class GameManagerConfig : ScriptableObject
@@ -21,7 +20,6 @@ public class GameManagerConfig : ScriptableObject
     [SerializeField] private PoolManagerConfig _poolManagerConfig;
     [SerializeField] private TransitionManagerConfig _transitionManagerConfig;
     [SerializeField] private SceneManagerConfig _sceneManagerConfig;
-    [SerializeField] private PredictionManagerConfig _predictionManagerConfig;
 
     public SteamManagerConfig SteamManagerConfig => _steamManagerConfig;
     public NetworkManagerConfig NetworkManagerConfig => _networkManagerConfig;
@@ -31,5 +29,4 @@ public class GameManagerConfig : ScriptableObject
     public PoolManagerConfig PoolManagerConfig => _poolManagerConfig;
     public TransitionManagerConfig TransitionManagerConfig => _transitionManagerConfig;
     public SceneManagerConfig SceneManagerConfig => _sceneManagerConfig;
-    public PredictionManagerConfig PredictionManagerConfig => _predictionManagerConfig;
 }

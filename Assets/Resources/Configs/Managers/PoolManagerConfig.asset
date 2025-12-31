@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e918a9184c017064dbd30a87c819c46b, type: 3}
   m_Name: PoolManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Pools.PoolManagerConfig
-  _tilePrefab: {fileID: 9167174063153225009, guid: 72d695ec81811d244a31903d59c3b391, type: 3}
+  _tilePrefab: {fileID: 8127564742549498130, guid: 72d695ec81811d244a31903d59c3b391, type: 3}

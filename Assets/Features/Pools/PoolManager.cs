@@ -90,10 +90,8 @@ namespace FishFlingers.Pools
             _container = new GameObject(ContainerName).transform;
             UnityEngine.Object.DontDestroyOnLoad(_container.gameObject);
 
-            // No idea how Purrnet auto registers its disposable collections, so just doing it here
-            PackCollections.RegisterSortedSet<int>();
-
             // Register config prefabs here
+            Register(_config.TilePrefab);
 
             base.Initialise(config);
         }

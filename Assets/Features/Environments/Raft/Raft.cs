@@ -1,88 +1,90 @@
-using FishFlingers.Pools;
-using NUnit.Framework;
-using PurrNet;
 using System.Timers;
 using UnityEngine;
 using System.Collections.Generic;
 using ShinyOwl.Common;
-using PurrNet.Prediction;
-using PurrNet.Pooling;
-using System.Linq;
-using System.Text;
+using PurrNet;
+using FishFlingers.Pools;
 
 namespace FishFlingers.Environments
 {
-    public class Raft : PredictedIdentity<Raft.State>
+    public class Raft : NetworkBehaviour
     {
-        [SerializeField] private Transform _tilesContainer;
-
-        [SerializeField] private GameObject _tilePrefab;
-
-        public struct State : IPredictedData<State>
+        public class NetTile
         {
-            public DisposableDictionary<Vector2Int, PredictedObjectID> TileIds;
-            
-            public void Dispose() 
+            public int Health { get; private set; }
+
+            public NetTile(int health)
             {
-                TileIds.Dispose();
+                Health = health;
             }
         }
 
-        protected override State GetInitialState()
-        {
-            return new State()
-            {
-                TileIds = DisposableDictionary<Vector2Int, PredictedObjectID>.Create(),
-            };
-        }
+        [SerializeField] private Transform _tilesContainer;
 
-        protected override void SimulationStart()
-        {
-            System.Random random = new(0);
+        private PoolManager _poolManager;
 
-            for (int i = -2; i <= 2; i++)
+        private SyncDictionary<Vector2Int, NetTile> _netTiles = new();
+
+        private Dictionary<Vector2Int, Tile> _tiles = new();
+
+        protected override void OnInitializeModules()
+        {
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+
+            _netTiles.onChanged += HandleNetTilesChanged;
+
+            // Start with a 3x3 grid
+            for (int x = -1; x <= 1; x++)
             {
-                for (int j = -2; j <= 2; j++)
+                for (int y = -1; y <= 1; y++)
                 {
-                    AddTile(new Vector2Int(i, j), random.Next(1, Tile.DefaultHealth + 1));
+                    _netTiles.Add(new Vector2Int(x, y), new NetTile(Tile.DefaultHealth));
                 }
             }
         }
-        
-        [SimulationOnly]
-        public void AddTile(Vector2Int cell, int health)
+
+        protected override void OnSpawned()
         {
-            if (currentState.TileIds.ContainsKey(cell))
+            if (!isOwner)
             {
+                // We need to manually handles changes that have happened before we joined
+                foreach (KeyValuePair<Vector2Int, NetTile> kvp in _netTiles)
+                {
+                    SyncDictionaryChange<Vector2Int, NetTile> change = new(SyncDictionaryOperation.Set, kvp.Key, kvp.Value);
+                    HandleNetTilesChanged(change);
+                }
+
                 return;
             }
-
-            PredictedObjectID tileId = hierarchy.Create(_tilePrefab, PlayerID.Server).Value;
-
-            Tile tile = tileId.GetComponent<Tile>(predictionManager);
-            tile.SetCell(cell);
-            tile.SetHealth(health);
-
-            currentState.TileIds.Add(cell, tileId);
         }
 
-        [SimulationOnly]
-        public void DamageTile(Vector2Int cell, int damage)
+        private void HandleNetTilesChanged(SyncDictionaryChange<Vector2Int, NetTile> change)
         {
-            if (!currentState.TileIds.TryGetValue(cell, out PredictedObjectID tileId))
+            _tiles.TryGetValue(change.key, out Tile tile);
+
+            // Tile no longer exists
+            if (change.value == null || change.value.Health <= 0)
             {
+                if (tile != null)
+                {
+                    _poolManager.Return(tile);
+                    _tiles.Remove(change.key);
+                }
+
                 return;
             }
 
-            Tile tile = tileId.GetComponent<Tile>(predictionManager);
-            tile.SetHealth(tile.currentState.Health - 1);
-
-            if (tile.currentState.Health <= 0)
+            // Tile exists
+            if (tile == null)
             {
-                hierarchy.Delete(tileId);
-
-                currentState.TileIds.Remove(cell);
+                tile = _poolManager.Get<Tile>(_tilesContainer);
             }
+
+            // Update the tile's values using change.value
+            tile.SetCell(new Vector2Int(change.key.x, change.key.y));
+            tile.SetHealth(change.value.Health);
+
+            _tiles[change.key] = tile;
         }
     }
 }

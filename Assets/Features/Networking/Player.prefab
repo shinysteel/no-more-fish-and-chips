@@ -131,13 +131,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3003662007095296930}
-  - component: {fileID: -1078916211155893448}
+  - component: {fileID: 7175921791399157283}
+  - component: {fileID: 8218739825401116068}
   - component: {fileID: 7366413579655585675}
-  - component: {fileID: 3323203410023107332}
-  - component: {fileID: 4778677063623772926}
   - component: {fileID: 6072639463593192333}
   m_Layer: 6
-  m_Name: PurrdictionPlayer
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +158,7 @@ Transform:
   - {fileID: 842441042232873106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1078916211155893448
+--- !u!114 &7175921791399157283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,17 +167,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 9019304176509047894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ba748cc78bc7c4c8adbaa5334f51a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 3aa098bcd6a7b2e49bef305cef37b9a0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.Character
-  _repeatInputFactor: 0.8
-  _extrapolateInput: 1
-  _visuals: {fileID: 842441042232873106}
-  _rigidbody: {fileID: 4778677063623772926}
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Networking.Player
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _rigidbody: {fileID: 7366413579655585675}
   _moveSpeed: 2
-  _accelerationSpeed: 10
-  _decelerationSpeed: 7.5
+  _moveAcceleration: 10
+  _moveDeceleration: 7.5
   _jumpForce: 3
+--- !u!114 &8218739825401116068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9019304176509047894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 817fe5016bd0a2a49a95b6eb338bb132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkTransform
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 1
+  _syncParent: 1
+  _interpolateSettings: 7
+  _minBufferSize: 1
+  _maxBufferSize: 2
+  _characterControllerPatch: 0
+  _ownerAuth: 1
+  _interpolationTiming: 0
 --- !u!54 &7366413579655585675
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -206,39 +242,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3323203410023107332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019304176509047894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98dbb08343eac044895b9b52872bcb49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Prediction::PurrNet.Prediction.PredictedTransform
-  _graphics: {fileID: 842441042232873106}
-  _floatAccuracy: 1
-  _interpolationSettings: {fileID: 11400000, guid: 4a8aa8e44e23cfd4a8d4387ef3f36173, type: 2}
-  _unparentGraphics: 0
-  _characterControllerPatch: 0
---- !u!114 &4778677063623772926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9019304176509047894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939517533de889a4f948d4e2041fb798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Prediction::PurrNet.Prediction.PredictedRigidbody
-  _rigidbody: {fileID: 7366413579655585675}
-  _floatAccuracy: 1
-  _eventMask: 63
-  _ignoreTriggerOnTrigger: 0
 --- !u!136 &6072639463593192333
 CapsuleCollider:
   m_ObjectHideFlags: 0

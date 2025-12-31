@@ -53,4 +53,4 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _purrdictionPlayerPrefab: {fileID: 9019304176509047894, guid: 71eceeaf6ef081647ba1fb60c9f9d30b, type: 3}
+  _playerPrefab: {fileID: 7175921791399157283, guid: 71eceeaf6ef081647ba1fb60c9f9d30b, type: 3}

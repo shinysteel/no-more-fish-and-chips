@@ -1,4 +1,3 @@
-using FishFlingers.Networking.Predictions;
 using FishFlingers.Pools;
 using PurrNet;
 using PurrNet.Modules;
@@ -11,7 +10,7 @@ using UnityEngine;
 
 namespace FishFlingers.Environments
 {
-    public class Tile : PredictedIdentity<Tile.State>
+    public class Tile : MonoBehaviour, IPoolable
     {
         [SerializeField] private BobSettings _bobSettings;
         [SerializeField] private SinkSettings _sinkSettings;
@@ -39,13 +38,8 @@ namespace FishFlingers.Environments
             public float Speed => _speed;
         }
 
-        public struct State : IPredictedData<State>
-        {
-            public Vector2Int Cell;
-            public int Health;
-
-            public void Dispose() { }
-        }
+        private Vector2Int _cell;
+        private int _health;
 
         private Material _material;
 
@@ -55,37 +49,34 @@ namespace FishFlingers.Environments
 
         public const int DefaultHealth = 3;
 
-        private void Start()
+        private void Awake()
         {
             _material = _renderer.material;
-            _material.SetFloat(DamagedBlendName, 1f - ((float)currentState.Health / DefaultHealth));
         }
 
         public void SetCell(Vector2Int cell)
         {
-            currentState.Cell = cell;
+            _cell = cell;
+
+            transform.position = new Vector3(cell.x, YCoord, cell.y);
         }
 
         public void SetHealth(int health)
         {
-            currentState.Health = health;
+            _health = health;
+
+            _material.SetFloat(DamagedBlendName, 1f - ((float)_health / DefaultHealth));
         }
 
-        protected override void SimulationStart()
+        private void Update()
         {
-            PositionSimulate(ref currentState, Mathf.Infinity);
+            PositionUpdate();
         }
-        
-        protected override void Simulate(ref State state, float delta)
-        {   
-            PositionSimulate(ref state, delta);
-        }
-        
-        [SimulationOnly]
-        private void PositionSimulate(ref State state, float delta)
+
+        private void PositionUpdate()
         {
             LayerMask mask = LayerMask.GetMask("Player");
-            bool sink = Physics.CheckSphere(new Vector3(state.Cell.x, YCoord, state.Cell.y), _sinkSettings.Radius, mask);
+            bool sink = Physics.CheckSphere(new Vector3(_cell.x, YCoord, _cell.y), _sinkSettings.Radius, mask);
 
             float targetY;
 
@@ -98,12 +89,18 @@ namespace FishFlingers.Environments
             {
                 // Bob up and down
                 targetY = YCoord + _bobSettings.Amplitude * Mathf.PerlinNoise(
-                    state.Cell.x * _bobSettings.NoiseScale + predictionManager.time.time * _bobSettings.TimeScale,
-                    state.Cell.y * _bobSettings.NoiseScale + predictionManager.time.time * _bobSettings.TimeScale);
+                    _cell.x * _bobSettings.NoiseScale + Time.time * _bobSettings.TimeScale,
+                    _cell.y * _bobSettings.NoiseScale + Time.time * _bobSettings.TimeScale);
             }
-            
-            Vector3 targetPosition = new Vector3(state.Cell.x, targetY, state.Cell.y);
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, delta * _sinkSettings.Speed);
+
+            Vector3 targetPosition = new Vector3(_cell.x, targetY, _cell.y);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, _sinkSettings.Speed * Time.deltaTime);
         }
+
+        public void OnTakenFromPool()
+        { }
+
+        public void OnReturnedToPool()
+        { }
     }
 }

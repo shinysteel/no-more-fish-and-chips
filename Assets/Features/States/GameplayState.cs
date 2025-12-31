@@ -11,7 +11,6 @@ using ShinyOwl.Common;
 using FishFlingers.Scenes;
 using System.Threading.Tasks;
 using PurrNet.Transports;
-using FishFlingers.Networking.Predictions;
 using PurrNet;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
@@ -27,7 +26,6 @@ namespace FishFlingers.States
         private StateManager _stateManager;
         private NetworkManager _networkManager;
         private SceneManager _sceneManager;
-        private PredictionManager _predictionManager;
 
         private GameplayStateConfig _config;
 
@@ -40,7 +38,6 @@ namespace FishFlingers.States
             _stateManager = GameManager.Instance.Get<StateManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _sceneManager = GameManager.Instance.Get<SceneManager>();
-            _predictionManager = GameManager.Instance.Get<PredictionManager>();
 
             _networkManager.AddListener(this);
         }
@@ -78,8 +75,8 @@ namespace FishFlingers.States
                 // Only the server creates the raft
                 if (_networkManager.IsServer)
                 {
-                    _predictionManager.Spawn(_config.RaftPrefab.gameObject, PlayerID.Server);
-                    _predictionManager.Spawn(_config.WaveSpawnerPrefab.gameObject, PlayerID.Server);
+                    UnityEngine.Object.Instantiate(_config.RaftPrefab.gameObject);
+                    // _predictionManager.Spawn(_config.WaveSpawnerPrefab.gameObject, PlayerID.Server);
                 }
 
                 _gameplayScreen = (GameplayScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
