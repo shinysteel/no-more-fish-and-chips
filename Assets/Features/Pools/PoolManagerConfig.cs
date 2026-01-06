@@ -1,6 +1,7 @@
 using UnityEngine;
 using FishFlingers.UI;
 using FishFlingers.Environments;
+using FishFlingers.Entities;
 
 namespace FishFlingers.Pools
 {

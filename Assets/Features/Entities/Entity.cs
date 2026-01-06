@@ -7,15 +7,38 @@ namespace FishFlingers.Entities
 {
     public abstract class Entity : MonoBehaviour, IEntity, IPoolable
     {
-        [SerializeField] protected int _maxHealth = 1;
-
-        protected NetworkManager _networkManager;
+        // Start of IEntity
 
         protected Raft _raft;
-        protected int _currentHealth;
+        public virtual void Initialise(Raft raft)
+        {
+            _raft = raft;
+        }
 
-        public int CurrentHealth => _currentHealth;
-        public int MaxHealth => _maxHealth;
+        [SerializeField] private int _maxHealth = 1;
+
+        private int _currentHealth;
+
+        protected HealthModule _healthModule;
+
+        public int CurrentHealth => _healthModule.Current;
+        public int MaxHealth => _healthModule.Max;
+
+        public virtual void SetHealth(int health)
+        {
+            _healthModule.SetHealth(health);
+        }
+
+        protected virtual void OnHealthChanged(int previous, int current) { }
+
+
+        [SerializeField] protected Rigidbody _rigidbody;
+
+        public Rigidbody Rigidbody => _rigidbody;
+
+        // End of IEntity
+
+        protected NetworkManager _networkManager;
 
         protected virtual void Awake()
         {
@@ -29,22 +52,19 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            _healthModule = new HealthModule(_maxHealth,
+                getter: () => _currentHealth,
+                setter: (int health) => _currentHealth = health,
+                onChanged: OnHealthChanged);
+
             SetHealth(_maxHealth);
-        }
-
-        public virtual void Initialise(Raft raft)
-        {
-            _raft = raft;
-        }
-
-        public virtual void SetHealth(int health)
-        {
-            _currentHealth = Mathf.Clamp(health, 0, _maxHealth);
         }
 
         public virtual void OnReturnedToPool() 
         {
             _raft = null;
+
+            _healthModule = null;
         }
     }
 }

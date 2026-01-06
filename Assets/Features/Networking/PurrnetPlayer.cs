@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Threading;
+using FishFlingers.Entities;
 
 namespace FishFlingers.Networking
 {

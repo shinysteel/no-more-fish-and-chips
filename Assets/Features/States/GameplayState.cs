@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using PurrNet.Transports;
 using PurrNet;
 using FishFlingers.Environments;
-using FishFlingers.Items;
+using FishFlingers.Entities;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 

@@ -3,6 +3,7 @@ using ShinyOwl.Common;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using FishFlingers.Entities;
 
 namespace FishFlingers.Environments
 {
@@ -33,7 +34,8 @@ namespace FishFlingers.Environments
 
     public partial class Raft : NetworkBehaviour
     {
-        public Vector3 CellToWorldPosition(Vector2Int cell)
+        // Uses Vector2 to allow for floating-point cells
+        public Vector3 CellToWorldPosition(Vector2 cell)
         {
             return new Vector3(cell.x, 0f, cell.y);
         }

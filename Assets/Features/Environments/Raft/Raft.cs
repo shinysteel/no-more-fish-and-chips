@@ -5,6 +5,7 @@ using ShinyOwl.Common;
 using PurrNet;
 using FishFlingers.Pools;
 using System.Linq;
+using FishFlingers.Entities;
 
 namespace FishFlingers.Environments
 {
@@ -22,10 +23,15 @@ namespace FishFlingers.Environments
         private Dictionary<int, SortedSet<int>> _columnToRowsMap = new();
         private Dictionary<int, SortedSet<int>> _rowToColumnsMap = new();
 
-        private int _forwardmostY;
-        private int _backmostY;
-        private int _leftmostX;
-        private int _rightmostX;
+        private int _forwardmostRow;
+        private int _backmostRow;
+        private int _rightmostColumn;
+        private int _leftmostColumn;
+
+        public int ForwardmostRow => _forwardmostRow;
+        public int BackmostRow => _backmostRow;
+        public int RightmostColumn => _rightmostColumn;
+        public int LeftmostColumn => _leftmostColumn;
 
         public class NetTile
         {
@@ -49,20 +55,22 @@ namespace FishFlingers.Environments
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _netTiles.onChanged += HandleNetTilesChanged;
-
-            // Start with a 3x3 grid
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    _netTiles.Add(new Vector2Int(x, y), new NetTile(NetTile.MaxHealth));
-                }
-            }
         }
 
         protected override void OnSpawned()
         {
-            if (!isOwner)
+            if (isOwner)
+            {
+                // Start with a 3x3 grid
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        _netTiles.Add(new Vector2Int(x, y), new NetTile(NetTile.MaxHealth));
+                    }
+                }
+            }
+            else
             {
                 // We need to manually handles changes that have happened before we joined
                 foreach (KeyValuePair<Vector2Int, NetTile> kvp in _netTiles)
@@ -70,8 +78,6 @@ namespace FishFlingers.Environments
                     SyncDictionaryChange<Vector2Int, NetTile> change = new(SyncDictionaryOperation.Set, kvp.Key, kvp.Value);
                     HandleNetTilesChanged(change);
                 }
-
-                return;
             }
         }
 
@@ -182,33 +188,33 @@ namespace FishFlingers.Environments
 
         private void RemoveTileUpdateBoundaries(Vector2Int cell)
         {
-            if (_forwardmostY == cell.y && !_rowToColumnsMap.ContainsKey(cell.y))
+            if (_forwardmostRow == cell.y && !_rowToColumnsMap.ContainsKey(cell.y))
             {
-                _forwardmostY = _rowToColumnsMap.Count > 0 ? _rowToColumnsMap.Keys.Max() : 0;
+                _forwardmostRow = _rowToColumnsMap.Count > 0 ? _rowToColumnsMap.Keys.Max() : 0;
             }
 
-            if (_backmostY == cell.y && !_rowToColumnsMap.ContainsKey(cell.y))
+            if (_backmostRow == cell.y && !_rowToColumnsMap.ContainsKey(cell.y))
             {
-                _backmostY = _rowToColumnsMap.Count > 0 ? _rowToColumnsMap.Keys.Min() : 0;
+                _backmostRow = _rowToColumnsMap.Count > 0 ? _rowToColumnsMap.Keys.Min() : 0;
             }
 
-            if (_rightmostX == cell.x && !_columnToRowsMap.ContainsKey(cell.x))
+            if (_rightmostColumn == cell.x && !_columnToRowsMap.ContainsKey(cell.x))
             {
-                _rightmostX = _columnToRowsMap.Count > 0 ? _columnToRowsMap.Keys.Max() : 0;
+                _rightmostColumn = _columnToRowsMap.Count > 0 ? _columnToRowsMap.Keys.Max() : 0;
             }
 
-            if (_leftmostX == cell.x && !_columnToRowsMap.ContainsKey(cell.x))
+            if (_leftmostColumn == cell.x && !_columnToRowsMap.ContainsKey(cell.x))
             {
-                _leftmostX = _columnToRowsMap.Count > 0 ? _columnToRowsMap.Keys.Min() : 0;
+                _leftmostColumn = _columnToRowsMap.Count > 0 ? _columnToRowsMap.Keys.Min() : 0;
             }
         }
 
         private void SetTileUpdateBoundaries(Vector2Int cell)
         {
-            _forwardmostY = Mathf.Max(_forwardmostY, cell.y);
-            _backmostY = Mathf.Min(_backmostY, cell.y);
-            _rightmostX = Mathf.Max(_rightmostX, cell.x);
-            _leftmostX = Mathf.Min(_leftmostX, cell.x);
+            _forwardmostRow = Mathf.Max(_forwardmostRow, cell.y);
+            _backmostRow = Mathf.Min(_backmostRow, cell.y);
+            _rightmostColumn = Mathf.Max(_rightmostColumn, cell.x);
+            _leftmostColumn = Mathf.Min(_leftmostColumn, cell.x);
         }
     }
 }
