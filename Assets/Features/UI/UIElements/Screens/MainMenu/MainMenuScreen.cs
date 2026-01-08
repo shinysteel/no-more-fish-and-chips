@@ -31,13 +31,10 @@ namespace FishFlingers.UI
 
         private void BrowseGamesPressed()
         {
-            _ = BrowseGamesPressedAsync();
-        }
-
-        private async Task BrowseGamesPressedAsync()
-        {
-            BrowseGamesPanel browseGamesPanel = (BrowseGamesPanel)await _uiManager.CreateUIElementAsync(_uiManager.Config.BrowseGamesPanel, UILayer.Panels);
-            browseGamesPanel.Show(null);
+            _uiManager.CreateUIElementAsync(_uiManager.Config.BrowseGamesPanel, UILayer.Panels).completed += (UIElement element) =>
+            {
+                element.Show(null);
+            };
         }
 
         private void HostGamePressed()

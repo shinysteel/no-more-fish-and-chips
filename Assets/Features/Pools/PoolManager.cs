@@ -39,6 +39,7 @@ namespace FishFlingers.Pools
         {
             private T _prefab;
             private Transform _container;
+            private Vector3 _prefabScale;
 
             private Stack<T> _available = new();
             private HashSet<T> _inUse = new();
@@ -47,6 +48,7 @@ namespace FishFlingers.Pools
             {
                 _prefab = prefab;
                 _container = container;
+                _prefabScale = prefab.transform.localScale;
             }
 
             public IPoolable Get(Transform parent)
@@ -57,7 +59,15 @@ namespace FishFlingers.Pools
 
                 _inUse.Add(obj);
 
+                // When worldPositionStays is false, the child's transform does not get modified
+                // when parenting to something. For pooling, this is relevant for UI where we generally
+                // don't want to touch the rect transform. A side effect from this is that the child's 
+                // scale is now derived from parent's scale * child's local scale, which will compound
+                // whenever the parent's scale is not 1
+                
                 obj.transform.SetParent(parent, false);
+                obj.transform.localScale = _prefabScale;
+
                 obj.gameObject.SetActive(true);
                 obj.OnTakenFromPool();
 

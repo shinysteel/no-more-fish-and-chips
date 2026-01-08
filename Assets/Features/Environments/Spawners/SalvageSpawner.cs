@@ -12,7 +12,7 @@ namespace FishFlingers.Environments
 {
     public class SalvageSpawner : NetworkBehaviour, INetworkManagerListener
     {
-        [SerializeField] private Item _driftwoodPrefab;
+        [SerializeField] private DroppedItem _driftwoodPrefab;
 
         [SerializeField] private float _spawnInterval = 5f;
 
@@ -22,7 +22,7 @@ namespace FishFlingers.Environments
 
         private float _spawnTimer;
 
-        private List<Item> _salvages = new();
+        private List<DroppedItem> _salvages = new();
 
         private const int MaxSalvage = 10;
 
@@ -82,7 +82,7 @@ namespace FishFlingers.Environments
             int y = _raft.ForwardmostRow + forwardDist;
             Vector3 position = _raft.CellToWorldPosition(new Vector2(x, y));
 
-            Item item = _networkManager.Spawn(_driftwoodPrefab, position);
+            DroppedItem item = _networkManager.Spawn(_driftwoodPrefab, position);
             item.Initialise(_raft);
 
             _salvages.Add(item);

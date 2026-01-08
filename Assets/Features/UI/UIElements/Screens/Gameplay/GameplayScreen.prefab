@@ -277,7 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d416d8378aaa2499fb9cb128df36a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.GameplayScreen
-  _leaveButton: {fileID: 2511024445590171876}
+  _settingsButton: {fileID: 2511024445590171876}
+  _fishingBagButton: {fileID: 6003533792786881179}
 --- !u!1 &2711445780871884293
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -841,7 +842,7 @@ GameObject:
   - component: {fileID: 3593903652964525099}
   - component: {fileID: 6003533792786881179}
   m_Layer: 5
-  m_Name: InventoryButton
+  m_Name: FishingBagButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -919,7 +920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -1024,7 +1025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6615002952626607789, guid: 1b8b784c76922f245ad6b6104b0993a0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 6615002952626607789, guid: 1b8b784c76922f245ad6b6104b0993a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

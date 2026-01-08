@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-Shared
   m_GUID: bff4e24e5003ed140bc641bb210a20c5
   m_SerializeEntries:
+  - m_GUID: 8dac87a24d455cb4886513b5aaef53c0
+    m_Address: Assets/Features/Localisation/Tables/FishingBagPanelTable/FishingBagPanelTable
+      Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ba15cc2badf73b049b6edadebd7ea401
     m_Address: Assets/Features/Localisation/Tables/BrowseGamesPanelTable Shared Data.asset
     m_ReadOnly: 1

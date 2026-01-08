@@ -163,6 +163,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01415bc5f3c089548a8f2c0fefa26a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _thing:
+    a: 0
+    b: 0
+    c: 0
+    d: []
+  test: 
+  _shape:
+    _width: 5
+    _height: 5
+    _cells: 00000000000000000000000000000000000000000000000000
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

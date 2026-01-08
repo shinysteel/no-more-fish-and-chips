@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-English (en)
   m_GUID: 7aa84236e4bab9b49b004be256899123
   m_SerializeEntries:
+  - m_GUID: 616f0abd5cb169a40a0e4984eae5e8b3
+    m_Address: FishingBagPanelTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 989b8d5ddf5b6f644aa3558fadcdc93a
     m_Address: BrowseGamesPanelTable_en
     m_ReadOnly: 1

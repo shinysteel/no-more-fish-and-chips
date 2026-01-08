@@ -23,9 +23,9 @@ namespace FishFlingers.UI.Transitions
 
             _uiManager = GameManager.Instance.Get<UIManager>();
 
-            _uiManager.CreateUIElementAsync(_uiManager.Config.FadeOverlay, UILayer.Overlay).completed += (UIElement uiElement) =>
+            _uiManager.CreateUIElementAsync(_uiManager.Config.FadeOverlay, UILayer.Overlay).completed += (UIElement element) =>
             {
-                _fadeOverlay = (FadeOverlay)uiElement;
+                _fadeOverlay = (FadeOverlay)element;
             };
 
             base.Initialise(config);
