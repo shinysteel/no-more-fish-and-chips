@@ -14,12 +14,29 @@ using PurrNet.Transports;
 using PurrNet;
 using FishFlingers.Environments;
 using FishFlingers.Entities;
+using System.Linq;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 using Object = UnityEngine.Object;
 
 namespace FishFlingers.States
 {
+    public class GameplayContext
+    {
+        public List<RaftPlayer> Players { get; private set; }
+        public RaftPlayer LocalPlayer { get; private set; }
+        public Raft Raft { get; private set; }
+        public WaveSpawner WaveSpawner { get; private set; }
+
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner)
+        {
+            Players = players;
+            LocalPlayer = localPlayer;
+            Raft = raft;
+            WaveSpawner = waveSpawner;
+        }
+    }
+
     public class GameplayState : MainState<EMainState, ENone>, ILobbyManagerListener, INetworkManagerListener
     {
         private TransitionManager _transitionManager;
@@ -30,6 +47,8 @@ namespace FishFlingers.States
         private LobbyManager _lobbyManager;
 
         private GameplayStateConfig _config;
+
+        private List<RaftPlayer> _players;
 
         private GameplayScreen _gameplayScreen;
 
@@ -56,7 +75,7 @@ namespace FishFlingers.States
         {
             _config = config.GameplayStateConfig;
         }
-
+        
         public override async Task EnterAsync()
         {
             try
@@ -78,32 +97,42 @@ namespace FishFlingers.States
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentGameplay, LoadSceneMode.Additive, LoadSceneContext.Local);
 
                 Raft raft = null;
+                WaveSpawner waveSpawner = null;
+                SalvageSpawner salvageSpawner = null;
 
                 if (_networkManager.IsServer)
                 {
-                    // Only the server creates the raft
                     raft = _networkManager.Spawn(_config.RaftPrefab);
-                    WaveSpawner waveSpawner = _networkManager.Spawn(_config.WaveSpawnerPrefab);
-                    SalvageSpawner salvageSpawner = _networkManager.Spawn(_config.SalvageSpawnerPrefab);
-
-                    waveSpawner.Initialise(raft);
-                    salvageSpawner.Initialise(raft);
+                    waveSpawner = _networkManager.Spawn(_config.WaveSpawnerPrefab);
+                    salvageSpawner = _networkManager.Spawn(_config.SalvageSpawnerPrefab);
                 }
                 else
                 {
-                    // Clients need to wait until the raft is ready on their end
-                    while (raft == null)
+                    // Clients will need to retrieve these objects
+                    while (raft == null || waveSpawner == null || salvageSpawner == null)
                     {
-                        raft = Object.FindFirstObjectByType<Raft>();
+                        raft ??= Object.FindFirstObjectByType<Raft>();
+                        waveSpawner ??= Object.FindFirstObjectByType<WaveSpawner>();
+                        salvageSpawner ??= Object.FindFirstObjectByType<SalvageSpawner>();
                         await Task.Yield();
                     }
                 }
 
-                // Create the local player
-                RaftPlayer player = _networkManager.Spawn(_config.RaftPlayerPrefab, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
-                player.Initialise(raft);
+                // After initially retrieving all players, OnNetworkSpawn & OnNetworkDespawn will maintain it
+                _players = Object.FindObjectsByType<RaftPlayer>(FindObjectsSortMode.None).ToList();
+
+                RaftPlayer localPlayer = _networkManager.Spawn(_config.RaftPlayerPrefab, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+
+                GameplayContext context = new GameplayContext(_players, localPlayer, raft, waveSpawner);
+
+                // Inject context into everything that needs it
+                raft.Initialise(context);
+                waveSpawner.Initialise(context);
+                salvageSpawner.Initialise(context);
+                localPlayer.Initialise(context);
 
                 _gameplayScreen = (GameplayScreen)await _uiManager.CreateUIElementAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
+                _gameplayScreen.Setup(context);
                 _gameplayScreen.Show(null);
 
                 _transitionManager.UncoverScreen(null);
@@ -116,6 +145,8 @@ namespace FishFlingers.States
 
         public override void Exit()
         {
+            _players = null;
+
             _uiManager.DestroyUIElement(_gameplayScreen, UILayer.Screens);
             _gameplayScreen = null;
 
@@ -166,13 +197,42 @@ namespace FishFlingers.States
             _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Menus));
         }
 
-        public void OnLobbyLeave()  { }
+        public void OnNetworkSpawn(NetBehaviour behaviour) 
+        { 
+            // Players is not null when we are in the GameplayState
+            if (_players == null)
+            {
+                return;
+            }
+
+            if (behaviour is not RaftPlayer player)
+            {
+                return;
+            }
+
+            _players.Add(player);
+        }
+
+        public void OnNetworkDespawn(NetBehaviour behaviour) 
+        { 
+            if (_players == null)
+            {
+                return;
+            }
+
+            if (behaviour is not RaftPlayer player)
+            {
+                return;
+            }
+
+            _players.Remove(player);
+        }
+
+        public void OnLobbyLeave() { }
         public void OnLobbyCreated(Lobby lobby) { }
         public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
         public void OnPlayerLeft(PlayerID id, bool asServer) { }
         public void OnClientConnectionState(ConnectionState state) { }
         public void OnNetworkStarted(bool asServer) { }
-        public void OnNetworkSpawn() { }
-        public void OnNetworkDespawn() { }
     }
 }

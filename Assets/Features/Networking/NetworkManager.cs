@@ -73,8 +73,8 @@ namespace FishFlingers.Networking
     {
         void OnNetworkStarted(bool asServer);
         void OnNetworkShutdown(bool asServer);
-        void OnNetworkSpawn();
-        void OnNetworkDespawn();
+        void OnNetworkSpawn(NetBehaviour behaviour);
+        void OnNetworkDespawn(NetBehaviour behaviour);
         void OnClientConnectionState(ConnectionState state);
         void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer);
         void OnPlayerLeft(PlayerID id, bool asServer);
@@ -131,22 +131,32 @@ namespace FishFlingers.Networking
             base.Shutdown();
         }
 
-        public T Spawn<T>(T prefab) where T : NetworkBehaviour
+        // We no longer need to raise the OnNetworkSpawn event here, but its nice to route
+        // all 'network' spawning here in mind that not all networking solutions let you just instantiate
+        public T Spawn<T>(T prefab) where T : NetBehaviour
         {
             return Spawn(prefab, new SpawnParams());
         }
 
-        public T Spawn<T>(T prefab, SpawnParams parameters) where T : NetworkBehaviour
+        public T Spawn<T>(T prefab, SpawnParams parameters) where T : NetBehaviour
         {
             T obj = UnityProxy.Instantiate(prefab, parameters.Position, parameters.Rotation, parameters.SpawnScene.Get());
-            Listeners.Dispatch(NotifyOnNetworkSpawn);
             return obj;
         }
 
-        public void Despawn(NetworkBehaviour behaviour)
+        public void Despawn(NetBehaviour behaviour)
         {
-            behaviour.Despawn();
-            Listeners.Dispatch(NotifyOnNetworkDespawn);
+            Object.Destroy(behaviour.gameObject);
+        }
+
+        public void RaiseSpawned(NetBehaviour behaviour)
+        {
+            Listeners.Dispatch(NotifyOnNetworkSpawn, behaviour);
+        }
+
+        public void RaiseDespawned(NetBehaviour behaviour)
+        {
+            Listeners.Dispatch(NotifyOnNetworkDespawn, behaviour);
         }
 
         // Our transport will always be composite, so it is a safe cast
@@ -228,8 +238,8 @@ namespace FishFlingers.Networking
 
         private static void NotifyOnNetworkStarted(INetworkManagerListener listener, bool asServer) => listener.OnNetworkStarted(asServer);
         private static void NotifyOnNetworkShutdown(INetworkManagerListener listener, bool asServer) => listener.OnNetworkShutdown(asServer);
-        private static void NotifyOnNetworkSpawn(INetworkManagerListener listener) => listener.OnNetworkSpawn();
-        private static void NotifyOnNetworkDespawn(INetworkManagerListener listener) => listener.OnNetworkDespawn();
+        private static void NotifyOnNetworkSpawn(INetworkManagerListener listener, NetBehaviour behaviour) => listener.OnNetworkSpawn(behaviour);
+        private static void NotifyOnNetworkDespawn(INetworkManagerListener listener, NetBehaviour behaviour) => listener.OnNetworkDespawn(behaviour);
         private static void NotifyOnClientConnectionState(INetworkManagerListener listener, ConnectionState state) => listener.OnClientConnectionState(state);
         private static void NotifyOnPlayerJoined(INetworkManagerListener listener, PlayerID id, bool isReconnect, bool asServer) => listener.OnPlayerJoined(id, isReconnect, asServer);
         private static void NotifyOnPlayerLeft(INetworkManagerListener listener, PlayerID id, bool asServer) => listener.OnPlayerLeft(id, asServer);

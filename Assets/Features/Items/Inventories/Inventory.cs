@@ -3,6 +3,7 @@ using ShinyOwl.Common.Structures;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FishFlingers.Networking;
 
 namespace FishFlingers.Items
 {
@@ -16,7 +17,7 @@ namespace FishFlingers.Items
         
     }
 
-    public class Inventory : NetworkBehaviour, IEnumerable<KeyValuePair<Vector2Int, InventorySlot>>
+    public class Inventory : NetBehaviour, IEnumerable<KeyValuePair<Vector2Int, InventorySlot>>
     {
         private SyncDictionary<Vector2Int, InventorySlot> _cellSlotMap = new(ownerAuth: true);
 

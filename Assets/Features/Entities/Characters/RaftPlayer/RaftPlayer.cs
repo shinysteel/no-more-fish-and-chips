@@ -5,6 +5,7 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using System;
 using UnityEngine;
+using System.Threading.Tasks;
 
 using Random = UnityEngine.Random;
 
@@ -79,10 +80,14 @@ namespace FishFlingers.Entities
         private RaycastHit[] _groundedHitsNonAlloc = new RaycastHit[1];
 
         private Collider[] _swimCollidersNonAlloc = new Collider[1];
-        
+
+        public Inventory Inventory => _inventory;
+
         protected override void OnSpawned()
         {
             base.OnSpawned();
+
+            _ = OnSpawnedAsync();
 
             if (!isOwner)
             {
@@ -93,9 +98,17 @@ namespace FishFlingers.Entities
             _inventory.Initialise(_inventoryGrid);
 
             _cameraManager.SetMode(new FollowCameraMode(transform, new Vector3(0f, 3f, -5f)));
+        }
+
+        private async Task OnSpawnedAsync()
+        {
+            while (!_isInitialised)
+            {
+                await Task.Yield();
+            }
 
             // Spawn on a random starting tile
-            transform.position = _raft.TryGetRandomTile(out Tile tile) ? _raft.CellToWorldPosition(tile.Cell) : Vector3.zero;
+            transform.position = _context.Raft.TryGetRandomTile(out Tile tile) ? _context.Raft.CellToWorldPosition(tile.Cell) : Vector3.zero;
         }
 
         protected override void OnDespawned()

@@ -401,7 +401,7 @@ namespace FishFlingers.Networking
         public void OnClientConnectionState(ConnectionState state) { }
         public void OnNetworkStarted(bool asServer) { }
         public void OnNetworkShutdown(bool asServer) { }
-        public void OnNetworkSpawn() { }
-        public void OnNetworkDespawn() { }
+        public void OnNetworkSpawn(NetBehaviour behaviour) { }
+        public void OnNetworkDespawn(NetBehaviour behaviour) { }
     }
 }

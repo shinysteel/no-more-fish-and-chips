@@ -13,17 +13,21 @@ using FishFlingers.Entities;
 
 namespace FishFlingers.Networking
 {
-    public class PurrnetPlayer : NetworkBehaviour, ILobbyManagerListener
+    public class PurrnetPlayer : NetBehaviour, ILobbyManagerListener
     {
         private LobbyManager _lobbyManager;
 
         protected override void OnInitializeModules()
         {
+            base.OnInitializeModules();
+
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
         }
 
         protected override void OnSpawned()
         {
+            base.OnSpawned();
+
             // If we've missed the OnLobbyStart event, let's invoke it here
             if (_lobbyManager.CurrentLobby.Properties[LobbyService.StartedKey] == true.ToString())
             {
@@ -36,6 +40,8 @@ namespace FishFlingers.Networking
 
         protected override void OnDespawned()
         {
+            base.OnDespawned();
+
             _lobbyManager?.RemoveListener(this);
         }
 

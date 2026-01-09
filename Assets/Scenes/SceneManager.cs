@@ -251,8 +251,8 @@ namespace FishFlingers.Scenes
             }
         }
 
-        public void OnNetworkSpawn() { }
-        public void OnNetworkDespawn() { }
+        public void OnNetworkSpawn(NetBehaviour behaviour) { }
+        public void OnNetworkDespawn(NetBehaviour behaviour) { }
         public void OnClientConnectionState(ConnectionState state) { }
         public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
         public void OnPlayerLeft(PlayerID id, bool asServer) { }

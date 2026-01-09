@@ -1,23 +1,24 @@
 using FishFlingers.Cameras;
 using FishFlingers.Environments;
 using FishFlingers.Networking;
+using FishFlingers.States;
 using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
-using NetworkManager = FishFlingers.Networking.NetworkManager;
-
 namespace FishFlingers.Entities
 {
-    public abstract class NetEntity : NetworkBehaviour, IEntity
+    public abstract class NetEntity : NetBehaviour, IEntity
     {
         // Start of IEntity
 
-        protected Raft _raft;
+        protected bool _isInitialised;
+        protected GameplayContext _context;
 
-        public void Initialise(Raft raft)
+        public void Initialise(GameplayContext context)
         {
-            _raft = raft;
+            _isInitialised = true;
+            _context = context;
         }
 
         [SerializeField] private int _maxHealth = 1;
@@ -43,12 +44,12 @@ namespace FishFlingers.Entities
 
         // End of IEntity
 
-        protected NetworkManager _networkManager;
         protected CameraManager _cameraManager;
 
         protected override void OnInitializeModules()
         {
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            base.OnInitializeModules();
+
             _cameraManager = GameManager.Instance.Get<CameraManager>();
 
             _currentHealth = new SyncVar<int>(_maxHealth);
@@ -61,6 +62,8 @@ namespace FishFlingers.Entities
 
         protected override void OnSpawned()
         {
+            base.OnSpawned();
+
             if (!isServer)
             {
                 return;
@@ -71,7 +74,10 @@ namespace FishFlingers.Entities
 
         protected override void OnDespawned()
         {
-            _raft = null;
+            base.OnDespawned();
+
+            _isInitialised = false;
+            _context = null;
         }
     }
 }

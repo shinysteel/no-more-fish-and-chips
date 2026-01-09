@@ -1,9 +1,9 @@
-using PurrNet;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using FishFlingers.Entities;
+using FishFlingers.Networking;
 
 namespace FishFlingers.Environments
 {
@@ -32,7 +32,7 @@ namespace FishFlingers.Environments
         }
     }
 
-    public partial class Raft : NetworkBehaviour
+    public partial class Raft : NetBehaviour
     {
         // Uses Vector2 to allow for floating-point cells
         public Vector3 CellToWorldPosition(Vector2 cell)

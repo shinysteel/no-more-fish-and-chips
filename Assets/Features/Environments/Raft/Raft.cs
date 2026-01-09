@@ -6,14 +6,20 @@ using PurrNet;
 using FishFlingers.Pools;
 using System.Linq;
 using FishFlingers.Entities;
+using FishFlingers.States;
+using System.Threading.Tasks;
+using FishFlingers.Networking;
 
 namespace FishFlingers.Environments
 {
-    public partial class Raft : NetworkBehaviour
+    public partial class Raft : NetBehaviour
     {
         [SerializeField] private Transform _tilesContainer;
 
         private PoolManager _poolManager;
+
+        private bool _isInitialised;
+        private GameplayContext _context;
 
         private SyncDictionary<Vector2Int, NetTile> _netTiles = new();
 
@@ -52,33 +58,58 @@ namespace FishFlingers.Environments
 
         protected override void OnInitializeModules()
         {
-            _poolManager = GameManager.Instance.Get<PoolManager>();
+            base.OnInitializeModules();
 
-            _netTiles.onChanged += HandleNetTilesChanged;
+            _poolManager = GameManager.Instance.Get<PoolManager>();
         }
 
         protected override void OnSpawned()
         {
+            base.OnSpawned();
+
+            _ = OnSpawnedAsync();
+
+            if (!isOwner)
+            {
+                return;
+            }
+
+            // Start with a 3x3 grid
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    _netTiles.Add(new Vector2Int(x, y), new NetTile(NetTile.MaxHealth));
+                }
+            }            
+        }
+
+        private async Task OnSpawnedAsync()
+        {
             if (isOwner)
             {
-                // Start with a 3x3 grid
-                for (int x = -1; x <= 1; x++)
-                {
-                    for (int y = -1; y <= 1; y++)
-                    {
-                        _netTiles.Add(new Vector2Int(x, y), new NetTile(NetTile.MaxHealth));
-                    }
-                }
+                return;
             }
-            else
+
+            while (!_isInitialised)
             {
-                // We need to manually handles changes that have happened before we joined
-                foreach (KeyValuePair<Vector2Int, NetTile> kvp in _netTiles)
-                {
-                    SyncDictionaryChange<Vector2Int, NetTile> change = new(SyncDictionaryOperation.Set, kvp.Key, kvp.Value);
-                    HandleNetTilesChanged(change);
-                }
+                await Task.Yield();
             }
+
+            // We need to manually handles changes that have happened before we joined
+            foreach (KeyValuePair<Vector2Int, NetTile> kvp in _netTiles)
+            {
+                SyncDictionaryChange<Vector2Int, NetTile> change = new(SyncDictionaryOperation.Set, kvp.Key, kvp.Value);
+                HandleNetTilesChanged(change);
+            }
+        }
+
+        public void Initialise(GameplayContext context)
+        {
+            _isInitialised = true;
+            _context = context;
+
+            _netTiles.onChanged += HandleNetTilesChanged;
         }
 
         // No tile param is good here, since it lets callers request to damage a cell without having to worry
@@ -149,7 +180,7 @@ namespace FishFlingers.Environments
             if (!_tiles.ContainsKey(cell))
             {
                 _tiles[cell] = _poolManager.Get<Tile>(_tilesContainer);
-                _tiles[cell].Initialise(this);
+                _tiles[cell].Initialise(_context);
             }
 
             Tile tile = _tiles[cell];

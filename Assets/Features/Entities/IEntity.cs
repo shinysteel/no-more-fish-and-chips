@@ -1,4 +1,5 @@
 using FishFlingers.Environments;
+using FishFlingers.States;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -7,7 +8,7 @@ namespace FishFlingers.Entities
     {
         // Ordered to simplify NetEntity and Entity's implementations
 
-        void Initialise(Raft raft);
+        void Initialise(GameplayContext context);
 
         public int CurrentHealth { get; }
         public int MaxHealth { get; }

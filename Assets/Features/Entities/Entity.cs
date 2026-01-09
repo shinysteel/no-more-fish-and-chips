@@ -1,6 +1,7 @@
 using FishFlingers.Environments;
 using FishFlingers.Networking;
 using FishFlingers.Pools;
+using FishFlingers.States;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -9,10 +10,11 @@ namespace FishFlingers.Entities
     {
         // Start of IEntity
 
-        protected Raft _raft;
-        public virtual void Initialise(Raft raft)
+        protected GameplayContext _context;
+
+        public virtual void Initialise(GameplayContext context)
         {
-            _raft = raft;
+            _context = context;
         }
 
         [SerializeField] private int _maxHealth = 1;
@@ -60,7 +62,7 @@ namespace FishFlingers.Entities
 
         public virtual void OnReturnedToPool() 
         {
-            _raft = null;
+            _context = null;
 
             _healthModule = null;
         }

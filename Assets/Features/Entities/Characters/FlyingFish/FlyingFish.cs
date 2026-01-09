@@ -42,7 +42,7 @@ namespace FishFlingers.Entities
                 _scoutTimer = 0f;
 
                 // Choose a tile to target
-                if (!_flyingFish._raft.TryGetRandomTile(out _flyingFish._targetTile))
+                if (!_flyingFish._context.Raft.TryGetRandomTile(out _flyingFish._targetTile))
                 {
                     _flyingFish._networkManager.Despawn(_flyingFish);
                     return;
@@ -50,13 +50,13 @@ namespace FishFlingers.Entities
 
                 // Choose a position to scout from
                 int scoutOffset = 3;
-                if (!_flyingFish._raft.TryGetClosestEdge(_flyingFish._targetTile.Cell, out RaftEdge edge))
+                if (!_flyingFish._context.Raft.TryGetClosestEdge(_flyingFish._targetTile.Cell, out RaftEdge edge))
                 {
                     _flyingFish._networkManager.Despawn(_flyingFish);
                     return;
                 }
 
-                _flyingFish.transform.position = _flyingFish._raft.CellToWorldPosition(edge.Tile.Cell + edge.Direction2D * scoutOffset);
+                _flyingFish.transform.position = _flyingFish._context.Raft.CellToWorldPosition(edge.Tile.Cell + edge.Direction2D * scoutOffset);
 
                 // Face towards the raft, with a slight tilt up
                 float scoutTilt = 15f;
@@ -146,7 +146,7 @@ namespace FishFlingers.Entities
 
                 if (_flyTimer > FlyDuration)
                 {
-                    _flyingFish._raft.ChangeNetTileHealth(_flyingFish._targetTile.Cell, -1);
+                    _flyingFish._context.Raft.ChangeNetTileHealth(_flyingFish._targetTile.Cell, -1);
 
                     _flyingFish._networkManager.Despawn(_flyingFish);
                 }

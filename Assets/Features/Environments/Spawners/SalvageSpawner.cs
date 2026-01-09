@@ -5,20 +5,17 @@ using FishFlingers.Networking;
 using PurrNet.Transports;
 using FishFlingers.Scenes;
 using System.Collections.Generic;
-
-using NetworkManager = FishFlingers.Networking.NetworkManager;
+using FishFlingers.States;
 
 namespace FishFlingers.Environments
 {
-    public class SalvageSpawner : NetworkBehaviour, INetworkManagerListener
+    public class SalvageSpawner : NetBehaviour, INetworkManagerListener
     {
         [SerializeField] private DroppedItem _driftwoodPrefab;
 
         [SerializeField] private float _spawnInterval = 5f;
 
-        private NetworkManager _networkManager;
-
-        private Raft _raft;
+        private GameplayContext _context;
 
         private float _spawnTimer;
 
@@ -26,24 +23,23 @@ namespace FishFlingers.Environments
 
         private const int MaxSalvage = 10;
 
-        public void Initialise(Raft raft)   
-        {
-            _raft = raft;
-        }
-
-        protected override void OnInitializeModules()
-        {
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
-        }
-
         protected override void OnSpawned()
         {
+            base.OnSpawned();
+
             _networkManager.AddListener(this);
         }
 
         protected override void OnDespawned()
         {
+            base.OnDespawned();
+
             _networkManager?.RemoveListener(this);
+        }
+
+        public void Initialise(GameplayContext context)
+        {
+            _context = context;
         }
 
         private void Update()
@@ -76,24 +72,31 @@ namespace FishFlingers.Environments
 
         private void Spawn()
         {
+            Raft raft = _context.Raft;
+
             int minSpread = 3;
-            float x = Random.Range((float)Mathf.Min(-minSpread, _raft.LeftmostColumn), Mathf.Max(minSpread, _raft.RightmostColumn));
+            float x = Random.Range((float)Mathf.Min(-minSpread, raft.LeftmostColumn), Mathf.Max(minSpread, raft.RightmostColumn));
             int forwardDist = 10;
-            int y = _raft.ForwardmostRow + forwardDist;
-            Vector3 position = _raft.CellToWorldPosition(new Vector2(x, y));
+            int y = raft.ForwardmostRow + forwardDist;
+            Vector3 position = raft.CellToWorldPosition(new Vector2(x, y));
 
             DroppedItem item = _networkManager.Spawn(_driftwoodPrefab, new SpawnParams() { Position = position });
-            item.Initialise(_raft);
+            item.Initialise(_context);
 
             _salvages.Add(item);
         }
 
-        public void OnNetworkDespawn() 
+        public void OnNetworkDespawn(NetBehaviour behaviour) 
         {
-            _salvages.RemoveAll(salvage => salvage == null);
+            if (behaviour is not DroppedItem item)
+            {
+                return;
+            }
+
+            _salvages.Remove(item);
         }
 
-        public void OnNetworkSpawn() { }
+        public void OnNetworkSpawn(NetBehaviour behaviour) { }
         public void OnNetworkStarted(bool asServer) { }
         public void OnNetworkShutdown(bool asServer) { }
         public void OnClientConnectionState(ConnectionState state) { }

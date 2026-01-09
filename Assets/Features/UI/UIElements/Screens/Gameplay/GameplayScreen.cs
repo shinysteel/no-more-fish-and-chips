@@ -1,4 +1,6 @@
+using FishFlingers.Items;
 using FishFlingers.Networking;
+using FishFlingers.States;
 using FishFlingers.UI.Transitions;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
@@ -15,6 +17,8 @@ namespace FishFlingers.UI
         private NetworkManager _networkManager;
         private UIManager _uiManager;
 
+        private GameplayContext _context;
+
         public override void Load()
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
@@ -22,6 +26,11 @@ namespace FishFlingers.UI
 
             _settingsButton.onClick.AddListener(SettingsPressed);
             _fishingBagButton.onClick.AddListener(FishingBagPressed);
+        }
+
+        public void Setup(GameplayContext context)
+        {
+            _context = context;
         }
 
         private void Update()
@@ -51,7 +60,9 @@ namespace FishFlingers.UI
         {
             _uiManager.CreateUIElementAsync(_uiManager.Config.FishingBagPanel, UILayer.Panels).completed += (UIElement element) =>
             {
-                element.Show(null);
+                FishingBagPanel panel = (FishingBagPanel)element;
+                panel.Setup(_context);
+                panel.Show(null);
             };
         }
     }

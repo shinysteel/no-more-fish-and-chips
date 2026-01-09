@@ -1,3 +1,4 @@
+using FishFlingers.Environments;
 using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
@@ -70,7 +71,7 @@ namespace FishFlingers.Entities
         {
             _cell = cell;
 
-            transform.position = _raft.CellToWorldPosition(cell);
+            transform.position = _context.Raft.CellToWorldPosition(cell);
         }
 
         private void Update()

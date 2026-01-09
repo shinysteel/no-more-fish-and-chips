@@ -4,29 +4,23 @@ using UnityEngine;
 using FishFlingers.Networking;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
+using FishFlingers.States;
 
 namespace FishFlingers.Environments
 {
-    public class WaveSpawner : NetworkBehaviour
+    public class WaveSpawner : NetBehaviour
     {
         [SerializeField] private float _spawnInterval = 2.5f;
 
         [SerializeField] private FlyingFish _flyingFishPrefab;
 
-        private NetworkManager _networkManager;
-
-        private Raft _raft;
+        private GameplayContext _context;
 
         private float _spawnTimer;
 
-        protected override void OnInitializeModules()
+        public void Initialise(GameplayContext context)
         {
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
-        }
-
-        public void Initialise(Raft raft)
-        {
-            _raft = raft;
+            _context = context;
         }
         
         private void Update()
@@ -55,7 +49,7 @@ namespace FishFlingers.Environments
         private void Spawn()
         {
             IEntity entity = _networkManager.Spawn(_flyingFishPrefab, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
-            entity.Initialise(_raft);
+            entity.Initialise(_context);
         }
     }
 }
