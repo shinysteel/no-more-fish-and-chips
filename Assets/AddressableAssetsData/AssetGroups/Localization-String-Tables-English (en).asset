@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 884d99b3921d926479ae28506d0090c0
+    m_Address: BuildingKitPanelTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 989b8d5ddf5b6f644aa3558fadcdc93a
     m_Address: BrowseGamesPanelTable_en
     m_ReadOnly: 1

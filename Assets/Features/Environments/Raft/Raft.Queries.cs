@@ -20,11 +20,11 @@ namespace FishFlingers.Environments
     /// </summary>
     public struct RaftEdge
     {
-        public Tile Tile { get; private set; }
+        public RaftTile Tile { get; private set; }
         public Vector2Int Direction2D { get; private set; }
         public Vector3 Direction3D { get; private set; }
 
-        public RaftEdge(Tile tile, Vector2Int direction2D, Vector3 direction3D)
+        public RaftEdge(RaftTile tile, Vector2Int direction2D, Vector3 direction3D)
         {
             Tile = tile;
             Direction2D = direction2D;
@@ -81,7 +81,7 @@ namespace FishFlingers.Environments
         /// <summary>
         /// Retrieves a random tile
         /// </summary>
-        public bool TryGetRandomTile(out Tile tile)
+        public bool TryGetRandomTile(out RaftTile tile)
         {
             tile = null;
 
@@ -98,7 +98,7 @@ namespace FishFlingers.Environments
         /// <summary>
         /// Gets the furthest tile on the raft's side. Ties are resolved randomly
         /// </summary>
-        public bool TryGetBoundaryTile(RaftSide side, out Tile tile)
+        public bool TryGetBoundaryTile(RaftSide side, out RaftTile tile)
         {
             tile = null;
 

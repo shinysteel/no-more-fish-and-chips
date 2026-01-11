@@ -113,12 +113,19 @@ namespace FishFlingers.Inventories
         public ItemInstance ItemInstance { get; private set; }
         public Vector2Int Pivot { get; private set; }
         public int Rotations { get; private set; }
+        public BoolGrid Shape { get; private set; }
 
-        public InventoryItem(ItemInstance itemInstance, Vector2Int pivot, int rotations)
+        private ItemManager _itemManager;
+
+        public InventoryItem(NetInventoryItem netInventoryItem)
         {
-            ItemInstance = itemInstance;
-            Pivot = pivot;
-            Rotations = rotations;
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+            ItemData data = _itemManager.GetItemData(netInventoryItem.ItemId);
+
+            ItemInstance = new ItemInstance(netInventoryItem.ItemInstanceId, data, netInventoryItem.Count);
+            Pivot = netInventoryItem.Pivot;
+            Rotations = netInventoryItem.Rotations;
+            Shape = Rotations == 0 ? ItemInstance.Data.Shape : ItemInstance.Data.Shape.GetRotated(Rotations);
         }
     }
 
@@ -234,9 +241,7 @@ namespace FishFlingers.Inventories
             {
                 case SyncDictionaryOperation.Added:
                 case SyncDictionaryOperation.Set:
-                    ItemData data = _itemManager.GetItemData(change.value.ItemId);
-                    ItemInstance instance = new ItemInstance(change.value.ItemInstanceId, data, change.value.Count);
-                    InventoryItem item = new InventoryItem(instance, change.value.Pivot, change.value.Rotations);
+                    InventoryItem item = new InventoryItem(change.value);
                     _inventoryItems[change.value.ItemInstanceId] = item;
 
                     OnInventoryItemChanged?.Invoke(change.value.ItemInstanceId, item);
@@ -302,9 +307,14 @@ namespace FishFlingers.Inventories
                         continue;
                     }
 
-                    if (netInventoryItem.TryAddCount(overflow, out overflow) && overflow == 0)
+                    if (netInventoryItem.TryAddCount(overflow, out overflow))
                     {
-                        return true;
+                        _netInventoryItems.SetDirty(kvp.Value.ItemInstanceId);
+
+                        if (overflow == 0)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -364,7 +374,9 @@ namespace FishFlingers.Inventories
 
                 if (netInventoryItem.ItemId == data.ItemId)
                 {
-                    return netInventoryItem.TryAddCount(amount, out overflow);
+                    bool result = netInventoryItem.TryAddCount(amount, out overflow);
+                    _netInventoryItems.SetDirty(pivotSlot.ItemInstanceId);
+                    return result;
                 }
                 else
                 {
@@ -461,10 +473,10 @@ namespace FishFlingers.Inventories
                 TryAddItems(_itemManager.GetItemData(ItemId.Paddle), 1, out _);
             }
 
-            //if (Input.GetKeyDown(KeyCode.Alpha2))
-            //{
-            //    TryRemoveItems(_driftwoodData, 1, out _);
-            //}
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                TryAddItems(_itemManager.GetItemData(ItemId.Driftwood), 1, out _);
+            }
         }
     }
 }

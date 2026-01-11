@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fff2d92d0c665d34ba259fcc1327ce42
+    m_Address: BuildingKitPanelTable_es
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 933aa2bad58f3bb4e97b370211ae6e9a, type: 2}
   m_SchemaSet:

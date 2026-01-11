@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public class Tile : Entity
+    public class RaftTile : Entity
     {
         [SerializeField] private Transform _visualsContainer;
         [SerializeField] private MeshRenderer _meshRenderer;

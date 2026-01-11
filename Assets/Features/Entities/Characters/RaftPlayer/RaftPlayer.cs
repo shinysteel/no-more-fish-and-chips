@@ -106,7 +106,7 @@ namespace FishFlingers.Entities
             base.Initialise(context);
 
             // Spawn on a random starting tile
-            transform.position = _context.Raft.TryGetRandomTile(out Tile tile) ? _context.Raft.CellToWorldPosition(tile.Cell) : Vector3.zero;
+            transform.position = _context.Raft.TryGetRandomTile(out RaftTile tile) ? _context.Raft.CellToWorldPosition(tile.Cell) : Vector3.zero;
         }
 
         protected override void OnDespawned()

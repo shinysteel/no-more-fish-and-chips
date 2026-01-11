@@ -12,7 +12,7 @@ namespace FishFlingers.Entities
     {
         private StateMachine<EState> _stateMachine;
 
-        private Tile _targetTile;
+        private RaftTile _targetTile;
 
         private enum EState
         {

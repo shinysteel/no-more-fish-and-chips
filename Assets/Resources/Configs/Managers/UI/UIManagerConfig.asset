@@ -18,4 +18,5 @@ MonoBehaviour:
   _gameplayScreen: {fileID: 5670193213575206993, guid: e99bd13e3529bdb4abd31a1786f353f4, type: 3}
   _browseGamesPanel: {fileID: 6530453185160498948, guid: 8c64bae2a57806b459e4abb61cba563f, type: 3}
   _fishingBagPanel: {fileID: 8117997859085951373, guid: b1738a99c502e7943a156b42483f29db, type: 3}
+  _buildingKitPanel: {fileID: 1675682817760424064, guid: adc87e0ae4df5bf48a642af17ff5c542, type: 3}
   _fadeOverlay: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}

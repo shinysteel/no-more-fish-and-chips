@@ -36,6 +36,12 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9e39116b1d7da44cb372bb0a7690eea
+    m_Address: Assets/Features/Localisation/Tables/BuildingKitPanelTable/BuildingKitPanelTable
+      Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 933aa2bad58f3bb4e97b370211ae6e9a, type: 2}
   m_SchemaSet:

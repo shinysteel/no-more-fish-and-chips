@@ -25,50 +25,6 @@ namespace FishFlingers.Networking
         Steam ,
     }
 
-    public class SpawnParams
-    {
-        public Vector3 Position { get; set; } = Vector3.zero;
-        public Quaternion Rotation { get; set; } = Quaternion.identity;
-        public SpawnScene SpawnScene { get; set; } = SpawnScene.ActiveScene();
-    }
-
-    // EScene.DontDestroyOnLoad existing doesn't make sense, given it wouldn't interact
-    // with most of SceneManager's functionality. That being said, it's still an option
-    // to consider for instantiating something, and that's why this exists
-    public struct SpawnScene
-    {
-        private EScene? _scene;
-        private bool _dontDestroyOnLoad;
-
-        public static SpawnScene ActiveScene() => new SpawnScene(null, false);
-        public static SpawnScene Scene(EScene scene) => new SpawnScene(scene, false);
-        public static SpawnScene DontDestroyOnLoad() => new SpawnScene(null, true);
-
-        private SpawnScene(EScene? scene, bool dontDestroyOnLoad)
-        {
-            _scene = scene;
-            _dontDestroyOnLoad = dontDestroyOnLoad;
-        }
-
-        public UnityEngine.SceneManagement.Scene Get()
-        {
-            SceneManager sceneManager = GameManager.Instance.Get<SceneManager>();
-
-            if (_dontDestroyOnLoad)
-            {
-                return sceneManager.GetDontDestroyOnLoadScene();
-            }
-            else if (_scene.HasValue)
-            {
-                return sceneManager.GetScene(_scene.Value);
-            }
-            else
-            {
-                return sceneManager.GetActiveScene();
-            }
-        }
-    }
-
     public interface INetworkManagerListener
     {
         void OnNetworkStarted(bool asServer);

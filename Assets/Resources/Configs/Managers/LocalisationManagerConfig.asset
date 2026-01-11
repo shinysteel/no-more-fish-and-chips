@@ -16,25 +16,31 @@ MonoBehaviour:
     _name: BrowseGamesPanelTable
     _id: browseGamesPanel
     _mappings:
-    - _term: 0
-      _key: title
     - _term: 1
-      _key: lan
+      _key: title
     - _term: 2
+      _key: lan
+    - _term: 3
       _key: steam
   _commonTable:
     _name: CommonTable
     _id: common
     _mappings:
-    - _term: 3
+    - _term: 4
       _key: quit
   _mainMenuScreenTable:
     _name: MainMenuScreenTable
     _id: mainMenuScreen
     _mappings:
-    - _term: 4
-      _key: gameTitle
     - _term: 5
-      _key: browseGames
+      _key: gameTitle
     - _term: 6
+      _key: browseGames
+    - _term: 7
       _key: hostGame
+  _buildingKitPanelTable:
+    _name: BuildingKitPanelTable
+    _id: buildingKitPanel
+    _mappings:
+    - _term: 8
+      _key: title

@@ -16,6 +16,7 @@ namespace FishFlingers.Localisation
         MainMenuScreenGameTitle   = 5,
         MainMenuScreenBrowseGames = 6,
         MainMenuScreenHostGame    = 7,
+        BuildingKitPanelTitle     = 8,
     }
 
     [Serializable]

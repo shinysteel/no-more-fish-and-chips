@@ -16,7 +16,7 @@ namespace FishFlingers.UI
     public class BrowseGamesPanel : Panel
     {
         [SerializeField] private ScrollRect _scrollRect;
-        [SerializeField] private GameObject _loadingGameObject;
+        [SerializeField] private GameObject _loadingSpinnerGameObject;
 
         [SerializeField] private LobbyContainer _lobbyContainerPrefab;
 
@@ -104,7 +104,7 @@ namespace FishFlingers.UI
 
             Dictionary<ELobbyService, Lobby[]> lobbies = await _lobbyManager.SearchLobbies();
 
-            _loadingGameObject.SetActive(false);
+            _loadingSpinnerGameObject.SetActive(false);
 
             foreach (ELobbyService service in lobbies.Keys)
             {

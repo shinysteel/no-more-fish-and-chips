@@ -13,7 +13,8 @@ namespace FishFlingers.UI
     {
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _fishingBagButton;
-
+        [SerializeField] private Button _buildingKitButton;
+        
         private NetworkManager _networkManager;
         private UIManager _uiManager;
 
@@ -26,6 +27,7 @@ namespace FishFlingers.UI
 
             _settingsButton.onClick.AddListener(SettingsPressed);
             _fishingBagButton.onClick.AddListener(FishingBagPressed);
+            _buildingKitButton.onClick.AddListener(BuildingKitPressed);
         }
 
         public void Setup(GameplayContext context)
@@ -43,6 +45,11 @@ namespace FishFlingers.UI
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Utils.UI.SimulatePressed(_fishingBagButton);
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Utils.UI.SimulatePressed(_buildingKitButton);
             }
         }
 
@@ -63,6 +70,14 @@ namespace FishFlingers.UI
                 FishingBagPanel panel = (FishingBagPanel)element;
                 panel.Setup(_context);
                 panel.Show(null);
+            };
+        }
+
+        private void BuildingKitPressed()
+        {
+            _uiManager.CreateUIElementAsync(_uiManager.Config.BuildingKitPanel, UILayer.Panels).completed += (UIElement element) =>
+            {
+                element.Show(null);
             };
         }
     }

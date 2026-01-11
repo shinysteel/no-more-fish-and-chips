@@ -26,6 +26,7 @@ public class GameManagerConfig : ScriptableObject
     [SerializeField] private LocalisationManagerConfig _localisationManagerConfig;
     [SerializeField] private LobbyManagerConfig _lobbyManagerConfig;
     [SerializeField] private ItemManagerConfig _itemManagerConfig;
+    [SerializeField] private EntityManagerConfig _entityManagerConfig;
 
     public SteamManagerConfig SteamManagerConfig => _steamManagerConfig;
     public NetworkManagerConfig NetworkManagerConfig => _networkManagerConfig;
@@ -39,4 +40,5 @@ public class GameManagerConfig : ScriptableObject
     public LocalisationManagerConfig LocalisationManagerConfig => _localisationManagerConfig;
     public LobbyManagerConfig LobbyManagerConfig => _lobbyManagerConfig;
     public ItemManagerConfig ItemManagerConfig => _itemManagerConfig;
+    public EntityManagerConfig EntityManagerConfig => _entityManagerConfig;
 }

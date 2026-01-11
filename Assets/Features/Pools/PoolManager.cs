@@ -104,7 +104,7 @@ namespace FishFlingers.Pools
 
             // Register config prefabs here. We could potentially use reflection to iterate all 
             // fields rather than manually entering them here
-            Register(_config.TilePrefab);
+            Register(_config.RaftTilePrefab);
             Register(_config.LobbyEntryPrefab);
             Register(_config.InventorySlotView);
             Register(_config.InventoryItemView);

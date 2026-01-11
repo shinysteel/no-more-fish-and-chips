@@ -8,12 +8,12 @@ namespace FishFlingers.Pools
     [CreateAssetMenu(fileName = "PoolManagerConfig", menuName = "Configs/Managers/PoolManagerConfig")]
     public class PoolManagerConfig : ScriptableObject
     {
-        [SerializeField] private Tile _tilePrefab;
+        [SerializeField] private RaftTile _raftTilePrefab;
         [SerializeField] private LobbyEntry _lobbyEntryPrefab;
         [SerializeField] private InventorySlotView _inventorySlotViewPrefab;
         [SerializeField] private InventoryItemView _inventoryItemViewPrefab;
 
-        public Tile TilePrefab => _tilePrefab;
+        public RaftTile RaftTilePrefab => _raftTilePrefab;
         public LobbyEntry LobbyEntryPrefab => _lobbyEntryPrefab;
         public InventorySlotView InventorySlotView => _inventorySlotViewPrefab;
         public InventoryItemView InventoryItemView => _inventoryItemViewPrefab;

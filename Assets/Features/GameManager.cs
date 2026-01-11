@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
         LocalisationManager ,
         LobbyManager        ,
         ItemManager         ,
+        EntityManager       ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem

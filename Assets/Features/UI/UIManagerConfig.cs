@@ -26,9 +26,11 @@ namespace FishFlingers.UI
         [Header("Panels")]
         [SerializeField] private BrowseGamesPanel _browseGamesPanel;
         [SerializeField] private FishingBagPanel _fishingBagPanel;
+        [SerializeField] private BuildingKitPanel _buildingKitPanel;
 
         public BrowseGamesPanel BrowseGamesPanel => _browseGamesPanel;
         public FishingBagPanel FishingBagPanel => _fishingBagPanel;
+        public BuildingKitPanel BuildingKitPanel => _buildingKitPanel;
 
         [Header("Overlays")]
         [SerializeField] private FadeOverlay _fadeOverlay;

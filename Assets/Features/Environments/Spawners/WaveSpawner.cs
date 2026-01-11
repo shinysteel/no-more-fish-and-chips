@@ -2,6 +2,7 @@ using FishFlingers.Entities;
 using PurrNet;
 using UnityEngine;
 using FishFlingers.Networking;
+using FishFlingers.Scenes;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 using FishFlingers.States;

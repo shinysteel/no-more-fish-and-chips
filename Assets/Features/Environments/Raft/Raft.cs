@@ -22,7 +22,7 @@ namespace FishFlingers.Environments
 
         private SyncDictionary<Vector2Int, NetTile> _netTiles = new();
 
-        private Dictionary<Vector2Int, Tile> _tiles = new();
+        private Dictionary<Vector2Int, RaftTile> _tiles = new();
 
         // Every column will have x rows, and every row will have x columns
         private Dictionary<int, SortedSet<int>> _columnToRowsMap = new();
@@ -151,11 +151,11 @@ namespace FishFlingers.Environments
             // Retrieve from pool
             if (!_tiles.ContainsKey(cell))
             {
-                _tiles[cell] = _poolManager.Get<Tile>(_tilesContainer);
+                _tiles[cell] = _poolManager.Get<RaftTile>(_tilesContainer);
                 _tiles[cell].Initialise(_context);
             }
 
-            Tile tile = _tiles[cell];
+            RaftTile tile = _tiles[cell];
 
             tile.SetCell(new Vector2Int(cell.x, cell.y));
             tile.SetHealth(netTile.Health);
@@ -166,7 +166,7 @@ namespace FishFlingers.Environments
 
         private void RemoveTile(Vector2Int cell)
         {
-            if (!_tiles.TryGetValue(cell, out Tile tile))
+            if (!_tiles.TryGetValue(cell, out RaftTile tile))
             {
                 return;
             }
