@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntityManagerConfig
   _entityMappings:
   - _entity: 1
-    _prefab: {fileID: 9019304176509047894, guid: 71eceeaf6ef081647ba1fb60c9f9d30b, type: 3}
-  - _entity: 2
-    _prefab: {fileID: 6868536614404603871, guid: a0eec514e324f184c8c17ccb5d270e3b, type: 3}
-  - _entity: 3
+    _category: 0
     _prefab: {fileID: 306983958439356140, guid: 72d695ec81811d244a31903d59c3b391, type: 3}
-  - _entity: 4
-    _prefab: {fileID: 1316740569592169389, guid: b612829cb70809a4c9588f0fedd756be, type: 3}
-  - _entity: 5
+  - _entity: 2
+    _category: 0
+    _prefab: {fileID: 6868536614404603871, guid: a0eec514e324f184c8c17ccb5d270e3b, type: 3}
+  - _entity: 100
+    _category: 1
+    _prefab: {fileID: 9019304176509047894, guid: 71eceeaf6ef081647ba1fb60c9f9d30b, type: 3}
+  - _entity: 101
+    _category: 1
     _prefab: {fileID: 6836093845605017386, guid: 8cf8eb5f50a62dc4eb3cd8122b32e6d4, type: 3}
+  - _entity: 200
+    _category: 2
+    _prefab: {fileID: 1316740569592169389, guid: b612829cb70809a4c9588f0fedd756be, type: 3}

@@ -12,16 +12,15 @@ namespace FishFlingers.Entities
     {
         // Start of IEntity
 
-        protected bool _isInitialised;
         protected GameplayContext _context;
 
         public virtual void Initialise(GameplayContext context)
         {
-            _isInitialised = true;
             _context = context;
         }
 
-        [SerializeField] private int _maxHealth = 1;
+        [SerializeField] protected EntityData _entityData;
+        public EntityData EntityData => _entityData;
 
         private SyncVar<int> _currentHealth;
 
@@ -37,7 +36,6 @@ namespace FishFlingers.Entities
 
         protected virtual void OnHealthChanged(int previous, int current) { }
 
-
         [SerializeField] protected Rigidbody _rigidbody;
 
         public Rigidbody Rigidbody => _rigidbody;
@@ -52,9 +50,9 @@ namespace FishFlingers.Entities
 
             _cameraManager = GameManager.Instance.Get<CameraManager>();
 
-            _currentHealth = new SyncVar<int>(_maxHealth);
+            _currentHealth = new SyncVar<int>(_entityData.Health);
 
-            _healthModule = new HealthModule(_maxHealth,
+            _healthModule = new HealthModule(_entityData.Health,
                 getter: () => _currentHealth.value,
                 setter: (int health) => _currentHealth.value = health,
                 onChanged: OnHealthChanged);
@@ -69,14 +67,13 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            SetHealth(_maxHealth);
+            SetHealth(_entityData.Health);
         }
 
         protected override void OnDespawned()
         {
             base.OnDespawned();
 
-            _isInitialised = false;
             _context = null;
         }
     }

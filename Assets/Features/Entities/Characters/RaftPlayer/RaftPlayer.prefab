@@ -179,30 +179,11 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _maxHealth: 3
+  _entityData: {fileID: 11400000, guid: 357cc2c034c459b4fbb0da20b294afa9, type: 2}
   _rigidbody: {fileID: 7366413579655585675}
   _capsuleCollider: {fileID: 6072639463593192333}
   _inventoryPrefab: {fileID: 5201967617663925489, guid: 7df1dd8683ac7e043a6644b6830bd373, type: 3}
   _inventoryLayout: {fileID: 11400000, guid: cfd8c0c5e490b4a47aa4e9b24205efd8, type: 2}
-  _moveSettings:
-    _speed: 2
-    _acceleration: 10
-    _deceleration: 7.5
-  _jumpSettings:
-    _strength: 4
-    _cooldown: 0.1
-  _groundDetectionSettings:
-    _mask:
-      serializedVersion: 2
-      m_Bits: 1
-    _castRadius: 0.125
-    _castDist: 0.05
-  _swimSettings:
-    _mask:
-      serializedVersion: 2
-      m_Bits: 16
-    _ascendStrength: 30
-    _ascendDepthThreshold: 0.25
 --- !u!114 &8218739825401116068
 MonoBehaviour:
   m_ObjectHideFlags: 0

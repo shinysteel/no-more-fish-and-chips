@@ -46,20 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fc49879ec296149bab8254b2a720c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Environments.Tile
-  _maxHealth: 3
+  _entityData: {fileID: 11400000, guid: ab01bfd23c3274e4899bd81079252d9c, type: 2}
   _rigidbody: {fileID: 2671034648733901122}
   _visualsContainer: {fileID: 596828358658322192}
   _meshRenderer: {fileID: 8070835439032091406}
-  _bobSettings:
-    _amplitude: 0.125
-    _noiseScale: 0.5
-    _timeScale: 0.25
-  _sinkSettings:
-    _mask:
-      serializedVersion: 2
-      m_Bits: 64
-    _radius: 1
-    _speed: 0.25
 --- !u!54 &2671034648733901122
 Rigidbody:
   m_ObjectHideFlags: 0

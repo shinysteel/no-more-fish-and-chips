@@ -456,7 +456,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _maxHealth: 1
+  _entityData: {fileID: 11400000, guid: 349370ccaeb9e5548b6d4002c5167571, type: 2}
   _rigidbody: {fileID: 6871686497102461247}
 --- !u!114 &8523234636350808009
 MonoBehaviour:

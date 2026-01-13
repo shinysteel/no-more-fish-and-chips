@@ -26,21 +26,59 @@ MonoBehaviour:
     _name: CommonTable
     _id: common
     _mappings:
-    - _term: 4
+    - _term: 100
       _key: quit
   _mainMenuScreenTable:
     _name: MainMenuScreenTable
     _id: mainMenuScreen
     _mappings:
-    - _term: 5
+    - _term: 200
       _key: gameTitle
-    - _term: 6
+    - _term: 201
       _key: browseGames
-    - _term: 7
+    - _term: 202
       _key: hostGame
+  _fishingBagPanelTable:
+    _name: FishingBagPanelTable
+    _id: fishingBagPanel
+    _mappings:
+    - _term: 300
+      _key: title
   _buildingKitPanelTable:
     _name: BuildingKitPanelTable
     _id: buildingKitPanel
     _mappings:
-    - _term: 8
+    - _term: 400
       _key: title
+  _entitiesTable:
+    _name: EntitiesTable
+    _id: entities
+    _mappings:
+    - _term: 500
+      _key: raftTileName
+    - _term: 501
+      _key: raftTileDescription
+    - _term: 502
+      _key: droppedItemName
+    - _term: 503
+      _key: droppedItemDescription
+  _charactersTable:
+    _name: CharactersTable
+    _id: characters
+    _mappings:
+    - _term: 600
+      _key: raftPlayerName
+    - _term: 601
+      _key: raftPlayerDescription
+    - _term: 602
+      _key: flyingFishName
+    - _term: 603
+      _key: flyingFishDescription
+  _structuresTable:
+    _name: StructuresTable
+    _id: structures
+    _mappings:
+    - _term: 700
+      _key: waveSignName
+    - _term: 701
+      _key: waveSignDescription

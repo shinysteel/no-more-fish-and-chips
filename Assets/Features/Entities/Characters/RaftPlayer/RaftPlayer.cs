@@ -7,70 +7,19 @@ using ShinyOwl.Common.Structures;
 using System;
 using UnityEngine;
 using System.Threading.Tasks;
-
-using Random = UnityEngine.Random;
 using PurrNet;
 using FishFlingers.States;
 
+using Random = UnityEngine.Random;
+
 namespace FishFlingers.Entities
 {
-    public class RaftPlayer : NetEntity
+    public class RaftPlayer : Character<RaftPlayerData>
     {
-        [Serializable]
-        private class MoveSettings
-        {
-            [SerializeField] private float _speed = 2f;
-            [SerializeField] private float _acceleration = 10f;
-            [SerializeField] private float _deceleration = 7.5f;
-
-            public float Speed => _speed;
-            public float Acceleration => _acceleration;
-            public float Deceleration => _deceleration;
-        }
-
-        [Serializable]
-        private class JumpSettings
-        {
-            [SerializeField] private float _strength = 4f;
-            [SerializeField] private float _cooldown = 0.1f;
-
-            public float Strength => _strength;
-            public float Cooldown => _cooldown;
-        }
-
-        [Serializable]
-        private class GroundDetectionSettings
-        {
-            [SerializeField] private LayerMask _mask;
-            [SerializeField] private float _castRadius = 0.125f;
-            [SerializeField] private float _castDist = 0.05f;
-
-            public LayerMask Mask => _mask;
-            public float CastRadius => _castRadius;
-            public float CastDist => _castDist;
-        }
-
-        [Serializable]
-        private class SwimSettings
-        {
-            [SerializeField] private LayerMask _mask;
-            [SerializeField] private float _ascendStrength = 30f;
-            [SerializeField] private float _ascendDepthThreshold = 0.25f;
-
-            public LayerMask Mask => _mask;
-            public float AscendStrength => _ascendStrength;
-            public float AscendDepthThreshold => _ascendDepthThreshold;
-        }
-
         [SerializeField] private CapsuleCollider _capsuleCollider;
 
         [SerializeField] private Inventory _inventoryPrefab;
         [SerializeField] private BoolGrid _inventoryLayout;
-
-        [SerializeField] private MoveSettings _moveSettings;
-        [SerializeField] private JumpSettings _jumpSettings;
-        [SerializeField] private GroundDetectionSettings _groundDetectionSettings;
-        [SerializeField] private SwimSettings _swimSettings;
 
         private Inventory _inventory;
         public Inventory Inventory => _inventory;
@@ -153,9 +102,9 @@ namespace FishFlingers.Entities
             }
 
             Vector3 moveDirection = new Vector3(_directionInput.x, 0f, _directionInput.y);
-            Vector3 targetVelocity = moveDirection * _moveSettings.Speed;
+            Vector3 targetVelocity = moveDirection * Data.MoveSettings.Speed;
             targetVelocity.y = _rigidbody.linearVelocity.y;
-            float speed = moveDirection != Vector3.zero ? _moveSettings.Acceleration : _moveSettings.Deceleration;
+            float speed = moveDirection != Vector3.zero ? Data.MoveSettings.Acceleration : Data.MoveSettings.Deceleration;
             _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
         }
 
@@ -178,7 +127,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (_jumpTimer < _jumpSettings.Cooldown)
+            if (_jumpTimer < Data.JumpSettings.Cooldown)
             {
                 return;
             }
@@ -186,7 +135,7 @@ namespace FishFlingers.Entities
             // Cancel out gravity
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
 
-            _rigidbody.AddForce(Vector3.up * _jumpSettings.Strength, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * Data.JumpSettings.Strength, ForceMode.Impulse);
 
             _jumpTimer = 0f;
         }
@@ -198,8 +147,8 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            Vector3 origin = transform.position + Vector3.up * _groundDetectionSettings.CastRadius;
-            _isGrounded = Physics.SphereCastNonAlloc(origin, _groundDetectionSettings.CastRadius, Vector3.down, _groundedHitsNonAlloc, _groundDetectionSettings.CastDist, _groundDetectionSettings.Mask) > 0;
+            Vector3 origin = transform.position + Vector3.up * Data.GroundDetectionSettings.CastRadius;
+            _isGrounded = Physics.SphereCastNonAlloc(origin, Data.GroundDetectionSettings.CastRadius, Vector3.down, _groundedHitsNonAlloc, Data.GroundDetectionSettings.CastDist, Data.GroundDetectionSettings.Mask) > 0;
         }
 
         private void SwimFixedUpdate()
@@ -211,7 +160,7 @@ namespace FishFlingers.Entities
             }
 
             // If we are overlapping a collider on the swim mask, we are swimming
-            if (Physics.OverlapCapsuleNonAlloc(_capsuleCollider.bounds.min, _capsuleCollider.bounds.max, _capsuleCollider.radius, _swimCollidersNonAlloc, _swimSettings.Mask) == 0)
+            if (Physics.OverlapCapsuleNonAlloc(_capsuleCollider.bounds.min, _capsuleCollider.bounds.max, _capsuleCollider.radius, _swimCollidersNonAlloc, Data.SwimSettings.Mask) == 0)
             {
                 return;
             }
@@ -220,8 +169,8 @@ namespace FishFlingers.Entities
 
             Physics.ComputePenetration(_capsuleCollider, transform.position, transform.rotation, waterCollider, waterCollider.transform.position, waterCollider.transform.rotation, out _, out float depth);
 
-            float ascendFactor = Mathf.Clamp01(depth / _swimSettings.AscendDepthThreshold);
-            Vector3 ascendForce = Vector3.up * _swimSettings.AscendStrength * ascendFactor;
+            float ascendFactor = Mathf.Clamp01(depth / Data.SwimSettings.AscendDepthThreshold);
+            Vector3 ascendForce = Vector3.up * Data.SwimSettings.AscendStrength * ascendFactor;
 
             _rigidbody.AddForce(ascendForce, ForceMode.Force);
         }

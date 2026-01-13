@@ -727,7 +727,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 80}
+  m_SizeDelta: {x: 500, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4861287258363496490
 MonoBehaviour:
@@ -741,6 +741,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9517a4870a80e549822d23f8ca9ad13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.BlueprintEntry
+  _nameText: {fileID: 2145345596128313646}
+  _descriptionText: {fileID: 7302697220238949773}
 --- !u!222 &5823932470062704788
 CanvasRenderer:
   m_ObjectHideFlags: 0

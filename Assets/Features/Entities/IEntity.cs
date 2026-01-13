@@ -10,10 +10,11 @@ namespace FishFlingers.Entities
 
         void Initialise(GameplayContext context);
 
-        public int CurrentHealth { get; }
-        public int MaxHealth { get; }
+        EntityData EntityData { get; }
+
+        int CurrentHealth { get; }
         void SetHealth(int health);
 
-        public Rigidbody Rigidbody { get; }
+        Rigidbody Rigidbody { get; }
     }
 }

@@ -6,6 +6,6 @@ namespace FishFlingers.Entities
 {
     public class DroppedItem : NetEntity
     {
-
+        public DroppedItemData Data => (DroppedItemData)_entityData;
     }
 }

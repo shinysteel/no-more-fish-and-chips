@@ -41,7 +41,7 @@ namespace FishFlingers.States
             MenusState menusState = new MenusState(_stateMachine);
             GameplayState gameplayState = new GameplayState(_stateMachine);
 
-            List<IMainState> states = new() { menusState, gameplayState };
+            IMainState[] states = new IMainState[] { menusState, gameplayState };
             foreach (IMainState state in states)
             {
                 state.Initialise(_config);

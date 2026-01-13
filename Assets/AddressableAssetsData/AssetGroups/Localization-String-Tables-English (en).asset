@@ -15,6 +15,18 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-English (en)
   m_GUID: 7aa84236e4bab9b49b004be256899123
   m_SerializeEntries:
+  - m_GUID: 24e9ff13bde005345b517ffda5f8e3de
+    m_Address: StructuresTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 314278e40f2e4be41be7b43f99999182
+    m_Address: EntitiesTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 616f0abd5cb169a40a0e4984eae5e8b3
     m_Address: FishingBagPanelTable_en
     m_ReadOnly: 1
@@ -41,6 +53,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e834dbb5f331dce4081a5f9d06d4e3f9
     m_Address: CommonTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed6d2012c06f01f44b4202d9bd575314
+    m_Address: CharactersTable_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

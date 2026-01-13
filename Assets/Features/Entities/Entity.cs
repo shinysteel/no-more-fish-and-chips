@@ -17,7 +17,8 @@ namespace FishFlingers.Entities
             _context = context;
         }
 
-        [SerializeField] private int _maxHealth = 1;
+        [SerializeField] protected EntityData _entityData;
+        public EntityData EntityData => _entityData;
 
         private int _currentHealth;
 
@@ -32,7 +33,6 @@ namespace FishFlingers.Entities
         }
 
         protected virtual void OnHealthChanged(int previous, int current) { }
-
 
         [SerializeField] protected Rigidbody _rigidbody;
 
@@ -49,14 +49,14 @@ namespace FishFlingers.Entities
 
         public virtual void OnTakenFromPool()
         {
-            _healthModule = new HealthModule(_maxHealth,
+            _healthModule = new HealthModule(_entityData.Health,
                 getter: () => _currentHealth,
                 setter: (int health) => _currentHealth = health,
                 onChanged: OnHealthChanged);
 
             if (_networkManager.IsServer)
             {
-                SetHealth(_maxHealth);
+                SetHealth(_entityData.Health);
             }
         }
 

@@ -119,8 +119,9 @@ namespace FishFlingers.Pools
             // fields rather than manually entering them here
             Register(_config.RaftTilePrefab);
             Register(_config.LobbyEntryPrefab);
-            Register(_config.InventorySlotView);
-            Register(_config.InventoryItemView);
+            Register(_config.InventorySlotViewPrefab);
+            Register(_config.InventoryItemViewPrefab);
+            Register(_config.BlueprintEntryPrefab);
 
             base.Initialise(config);
         }

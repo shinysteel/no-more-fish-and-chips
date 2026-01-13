@@ -3,20 +3,45 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-using UnityEngine.Localization.Tables;
 
 namespace FishFlingers.Localisation
 {
     public enum LocalisationTerm
     {
-        BrowseGamesPanelTitle     = 1,
-        BrowseGamesPanelLAN       = 2,
-        BrowseGamesPanelSteam     = 3,
-        CommonQuit                = 4,
-        MainMenuScreenGameTitle   = 5,
-        MainMenuScreenBrowseGames = 6,
-        MainMenuScreenHostGame    = 7,
-        BuildingKitPanelTitle     = 8,
+        // Browse Games Panel
+        BrowseGamesPanelTitle           = 1   ,
+        BrowseGamesPanelLAN             = 2   ,
+        BrowseGamesPanelSteam           = 3   ,
+
+        // Common
+        CommonQuit                      = 100 ,
+
+        // Main Menu Screen
+        MainMenuScreenGameTitle         = 200 ,
+        MainMenuScreenBrowseGames       = 201 ,
+        MainMenuScreenHostGame          = 202 ,
+
+        // Fishing Bag Panel
+        FishingBagPanelTitle            = 300 ,
+
+        // Building Kit Panel
+        BuildingKitPanelTitle           = 400 ,
+
+        // Entities
+        EntitiesRaftTileName            = 500 ,
+        EntitiesRaftTileDescription     = 501 ,
+        EntitiesDroppedItemName         = 502 ,
+        EntitiesDroppedItemDescription  = 503 ,
+
+        // Characters
+        CharactersRaftPlayerName        = 600 ,
+        CharactersRaftPlayerDescription = 601 ,
+        CharactersFlyingFishName        = 602 ,
+        CharactersFlyingFishDescription = 603 ,
+
+        // Structures
+        StructuresWaveSignName          = 700 ,
+        StructuresWaveSignDescription   = 701 ,
     }
 
     [Serializable]

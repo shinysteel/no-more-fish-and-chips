@@ -8,7 +8,7 @@ using ShinyOwl.Common.Extensions;
 
 namespace FishFlingers.Entities
 {
-    public class FlyingFish : NetEntity
+    public class FlyingFish : Character<FlyingFishData>
     {
         private StateMachine<EState> _stateMachine;
 
@@ -26,8 +26,6 @@ namespace FishFlingers.Entities
             private FlyingFish _flyingFish;
 
             private float _scoutTimer;
-
-            private const float ScoutDuration = 1.5f;
 
             public ScoutState(StateMachine<EState> parent) : base(parent)
             { }
@@ -74,7 +72,7 @@ namespace FishFlingers.Entities
                 _scoutTimer += Time.deltaTime;
 
                 // Scout for some time before attacking
-                if (_scoutTimer < ScoutDuration)
+                if (_scoutTimer < _flyingFish.Data.ScoutDuration)
                 {
                     return;
                 }
@@ -96,9 +94,6 @@ namespace FishFlingers.Entities
             private bool _isAnticipating;
             private float _flyTimer;
 
-            private const float FlyDuration = 1.25f;
-            private const float LaunchAngle = 75f;
-
             public FlyState(StateMachine<EState> parent) : base(parent)
             { }
 
@@ -116,7 +111,7 @@ namespace FishFlingers.Entities
                 _anticipatePosition = _flyingFish.transform.position + anticipateOffset;
 
                 // Match the launch angle
-                _anticipateRotation = Quaternion.AngleAxis(LaunchAngle, _flyingFish.transform.right) * _flyingFish.transform.rotation;
+                _anticipateRotation = Quaternion.AngleAxis(_flyingFish.Data.LaunchAngle, _flyingFish.transform.right) * _flyingFish.transform.rotation;
 
                 // Anticipate with a small duck
                 Sequence.Create()
@@ -140,11 +135,11 @@ namespace FishFlingers.Entities
                 _flyTimer += Time.deltaTime;
 
                 // Interpolate from start to end
-                float time = _flyTimer / FlyDuration;
-                _flyingFish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, -Physics.gravity.y, LaunchAngle, time);
+                float time = _flyTimer / _flyingFish.Data.FlyDuration;
+                _flyingFish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, -Physics.gravity.y, _flyingFish.Data.LaunchAngle, time);
                 _flyingFish.transform.rotation = Quaternion.Slerp(_anticipateRotation, _landRotation, time);
 
-                if (_flyTimer > FlyDuration)
+                if (_flyTimer > _flyingFish.Data.FlyDuration)
                 {
                     _flyingFish._context.Raft.ChangeNetTileHealth(_flyingFish._targetTile.Cell, -1);
 

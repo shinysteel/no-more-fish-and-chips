@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace ShinyOwl.Common.Structures
 {
@@ -144,7 +143,7 @@ namespace ShinyOwl.Common.Structures
         }
     }
 
-    [CreateAssetMenu(fileName = "BoolGrid", menuName = "Structures/BoolGrid")]
+    [CreateAssetMenu(fileName = "BoolGrid", menuName = "Common/Structures/BoolGrid")]
     public class BoolGrid : ScriptableObject, IEnumerable<KeyValuePair<Vector2Int, bool>>
     {
         [SerializeField] private int _columns;

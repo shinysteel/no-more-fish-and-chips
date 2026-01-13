@@ -11,39 +11,14 @@ namespace FishFlingers.Entities
         [SerializeField] private Transform _visualsContainer;
         [SerializeField] private MeshRenderer _meshRenderer;
 
-        [SerializeField] private BobSettings _bobSettings;
-        [SerializeField] private SinkSettings _sinkSettings;
-
-        [Serializable]
-        private class BobSettings
-        {
-            [SerializeField] private float _amplitude = 0.125f;
-            [SerializeField] private float _noiseScale = 0.5f;
-            [SerializeField] private float _timeScale = 0.25f;
-
-            public float Amplitude => _amplitude;
-            public float NoiseScale => _noiseScale;
-            public float TimeScale => _timeScale;
-        }
-
-        [Serializable]
-        private class SinkSettings
-        {
-            [SerializeField] private LayerMask _mask;
-            [SerializeField] private float _radius = 1f;
-            [SerializeField] private float _speed = 0.25f;
-
-            public LayerMask Mask => _mask;
-            public float Radius => _radius;
-            public float Speed => _speed;
-        }
-
         private Material _material;
 
         private const string DamagedBlendName = "_DamagedBlend";
 
         private Vector2Int _cell;
         public Vector2Int Cell => _cell;
+
+        public RaftTileData Data => (RaftTileData)_entityData;
 
         protected override void Awake()
         {
@@ -81,7 +56,7 @@ namespace FishFlingers.Entities
 
         private void PositionUpdate()
         {
-            bool sink = Physics.CheckSphere(transform.position, _sinkSettings.Radius, _sinkSettings.Mask);
+            bool sink = Physics.CheckSphere(transform.position, Data.SinkSettings.Radius, Data.SinkSettings.Mask);
 
             float targetY;
 
@@ -93,13 +68,13 @@ namespace FishFlingers.Entities
             else
             {
                 // Bob up and down
-                targetY = _bobSettings.Amplitude * Mathf.PerlinNoise(
-                    _cell.x * _bobSettings.NoiseScale + Time.time * _bobSettings.TimeScale,
-                    _cell.y * _bobSettings.NoiseScale + Time.time * _bobSettings.TimeScale);
+                targetY = Data.BobSettings.Amplitude * Mathf.PerlinNoise(
+                    _cell.x * Data.BobSettings.NoiseScale + Time.time * Data.BobSettings.TimeScale,
+                    _cell.y * Data.BobSettings.NoiseScale + Time.time * Data.BobSettings.TimeScale);
             }
 
             Vector3 targetPosition = new Vector3(0f, targetY, 0f);
-            _visualsContainer.localPosition = Vector3.MoveTowards(_visualsContainer.localPosition, targetPosition, _sinkSettings.Speed * Time.deltaTime);
+            _visualsContainer.localPosition = Vector3.MoveTowards(_visualsContainer.localPosition, targetPosition, Data.SinkSettings.Speed * Time.deltaTime);
         }
     }
 }
