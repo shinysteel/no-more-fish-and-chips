@@ -10,6 +10,9 @@ namespace FishFlingers.UI
     {
         protected bool _isVisible;
 
+        [SerializeField] protected RectTransform _rectTransform;
+        public RectTransform RectTransform => _rectTransform;
+
         public virtual void Load()
         { }
 

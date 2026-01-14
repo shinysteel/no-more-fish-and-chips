@@ -109,6 +109,9 @@ namespace FishFlingers.UI
                 AsyncInstantiateOperation instantiateOp = (AsyncInstantiateOperation)op;
                 T element = (T)instantiateOp.Result[0];
 
+                // Recover the prefab's transform, since we are instantiating in local space
+                element.RectTransform.anchoredPosition = prefab.RectTransform.anchoredPosition;
+
                 if (mode == UILayerInsertMode.LastSibling)
                 {
                     element.transform.SetAsLastSibling();

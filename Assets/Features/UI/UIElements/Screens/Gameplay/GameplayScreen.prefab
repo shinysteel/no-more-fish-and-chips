@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d416d8378aaa2499fb9cb128df36a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.GameplayScreen
+  _rectTransform: {fileID: 4483073272198626235}
   _settingsButton: {fileID: 5211143143644046820}
   _fishingBagButton: {fileID: 5714939453272726459}
   _buildingKitButton: {fileID: 3475610700868071679}

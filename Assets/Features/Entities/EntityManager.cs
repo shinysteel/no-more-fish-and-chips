@@ -135,21 +135,20 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            Entity obj = entity as Entity;
-
-            // Entity + Poolable
-            if (obj is IPoolable)
-            {
-                _poolManager.Return(obj);
-                return;
-            }
-
             // Entity
-            if (obj != null)
+            if (entity is Entity obj)
             {
                 Object.Destroy(obj.gameObject);
                 return;
             }
+
+            Debugger.LogError(this, $"The top-level class of {entity} is unkown, and so it couldn't be despawned");
+        }
+
+        public void Despawn<T>(T entity) where T : Entity, IPoolable
+        {
+            // Entity + Poolable
+            _poolManager.Return(entity);
         }
     }
 }

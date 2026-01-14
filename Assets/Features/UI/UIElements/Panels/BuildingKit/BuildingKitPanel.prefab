@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc71d3180bb8c794aa697cab5160e8d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.BuildingKitPanel
+  _rectTransform: {fileID: 5990418614809492502}
   _canvasGroup: {fileID: 465905019652863874}
   _closeButton: {fileID: 29413838363624518}
   _blueprintsScrollRect: {fileID: 1472711437564252167}

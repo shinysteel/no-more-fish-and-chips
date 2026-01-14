@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731fdf3fe33349b4d9054a91c4529d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.Transitions.FadeOverlay
+  _rectTransform: {fileID: 4249374751091753725}
   _canvasGroup: {fileID: 761931174499568316}
 --- !u!225 &761931174499568316
 CanvasGroup:

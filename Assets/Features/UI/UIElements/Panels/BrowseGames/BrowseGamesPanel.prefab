@@ -380,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb6f54936c4f0a0468afa67440421d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.BrowseGamesPanel
+  _rectTransform: {fileID: 1061840533158746019}
   _canvasGroup: {fileID: 6622945185957960759}
   _closeButton: {fileID: 6770643147433684979}
   _scrollRect: {fileID: 3008349529838525348}
@@ -387,9 +388,9 @@ MonoBehaviour:
   _lobbyContainerPrefab: {fileID: 2810597675660413345, guid: aabaeaacd6d0b3840a6c32d63d1203e0, type: 3}
   _lobbyContainerModels:
   - _lobbyService: 1
-    _titleTerm: 1
-  - _lobbyService: 2
     _titleTerm: 2
+  - _lobbyService: 2
+    _titleTerm: 3
 --- !u!225 &6622945185957960759 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 2403927208547714065, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}

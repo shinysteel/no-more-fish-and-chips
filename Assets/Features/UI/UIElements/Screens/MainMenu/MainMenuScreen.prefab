@@ -1259,6 +1259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df736dcea9a12f4fa86c2634a4a0a1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 1711390952275999638}
   _browseGamesButton: {fileID: 4551924879242474685}
   _hostGameButton: {fileID: 5027574451433896985}
   _quitButton: {fileID: 1965843156445705609}

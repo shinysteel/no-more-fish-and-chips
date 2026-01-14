@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddde1a3076a809a42b96d03514d91d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingBagPanel
+  _rectTransform: {fileID: 6187548319850194627}
   _canvasGroup: {fileID: 39285214377012567}
   _closeButton: {fileID: 474237158295740051}
   _inventoryWidget: {fileID: 3668451157180246752}
