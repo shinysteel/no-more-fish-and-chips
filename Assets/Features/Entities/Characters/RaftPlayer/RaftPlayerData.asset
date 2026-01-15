@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerData
   _nameTerm: 600
   _descriptionTerm: 601
+  _sprite: {fileID: 21300000, guid: 4d5437e4103caf0479f3fe3a36805b12, type: 3}
   _health: 3
   _moveSettings:
     _speed: 2

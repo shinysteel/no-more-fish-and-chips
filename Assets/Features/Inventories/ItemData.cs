@@ -8,6 +8,7 @@ namespace FishFlingers.Inventories
     public class ItemData : ScriptableObject
     {
         [SerializeField] private ItemId _itemId;
+        [SerializeField] private string _spriteAssetName;
         [SerializeField] private int _maxStack;
         [SerializeField] private Sprite _sprite;
         [SerializeField] private BoolGrid _shape;
@@ -15,6 +16,7 @@ namespace FishFlingers.Inventories
         // To differentiate from InstanceId, we use ItemId
         public ItemId ItemId => _itemId;
 
+        public string SpriteAssetName => _spriteAssetName;
         public int MaxStack => _maxStack;
         public Sprite Sprite => _sprite;
         public BoolGrid Shape => _shape;

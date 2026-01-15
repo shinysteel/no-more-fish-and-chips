@@ -122,6 +122,7 @@ namespace FishFlingers.Pools
             Register(_config.InventorySlotViewPrefab);
             Register(_config.InventoryItemViewPrefab);
             Register(_config.BlueprintEntryPrefab);
+            Register(_config.RequirementEntryPrefab);
 
             base.Initialise(config);
         }
