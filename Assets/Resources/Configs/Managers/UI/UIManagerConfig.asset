@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057118c314e45541bbd00622f245d8d, type: 3}
   m_Name: UIManagerConfig
   m_EditorClassIdentifier: 
-  _gameCanvasPrefab: {fileID: 1505244041761917001, guid: 4687bec03d9a66f44993e9531bc49895, type: 3}
+  _screenCanvasPrefab: {fileID: 1505244041761917001, guid: 4687bec03d9a66f44993e9531bc49895, type: 3}
+  _worldCanvasPrefab: {fileID: 7527798416915421535, guid: 6f1579913b1281c4fa6e987bd6a1b6cc, type: 3}
   _eventSystemPrefab: {fileID: 4836926237432439950, guid: 8a82de54485014b45a720335ce9afb87, type: 3}
   _mainMenuScreen: {fileID: 5756083684919418670, guid: 2e0fe2dce38be71479cc859c1b98ac80, type: 3}
   _gameplayScreen: {fileID: 5670193213575206993, guid: e99bd13e3529bdb4abd31a1786f353f4, type: 3}

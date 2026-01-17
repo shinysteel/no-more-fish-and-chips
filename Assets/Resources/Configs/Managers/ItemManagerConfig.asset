@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ce5f549c27e5f45a8ba47c29c2b571, type: 3}
   m_Name: ItemManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.ItemManagerConfig
-  _driftwoodData: {fileID: 11400000, guid: a2ecdc1075f52ec42a30be80eadf3eb0, type: 2}
-  _paddleData: {fileID: 11400000, guid: cbe346ab548e78a4297bf67f1b11cb6c, type: 2}
+  _itemDataScanner: {fileID: 11400000, guid: e70d00fa0bac06e49acade6db125ba86, type: 2}

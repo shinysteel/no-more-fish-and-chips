@@ -19,6 +19,8 @@ namespace FishFlingers.Cameras
         private CameraManagerConfig _config;
 
         private Camera _camera;
+        public Camera Camera => _camera;
+
         private ICameraMode _mode;
 
         public override void Initialise(GameManagerConfig config)
@@ -30,11 +32,6 @@ namespace FishFlingers.Cameras
             Object.DontDestroyOnLoad(_camera.gameObject);
 
             base.Initialise(config);
-        }
-
-        public override void Shutdown()
-        {
-            base.Shutdown();
         }
 
         public override void LateUpdate()

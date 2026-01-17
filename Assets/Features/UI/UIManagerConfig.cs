@@ -9,11 +9,13 @@ namespace FishFlingers.UI
     [CreateAssetMenu(fileName = "UIManagerConfig", menuName = "Configs/Managers/UI/UIManagerConfig")]
     public class UIManagerConfig : ScriptableObject
     {
-        [Header("Canvas & Event System")]
-        [SerializeField] private Canvas _gameCanvasPrefab;
+        [Header("Canvases")]
+        [SerializeField] private Canvas _screenCanvasPrefab;
+        [SerializeField] private Canvas _worldCanvasPrefab;
         [SerializeField] private EventSystem _eventSystemPrefab;
 
-        public Canvas GameCanvasPrefab => _gameCanvasPrefab;
+        public Canvas ScreenCanvasPrefab => _screenCanvasPrefab;
+        public Canvas WorldCanvasPrefab => _worldCanvasPrefab;
         public EventSystem EventSystemPrefab => _eventSystemPrefab;
 
         [Header("Screens")]

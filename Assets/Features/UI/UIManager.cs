@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using ShinyOwl.Common.Framework;
 
 using Object = UnityEngine.Object;
+using FishFlingers.Cameras;
 
 namespace FishFlingers.UI
 {
@@ -33,35 +34,39 @@ namespace FishFlingers.UI
 
     public class UIManager : GameSystem<IUIManagerListener>
     {
+        private CameraManager _cameraManager;
+
         private UIManagerConfig _config;
         public UIManagerConfig Config => _config;
 
-        private Canvas _gameCanvas;
+        private Canvas _screenCanvas;
+        private Canvas _worldCanvas;
         private EventSystem _eventSystem;
 
         private RectTransform[] _layerContainers;
 
         public override void Initialise(GameManagerConfig config)
         {
+            _cameraManager = GameManager.Instance.Get<CameraManager>();
+
             _config = config.UIManagerConfig;
 
-            CreateCanvasAndEventSystem();
+            CreateCanvases();
             CreateLayers();            
 
             base.Initialise(config);
         }
 
-        public override void Shutdown()
+        private void CreateCanvases()
         {
-            base.Shutdown();
-        }
-
-        private void CreateCanvasAndEventSystem()
-        {
-            _gameCanvas = Object.Instantiate(_config.GameCanvasPrefab);
+            _screenCanvas = Object.Instantiate(_config.ScreenCanvasPrefab);
+            _worldCanvas = Object.Instantiate(_config.WorldCanvasPrefab);
             _eventSystem = Object.Instantiate(_config.EventSystemPrefab);
 
-            Object.DontDestroyOnLoad(_gameCanvas.gameObject);
+            _worldCanvas.worldCamera = _cameraManager.Camera;
+
+            Object.DontDestroyOnLoad(_screenCanvas.gameObject);
+            Object.DontDestroyOnLoad(_worldCanvas.gameObject);
             Object.DontDestroyOnLoad(_eventSystem.gameObject);
         }
 
@@ -71,7 +76,7 @@ namespace FishFlingers.UI
             _layerContainers = new RectTransform[enums.Length];
             for (int i = 0; i < enums.Length; i++)
             {
-                _layerContainers[i] = CreateLayer(enums[i].ToString(), (RectTransform)_gameCanvas.transform);
+                _layerContainers[i] = CreateLayer(enums[i].ToString(), (RectTransform)_screenCanvas.transform);
             }
         }
 
@@ -158,6 +163,17 @@ namespace FishFlingers.UI
             UIElement element = container.GetChild(container.childCount - 1).GetComponent<UIElement>();
 
             element.Hide(() => DestroyUIElement(element, layer));
+        }
+
+        public void Test()
+        {
+            // create world element
+            // put it on world canvas
+            // position, and rotate
+            // optionally track a 'transform'
+
+            // uielement -> screenui
+            // add worldui
         }
     }
 }

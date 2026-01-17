@@ -12,9 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e918a9184c017064dbd30a87c819c46b, type: 3}
   m_Name: PoolManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Pools.PoolManagerConfig
-  _raftTilePrefab: {fileID: 8127564742549498130, guid: 72d695ec81811d244a31903d59c3b391, type: 3}
-  _lobbyEntryPrefab: {fileID: 8512815255200125647, guid: ae7bee239c1680545b93027a708d8f0e, type: 3}
-  _inventorySlotViewPrefab: {fileID: 7982614327766284388, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
-  _inventoryItemViewPrefab: {fileID: -1061663768874322992, guid: 162fe50ec88a6244b9287662dbd3876b, type: 3}
-  _blueprintEntryPrefab: {fileID: 4861287258363496490, guid: 6f6f2a0bc357c0c46acd8cea28935e5b, type: 3}
-  _requirementEntryPrefab: {fileID: 2297227875456571815, guid: e3566a394fcc2d343a475b43077e0e36, type: 3}
+  _poolableScanner: {fileID: 11400000, guid: 63c74bb77e39c20438a470697b86fdf2, type: 2}

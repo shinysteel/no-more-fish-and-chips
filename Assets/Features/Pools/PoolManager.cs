@@ -115,21 +115,22 @@ namespace FishFlingers.Pools
             _container = new GameObject(ContainerName).transform;
             Object.DontDestroyOnLoad(_container.gameObject);
 
-            // Register config prefabs here. We could potentially use reflection to iterate all 
-            // fields rather than manually entering them here
-            Register(_config.RaftTilePrefab);
-            Register(_config.LobbyEntryPrefab);
-            Register(_config.InventorySlotViewPrefab);
-            Register(_config.InventoryItemViewPrefab);
-            Register(_config.BlueprintEntryPrefab);
-            Register(_config.RequirementEntryPrefab);
+            foreach (IPoolable poolable in _config.PoolableScanner.Assets)
+            {
+                Register(poolable);   
+            }
 
             base.Initialise(config);
         }
 
-        private void Register<T>(T prefab) where T : Component, IPoolable
+        private void Register<T>(T prefab) where T : IPoolable
         {
-            Type type = typeof(T);
+            if (prefab is not Component component)
+            {
+                return;
+            }
+
+            Type type = component.GetType();
 
             Debugger.AssertIsFalse(_prefabRegistry.ContainsKey(type), this, "The same type was registered more than once");
 

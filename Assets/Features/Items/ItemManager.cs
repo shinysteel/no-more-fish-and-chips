@@ -26,10 +26,10 @@ namespace FishFlingers.Items
 
             _config = config.ItemManagerConfig;
 
-            // Eventually, we'd want to have something do a project scan in editor
-            // to maintain a collection of all ItemData
-            _idDataMap.Add(ItemId.Driftwood, _config.DriftwoodData);
-            _idDataMap.Add(ItemId.Paddle, _config.PaddleData);
+            foreach (ItemData data in _config.ItemDataScanner.Assets)
+            {
+                _idDataMap.Add(data.ItemId, data);
+            }
 
             base.Initialise(config);
         }
