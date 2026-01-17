@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    private const string ConfigPath = "Configs/Managers/GameManagerConfig";
+    private const string ConfigPath = "GameManagerConfig";
 
     /// <summary>
     /// Needs to be in order of initialisation. Values need to be 1:1 with script names
