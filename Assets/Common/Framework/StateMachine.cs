@@ -14,7 +14,7 @@ namespace ShinyOwl.Common.Framework
     {
         void Enter();
         Task EnterAsync();
-        void Update();
+        void Tick();
         void Exit();
         Task ExitAsync();
     }
@@ -41,9 +41,9 @@ namespace ShinyOwl.Common.Framework
             await (_subStateMachine?.EnterAsync() ?? Task.CompletedTask);
         }
 
-        public virtual void Update()
+        public virtual void Tick()
         {
-            _subStateMachine?.Update();
+            _subStateMachine?.Tick();
         }
 
         public virtual void Exit()
@@ -124,9 +124,9 @@ namespace ShinyOwl.Common.Framework
             await (GetCurrentState()?.EnterAsync() ?? Task.CompletedTask);
         }
 
-        public void Update()
+        public void Tick()
         {
-            GetCurrentState()?.Update();
+            GetCurrentState()?.Tick();
         }
 
         public void Exit()

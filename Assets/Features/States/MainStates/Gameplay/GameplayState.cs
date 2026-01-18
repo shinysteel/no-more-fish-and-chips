@@ -131,7 +131,7 @@ namespace FishFlingers.States
                 salvageSpawner.Initialise(context);
                 localPlayer.Initialise(context);
 
-                _gameplayScreen = (GameplayScreen)await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
+                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
                 _gameplayScreen.Setup(context);
                 _gameplayScreen.Show(null);
 

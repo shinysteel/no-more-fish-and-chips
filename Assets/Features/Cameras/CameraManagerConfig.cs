@@ -7,8 +7,8 @@ namespace FishFlingers.Cameras
     [CreateAssetMenu(fileName = "CameraManagerConfig", menuName = "Configs/Managers/CameraManagerConfig")]
     public class CameraManagerConfig : ScriptableObject
     {
-        [SerializeField] private Camera _gameCameraPrefab;
+        [SerializeField] private Camera _mainCameraPrefab;
 
-        public Camera GameCameraPrefab => _gameCameraPrefab;
+        public Camera MainCameraPrefab => _mainCameraPrefab;
     }
 }

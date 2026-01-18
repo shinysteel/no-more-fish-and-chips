@@ -9,7 +9,7 @@ namespace FishFlingers.Environments
 
         [SerializeField, Range(0f, 1f)] private float _submergePercent = 0.5f;
         [SerializeField] private float _verticalDrag = 1f;
-        [SerializeField] private float _horizontalDrag = 20f;
+        [SerializeField] private float _horizontalDrag = 5f;
         [SerializeField] private float _currentSpeed = 0.25f;
 
         private void OnTriggerStay(Collider collider)

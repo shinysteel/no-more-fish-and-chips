@@ -6,8 +6,8 @@ using ShinyOwl.Common.Framework;
 public interface IGameSystem
 {
     void Initialise(GameManagerConfig config);
-    void Update();
-    void LateUpdate();
+    void Tick();
+    void LateTick();
     void Shutdown();
 }
 
@@ -34,10 +34,10 @@ public abstract class GameSystem<TListener> : IGameSystem
         State = ManagerState.Ready;
     }
 
-    public virtual void Update()
+    public virtual void Tick()
     { }
 
-    public virtual void LateUpdate()
+    public virtual void LateTick()
     { }
 
     public virtual void Shutdown()

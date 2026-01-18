@@ -13,7 +13,7 @@ namespace FishFlingers.Cameras
             _offset = offset;
         }
 
-        public void LateUpdate(Camera camera)
+        public void LateTick(Camera camera)
         {
             if (_target == null)
             {

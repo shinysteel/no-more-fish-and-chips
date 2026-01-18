@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8127564742549498130}
   - component: {fileID: 2671034648733901122}
   - component: {fileID: 1950879371353287150}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RaftTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 4774641868979785282}
   - component: {fileID: 6263983001800889587}
   - component: {fileID: 8070835439032091406}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 596828358658322192}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

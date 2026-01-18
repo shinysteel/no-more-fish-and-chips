@@ -128,7 +128,7 @@ namespace Steam
             base.Shutdown();
         }
 
-        public override void Update()
+        public override void Tick()
         {
             if (!m_bInitialized)
             {

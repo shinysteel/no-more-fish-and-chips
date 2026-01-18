@@ -11,8 +11,6 @@ namespace FishFlingers.UI
         private Sequence _showSequence;
         private Sequence _hideSequence;
 
-        private Action _onComplete;
-
         public abstract Sequence CreateShowSequence(UIAnimationParams parameters);
         public abstract Sequence CreateHideSequence(UIAnimationParams parameters);
 
@@ -27,20 +25,16 @@ namespace FishFlingers.UI
             if (_hideSequence.isAlive)
             {
                 _hideSequence.Stop();
-                ExecutePending();
             }
-
-            _onComplete = parameters.OnComplete;
 
             parameters.CanvasGroup.interactable = false;
             parameters.GameObject.SetActive(true);
-            parameters.SetIsVisible(true);
 
             _showSequence = CreateShowSequence(parameters);
             _showSequence.OnComplete(() =>
             {
                 parameters.CanvasGroup.interactable = true;
-                ExecutePending();
+                parameters.OnComplete?.Invoke();
             });
         }
 
@@ -55,10 +49,7 @@ namespace FishFlingers.UI
             if (_showSequence.isAlive)
             {
                 _showSequence.Stop();
-                ExecutePending();
             }
-
-            _onComplete = parameters.OnComplete;
 
             parameters.CanvasGroup.interactable = false;
 
@@ -66,15 +57,8 @@ namespace FishFlingers.UI
             _hideSequence.OnComplete(() =>
             {
                 parameters.GameObject.SetActive(false);
-                parameters.SetIsVisible(false);
-                ExecutePending();
+                parameters.OnComplete?.Invoke();
             });
-        }
-
-        private void ExecutePending()
-        {
-            _onComplete?.Invoke();
-            _onComplete = null;
         }
     }
 }

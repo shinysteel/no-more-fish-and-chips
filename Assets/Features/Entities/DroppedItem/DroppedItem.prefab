@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1289008057288507097}
   - component: {fileID: 7294496901274515299}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6347604151113586463}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 7367407456407141544}
   - component: {fileID: 7014505914940973554}
   - component: {fileID: 4140799031426000957}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DroppedItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}

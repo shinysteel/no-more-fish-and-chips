@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104d4a91d609e6343ad79b8c3959eecd, type: 3}
   m_Name: CameraManagerConfig
   m_EditorClassIdentifier: 
-  _gameCameraPrefab: {fileID: 3280374337345056550, guid: c0f9d6ce97d73844d85570c6912fd842, type: 3}
+  _mainCameraPrefab: {fileID: 3280374337345056550, guid: c0f9d6ce97d73844d85570c6912fd842, type: 3}

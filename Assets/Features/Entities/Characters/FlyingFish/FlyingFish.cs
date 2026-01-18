@@ -21,19 +21,25 @@ namespace FishFlingers.Entities
             Fly
         }
 
-        private class ScoutState : State<EState, ENone>
+        private class State : State<EState, ENone>
         {
-            private FlyingFish _flyingFish;
+            protected FlyingFish _flyingFish;
 
+            public State(StateMachine<EState> parent) : base(parent)
+            { }
+
+            public void Initialise(FlyingFish flyingFish)
+            {
+                _flyingFish = flyingFish;
+            }
+        }
+
+        private class ScoutState : State
+        {
             private float _scoutTimer;
 
             public ScoutState(StateMachine<EState> parent) : base(parent)
             { }
-
-            public void Initialise(FlyingFish fish)
-            {
-                _flyingFish = fish;
-            }
 
             public override void Enter()
             {
@@ -67,7 +73,7 @@ namespace FishFlingers.Entities
                 Tween.Position(_flyingFish.transform, _flyingFish.transform.position + Vector3.up, surfaceDuration, Ease.OutBack);
             }
 
-            public override void Update()
+            public override void Tick()
             {
                 _scoutTimer += Time.deltaTime;
 
@@ -81,10 +87,8 @@ namespace FishFlingers.Entities
             }
         }
 
-        private class FlyState : State<EState, ENone>
+        private class FlyState : State
         {
-            private FlyingFish _flyingFish;
-
             private Vector3 _anticipatePosition;
             private Quaternion _anticipateRotation;
 
@@ -96,11 +100,6 @@ namespace FishFlingers.Entities
 
             public FlyState(StateMachine<EState> parent) : base(parent)
             { }
-
-            public void Initialise(FlyingFish fish)
-            {
-                _flyingFish = fish;
-            }
 
             public override void Enter()
             {
@@ -125,7 +124,7 @@ namespace FishFlingers.Entities
                 _landRotation = Quaternion.AngleAxis(-90f, _flyingFish.transform.right) * _flyingFish.transform.rotation;
             }
             
-            public override void Update()
+            public override void Tick()
             {
                 if (_isAnticipating)
                 {
@@ -195,7 +194,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            _stateMachine.Update();
+            _stateMachine.Tick();
         }
     }
 }

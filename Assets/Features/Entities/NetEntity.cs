@@ -42,13 +42,9 @@ namespace FishFlingers.Entities
 
         // End of IEntity
 
-        protected CameraManager _cameraManager;
-
         protected override void OnInitializeModules()
         {
             base.OnInitializeModules();
-
-            _cameraManager = GameManager.Instance.Get<CameraManager>();
 
             _currentHealth = new SyncVar<int>(_entityData.Health);
 

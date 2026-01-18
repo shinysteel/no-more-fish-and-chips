@@ -63,7 +63,7 @@ namespace FishFlingers.UI
             _worldCanvas = Object.Instantiate(_config.WorldCanvasPrefab);
             _eventSystem = Object.Instantiate(_config.EventSystemPrefab);
 
-            _worldCanvas.worldCamera = _cameraManager.Camera;
+            _worldCanvas.worldCamera = _cameraManager.MainCamera;
 
             Object.DontDestroyOnLoad(_screenCanvas.gameObject);
             Object.DontDestroyOnLoad(_worldCanvas.gameObject);
@@ -166,15 +166,17 @@ namespace FishFlingers.UI
             ui.Hide(() => DestroyScreenUI(ui, layer));
         }
 
-        public void CreateWorldUI<T>(T prefab, Vector3 position) where T : WorldUI
+        public T CreateWorldUI<T>(T prefab, Vector3 position) where T : WorldUI
         {
             if (prefab == null)
             {
                 Debugger.LogError(this, $"Can't create a null WorldUI");
-                return;
+                return null;
             }
 
-            Object.Instantiate(prefab, _worldCanvas.transform);
+            T ui = Object.Instantiate(prefab, _worldCanvas.transform);
+            ui.Load(_worldCanvas);
+            return ui;
         }
 
         public void DestroyWorldUI(WorldUI ui)
@@ -190,6 +192,9 @@ namespace FishFlingers.UI
                 Debugger.LogError(this, $"Can't destroy WorldUI - it's not on the world canvas");
                 return;
             }
+
+            ui.Unload();
+            Object.Destroy(ui.gameObject);
         }
     }
 }

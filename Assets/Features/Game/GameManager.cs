@@ -1,5 +1,6 @@
 using FishFlingers.Scenes;
 using NUnit.Framework;
+using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using Steam;
@@ -105,7 +106,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (IGameSystem manager in _managers)
         {
-            manager.Update();
+            manager.Tick();
         }
     }
 
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (IGameSystem manager in _managers)
         {
-            manager.LateUpdate();
+            manager.LateTick();
         }
     }
 

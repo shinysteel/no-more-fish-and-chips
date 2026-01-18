@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+using FishFlingers.Environments;
+using FishFlingers.Scenes;
 using FishFlingers.UI;
 using ShinyOwl.Common;
-using FishFlingers.Environments;
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 using Object = UnityEngine.Object;
-using FishFlingers.Scenes;
 
 namespace FishFlingers.Pools
 {
@@ -115,6 +115,8 @@ namespace FishFlingers.Pools
             _container = new GameObject(ContainerName).transform;
             Object.DontDestroyOnLoad(_container.gameObject);
 
+            Debugger.Log(this, $"Scanner has {_config.PoolableScanner.Assets?.Length} assets");
+
             foreach (IPoolable poolable in _config.PoolableScanner.Assets)
             {
                 Register(poolable);   
@@ -132,7 +134,7 @@ namespace FishFlingers.Pools
 
             Type type = component.GetType();
 
-            Debugger.AssertIsFalse(_prefabRegistry.ContainsKey(type), this, "The same type was registered more than once");
+            Debugger.AssertIsFalse(_prefabRegistry.ContainsKey(type), this, $"The type {type} was registered more than once");
 
             _prefabRegistry[type] = prefab;
         }
@@ -142,7 +144,7 @@ namespace FishFlingers.Pools
         {
             if (!_prefabRegistry.TryGetValue(type, out IPoolable prefab))
             {
-                Debugger.LogError(this, "Tried to retrieve a poolable object with a type that is not registered");
+                Debugger.LogError(this, $"Tried to retrieve an unregistered poolable object with type {type}");
                 return null;
             }
 

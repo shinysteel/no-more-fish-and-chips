@@ -16,6 +16,14 @@ namespace FishFlingers.Entities
     }
 
     [Serializable]
+    public class LookSettings
+    {
+        [SerializeField] private float _speed = 50f;
+
+        public float Speed => _speed;
+    }
+
+    [Serializable]
     public class JumpSettings
     {
         [SerializeField] private float _strength = 4f;
@@ -49,17 +57,33 @@ namespace FishFlingers.Entities
         public float AscendDepthThreshold => _ascendDepthThreshold;
     }
 
+    [Serializable]
+    public class InteractSettings
+    {
+        [SerializeField] private LayerMask _mask;
+        [SerializeField] private float _radius = 1f;
+        [SerializeField] private float _maxAngle = 30f;
+
+        public LayerMask Mask => _mask;
+        public float Radius => _radius;
+        public float MaxAngle => _maxAngle;
+    }
+
     [CreateAssetMenu(fileName = "RaftPlayerData", menuName = "Data/Entities/Characters/RaftPlayerData")]
     public class RaftPlayerData : CharacterData
     {
         [SerializeField] private MoveSettings _moveSettings;
+        [SerializeField] private LookSettings _lookSettings;
         [SerializeField] private JumpSettings _jumpSettings;
         [SerializeField] private GroundDetectionSettings _groundDetectionSettings;
         [SerializeField] private SwimSettings _swimSettings;
+        [SerializeField] private InteractSettings _interactSettings;
 
         public MoveSettings MoveSettings => _moveSettings;
+        public LookSettings LookSettings => _lookSettings;
         public JumpSettings JumpSettings => _jumpSettings;
         public GroundDetectionSettings GroundDetectionSettings => _groundDetectionSettings;
         public SwimSettings SwimSettings => _swimSettings;
+        public InteractSettings InteractSettings => _interactSettings;
     }
 }

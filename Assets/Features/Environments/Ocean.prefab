@@ -50,7 +50,7 @@ MonoBehaviour:
   _boxCollider: {fileID: 6793918336966280118}
   _submergePercent: 0.5
   _verticalDrag: 1
-  _horizontalDrag: 20
+  _horizontalDrag: 5
   _currentSpeed: 0.25
 --- !u!65 &6793918336966280118
 BoxCollider:

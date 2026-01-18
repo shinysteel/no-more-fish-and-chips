@@ -18,14 +18,14 @@ namespace FishFlingers.UI
         public Canvas WorldCanvasPrefab => _worldCanvasPrefab;
         public EventSystem EventSystemPrefab => _eventSystemPrefab;
 
-        [Header("Screens")]
+        [Header("ScreenUI - Screens")]
         [SerializeField] private MainMenuScreen _mainMenuScreen;
         [SerializeField] private GameplayScreen _gameplayScreen;
 
         public MainMenuScreen MainMenuScreen => _mainMenuScreen;
         public GameplayScreen GameplayScreen => _gameplayScreen;
 
-        [Header("Panels")]
+        [Header("ScreenUI - Panels")]
         [SerializeField] private BrowseGamesPanel _browseGamesPanel;
         [SerializeField] private FishingBagPanel _fishingBagPanel;
         [SerializeField] private BuildingKitPanel _buildingKitPanel;
@@ -34,9 +34,13 @@ namespace FishFlingers.UI
         public FishingBagPanel FishingBagPanel => _fishingBagPanel;
         public BuildingKitPanel BuildingKitPanel => _buildingKitPanel;
 
-        [Header("Overlays")]
+        [Header("ScreenUI - Overlays")]
         [SerializeField] private FadeOverlay _fadeOverlay;
 
         public FadeOverlay FadeOverlay => _fadeOverlay;
+
+        [Header("WorldUI")]
+        [SerializeField] private InteractPromptUI _interactPromptUIPrefab;
+        public InteractPromptUI InteractPromptUIPrefab => _interactPromptUIPrefab;
     }
 }

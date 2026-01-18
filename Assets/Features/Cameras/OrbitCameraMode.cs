@@ -23,7 +23,7 @@ namespace FishFlingers.Cameras
             _timer = 0f;
         }
 
-        public void LateUpdate(Camera camera)
+        public void LateTick(Camera camera)
         {
             _timer += Time.deltaTime;
 

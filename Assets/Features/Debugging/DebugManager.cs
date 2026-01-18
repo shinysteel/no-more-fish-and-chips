@@ -14,12 +14,12 @@ namespace FishFlingers.Debugging
             _config = config.DebugManagerConfig;
         }
 
-        public override void Update()
+        public override void Tick()
         {
-            FastForwardUpdate();
+            FastForwardTick();
         }
 
-        private void FastForwardUpdate()
+        private void FastForwardTick()
         {
             Time.timeScale = Input.GetKey(KeyCode.Tab) ? _config.FastForwardTimeScale : 1f;
         }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4106272301743440281}
   - component: {fileID: 223877840483825889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1169346806378511443}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4254143874162092314}
   - component: {fileID: 3548396902253117155}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wing Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   - component: {fileID: 3685961245468713492}
   - component: {fileID: 8387476858833142541}
   - component: {fileID: 2770701438375219423}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eyelid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 6197310229604394342}
   - component: {fileID: 3156002658579279591}
   - component: {fileID: 195218440304264902}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 8523234636350808009}
   - component: {fileID: 1531802539619589347}
   - component: {fileID: 6871686497102461247}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FlyingFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,7 +547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3870967267477364702}
   - component: {fileID: 7631960219494251033}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wing Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 6413607823851860698}
   - component: {fileID: 4446838317428652357}
   - component: {fileID: 9153990052351095210}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}

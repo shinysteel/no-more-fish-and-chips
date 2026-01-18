@@ -16,9 +16,11 @@ namespace FishFlingers.States
 
     public enum EMainState
     {
-        None,
-        Menus,
-        Gameplay
+        // While the game is initialising, a none state is useful
+        None     , 
+
+        Menus    ,
+        Gameplay ,
     }
 
     public class StateManager : GameSystem<IStateManagerListener>, ISceneManagerListener
@@ -60,9 +62,9 @@ namespace FishFlingers.States
             base.Shutdown();
         }
 
-        public override void Update()
+        public override void Tick()
         {
-            _stateMachine.Update();
+            _stateMachine.Tick();
         }
 
         public void ChangeState(EMainState state)

@@ -1,3 +1,4 @@
+using ShinyOwl.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,34 +14,42 @@ namespace FishFlingers.UI
         [SerializeField] protected CanvasGroup _canvasGroup;
 
         protected Canvas _canvas;
-        protected bool _isVisible;
+        protected bool _isShowing;
+
+        protected bool _isTransitioning;
 
         public RectTransform RectTransform => _rectTransform;
         public Canvas Canvas => _canvas;
+
+        public bool IsShowing => _isShowing;
+        public bool IsVisible => gameObject.activeSelf;
 
         public virtual void Load(Canvas canvas)
         {
             _canvas = canvas;
         }
 
+        /// <summary>
+        /// Starts showing the element. If the element has an ongoing Show request, it will ignore further requests until done
+        /// </summary>
         public virtual void Show(Action onComplete)
         {
-            _uiAnimation.Show(new UIAnimationParams(SetIsVisible, onComplete, gameObject, _canvasGroup));
+            _isShowing = true;
+            _uiAnimation.Show(new UIAnimationParams(onComplete, gameObject, _canvasGroup));
         }
 
+        /// <summary>
+        /// Starts hiding the element. If the element has an ongoing Hide request, it will ignore further requests until done
+        /// </summary>
         public virtual void Hide(Action onComplete)
         {
-            _uiAnimation.Hide(new UIAnimationParams(SetIsVisible, onComplete, gameObject, _canvasGroup));
+            _isShowing = false;
+            _uiAnimation.Hide(new UIAnimationParams(onComplete, gameObject, _canvasGroup));
         }
 
         public virtual void Unload()
         {
             _canvas = null;
-        }
-
-        private void SetIsVisible(bool visible)
-        {
-            _isVisible = visible;
         }
     }
 }

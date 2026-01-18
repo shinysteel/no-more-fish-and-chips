@@ -7,7 +7,7 @@ namespace FishFlingers.Cameras
     public interface ICameraMode
     {
         void Enter(Camera camera);
-        void LateUpdate(Camera camera);
+        void LateTick(Camera camera);
         void Exit(Camera camera);
     }
 
@@ -18,8 +18,8 @@ namespace FishFlingers.Cameras
     {
         private CameraManagerConfig _config;
 
-        private Camera _camera;
-        public Camera Camera => _camera;
+        private Camera _mainCamera;
+        public Camera MainCamera => _mainCamera;
 
         private ICameraMode _mode;
 
@@ -27,23 +27,23 @@ namespace FishFlingers.Cameras
         {
             _config = config.CameraManagerConfig;
 
-            _camera = Object.Instantiate(_config.GameCameraPrefab);
+            _mainCamera = Object.Instantiate(_config.MainCameraPrefab);
 
-            Object.DontDestroyOnLoad(_camera.gameObject);
+            Object.DontDestroyOnLoad(_mainCamera.gameObject);
 
             base.Initialise(config);
         }
 
-        public override void LateUpdate()
+        public override void LateTick()
         {
-            _mode?.LateUpdate(_camera);
+            _mode?.LateTick(_mainCamera);
         }
 
         public void SetMode(ICameraMode mode)
         {
-            _mode?.Exit(_camera);
+            _mode?.Exit(_mainCamera);
             _mode = mode;
-            _mode?.Enter(_camera);
+            _mode?.Enter(_mainCamera);
         }
     }
 }

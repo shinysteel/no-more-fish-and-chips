@@ -10,4 +10,5 @@ public static class LayerNames
     public const string UI = "UI";
 
     public const string Player = "Player";
+    public const string Entity = "Entity";
 }

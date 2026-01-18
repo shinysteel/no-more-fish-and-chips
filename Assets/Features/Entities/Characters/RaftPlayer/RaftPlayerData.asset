@@ -20,13 +20,15 @@ MonoBehaviour:
     _speed: 2
     _acceleration: 10
     _deceleration: 7.5
+  _lookSettings:
+    _speed: 50
   _jumpSettings:
     _strength: 4
     _cooldown: 0.1
   _groundDetectionSettings:
     _mask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 129
     _castRadius: 0.125
     _castDist: 0.05
   _swimSettings:
@@ -35,3 +37,9 @@ MonoBehaviour:
       m_Bits: 16
     _ascendStrength: 30
     _ascendDepthThreshold: 0.25
+  _interactSettings:
+    _mask:
+      serializedVersion: 2
+      m_Bits: 128
+    _radius: 1
+    _maxAngle: 30

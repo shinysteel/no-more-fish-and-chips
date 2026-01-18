@@ -21,3 +21,4 @@ MonoBehaviour:
   _fishingBagPanel: {fileID: 8117997859085951373, guid: b1738a99c502e7943a156b42483f29db, type: 3}
   _buildingKitPanel: {fileID: 1675682817760424064, guid: adc87e0ae4df5bf48a642af17ff5c542, type: 3}
   _fadeOverlay: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}
+  _interactPromptUIPrefab: {fileID: 4809291724522747272, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}

@@ -84,7 +84,7 @@ namespace FishFlingers.UI
 
         private void AutoSearchUpdate()
         {
-            if (!_isVisible)
+            if (!_isShowing)
             {
                 return;
             }
