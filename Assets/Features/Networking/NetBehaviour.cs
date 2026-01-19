@@ -3,6 +3,7 @@ using PurrNet;
 using FishFlingers.Entities;
 using FishFlingers.Items;
 using FishFlingers.Cameras;
+using FishFlingers.UI;
 
 namespace FishFlingers.Networking
 {
@@ -13,6 +14,7 @@ namespace FishFlingers.Networking
         protected LobbyManager _lobbyManager;
         protected ItemManager _itemManager;
         protected CameraManager _cameraManager;
+        protected UIManager _uiManager;
 
         protected override void OnInitializeModules()
         {
@@ -21,6 +23,7 @@ namespace FishFlingers.Networking
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
         }
 
         protected override void OnSpawned()

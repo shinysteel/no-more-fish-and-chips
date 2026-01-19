@@ -9,8 +9,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using PurrNet;
 using FishFlingers.States;
-
-using Random = UnityEngine.Random;
+using FishFlingers.UI;
 
 namespace FishFlingers.Entities
 {
@@ -21,18 +20,22 @@ namespace FishFlingers.Entities
         [SerializeField] private Inventory _inventoryPrefab;
         [SerializeField] private BoolGrid _inventoryLayout;
 
+        private InputLogic _inputLogic;
         private PhysicsLogic _physicsLogic;
         private InteractLogic _interactLogic;
 
         private Inventory _inventory;
         public Inventory Inventory => _inventory;
 
+        public bool CanAct => _uiManager.IsLayerEmpty(UILayer.Panels);
+
         protected override void OnSpawned()
         {
             base.OnSpawned();
 
-            _physicsLogic = new PhysicsLogic(this, _capsuleCollider);
-            _interactLogic = new InteractLogic(this);
+            _inputLogic = new InputLogic(this);
+            _physicsLogic = new PhysicsLogic(this, _inputLogic, _capsuleCollider);
+            _interactLogic = new InteractLogic(this, _inputLogic);
 
             if (!isOwner)
             {
@@ -60,6 +63,12 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            if (!isOwner)
+            {
+                return;
+            }
+
+            _inputLogic.Tick();
             _physicsLogic.Tick();
             _interactLogic.Tick();
         }
@@ -67,6 +76,11 @@ namespace FishFlingers.Entities
         private void FixedUpdate()
         {
             if (!isFullySpawned)
+            {
+                return;
+            }
+
+            if (!isOwner)
             {
                 return;
             }

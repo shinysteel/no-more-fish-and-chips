@@ -11,44 +11,32 @@ namespace FishFlingers.Entities
         private CameraManager _cameraManager;
 
         private RaftPlayer _player;
+        private InputLogic _inputLogic;
         private CapsuleCollider _capsuleCollider;
 
-        private Vector2 _directionInput;
         private float _jumpTimer;
-        private bool _jumpInput;
         private bool _jumpRequest;
         private bool _isGrounded;
-        private bool _ascendInput;
 
         private RaycastHit[] _groundedHitsNonAlloc = new RaycastHit[5];
         private Collider[] _swimCollidersNonAlloc = new Collider[1];
 
-        public PhysicsLogic(RaftPlayer player, CapsuleCollider capsuleCollider)
+        public PhysicsLogic(RaftPlayer player, InputLogic inputLogic, CapsuleCollider capsuleCollider)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
 
-            _player = player;       
+            _player = player;
+            _inputLogic = inputLogic;
             _capsuleCollider = capsuleCollider;
         }
 
         public void Tick()
         {
-            if (!_player.isOwner)
-            {
-                return;
-            }
-
-            InputTick();
             JumpTick();
         }
 
         public void FixedTick()
         {
-            if (!_player.isOwner)
-            {
-                return;
-            }
-
             MoveFixedTick();
             LookFixedTick();
             JumpFixedTick();
@@ -56,21 +44,11 @@ namespace FishFlingers.Entities
             SwimFixedTick();
         }
 
-        private void InputTick()
-        {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
-            _directionInput = Vector2.ClampMagnitude(new Vector2(horizontal, vertical), 1f);
-
-            _jumpInput = Input.GetKeyDown(KeyCode.Space);
-            _ascendInput = Input.GetKey(KeyCode.Space);
-        }
-
         private void JumpTick()
         {
             _jumpTimer += Time.deltaTime;
 
-            if (!_jumpInput)
+            if (!_inputLogic.Jump)
             {
                 return;
             }
@@ -91,7 +69,7 @@ namespace FishFlingers.Entities
 
         private void MoveFixedTick()
         {
-            Vector3 moveDirection = new Vector3(_directionInput.x, 0f, _directionInput.y);
+            Vector3 moveDirection = new Vector3(_inputLogic.Direction.x, 0f, _inputLogic.Direction.y);
             Vector3 targetVelocity = moveDirection * _player.Data.MoveSettings.Speed;
             targetVelocity.y = _player.Rigidbody.linearVelocity.y;
             float speed = moveDirection != Vector3.zero ? _player.Data.MoveSettings.Acceleration : _player.Data.MoveSettings.Deceleration;
@@ -101,7 +79,7 @@ namespace FishFlingers.Entities
 
         private void LookFixedTick()
         {
-            Ray ray = _cameraManager.MainCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_inputLogic.Mouse);
 
             // Have the plane sit at the player's origin so that y does not influence the target
             Plane plane = new Plane(Vector3.up, _player.transform.position);
@@ -144,7 +122,7 @@ namespace FishFlingers.Entities
         private void SwimFixedTick()
         {
             // While swimming, the player can hold spacebar to propel themselves up
-            if (!_ascendInput)
+            if (!_inputLogic.Ascend)
             {
                 return;
             }

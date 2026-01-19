@@ -16,6 +16,7 @@ namespace FishFlingers.Entities
         private UIManager _uiManager;
 
         private RaftPlayer _player;
+        private InputLogic _inputLogic;
 
         private StateMachine<EState> _uiStateMachine;
 
@@ -178,11 +179,12 @@ namespace FishFlingers.Entities
             }
         }
 
-        public InteractLogic(RaftPlayer player)
+        public InteractLogic(RaftPlayer player, InputLogic inputLogic)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 
             _player = player;
+            _inputLogic = inputLogic;
 
             _uiStateMachine = new();
 
@@ -204,11 +206,6 @@ namespace FishFlingers.Entities
 
         public void Tick()
         {
-            if (!_player.isOwner)
-            {
-                return;
-            }
-
             _targetInteractable = FindTarget();
 
             _uiStateMachine.Tick();
@@ -299,7 +296,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (_inputLogic.Interact)
             {
                 _targetInteractable.Interact();
             }

@@ -166,6 +166,11 @@ namespace FishFlingers.UI
             ui.Hide(() => DestroyScreenUI(ui, layer));
         }
 
+        public bool IsLayerEmpty(UILayer layer)
+        {
+            return _layerContainers[(int)layer].childCount == 0;
+        }
+
         public T CreateWorldUI<T>(T prefab, Vector3 position) where T : WorldUI
         {
             if (prefab == null)

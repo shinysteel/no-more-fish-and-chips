@@ -21,7 +21,7 @@ MonoBehaviour:
     _acceleration: 10
     _deceleration: 7.5
   _lookSettings:
-    _speed: 50
+    _speed: 10
   _jumpSettings:
     _strength: 4
     _cooldown: 0.1
