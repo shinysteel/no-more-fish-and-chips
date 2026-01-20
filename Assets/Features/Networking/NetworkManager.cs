@@ -16,6 +16,9 @@ using System;
 using FishFlingers.Scenes;
 
 using Object = UnityEngine.Object;
+using PurrNet.Packing;
+using FishFlingers.Inventories;
+using FishFlingers.Environments;
 
 namespace FishFlingers.Networking
 {
@@ -69,6 +72,12 @@ namespace FishFlingers.Networking
 
             // Remove this and let other scripts request
             SetClientTransport<UDPTransport>();
+
+            // Haven't figured out how to auto-register custom classes that inherit from
+            // any SyncCollection class, so at least for now we just have to do that here manually
+            PackCollections.RegisterDictionary<Vector2Int, NetTile>();
+            PackCollections.RegisterDictionary<Vector2Int, NetInventorySlot>();
+            PackCollections.RegisterDictionary<string, NetInventoryItem>();
 
             base.Initialise(config);
         }

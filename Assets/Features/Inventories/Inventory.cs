@@ -9,6 +9,7 @@ using UnityEngine;
 using FishFlingers.Items;
 using System;
 using System.Linq;
+using PrimeTween;
 
 namespace FishFlingers.Inventories
 {
@@ -147,8 +148,8 @@ namespace FishFlingers.Inventories
 
     public class Inventory : NetBehaviour, IEnumerable<KeyValuePair<Vector2Int, NetInventorySlot>>
     {
-        private SyncDictionary<Vector2Int, NetInventorySlot> _netInventorySlots = new(ownerAuth: true);
-        private SyncDictionary<string, NetInventoryItem> _netInventoryItems = new(ownerAuth: true);
+        private SyncDictionaryWrapper<Vector2Int, NetInventorySlot> _netInventorySlots = new(ownerAuth: true);
+        private SyncDictionaryWrapper<string, NetInventoryItem> _netInventoryItems = new(ownerAuth: true);
 
         private Dictionary<Vector2Int, InventorySlot> _inventorySlots = new();
         private Dictionary<string, InventoryItem> _inventoryItems = new();
@@ -170,17 +171,19 @@ namespace FishFlingers.Inventories
         public void Initialise(BoolGrid layout)
         {
             _layout = layout;
+        }
 
+        protected override void OnSpawned()
+        {
             _netInventorySlots.onChanged += HandleNetInventorySlotsChanged;
             _netInventoryItems.onChanged += HandleNetInventoryItemsChanged;
 
-            if (isServer)
+            if (!isOwner)
             {
-                PopulateSlots();
                 return;
             }
 
-            _netInventorySlots.onChanged += PopulateSlotsClient;
+            PopulateSlots();            
         }
 
         protected override void OnDespawned()
@@ -190,27 +193,12 @@ namespace FishFlingers.Inventories
             if (_netInventorySlots != null)
             {
                 _netInventorySlots.onChanged -= HandleNetInventorySlotsChanged;
-                _netInventorySlots.onChanged -= PopulateSlotsClient;
             }
 
             if (_netInventoryItems != null)
             {
                 _netInventoryItems.onChanged -= HandleNetInventoryItemsChanged;
             }
-        }
-
-        private void PopulateSlotsClient(SyncDictionaryChange<Vector2Int, NetInventorySlot> change)
-        {
-            // For some reason, SyncDictionaries spawned by clients will wipe any changes until the 
-            // server has networked it to the session and sent an initial clear operation
-            if (change.operation != SyncDictionaryOperation.Cleared)
-            {
-                return;
-            }
-
-            PopulateSlots();
-
-            _netInventorySlots.onChanged -= PopulateSlotsClient;
         }
 
         private void PopulateSlots()

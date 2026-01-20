@@ -4,6 +4,7 @@ using FishFlingers.Entities;
 using FishFlingers.Items;
 using FishFlingers.Cameras;
 using FishFlingers.UI;
+using ShinyOwl.Common;
 
 namespace FishFlingers.Networking
 {
@@ -18,6 +19,8 @@ namespace FishFlingers.Networking
 
         protected override void OnInitializeModules()
         {
+            Debugger.Log(this, $"{name} OnInitializeModules");
+            
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();

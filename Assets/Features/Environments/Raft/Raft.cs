@@ -13,13 +13,30 @@ using FishFlingers.Scenes;
 
 namespace FishFlingers.Environments
 {
+    public class NetTile
+    {
+        public int Health { get; private set; }
+
+        public const int MaxHealth = 3;
+
+        public NetTile(int health)
+        {
+            SetHealth(health);
+        }
+
+        public void SetHealth(int health)
+        {
+            Health = Mathf.Clamp(health, 0, MaxHealth);
+        }
+    }
+
     public partial class Raft : NetBehaviour
     {
         [SerializeField] private Transform _tilesContainer;
 
         private GameplayContext _context;
 
-        private SyncDictionary<Vector2Int, NetTile> _netTiles = new();
+        private SyncDictionaryWrapper<Vector2Int, NetTile> _netTiles = new();
 
         private Dictionary<Vector2Int, RaftTile> _tiles = new();
 
@@ -36,23 +53,6 @@ namespace FishFlingers.Environments
         public int BackmostRow => _backmostRow;
         public int RightmostColumn => _rightmostColumn;
         public int LeftmostColumn => _leftmostColumn;
-
-        public class NetTile
-        {
-            public int Health { get; private set; }
-
-            public const int MaxHealth = 3;
-
-            public NetTile(int health)
-            {
-                SetHealth(health);
-            }
-
-            public void SetHealth(int health)
-            {
-                Health = Mathf.Clamp(health, 0, MaxHealth);
-            }
-        }
 
         protected override void OnSpawned()
         {
