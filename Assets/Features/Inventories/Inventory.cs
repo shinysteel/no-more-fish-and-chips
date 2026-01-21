@@ -450,17 +450,36 @@ namespace FishFlingers.Inventories
                 }
             }
 
-            // Check empty slots
-            if (overflow > 0)
+            HashSet<Vector2Int> placedCells = new();
+            void AddPlacedCells(Vector2Int pivot, BoolGrid shape)
             {
-                foreach (KeyValuePair<Vector2Int, NetInventorySlot> kvp in _netInventorySlots)
+                foreach (KeyValuePair<Vector2Int, bool> shapeKvp in shape)
                 {
-                    if (kvp.Value.ItemInstanceId != null)
+                    if (!shapeKvp.Value)
                     {
                         continue;
                     }
 
-                    if (!CanPlaceItems(kvp.Key, itemId, overflow, out overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change))
+                    placedCells.Add(pivot + shapeKvp.Key);
+                }
+            }
+
+            // Check empty slots
+            if (overflow > 0)
+            {
+                foreach (KeyValuePair<Vector2Int, NetInventorySlot> slotKvp in _netInventorySlots)
+                {
+                    if (slotKvp.Value.ItemInstanceId != null)
+                    {
+                        continue;
+                    }
+
+                    if (placedCells.Contains(slotKvp.Key))
+                    {
+                        continue;
+                    }
+
+                    if (!CanPlaceItems(slotKvp.Key, itemId, overflow, out overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change))
                     {
                         continue;
                     }
@@ -468,6 +487,7 @@ namespace FishFlingers.Inventories
                     if (place.IsValid)
                     {
                         places.Add(place);
+                        AddPlacedCells(place.Pivot, place.Shape);
                     }
 
                     if (change.IsValid)
