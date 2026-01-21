@@ -1,15 +1,18 @@
+using FishFlingers.Items;
 using FishFlingers.Networking;
+using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
-using FishFlingers.Items;
-using System;
 using System.Linq;
-using PrimeTween;
+using System.Threading.Tasks;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
+using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 namespace FishFlingers.Inventories
 {
@@ -40,61 +43,117 @@ namespace FishFlingers.Inventories
             Rotations = rotations;
         }
 
-        public bool TryAddCount(int amount, out int overflow)
+        public bool CanAddCount(int amount, out int overflow, out NetInventoryItemsChange change)
         {
-            ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
-            ItemData data = itemManager.GetItemData(ItemId);
+            overflow = amount;
+            change = default;
 
             // Guard against invalid adds
             if (amount <= 0)
             {
-                overflow = amount;
                 return false;
             }
+
+            ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
+            ItemData data = itemManager.GetItemData(ItemId);
 
             // Check for remaining space
             int remainingSpace = data.MaxStack - Count;
             if (remainingSpace == 0)
             {
-                overflow = amount;
                 return false;
             }
+
+            int changeAmount;
 
             // Add in mind of remaining space
             if (amount <= remainingSpace)
             {
-                Count += amount;
+                changeAmount = amount;
                 overflow = 0;
             }
             else
             {
-                Count = data.MaxStack;
+                changeAmount = remainingSpace;
                 overflow = amount - remainingSpace;
             }
+
+            change = new NetInventoryItemsChange(ItemInstanceId, changeAmount);
 
             return true;
         }
 
-        public bool TryRemoveCount(int amount, out int remaining)
+        public bool CanRemoveCount(int amount, out int remaining, out NetInventoryItemsChange change)
         {
             if (amount <= 0)
             {
                 remaining = amount;
+                change = default;
                 return false;
             }
 
+            int changeAmount;
+
             if (Count > amount)
             {
-                Count -= amount;
+                changeAmount = -amount;
                 remaining = 0;
             }
             else
             {
+                changeAmount = -Count;
                 remaining = amount - Count;
-                Count = 0;
             }
 
+            change = new NetInventoryItemsChange(ItemInstanceId, changeAmount);
+
             return true;
+        }
+
+        public void ChangeCount(int amount)
+        {
+            ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
+            ItemData data = itemManager.GetItemData(ItemId);
+
+            Count += amount;
+            Count = Mathf.Clamp(Count, 0, data.MaxStack);
+        }
+    }
+
+    // Instructions to change the count of a NetInventoryItem
+    public readonly struct NetInventoryItemsChange
+    {
+        // Readonly makes the struct immutable internally, and Get; makes the struct immutable externally
+        public string InstanceId { get; }
+        public int Amount { get; }
+
+        public bool IsValid => InstanceId != null && Amount != 0;
+
+        public NetInventoryItemsChange(string instanceId, int amount)
+        {
+            InstanceId = instanceId;
+            Amount = amount;
+        }
+    }
+
+    // Instructions to place a NetInventoryItem
+    public readonly struct NetInventoryItemsPlace
+    {
+        public ItemId ItemId { get; }
+        public int Amount { get; }
+        public Vector2Int Pivot { get; }
+        public int Rotations { get; }
+        public BoolGrid Shape { get; }
+
+        public bool IsValid => Amount > 0;
+
+        public NetInventoryItemsPlace(ItemId itemId, int amount, Vector2Int pivot, int rotations, BoolGrid shape)
+        {
+            ItemId = itemId;
+            Amount = amount;
+            Pivot = pivot;
+            Rotations = rotations;
+            Shape = shape;
         }
     }
 
@@ -168,11 +227,6 @@ namespace FishFlingers.Inventories
         public delegate void InventoryItemChangedDelegate(string instanceId, InventoryItem inventoryItem);
         public event InventoryItemChangedDelegate OnInventoryItemChanged;
 
-        public void SetLayout(BoolGrid layout)
-        {
-            _layout = layout;
-        }
-
         protected override void OnSpawned()
         {
             base.OnSpawned();
@@ -201,6 +255,11 @@ namespace FishFlingers.Inventories
             {
                 _netInventoryItems.onChanged -= HandleNetInventoryItemsChanged;
             }
+        }
+
+        public void SetLayout(BoolGrid layout)
+        {
+            _layout = layout;
         }
 
         private void PopulateSlots()
@@ -272,29 +331,102 @@ namespace FishFlingers.Inventories
         /// Tries to add the given count of an item to the inventory. Will first add to matches,
         /// and then place new instances
         /// </summary>
-        /// <param name="itemId">The item's id</param>
-        /// <param name="amount">The amount to add</param>
-        /// <param name="overflow">The remaining amount</param>
-        /// <returns>True if any was added, false if none was added</returns>
-        public bool TryAddItems(ItemId itemId, int amount, out int overflow)
+        public bool TryAddItems(ItemId itemId, int amount)
         {
-            overflow = amount;
-
             if (!isOwner)
             {
                 Debugger.LogError(this, "Tried to add items without being the owner");
                 return false;
             }
 
+            if (!CanAddItems(itemId, amount, out HashSet<NetInventoryItemsChange> changes, out HashSet<NetInventoryItemsPlace> places))
+            {
+                return false;
+            }
+
+            foreach (NetInventoryItemsChange change in changes)
+            {
+                ProcessNetInventoryItemsChange(change);
+            }
+
+            foreach (NetInventoryItemsPlace place in places)
+            {
+                ProcessNetInventoryItemsPlace(place);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Tries to add the given count of an item to a slot. If an item is already there, tries to
+        /// add to it. If not, tries to fit by rotating around the pivot
+        /// </summary>
+        public bool TryPlaceItems(Vector2Int pivot, ItemId itemId, int amount)
+        {
+            if (!isOwner)
+            {
+                Debugger.LogError(this, "Tried to place items without being the owner");
+                return false;
+            }
+
+            if (!CanPlaceItems(pivot, itemId, amount, out int overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change) || overflow > 0)
+            {
+                return false;
+            }
+
+            if (place.IsValid)
+            {
+                ProcessNetInventoryItemsPlace(place);
+            }
+
+            if (change.IsValid)
+            {
+                ProcessNetInventoryItemsChange(change);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Tries to remove the given count of an item from the invenotry
+        /// </summary>
+        public bool TryRemoveItems(ItemId itemId, int amount)
+        {
+            if (!isOwner)
+            {
+                Debugger.LogError(this, "Tried to remove items without being the owner");
+                return false;
+            }
+
+            if (!CanRemoveItems(itemId, amount, out HashSet<NetInventoryItemsChange> changes))
+            {
+                return false;
+            }
+
+            foreach (NetInventoryItemsChange change in changes)
+            {
+                ProcessNetInventoryItemsChange(change);
+            }
+
+            return true;
+        }
+
+        private bool CanAddItems(ItemId itemId, int amount, out HashSet<NetInventoryItemsChange> changes, out HashSet<NetInventoryItemsPlace> places)
+        {
+            changes = new();
+            places = new();
+
             ItemData data = _itemManager.GetItemData(itemId);
 
             if (data == null || amount <= 0)
             {
-                Debugger.LogError(this, "Tried to add invalid items");
+                Debugger.LogError(this, "Checked if invalid items can be added");
                 return false;
             }
 
-            // Add to matching instances
+            int overflow = amount;
+
+            // Check matching instances
             if (data.MaxStack > 1)
             {
                 foreach (NetInventoryItem netInventoryItem in _netInventoryItems.Values)
@@ -304,85 +436,81 @@ namespace FishFlingers.Inventories
                         continue;
                     }
 
-                    if (!netInventoryItem.TryAddCount(overflow, out overflow))
+                    if (!netInventoryItem.CanAddCount(overflow, out overflow, out NetInventoryItemsChange change))
                     {
                         continue;
                     }
 
-                    _netInventoryItems.SetDirty(netInventoryItem.ItemInstanceId);
+                    changes.Add(change);
 
                     if (overflow == 0)
                     {
-                        return true;
-                    }                    
+                        break;
+                    }
                 }
             }
 
-            // Add to empty slots
-            foreach (KeyValuePair<Vector2Int, NetInventorySlot> kvp in _netInventorySlots)
+            // Check empty slots
+            if (overflow > 0)
             {
-                if (kvp.Value.ItemInstanceId != null)
+                foreach (KeyValuePair<Vector2Int, NetInventorySlot> kvp in _netInventorySlots)
                 {
-                    continue;
-                }
+                    if (kvp.Value.ItemInstanceId != null)
+                    {
+                        continue;
+                    }
 
-                if (TryPlaceItems(kvp.Key, itemId, overflow, out overflow) && overflow == 0)
-                {
-                    return true;
+                    if (!CanPlaceItems(kvp.Key, itemId, overflow, out overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change))
+                    {
+                        continue;
+                    }
+
+                    if (place.IsValid)
+                    {
+                        places.Add(place);
+                    }
+
+                    if (change.IsValid)
+                    {
+                        changes.Add(change);
+                    }
+
+                    if (overflow == 0)
+                    {
+                        break;
+                    }
                 }
             }
 
-            return overflow < amount;
+            return overflow == 0;
         }
 
-        /// <summary>
-        /// Tries to add the given count of an item to a slot. If an item is already there, tries to
-        /// add to it. If not, tries to fit by rotating around the pivot
-        /// </summary>
-        /// <param name="pivot">The cell to rotate around</param>
-        /// <param name="itemId">The item's id</param>
-        /// <param name="amount">The amount to add</param>
-        /// <param name="overflow">The remaining amount</param>
-        /// <returns>True if any was added, false if none was added</returns>
-        public bool TryPlaceItems(Vector2Int pivot, ItemId itemId, int amount, out int overflow)
+        // Placing can result in either a place or change, depending on if the pivot is occupied or not
+        private bool CanPlaceItems(Vector2Int pivot, ItemId itemId, int amount, out int overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change)
         {
             overflow = amount;
-
-            if (!isOwner)
-            {
-                Debugger.LogError(this, "Tried to place items without being the owner");
-                return false;
-            }
+            place = default;
+            change = default;
 
             ItemData data = _itemManager.GetItemData(itemId);
 
-            if (data == null || amount <= 0)
+            if (data == null || amount <= 0 || amount > data.MaxStack)
             {
-                Debugger.LogError(this, "Tried to place invalid items");
+                Debugger.LogError(this, "Checked if invalid items can be placed");
                 return false;
             }
 
-            // Early check if the pivot exists
+            // Check if the pivot exists
             if (!_netInventorySlots.TryGetValue(pivot, out NetInventorySlot pivotSlot))
             {
                 return false;
             }
 
-            // If an instance is already occupying the pivot, try add to it
+            // Check if the pivot is occupied. If so, check if we can add to it
             if (pivotSlot.ItemInstanceId != null)
             {
                 NetInventoryItem netInventoryItem = _netInventoryItems[pivotSlot.ItemInstanceId];
-
-                if (netInventoryItem.ItemId == itemId)
-                {
-                    bool result = netInventoryItem.TryAddCount(amount, out overflow);
-                    _netInventoryItems.SetDirty(pivotSlot.ItemInstanceId);
-                    return result;
-                }
-                else
-                {
-                    return false;
-                }
+                return netInventoryItem.ItemId == itemId && netInventoryItem.CanAddCount(amount, out overflow, out change);
             }
 
             BoolGrid placeShape = null;
@@ -403,7 +531,7 @@ namespace FishFlingers.Inventories
                     }
 
                     if (slot.ItemInstanceId != null)
-                    { 
+                    {
                         fits = false;
                         break;
                     }
@@ -421,77 +549,108 @@ namespace FishFlingers.Inventories
                 return false;
             }
 
-            // Place the items
-            int count = Mathf.Min(amount, data.MaxStack);
-            NetInventoryItem newNetInventoryItem = new NetInventoryItem(_itemManager.GetNextItemInstanceId(), itemId, count, pivot, rotations);
-            _netInventoryItems.Add(newNetInventoryItem.ItemInstanceId, newNetInventoryItem);
+            int placeAmount = Mathf.Min(amount, data.MaxStack);
 
-            foreach (KeyValuePair<Vector2Int, bool> kvp in placeShape)
-            {
-                if (!kvp.Value)
-                {
-                    continue;
-                }
+            overflow -= placeAmount;
+            place = new NetInventoryItemsPlace(itemId, placeAmount, pivot, rotations, placeShape);
 
-                _netInventorySlots[pivot + kvp.Key].SetItemInstanceId(newNetInventoryItem.ItemInstanceId);
-            }
-
-            overflow = amount - count;
-            return true;            
+            return true;
         }
 
-        public bool TryRemoveItems(ItemId itemId, int amount, out int remaining)
+        private bool CanRemoveItems(ItemId itemId, int amount, out HashSet<NetInventoryItemsChange> changes)
         {
-            remaining = amount;
-
+            changes = new();
+            
             ItemData data = _itemManager.GetItemData(itemId);
 
             if (data == null || amount <= 0)
             {
-                Debugger.LogError(this, "Tried to remove invalid items");
+                Debugger.LogError(this, "Checked if invalid items can be removed");
                 return false;
             }
 
-            // You can't modify a collection while enumerating it - use .ToArray
-            foreach (NetInventoryItem netInventoryItem in _netInventoryItems.Values.ToArray())
+            int remaining = amount;
+
+            foreach (NetInventoryItem netInventoryItem in _netInventoryItems.Values)
             {
                 if (netInventoryItem.ItemId != itemId)
                 {
                     continue;
                 }
 
-                if (!netInventoryItem.TryRemoveCount(remaining, out remaining))
+                if (!netInventoryItem.CanRemoveCount(remaining, out remaining, out NetInventoryItemsChange change))
                 {
                     continue;
                 }
-                
-                if (netInventoryItem.Count > 0)
-                {
-                    _netInventoryItems.SetDirty(netInventoryItem.ItemInstanceId);
-                }
-                else
-                {
-                    // Clear all inventory slots it was on
-                    foreach (KeyValuePair<Vector2Int, bool> kvp in data.Shape.GetRotated(netInventoryItem.Rotations))
-                    {
-                        if (!kvp.Value)
-                        {
-                            continue;
-                        }
 
-                        _netInventorySlots[netInventoryItem.Pivot + kvp.Key].SetItemInstanceId(null);
-                    }
-
-                    _netInventoryItems.Remove(netInventoryItem.ItemInstanceId);
-                }
+                changes.Add(change);
 
                 if (remaining == 0)
                 {
-                    return true;
+                    break;
                 }
             }
 
-            return remaining < amount;
+            return remaining == 0;
+        }
+
+        private void ProcessNetInventoryItemsChange(NetInventoryItemsChange change)
+        {
+            if (!change.IsValid)
+            {
+                Debugger.LogError(this, "Tried to process an invalid change");
+                return;
+            }
+
+            NetInventoryItem item = _netInventoryItems[change.InstanceId];
+            ItemData data = _itemManager.GetItemData(item.ItemId);
+
+            item.ChangeCount(change.Amount);
+
+            if (item.Count > 0)
+            {
+                _netInventoryItems.SetDirty(item.ItemInstanceId);
+            }
+            else
+            {
+                // Clear all inventory slots it was on
+                foreach (KeyValuePair<Vector2Int, bool> kvp in data.Shape.GetRotated(item.Rotations))
+                {
+                    if (!kvp.Value)
+                    {
+                        continue;
+                    }
+
+                    _netInventorySlots[item.Pivot + kvp.Key].SetItemInstanceId(null);
+                }
+
+                _netInventoryItems.Remove(item.ItemInstanceId);
+            }
+        }
+
+        private void ProcessNetInventoryItemsPlace(NetInventoryItemsPlace place)
+        {
+            if (!place.IsValid)
+            {
+                Debugger.LogError(this, "Tried to process an invalid place");
+                return;
+            }
+
+            ItemData data = _itemManager.GetItemData(place.ItemId);
+
+            // Place the items
+            NetInventoryItem newNetInventoryItem = new NetInventoryItem(_itemManager.GetNextItemInstanceId(), place.ItemId, place.Amount, place.Pivot, place.Rotations);
+            _netInventoryItems.Add(newNetInventoryItem.ItemInstanceId, newNetInventoryItem);
+
+            foreach (KeyValuePair<Vector2Int, bool> kvp in place.Shape)
+            {
+                if (!kvp.Value)
+                {
+                    continue;
+                }
+
+                _netInventorySlots[place.Pivot + kvp.Key].SetItemInstanceId(newNetInventoryItem.ItemInstanceId);
+            }
         }
 
         public IEnumerator<KeyValuePair<Vector2Int, NetInventorySlot>> GetEnumerator()

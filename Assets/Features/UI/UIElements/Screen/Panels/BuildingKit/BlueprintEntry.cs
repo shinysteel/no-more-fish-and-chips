@@ -59,7 +59,7 @@ namespace FishFlingers.UI
         {
             foreach (RecipeRequirement requirement in _data.Recipe.Requirements)
             {
-                _context.LocalPlayer.Inventory.TryRemoveItems(requirement.ItemId, requirement.Count, out _);
+                _context.LocalPlayer.Inventory.TryRemoveItems(requirement.ItemId, requirement.Count);
             }
         }
 

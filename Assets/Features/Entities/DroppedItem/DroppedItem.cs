@@ -31,8 +31,10 @@ namespace FishFlingers.Entities
 
         public void Interact()
         {
-            _context.LocalPlayer.Inventory.TryAddItems(_itemId, _count, out _);
-            _networkManager.Despawn(this);
+            if (_context.LocalPlayer.Inventory.TryAddItems(_itemId, _count))
+            {
+                _networkManager.Despawn(this);
+            }
         }
     }
 }

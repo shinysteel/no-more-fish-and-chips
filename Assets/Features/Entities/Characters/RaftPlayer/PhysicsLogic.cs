@@ -18,7 +18,7 @@ namespace FishFlingers.Entities
         private bool _jumpRequest;
         private bool _isGrounded;
 
-        private RaycastHit[] _groundedHitsNonAlloc = new RaycastHit[5];
+        private RaycastHit[] _groundedHitsNonAlloc = new RaycastHit[2];
         private Collider[] _swimCollidersNonAlloc = new Collider[1];
 
         public PhysicsLogic(RaftPlayer player, InputLogic inputLogic, CapsuleCollider capsuleCollider)
