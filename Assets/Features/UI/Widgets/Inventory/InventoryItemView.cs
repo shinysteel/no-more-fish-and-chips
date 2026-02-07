@@ -1,5 +1,6 @@
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
+using FishFlingers.States;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using System.Linq;
@@ -14,50 +15,32 @@ namespace FishFlingers.UI
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _itemImage;
         [SerializeField] private TMP_Text _countText;
-        [SerializeField] private Button _button;
 
         private InventoryWidget _inventoryWidget;
         private InventoryItem _inventoryItem;
 
-        private void Awake()
-        {
-            _button.onClick.AddListener(Pressed);
-        }
-
-        private void Pressed()
-        {
-            _inventoryWidget.Inventory.RemoveItem(_inventoryItem.ItemInstance.InstanceId);
-        }
+        public InventoryWidget InventoryWidget => _inventoryWidget;
+        public InventoryItem InventoryItem => _inventoryItem;
 
         public void Setup(InventoryWidget inventoryWidget, InventoryItem inventoryItem)
         {
             _inventoryWidget = inventoryWidget;
             _inventoryItem = inventoryItem;
 
-            SetupCountText();
-            SetupItemImage();
+            UpdateView();
         }
 
-        private void SetupCountText()
+        // View is implied, but the method Update is taken by Monobehaviour
+        public void UpdateView()
         {
-            // Count
-            _countText.text = _inventoryItem.ItemInstance.Count.ToString();
-
-            // Place at the bottom-right
-            Vector2Int cell = _inventoryItem.Shape
-                .Where(kvp => kvp.Value == true)
-                .OrderBy(kvp => kvp.Key.y)
-                .ThenByDescending(kvp => kvp.Key.x)
-                .First()
-                .Key;
-            
-            _countText.rectTransform.anchoredPosition = cell * _rectTransform.sizeDelta;
+            SetupItemImage();
+            SetupCountText();
         }
 
         private void SetupItemImage()
         {
             // Size
-            _rectTransform.sizeDelta = Vector2.one * _inventoryWidget.SlotSize;
+            _rectTransform.sizeDelta = _inventoryWidget.SlotSize;
 
             _itemImage.rectTransform.anchorMax = new Vector2(
                 _inventoryItem.Rotations % 2 == 0 ? _inventoryItem.Shape.Columns : _inventoryItem.Shape.Rows,
@@ -76,6 +59,22 @@ namespace FishFlingers.UI
 
             // Sprite
             _itemImage.sprite = _inventoryItem.ItemInstance.Data.Sprite;
+        }
+
+        private void SetupCountText()
+        {
+            // Count
+            _countText.text = _inventoryItem.ItemInstance.Count.ToString();
+
+            // Place at the bottom-right
+            Vector2Int cell = _inventoryItem.Shape
+                .Where(kvp => kvp.Value == true)
+                .OrderBy(kvp => kvp.Key.y)
+                .ThenByDescending(kvp => kvp.Key.x)
+                .First()
+                .Key;
+
+            _countText.rectTransform.anchoredPosition = cell * _rectTransform.sizeDelta;
         }
 
         public void OnReturnedToPool() { }

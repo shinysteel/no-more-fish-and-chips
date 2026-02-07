@@ -51,7 +51,7 @@ namespace FishFlingers.States
             {
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneMode.Additive, LoadSceneContext.Local);
 
-                _mainMenuScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.MainMenuScreen, UILayer.Screens);
+                _mainMenuScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.MainMenuScreenPrefab, UILayer.Screens);
                 _mainMenuScreen.Show(null);
 
                 _transitionManager.UncoverScreen(null);

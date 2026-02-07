@@ -9,6 +9,7 @@ using ShinyOwl.Common.Framework;
 
 using Object = UnityEngine.Object;
 using FishFlingers.Cameras;
+using UnityEngine.UI;
 
 namespace FishFlingers.UI
 {
@@ -17,13 +18,14 @@ namespace FishFlingers.UI
 
     public enum UILayer
     {
-        Backing    ,
-        Screens    ,
-        Foreground ,
-        Panels     ,
-        Popups     ,
-        Notices    ,
-        Overlay    ,
+        Backings    ,
+        Screens     ,
+        Foregrounds ,
+        Panels      ,
+        Cursors     ,
+        Popups      ,
+        Notices     ,
+        Overlays    ,
     }
 
     public enum UILayerInsertMode
@@ -44,6 +46,9 @@ namespace FishFlingers.UI
         private EventSystem _eventSystem;
 
         private RectTransform[] _layerContainers;
+
+        private GraphicRaycaster _screenGraphicRaycaster;
+        public GraphicRaycaster ScreenGraphicRaycaster => _screenGraphicRaycaster;
 
         public override void Initialise(GameManagerConfig config)
         {
@@ -68,6 +73,8 @@ namespace FishFlingers.UI
             Object.DontDestroyOnLoad(_screenCanvas.gameObject);
             Object.DontDestroyOnLoad(_worldCanvas.gameObject);
             Object.DontDestroyOnLoad(_eventSystem.gameObject);
+
+            _screenGraphicRaycaster = _screenCanvas.GetComponent<GraphicRaycaster>();
         }
 
         private void CreateLayers()

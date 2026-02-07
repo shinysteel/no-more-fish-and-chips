@@ -27,13 +27,15 @@ namespace FishFlingers.States
         public RaftPlayer LocalPlayer { get; private set; }
         public Raft Raft { get; private set; }
         public WaveSpawner WaveSpawner { get; private set; }
+        public CursorsUI CursorsUI { get; private set; }
 
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner)
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner, CursorsUI cursorsUI)
         {
             Players = players;
             LocalPlayer = localPlayer;
             Raft = raft;
             WaveSpawner = waveSpawner;
+            CursorsUI = cursorsUI;
         }
     }
 
@@ -52,6 +54,7 @@ namespace FishFlingers.States
         private List<RaftPlayer> _players;
 
         private GameplayScreen _gameplayScreen;
+        private CursorsUI _cursorsUI;
 
         public GameplayState(StateMachine<EMainState> parent) : base(parent)
         {
@@ -124,7 +127,7 @@ namespace FishFlingers.States
 
                 RaftPlayer localPlayer = _networkManager.Spawn(_config.RaftPlayerPrefab, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
 
-                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner);
+                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, _cursorsUI);
 
                 // As the client, Any behaviours that spawned before we joined will need to be manually initialised
                 if (!_networkManager.IsServer)
@@ -139,9 +142,13 @@ namespace FishFlingers.States
                     }
                 }
 
-                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreen, UILayer.Screens);
+                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
                 _gameplayScreen.Setup(_context);
                 _gameplayScreen.Show(null);
+
+                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
+                _cursorsUI.Show(null);
+                _cursorsUI.Setup(_context);
 
                 _transitionManager.UncoverScreen(null);
             }
@@ -154,6 +161,9 @@ namespace FishFlingers.States
         public override void Exit()
         {
             _context = null;
+
+            _uiManager.DestroyScreenUI(_cursorsUI, UILayer.Cursors);
+            _cursorsUI = null;
 
             _uiManager.DestroyScreenUI(_gameplayScreen, UILayer.Screens);
             _gameplayScreen = null;

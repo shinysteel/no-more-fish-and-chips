@@ -67,7 +67,7 @@ namespace FishFlingers.UI
 
         private void FishingBagPressed()
         {
-            _uiManager.CreateScreenUIAsync(_uiManager.Config.FishingBagPanel, UILayer.Panels).completed += (FishingBagPanel panel) =>
+            _uiManager.CreateScreenUIAsync(_uiManager.Config.FishingBagPanelPrefab, UILayer.Panels).completed += (FishingBagPanel panel) =>
             {
                 panel.Setup(_context);
                 panel.Show(null);
@@ -76,7 +76,7 @@ namespace FishFlingers.UI
 
         private void BuildingKitPressed()
         {
-            _uiManager.CreateScreenUIAsync(_uiManager.Config.BuildingKitPanel, UILayer.Panels).completed += (BuildingKitPanel panel) =>
+            _uiManager.CreateScreenUIAsync(_uiManager.Config.BuildingKitPanelPrefab, UILayer.Panels).completed += (BuildingKitPanel panel) =>
             {
                 panel.Setup(_context);
                 panel.Show(null);

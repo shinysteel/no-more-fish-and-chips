@@ -48,15 +48,15 @@ namespace FishFlingers.Networking
         private PurrNet.NetworkManager _purrnetNetworkManager;
 
         public PlayerID LocalPlayerId => _purrnetNetworkManager.localPlayer;
-
         public bool IsServer => _purrnetNetworkManager.isServer;
+
 
         public static readonly Vector3 HiddenSpawnPosition = new Vector3(0f, -15f, 0f);
 
         public override void Initialise(GameManagerConfig config)
         {
             _config = config.NetworkManagerConfig;
-
+            
             _sceneManager = GameManager.Instance.Get<SceneManager>();
             _sceneManager.AddListener(this);
 

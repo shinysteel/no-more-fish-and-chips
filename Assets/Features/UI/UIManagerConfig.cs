@@ -19,25 +19,30 @@ namespace FishFlingers.UI
         public EventSystem EventSystemPrefab => _eventSystemPrefab;
 
         [Header("ScreenUI - Screens")]
-        [SerializeField] private MainMenuScreen _mainMenuScreen;
-        [SerializeField] private GameplayScreen _gameplayScreen;
+        [SerializeField] private MainMenuScreen _mainMenuScreenPrefab;
+        [SerializeField] private GameplayScreen _gameplayScreenPrefab;
 
-        public MainMenuScreen MainMenuScreen => _mainMenuScreen;
-        public GameplayScreen GameplayScreen => _gameplayScreen;
+        public MainMenuScreen MainMenuScreenPrefab => _mainMenuScreenPrefab;
+        public GameplayScreen GameplayScreenPrefab => _gameplayScreenPrefab;
 
         [Header("ScreenUI - Panels")]
-        [SerializeField] private BrowseGamesPanel _browseGamesPanel;
-        [SerializeField] private FishingBagPanel _fishingBagPanel;
-        [SerializeField] private BuildingKitPanel _buildingKitPanel;
+        [SerializeField] private BrowseGamesPanel _browseGamesPanelPrefab;
+        [SerializeField] private FishingBagPanel _fishingBagPanelPrefab;
+        [SerializeField] private BuildingKitPanel _buildingKitPanelPrefab;
 
-        public BrowseGamesPanel BrowseGamesPanel => _browseGamesPanel;
-        public FishingBagPanel FishingBagPanel => _fishingBagPanel;
-        public BuildingKitPanel BuildingKitPanel => _buildingKitPanel;
+        public BrowseGamesPanel BrowseGamesPanelPrefab => _browseGamesPanelPrefab;
+        public FishingBagPanel FishingBagPanelPrefab => _fishingBagPanelPrefab;
+        public BuildingKitPanel BuildingKitPanelPrefab => _buildingKitPanelPrefab;
+
+        [Header("ScreenUI - Cursors")]
+        [SerializeField] private CursorsUI _cursorsUIPrefab;
+
+        public CursorsUI CursorsUIPrefab => _cursorsUIPrefab;
 
         [Header("ScreenUI - Overlays")]
-        [SerializeField] private FadeOverlay _fadeOverlay;
+        [SerializeField] private FadeOverlay _fadeOverlayPrefab;
 
-        public FadeOverlay FadeOverlay => _fadeOverlay;
+        public FadeOverlay FadeOverlayPrefab => _fadeOverlayPrefab;
 
         [Header("WorldUI")]
         [SerializeField] private InteractPromptUI _interactPromptUIPrefab;

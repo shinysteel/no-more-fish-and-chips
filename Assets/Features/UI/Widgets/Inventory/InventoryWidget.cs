@@ -4,37 +4,42 @@ using UnityEngine;
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
 using ShinyOwl.Common;
+using PurrNet.Prediction;
+using FishFlingers.States;
 
 namespace FishFlingers.UI
 {
     public class InventoryWidget : MonoBehaviour
     {
+        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Transform _inventorySlotViewsContainer;
         [SerializeField] private Transform _inventoryItemViewsContainer;
-
-        [SerializeField] private float _slotSize = 60f;
-        [SerializeField] private float _slotPadding = 5f;
-
-        public float SlotSize => _slotSize;
 
         private PoolManager _poolManager;
 
         private Inventory _inventory;
         public Inventory Inventory => _inventory;
 
+        private GameplayContext _context;
+        public GameplayContext Context => _context;
+
+        private Vector2 _slotSize;
+        public Vector2 SlotSize => _slotSize;
+
         private Dictionary<Vector2Int, InventorySlotView> _inventorySlotViews;
         private Dictionary<string, InventoryItemView> _inventoryItemViews;
 
         public IReadOnlyDictionary<Vector2Int, InventorySlotView> InventorySlotViews => _inventorySlotViews;
 
-        public void Setup(Inventory inventory)
+        public void Setup(Inventory inventory, GameplayContext context)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _inventory = inventory;
+            _context = context;
 
+            // Setup slot and item views
             _inventorySlotViews = CreateInventorySlotViews();
-
             _inventoryItemViews = new();
 
             foreach (KeyValuePair<string, InventoryItem> kvp in _inventory.InventoryItems)
@@ -42,11 +47,14 @@ namespace FishFlingers.UI
                 HandleInventoryItemChanged(kvp.Key, kvp.Value);
             }
 
+            OnRectTransformDimensionsChange();
+
             _inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
         }
 
         private void OnDestroy()
         {
+            // Return pooled views
             if (_poolManager != null)
             {
                 foreach (InventorySlotView view in _inventorySlotViews.Values)
@@ -76,15 +84,7 @@ namespace FishFlingers.UI
 
                 Vector2Int cell = kvp.Key;
 
-                // Since cells are only positive, we need to use a pivot to center them in the widget
-                float pivotX = (_inventory.Columns - 1) / 2f;
-                float pivotY = (_inventory.Rows - 1) / 2f;
-
-                Vector3 position = new Vector3(
-                    (cell.x - pivotX) * view.RectTransform.sizeDelta.x + cell.x * _slotPadding, 
-                    (cell.y - pivotY) * view.RectTransform.sizeDelta.y + kvp.Key.y * _slotPadding);
-
-                view.Setup(new Vector2Int(kvp.Key.x, kvp.Key.y), position);
+                view.Setup(this, new Vector2Int(kvp.Key.x, kvp.Key.y));
 
                 views.Add(cell, view);
             }
@@ -124,7 +124,49 @@ namespace FishFlingers.UI
             }
 
             _poolManager.Return(_inventoryItemViews[key]);
-            _inventoryItemViews[key] = null;
+            _inventoryItemViews.Remove(key);
+        }
+
+        private void OnRectTransformDimensionsChange()
+        {
+            if (_inventory == null)
+            {
+                return;
+            }
+
+            RecalculateSlotSize();
+
+            UpdateSlotViews();
+            UpdateItemViews();
+        }
+
+        private void RecalculateSlotSize()
+        {
+            _slotSize = new Vector2(_rectTransform.rect.width / _inventory.Columns, _rectTransform.rect.height / _inventory.Rows);
+        }
+
+        private void UpdateSlotViews()
+        {
+            // Since cells are only positive, we need to use a pivot to center them in the widget
+            float pivotX = (_inventory.Columns - 1) / 2f;
+            float pivotY = (_inventory.Rows - 1) / 2f;
+
+            foreach (KeyValuePair<Vector2Int, InventorySlotView> kvp in _inventorySlotViews)
+            {
+                Vector2 position = new Vector2(
+                    (kvp.Key.x - pivotX) * _slotSize.x,
+                    (kvp.Key.y - pivotY) * _slotSize.y);
+
+                kvp.Value.SetTransform(position, _slotSize);
+            }
+        }
+
+        private void UpdateItemViews()
+        {
+            foreach (InventoryItemView view in _inventoryItemViews.Values)
+            {
+                view.UpdateView();
+            }
         }
     }
 }

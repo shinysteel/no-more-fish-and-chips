@@ -50,10 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae5ea5ca44e42d409e45a6963098694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.InventoryWidget
+  _rectTransform: {fileID: 7776678311703024203}
   _inventorySlotViewsContainer: {fileID: 37505051382827825}
   _inventoryItemViewsContainer: {fileID: 2177777284867615059}
-  _slotSize: 60
-  _slotPadding: 0
 --- !u!1 &5285828378964817065
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,12 +11,14 @@ namespace FishFlingers.Entities
         private bool _jump;
         private bool _ascend;
         private bool _interact;
+        private bool _click;
 
         public Vector2 Direction => _direction;
         public Vector2 Mouse => _mouse;
         public bool Jump => _jump;
         public bool Ascend => _ascend;
         public bool Interact => _interact;
+        public bool Click => _click;
 
         public InputLogic(RaftPlayer player)
         {
@@ -25,13 +27,15 @@ namespace FishFlingers.Entities
 
         public void Tick()
         {
+            _mouse = Input.mousePosition;
+            _click = Input.GetMouseButtonDown(0);
+
             if (_player.CanAct)
             {
                 float horizontal = Input.GetAxisRaw("Horizontal");
                 float vertical = Input.GetAxisRaw("Vertical");
 
                 _direction = Vector2.ClampMagnitude(new Vector2(horizontal, vertical), 1f);
-                _mouse = Input.mousePosition;
                 _jump = Input.GetKeyDown(KeyCode.Space);
                 _ascend = Input.GetKey(KeyCode.Space);
                 _interact = Input.GetKeyDown(KeyCode.F);

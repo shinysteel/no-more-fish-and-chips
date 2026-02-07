@@ -13,7 +13,7 @@ namespace FishFlingers.UI
 
         public void Setup(GameplayContext context)
         {
-            _inventoryWidget.Setup(context.LocalPlayer.Inventory);
+            _inventoryWidget.Setup(context.LocalPlayer.Inventory, context);
         }
     }
 }

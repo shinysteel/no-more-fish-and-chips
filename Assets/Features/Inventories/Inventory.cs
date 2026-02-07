@@ -253,6 +253,11 @@ namespace FishFlingers.Inventories
             }
         }
 
+        public NetInventoryItem GetNetInventoryItem(string key)
+        {
+            return _netInventoryItems[key];
+        }
+
         public void SetLayout(BoolGrid layout)
         {
             _layout = layout;

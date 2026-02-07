@@ -24,26 +24,45 @@ namespace FishFlingers.Entities
         private InputLogic _inputLogic;
         private PhysicsLogic _physicsLogic;
         private InteractLogic _interactLogic;
+        private HeldItemLogic _heldItemLogic;
+
+        public HeldItemLogic HeldItemLogic => _heldItemLogic;
 
         public Inventory Inventory => _inventory;
         public bool CanAct => _uiManager.IsLayerEmpty(UILayer.Panels);
 
+        // SyncVars
+        private SyncVar<NetInventoryItem> _netHeldInventoryItem = new(ownerAuth: true);
+        private SyncVar<Vector2> _netMousePositionNormalised = new(ownerAuth: true);
+
+        public NetInventoryItem HeldInventoryItem => _netHeldInventoryItem.value;
+        public Vector2 MousePositionNormalised => _netMousePositionNormalised.value;
+
+        public bool IsLocalPlayer => this == _context.LocalPlayer;
+
         protected override void OnSpawned()
         {
-            base.OnSpawned();
-
             _inputLogic = new InputLogic(this);
             _physicsLogic = new PhysicsLogic(this, _inputLogic, _capsuleCollider);
             _interactLogic = new InteractLogic(this, _inputLogic);
+            _heldItemLogic = new HeldItemLogic(_netHeldInventoryItem, _inputLogic);
 
-            if (!isOwner)
+            if (isOwner)
             {
-                return;
+                _inventory.SetLayout(_inventoryLayout);
+
+                _cameraManager.SetMode(new FollowCameraMode(transform, new Vector3(0f, 3f, -5f)));
             }
 
-            _inventory.SetLayout(_inventoryLayout);
+            // Invoke OnNetworkSpawn after logic components are created
+            base.OnSpawned();
+        }
 
-            _cameraManager.SetMode(new FollowCameraMode(transform, new Vector3(0f, 3f, -5f)));
+        protected override void OnDespawned()
+        {
+            base.OnDespawned();
+
+            _heldItemLogic.Dispose();
         }
 
         public override void Initialise(GameplayContext context)
@@ -69,6 +88,9 @@ namespace FishFlingers.Entities
             _inputLogic.Tick();
             _physicsLogic.Tick();
             _interactLogic.Tick();
+            _heldItemLogic.Tick();
+
+            SyncVarsUpdate();
         }
 
         private void FixedUpdate()
@@ -84,6 +106,11 @@ namespace FishFlingers.Entities
             }
 
             _physicsLogic.FixedTick();
+        }
+
+        private void SyncVarsUpdate()
+        {   
+            _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(Input.mousePosition.x / Screen.width), Mathf.Clamp01(Input.mousePosition.y / Screen.height));
         }
     }
 }
