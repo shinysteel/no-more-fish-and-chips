@@ -182,6 +182,7 @@ MonoBehaviour:
   _visitiblityRules: {fileID: 0}
   _entityData: {fileID: 11400000, guid: 1a9ed0623542a76478eeabfe1fcb2609, type: 2}
   _rigidbody: {fileID: 7367407456407141544}
+  _spriteRenderer: {fileID: 7294496901274515299}
 --- !u!54 &7367407456407141544
 Rigidbody:
   m_ObjectHideFlags: 0

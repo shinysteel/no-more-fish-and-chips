@@ -35,7 +35,7 @@ namespace FishFlingers.Entities
         private SyncVar<NetInventoryItem> _netHeldInventoryItem = new(ownerAuth: true);
         private SyncVar<Vector2> _netMousePositionNormalised = new(ownerAuth: true);
 
-        public NetInventoryItem HeldInventoryItem => _netHeldInventoryItem.value;
+        public NetInventoryItem NetHeldInventoryItem => _netHeldInventoryItem.value;
         public Vector2 MousePositionNormalised => _netMousePositionNormalised.value;
 
         public bool IsLocalPlayer => this == _context.LocalPlayer;

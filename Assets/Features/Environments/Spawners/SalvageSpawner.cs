@@ -73,7 +73,7 @@ namespace FishFlingers.Environments
             Vector3 position = raft.CellToWorldPosition(new Vector2(x, y));
 
             DroppedItem item = (DroppedItem)_entityManager.Spawn(EEntity.DroppedItem, new SpawnParams() { Position = position });
-            item.SetItem(ItemId.Driftwood, 1);
+            item.SetItem(ItemId.Paddle, 1);
 
             _salvages.Add(item);
         }

@@ -8,6 +8,8 @@ namespace FishFlingers.Entities
 {
     public class DroppedItem : NetEntity, IInteractable
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
         private SyncVar<ItemId> _itemId;
         private SyncVar<int> _count;
 
@@ -27,6 +29,8 @@ namespace FishFlingers.Entities
         {
             _itemId.value = itemId;
             _count.value = count;
+
+            _spriteRenderer.sprite = _itemManager.GetItemData(itemId).Sprite;
         }
 
         public void Interact()

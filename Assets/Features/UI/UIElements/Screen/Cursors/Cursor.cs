@@ -90,7 +90,7 @@ namespace FishFlingers.UI
                 _owner.HeldItemLogic.OnChanged += HandleHeldItemChanged;
             }
 
-            HandleHeldItemChanged(_owner?.HeldInventoryItem);
+            HandleHeldItemChanged(_owner?.NetHeldInventoryItem);
 
             // No need to show the hand image for the local client
             _handImage.gameObject.SetActive(!_owner?.IsLocalPlayer ?? false);
