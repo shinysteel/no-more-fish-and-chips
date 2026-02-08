@@ -108,10 +108,15 @@ namespace FishFlingers.Inventories
 
         public void ChangeCount(int amount)
         {
+            SetCount(Count + amount);
+        }
+
+        public void SetCount(int count)
+        {
             ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
             ItemData data = itemManager.GetItemData(ItemId);
 
-            Count += amount;
+            Count = count;
             Count = Mathf.Clamp(Count, 0, data.MaxStack);
         }
     }
@@ -393,17 +398,22 @@ namespace FishFlingers.Inventories
         /// Tries to add the given count of an item to a slot. If an item is already there, tries to
         /// add to it. If not, tries to fit by rotating around the pivot
         /// </summary>
-        public bool TryPlaceItems(Vector2Int pivot, string instaceId, ItemId itemId, int amount)
+        public bool TryPlaceItems(Vector2Int pivot, string instaceId, ItemId itemId, int amount, bool allowPartial, out int overflow)
         {
+            overflow = amount;
+
             if (!isOwner)
             {
                 Log.Error(this, "Tried to place items without being the owner");
                 return false;
             }
 
-            if (!CanPlaceItems(pivot, itemId, amount, out int overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change) || overflow > 0)
+            if (!CanPlaceItems(pivot, itemId, amount, out overflow, out NetInventoryItemsPlace place, out NetInventoryItemsChange change) || overflow > 0)
             {
-                return false;
+                if (!allowPartial)
+                {
+                    return false;
+                }
             }
 
             if (place.IsValid)
@@ -416,7 +426,7 @@ namespace FishFlingers.Inventories
                 ProcessNetInventoryItemsChange(change);
             }
 
-            return true;
+            return allowPartial ? overflow < amount : true;
         }
 
         /// <summary>
