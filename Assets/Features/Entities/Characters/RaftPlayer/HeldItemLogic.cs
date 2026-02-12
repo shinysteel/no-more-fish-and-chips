@@ -18,9 +18,12 @@ public class HeldItemLogic
     private InputLogic _inputLogic;
 
     private PointerEventData _pointerEventData;
-    private List<RaycastResult> _raycastResults = new(); 
+    private List<RaycastResult> _raycastResults = new();
 
-    public event Action<NetInventoryItem> OnChanged;
+    private InventoryItem _heldInventoryItem;
+    public InventoryItem HeldInventoryItem => _heldInventoryItem;
+
+    public event Action<InventoryItem> OnChanged;
 
     public HeldItemLogic(SyncVar<NetInventoryItem> netHeldInventoryItem, InputLogic inputLogic)
     {
@@ -98,7 +101,7 @@ public class HeldItemLogic
 
     private void Grab(InventoryItemView itemView)
     {
-        string instanceId = itemView.InventoryItem.ItemInstance.InstanceId;
+        string instanceId = itemView.View.InventoryItem.ItemInstance.InstanceId;
 
         SetHeldItem(itemView.InventoryWidget.Inventory.GetNetInventoryItem(instanceId));
         itemView.InventoryWidget.Inventory.RemoveItem(instanceId);
@@ -136,6 +139,8 @@ public class HeldItemLogic
 
     private void HandleNetHeldInventoryItemChanged(NetInventoryItem item)
     {
-        OnChanged?.Invoke(item);
+        _heldInventoryItem = item != null ? new InventoryItem(item) : null;
+
+        OnChanged?.Invoke(_heldInventoryItem);
     }
 }

@@ -1,5 +1,6 @@
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
+using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
 
@@ -10,9 +11,12 @@ namespace FishFlingers.UI
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private TMP_Text _cellText;
+        [SerializeField] private CellOutline _cellOutline;
 
         private InventoryWidget _inventoryWidget;
         private Vector2Int _cell;
+
+        private InventoryItem _inventoryItem;
 
         public RectTransform RectTransform => _rectTransform;
         public InventoryWidget InventoryWidget => _inventoryWidget;
@@ -32,7 +36,28 @@ namespace FishFlingers.UI
             _rectTransform.sizeDelta = size;
         }
 
-        public void OnReturnedToPool() { }
+        public void SetInventoryItem(InventoryItem item)
+        {
+            _inventoryItem = item;
+        }
+
+        public void RefreshOutline()
+        {
+            // Item refers to both having an item in this cell, and it also existing in a given direction (1 unit away)
+            bool item = _inventoryItem != null;
+            bool itemTop = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(0, 1), out InventorySlotView topView) && topView._inventoryItem == _inventoryItem;
+            bool itemLeft = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(-1, 0), out InventorySlotView leftView) && leftView._inventoryItem == _inventoryItem;
+            bool itemBottom = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(0, -1), out InventorySlotView bottomView) && bottomView._inventoryItem == _inventoryItem;
+            bool itemRight = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(1, 0), out InventorySlotView rightView) && rightView._inventoryItem == _inventoryItem;
+
+            _cellOutline.Set(item && !itemTop, item && !itemLeft, item && !itemBottom, item && !itemRight);
+        }
+
+        public void OnReturnedToPool() 
+        {
+            _inventoryItem = null;
+        }
+
         public void OnTakenFromPool() { }
     }
 }

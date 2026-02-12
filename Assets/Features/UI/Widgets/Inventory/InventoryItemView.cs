@@ -1,83 +1,54 @@
 using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using FishFlingers.States;
-using ShinyOwl.Common;
-using ShinyOwl.Common.Structures;
-using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using ShinyOwl.Common.Utils;
+using System.Linq;
+using FishFlingers.Pools;
+using ShinyOwl.Common;
 
 namespace FishFlingers.UI
 {
-    public class InventoryItemView : MonoBehaviour, IPoolable 
+    public class InventoryItemView : MonoBehaviour, IPoolable
     {
-        [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private Image _itemImage;
-        [SerializeField] private TMP_Text _countText;
-
+        // Composition instead of inheritance so that prefab variants play nicely
+        [SerializeField] private ItemView _view;
+       
         private InventoryWidget _inventoryWidget;
-        private InventoryItem _inventoryItem;
 
+        public ItemView View => _view;
         public InventoryWidget InventoryWidget => _inventoryWidget;
-        public InventoryItem InventoryItem => _inventoryItem;
 
         public void Setup(InventoryWidget inventoryWidget, InventoryItem inventoryItem)
         {
             _inventoryWidget = inventoryWidget;
-            _inventoryItem = inventoryItem;
 
+            _view.SetSlotSize(_inventoryWidget.SlotSize);
+
+            _view.Setup(inventoryItem);
+
+            // No harm in calling _view.UpdateView twice just so we can do one line here
             UpdateView();
         }
 
-        // View is implied, but the method Update is taken by Monobehaviour
         public void UpdateView()
         {
-            SetupItemImage();
-            SetupCountText();
+            _view.UpdateView();
+
+            UpdateImage();
         }
 
-        private void SetupItemImage()
+        private void UpdateImage()
         {
-            // Size
-            _rectTransform.sizeDelta = _inventoryWidget.SlotSize;
-
-            _itemImage.rectTransform.anchorMax = new Vector2(
-                _inventoryItem.Rotations % 2 == 0 ? _inventoryItem.Shape.Columns : _inventoryItem.Shape.Rows,
-                _inventoryItem.Rotations % 2 == 0 ? _inventoryItem.Shape.Rows : _inventoryItem.Shape.Columns);
-
-            _itemImage.rectTransform.offsetMin = Vector2.zero;
-            _itemImage.rectTransform.offsetMax = Vector2.zero;
+            bool horizontal = _view.InventoryItem.Rotations % 2 == 0;
+            int columns = horizontal ? _view.InventoryItem.Shape.Columns : _view.InventoryItem.Shape.Rows;
+            int rows = horizontal ? _view.InventoryItem.Shape.Rows : _view.InventoryItem.Shape.Columns;
 
             // Position
-            _itemImage.rectTransform.pivot = new Vector2(1f / (_inventoryItem.ItemInstance.Data.Shape.Columns * 2f), 1f / (_inventoryItem.ItemInstance.Data.Shape.Rows * 2f));
-            InventorySlotView pivotInventorySlotView = _inventoryWidget.InventorySlotViews[_inventoryItem.Pivot];
-            _rectTransform.anchoredPosition = pivotInventorySlotView.RectTransform.anchoredPosition;
-
-            // Rotation, negative Z is clockwise
-            _itemImage.rectTransform.localEulerAngles = new Vector3(0f, 0f, _inventoryItem.Rotations * -90f);
-
-            // Sprite
-            _itemImage.sprite = _inventoryItem.ItemInstance.Data.Sprite;
+            _view.RectTransform.pivot = new Vector2(1f / (columns * 2f), 1f / (rows * 2f));
+            InventorySlotView pivotInventorySlotView = _inventoryWidget.InventorySlotViews[_view.InventoryItem.Pivot];
+            _view.RectTransform.anchoredPosition = pivotInventorySlotView.RectTransform.anchoredPosition;
         }
 
-        private void SetupCountText()
-        {
-            // Count
-            _countText.text = _inventoryItem.ItemInstance.Count.ToString();
-
-            // Place at the bottom-right
-            Vector2Int cell = _inventoryItem.Shape
-                .Where(kvp => kvp.Value == true)
-                .OrderBy(kvp => kvp.Key.y)
-                .ThenByDescending(kvp => kvp.Key.x)
-                .First()
-                .Key;
-
-            _countText.rectTransform.anchoredPosition = cell * _rectTransform.sizeDelta;
-        }
-
-        public void OnReturnedToPool() { }
         public void OnTakenFromPool() { }
+        public void OnReturnedToPool() { }
     }
 }

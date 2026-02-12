@@ -89,6 +89,9 @@ namespace ShinyOwl.Common.Structures
                     _boolsProperty.GetArrayElementAtIndex(y * newColumns + x).boolValue = oldBools[y * oldColumns + x];
                 }
             }
+
+            BoolGrid grid = (BoolGrid)target;
+            grid.RecalculateBounds();
         }
 
         private void DrawBoolGrid()
@@ -157,6 +160,16 @@ namespace ShinyOwl.Common.Structures
         public int Rows => _rows;
         public Vector2Int Pivot => _pivot;
 
+        private int _minX;
+        private int _minY;
+        private int _maxX;
+        private int _maxY;
+
+        public int MinX => _minX;
+        public int MinY => _minY;
+        public int MaxX => _maxX;
+        public int MaxY => _maxY;
+
         public static string ColumnsName => nameof(_columns);
         public static string RowsName => nameof(_rows);
         public static string BoolsName => nameof(_bools);
@@ -187,6 +200,32 @@ namespace ShinyOwl.Common.Structures
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void OnEnable()
+        {
+            RecalculateBounds();
+        }
+
+        public void RecalculateBounds()
+        {
+            int minX = int.MaxValue;
+            int minY = int.MaxValue;
+            int maxX = int.MinValue;
+            int maxY = int.MinValue;
+
+            foreach (KeyValuePair<Vector2Int, bool> kvp in this)
+            {
+                minX = Mathf.Min(minX, kvp.Key.x);
+                minY = Mathf.Min(minY, kvp.Key.y);
+                maxX = Mathf.Max(maxX, kvp.Key.x);
+                maxY = Mathf.Max(maxY, kvp.Key.y);
+            }
+
+            _minX = minX;
+            _minY = minY;
+            _maxX = maxX;
+            _maxY = maxY;
         }
 
         public BoolGrid GetRotated(int rotations)
@@ -228,8 +267,13 @@ namespace ShinyOwl.Common.Structures
                 int arrayY = rotated.y + grid._arrayOffset.y;
 
                 grid._bools[arrayY * grid._columns + arrayX] = true;
-            } 
+            }
 
+            grid._minX = minX;
+            grid._minY = minY;
+            grid._maxX = maxX;
+            grid._maxY = maxY;
+            
             return grid;
         }
 

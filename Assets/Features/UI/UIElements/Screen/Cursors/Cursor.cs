@@ -14,7 +14,7 @@ namespace FishFlingers.UI
     public class Cursor : MonoBehaviour, IPoolable
     {
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private Image _itemImage;
+        [SerializeField] private ItemView _itemView;
         [SerializeField] private Image _handImage;
 
         private ItemManager _itemManager;
@@ -90,16 +90,23 @@ namespace FishFlingers.UI
                 _owner.HeldItemLogic.OnChanged += HandleHeldItemChanged;
             }
 
-            HandleHeldItemChanged(_owner?.NetHeldInventoryItem);
+            HandleHeldItemChanged(_owner?.HeldItemLogic.HeldInventoryItem);
 
             // No need to show the hand image for the local client
             _handImage.gameObject.SetActive(!_owner?.IsLocalPlayer ?? false);
         }
 
-        private void HandleHeldItemChanged(NetInventoryItem item)
+        private void HandleHeldItemChanged(InventoryItem item)
         {
-            _itemImage.sprite = item != null ? _itemManager.GetItemData(item.ItemId).Sprite : null;
-            _itemImage.gameObject.SetActive(item != null);
+            if (item != null)
+            {
+                _itemView.Setup(item);
+                _itemView.gameObject.SetActive(true);
+            }
+            else
+            {
+                _itemView.gameObject.SetActive(false);
+            }
         }
 
         public void OnReturnedToPool()

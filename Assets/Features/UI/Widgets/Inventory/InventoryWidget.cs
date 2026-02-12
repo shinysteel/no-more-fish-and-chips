@@ -42,12 +42,12 @@ namespace FishFlingers.UI
             _inventorySlotViews = CreateInventorySlotViews();
             _inventoryItemViews = new();
 
+            OnRectTransformDimensionsChange();
+
             foreach (KeyValuePair<string, InventoryItem> kvp in _inventory.InventoryItems)
             {
-                HandleInventoryItemChanged(kvp.Key, kvp.Value);
+                HandleInventoryItemChanged(kvp.Key, null, kvp.Value);
             }
-
-            OnRectTransformDimensionsChange();
 
             _inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
         }
@@ -92,15 +92,41 @@ namespace FishFlingers.UI
             return views;
         }
 
-        private void HandleInventoryItemChanged(string instanceId, InventoryItem inventoryItem)
+        private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
-            if (inventoryItem != null)
+            if (newInventoryItem != null)
             {
-                SetInventoryItemView(instanceId, inventoryItem);
+                SetInventoryItemToSlotViews(newInventoryItem);
+                SetInventoryItemView(instanceId, newInventoryItem);
             }
             else
             {
+                RemoveInventoryItemFromSlotViews(oldInventoryItem);
                 RemoveInventoryItemView(instanceId);
+            }
+
+            RefreshSlotViewOutlines();
+        }
+
+        private void SetInventoryItemToSlotViews(InventoryItem inventoryItem)
+        {
+            foreach (KeyValuePair<Vector2Int, bool> kvp in inventoryItem.Shape)
+            {
+                if (kvp.Value)
+                {
+                    _inventorySlotViews[inventoryItem.Pivot + kvp.Key].SetInventoryItem(inventoryItem);
+                }
+            }
+        }
+
+        private void RemoveInventoryItemFromSlotViews(InventoryItem inventoryItem)
+        {
+            foreach (KeyValuePair<Vector2Int, bool> kvp in inventoryItem.Shape)
+            {
+                if (kvp.Value)
+                {
+                    _inventorySlotViews[inventoryItem.Pivot + kvp.Key].SetInventoryItem(null);
+                }
             }
         }
 
@@ -110,7 +136,7 @@ namespace FishFlingers.UI
             {
                 _inventoryItemViews[key] = _poolManager.Get<InventoryItemView>(new SpawnParams() { Parent = _inventoryItemViewsContainer });   
             }
-
+            
             InventoryItemView view = _inventoryItemViews[key];
             view.Setup(this, inventoryItem);
         }
@@ -127,6 +153,14 @@ namespace FishFlingers.UI
             _inventoryItemViews.Remove(key);
         }
 
+        private void RefreshSlotViewOutlines()
+        {
+            foreach (InventorySlotView slotView in _inventorySlotViews.Values)
+            {
+                slotView.RefreshOutline();
+            }
+        }
+
         private void OnRectTransformDimensionsChange()
         {
             if (_inventory == null)
@@ -136,7 +170,9 @@ namespace FishFlingers.UI
 
             RecalculateSlotSize();
 
-            UpdateSlotViews();
+            UpdateSlotViewTransforms();
+
+            // Size affects many things for an ItemView, so a full update is fine here
             UpdateItemViews();
         }
 
@@ -145,7 +181,7 @@ namespace FishFlingers.UI
             _slotSize = new Vector2(_rectTransform.rect.width / _inventory.Columns, _rectTransform.rect.height / _inventory.Rows);
         }
 
-        private void UpdateSlotViews()
+        private void UpdateSlotViewTransforms()
         {
             // Since cells are only positive, we need to use a pivot to center them in the widget
             float pivotX = (_inventory.Columns - 1) / 2f;

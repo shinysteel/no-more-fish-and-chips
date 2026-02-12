@@ -17,6 +17,26 @@ namespace ShinyOwl.Common.Utils
 
                 return remainder;
             }
+
+            public static Vector2 RotateCell(Vector2 cell, int rotations, bool clockwise)
+            {
+                rotations = EuclideanModulo(clockwise ? rotations : -rotations, 4);
+
+                return (rotations % 4) switch
+                {
+                    0 => cell,
+                    1 => new Vector2(cell.y, -cell.x),
+                    2 => new Vector2(-cell.x, -cell.y),
+                    3 => new Vector2(-cell.y, cell.x),
+
+                    _ => cell
+                };
+            }
+
+            public static Vector2Int RotateCell(Vector2Int cell, int rotations, bool clockwise)
+            {
+                return Vector2Int.RoundToInt(RotateCell((Vector2)cell, rotations, clockwise));
+            }
         }
     }
 }

@@ -225,7 +225,7 @@ namespace FishFlingers.Inventories
         // It was not obvious that the string in Action<string, InventoryItem> represented instanceId. This
         // is a good example of when to use custom delegates. If more parameters could be added in the future,
         // then you could also consider using EventArgs
-        public delegate void InventoryItemChangedDelegate(string instanceId, InventoryItem inventoryItem);
+        public delegate void InventoryItemChangedDelegate(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem);
         public event InventoryItemChangedDelegate OnInventoryItemChanged;
 
         protected override void OnSpawned()
@@ -304,21 +304,28 @@ namespace FishFlingers.Inventories
 
         private void HandleNetInventoryItemsChanged(SyncDictionaryChange<string, NetInventoryItem> change)
         {
+            // You can't reuse a variable name between cases
+            InventoryItem oldInventoryItem;
+
             switch (change.operation)
             {
                 case SyncDictionaryOperation.Added:
                 case SyncDictionaryOperation.Set:
-                    InventoryItem item = new InventoryItem(change.value);
-                    _inventoryItems[change.value.InstanceId] = item;
+                    _inventoryItems.TryGetValue(change.value.InstanceId, out oldInventoryItem);
+                    InventoryItem newInventoryItem = new InventoryItem(change.value);
 
-                    OnInventoryItemChanged?.Invoke(change.value.InstanceId, item);
+                    _inventoryItems[change.value.InstanceId] = newInventoryItem;
+
+                    OnInventoryItemChanged?.Invoke(change.value.InstanceId, oldInventoryItem, newInventoryItem);
                     break;
 
                 case SyncDictionaryOperation.Removed:
-                    string instanceId = _inventoryItems[change.key].ItemInstance.InstanceId;
+                    oldInventoryItem = _inventoryItems[change.key];
+                    string instanceId = oldInventoryItem.ItemInstance.InstanceId;
+
                     _inventoryItems.Remove(change.key);
 
-                    OnInventoryItemChanged?.Invoke(instanceId, null);
+                    OnInventoryItemChanged?.Invoke(instanceId, oldInventoryItem, null);
                     break;
 
                 case SyncDictionaryOperation.Cleared:
@@ -327,7 +334,8 @@ namespace FishFlingers.Inventories
 
                     foreach (string id in instanceIds)
                     {
-                        OnInventoryItemChanged?.Invoke(id, null);
+                        oldInventoryItem = _inventoryItems[id];
+                        OnInventoryItemChanged?.Invoke(id, oldInventoryItem, null);
                     }
                     break;
             }
