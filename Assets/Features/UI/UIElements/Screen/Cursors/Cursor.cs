@@ -3,7 +3,9 @@ using FishFlingers.Inventories;
 using FishFlingers.Items;
 using FishFlingers.Pools;
 using FishFlingers.States;
+using PrimeTween;
 using ShinyOwl.Common;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,28 +19,32 @@ namespace FishFlingers.UI
         [SerializeField] private ItemView _itemView;
         [SerializeField] private Image _handImage;
 
-        private ItemManager _itemManager;
         private UIManager _uiManager;
-
-        public RectTransform RectTransform => _rectTransform;
 
         private RaftPlayer _owner;
 
         private PointerEventData _pointerEventData;
         private List<RaycastResult> _raycastResults = new();
 
-        private static readonly Vector2 DefaultSize = Vector2.one * 75f;
-        private const float ScaleSpeed = 25f;
+        private Tween _resizeTween;
+        private Vector2 _targetSlotSize;
+
+        private const float ResizeDuration = 0.1f;
+        private static readonly Vector2 DefaultSlotSize = Vector2.one * 75f;
+
+        public RectTransform RectTransform => _rectTransform;
 
         private void Awake()
         {
-            _itemManager = GameManager.Instance.Get<ItemManager>();
             _uiManager = GameManager.Instance.Get<UIManager>();
         }
 
         private void Start()
         {
             _pointerEventData = new PointerEventData(EventSystem.current);
+
+            _targetSlotSize = DefaultSlotSize;
+            Resize(_targetSlotSize);
         }
 
         private void Update()
@@ -67,8 +73,29 @@ namespace FishFlingers.UI
             }
 
             // Scale adapts to what the cursor is over
-            Vector2 targetSize = inventoryWidget != null ? inventoryWidget.SlotSize : DefaultSize;
-            _rectTransform.sizeDelta = Vector2.Lerp(_rectTransform.sizeDelta, targetSize, ScaleSpeed * Time.deltaTime);
+            Vector2 newTargetSize = inventoryWidget != null ? inventoryWidget.SlotSize : DefaultSlotSize;
+
+            if (_targetSlotSize == newTargetSize)
+            {
+                return;
+            }
+
+            // One scale tween active at a time
+            if (_resizeTween.isAlive)
+            {
+                _resizeTween.Stop();
+            }
+
+            _resizeTween = Tween.Custom(startValue: _targetSlotSize, endValue: newTargetSize, duration: ResizeDuration, onValueChange: Resize);
+
+            _targetSlotSize = newTargetSize;
+        }
+
+        private void Resize(Vector2 slotSize)
+        {
+            _itemView.SetSlotSize(slotSize);
+            _itemView.UpdateView();
+            _handImage.rectTransform.sizeDelta = slotSize * 0.9f;
         }
 
         public void SetOwner(RaftPlayer owner)
@@ -100,7 +127,7 @@ namespace FishFlingers.UI
         {
             if (item != null)
             {
-                _itemView.Setup(item);
+                _itemView.Setup(item, true);
                 _itemView.gameObject.SetActive(true);
             }
             else

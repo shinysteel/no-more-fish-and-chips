@@ -6,19 +6,25 @@ namespace FishFlingers.Entities
     {
         private RaftPlayer _player;
 
-        private Vector2 _direction;
-        private Vector2 _mouse;
+        // Vars always active
+        private bool _click;
+        private Vector2 _rawMouse;
+
+        public bool Click => _click;
+        public Vector2 RawMouse => _rawMouse;
+
+        // Vars dependent on RaftPlayer.CanAct
+        private Vector2 _gameplayMouse;
+        private Vector3 _moveDirection;
         private bool _jump;
         private bool _ascend;
         private bool _interact;
-        private bool _click;
 
-        public Vector2 Direction => _direction;
-        public Vector2 Mouse => _mouse;
+        public Vector2 GameplayMouse => _gameplayMouse;
+        public Vector3 MoveDirection => _moveDirection;
         public bool Jump => _jump;
         public bool Ascend => _ascend;
         public bool Interact => _interact;
-        public bool Click => _click;
 
         public InputLogic(RaftPlayer player)
         {
@@ -27,22 +33,20 @@ namespace FishFlingers.Entities
 
         public void Tick()
         {
-            _mouse = Input.mousePosition;
             _click = Input.GetMouseButtonDown(0);
+            _rawMouse = Input.mousePosition;
 
             if (_player.CanAct)
             {
-                float horizontal = Input.GetAxisRaw("Horizontal");
-                float vertical = Input.GetAxisRaw("Vertical");
-
-                _direction = Vector2.ClampMagnitude(new Vector2(horizontal, vertical), 1f);
+                _gameplayMouse = _rawMouse;
+                _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")), 1f);
                 _jump = Input.GetKeyDown(KeyCode.Space);
                 _ascend = Input.GetKey(KeyCode.Space);
                 _interact = Input.GetKeyDown(KeyCode.F);
             }
             else
             {
-                _direction = Vector2.zero;
+                _moveDirection = Vector3.zero;
                 _jump = false;
                 _ascend = false;
                 _interact = false;

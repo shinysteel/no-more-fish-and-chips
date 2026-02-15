@@ -64,17 +64,16 @@ namespace FishFlingers.Entities
 
         private void MoveFixedTick()
         {
-            Vector3 moveDirection = new Vector3(_inputLogic.Direction.x, 0f, _inputLogic.Direction.y);
-            Vector3 targetVelocity = moveDirection * _player.Data.MoveSettings.Speed;
+            Vector3 targetVelocity = _inputLogic.MoveDirection * _player.Data.MoveSettings.Speed;
             targetVelocity.y = _player.Rigidbody.linearVelocity.y;
-            float speed = moveDirection != Vector3.zero ? _player.Data.MoveSettings.Acceleration : _player.Data.MoveSettings.Deceleration;
+            float speed = _inputLogic.MoveDirection != Vector3.zero ? _player.Data.MoveSettings.Acceleration : _player.Data.MoveSettings.Deceleration;
 
             _player.Rigidbody.linearVelocity = Vector3.MoveTowards(_player.Rigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
         }
 
         private void LookFixedTick()
         {
-            Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_inputLogic.Mouse);
+            Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_inputLogic.GameplayMouse);
 
             // Have the plane sit at the player's origin so that y does not influence the target
             Plane plane = new Plane(Vector3.up, _player.transform.position);

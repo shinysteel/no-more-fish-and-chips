@@ -1,6 +1,7 @@
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
 using FishFlingers.States;
+using NUnit.Framework;
 using PurrLobby;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
@@ -9,6 +10,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace FishFlingers.UI
 {
@@ -19,6 +21,7 @@ namespace FishFlingers.UI
         [SerializeField] private TMP_Text _countText;
 
         private InventoryItem _inventoryItem;
+        private bool _isOutlined;
 
         public RectTransform RectTransform => _rectTransform;
         public InventoryItem InventoryItem => _inventoryItem;
@@ -26,18 +29,32 @@ namespace FishFlingers.UI
         private static readonly Vector2 DefaultSlotSize = new Vector2(60, 60);
         private Vector2 _slotSize = DefaultSlotSize;
 
-        public void Setup(InventoryItem inventoryItem)
+        private List<CellOutline> _cellOutlines;
+
+        public void Setup(InventoryItem inventoryItem, bool isOutlined)
         {
             _inventoryItem = inventoryItem;
+            _isOutlined = isOutlined;
 
             UpdateView();
+        }
+
+        public void SetSlotSize(Vector2 size)
+        {
+            _slotSize = size;
         }
 
         // View is implied, but the method Update is taken by Monobehaviour
         public void UpdateView()
         {
+            if (_inventoryItem == null)
+            {
+                return;
+            }
+
             UpdateImage();
             UpdateCount();
+            UpdateOutline();
         }
 
         private void UpdateImage()
@@ -87,9 +104,9 @@ namespace FishFlingers.UI
             _countText.rectTransform.eulerAngles = Vector3.zero;
         }
 
-        public void SetSlotSize(Vector2 size)
+        private void UpdateOutline()
         {
-            _slotSize = size;
+
         }
     }
 }

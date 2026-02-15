@@ -50,6 +50,8 @@ namespace FishFlingers.UI
             }
 
             _inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
+
+            RefreshSlotViewOutlines();
         }
 
         private void OnDestroy()
@@ -201,6 +203,7 @@ namespace FishFlingers.UI
         {
             foreach (InventoryItemView view in _inventoryItemViews.Values)
             {
+                view.View.SetSlotSize(_slotSize);
                 view.UpdateView();
             }
         }

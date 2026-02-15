@@ -10,7 +10,6 @@ namespace FishFlingers.UI
     public class InventorySlotView : MonoBehaviour, IPoolable
     {
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private TMP_Text _cellText;
         [SerializeField] private CellOutline _cellOutline;
 
         private InventoryWidget _inventoryWidget;
@@ -26,8 +25,6 @@ namespace FishFlingers.UI
         {
             _inventoryWidget = inventoryWidget;
             _cell = cell;
-
-            _cellText.text = $"({cell.x}, {cell.y})";
         }
 
         public void SetTransform(Vector2 position, Vector2 size)
@@ -50,7 +47,9 @@ namespace FishFlingers.UI
             bool itemBottom = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(0, -1), out InventorySlotView bottomView) && bottomView._inventoryItem == _inventoryItem;
             bool itemRight = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(1, 0), out InventorySlotView rightView) && rightView._inventoryItem == _inventoryItem;
 
-            _cellOutline.Set(item && !itemTop, item && !itemLeft, item && !itemBottom, item && !itemRight);
+            _cellOutline.SetEnabled(!item || !itemTop, !item || !itemLeft, !item || !itemBottom, !item || !itemRight);
+
+            _cellOutline.SetColor(item ? Color.white : Color.gray);
         }
 
         public void OnReturnedToPool() 
