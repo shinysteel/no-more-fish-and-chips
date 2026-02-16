@@ -234,13 +234,13 @@ namespace ShinyOwl.Common.Structures
             }
         }
 
-        public void ForEachTrue(Action<Vector2Int, bool> action)
+        public void ForEachTrue(Action<Vector2Int> action)
         {
             foreach (KeyValuePair<Vector2Int, bool> kvp in this)
             {
                 if (kvp.Value)
                 {
-                    action(kvp.Key, kvp.Value);
+                    action(kvp.Key);
                 }
             }
         }
@@ -320,7 +320,7 @@ namespace ShinyOwl.Common.Structures
             // An offset allows us to store 'negative' cells
             grid._arrayOffset = new Vector2Int(-minGridX, -minGridY);
 
-            ForEachTrue((Vector2Int cell, bool value) =>
+            ForEachTrue((Vector2Int cell) =>
             {
                 Vector2Int rotated = RotateCell(cell, rotations);
 

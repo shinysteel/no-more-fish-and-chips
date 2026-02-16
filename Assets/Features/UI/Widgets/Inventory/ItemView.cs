@@ -24,7 +24,6 @@ namespace FishFlingers.UI
         private PoolManager _poolManager;
 
         private InventoryItem _inventoryItem;
-        private bool _isOutlined;
 
         public RectTransform RectTransform => _rectTransform;
         public InventoryItem InventoryItem => _inventoryItem;
@@ -32,18 +31,15 @@ namespace FishFlingers.UI
         private static readonly Vector2 DefaultSlotSize = new Vector2(60, 60);
         private Vector2 _slotSize = DefaultSlotSize;
 
-        private List<CellOutline> _cellOutlines = new();
-
 
         private void Awake()
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
         }
 
-        public void Setup(InventoryItem inventoryItem, bool isOutlined)
+        public void Setup(InventoryItem inventoryItem)
         {
             _inventoryItem = inventoryItem;
-            _isOutlined = isOutlined;
 
             UpdateView();
         }
@@ -74,7 +70,6 @@ namespace FishFlingers.UI
 
             UpdateImage();
             UpdateCount();
-            UpdateOutline();
         }
 
         private void UpdateImage()
@@ -117,47 +112,6 @@ namespace FishFlingers.UI
 
             // Rotation
             _countText.rectTransform.eulerAngles = Vector3.zero;
-        }
-
-        private void UpdateOutline()
-        {
-            if (!_isOutlined)
-            {
-                return;
-            }
-
-            for (int i = _cellOutlines.Count; i < _inventoryItem.Shape.TrueCount; i++)
-            {
-                CellOutline outline = _poolManager.Get<CellOutline>(new SpawnParams() { Parent = _cellOutlinesContainer });
-                _cellOutlines.Add(outline);
-            }
-
-            int index = 0;
-            _inventoryItem.Shape.ForEachTrue((Vector2Int cell, bool cellValue) =>
-            {
-                CellOutline outline = _cellOutlines[index];
-                outline.RectTransform.anchoredPosition = CalculateAnchoredPositionForCell(cell);
-                outline.RectTransform.sizeDelta = _slotSize;
-
-                Vector2Int up = Utils.Math.RotateCell(Vector2Int.up, _inventoryItem.Rotations, true);
-                Vector2Int left = Utils.Math.RotateCell(Vector2Int.left, _inventoryItem.Rotations, true);
-                Vector2Int down = Utils.Math.RotateCell(Vector2Int.down, _inventoryItem.Rotations, true);
-                Vector2Int right = Utils.Math.RotateCell(Vector2Int.right, _inventoryItem.Rotations, true);
-
-                outline.SetEnabled(
-                    !_inventoryItem.Shape.TryGetBool(cell + up, out bool topValue) || !topValue, 
-                    !_inventoryItem.Shape.TryGetBool(cell + left, out bool leftValue) || !leftValue,
-                    !_inventoryItem.Shape.TryGetBool(cell + down, out bool bottomValue) || !bottomValue,
-                    !_inventoryItem.Shape.TryGetBool(cell + right, out bool rightValue) || !rightValue);
-
-                index++;
-            });
-
-            for (int i = _cellOutlines.Count - 1; i >= _inventoryItem.Shape.TrueCount; i--)
-            {
-                _poolManager.Return(_cellOutlines[i]);
-                _cellOutlines.RemoveAt(i);
-            }
         }
     }
 }

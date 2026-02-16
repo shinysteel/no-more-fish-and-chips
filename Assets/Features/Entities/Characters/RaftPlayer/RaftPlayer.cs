@@ -110,7 +110,7 @@ namespace FishFlingers.Entities
 
         private void SyncVarsUpdate()
         {   
-            _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(_inputLogic.RawMouse.x / Screen.width), Mathf.Clamp01(_inputLogic.RawMouse.y / Screen.height));
+            _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(Input.mousePosition.x / Screen.width), Mathf.Clamp01(Input.mousePosition.y / Screen.height));
         }
     }
 }

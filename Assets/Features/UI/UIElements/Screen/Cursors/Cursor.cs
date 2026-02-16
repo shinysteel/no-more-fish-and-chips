@@ -127,7 +127,7 @@ namespace FishFlingers.UI
         {
             if (item != null)
             {
-                _itemView.Setup(item, true);
+                _itemView.Setup(item);
                 _itemView.gameObject.SetActive(true);
             }
             else

@@ -270,7 +270,7 @@ namespace FishFlingers.Inventories
 
         private void PopulateSlots()
         {
-            _layout.ForEachTrue((Vector2Int cell, bool value) =>
+            _layout.ForEachTrue((Vector2Int cell) =>
             {
                 _netInventorySlots.Add(cell, new());
             });
@@ -356,7 +356,7 @@ namespace FishFlingers.Inventories
             ItemData data = _itemManager.GetItemData(item.ItemId);
 
             // Clear all inventory slots it was on
-            data.Shape.GetRotated(item.Rotations).ForEachTrue((Vector2Int cell, bool value) =>
+            data.Shape.GetRotated(item.Rotations).ForEachTrue((Vector2Int cell) =>
             {
                 _netInventorySlots[item.Pivot + cell].SetItemInstanceId(null);
             });
@@ -495,7 +495,7 @@ namespace FishFlingers.Inventories
             HashSet<Vector2Int> placedCells = new();
             void AddPlacedCells(Vector2Int pivot, BoolGrid shape)
             {
-                shape.ForEachTrue((Vector2Int cell, bool value) =>
+                shape.ForEachTrue((Vector2Int cell) =>
                 {
                     placedCells.Add(pivot + cell);
                 });
@@ -579,7 +579,7 @@ namespace FishFlingers.Inventories
                 BoolGrid shape = rotations == 0 ? data.Shape : data.Shape.GetRotated(rotations);
                 bool fits = true;
 
-                shape.ForEachTrue((Vector2Int cell, bool value) =>
+                shape.ForEachTrue((Vector2Int cell) =>
                 {
                     if (!fits)
                     {
@@ -693,7 +693,7 @@ namespace FishFlingers.Inventories
             NetInventoryItem newNetInventoryItem = new NetInventoryItem(instanceId, place.ItemId, place.Amount, place.Pivot, place.Rotations);
             _netInventoryItems.Add(newNetInventoryItem.InstanceId, newNetInventoryItem);
 
-            place.Shape.ForEachTrue((Vector2Int cell, bool value) =>
+            place.Shape.ForEachTrue((Vector2Int cell) =>
             {
                 _netInventorySlots[place.Pivot + cell].SetItemInstanceId(newNetInventoryItem.InstanceId);
             });

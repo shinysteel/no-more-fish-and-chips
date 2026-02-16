@@ -73,7 +73,7 @@ namespace FishFlingers.Entities
 
         private void LookFixedTick()
         {
-            Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_inputLogic.GameplayMouse);
+            Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_inputLogic.Mouse);
 
             // Have the plane sit at the player's origin so that y does not influence the target
             Plane plane = new Plane(Vector3.up, _player.transform.position);

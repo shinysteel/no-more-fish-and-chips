@@ -23,7 +23,7 @@ namespace FishFlingers.UI
 
             _view.SetSlotSize(_inventoryWidget.SlotSize);
 
-            _view.Setup(inventoryItem, false);
+            _view.Setup(inventoryItem);
 
             // No harm in calling _view.UpdateView twice just so we can do one line here
             UpdateView();

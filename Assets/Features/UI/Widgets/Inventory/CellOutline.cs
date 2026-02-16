@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace FishFlingers.UI
 {
-    public class CellOutline : MonoBehaviour, IPoolable
+    public class CellOutline : MonoBehaviour
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _topImage;
@@ -34,11 +34,5 @@ namespace FishFlingers.UI
             _bottomImage.color = color;
             _rightImage.color = color;
         }
-
-        public void OnTakenFromPool()
-        { }
-
-        public void OnReturnedToPool()
-        { }
     }
 }

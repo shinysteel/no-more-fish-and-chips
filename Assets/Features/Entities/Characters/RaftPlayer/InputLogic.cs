@@ -8,19 +8,17 @@ namespace FishFlingers.Entities
 
         // Vars always active
         private bool _click;
-        private Vector2 _rawMouse;
 
         public bool Click => _click;
-        public Vector2 RawMouse => _rawMouse;
 
         // Vars dependent on RaftPlayer.CanAct
-        private Vector2 _gameplayMouse;
+        private Vector2 _mouse;
         private Vector3 _moveDirection;
         private bool _jump;
         private bool _ascend;
         private bool _interact;
 
-        public Vector2 GameplayMouse => _gameplayMouse;
+        public Vector2 Mouse => _mouse;
         public Vector3 MoveDirection => _moveDirection;
         public bool Jump => _jump;
         public bool Ascend => _ascend;
@@ -34,11 +32,10 @@ namespace FishFlingers.Entities
         public void Tick()
         {
             _click = Input.GetMouseButtonDown(0);
-            _rawMouse = Input.mousePosition;
 
             if (_player.CanAct)
             {
-                _gameplayMouse = _rawMouse;
+                _mouse = Input.mousePosition;
                 _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")), 1f);
                 _jump = Input.GetKeyDown(KeyCode.Space);
                 _ascend = Input.GetKey(KeyCode.Space);

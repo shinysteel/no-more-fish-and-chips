@@ -1,11 +1,12 @@
+using FishFlingers.Inventories;
 using FishFlingers.Items;
+using FishFlingers.Pools;
+using FishFlingers.States;
+using PurrNet.Prediction;
+using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
-using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using ShinyOwl.Common;
-using PurrNet.Prediction;
-using FishFlingers.States;
+using UnityEngine.EventSystems;
 
 namespace FishFlingers.UI
 {
@@ -30,11 +31,17 @@ namespace FishFlingers.UI
         private Dictionary<string, InventoryItemView> _inventoryItemViews;
 
         public IReadOnlyDictionary<Vector2Int, InventorySlotView> InventorySlotViews => _inventorySlotViews;
+        public IReadOnlyDictionary<string, InventoryItemView> InventoryItemViews => _inventoryItemViews;
+
+        private InventoryOutliner _inventoryOutliner;
+
+        private void Awake()
+        {
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+        }
 
         public void Setup(Inventory inventory, GameplayContext context)
         {
-            _poolManager = GameManager.Instance.Get<PoolManager>();
-
             _inventory = inventory;
             _context = context;
 
@@ -44,14 +51,14 @@ namespace FishFlingers.UI
 
             OnRectTransformDimensionsChange();
 
+            _inventoryOutliner = new InventoryOutliner(this);
+
             foreach (KeyValuePair<string, InventoryItem> kvp in _inventory.InventoryItems)
             {
                 HandleInventoryItemChanged(kvp.Key, null, kvp.Value);
             }
 
             _inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
-
-            RefreshSlotViewOutlines();
         }
 
         private void OnDestroy()
@@ -76,6 +83,12 @@ namespace FishFlingers.UI
             }
         }
 
+        private void Update()
+        {
+            _inventoryOutliner.Tick();   
+        }
+
+        // Setup the slot views
         private Dictionary<Vector2Int, InventorySlotView> CreateInventorySlotViews()
         {
             Dictionary<Vector2Int, InventorySlotView> views = new();
@@ -94,6 +107,7 @@ namespace FishFlingers.UI
             return views;
         }
 
+        // Listen to item changes
         private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
             if (newInventoryItem != null)
@@ -107,12 +121,13 @@ namespace FishFlingers.UI
                 RemoveInventoryItemView(instanceId);
             }
 
-            RefreshSlotViewOutlines();
+            _inventoryOutliner.Refresh();
         }
 
+        // Informs slot views of an item occupying them
         private void SetInventoryItemToSlotViews(InventoryItem inventoryItem)
         {
-            inventoryItem.Shape.ForEachTrue((Vector2Int cell, bool value) =>
+            inventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
             {
                 _inventorySlotViews[inventoryItem.Pivot + cell].SetInventoryItem(inventoryItem);
             });
@@ -120,12 +135,13 @@ namespace FishFlingers.UI
 
         private void RemoveInventoryItemFromSlotViews(InventoryItem inventoryItem)
         {
-            inventoryItem.Shape.ForEachTrue((Vector2Int cell, bool value) =>
+            inventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
             {
                 _inventorySlotViews[inventoryItem.Pivot + cell].SetInventoryItem(null);
             });
         }
 
+        // Register an item to be displayed via an item view, and keep it up to date
         private void SetInventoryItemView(string key, InventoryItem inventoryItem)
         {
             if (!_inventoryItemViews.ContainsKey(key))
@@ -147,14 +163,6 @@ namespace FishFlingers.UI
 
             _poolManager.Return(_inventoryItemViews[key]);
             _inventoryItemViews.Remove(key);
-        }
-
-        private void RefreshSlotViewOutlines()
-        {
-            foreach (InventorySlotView slotView in _inventorySlotViews.Values)
-            {
-                slotView.RefreshOutline();
-            }
         }
 
         private void OnRectTransformDimensionsChange()

@@ -12,14 +12,18 @@ namespace FishFlingers.UI
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private CellOutline _cellOutline;
 
+        public RectTransform RectTransform => _rectTransform;
+        public CellOutline CellOutline => _cellOutline;
+
         private InventoryWidget _inventoryWidget;
         private Vector2Int _cell;
 
-        private InventoryItem _inventoryItem;
-
-        public RectTransform RectTransform => _rectTransform;
         public InventoryWidget InventoryWidget => _inventoryWidget;
         public Vector2Int Cell => _cell;
+
+        private InventoryItem _inventoryItem;
+
+        public InventoryItem InventoryItem => _inventoryItem;
 
         public void Setup(InventoryWidget inventoryWidget, Vector2Int cell)
         {
@@ -37,21 +41,7 @@ namespace FishFlingers.UI
         {
             _inventoryItem = item;
         }
-
-        public void RefreshOutline()
-        {
-            // Item refers to both having an item in this cell, and it also existing in a given direction (1 unit away)
-            bool item = _inventoryItem != null;
-            bool itemTop = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(0, 1), out InventorySlotView topView) && topView._inventoryItem == _inventoryItem;
-            bool itemLeft = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(-1, 0), out InventorySlotView leftView) && leftView._inventoryItem == _inventoryItem;
-            bool itemBottom = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(0, -1), out InventorySlotView bottomView) && bottomView._inventoryItem == _inventoryItem;
-            bool itemRight = _inventoryWidget.InventorySlotViews.TryGetValue(Cell + new Vector2Int(1, 0), out InventorySlotView rightView) && rightView._inventoryItem == _inventoryItem;
-
-            _cellOutline.SetEnabled(!item || !itemTop, !item || !itemLeft, !item || !itemBottom, !item || !itemRight);
-
-            _cellOutline.SetColor(item ? Color.white : Color.gray);
-        }
-
+        
         public void OnReturnedToPool() 
         {
             _inventoryItem = null;
