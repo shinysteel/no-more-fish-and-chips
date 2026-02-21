@@ -9,12 +9,14 @@ namespace FishFlingers.UI
         // It's not safe to expose _view for this script's use case, so we will be routing methods through here
         [SerializeField] private ItemView _view;
 
+        public RectTransform RectTransform => _view.RectTransform;
+
         public void Setup(InventoryItem item)
         {
-            // Don't invoke UpdateView through ItemView.Setup, since we don't want to inherit many parts of ItemView
+            // Don't invoke RefreshView through ItemView.Setup, since we don't want to inherit many parts of ItemView
             _view.SetInventoryItem(item);
 
-            UpdateView();
+            RefreshView();
         }
 
         public void SetSlotSize(Vector2 size)
@@ -22,14 +24,14 @@ namespace FishFlingers.UI
             _view.SetSlotSize(size);
         }
 
-        public void UpdateView()
+        public void RefreshView()
         {
-            UpdateRect();
-            _view.UpdateImage();
-            _view.UpdateCountText();
+            RefreshRect();
+            _view.RefreshImage();
+            _view.RefreshCountText();
         }
 
-        private void UpdateRect()
+        private void RefreshRect()
         {
             _view.RectTransform.sizeDelta = _view.SlotSize;
         }

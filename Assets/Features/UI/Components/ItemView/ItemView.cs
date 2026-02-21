@@ -34,7 +34,7 @@ namespace FishFlingers.UI
         {
             SetInventoryItem(item);
 
-            UpdateView();
+            Refresh();
         }
 
         public void SetInventoryItem(InventoryItem item)
@@ -68,20 +68,19 @@ namespace FishFlingers.UI
             return rotatedOffset * slotSize;
         }
 
-        // View is implied, but the method Update is taken by Monobehaviour
-        public void UpdateView()
+        public void Refresh()
         {
             if (_inventoryItem == null)
             {
                 return;
             }
 
-            UpdateRect();
-            UpdateImage();
-            UpdateCount();
+            RefreshRect();
+            RefreshImage();
+            RefreshCount();
         }
 
-        public void UpdateRect()
+        public void RefreshRect()
         {
             bool horizontal = _inventoryItem.Rotations % 2 == 0;
 
@@ -118,19 +117,19 @@ namespace FishFlingers.UI
             _rectTransform.eulerAngles = new Vector3(0f, 0f, _inventoryItem.Rotations * -90f);
         }
 
-        public void UpdateImage()
+        public void RefreshImage()
         {
             // Sprite
             _image.sprite = _inventoryItem.ItemInstance.Data.Sprite;
         }
 
-        public void UpdateCount()
+        public void RefreshCount()
         {
-            UpdateCountText();
-            UpdateCountRect();
+            RefreshCountText();
+            RefreshCountRect();
         }
 
-        public void UpdateCountText()
+        public void RefreshCountText()
         {
             // Size
             _countText.rectTransform.sizeDelta = _slotSize;
@@ -139,7 +138,7 @@ namespace FishFlingers.UI
             _countText.text = _inventoryItem.ItemInstance.Count.ToString();
         }
 
-        public void UpdateCountRect()
+        public void RefreshCountRect()
         {
             // Sort by bottom, then rightmost
             Vector2Int cell = _inventoryItem.Shape

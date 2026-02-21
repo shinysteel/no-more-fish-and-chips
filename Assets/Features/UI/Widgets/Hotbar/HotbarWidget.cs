@@ -2,6 +2,8 @@ using FishFlingers.Inventories;
 using FishFlingers.Pools;
 using FishFlingers.States;
 using ShinyOwl.Common;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +24,7 @@ namespace FishFlingers.UI
             _poolManager = GameManager.Instance.Get<PoolManager>();
         }
 
-        public void Setup(GameplayContext context)
+        public async Task SetupAsync(GameplayContext context)
         {
             _hotbar = context.LocalPlayer.Hotbar;
 
@@ -34,18 +36,29 @@ namespace FishFlingers.UI
                 _slots[i].Setup(i);
             }
 
-            OnRectTransformDimensionsChange();
-
             for (int i = 0; i < _hotbar.Slots.Count; i++)
             {
                 HandleSlotChanged(i, _hotbar.Slots[i]);
             }
 
             _hotbar.OnSlotChanged += HandleSlotChanged;
+
+            // It takes one frame for pooled objects to enable when retrieved. Without this delay, slots will have invalid sizeDelta during their update
+            await Task.Yield();
+            
+            OnRectTransformDimensionsChange();
         }
 
         private void OnDestroy()
         {
+            if (_poolManager != null)
+            {
+                foreach (HotbarWidgetSlot slot in _slots)
+                {
+                    _poolManager.Return(slot);
+                }
+            }
+            
             if (_hotbar != null)
             {
                 _hotbar.OnSlotChanged -= HandleSlotChanged;
@@ -64,10 +77,10 @@ namespace FishFlingers.UI
                 return;
             }
 
-            UpdateSlots();
+            RefreshSlots();
         }
 
-        private void UpdateSlots()
+        private void RefreshSlots()
         {
             Vector2 size = new Vector2(_rectTransform.rect.width / _slots.Length, _rectTransform.rect.height);
             float pivot = (_slots.Length - 1) / 2f;

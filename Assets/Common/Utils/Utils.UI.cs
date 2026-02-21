@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
+using FishFlingers.UI;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace ShinyOwl.Common.Utils
 {
@@ -24,6 +25,14 @@ namespace ShinyOwl.Common.Utils
                 ExecuteEvents.Execute(button.gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerUpHandler);
 
                 button.onClick?.Invoke();
+            }
+
+            public static void StretchToParent(RectTransform rect)
+            {
+                rect.anchorMin = Vector2.zero;
+                rect.anchorMax = Vector2.one;
+                rect.offsetMin = Vector2.zero;
+                rect.offsetMax = Vector2.zero;
             }
         }
     }

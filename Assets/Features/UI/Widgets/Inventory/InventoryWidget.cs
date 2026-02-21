@@ -4,6 +4,7 @@ using FishFlingers.Pools;
 using FishFlingers.States;
 using PurrNet.Prediction;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -110,35 +111,40 @@ namespace FishFlingers.UI
         // Listen to item changes
         private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
+            SetInventoryItemToSlotViews(oldInventoryItem, newInventoryItem);
+
             if (newInventoryItem != null)
             {
-                SetInventoryItemToSlotViews(newInventoryItem);
                 SetInventoryItemView(instanceId, newInventoryItem);
             }
             else
             {
-                RemoveInventoryItemFromSlotViews(oldInventoryItem);
                 RemoveInventoryItemView(instanceId);
             }
 
             _inventoryOutliner.Refresh();
         }
 
-        // Informs slot views of an item occupying them
-        private void SetInventoryItemToSlotViews(InventoryItem inventoryItem)
+        // Informs slot views on the status of items occupying them
+        private void SetInventoryItemToSlotViews(InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
-            inventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
+            void set(Vector2Int setCell, BoolGrid shape, InventoryItem item)
             {
-                _inventorySlotViews[inventoryItem.Cell + cell].SetInventoryItem(inventoryItem);
-            });
-        }
+                shape.ForEachTrue((Vector2Int shapeCell) =>
+                {
+                    _inventorySlotViews[setCell + shapeCell].SetInventoryItem(item);
+                });
+            }
 
-        private void RemoveInventoryItemFromSlotViews(InventoryItem inventoryItem)
-        {
-            inventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
+            if (oldInventoryItem != null)
             {
-                _inventorySlotViews[inventoryItem.Cell + cell].SetInventoryItem(null);
-            });
+                set(oldInventoryItem.Cell, oldInventoryItem.Shape, null);
+            }
+
+            if (newInventoryItem != null)
+            {
+                set(newInventoryItem.Cell, newInventoryItem.Shape, newInventoryItem);
+            }
         }
 
         // Register an item to be displayed via an item view, and keep it up to date
@@ -206,7 +212,7 @@ namespace FishFlingers.UI
             foreach (InventoryItemView view in _inventoryItemViews.Values)
             {
                 view.View.SetSlotSize(_slotSize);
-                view.UpdateView();
+                view.Refresh();
             }
         }
     }

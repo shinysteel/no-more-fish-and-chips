@@ -16,4 +16,4 @@ MonoBehaviour:
   _spriteAssetName: item_paddle
   _maxStack: 2
   _sprite: {fileID: 21300000, guid: 32804148b627b9344b6700fd8613e69d, type: 3}
-  _shape: {fileID: 11400000, guid: 7b783547d3dcf654dbc1f3049e96379e, type: 2}
+  _shape: {fileID: 11400000, guid: 319b7d8490ecfa445937b1e0fe561a82, type: 2}

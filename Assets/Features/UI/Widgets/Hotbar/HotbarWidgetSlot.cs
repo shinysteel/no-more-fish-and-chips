@@ -1,5 +1,8 @@
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
+using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,6 +59,8 @@ namespace FishFlingers.UI
             {
                 _poolManager.Return(_unitItemView);
             }
+
+            _unitItemView = null;
         }
 
         public void OnReturnedToPool()

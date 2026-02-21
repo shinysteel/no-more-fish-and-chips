@@ -15,7 +15,7 @@ namespace FishFlingers.UI
         public void Setup(GameplayContext context)
         {
             _inventoryWidget.Setup(context, context.LocalPlayer.Inventory);
-            _hotbarWidget.Setup(context);
+            _ = _hotbarWidget.SetupAsync(context);
         }
     }
 }

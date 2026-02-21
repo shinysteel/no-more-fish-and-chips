@@ -94,7 +94,7 @@ namespace FishFlingers.UI
         private void Resize(Vector2 slotSize)
         {
             _itemView.SetSlotSize(slotSize);
-            _itemView.UpdateView();
+            _itemView.Refresh();
             _handImage.rectTransform.sizeDelta = slotSize * 0.9f;
         }
 

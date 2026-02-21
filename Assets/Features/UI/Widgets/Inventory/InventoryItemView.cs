@@ -25,18 +25,18 @@ namespace FishFlingers.UI
 
             _view.Setup(inventoryItem);
 
-            // No harm in calling _view.UpdateView twice just so we can do one line here
-            UpdateView();
+            // No harm in calling _view.Refresh twice just so we can do one line here
+            Refresh();
         }
 
-        public void UpdateView()
+        public void Refresh()
         {
-            _view.UpdateView();
+            _view.Refresh();
 
-            UpdateRect();
+            RefreshRect();
         }
 
-        private void UpdateRect()
+        private void RefreshRect()
         {
             // Position
             InventorySlotView slotView = _inventoryWidget.InventorySlotViews[_view.InventoryItem.Cell];

@@ -248,6 +248,9 @@ namespace FishFlingers.Inventories
         private SyncDictionaryWrapper<Vector2Int, NetInventorySlot> _netInventorySlots = new(ownerAuth: true);
         private SyncDictionaryWrapper<string, NetInventoryItem> _netInventoryItems = new(ownerAuth: true);
 
+        public SyncDictionaryWrapper<Vector2Int, NetInventorySlot> NetInventorySlots => _netInventorySlots;
+        public SyncDictionaryWrapper<string, NetInventoryItem> NetInventoryItems => _netInventoryItems;
+
         private Dictionary<Vector2Int, InventorySlot> _inventorySlots = new();
         private Dictionary<string, InventoryItem> _inventoryItems = new();
 
@@ -293,11 +296,6 @@ namespace FishFlingers.Inventories
             {
                 _netInventoryItems.onChanged -= HandleNetInventoryItemsChanged;
             }
-        }
-
-        public NetInventoryItem GetNetInventoryItem(string key)
-        {
-            return _netInventoryItems[key];
         }
 
         public void SetLayout(BoolGrid layout)
@@ -375,6 +373,9 @@ namespace FishFlingers.Inventories
             }
         }
 
+        /// <summary>
+        /// Removes an item from the inventory
+        /// </summary>
         public void RemoveItem(string instanceId)
         { 
             if (!isOwner)
@@ -389,16 +390,34 @@ namespace FishFlingers.Inventories
                 return;
             }
 
-            NetInventoryItem item = _netInventoryItems[instanceId];
+            ClearSlots(instanceId);
+            _netInventoryItems.Remove(instanceId);
+        }
+
+        /// <summary>
+        /// Clear all inventory slots an item is on. This won't actually remove the item from the inventory, and
+        /// is useful for moving an existing item without removing it first
+        /// </summary>
+        private void ClearSlots(string instanceId)
+        {
+            if (!isOwner)
+            {
+                Log.Error(this, "Tried to clear slots without being the owner");
+                return;
+            }
+
+            if (!_netInventoryItems.TryGetValue(instanceId, out NetInventoryItem item))
+            {
+                Log.Error(this, $"Inventory does not contain an item instance with id: {instanceId}");
+                return;
+            }
+
             ItemData data = _itemManager.GetItemData(item.ItemId);
 
-            // Clear all inventory slots it was on
             data.Shape.GetTransformed(item.Pivot, item.Rotations).ForEachTrue((Vector2Int cell) =>
             {
                 _netInventorySlots[item.Cell + cell].SetItemInstanceId(null);
             });
-
-            _netInventoryItems.Remove(instanceId);
         }
 
         /// <summary>
@@ -730,19 +749,24 @@ namespace FishFlingers.Inventories
             // A null place.InstanceId indicates this will be a new item. We validate instanceId here since we know for sure it will be placed
             string instanceId = place.InstanceId != null ? place.InstanceId : _itemManager.GetNextItemInstanceId();
 
-            // This will feel like the item is being 'moved'
-            if (_netInventoryItems.ContainsKey(instanceId))
+            NetInventoryItem item = new NetInventoryItem(instanceId, place.ItemId, place.Amount, place.Cell, place.Pivot, place.Rotations);
+
+            if (!_netInventoryItems.ContainsKey(instanceId))
             {
-                RemoveItem(instanceId);
+                _netInventoryItems.Add(instanceId, item);
+            }
+            else
+            {
+                // If we are moving an item, we need to clear its previous placement
+                ClearSlots(instanceId);
+
+                _netInventoryItems[instanceId] = item;
             }
 
             // Place the items
-            NetInventoryItem newNetInventoryItem = new NetInventoryItem(instanceId, place.ItemId, place.Amount, place.Cell, place.Pivot, place.Rotations);
-            _netInventoryItems.Add(newNetInventoryItem.InstanceId, newNetInventoryItem);
-
             place.Shape.ForEachTrue((Vector2Int cell) =>
             {
-                _netInventorySlots[place.Cell + cell].SetItemInstanceId(newNetInventoryItem.InstanceId);
+                _netInventorySlots[place.Cell + cell].SetItemInstanceId(instanceId);
             });
         }
 

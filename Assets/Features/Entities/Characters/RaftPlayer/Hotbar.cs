@@ -1,10 +1,11 @@
 using FishFlingers.Inventories;
-using NUnit.Framework;
-using UnityEngine;
-using System.Collections.Generic;
 using FishFlingers.States;
-using System;
+using NUnit.Framework;
 using ShinyOwl.Common;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Hotbar
 {
@@ -40,24 +41,20 @@ public class Hotbar
 
     private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
     {
-        // We only care when an item is removed
-        if (newInventoryItem != null)
-        {
-            return;
-        }
-
-        // Clear any potential slot linked to that item
+        // Find and update a potential slot linked to the item
         for (int i = 0; i < _slots.Count; i++)
         {
-            if (_slots[i]?.ItemInstance?.InstanceId == oldInventoryItem.ItemInstance.InstanceId)
+            if (_slots[i]?.ItemInstance.InstanceId != instanceId)
             {
-                SetSlot(i, null);
-                break;
+                continue;
             }
+
+            SetSlot(i, newInventoryItem);
+            return;
         }
     }
 
-    public void SetSlot(int index, InventoryItem setItem)
+    public void SetSlot(int index, InventoryItem item)
     {
         // Guard against invalid requests
         if (index < 0 || index >= _slots.Count)
@@ -66,19 +63,24 @@ public class Hotbar
         }
 
         // You can't equip the same item in more than one slot, so we check for duplicates when assigning a value that isn't null
-        if (setItem != null)
+        if (item != null)
         {
-            foreach (InventoryItem existingItem in _slots)
+            for (int i = 0; i < _slots.Count; i++)
             {
-                if (existingItem?.ItemInstance?.InstanceId == setItem.ItemInstance.InstanceId)
+                if (i == index)
+                {
+                    continue;
+                }
+
+                if (_slots[i]?.ItemInstance.InstanceId == item.ItemInstance.InstanceId)
                 {
                     return;
                 }
             }
         }
 
-        _slots[index] = setItem;
-
-        OnSlotChanged?.Invoke(index, setItem);
+        _slots[index] = item;
+        
+        OnSlotChanged?.Invoke(index, item);
     }
 }
