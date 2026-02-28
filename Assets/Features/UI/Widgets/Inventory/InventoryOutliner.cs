@@ -9,89 +9,25 @@ using ShinyOwl.Common;
 namespace FishFlingers.UI
 {
     // Keeps slot view outlines up to date in an InventoryWidget
-    public class InventoryOutliner
+    public class InventoryOutliner : SlotViewOutliner<InventorySlotView>
     {
-        private UIManager _uiManager;
-
-        private GameplayContext _context;
-
         private InventoryWidget _inventoryWidget;
 
-        private PointerEventData _pointerEventData;
-        private List<RaycastResult> _raycastResults = new();
-
-        private InventorySlotView _targetSlotView;
-
-        public InventoryOutliner(GameplayContext context, InventoryWidget widget)
+        public InventoryOutliner(GameplayContext context, InventoryWidget widget) : base(context)
         {
-            _uiManager = GameManager.Instance.Get<UIManager>();
-
-            _context = context;
-
             _inventoryWidget = widget;
 
-            _pointerEventData = new PointerEventData(EventSystem.current);
-
-            _context.LocalPlayer.HeldItemLogic.OnChanged += HandleHeldItemChanged;
-
             Refresh();
         }
 
-        ~InventoryOutliner()
+        public override void Refresh()
         {
-            if (_context.LocalPlayer != null)
-            {
-                _context.LocalPlayer.HeldItemLogic.OnChanged -= HandleHeldItemChanged;
-            }
-        }
-
-        private void HandleHeldItemChanged(InventoryItem item)
-        {
-            Refresh();
-        }
-
-        public void Tick()
-        {
-            TargetSlotViewTick();
-        }
-
-        // _targetSlotView represents any InventorySlotView under the mouse
-        private void TargetSlotViewTick()
-        {
-            _pointerEventData.Reset();
-            _pointerEventData.position = Input.mousePosition;
-            _raycastResults.Clear();
-
-            _uiManager.ScreenGraphicRaycaster.Raycast(_pointerEventData, _raycastResults);
-
-            InventorySlotView slotView = null;
-
-            foreach (RaycastResult result in _raycastResults)
-            {
-                if (result.gameObject.TryGetComponent(out slotView))
-                {
-                    break;
-                }
-            }
-
-            if (_targetSlotView == slotView)
-            {
-                return;
-            }
-
-            _targetSlotView = slotView;
-
-            Refresh();
-        }
-
-        public void Refresh()
-        {
-            RefreshColor();
+            RefreshColors();
             RefreshEnabled();
         }
         
         // Change slot view outline color based on context
-        private void RefreshColor()
+        private void RefreshColors()
         {
             // By default, all cells are grey
             foreach (InventorySlotView slotView in _inventoryWidget.InventorySlotViews.Values)
@@ -120,8 +56,8 @@ namespace FishFlingers.UI
             {
                 // Color the potential place action green or red
                 CellOutline.EColor color = _inventoryWidget.Inventory.CanPlaceItems(PlaceParams.Create(_targetSlotView.Cell, heldInventoryItem), out _, out _, out _)
-                    ? CellOutline.EColor.Valid
-                    : CellOutline.EColor.Invalid;
+                    ? CellOutline.EColor.Positive
+                    : CellOutline.EColor.Negative;
 
                 heldInventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
                 {

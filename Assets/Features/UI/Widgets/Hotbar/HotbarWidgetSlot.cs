@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace FishFlingers.UI
 {
-    public class HotbarWidgetSlot : MonoBehaviour, IPoolable
+    public class HotbarWidgetSlot : MonoBehaviour, ISlotView, IPoolable
     {
         [SerializeField] private SlotView _view;
         [SerializeField] private Button _button;
@@ -22,6 +22,9 @@ namespace FishFlingers.UI
         public int Index => _index;
 
         private UnitItemView _unitItemView;
+
+        public InventoryItem InventoryItem => _view.InventoryItem;
+        public CellOutline CellOutline => _view.CellOutline;
 
         private void Awake()
         {

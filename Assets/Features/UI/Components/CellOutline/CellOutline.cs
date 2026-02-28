@@ -24,8 +24,8 @@ namespace FishFlingers.UI
         {
             Default     ,
             Highlighted ,
-            Valid       ,
-            Invalid     ,
+            Positive       ,
+            Negative     ,
         }
 
         private void Awake()
@@ -47,8 +47,8 @@ namespace FishFlingers.UI
             {
                 EColor.Default => _defaultColor,
                 EColor.Highlighted => _highlightColor,
-                EColor.Valid => _validColor,
-                EColor.Invalid => _invalidColor,
+                EColor.Positive => _validColor,
+                EColor.Negative => _invalidColor,
                 _ => _defaultColor
             };
 

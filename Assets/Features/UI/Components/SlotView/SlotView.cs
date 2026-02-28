@@ -9,6 +9,9 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 namespace FishFlingers.UI
 {
+    public interface ISlotView
+    { }
+
     public class SlotView : MonoBehaviour
     {
         [SerializeField] private RectTransform _rectTransform;

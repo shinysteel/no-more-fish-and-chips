@@ -17,6 +17,9 @@ namespace FishFlingers.UI
         private Hotbar _hotbar;
 
         private HotbarWidgetSlot[] _slots;
+        public HotbarWidgetSlot[] Slots => _slots;
+
+        private HotbarOutliner _hotbarOutliner;
 
         private void Awake()
         {
@@ -34,6 +37,8 @@ namespace FishFlingers.UI
                 _slots[i] = _poolManager.Get<HotbarWidgetSlot>(new SpawnParams() { Parent = transform });
                 _slots[i].Setup(context, i);
             }
+
+            _hotbarOutliner = new HotbarOutliner(context, this);
 
             for (int i = 0; i < _hotbar.Slots.Count; i++)
             {
@@ -64,9 +69,16 @@ namespace FishFlingers.UI
             }
         }
 
+        private void Update()
+        {
+            _hotbarOutliner.Tick();
+        }
+
         private void HandleSlotChanged(int index, InventoryItem item)
         {
             _slots[index].SetInventoryItem(item);
+
+            _hotbarOutliner.Refresh();
         }
 
         private void OnRectTransformDimensionsChange()
