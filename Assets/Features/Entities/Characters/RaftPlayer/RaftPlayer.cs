@@ -74,7 +74,6 @@ namespace FishFlingers.Entities
             
             // Start with a hammer
             _inventory.TryAddItems(ItemId.Hammer, 1);
-
             _hotbar.SetSlot(0, _inventory.InventoryItems.First().Value);
         }
 

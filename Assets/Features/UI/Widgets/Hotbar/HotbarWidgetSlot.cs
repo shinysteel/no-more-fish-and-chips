@@ -60,6 +60,11 @@ namespace FishFlingers.UI
         public void SetTransform(Vector2 position, Vector2 size)
         {
             _view.SetTransform(position, size);
+
+            if (_unitItemView != null)
+            {
+                RefreshItemViewSize();
+            }
         }
 
         public void SetInventoryItem(InventoryItem item)
@@ -75,12 +80,18 @@ namespace FishFlingers.UI
             if (_unitItemView == null)
             {
                 _unitItemView = _poolManager.Get<UnitItemView>(new SpawnParams() { Parent = transform });
-                _unitItemView.SetSlotSize(_view.RectTransform.sizeDelta * SlotSizeScalar);
+                RefreshItemViewSize();
             }
 
             _unitItemView.Setup(item);
         }
 
+        private void RefreshItemViewSize()
+        {
+            _unitItemView.SetSlotSize(_view.RectTransform.rect.size * SlotSizeScalar);
+            _unitItemView.RefreshRect();
+        }
+        
         private void ReturnUnitItemView()
         {
             if (_unitItemView != null)

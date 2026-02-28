@@ -70,7 +70,7 @@ namespace FishFlingers.Networking
 
             if (!_lobbyServices.TryGetValue(service, out _currentLobbyService))
             {
-                Log.Error(this, "Trying to set a lobby service that is not defined");
+                Log.Error("Trying to set a lobby service that is not defined");
             }
 
             // Lobby service should never be null after the first time it's set 

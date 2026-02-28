@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         _config = Resources.Load<GameManagerConfig>(ConfigPath);
         if (_config == null)
         {
-            Log.Error(this, "Unable to locate the GameManagerConfig at the specified path");
+            Log.Error("Unable to locate the GameManagerConfig at the specified path");
             return;
         }
 
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Log.Error(this, ex);
+            Log.Error(ex);
         }
     }
 

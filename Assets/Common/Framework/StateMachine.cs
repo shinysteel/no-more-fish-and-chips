@@ -91,13 +91,13 @@ namespace ShinyOwl.Common.Framework
         {
             if (!_enumStateMap.ContainsKey(stateEnum))
             {
-                Log.Error(this, "Tried to change to a state that has not been mapped");
+                Log.Error("Tried to change to a state that has not been mapped");
                 return;
             }
 
             if (Equals(_currentEnum, stateEnum))
             {
-                Log.Error(this, "Tried to change to a state we are already in");
+                Log.Error("Tried to change to a state we are already in");
                 return;
             }
 

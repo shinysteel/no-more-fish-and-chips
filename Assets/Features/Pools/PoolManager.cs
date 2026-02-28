@@ -134,7 +134,7 @@ namespace FishFlingers.Pools
 
             if (_prefabRegistry.ContainsKey(type))
             {
-                Log.Error(this, $"The type {type} has alreaady been registered");
+                Log.Error($"The type {type} has alreaady been registered");
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace FishFlingers.Pools
         {
             if (!_prefabRegistry.TryGetValue(type, out IPoolable prefab))
             {
-                Log.Error(this, $"Tried to retrieve an unregistered poolable object with type {type}");
+                Log.Error($"Tried to retrieve an unregistered poolable object with type {type}");
                 return null;
             }
 
@@ -173,7 +173,7 @@ namespace FishFlingers.Pools
             
             if (!_pools.TryGetValue(type, out IPool pool))
             {
-                Log.Error(this, "No pool is defined for the poolable object being returned");
+                Log.Error("No pool is defined for the poolable object being returned");
                 return;
             }
 

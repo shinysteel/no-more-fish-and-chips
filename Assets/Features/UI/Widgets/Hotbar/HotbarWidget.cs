@@ -40,17 +40,18 @@ namespace FishFlingers.UI
 
             _hotbarOutliner = new HotbarOutliner(context, this);
 
+            // It takes one frame for pooled objects to enable when retrieved. Without this delay, slots will have invalid sizeDelta during OnRectTransformDimensionsChange
+            while (_rectTransform.rect.size == Vector2.zero)
+            {
+                await Task.Yield();
+            }
+            
             for (int i = 0; i < _hotbar.Slots.Count; i++)
             {
                 HandleSlotChanged(i, _hotbar.Slots[i]);
             }
 
             _hotbar.OnSlotChanged += HandleSlotChanged;
-
-            // It takes one frame for pooled objects to enable when retrieved. Without this delay, slots will have invalid sizeDelta during OnRectTransformDimensionsChange
-            await Task.Yield();
-            
-            OnRectTransformDimensionsChange();
         }
 
         private void OnDestroy()

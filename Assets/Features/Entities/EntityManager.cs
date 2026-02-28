@@ -62,7 +62,7 @@ namespace FishFlingers.Entities
             {
                 if (!mapping.Prefab.TryGetComponent(out IEntity entity))
                 {
-                    Log.Error(this, $"Could not find a component that implements IEntity on {mapping.Prefab}");
+                    Log.Error($"Could not find a component that implements IEntity on {mapping.Prefab}");
                     continue;
                 }
 
@@ -98,7 +98,7 @@ namespace FishFlingers.Entities
         {
             if (!_entityPrefabMap.TryGetValue(type, out IEntity prefab))
             {
-                Log.Error(this, $"The entity {type} has not been mapped to a prefab");
+                Log.Error($"The entity {type} has not been mapped to a prefab");
                 return default;
             }
 
@@ -122,7 +122,7 @@ namespace FishFlingers.Entities
                 return parameters.Spawn(entity);
             }
 
-            Log.Error(this, $"Failed to cast {prefab} into a known entity class");
+            Log.Error($"Failed to cast {prefab} into a known entity class");
             return default;
         }
 
@@ -142,7 +142,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            Log.Error(this, $"The top-level class of {entity} is unkown, and so it couldn't be despawned");
+            Log.Error($"The top-level class of {entity} is unkown, and so it couldn't be despawned");
         }
 
         public void Despawn<T>(T entity) where T : Entity, IPoolable

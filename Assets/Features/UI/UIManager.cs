@@ -104,7 +104,7 @@ namespace FishFlingers.UI
         {
             if (prefab == null)
             {
-                Log.Error(this, "Tried to create a ScreenUI, but the prefab given was null");
+                Log.Error("Tried to create a ScreenUI, but the prefab given was null");
                 return null;
             }
 
@@ -145,13 +145,13 @@ namespace FishFlingers.UI
         {
             if (ui == null)
             {
-                Log.Error(this, "Tried to destroy a null ScreenUI");
+                Log.Error("Tried to destroy a null ScreenUI");
                 return;
             }
 
             if (!ui.transform.IsChildOf(_layerContainers[(int)layer]))
             {
-                Log.Error(this, "The ScreenUI to destroy was not on the specified layer");
+                Log.Error("The ScreenUI to destroy was not on the specified layer");
                 return;
             }
 
@@ -182,7 +182,7 @@ namespace FishFlingers.UI
         {
             if (prefab == null)
             {
-                Log.Error(this, $"Can't create a null WorldUI");
+                Log.Error($"Can't create a null WorldUI");
                 return null;
             }
 
@@ -195,13 +195,13 @@ namespace FishFlingers.UI
         {
             if (ui == null)
             {
-                Log.Error(this, $"Can't destroy a null WorldUI");
+                Log.Error($"Can't destroy a null WorldUI");
                 return;
             }
 
             if (ui.Canvas != _worldCanvas)
             {
-                Log.Error(this, $"Can't destroy WorldUI - it's not on the world canvas");
+                Log.Error($"Can't destroy WorldUI - it's not on the world canvas");
                 return;
             }
 

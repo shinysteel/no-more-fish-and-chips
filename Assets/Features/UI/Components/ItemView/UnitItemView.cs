@@ -31,7 +31,7 @@ namespace FishFlingers.UI
             _view.RefreshCountText();
         }
 
-        private void RefreshRect()
+        public void RefreshRect()
         {
             _view.RectTransform.sizeDelta = _view.SlotSize;
         }

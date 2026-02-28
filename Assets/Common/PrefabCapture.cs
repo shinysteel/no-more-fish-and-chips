@@ -48,13 +48,13 @@ namespace ShinyOwl.Common
         {
             if (_prefab == null)
             {
-                Log.Error(this, $"Missing a prefab reference");
+                Log.Error($"Missing a prefab reference");
                 return;
             }
 
             if (!Directory.Exists(_destination))
             {
-                Log.Error(this, $"Invalid destination");
+                Log.Error($"Invalid destination");
                 return;
             }
 

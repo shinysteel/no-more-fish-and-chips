@@ -162,7 +162,7 @@ namespace FishFlingers.UI
         {
             if (!_inventoryItemViews.ContainsKey(key))
             {
-                Log.Error(this, "Tried to remove a view that does not exist");
+                Log.Error("Tried to remove a view that does not exist");
                 return;
             }
 

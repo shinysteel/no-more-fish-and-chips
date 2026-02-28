@@ -219,7 +219,7 @@ namespace FishFlingers.Networking
         {
             if (CurrentLobby.OwnerId != _lanId)
             {
-                Log.Error(this, "You need to be the host to start the lobby");
+                Log.Error("You need to be the host to start the lobby");
                 return;
             }
 
@@ -246,13 +246,13 @@ namespace FishFlingers.Networking
         {
             if (CurrentLobby.OwnerId != _lanId)
             {
-                Log.Error(this, "Tried to broadcast a lobby we do not own");
+                Log.Error("Tried to broadcast a lobby we do not own");
                 return;
             }
 
             if (_isBroadcasting)
             {
-                Log.Error(this, "Only one broadcast task should be active at a time");
+                Log.Error("Only one broadcast task should be active at a time");
                 return;
             }
 
@@ -278,7 +278,7 @@ namespace FishFlingers.Networking
         {
             if (_isListening)
             {
-                Log.Error(this, "Only one listener task should be active at a time");
+                Log.Error("Only one listener task should be active at a time");
                 return;
             }
 

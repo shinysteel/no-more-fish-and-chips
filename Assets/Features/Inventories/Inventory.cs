@@ -393,13 +393,13 @@ namespace FishFlingers.Inventories
         { 
             if (!isOwner)
             {
-                Log.Error(this, "Tried to remove items without being the owner");
+                Log.Error("Tried to remove items without being the owner");
                 return;
             }
 
             if (!_netInventoryItems.ContainsKey(instanceId))
             {
-                Log.Error(this, $"Inventory does not contain an item instance with id: {instanceId}");
+                Log.Error($"Inventory does not contain an item instance with id: {instanceId}");
                 return;
             }
 
@@ -415,13 +415,13 @@ namespace FishFlingers.Inventories
         {
             if (!isOwner)
             {
-                Log.Error(this, "Tried to clear slots without being the owner");
+                Log.Error("Tried to clear slots without being the owner");
                 return;
             }
 
             if (!_netInventoryItems.TryGetValue(instanceId, out NetInventoryItem item))
             {
-                Log.Error(this, $"Inventory does not contain an item instance with id: {instanceId}");
+                Log.Error($"Inventory does not contain an item instance with id: {instanceId}");
                 return;
             }
 
@@ -441,7 +441,7 @@ namespace FishFlingers.Inventories
         {
             if (!isOwner)
             {
-                Log.Error(this, "Tried to add items without being the owner");
+                Log.Error("Tried to add items without being the owner");
                 return false;
             }
 
@@ -473,7 +473,7 @@ namespace FishFlingers.Inventories
 
             if (!isOwner)
             {
-                Log.Error(this, "Tried to place items without being the owner");
+                Log.Error("Tried to place items without being the owner");
                 return false;
             }
 
@@ -505,7 +505,7 @@ namespace FishFlingers.Inventories
         {
             if (!isOwner)
             {
-                Log.Error(this, "Tried to remove items without being the owner");
+                Log.Error("Tried to remove items without being the owner");
                 return false;
             }
 
@@ -531,7 +531,7 @@ namespace FishFlingers.Inventories
 
             if (data == null || amount <= 0)
             {
-                Log.Error(this, "Checked if invalid items can be added");
+                Log.Error("Checked if invalid items can be added");
                 return false;
             }
 
@@ -630,7 +630,7 @@ namespace FishFlingers.Inventories
 
             if (data == null || parameters.Amount <= 0 || parameters.Amount > data.MaxStack)
             {
-                Log.Error(this, "Checked if invalid items can be placed");
+                Log.Error("Checked if invalid items can be placed");
                 return false;
             }
 
@@ -707,7 +707,7 @@ namespace FishFlingers.Inventories
 
             if (data == null || amount <= 0)
             {
-                Log.Error(this, "Checked if invalid items can be removed");
+                Log.Error("Checked if invalid items can be removed");
                 return false;
             }
 
@@ -740,7 +740,7 @@ namespace FishFlingers.Inventories
         {
             if (!change.IsValid)
             {
-                Log.Error(this, "Tried to process an invalid change");
+                Log.Error("Tried to process an invalid change");
                 return;
             }
 
@@ -763,7 +763,7 @@ namespace FishFlingers.Inventories
         {
             if (!place.IsValid)
             {
-                Log.Error(this, "Tried to process an invalid place");
+                Log.Error("Tried to process an invalid place");
                 return;
             }
 
