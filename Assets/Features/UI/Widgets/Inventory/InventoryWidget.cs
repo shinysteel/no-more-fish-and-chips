@@ -5,6 +5,7 @@ using FishFlingers.States;
 using PurrNet.Prediction;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
+using ShinyOwl.Common.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -87,15 +88,26 @@ namespace FishFlingers.UI
 
         private void Update()
         {
+            if (_context.LocalPlayer.GrabbedItemLogic.GrabbedInventoryItem == null && _context.LocalPlayer.InputLogic.RotateItem)
+            {
+                RotateInventoryItemAtCursor();
+            }
+
             if (_context.LocalPlayer.GrabbedItemLogic.GrabbedInventoryItem == null && _context.LocalPlayer.InputLogic.DropItem)
             {
-                DropItem();
+                DropInventoryItemAtCursor();
             }
             
             _inventoryOutliner.Tick();   
         }
 
-        public void DropItem()
+        public void RotateInventoryItemAtCursor()
+        {
+            // Not implemented yet, but InventoryItem was made IDeepCloneable so that we could implement
+            // this behaviour. It's just a bit tricky with modifying the pivot
+        }
+
+        public void DropInventoryItemAtCursor()
         {
             _inventoryRaycaster.GetTargetViews(out InventoryItemView targetItemView, out _, out _, out _);
 

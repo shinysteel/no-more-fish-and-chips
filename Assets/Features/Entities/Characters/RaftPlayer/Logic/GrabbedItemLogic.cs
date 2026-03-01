@@ -194,7 +194,7 @@ public class GrabbedItemLogic
     /// </summary>
     private void HandleNetGrabbedInventoryItemChanged(NetInventoryItem item)
     {
-        _grabbedInventoryItem = item != null ? new InventoryItem(item) : null;
+        _grabbedInventoryItem = item != null ? InventoryItem.Create(item) : null;
 
         OnChanged?.Invoke(_grabbedInventoryItem);
     }

@@ -240,7 +240,7 @@ namespace FishFlingers.Inventories
         }
     }
 
-    public class InventoryItem
+    public class InventoryItem : IDeepCloneable<InventoryItem>
     {
         public Vector2Int Cell { get; private set; }
         public Vector2Int Pivot { get; private set; }
@@ -248,18 +248,40 @@ namespace FishFlingers.Inventories
         public ItemInstance ItemInstance { get; private set; }
         public BoolGrid Shape { get; private set; }
 
-        private ItemManager _itemManager;
-
-        public InventoryItem(NetInventoryItem netInventoryItem)
+        private InventoryItem(Vector2Int cell, Vector2Int pivot, int rotations, ItemInstance instance, BoolGrid shape)
         {
-            _itemManager = GameManager.Instance.Get<ItemManager>();
-            ItemData data = _itemManager.GetItemData(netInventoryItem.ItemId);
+            Cell = cell;
+            Pivot = pivot;
+            Rotations = rotations;
+            ItemInstance = instance;
+            Shape = shape;
+        }
 
-            Cell = netInventoryItem.Cell;
-            Pivot = netInventoryItem.Pivot;
-            Rotations = netInventoryItem.Rotations;
-            ItemInstance = new ItemInstance(netInventoryItem.InstanceId, data, netInventoryItem.Count);
-            Shape = ItemInstance.Data.Shape.GetTransformed(Pivot, Rotations);
+        public static InventoryItem Create(NetInventoryItem item)
+        {
+            ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
+            ItemData data = itemManager.GetItemData(item.ItemId);
+
+            ItemInstance instance = new ItemInstance(item.InstanceId, data, item.Count);
+            BoolGrid shape = instance.Data.Shape.GetTransformed(item.Pivot, item.Rotations);
+
+            return new InventoryItem(item.Cell, item.Pivot, item.Rotations, instance, shape);
+        }
+
+        public InventoryItem DeepClone()
+        {
+            return new InventoryItem(Cell, Pivot, Rotations, ItemInstance, Shape);
+        }
+        
+        public void SetPivot(Vector2Int pivot)
+        {
+            Pivot = pivot;
+        }
+
+        public void ChangeRotations(int amount)
+        {
+            Rotations += amount;
+            Rotations = Utils.Math.EuclideanModulo(Rotations, 4);
         }
     }
 
@@ -357,7 +379,7 @@ namespace FishFlingers.Inventories
                 case SyncDictionaryOperation.Added:
                 case SyncDictionaryOperation.Set:
                     _inventoryItems.TryGetValue(change.value.InstanceId, out oldInventoryItem);
-                    InventoryItem newInventoryItem = new InventoryItem(change.value);
+                    InventoryItem newInventoryItem = InventoryItem.Create(change.value);
 
                     _inventoryItems[change.value.InstanceId] = newInventoryItem;
 
