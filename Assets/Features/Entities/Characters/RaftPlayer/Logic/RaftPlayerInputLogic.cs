@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public class InputLogic
+    public class RaftPlayerInputLogic
     {
         private RaftPlayer _player;
 
@@ -49,7 +49,7 @@ namespace FishFlingers.Entities
         private const string HorizontalAxis = "Horizontal";
         private const string VerticalAxis = "Vertical";
 
-        public InputLogic(RaftPlayer player)
+        public RaftPlayerInputLogic(RaftPlayer player)
         {
             _player = player;
         }

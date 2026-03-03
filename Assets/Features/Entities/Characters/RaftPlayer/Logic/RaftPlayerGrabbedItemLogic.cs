@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrabbedItemLogic
+public class RaftPlayerGrabbedItemLogic
 {
     private RaftPlayer _player;
 
@@ -25,7 +25,7 @@ public class GrabbedItemLogic
 
     public event Action<InventoryItem> OnChanged;
 
-    public GrabbedItemLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
+    public RaftPlayerGrabbedItemLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
     {
         _player = player;
 
@@ -33,7 +33,7 @@ public class GrabbedItemLogic
         _netGrabbedInventoryItem.onChanged += HandleNetGrabbedInventoryItemChanged;
     }
 
-    ~GrabbedItemLogic()
+    ~RaftPlayerGrabbedItemLogic()
     {
         if (_netGrabbedInventoryItem != null)
         {

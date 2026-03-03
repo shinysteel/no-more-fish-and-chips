@@ -12,7 +12,7 @@ namespace FishFlingers.Entities
     /// <summary>
     /// Groups all hotkey outputs together so they can be resolved deterministically
     /// </summary>
-    public class HotkeyLogic
+    public class RaftPlayerHotkeyLogic
     {
         private UIManager _uiManager;
         private NetworkManager _networkManager;
@@ -23,7 +23,7 @@ namespace FishFlingers.Entities
 
         private InventoryRaycaster _inventoryRaycaster;
 
-        public HotkeyLogic(GameplayContext context, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
+        public RaftPlayerHotkeyLogic(GameplayContext context, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();

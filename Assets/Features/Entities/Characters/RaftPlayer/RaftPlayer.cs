@@ -22,24 +22,24 @@ namespace FishFlingers.Entities
         [SerializeField] private BoolGrid _inventoryLayout;
         public Inventory Inventory => _inventory;
 
-        [SerializeField] private Target _targetPrefab;
+        [SerializeField] private RaftPlayerTarget _targetPrefab;
 
         private Hotbar _hotbar;
         public Hotbar Hotbar => _hotbar;
 
-        private InputLogic _inputLogic;
-        private PhysicsLogic _physicsLogic;
-        private InteractLogic _interactLogic;
-        private GrabbedItemLogic _grabbedItemLogic;
-        private DropItemLogic _dropItemLogic;
-        private HotkeyLogic _hotkeyLogic;
-        private TargetLogic _targetLogic;
+        private RaftPlayerInputLogic _inputLogic;
+        private RaftPlayerPhysicsLogic _physicsLogic;
+        private RaftPlayerInteractLogic _interactLogic;
+        private RaftPlayerGrabbedItemLogic _grabbedItemLogic;
+        private RaftPlayerDropItemLogic _dropItemLogic;
+        private RaftPlayerHotkeyLogic _hotkeyLogic;
+        private RaftPlayerTargetLogic _targetLogic;
 
-        public InputLogic InputLogic => _inputLogic;
-        public InteractLogic InteractLogic => _interactLogic;
-        public GrabbedItemLogic GrabbedItemLogic => _grabbedItemLogic;
-        public DropItemLogic DropItemLogic => _dropItemLogic;
-        public TargetLogic TargetLogic => _targetLogic;
+        public RaftPlayerInputLogic InputLogic => _inputLogic;
+        public RaftPlayerInteractLogic InteractLogic => _interactLogic;
+        public RaftPlayerGrabbedItemLogic GrabbedItemLogic => _grabbedItemLogic;
+        public RaftPlayerDropItemLogic DropItemLogic => _dropItemLogic;
+        public RaftPlayerTargetLogic TargetLogic => _targetLogic;
 
         public bool CanAct => !_uiManager.IsLayerInUse(UILayer.Panels);
 
@@ -53,11 +53,11 @@ namespace FishFlingers.Entities
 
         protected override void OnSpawned()
         {
-            _inputLogic = new InputLogic(this);
-            _physicsLogic = new PhysicsLogic(this, _inputLogic, _capsuleCollider);
-            _interactLogic = new InteractLogic(this, _inputLogic);
-            _grabbedItemLogic = new GrabbedItemLogic(this, _netGrabbedInventoryItem);
-            _dropItemLogic = new DropItemLogic(this);
+            _inputLogic = new RaftPlayerInputLogic(this);
+            _physicsLogic = new RaftPlayerPhysicsLogic(this, _inputLogic, _capsuleCollider);
+            _interactLogic = new RaftPlayerInteractLogic(this, _inputLogic);
+            _grabbedItemLogic = new RaftPlayerGrabbedItemLogic(this, _netGrabbedInventoryItem);
+            _dropItemLogic = new RaftPlayerDropItemLogic(this);
 
             if (isOwner)
             {
@@ -95,8 +95,8 @@ namespace FishFlingers.Entities
             {
                 _hotbar = new Hotbar(context);
 
-                _hotkeyLogic = new HotkeyLogic(context, _netGrabbedInventoryItem);
-                _targetLogic = new TargetLogic(context, _targetPrefab);
+                _hotkeyLogic = new RaftPlayerHotkeyLogic(context, _netGrabbedInventoryItem);
+                _targetLogic = new RaftPlayerTargetLogic(context, _targetPrefab);
             }
 
             // Spawn on a random starting tile

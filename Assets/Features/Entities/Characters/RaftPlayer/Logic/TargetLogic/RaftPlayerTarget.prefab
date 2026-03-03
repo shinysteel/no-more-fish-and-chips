@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4546431039567286854}
   - component: {fileID: 314228302824124450}
   m_Layer: 0
-  m_Name: Target
+  m_Name: RaftPlayerTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

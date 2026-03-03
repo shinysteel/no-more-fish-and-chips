@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public class PhysicsLogic
+    public class RaftPlayerPhysicsLogic
     {
         private CameraManager _cameraManager;
 
         private RaftPlayer _player;
-        private InputLogic _inputLogic;
+        private RaftPlayerInputLogic _inputLogic;
         private CapsuleCollider _capsuleCollider;
 
         private float _jumpTimer;
@@ -21,7 +21,7 @@ namespace FishFlingers.Entities
         private RaycastHit[] _groundedHitsNonAlloc = new RaycastHit[2];
         private Collider[] _swimCollidersNonAlloc = new Collider[1];
 
-        public PhysicsLogic(RaftPlayer player, InputLogic inputLogic, CapsuleCollider capsuleCollider)
+        public RaftPlayerPhysicsLogic(RaftPlayer player, RaftPlayerInputLogic inputLogic, CapsuleCollider capsuleCollider)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
 

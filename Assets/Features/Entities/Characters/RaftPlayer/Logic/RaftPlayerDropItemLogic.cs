@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 { 
-    public class DropItemLogic
+    public class RaftPlayerDropItemLogic
     {
         private EntityManager _entityManager;
         private CameraManager _cameraManager;
@@ -16,7 +16,7 @@ namespace FishFlingers.Entities
         private const float Pitch = -45f;
         private const float Strength = 3f;
 
-        public DropItemLogic(RaftPlayer player)
+        public RaftPlayerDropItemLogic(RaftPlayer player)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();

@@ -11,12 +11,12 @@ using Object = UnityEngine.Object;
 
 namespace FishFlingers.Entities
 {
-    public class InteractLogic
+    public class RaftPlayerInteractLogic
     {
         private UIManager _uiManager;
 
         private RaftPlayer _player;
-        private InputLogic _inputLogic;
+        private RaftPlayerInputLogic _inputLogic;
 
         private StateMachine<EState> _uiStateMachine;
 
@@ -67,12 +67,12 @@ namespace FishFlingers.Entities
 
         private class State : State<EState, ENone>
         {
-            protected InteractLogic _interactLogic;
+            protected RaftPlayerInteractLogic _interactLogic;
 
             public State(StateMachine<EState> parent) : base(parent)
             { }
 
-            public void Initialise(InteractLogic interactLogic)
+            public void Initialise(RaftPlayerInteractLogic interactLogic)
             {
                 _interactLogic = interactLogic;
             }
@@ -179,7 +179,7 @@ namespace FishFlingers.Entities
             }
         }
 
-        public InteractLogic(RaftPlayer player, InputLogic inputLogic)
+        public RaftPlayerInteractLogic(RaftPlayer player, RaftPlayerInputLogic inputLogic)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 

@@ -8,11 +8,11 @@ using Object = UnityEngine.Object;
 
 namespace FishFlingers.Entities
 {
-    public class TargetLogic
+    public class RaftPlayerTargetLogic
     {
         private GameplayContext _context;
 
-        private Target _target;
+        private RaftPlayerTarget _target;
 
         private bool _isTargeting;
 
@@ -28,7 +28,7 @@ namespace FishFlingers.Entities
         private Tween _fadeTween;
         private const float FadeDuration = 0.1f;
 
-        public TargetLogic(GameplayContext context, Target targetPrefab)
+        public RaftPlayerTargetLogic(GameplayContext context, RaftPlayerTarget targetPrefab)
         {
             _context = context;
 
@@ -38,7 +38,7 @@ namespace FishFlingers.Entities
             _context.LocalPlayer.Hotbar.OnSelectedChanged += HandleHotbarSelectedItemChanged;
         }
 
-        ~TargetLogic()
+        ~RaftPlayerTargetLogic()
         {
             if (_context.LocalPlayer?.Hotbar != null)
             {
@@ -76,6 +76,8 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            TransformVisualTick();
+
             // Targets become locked when you can't act
             if (!_context.LocalPlayer.CanAct)
             {
@@ -83,7 +85,6 @@ namespace FishFlingers.Entities
             }
 
             DetermineTargetTick();
-            TransformVisualTick();
         }
 
         private void DetermineTargetTick()
