@@ -4,7 +4,7 @@ using FishFlingers.Networking;
 
 namespace FishFlingers.Items
 {
-    public class ItemInstance
+    public class ItemInstance : IDeepCloneable<ItemInstance>
     {
         public string InstanceId { get; private set; }
         public ItemData Data { get; private set; }
@@ -15,6 +15,11 @@ namespace FishFlingers.Items
             InstanceId = instanceId;
             Data = data;
             Count = Mathf.Clamp(count, 0, data.MaxStack);
+        }
+
+        public ItemInstance DeepClone()
+        {
+            return new ItemInstance(InstanceId, Data, Count);
         }
     }
 }

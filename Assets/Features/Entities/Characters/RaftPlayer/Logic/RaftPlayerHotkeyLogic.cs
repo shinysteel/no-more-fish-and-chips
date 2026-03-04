@@ -1,8 +1,10 @@
 using FishFlingers.Inventories;
+using FishFlingers.Items;
 using FishFlingers.Networking;
 using FishFlingers.States;
 using FishFlingers.UI;
 using PurrNet;
+using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 using NetworkManager = FishFlingers.Networking.NetworkManager;
@@ -96,6 +98,16 @@ namespace FishFlingers.Entities
             }
         }
 
+        private void ExecuteItemLeftClick()
+        {
+            if (_context.LocalPlayer.Hotbar.SelectedItem == null)
+            {
+                return;
+            }
+
+            _context.LocalPlayer.Hotbar.SelectedItem.ItemInstance.Data.LeftClickAction?.Execute(_context);
+        }
+
         /// <summary>
         /// Unassigns a hotbar slot or grabs an item
         /// </summary>
@@ -150,16 +162,6 @@ namespace FishFlingers.Entities
             }
         }
 
-        private void ExecuteItemLeftClick()
-        {
-            if (_context.LocalPlayer.Hotbar.SelectedItem == null)
-            {
-                return;
-            }
-
-            _context.LocalPlayer.Hotbar.SelectedItem.ItemInstance.Data.LeftClickAction?.Execute(_context);
-        }
-
         private void RightClick()
         {
             if (!_context.LocalPlayer.CanAct)
@@ -207,8 +209,21 @@ namespace FishFlingers.Entities
 
         private void RotateItemAtCursor()
         {
-            // Not implemented yet, but InventoryItem was made IDeepCloneable so that we could implement
-            // this behaviour. It's just a bit tricky with modifying the pivot
+            _inventoryRaycaster.GetViews(out InventoryItemView itemView, out InventorySlotView inventorySlot, out _, out _);
+
+            if (itemView?.InventoryItem == null || inventorySlot == null)
+            {
+                return;
+            }
+
+            InventoryItem item = itemView.InventoryItem.DeepClone();
+
+            // The slot at the cursor becomes the pivot
+            item.SetPivot(InventoryItemUtils.RecalculatePivot(item.Cell, inventorySlot.Cell, item.Pivot, item.Rotations));
+            item.ChangeRotations(1);
+
+            PlaceParams parameters = PlaceParams.Create(inventorySlot.Cell, item);
+            itemView.InventoryWidget.Inventory.TryPlaceItems(parameters, false, out _);
         }
 
         /// <summary>
@@ -226,17 +241,27 @@ namespace FishFlingers.Entities
             }
         }
 
+        /// <summary>
+        /// Drops the item at the cursor, whether its an item view or hotbar slot
+        /// </summary>
         private void DropItemAtCursor()
         {
-            _inventoryRaycaster.GetViews(out InventoryItemView itemView, out _, out _, out _);
+            _inventoryRaycaster.GetViews(out InventoryItemView itemView, out _, out HotbarWidgetSlot hotbarSlot, out _);
 
-            if (itemView?.InventoryItem == null)
+            if (itemView?.InventoryItem != null)
             {
-                return;
+                Drop(itemView.InventoryItem.ItemInstance, itemView.InventoryWidget.Inventory);
+            }
+            else if (hotbarSlot?.InventoryItem != null)
+            {
+                Drop(hotbarSlot.InventoryItem.ItemInstance, _context.LocalPlayer.Inventory);
             }
 
-            _context.LocalPlayer.DropItemLogic.SpawnDroppedItem(itemView.InventoryItem.ItemInstance, false);
-            _context.LocalPlayer.Inventory.RemoveItem(itemView.InventoryItem.ItemInstance.InstanceId);
+            void Drop(ItemInstance instance, Inventory inventory)
+            {
+                _context.LocalPlayer.DropItemLogic.SpawnDroppedItem(instance, false);
+                inventory.RemoveItem(instance.InstanceId);
+            }
         }
 
         private void DropSelectedItem()
@@ -306,7 +331,17 @@ namespace FishFlingers.Entities
 
             _inventoryRaycaster.GetViews(out InventoryItemView itemView, out _, out _, out _);
 
-            if (itemView?.InventoryItem == null)
+            if (itemView == null)
+            {
+                return;
+            }
+
+            if (itemView.InventoryItem == null)
+            {
+                return;
+            }
+
+            if (itemView.InventoryWidget.Inventory != _context.LocalPlayer.Inventory)
             {
                 return;
             }

@@ -50,10 +50,8 @@ public class RaftPlayerGrabbedItemLogic
         string instanceId = itemView.InventoryItem.ItemInstance.InstanceId;
         NetInventoryItem item = itemView.InventoryWidget.Inventory.NetInventoryItems[instanceId].DeepClone();
          
-        Vector2Int origin = item.Cell - Utils.Math.RotateCell(item.Pivot, item.Rotations, true);
-        Vector2Int offset = slotView.Cell - origin;
-        Vector2Int pivot = Utils.Math.RotateCell(offset, item.Rotations, false);
-        item.SetPivot(pivot);
+        // The slot we grabbed at becomes the pivot
+        item.SetPivot(InventoryItemUtils.RecalculatePivot(item.Cell, slotView.Cell, item.Pivot, item.Rotations));
 
         _netGrabbedInventoryItem.value = item;
 

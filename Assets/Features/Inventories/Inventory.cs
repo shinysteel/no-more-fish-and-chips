@@ -14,6 +14,19 @@ using UnityEngine.UIElements;
 
 namespace FishFlingers.Inventories
 {
+    public static class InventoryItemUtils
+    {
+        /// <summary>
+        /// Before making rotations relative to a new cell, the pivot needs to be recalculated
+        /// </summary>
+        public static Vector2Int RecalculatePivot(Vector2Int oldCell, Vector2Int newCell, Vector2Int pivot, int rotations)
+        {
+            Vector2Int origin = oldCell - Utils.Math.RotateCell(pivot, rotations, true);
+            Vector2Int offset = newCell - origin;
+            return Utils.Math.RotateCell(offset, rotations, false);
+        }
+    }
+
     public class AddParams
     {
         public string InstanceId { get; set; } = null;
@@ -248,40 +261,58 @@ namespace FishFlingers.Inventories
         public ItemInstance ItemInstance { get; private set; }
         public BoolGrid Shape { get; private set; }
 
-        private InventoryItem(Vector2Int cell, Vector2Int pivot, int rotations, ItemInstance instance, BoolGrid shape)
+        private InventoryItem(Vector2Int cell, Vector2Int pivot, int rotations, ItemInstance instance)
         {
             Cell = cell;
             Pivot = pivot;
             Rotations = rotations;
             ItemInstance = instance;
-            Shape = shape;
+
+            RefreshShape();
         }
 
         public static InventoryItem Create(NetInventoryItem item)
         {
             ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
             ItemData data = itemManager.GetItemData(item.ItemId);
-
             ItemInstance instance = new ItemInstance(item.InstanceId, data, item.Count);
-            BoolGrid shape = instance.Data.Shape.GetTransformed(item.Pivot, item.Rotations);
 
-            return new InventoryItem(item.Cell, item.Pivot, item.Rotations, instance, shape);
+            return new InventoryItem(item.Cell, item.Pivot, item.Rotations, instance);
         }
 
         public InventoryItem DeepClone()
         {
-            return new InventoryItem(Cell, Pivot, Rotations, ItemInstance, Shape);
+            return new InventoryItem(Cell, Pivot, Rotations, ItemInstance.DeepClone());
         }
         
         public void SetPivot(Vector2Int pivot)
         {
+            if (Pivot == pivot)
+            {
+                return;
+            }
+            
             Pivot = pivot;
+
+            RefreshShape();
         }
 
         public void ChangeRotations(int amount)
         {
+            if (amount == 0)
+            {
+                return;
+            }
+
             Rotations += amount;
             Rotations = Utils.Math.EuclideanModulo(Rotations, 4);
+
+            RefreshShape();
+        }
+
+        private void RefreshShape()
+        {
+            Shape = ItemInstance.Data.Shape.GetTransformed(Pivot, Rotations);
         }
     }
 
