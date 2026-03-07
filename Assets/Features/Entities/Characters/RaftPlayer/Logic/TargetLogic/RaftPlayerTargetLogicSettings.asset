@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 950ef583a68267e43803ac1d11c88978, type: 3}
+  m_Name: RaftPlayerTargetLogicSettings
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerTargetLogicSettings
+  _targetVisualPrefab: {fileID: 314228302824124450, guid: 2670416595be96242aab7d0775b6f1bf, type: 3}
+  _validColor: {r: 0.5415094, g: 1, b: 0.5415094, a: 1}
+  _invalidColor: {r: 1, g: 0.5420456, b: 0.5411765, a: 1}

@@ -420,7 +420,7 @@ MonoBehaviour:
   _capsuleCollider: {fileID: 6072639463593192333}
   _inventory: {fileID: 1599098731476295394}
   _inventoryLayout: {fileID: 11400000, guid: cfd8c0c5e490b4a47aa4e9b24205efd8, type: 2}
-  _targetVisualPrefab: {fileID: 314228302824124450, guid: 2670416595be96242aab7d0775b6f1bf, type: 3}
+  _targetLogicSettings: {fileID: 11400000, guid: d2166457d28785d4c8783f82e70233f6, type: 2}
 --- !u!114 &8218739825401116068
 MonoBehaviour:
   m_ObjectHideFlags: 0

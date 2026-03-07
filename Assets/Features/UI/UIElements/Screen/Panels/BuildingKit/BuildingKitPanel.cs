@@ -59,6 +59,12 @@ namespace FishFlingers.UI
 
         private void HandleRaftPlayerTargetChanged(RaftPlayerTarget target)
         {
+            if (target.Tile?.Structure != null)
+            {
+                ClosePressed();
+                return;
+            }
+
             RefreshEntries();
         }
 

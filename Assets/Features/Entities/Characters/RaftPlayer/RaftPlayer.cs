@@ -22,7 +22,7 @@ namespace FishFlingers.Entities
         [SerializeField] private BoolGrid _inventoryLayout;
         public Inventory Inventory => _inventory;
 
-        [SerializeField] private RaftPlayerTargetVisual _targetVisualPrefab;
+        [SerializeField] private RaftPlayerTargetLogicSettings _targetLogicSettings;
 
         private Hotbar _hotbar;
         public Hotbar Hotbar => _hotbar;
@@ -93,7 +93,7 @@ namespace FishFlingers.Entities
                 _hotbar = new Hotbar(context);
 
                 _hotkeyLogic = new RaftPlayerHotkeyLogic(context, _netGrabbedInventoryItem);
-                _targetLogic = new RaftPlayerTargetLogic(context, _targetVisualPrefab);
+                _targetLogic = new RaftPlayerTargetLogic(context, _targetLogicSettings);
             }
 
             // Spawn on a random starting tile

@@ -27,6 +27,8 @@ namespace FishFlingers.Entities
     {
         private GameplayContext _context;
 
+        private RaftPlayerTargetLogicSettings _settings;
+
         private RaftPlayerTargetVisual _targetVisual;
 
         private RaftPlayerTarget _target;
@@ -45,14 +47,19 @@ namespace FishFlingers.Entities
         private Tween _fadeTween;
         private const float FadeDuration = 0.1f;
 
-        public RaftPlayerTargetLogic(GameplayContext context, RaftPlayerTargetVisual targetVisualPrefab)
+        private const float VisualMaxAlpha = 0.4f; // Equivalent to ~102 in color32
+
+        public RaftPlayerTargetLogic(GameplayContext context, RaftPlayerTargetLogicSettings settings)
         {
             _context = context;
 
-            _targetVisual = Object.Instantiate(targetVisualPrefab);
+            _settings = settings;
 
-            // DetermineTargetTick will get an up to date target right away
-            SetTarget(new RaftPlayerTarget(Vector2Int.one * int.MinValue, null));
+            _targetVisual = Object.Instantiate(_settings.TargetVisualPrefab);
+
+            _target = new RaftPlayerTarget(Vector2Int.one * int.MinValue, null);
+
+            HandleTileChanged(_target.Cell, _target.Tile);
             _context.Raft.OnTileChanged += HandleTileChanged;
 
             HandleHotbarSelectedItemChanged(_context.LocalPlayer.Hotbar.SelectedIndex, _context.LocalPlayer.Hotbar.SelectedItem);
@@ -76,6 +83,14 @@ namespace FishFlingers.Entities
         {
             _target = target;
             OnTargetChanged?.Invoke(target);
+
+            if (!_showingTarget)
+            {
+                return;
+            }
+
+            bool valid = _target.Tile == null || _target.Tile.Structure == null;
+            _targetVisual.SetColor(valid ? _settings.ValidColor : _settings.InvalidColor);
         }
 
         private void HandleTileChanged(Vector2Int cell, RaftTile tile)
@@ -94,19 +109,20 @@ namespace FishFlingers.Entities
 
             _fadeTween.Stop();
 
-            Action<float> fade = (float value) => _targetVisual.SetAlphaBlend(value);
-
             // Fade in or out the target based on if we are using it or not
+            float startValue = _targetVisual.Material.color.a;
+            float endValue = _showingTarget ? VisualMaxAlpha : 0f;
+            Action<float> onValueChange = (float alpha) => _targetVisual.SetAlpha(alpha);
+
+            _fadeTween = Tween.Custom(startValue: startValue, endValue: endValue, duration: FadeDuration, onValueChange: onValueChange);
+
             if (_showingTarget)
             {
-                _targetVisual.gameObject.SetActive(true);
-
-                _fadeTween = Tween.Custom(startValue: _targetVisual.GetAlphaBlend(), endValue: 1f, duration: FadeDuration, onValueChange: fade);
+                _targetVisual.gameObject.SetActive(true);    
             }
             else
             {
-                _fadeTween = Tween.Custom(startValue: _targetVisual.GetAlphaBlend(), endValue: 0f, duration: FadeDuration, onValueChange: fade)
-                    .OnComplete(() => _targetVisual.gameObject.SetActive(false));
+                _fadeTween.OnComplete(() => _targetVisual.gameObject.SetActive(false));
             }
         }
 
@@ -135,6 +151,7 @@ namespace FishFlingers.Entities
             Vector3 position = _context.LocalPlayer.transform.position + forward * Range;
 
             Vector2Int cell = new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
+
             if (_target.Cell == cell)
             {
                 return;

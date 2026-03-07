@@ -1,4 +1,5 @@
 using PrimeTween;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -10,13 +11,19 @@ namespace FishFlingers.Entities
 
         private Material _material;
 
-        private const float MaxAlpha = 0.4f; // Equivalent to ~102 in color32
+        public Material Material => _material;
+
+        public enum EColor
+        {
+            Valid   ,
+            Invalid ,
+        }
 
         private void Awake()
         {
             _material = _visualMeshRenderer.material;
 
-            SetAlphaBlend(0f);
+            SetAlpha(0f);
         }
 
         public void SetVisualScale(Vector3 scale)
@@ -24,21 +31,16 @@ namespace FishFlingers.Entities
             _visualTransform.localScale = scale;
         }
 
-        /// <summary>
-        /// Returns a normalised blend from 0 - 1
-        /// </summary>
-        public float GetAlphaBlend()
-        {
-            return _material.color.a / MaxAlpha;
-        }
-
-        /// <summary>
-        /// Applys a normalised blend of 0 - 1
-        /// </summary>
-        public void SetAlphaBlend(float blend)
+        public void SetAlpha(float alpha)
         {
             Color color = _material.color;
-            color.a = blend * MaxAlpha;
+            color.a = alpha;
+            _material.color = color;
+        }
+
+        public void SetColor(Color color)
+        {
+            color.a = _material.color.a;
             _material.color = color;
         }
     }
