@@ -15,6 +15,7 @@ using FishFlingers.Entities;
 [CreateAssetMenu(fileName = "GameManagerConfig", menuName = "Configs/Managers/GameManagerConfig")]
 public class GameManagerConfig : ScriptableObject
 {
+    [SerializeField] private SaveManagerConfig _saveManagerConfig;
     [SerializeField] private SteamManagerConfig _steamManagerConfig;
     [SerializeField] private NetworkManagerConfig _networkManagerConfig;
     [SerializeField] private CameraManagerConfig _cameraManagerConfig;
@@ -29,6 +30,7 @@ public class GameManagerConfig : ScriptableObject
     [SerializeField] private ItemManagerConfig _itemManagerConfig;
     [SerializeField] private EntityManagerConfig _entityManagerConfig;
 
+    public SaveManagerConfig SaveManagerConfig => _saveManagerConfig;
     public SteamManagerConfig SteamManagerConfig => _steamManagerConfig;
     public NetworkManagerConfig NetworkManagerConfig => _networkManagerConfig;
     public CameraManagerConfig CameraManagerConfig => _cameraManagerConfig;

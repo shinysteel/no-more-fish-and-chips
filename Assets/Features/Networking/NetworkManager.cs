@@ -31,13 +31,13 @@ namespace FishFlingers.Networking
 
     public interface INetworkManagerListener
     {
-        void OnNetworkStarted(bool asServer);
-        void OnNetworkShutdown(bool asServer);
-        void OnNetworkSpawn(NetBehaviour behaviour);
-        void OnNetworkDespawn(NetBehaviour behaviour);
-        void OnClientConnectionState(ConnectionState state);
-        void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer);
-        void OnPlayerLeft(PlayerID id, bool asServer);
+        void OnNetworkStarted(bool asServer) { }
+        void OnNetworkShutdown(bool asServer) { }
+        void OnNetBehaviourSpawned(NetBehaviour behaviour) { }
+        void OnNetBehaviourDespawned(NetBehaviour behaviour) { }
+        void OnClientConnectionState(ConnectionState state) { }
+        void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
+        void OnPlayerLeft(PlayerID id, bool asServer) { }
     }
 
     public class NetworkManager : GameSystem<INetworkManagerListener>, ISceneManagerListener
@@ -127,14 +127,14 @@ namespace FishFlingers.Networking
             Object.Destroy(behaviour.gameObject);
         }
 
-        public void RaiseSpawned(NetBehaviour behaviour)
+        public void RaiseNetBehaviourSpawned(NetBehaviour behaviour)
         {
-            Listeners.Dispatch(NotifyOnNetworkSpawn, behaviour);
+            Listeners.Dispatch(NotifyOnNetBehaviourSpawned, behaviour);
         }
 
-        public void RaiseDespawned(NetBehaviour behaviour)
+        public void RaiseNetBehaviourDespawned(NetBehaviour behaviour)
         {
-            Listeners.Dispatch(NotifyOnNetworkDespawn, behaviour);
+            Listeners.Dispatch(NotifyOnNetBehaviourDespawned, behaviour);
         }
 
         // Our transport will always be composite, so it is a safe cast
@@ -216,13 +216,13 @@ namespace FishFlingers.Networking
 
         private static void NotifyOnNetworkStarted(INetworkManagerListener listener, bool asServer) => listener.OnNetworkStarted(asServer);
         private static void NotifyOnNetworkShutdown(INetworkManagerListener listener, bool asServer) => listener.OnNetworkShutdown(asServer);
-        private static void NotifyOnNetworkSpawn(INetworkManagerListener listener, NetBehaviour behaviour) => listener.OnNetworkSpawn(behaviour);
-        private static void NotifyOnNetworkDespawn(INetworkManagerListener listener, NetBehaviour behaviour) => listener.OnNetworkDespawn(behaviour);
+        private static void NotifyOnNetBehaviourSpawned(INetworkManagerListener listener, NetBehaviour behaviour) => listener.OnNetBehaviourSpawned(behaviour);
+        private static void NotifyOnNetBehaviourDespawned(INetworkManagerListener listener, NetBehaviour behaviour) => listener.OnNetBehaviourDespawned(behaviour);
         private static void NotifyOnClientConnectionState(INetworkManagerListener listener, ConnectionState state) => listener.OnClientConnectionState(state);
         private static void NotifyOnPlayerJoined(INetworkManagerListener listener, PlayerID id, bool isReconnect, bool asServer) => listener.OnPlayerJoined(id, isReconnect, asServer);
         private static void NotifyOnPlayerLeft(INetworkManagerListener listener, PlayerID id, bool asServer) => listener.OnPlayerLeft(id, asServer);
 
-        public void OnPlayerLoadedScene(PlayerID playerId, EScene scene, bool asServer) 
+        void ISceneManagerListener.OnPlayerLoadedScene(PlayerID playerId, EScene scene, bool asServer) 
         { 
             if (!asServer)
             {
@@ -237,12 +237,5 @@ namespace FishFlingers.Networking
             PurrnetPlayer player = Spawn(_config.PurrnetPlayerPrefab, new SpawnParams() { SpawnScene = SpawnScene.DontDestroyOnLoad() });
             player.GiveOwnership(playerId);
         }
-
-        public void OnSceneLoaded(EScene scene, LoadSceneMode mode) { }
-        public void OnSceneUnloaded(EScene scene) { }
-        public void OnNetworkedSceneLoaded(EScene scene, bool asServer) { }
-        public void OnNetworkedSceneUnloaded(EScene scene, bool asServer) { }
-        public void OnPlayerUnloadedScene(PlayerID playerId, EScene scene, bool asServer) { }
-        public void OnActiveSceneChanged(EScene previous, EScene current) { }
     }
 }

@@ -27,7 +27,7 @@ namespace FishFlingers.Networking
             // If we've missed the OnLobbyStart event, let's invoke it here
             if (_lobbyManager.CurrentLobby.Properties[LobbyService.StartedKey] == true.ToString())
             {
-                OnLobbyStart(_lobbyManager.CurrentLobby);
+                ((ILobbyManagerListener)this).OnLobbyStart(_lobbyManager.CurrentLobby);
             }
 
             // We deliberately subscribe after invoking missed events
@@ -46,16 +46,12 @@ namespace FishFlingers.Networking
             Destroy(gameObject);
         }
 
-        public void OnLobbyStart(Lobby lobby)
+        void ILobbyManagerListener.OnLobbyStart(Lobby lobby)
         {
             // There used to be code for spawning a 'human' to control here.
             // Since we moved to Purrdiction, that's handled separately from
             // Purrnet. I'm leaving the implementation here since it's a nice
             // reference to look back on
         }
-
-        public void OnLobbyEnter(Lobby lobby) { }
-        public void OnLobbyCreated(Lobby lobby) { }
-        public void OnLobbyLeave() { }
     }
 }

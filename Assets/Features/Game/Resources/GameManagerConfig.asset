@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73d308329c19ae4d809ec61b086fa3f, type: 3}
   m_Name: GameManagerConfig
   m_EditorClassIdentifier: 
+  _saveManagerConfig: {fileID: 11400000, guid: e77d497a29b900a46bad3a24d6cf6d87, type: 2}
   _steamManagerConfig: {fileID: 11400000, guid: 5a139f4ff3668fc478420ab83abd5969, type: 2}
   _networkManagerConfig: {fileID: 11400000, guid: f145da72aeb15a343a07d43296a05eb4, type: 2}
   _cameraManagerConfig: {fileID: 11400000, guid: 0bf333f339521044782df1cde448b947, type: 2}

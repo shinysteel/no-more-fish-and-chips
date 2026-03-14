@@ -137,7 +137,7 @@ namespace FishFlingers.States
                         // No need to initialise the localPlayer here. Spawn is async and we are listening for it
                         if (behaviour != localPlayer)
                         {
-                            OnNetworkSpawn(behaviour);
+                            ((INetworkManagerListener)this).OnNetBehaviourSpawned(behaviour);
                         }
                     }
                 }
@@ -179,7 +179,7 @@ namespace FishFlingers.States
             _sceneManager.LoadSceneAsync(EScene.Default, LoadSceneMode.Single, LoadSceneContext.Local);
         }
 
-        public void OnLobbyEnter(Lobby lobby)
+        void ILobbyManagerListener.OnLobbyEnter(Lobby lobby)
         {
             // This can happen from any state besides itself. Currently we 
             // assume you're 'ready' straight away and move to the GameplayState
@@ -195,7 +195,7 @@ namespace FishFlingers.States
             }
         }
 
-        public void OnLobbyStart(Lobby lobby) 
+        void ILobbyManagerListener.OnLobbyStart(Lobby lobby) 
         {
             if (_parentStateMachine.CurrentState == this)
             {
@@ -205,7 +205,7 @@ namespace FishFlingers.States
             _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Gameplay));
         }
 
-        public void OnNetworkShutdown(bool asServer)
+        void INetworkManagerListener.OnNetworkShutdown(bool asServer)
         {
             if (_parentStateMachine.CurrentState != this)
             {
@@ -217,11 +217,11 @@ namespace FishFlingers.States
             {
                 return;
             }
-
+            
             _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Menus));
         }
 
-        public void OnNetworkSpawn(NetBehaviour behaviour) 
+        void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour) 
         {
             if (_context == null)
             {
@@ -239,7 +239,7 @@ namespace FishFlingers.States
             }
         }
 
-        public void OnNetworkDespawn(NetBehaviour behaviour) 
+        void INetworkManagerListener.OnNetBehaviourDespawned(NetBehaviour behaviour) 
         { 
             if (_context == null)
             {
@@ -251,12 +251,5 @@ namespace FishFlingers.States
                 _players.Remove(player);
             }
         }
-
-        public void OnLobbyLeave() { }
-        public void OnLobbyCreated(Lobby lobby) { }
-        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
-        public void OnPlayerLeft(PlayerID id, bool asServer) { }
-        public void OnClientConnectionState(ConnectionState state) { }
-        public void OnNetworkStarted(bool asServer) { }
     }
 }

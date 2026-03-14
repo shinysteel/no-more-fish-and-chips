@@ -30,12 +30,12 @@ namespace FishFlingers.Networking
 
         protected override void OnSpawned()
         {
-            _networkManager.RaiseSpawned(this);
+            _networkManager.RaiseNetBehaviourSpawned(this);
         }
 
         protected override void OnDespawned()
         {
-            _networkManager.RaiseDespawned(this);
+            _networkManager.RaiseNetBehaviourDespawned(this);
         }
     }
 }

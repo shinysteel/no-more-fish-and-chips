@@ -15,10 +15,10 @@ namespace FishFlingers.Networking
 
     public interface ILobbyManagerListener
     {
-        void OnLobbyCreated(Lobby lobby);
-        void OnLobbyEnter(Lobby lobby);
-        void OnLobbyStart(Lobby lobby);
-        void OnLobbyLeave();
+        void OnLobbyCreated(Lobby lobby) { }
+        void OnLobbyEnter(Lobby lobby) { }
+        void OnLobbyStart(Lobby lobby) { }
+        void OnLobbyLeave() { }
     }
 
     public class LobbyManager : GameSystem<ILobbyManagerListener>

@@ -10,7 +10,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using Newtonsoft.Json;
 using ParrelSync;
@@ -364,7 +363,7 @@ namespace FishFlingers.Networking
             _isListening = false;
         }
 
-        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer)
+        void INetworkManagerListener.OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer)
         {
             if (asServer)
             {
@@ -386,7 +385,7 @@ namespace FishFlingers.Networking
             CurrentLobby.Members.Add(member);
         }
 
-        public void OnPlayerLeft(PlayerID id, bool asServer) 
+        void INetworkManagerListener.OnPlayerLeft(PlayerID id, bool asServer) 
         {
             if (asServer)
             {
@@ -400,11 +399,5 @@ namespace FishFlingers.Networking
 
             CurrentLobby.Members.RemoveAll(member => member.Id == id.ToString());
         }
-
-        public void OnClientConnectionState(ConnectionState state) { }
-        public void OnNetworkStarted(bool asServer) { }
-        public void OnNetworkShutdown(bool asServer) { }
-        public void OnNetworkSpawn(NetBehaviour behaviour) { }
-        public void OnNetworkDespawn(NetBehaviour behaviour) { }
     }
 }

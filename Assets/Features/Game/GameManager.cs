@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private enum Manager
     {
+        SaveManager         ,
         SteamManager        ,
         NetworkManager      ,
         SceneManager        ,

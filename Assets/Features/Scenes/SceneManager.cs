@@ -78,13 +78,13 @@ namespace FishFlingers.Scenes
 
     public interface ISceneManagerListener
     {
-        void OnSceneLoaded(EScene scene, LoadSceneMode mode);
-        void OnSceneUnloaded(EScene scene);
-        void OnNetworkedSceneLoaded(EScene scene, bool asServer);
-        void OnNetworkedSceneUnloaded(EScene scene, bool asServer);
-        void OnPlayerLoadedScene(PlayerID playerId, EScene scene, bool asServer);
-        void OnPlayerUnloadedScene(PlayerID playerId, EScene scene, bool asServer);
-        void OnActiveSceneChanged(EScene previous, EScene current);
+        void OnSceneLoaded(EScene scene, LoadSceneMode mode) { }
+        void OnSceneUnloaded(EScene scene) { }
+        void OnNetworkedSceneLoaded(EScene scene, bool asServer) { }
+        void OnNetworkedSceneUnloaded(EScene scene, bool asServer) { }
+        void OnPlayerLoadedScene(PlayerID playerId, EScene scene, bool asServer) { }
+        void OnPlayerUnloadedScene(PlayerID playerId, EScene scene, bool asServer) { }
+        void OnActiveSceneChanged(EScene previous, EScene current) { }
     }
 
     public class SceneManager : GameSystem<ISceneManagerListener>, INetworkManagerListener
@@ -249,7 +249,7 @@ namespace FishFlingers.Scenes
         private void NotifyOnPlayerUnloadedScene(ISceneManagerListener listener, PlayerID playerId, EScene scene, bool asServer) => listener.OnPlayerUnloadedScene(playerId, scene, asServer);
         private void NotifyOnActiveSceneChanged(ISceneManagerListener listener, EScene previous, EScene current) => listener.OnActiveSceneChanged(previous, current);
 
-        public void OnNetworkStarted(bool asServer)
+        void INetworkManagerListener.OnNetworkStarted(bool asServer)
         {
             // Since the host is also the server, we need to stop them subscribing twice
             if (asServer)
@@ -267,7 +267,7 @@ namespace FishFlingers.Scenes
             _scenePlayersModule.onPlayerUnloadedScene += HandlePlayerUnloadedScene;
         }
 
-        public void OnNetworkShutdown(bool asServer) 
+        void INetworkManagerListener.OnNetworkShutdown(bool asServer) 
         {
             if (asServer)
             {
@@ -288,11 +288,5 @@ namespace FishFlingers.Scenes
                 _scenePlayersModule = null;
             }
         }
-
-        public void OnNetworkSpawn(NetBehaviour behaviour) { }
-        public void OnNetworkDespawn(NetBehaviour behaviour) { }
-        public void OnClientConnectionState(ConnectionState state) { }
-        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
-        public void OnPlayerLeft(PlayerID id, bool asServer) { }
     }
 }

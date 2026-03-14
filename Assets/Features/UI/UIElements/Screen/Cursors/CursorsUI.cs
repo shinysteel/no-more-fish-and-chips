@@ -72,7 +72,7 @@ namespace FishFlingers.UI
                 processElement: (Cursor cursor, int index) => cursor.SetOwner(_context.Players[index]));
         }
 
-        public void OnNetworkSpawn(NetBehaviour behaviour) 
+        void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour) 
         { 
             if (behaviour is not RaftPlayer)
             {
@@ -82,7 +82,7 @@ namespace FishFlingers.UI
             SyncCursors();
         }
 
-        public void OnNetworkDespawn(NetBehaviour behaviour) 
+        void INetworkManagerListener.OnNetBehaviourDespawned(NetBehaviour behaviour) 
         { 
             if (behaviour is not RaftPlayer)
             {
@@ -91,11 +91,5 @@ namespace FishFlingers.UI
 
             SyncCursors();
         }
-
-        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
-        public void OnPlayerLeft(PlayerID id, bool asServer) { }
-        public void OnNetworkStarted(bool asServer) { }
-        public void OnNetworkShutdown(bool asServer) { }
-        public void OnClientConnectionState(ConnectionState state) { }
     }
 }

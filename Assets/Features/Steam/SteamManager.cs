@@ -18,9 +18,7 @@ using Steamworks;
 namespace Steam
 {
     public interface ISteamManagerListener
-    {
-
-    }
+    { }
 
     //
     // The SteamManager provides a base implementation of Steamworks.NET on which you can build upon.

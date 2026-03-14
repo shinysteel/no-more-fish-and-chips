@@ -11,7 +11,7 @@ namespace FishFlingers.States
 {
     public interface IStateManagerListener
     {
-        void OnStateChanged(EMainState previous, EMainState current);
+        void OnStateChanged(EMainState previous, EMainState current) { }
     }
 
     public enum EMainState
@@ -79,7 +79,7 @@ namespace FishFlingers.States
             listener.OnStateChanged(previous, current);
         }
 
-        public void OnSceneUnloaded(EScene scene)
+        void ISceneManagerListener.OnSceneUnloaded(EScene scene)
         { 
             // Only once do we listen for the startup scene to unload before starting the state machine
             if (scene == EScene.Startup)
@@ -88,12 +88,5 @@ namespace FishFlingers.States
                 _stateMachine.ChangeState(EMainState.Menus);
             }
         }
-
-        public void OnSceneLoaded(EScene scene, LoadSceneMode mode) { }
-        public void OnActiveSceneChanged(EScene previous, EScene current) { }
-        public void OnNetworkedSceneLoaded(EScene scene, bool asServer) { }
-        public void OnNetworkedSceneUnloaded(EScene scene, bool asServer) { }
-        public void OnPlayerLoadedScene(PlayerID playerId, EScene scene, bool asServer) { }
-        public void OnPlayerUnloadedScene(PlayerID playerId, EScene scene, bool asServer) { }
     }
 }

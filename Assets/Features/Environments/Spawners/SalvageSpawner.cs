@@ -80,7 +80,7 @@ namespace FishFlingers.Environments
             _salvages.Add(item);
         }
 
-        public void OnNetworkDespawn(NetBehaviour behaviour) 
+        void INetworkManagerListener.OnNetBehaviourDespawned(NetBehaviour behaviour) 
         {
             if (behaviour is not DroppedItem item)
             {
@@ -89,12 +89,5 @@ namespace FishFlingers.Environments
 
             _salvages.Remove(item);
         }
-
-        public void OnNetworkSpawn(NetBehaviour behaviour) { }
-        public void OnNetworkStarted(bool asServer) { }
-        public void OnNetworkShutdown(bool asServer) { }
-        public void OnClientConnectionState(ConnectionState state) { }
-        public void OnPlayerJoined(PlayerID id, bool isReconnect, bool asServer) { }
-        public void OnPlayerLeft(PlayerID id, bool asServer) { }
     }
 }

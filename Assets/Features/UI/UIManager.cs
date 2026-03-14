@@ -279,7 +279,7 @@ namespace FishFlingers.UI
             Object.Destroy(ui.gameObject);
         }
 
-        public void OnStateChanged(EMainState previous, EMainState current)
+        void IStateManagerListener.OnStateChanged(EMainState previous, EMainState current)
         {
             ClearLayer(UILayer.Panels);
         }
