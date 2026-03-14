@@ -7,7 +7,7 @@ namespace FishFlingers.UI
 {
     public class LobbyContainer : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _titleText;
+        [SerializeField] private TextMeshProUGUI _titleText;
 
         private LocalisationManager _localisationManager;
 

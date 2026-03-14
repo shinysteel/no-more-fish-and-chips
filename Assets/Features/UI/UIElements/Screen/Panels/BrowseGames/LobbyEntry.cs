@@ -11,8 +11,8 @@ namespace FishFlingers.UI
     public class LobbyEntry : MonoBehaviour, IPoolable
     {
         [SerializeField] private Button _button;
-        [SerializeField] private TMP_Text _nameText;
-        [SerializeField] private TMP_Text _playerCountText;
+        [SerializeField] private TextMeshProUGUI _nameText;
+        [SerializeField] private TextMeshProUGUI _playerCountText;
 
         private LobbyManager _lobbyManager;
 

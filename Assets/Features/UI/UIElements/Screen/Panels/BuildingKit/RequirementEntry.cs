@@ -10,7 +10,7 @@ namespace FishFlingers.UI
 {
     public class RequirementEntry : MonoBehaviour, IPoolable
     {
-        [SerializeField] private TMP_Text _text;
+        [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private Image _image;
 
         private ItemManager _itemManager;

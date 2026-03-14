@@ -16,8 +16,8 @@ namespace FishFlingers.UI
     public class BlueprintEntry : MonoBehaviour, IPoolable
     {
         [SerializeField] private Image _image;
-        [SerializeField] private TMP_Text _nameText;
-        [SerializeField] private TMP_Text _descriptionText;
+        [SerializeField] private TextMeshProUGUI _nameText;
+        [SerializeField] private TextMeshProUGUI _descriptionText;
         [SerializeField] private Transform _requirementEntriesContainer;
         [SerializeField] private Button _buildButton;
         

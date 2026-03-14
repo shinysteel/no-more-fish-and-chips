@@ -18,7 +18,7 @@ namespace FishFlingers.UI
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _image;
-        [SerializeField] private TMP_Text _countText;
+        [SerializeField] private TextMeshProUGUI _countText;
 
         private InventoryItem _inventoryItem;
 
