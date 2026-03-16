@@ -65,38 +65,6 @@ namespace FishFlingers.Environments
         public int RightmostColumn => _rightmostColumn;
         public int LeftmostColumn => _leftmostColumn;
 
-        protected override void OnSpawned()
-        {
-            base.OnSpawned();
-
-            if (!isOwner)
-            {
-                return;
-            }
-
-            // Start with a 3x3 grid
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    _netTiles.Add(new Vector2Int(x, y), new NetTile(NetTile.MaxHealth));
-                }
-            }
-
-            _ = SetupStartingStructuresAsync();
-        }
-
-        private async Task SetupStartingStructuresAsync()
-        {
-            while (!_netTiles.IsReady)
-            {
-                await Task.Yield();
-            }
-
-            // Start with a wave sign
-            AddStructure(new Vector2Int(0, 1), EntityId.WaveSign);
-        }
-
         public override void Initialise(GameplayContext context)
         {
             base.Initialise(context);
@@ -117,9 +85,9 @@ namespace FishFlingers.Environments
         }
 
         [ServerRpc(requireOwnership: false)]
-        public void AddNetTileRpc(Vector2Int cell)
+        public void AddNetTileRpc(Vector2Int cell, int health)
         {
-            _netTiles.TryAdd(cell, new NetTile(NetTile.MaxHealth));
+            _netTiles.TryAdd(cell, new NetTile(health));
         }
 
         [ServerRpc(requireOwnership: false)]

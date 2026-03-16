@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1694e03f5ea8764da18f40ff73f259e, type: 3}
   m_Name: SaveManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::SaveManagerConfig
-  _userDataFileName: user
-  _gameDataFileName: game
+  _userSaveFileName: user
+  _gameSaveFileName: game

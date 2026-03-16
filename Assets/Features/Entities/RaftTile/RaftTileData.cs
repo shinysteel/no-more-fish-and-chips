@@ -1,3 +1,4 @@
+using FishFlingers.Environments;
 using FishFlingers.Items;
 using FishFlingers.States;
 using System;
@@ -48,7 +49,7 @@ namespace FishFlingers.Entities
                 return false;
             }
 
-            context.Raft.AddNetTileRpc(target.Cell);
+            context.Raft.AddNetTileRpc(target.Cell, NetTile.MaxHealth);
 
             return true;
         }

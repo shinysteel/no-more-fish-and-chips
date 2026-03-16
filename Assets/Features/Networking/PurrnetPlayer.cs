@@ -30,7 +30,7 @@ namespace FishFlingers.Networking
 
             if (isOwner)
             {
-                _guid.value = _saveManager.UserData.Guid;
+                _guid.value = _saveManager.UserSave.Guid;
             }
         }
 

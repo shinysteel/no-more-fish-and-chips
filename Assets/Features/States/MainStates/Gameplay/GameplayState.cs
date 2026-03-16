@@ -161,7 +161,7 @@ namespace FishFlingers.States
 
                 if (_networkManager.IsServer)
                 {
-                    _saveManager.LoadGame();
+                    _saveManager.LoadGame(_context);
                 }
 
                 await _networkManager.LocalPurrnetPlayer.LoadRaftPlayerAsync();
@@ -225,7 +225,7 @@ namespace FishFlingers.States
             // This will get called twice on the server, as they act as both the server and a client
             if (asServer)
             {
-                _saveManager.SaveGame();
+                _saveManager.SaveGame(_context);
             }
         }
 

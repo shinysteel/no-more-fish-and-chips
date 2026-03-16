@@ -101,14 +101,14 @@ namespace FishFlingers.Entities
 
         public async Task LoadDataAsync(string guid)
         {
-            Saving.RaftPlayerData data = await GetDataRpc(guid);
+            Saving.RaftPlayerSave data = await GetDataRpc(guid);
             _saveManager.LoadRaftPlayer(this, data);
         }
 
         [ServerRpc]
-        private async Task<Saving.RaftPlayerData> GetDataRpc(string guid)
+        private async Task<Saving.RaftPlayerSave> GetDataRpc(string guid)
         {
-            return _saveManager.GetRaftPlayerData(guid, _context);
+            return _saveManager.GetRaftPlayerSave(guid, _context);
         }
 
         private void Update()

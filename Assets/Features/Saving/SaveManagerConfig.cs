@@ -5,10 +5,10 @@ namespace FishFlingers.Saving
     [CreateAssetMenu(fileName = "SaveManagerConfig", menuName = "Configs/Managers/SaveManagerConfig")]
     public class SaveManagerConfig : ScriptableObject
     {
-        [SerializeField] private string _userDataFileName;
-        [SerializeField] private string _gameDataFileName;
+        [SerializeField] private string _userSaveFileName;
+        [SerializeField] private string _gameSaveFileName;
 
-        public string UserDataFileName => _userDataFileName;
-        public string GameDataFileName => _gameDataFileName;
+        public string UserSaveFileName => _userSaveFileName;
+        public string GameSaveFileName => _gameSaveFileName;
     }
 }
