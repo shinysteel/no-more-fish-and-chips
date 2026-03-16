@@ -16,8 +16,6 @@ namespace FishFlingers.UI
         protected Canvas _canvas;
         protected bool _isShowing;
 
-        protected bool _isTransitioning;
-
         public RectTransform RectTransform => _rectTransform;
         public Canvas Canvas => _canvas;
 

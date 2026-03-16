@@ -50,7 +50,7 @@ MonoBehaviour:
   _stopPlayingOnDisconnect: 0
   _startServerFlags: 0
   _startClientFlags: 0
-  _cookieScope: 1
+  _cookieScope: 0
   _dontDestroyOnLoad: 1
   _transport: {fileID: 1610422056272028382}
   _networkPrefabs: {fileID: 11400000, guid: 0b0b4dc93c8dd8b4a8f7eb4c2b93b47f, type: 2}

@@ -227,10 +227,33 @@ namespace FishFlingers.States
             {
                 _saveManager.SaveGame();
             }
-            else
+        }
+
+        void INetworkManagerListener.OnClientConnectionState(ConnectionState state)
+        {
+            if (_parentStateMachine.CurrentState != this)
+            {
+                return;
+            }
+
+            if (state != ConnectionState.Disconnected)
+            {
+                return;
+            }
+
+            // This check fixes a very frustrating issue involving the scenario where a host stops the server while other players are connected. What
+            // ends up happening is those remaining clients still need to call StopClient, otherwise there will be cookie issues in following sessions.
+            // The only reliable way I can detect this is by using reflection for _isSubscribedClient. It's important to to detect this, as StopClient
+            // will emit OnClientConnectionState each time its called. The issue is resolved at least, but as a tradeoff this event is getting emitted twice on the clients
+            if (_networkManager.IsSubscribedClient)
+            {
+                _networkManager.StopClient();
+            }
+
+            if (!_transitionManager.IsShowing)
             {
                 _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Menus));
-            }            
+            }
         }
 
         void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour) 

@@ -4,6 +4,7 @@ using FishFlingers.Inventories;
 using FishFlingers.Scenes;
 using PurrLobby;
 using PurrNet;
+using PurrNet.Authentication;
 using PurrNet.Modules;
 using PurrNet.Packing;
 using PurrNet.Steam;
@@ -55,7 +56,10 @@ namespace FishFlingers.Networking
 
         private Dictionary<PlayerID, PurrnetPlayer> _purrnetPlayers = new();
         public IReadOnlyDictionary<PlayerID, PurrnetPlayer> PurrnetPlayers => _purrnetPlayers;
-        public PurrnetPlayer LocalPurrnetPlayer => _purrnetPlayers[_purrnetNetworkManager.localPlayer];
+        public PurrnetPlayer LocalPurrnetPlayer => _purrnetPlayers[LocalPlayerId];
+
+        private const string IsSubscribedClientName = "_isSubscribedClient";
+        public bool IsSubscribedClient => (bool)typeof(PurrNet.NetworkManager).GetField(IsSubscribedClientName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_purrnetNetworkManager);
 
         public static readonly Vector3 HiddenSpawnPosition = new Vector3(0f, -15f, 0f);
 

@@ -16,6 +16,8 @@ namespace FishFlingers.UI.Transitions
 
         private FadeOverlay _fadeOverlay;
 
+        public bool IsShowing => _fadeOverlay.IsShowing;
+
         public override void Initialise(GameManagerConfig config)
         {
             _config = config.TransitionManagerConfig;
