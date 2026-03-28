@@ -91,6 +91,12 @@ namespace FishFlingers.Networking
         [ServerRpc]
         private async Task<PurrnetPlayerSave> GetSaveRpc()
         {
+            // Syncvars won't be ready if this is requested as the host is initialising
+            while (!isSpawned)
+            {
+                await Task.Yield();
+            }
+
             if (!_saveManager.GameSave.Players.ContainsKey(_netGuid))
             {
                 _saveManager.GameSave.Players[_netGuid] = new();
@@ -103,6 +109,12 @@ namespace FishFlingers.Networking
         async Task ISaveable.LoadAsync()
         {
             PurrnetPlayerSave save = await GetSaveRpc();
+
+            // The raft player may not be created yet
+            while (_netRaftPlayer.value == null)
+            {
+                await Task.Yield();
+            }
 
             _netSaveId.value = save.SaveId;
             _netItemInstanceIdCounter.value = save.ItemInstanceIdCounter;
