@@ -13,7 +13,6 @@ using System.IO;
 using UnityEngine;
 using FishFlingers.Instantiating;
 using System.Threading.Tasks;
-using NetworkManager = FishFlingers.Networking.NetworkManager;
 using UnityEngine.Pool;
 
 namespace FishFlingers.Saving
@@ -24,7 +23,6 @@ namespace FishFlingers.Saving
         void Save();
     }
 
-    [Serializable]
     public class UserSave
     {
         [JsonProperty] public string Guid { get; private set; }
@@ -35,11 +33,10 @@ namespace FishFlingers.Saving
         }
     }
 
-    [Serializable]
     public class GameSave
     {
-        [JsonProperty] public Dictionary<string, RaftPlayerSave> Players { get; private set; } = new();
-        [JsonProperty] public RaftSave Raft { get; set; }
+        [JsonProperty] public Dictionary<string, PurrnetPlayerSave> Players { get; private set; } = new();
+        [JsonProperty] public RaftSave Raft { get; private set; } = new();
     }
 
     public interface ISaveManagerListener
@@ -47,7 +44,6 @@ namespace FishFlingers.Saving
 
     public class SaveManager : GameSystem<ISaveManagerListener>, IInstantiateManagerListener
     {
-        private NetworkManager _networkManager;
         private InstantiateManager _gameObjectManager;
 
         private SaveManagerConfig _config;
@@ -66,7 +62,6 @@ namespace FishFlingers.Saving
 
         public override void Initialise(GameManagerConfig config)
         {
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
             _gameObjectManager = GameManager.Instance.Get<InstantiateManager>();
 
             _gameObjectManager.AddListener(this);
@@ -140,6 +135,7 @@ namespace FishFlingers.Saving
             else
             {
                 _gameSave = new();
+                _gameSave.Raft.ApplyDefaults();
             }
 
             List<Task> tasks = ListPool<Task>.Get();

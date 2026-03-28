@@ -18,8 +18,6 @@ namespace FishFlingers.Items
 
         private Dictionary<ItemId, ItemData> _idDataMap = new();
 
-        private int _itemInstanceIdCounter;
-
         public override void Initialise(GameManagerConfig config)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
@@ -37,13 +35,6 @@ namespace FishFlingers.Items
         public ItemData GetItemData(ItemId id)
         {
             return _idDataMap[id];
-        }
-
-        // This solution is alright for making sure all items are unique across the session, but it will
-        // break if a client stops their application and than rejoins, having their id counter reset to 0
-        public string GetNextItemInstanceId()
-        {
-            return $"{_networkManager.LocalPlayerId}_{_itemInstanceIdCounter++}";
         }
     }
 }

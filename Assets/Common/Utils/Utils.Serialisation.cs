@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 namespace ShinyOwl.Common.Utils
@@ -9,15 +10,15 @@ namespace ShinyOwl.Common.Utils
         { }
     }
 
-    public class SerialisableVector2Int
+    public class SimpleVector2Int
     {
         [JsonProperty] public int X { get; private set; }
         [JsonProperty] public int Y { get; private set; }
 
-        public SerialisableVector2Int() : this(Vector2Int.zero)
+        public SimpleVector2Int() : this(Vector2Int.zero)
         { }
 
-        public SerialisableVector2Int(Vector2Int vector2Int)
+        public SimpleVector2Int(Vector2Int vector2Int)
         {
             X = vector2Int.x;
             Y = vector2Int.y;
@@ -29,16 +30,16 @@ namespace ShinyOwl.Common.Utils
         }
     }
 
-    public class SerialisableVector3
+    public class SimpleVector3
     {
         [JsonProperty] public float X { get; private set; }
         [JsonProperty] public float Y { get; private set; }
         [JsonProperty] public float Z { get; private set; }
 
-        public SerialisableVector3() : this(Vector3.zero)
+        public SimpleVector3() : this(Vector3.zero)
         { }
 
-        public SerialisableVector3(Vector3 vector3)
+        public SimpleVector3(Vector3 vector3)
         {
             X = vector3.x;
             Y = vector3.y;
@@ -51,17 +52,17 @@ namespace ShinyOwl.Common.Utils
         }
     }
 
-    public class SerialisableQuaternion
+    public class SimpleQuaternion
     {
         [JsonProperty] public float X { get; private set; }
         [JsonProperty] public float Y { get; private set; }
         [JsonProperty] public float Z { get; private set; }
         [JsonProperty] public float W { get; private set; }
 
-        public SerialisableQuaternion() : this(Quaternion.identity)
+        public SimpleQuaternion() : this(Quaternion.identity)
         { }
 
-        public SerialisableQuaternion(Quaternion quaternion)
+        public SimpleQuaternion(Quaternion quaternion)
         {
             X = quaternion.x;
             Y = quaternion.y;

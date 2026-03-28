@@ -12,28 +12,57 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using ShinyOwl.Common.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    [Serializable]
     public class RaftPlayerSave
     {
-        [JsonProperty] public SerialisableVector3 Position { get; private set; }
-        [JsonProperty] public SerialisableQuaternion Rotation { get; private set; }
+        [JsonProperty] private SimpleVector3 _position = new();
+        [JsonProperty] private SimpleQuaternion _rotation = new();
+
+        [JsonIgnore] public Vector3 Position
+        {
+            get => _position.ToVector3();
+            set => _position = new SimpleVector3(value);
+        }
+
+        [JsonIgnore] public Quaternion Rotation
+        {
+            get => _rotation.ToQuaternion();
+            set => _rotation = new SimpleQuaternion(value);
+        }
+
+        [JsonProperty] public InventorySave Inventory { get; private set; } = new();
 
         private const int Precision = 1;
 
-        public RaftPlayerSave(Vector3 position, Quaternion rotation)
+        public RaftPlayerSave()
+        { }
+        
+        private RaftPlayerSave(Vector3 position, Quaternion rotation, Inventory inventory)
         {
-            position = Utils.Math.RoundVector3(position, Precision);
-            rotation = Utils.Math.RoundQuaternion(rotation, Precision);
+            Position = Utils.Math.RoundVector3(position, Precision);
+            Rotation = Utils.Math.RoundQuaternion(rotation, Precision);
 
-            Position = new SerialisableVector3(position);
-            Rotation = new SerialisableQuaternion(rotation);
+            if (inventory != null)
+            {
+                foreach (InventoryItem item in inventory.InventoryItems.Values)
+                {
+                    Inventory.Items.Add(new InventoryItemSave(item));
+                }
+            }
+        }
+
+        public RaftPlayerSave(RaftPlayer player) : this(player.transform.position, player.transform.rotation, player.Inventory)
+        { }
+
+        public void ApplyDefaults()
+        {
+            Inventory.Items.Add(new InventoryItemSave(Vector2Int.zero, Vector2Int.zero, 0, null, ItemId.Hammer, 1));
         }
     }
 
@@ -86,25 +115,11 @@ namespace FishFlingers.Entities
             {
                 _inventory.SetLayout(_inventoryLayout);
 
-                _ = SetupStartingItemsAsync();
-
                 _cameraManager.SetMode(new FollowCameraMode(transform, new Vector3(0f, 3f, -5f)));
             }
 
             // Invoke OnNetworkSpawn after logic components are created
             base.OnSpawned();
-        }
-
-        private async Task SetupStartingItemsAsync()
-        {
-            while (!_inventory.NetInventoryItems.IsReady)
-            {
-                await Task.Yield();
-            }
-
-            // Start with a hammer and some driftwood
-            _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Hammer, Count = 1 }, false, out _, out _, out _);
-            _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Driftwood, Count = 15 }, false, out _, out _, out _);
         }
 
         public override void Initialise(GameplayContext context)
@@ -118,33 +133,6 @@ namespace FishFlingers.Entities
                 _hotkeyLogic = new RaftPlayerHotkeyLogic(context, _netGrabbedInventoryItem);
                 _targetLogic = new RaftPlayerTargetLogic(context, _targetLogicSettings);
             }
-        }
-
-        [ServerRpc]
-        private async Task<RaftPlayerSave> GetDataRpc(string guid)
-        {
-            if (!_saveManager.GameSave.Players.ContainsKey(guid))
-            {
-                _saveManager.GameSave.Players[guid] = new RaftPlayerSave(Vector3.zero, Quaternion.identity);
-            }
-
-            return _saveManager.GameSave.Players[guid];
-        }
-
-        public async Task LoadDataAsync(string guid)
-        {
-            RaftPlayerSave save = await GetDataRpc(guid);
-
-            transform.position = save.Position.ToVector3();
-            transform.rotation = save.Rotation.ToQuaternion();
-
-            _rigidbody.linearVelocity = Vector3.zero;
-            _rigidbody.angularVelocity = Vector3.zero;
-        }
-
-        public void Save(string guid)
-        {
-            _saveManager.GameSave.Players[guid] = new RaftPlayerSave(transform.position, transform.rotation);
         }
 
         private void Update()
@@ -186,6 +174,25 @@ namespace FishFlingers.Entities
         private void SyncVarsUpdate()
         {   
             _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(_inputLogic.Mouse.x / Screen.width), Mathf.Clamp01(_inputLogic.Mouse.y / Screen.height));
+        }
+
+        public async Task LoadAsync(RaftPlayerSave save)
+        {
+            transform.position = save.Position;
+            transform.rotation = save.Rotation;
+
+            _rigidbody.linearVelocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
+
+            while (!_inventory.IsReady)
+            {
+                await Task.Yield();
+            }
+
+            foreach (InventoryItemSave itemSave in save.Inventory.Items)
+            {
+                bool place = _inventory.TryPlaceItem(InventoryPlaceParams.Create(itemSave), false, out _, out _, out _);
+            }
         }
     }
 }

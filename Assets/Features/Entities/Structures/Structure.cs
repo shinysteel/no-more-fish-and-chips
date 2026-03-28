@@ -7,15 +7,14 @@ using ShinyOwl.Common.Utils;
 
 namespace FishFlingers.Entities
 {
-    [Serializable]
     public class StructureSave
     {
-        [JsonProperty] public SerialisableVector2Int Cell { get; private set; }
+        [JsonProperty] public SimpleVector2Int Cell { get; private set; }
         [JsonProperty] public EntityId StructureId { get; private set; }
 
         public StructureSave(Vector2Int cell, EntityId structureId)
         {
-            Cell = new SerialisableVector2Int(cell);
+            Cell = new SimpleVector2Int(cell);
             StructureId = structureId;
         }
     }

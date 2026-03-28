@@ -10,15 +10,14 @@ using ShinyOwl.Common.Utils;
 
 namespace FishFlingers.Entities
 {
-    [Serializable]
     public class TileSave
     {
-        [JsonProperty] public SerialisableVector2Int Cell { get; private set; }
+        [JsonProperty] public SimpleVector2Int Cell { get; private set; }
         [JsonProperty] public int Health { get; private set; }
 
         public TileSave(Vector2Int cell, int health)
         {
-            Cell = new SerialisableVector2Int(cell);
+            Cell = new SimpleVector2Int(cell);
             Health = health;
         }
     }

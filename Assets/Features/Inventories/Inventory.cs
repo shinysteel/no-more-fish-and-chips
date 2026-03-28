@@ -1,6 +1,7 @@
 using FishFlingers.Entities;
 using FishFlingers.Items;
 using FishFlingers.Networking;
+using Newtonsoft.Json;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
@@ -10,8 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,6 +29,52 @@ namespace FishFlingers.Inventories
         }
     }
 
+    public class InventorySave
+    {
+        [JsonProperty] public List<InventoryItemSave> Items { get; private set; } = new();
+    }
+
+    public class InventoryItemSave
+    {
+        [JsonProperty] private SimpleVector2Int _cell = new();
+        [JsonProperty] private SimpleVector2Int _pivot = new();
+
+        [JsonIgnore]
+        public Vector2Int Cell
+        {
+            get => _cell.ToVector2Int();
+            set => _cell = new SimpleVector2Int(value);
+        }
+
+        [JsonIgnore]
+        public Vector2Int Pivot
+        {
+            get => _pivot.ToVector2Int();
+            set => _pivot = new SimpleVector2Int(value);
+        }
+
+        [JsonProperty] public int Rotations { get; private set; }
+        [JsonProperty] public string InstanceId { get; private set; }
+        [JsonProperty] public ItemId ItemId { get; private set; }
+        [JsonProperty] public int Count { get; private set; }
+
+        public InventoryItemSave()
+        { }
+        
+        public InventoryItemSave(InventoryItem item) : this(item.Cell, item.Pivot, item.Rotations, item.ItemInstance.InstanceId, item.ItemInstance.Data.ItemId, item.ItemInstance.Count)
+        { }
+
+        public InventoryItemSave(Vector2Int cell, Vector2Int pivot, int rotations, string instanceId, ItemId itemId, int count)
+        {
+            Cell = cell;
+            Pivot = pivot;
+            Rotations = rotations;
+            InstanceId = instanceId;
+            ItemId = itemId;
+            Count = count;
+        }
+    }
+    
     public class InventoryChangeParams
     {
         public string InstanceId { get; set; } = null;
@@ -56,6 +101,19 @@ namespace FishFlingers.Inventories
                 InstanceId = item.ItemInstance.InstanceId,
                 ItemId = item.ItemInstance.Data.ItemId,
                 Count = item.ItemInstance.Count
+            };
+        }
+
+        public static InventoryPlaceParams Create(InventoryItemSave save)
+        {
+            return new InventoryPlaceParams()
+            {
+                Cell = save.Cell,
+                Pivot = save.Pivot,
+                RotationParams = new InventoryRotationParams() { Rotations = save.Rotations },
+                InstanceId = save.InstanceId,
+                ItemId = save.ItemId,
+                Count = save.Count
             };
         }
     }
@@ -337,6 +395,8 @@ namespace FishFlingers.Inventories
 
         public int Columns => _layout.Columns;
         public int Rows => _layout.Rows;
+
+        public bool IsReady => _netInventorySlots.IsReady && _netInventoryItems.IsReady;
 
         // It was not obvious that the string in Action<string, InventoryItem> represented instanceId. This
         // is a good example of when to use custom delegates. If more parameters could be added in the future,
@@ -903,7 +963,7 @@ namespace FishFlingers.Inventories
             ItemData data = _itemManager.GetItemData(place.Parameters.ItemId);
 
             // A null place.InstanceId indicates this will be a new item. We validate instanceId here since we know for sure it will be placed
-            string instanceId = place.Parameters.InstanceId != null ? place.Parameters.InstanceId : _itemManager.GetNextItemInstanceId();
+            string instanceId = place.Parameters.InstanceId != null ? place.Parameters.InstanceId : _networkManager.LocalPurrnetPlayer.GetNextItemInstanceId();
 
             NetInventoryItem item = new NetInventoryItem(place.Parameters.Cell, place.Parameters.Pivot, place.Parameters.RotationParams.Rotations, instanceId, place.Parameters.ItemId, place.Parameters.Count);
 
