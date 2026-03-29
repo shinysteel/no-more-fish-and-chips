@@ -111,6 +111,13 @@ namespace FishFlingers.Networking
 
         async Task ISaveable.LoadAsync()
         {
+            // Clients can join while the host is still initialising, and so they will be in the collection of Saveables
+            // to load on the server. We can just return here knowing that clients will load their player themselves
+            if (!isOwner)
+            {
+                return;
+            }
+
             PurrnetPlayerSave save = await GetSaveRpc();
 
             // The raft player may not be created yet
