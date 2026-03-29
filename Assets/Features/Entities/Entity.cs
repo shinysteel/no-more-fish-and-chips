@@ -60,10 +60,14 @@ namespace FishFlingers.Entities
             {
                 SetHealth(_entityData.Health);
             }
+
+            _entityManager.RaiseNetEntitySpawned(this);
         }
 
-        public virtual void OnReturnedToPool() 
+        public virtual void OnReturnedToPool()
         {
+            _entityManager?.RaiseNetEntityDespawned(this);
+
             _context = null;
 
             _healthModule = null;

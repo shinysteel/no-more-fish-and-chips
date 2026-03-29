@@ -9,12 +9,18 @@ namespace FishFlingers.Entities
 {
     public class StructureSave
     {
-        [JsonProperty] public SimpleVector2Int Cell { get; private set; }
+        [JsonProperty] private SimpleVector2Int _cell = new();
         [JsonProperty] public EntityId StructureId { get; private set; }
+
+        [JsonIgnore] public Vector2Int Cell
+        {
+            get => _cell.ToVector2Int();
+            set => _cell = new SimpleVector2Int(value);
+        }
 
         public StructureSave(Vector2Int cell, EntityId structureId)
         {
-            Cell = new SimpleVector2Int(cell);
+            Cell = cell;
             StructureId = structureId;
         }
     }

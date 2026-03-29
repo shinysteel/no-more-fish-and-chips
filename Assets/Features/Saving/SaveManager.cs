@@ -36,7 +36,7 @@ namespace FishFlingers.Saving
     public class GameSave
     {
         [JsonProperty] public Dictionary<string, PurrnetPlayerSave> Players { get; private set; } = new();
-        [JsonProperty] public RaftSave Raft { get; private set; } = new();
+        [JsonProperty] public GameplayEnvironmentSave Environment { get; private set; } = new();
     }
 
     public interface ISaveManagerListener
@@ -135,7 +135,7 @@ namespace FishFlingers.Saving
             else
             {
                 _gameSave = new();
-                _gameSave.Raft.ApplyDefaults();
+                _gameSave.Environment.ApplyDefaults();
             }
 
             List<Task> tasks = ListPool<Task>.Get();

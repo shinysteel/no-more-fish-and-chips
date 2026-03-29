@@ -53,6 +53,8 @@ namespace FishFlingers.Entities
         {
             base.OnSpawned();
 
+            _entityManager.RaiseNetEntitySpawned(this);
+
             if (!isServer)
             {
                 return;
@@ -64,6 +66,8 @@ namespace FishFlingers.Entities
         protected override void OnDespawned()
         {
             base.OnDespawned();
+
+            _entityManager?.RaiseNetEntityDespawned(this);
 
             _context = null;
         }

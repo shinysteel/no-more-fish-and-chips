@@ -15,10 +15,10 @@ using PurrNet;
 using FishFlingers.Environments;
 using FishFlingers.Entities;
 using System.Linq;
+using FishFlingers.Saving;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 using Object = UnityEngine.Object;
-using FishFlingers.Saving;
 
 namespace FishFlingers.States
 {
@@ -131,6 +131,13 @@ namespace FishFlingers.States
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
                 _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, _cursorsUI);
+
+                // The server will setup an environment object
+                if (_networkManager.IsServer)
+                {
+                    GameplayEnvironment environment = Object.Instantiate(_config.GameplayEnvironmentPrefab);
+                    environment.Initialise(_context);
+                }
 
                 // As the client, Any behaviours that spawned before we joined will need to be manually initialised
                 if (!_networkManager.IsServer)

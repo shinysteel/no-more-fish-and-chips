@@ -21,7 +21,7 @@ namespace FishFlingers.Environments
 {
     public class RaftSave
     {
-        [JsonProperty] public List<TileSave> Tiles { get; private set; } = new();
+        [JsonProperty] public List<RaftTileSave> Tiles { get; private set; } = new();
         [JsonProperty] public List<StructureSave> Structures { get; private set; } = new();
 
         public void ApplyDefaults()
@@ -39,7 +39,7 @@ namespace FishFlingers.Environments
                         health--;
                     }
 
-                    Tiles.Add(new TileSave(new Vector2Int(x, y), health));
+                    Tiles.Add(new RaftTileSave(new Vector2Int(x, y), health));
                 }
             }
 
@@ -72,7 +72,7 @@ namespace FishFlingers.Environments
         }
     }
 
-    public partial class Raft : GameplayBehaviour, ISaveable
+    public partial class Raft : GameplayBehaviour
     {
         [SerializeField] private Transform _tilesContainer;
 
@@ -173,7 +173,7 @@ namespace FishFlingers.Environments
                 return;
             }
 
-            if (_entityManager.GetEntity(structureId) is not Structure)
+            if (_entityManager.GetEntityDefinition(structureId) is not Structure)
             {
                 return;
             }
@@ -318,35 +318,35 @@ namespace FishFlingers.Environments
             }
         }
 
-        async Task ISaveable.LoadAsync()
+        public void Load()
         {
-            foreach (TileSave save in _saveManager.GameSave.Raft.Tiles)
+            foreach (RaftTileSave save in _saveManager.GameSave.Environment.Raft.Tiles)
             {
-                AddNetTileRpc(save.Cell.ToVector2Int(), save.Health);
+                AddNetTileRpc(save.Cell, save.Health);
             }
 
-            foreach (StructureSave save in _saveManager.GameSave.Raft.Structures)
+            foreach (StructureSave save in _saveManager.GameSave.Environment.Raft.Structures)
             {
-                AddStructureRpc(save.Cell.ToVector2Int(), save.StructureId);
+                AddStructureRpc(save.Cell, save.StructureId);
             }
         }
 
-        void ISaveable.Save()
+        public void Save()
         {
-            _saveManager.GameSave.Raft.Tiles.Clear();
+            _saveManager.GameSave.Environment.Raft.Tiles.Clear();
 
             foreach (RaftTile tile in _raftTiles.Values)
             {
-                _saveManager.GameSave.Raft.Tiles.Add(new TileSave(tile.Cell, tile.CurrentHealth));
+                _saveManager.GameSave.Environment.Raft.Tiles.Add(new RaftTileSave(tile));
             }
 
-            _saveManager.GameSave.Raft.Structures.Clear();
+            _saveManager.GameSave.Environment.Raft.Structures.Clear();
 
             foreach (RaftTile tile in _raftTiles.Values)
             {
                 if (tile.Structure != null)
                 {
-                    _saveManager.GameSave.Raft.Structures.Add(new StructureSave(tile.Cell, tile.Structure.StructureData.Id));
+                    _saveManager.GameSave.Environment.Raft.Structures.Add(new StructureSave(tile.Cell, tile.Structure.StructureData.Id));
                 }
             }
         }

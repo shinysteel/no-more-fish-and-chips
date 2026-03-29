@@ -30,7 +30,10 @@ namespace FishFlingers.Entities
     }
 
     public interface IEntityManagerListener
-    { }
+    {
+        void OnEntitySpawned(IEntity entity) { }
+        void OnEntityDespawned(IEntity entity) { }
+    }
 
     public class EntityManager : GameSystem<IEntityManagerListener>
     {
@@ -40,7 +43,10 @@ namespace FishFlingers.Entities
         private EntityManagerConfig _config;
 
         private Dictionary<EntityId, IEntity> _idPrefabMap = new();
-        private Dictionary<Type, HashSet<IEntity>> _typeEntitiesMap = new();
+        private Dictionary<Type, HashSet<IEntity>> _typeDefinitionMap = new();
+
+        private List<IEntity> _entities = new();
+        public IReadOnlyList<IEntity> Entities => _entities;
 
         public override void Initialise(GameManagerConfig config)
         {
@@ -60,7 +66,7 @@ namespace FishFlingers.Entities
 
             foreach (Type type in types)
             {
-                _typeEntitiesMap.Add(type, new());
+                _typeDefinitionMap.Add(type, new());
             }
 
             foreach (EntityMapping mapping in _config.EntityMappings)
@@ -75,7 +81,7 @@ namespace FishFlingers.Entities
                 {
                     if (type.IsAssignableFrom(entity.GetType()))
                     {
-                        _typeEntitiesMap[type].Add(entity);
+                        _typeDefinitionMap[type].Add(entity);
                     }
                 }
             }
@@ -86,7 +92,7 @@ namespace FishFlingers.Entities
         /// <summary>
         /// Retrieves a single entity mapped to the type
         /// </summary>
-        public IEntity GetEntity(EntityId id)
+        public IEntity GetEntityDefinition(EntityId id)
         {
             _idPrefabMap.TryGetValue(id, out IEntity prefab);
             return prefab;
@@ -95,9 +101,9 @@ namespace FishFlingers.Entities
         /// <summary>
         /// Retrieves a registered collection of entities
         /// </summary>
-        public IEnumerable<T> GetEntities<T>() where T : IEntity
+        public IEnumerable<T> GetEntityDefinitions<T>() where T : IEntity
         {
-            if (!_typeEntitiesMap.TryGetValue(typeof(T), out HashSet<IEntity> entities))
+            if (!_typeDefinitionMap.TryGetValue(typeof(T), out HashSet<IEntity> entities))
             {
                 return Enumerable.Empty<T>();
             }
@@ -176,6 +182,24 @@ namespace FishFlingers.Entities
 
             // Launch the item
             item.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
+        }
+
+        // Since NetEntity lifecycle is controlled by Purrnet, we need to manually raise these events
+        public void RaiseNetEntitySpawned(IEntity entity) => NotifyNetEntitySpawned(entity);
+        public void RaiseNetEntityDespawned(IEntity entity) => NotifyNetEntityDespawned(entity);
+
+        private void NotifyNetEntitySpawned(IEntity entity)
+        {
+            _entities.Add(entity);
+
+            Listeners.Dispatch(listener => listener.OnEntitySpawned(entity));
+        }
+
+        private void NotifyNetEntityDespawned(IEntity entity)
+        {
+            _entities.Remove(entity);
+
+            Listeners.Dispatch(listener => listener.OnEntityDespawned(entity));
         }
     }
 }

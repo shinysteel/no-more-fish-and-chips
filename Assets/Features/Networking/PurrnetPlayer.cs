@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using EntityId = FishFlingers.Entities.EntityId;
 
 namespace FishFlingers.Networking
 {
@@ -24,15 +25,18 @@ namespace FishFlingers.Networking
         [JsonProperty] public RaftPlayerSave RaftPlayer { get; private set; } = new();
 
         public PurrnetPlayerSave()
-        {
-            RaftPlayer.ApplyDefaults();
-        }
+        { }
 
         public PurrnetPlayerSave(int saveId, int itemInstanceIdCounter, RaftPlayerSave raftPlayer)
         {
             SaveId = saveId;
             ItemInstanceIdCounter = itemInstanceIdCounter;
             RaftPlayer = raftPlayer;
+        }
+
+        public void ApplyDefaults()
+        {
+            RaftPlayer.ApplyDefaults();
         }
 
         // We can't safely reference any managers in the default constructor, so this exists
@@ -44,8 +48,6 @@ namespace FishFlingers.Networking
 
     public class PurrnetPlayer : NetBehaviour, ISaveable
     {
-        [SerializeField] private RaftPlayer _raftPlayerPrefab;
-
         private SyncVar<string> _netGuid = new SyncVar<string>(ownerAuth: true);
         private SyncVar<int> _netSaveId = new SyncVar<int>(ownerAuth: true);
         private SyncVar<int> _netItemInstanceIdCounter = new SyncVar<int>(ownerAuth: true);
@@ -84,7 +86,7 @@ namespace FishFlingers.Networking
 
         public RaftPlayer CreateRaftPlayer()
         {
-            _netRaftPlayer.value = _networkManager.Spawn(_raftPlayerPrefab, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+            _netRaftPlayer.value = (RaftPlayer)_entityManager.Spawn(EntityId.RaftPlayer, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
             return _netRaftPlayer;
         }
 
@@ -100,6 +102,7 @@ namespace FishFlingers.Networking
             if (!_saveManager.GameSave.Players.ContainsKey(_netGuid))
             {
                 _saveManager.GameSave.Players[_netGuid] = new();
+                _saveManager.GameSave.Players[_netGuid].ApplyDefaults();
                 _saveManager.GameSave.Players[_netGuid].SetSaveId(_saveManager.GameSave.Players.Count - 1);
             }
 

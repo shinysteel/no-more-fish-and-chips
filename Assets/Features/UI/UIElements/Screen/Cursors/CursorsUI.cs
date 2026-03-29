@@ -8,16 +8,14 @@ using PurrNet.Transports;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
-using NetworkManager = FishFlingers.Networking.NetworkManager;
 
 namespace FishFlingers.UI
 {
-    public class CursorsUI : ScreenUI, INetworkManagerListener
+    public class CursorsUI : ScreenUI, IEntityManagerListener
     {
         private PoolManager _poolManager;
-        private NetworkManager _networkManager;
+        private EntityManager _entityManager;
 
         private GameplayContext _context;
 
@@ -26,7 +24,7 @@ namespace FishFlingers.UI
         private void Awake()
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
         }
 
         public void Setup(GameplayContext context)
@@ -35,12 +33,12 @@ namespace FishFlingers.UI
 
             SyncCursors();
 
-            _networkManager.AddListener(this);
+            _entityManager.AddListener(this);
         }
 
         private void OnDestroy()
         {
-            _networkManager?.RemoveListener(this);
+            _entityManager?.RemoveListener(this);
         }
 
         private void Update()
@@ -72,19 +70,19 @@ namespace FishFlingers.UI
                 processElement: (Cursor cursor, int index) => cursor.SetOwner(_context.Players[index]));
         }
 
-        void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour) 
-        { 
-            if (behaviour is not RaftPlayer)
+        void IEntityManagerListener.OnEntitySpawned(IEntity entity)
+        {
+            if (entity is not RaftPlayer)
             {
                 return;
             }
-
+            
             SyncCursors();
         }
 
-        void INetworkManagerListener.OnNetBehaviourDespawned(NetBehaviour behaviour) 
+        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
         { 
-            if (behaviour is not RaftPlayer)
+            if (entity is not RaftPlayer)
             {
                 return;
             }

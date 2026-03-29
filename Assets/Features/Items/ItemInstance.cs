@@ -1,6 +1,7 @@
 using UnityEngine;
 using FishFlingers.Inventories;
 using FishFlingers.Networking;
+using FishFlingers.Entities;
 
 namespace FishFlingers.Items
 {
@@ -45,6 +46,11 @@ namespace FishFlingers.Items
         public static NetItemInstance Create(ItemInstance itemInstance)
         {
             return new NetItemInstance(itemInstance.InstanceId, itemInstance.Data.ItemId, itemInstance.Count);
+        }
+
+        public static NetItemInstance Create(DroppedItemSave droppedItemSave)
+        {
+            return new NetItemInstance(droppedItemSave.InstanceId, droppedItemSave.ItemId, droppedItemSave.Count);
         }
 
         public NetItemInstance DeepClone()

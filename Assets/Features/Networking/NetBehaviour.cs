@@ -41,7 +41,7 @@ namespace FishFlingers.Networking
 
         protected override void OnDespawned()
         {
-            _networkManager.RaiseNetBehaviourDespawned(this);
+            _networkManager?.RaiseNetBehaviourDespawned(this);
         }
     }
 }
