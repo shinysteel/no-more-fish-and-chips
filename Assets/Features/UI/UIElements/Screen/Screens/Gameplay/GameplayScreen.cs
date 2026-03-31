@@ -76,11 +76,7 @@ namespace FishFlingers.UI
 
         private void FishingBagPressed()
         {
-            _fishingBagPanelInstance.Toggle((FishingBagPanel panel) =>
-            {
-                panel.Setup(_context);
-                panel.Show(null);
-            });
+            _fishingBagPanelInstance.Toggle((FishingBagPanel panel) => panel.Setup(_context));
         }
     }
 }

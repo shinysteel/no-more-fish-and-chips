@@ -39,8 +39,6 @@ namespace FishFlingers.Entities
 
         protected override void OnInitializeModules()
         {
-            base.OnInitializeModules();
-
             _currentHealth = new SyncVar<int>(_entityData.Health);
 
             _healthModule = new HealthModule(_entityData.Health,

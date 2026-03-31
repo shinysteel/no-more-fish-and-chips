@@ -43,7 +43,9 @@ namespace FishFlingers.UI
                 {
                     _panel = panel;
                     _creating = false;
-                    onCreate(_panel);
+
+                    onCreate?.Invoke(_panel);
+                    _panel.Show(null);
                 };
             }
         }

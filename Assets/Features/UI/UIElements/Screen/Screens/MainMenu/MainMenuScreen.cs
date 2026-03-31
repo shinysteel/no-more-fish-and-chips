@@ -37,12 +37,12 @@ namespace FishFlingers.UI
 
         private void BrowseGamesPressed()
         {
-            _browseGamesPanelInstance.Toggle((BrowseGamesPanel panel) => panel.Show(null));
+            _browseGamesPanelInstance.Toggle(null);
         }
 
         private void HostGamePressed()
         {
-            _hostGamesPanelInstance.Toggle((HostGamePanel panel) => panel.Show(null));
+            _hostGamesPanelInstance.Toggle(null);
         }
 
         private void QuitPressed()
