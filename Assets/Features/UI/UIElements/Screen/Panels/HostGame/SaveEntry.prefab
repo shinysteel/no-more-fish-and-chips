@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442993553976482131}
   - component: {fileID: 1874816724159923467}
+  - component: {fileID: 4719491211241408021}
   m_Layer: 5
   m_Name: Thumbnail
   m_TagString: Untagged
@@ -57,6 +58,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: 3
   m_LayoutPriority: 1
+--- !u!114 &4719491211241408021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3037285231408017555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
+  m_Padding: {x: 0, y: 0, z: 0, w: 0}
+  m_Softness: {x: 0, y: 0}
 --- !u!1 &7285135601963961814
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.AspectRatioFitter
   m_AspectMode: 4
-  m_AspectRatio: 1
+  m_AspectRatio: 1.33
 --- !u!1001 &6534012530783260185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -617,7 +632,7 @@ MonoBehaviour:
   m_PreferredWidth: -1
   m_PreferredHeight: 0
   m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
+  m_FlexibleHeight: 1
   m_LayoutPriority: 1
 --- !u!114 &1958433706232014901 stripped
 MonoBehaviour:
