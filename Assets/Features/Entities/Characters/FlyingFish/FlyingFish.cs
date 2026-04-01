@@ -179,6 +179,11 @@ namespace FishFlingers.Entities
         {
             base.OnDespawned();
 
+            if (!isServer)
+            {
+                return;
+            }
+
             _targetTile = null;
 
             _stateMachine.ChangeState(EState.None);
