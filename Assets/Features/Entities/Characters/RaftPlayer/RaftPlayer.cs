@@ -201,11 +201,5 @@ namespace FishFlingers.Entities
                 bool place = _inventory.TryPlaceItem(InventoryPlaceParams.Create(itemSave), false, out _, out _, out _);
             }
         }
-
-        [ServerRpc]
-        public void SpawnDroppedItemRpc(NetItemInstance netItemInstance, Vector3 direction, float strength)
-        {
-            _entityManager.SpawnDroppedItem(new SpawnParams() { Position = transform.position }, netItemInstance, direction, strength);
-        }
     }
 }

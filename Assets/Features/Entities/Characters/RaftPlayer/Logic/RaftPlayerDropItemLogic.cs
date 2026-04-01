@@ -2,7 +2,9 @@ using FishFlingers.Cameras;
 using FishFlingers.Entities;
 using FishFlingers.Inventories;
 using FishFlingers.Items;
+using PurrNet;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace FishFlingers.Entities
 { 
@@ -46,7 +48,14 @@ namespace FishFlingers.Entities
 
             direction = Quaternion.AngleAxis(Pitch, Vector3.Cross(Vector3.up, direction)) * direction;
 
-            _player.SpawnDroppedItemRpc(NetItemInstance.Create(itemInstance), direction, Strength);
+            SpawnDroppedItemRpc(NetItemInstance.Create(itemInstance), _player.transform.position, direction, Strength);
+        }
+
+        [ServerRpc(requireOwnership: false)]
+        private static void SpawnDroppedItemRpc(NetItemInstance netItemInstance, Vector3 position, Vector3 direction, float strength)
+        {
+            EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
+            entityManager.SpawnDroppedItem(new SpawnParams() { Position = position }, netItemInstance, direction, strength);
         }
     }
 }
