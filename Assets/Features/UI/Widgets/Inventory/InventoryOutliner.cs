@@ -50,12 +50,16 @@ namespace FishFlingers.UI
 
             if (grabbedInventoryItem == null)
             {
-                // Color the target item white
                 if (_targetSlotView.InventoryItem != null)
                 {
+                    // Color the target item white or red
+                    CellOutline.EColor color = _targetSlotView.InventoryItem.IsGrabbed == false 
+                        ? CellOutline.EColor.Highlighted 
+                        : CellOutline.EColor.Negative;
+
                     _targetSlotView.InventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
                     {
-                        _inventoryWidget.InventorySlotViews[_targetSlotView.InventoryItem.Cell + cell].CellOutline.SetColor(CellOutline.EColor.Highlighted);
+                        _inventoryWidget.InventorySlotViews[_targetSlotView.InventoryItem.Cell + cell].CellOutline.SetColor(color);
                     });
                 }
             }
