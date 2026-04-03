@@ -13,20 +13,20 @@ using System.Threading.Tasks;
 
 namespace FishFlingers.Entities
 {
-    public class RaftPlayerGrabbedItemLogic
+    public class RaftPlayerGrabbedInventoryItemLogic
     {
         private RaftPlayer _player;
 
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem;
 
         private InventoryItem _grabbedInventoryItem;
-        public InventoryItem GrabbedInventoryItem => _grabbedInventoryItem;
-
         private InventoryItemView _grabbedItemView;
 
-        public event Action<InventoryItem> OnChanged;
+        public InventoryItem GrabbedInventoryItem => _grabbedInventoryItem;
 
-        public RaftPlayerGrabbedItemLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
+        public event Action<InventoryItem> OnGrabbedInventoryItemChanged;
+
+        public RaftPlayerGrabbedInventoryItemLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
         {
             _player = player;
 
@@ -34,7 +34,7 @@ namespace FishFlingers.Entities
             _netGrabbedInventoryItem.onChanged += HandleNetGrabbedInventoryItemChanged;
         }
 
-        ~RaftPlayerGrabbedItemLogic()
+        ~RaftPlayerGrabbedInventoryItemLogic()
         {
             if (_netGrabbedInventoryItem != null)
             {
@@ -48,22 +48,22 @@ namespace FishFlingers.Entities
         public async Task GrabAsync(InventoryItemView itemView, InventorySlotView slotView)
         {
             NetInventoryItem grabbedNetInventoryItem = await _player.GrabRpc(itemView.InventoryWidget.Inventory.owner.Value, itemView.InventoryWidget.Inventory, itemView.InventoryItem.ItemInstance.InstanceId, slotView.Cell);
-
             if (grabbedNetInventoryItem == null)
             {
                 return;
             }
 
-            if (_grabbedInventoryItem != null)
+            if (_grabbedItemView != null)
             {
                 return;
             }
 
+            _grabbedItemView = itemView;
+
             _netGrabbedInventoryItem.value = grabbedNetInventoryItem;
 
             // Listen for changes while we hold it
-            _grabbedItemView = itemView;
-            _grabbedItemView.InventoryWidget.Inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
+            itemView.InventoryWidget.Inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace FishFlingers.Entities
                 Cell = slotView.Cell,
                 Pivot = _netGrabbedInventoryItem.value.Pivot,
                 RotationParams = new InventoryRotationParams() { Rotations = _netGrabbedInventoryItem.value.Rotations },
-                InstanceId = _grabbedItemView.InventoryItem.ItemInstance.InstanceId,
-                ItemId = _grabbedItemView.InventoryItem.ItemInstance.Data.ItemId,
-                Count = _grabbedItemView.InventoryItem.ItemInstance.Count
+                InstanceId = _grabbedInventoryItem.ItemInstance.InstanceId,
+                ItemId = _grabbedInventoryItem.ItemInstance.Data.ItemId,
+                Count = _grabbedInventoryItem.ItemInstance.Count
             };
 
             int? overflow = await _player.PlaceRpc(slotView.InventoryWidget.Inventory.owner.Value, slotView.InventoryWidget.Inventory, placeParams);
@@ -114,7 +114,7 @@ namespace FishFlingers.Entities
         {
             await _player.DropRpc(_grabbedItemView.InventoryWidget.Inventory.owner.Value, _grabbedItemView.InventoryWidget.Inventory, _grabbedInventoryItem.ItemInstance.InstanceId);
 
-            _player.DropItemLogic.SpawnDroppedItem(_grabbedInventoryItem.ItemInstance, true);
+            _player.DropInventoryItemLogic.SpawnDroppedItem(_grabbedInventoryItem.ItemInstance, true);
 
             await ReleaseAsync();
         }
@@ -128,19 +128,19 @@ namespace FishFlingers.Entities
 
             _grabbedItemView.InventoryWidget.Inventory.OnInventoryItemChanged -= HandleInventoryItemChanged;
 
-            _grabbedItemView = null;
-
             _netGrabbedInventoryItem.value = null;
+
+            _grabbedItemView = null;
         }
 
         /// <summary>
         /// Broadcasts changes to the net grabbed item in a nicer format
         /// </summary>
-        private void HandleNetGrabbedInventoryItemChanged(NetInventoryItem item)
+        private void HandleNetGrabbedInventoryItemChanged(NetInventoryItem netInventoryItem)
         {
-            _grabbedInventoryItem = item != null ? InventoryItem.Create(item) : null;
+            _grabbedInventoryItem = netInventoryItem != null ? InventoryItem.Create(netInventoryItem) : null;
 
-            OnChanged?.Invoke(_grabbedInventoryItem);
+            OnGrabbedInventoryItemChanged?.Invoke(_grabbedInventoryItem);
         }
 
         /// <summary>

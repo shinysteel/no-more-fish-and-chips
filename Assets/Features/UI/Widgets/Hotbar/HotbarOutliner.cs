@@ -1,3 +1,4 @@
+using FishFlingers.Entities;
 using FishFlingers.Inventories;
 using FishFlingers.States;
 using UnityEngine;
@@ -20,17 +21,17 @@ namespace FishFlingers.UI
 
         private void RefreshColors()
         {
-            InventoryItem grabbedItem = _context.LocalPlayer.GrabbedItemLogic.GrabbedInventoryItem;
+            InventoryItem grabbedInventoryItem = _context.LocalPlayer.GrabbedInventoryItemLogic.GrabbedInventoryItem;
 
             foreach (HotbarWidgetSlot slot in _hotbarWidget.Slots)
             {
                 CellOutline.EColor color;
 
-                if (grabbedItem != null && slot == _targetSlotView)
+                if (grabbedInventoryItem != null && slot == _targetSlotView)
                 {
                     color = CellOutline.EColor.Positive;
                 }
-                else if (grabbedItem == null && slot == _targetSlotView && slot.InventoryItem != null)
+                else if (grabbedInventoryItem == null && slot == _targetSlotView && slot.InventoryItem != null)
                 {
                     color = CellOutline.EColor.Negative;
                 }

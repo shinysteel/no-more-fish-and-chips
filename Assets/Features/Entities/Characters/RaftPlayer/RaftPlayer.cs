@@ -82,15 +82,15 @@ namespace FishFlingers.Entities
         private RaftPlayerInputLogic _inputLogic;
         private RaftPlayerPhysicsLogic _physicsLogic;
         private RaftPlayerInteractLogic _interactLogic;
-        private RaftPlayerGrabbedItemLogic _grabbedItemLogic;
-        private RaftPlayerDropItemLogic _dropItemLogic;
+        private RaftPlayerGrabbedInventoryItemLogic _grabbedInventoryItemLogic;
+        private RaftPlayerDropInventoryItemLogic _dropInventoryItemLogic;
         private RaftPlayerHotkeyLogic _hotkeyLogic;
         private RaftPlayerTargetLogic _targetLogic;
 
         public RaftPlayerInputLogic InputLogic => _inputLogic;
         public RaftPlayerInteractLogic InteractLogic => _interactLogic;
-        public RaftPlayerGrabbedItemLogic GrabbedItemLogic => _grabbedItemLogic;
-        public RaftPlayerDropItemLogic DropItemLogic => _dropItemLogic;
+        public RaftPlayerGrabbedInventoryItemLogic GrabbedInventoryItemLogic => _grabbedInventoryItemLogic;
+        public RaftPlayerDropInventoryItemLogic DropInventoryItemLogic => _dropInventoryItemLogic;
         public RaftPlayerTargetLogic TargetLogic => _targetLogic;
 
         public bool CanAct => !_uiManager.IsLayerInUse(UILayer.Panels);
@@ -108,8 +108,8 @@ namespace FishFlingers.Entities
             _inputLogic = new RaftPlayerInputLogic(this);
             _physicsLogic = new RaftPlayerPhysicsLogic(this, _capsuleCollider);
             _interactLogic = new RaftPlayerInteractLogic(this);
-            _grabbedItemLogic = new RaftPlayerGrabbedItemLogic(this, _netGrabbedInventoryItem);
-            _dropItemLogic = new RaftPlayerDropItemLogic(this);
+            _grabbedInventoryItemLogic = new RaftPlayerGrabbedInventoryItemLogic(this, _netGrabbedInventoryItem);
+            _dropInventoryItemLogic = new RaftPlayerDropInventoryItemLogic(this);
 
             if (isOwner)
             {

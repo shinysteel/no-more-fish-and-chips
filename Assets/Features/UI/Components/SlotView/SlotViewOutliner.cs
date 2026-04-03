@@ -3,6 +3,7 @@ using FishFlingers.States;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using FishFlingers.Entities;
 
 namespace FishFlingers.UI
 {
@@ -25,18 +26,18 @@ namespace FishFlingers.UI
             _raycastResults = new();
 
             _context = context;
-            _context.LocalPlayer.GrabbedItemLogic.OnChanged += HandleGrabbedItemChanged;
+            _context.LocalPlayer.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged += HandleGrabbedInventoryItemChanged;
         }
 
         ~SlotViewOutliner()
         {
             if (_context.LocalPlayer != null)
             {
-                _context.LocalPlayer.GrabbedItemLogic.OnChanged -= HandleGrabbedItemChanged;
+                _context.LocalPlayer.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged -= HandleGrabbedInventoryItemChanged;
             }
         }
 
-        private void HandleGrabbedItemChanged(InventoryItem item)
+        private void HandleGrabbedInventoryItemChanged(InventoryItem item)
         {
             Refresh();
         }

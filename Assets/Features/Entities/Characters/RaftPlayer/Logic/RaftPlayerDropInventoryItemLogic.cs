@@ -4,11 +4,10 @@ using FishFlingers.Inventories;
 using FishFlingers.Items;
 using PurrNet;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace FishFlingers.Entities
 { 
-    public class RaftPlayerDropItemLogic
+    public class RaftPlayerDropInventoryItemLogic
     {
         private EntityManager _entityManager;
         private CameraManager _cameraManager;
@@ -18,7 +17,7 @@ namespace FishFlingers.Entities
         private const float Pitch = -45f;
         private const float Strength = 3f;
 
-        public RaftPlayerDropItemLogic(RaftPlayer player)
+        public RaftPlayerDropInventoryItemLogic(RaftPlayer player)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();

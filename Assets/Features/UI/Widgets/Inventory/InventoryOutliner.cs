@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ShinyOwl.Common;
+using FishFlingers.Entities;
 
 namespace FishFlingers.UI
 {
@@ -45,7 +46,8 @@ namespace FishFlingers.UI
                 return;
             }
 
-            InventoryItem grabbedInventoryItem = _context.LocalPlayer.GrabbedItemLogic.GrabbedInventoryItem;
+            InventoryItem grabbedInventoryItem = _context.LocalPlayer.GrabbedInventoryItemLogic.GrabbedInventoryItem;
+
             if (grabbedInventoryItem == null)
             {
                 // Color the target item white
@@ -63,7 +65,7 @@ namespace FishFlingers.UI
                 CellOutline.EColor color = _inventoryWidget.Inventory.CanPlaceItem(InventoryPlaceParams.Create(_targetSlotView.Cell, grabbedInventoryItem), out _, out _, out _)
                     ? CellOutline.EColor.Positive
                     : CellOutline.EColor.Negative;
-                
+
                 grabbedInventoryItem.Shape.ForEachTrue((Vector2Int cell) =>
                 {
                     if (_inventoryWidget.InventorySlotViews.TryGetValue(_targetSlotView.Cell + cell, out InventorySlotView slotView))
@@ -108,9 +110,20 @@ namespace FishFlingers.UI
                 EnablePerimeter(itemView.InventoryItem, itemView.InventoryItem.Cell);
             }
 
-            InventoryItem grabbedInventoryItem = _context.LocalPlayer.GrabbedItemLogic.GrabbedInventoryItem;
-            if (grabbedInventoryItem == null || _targetSlotView == null)
-            {   
+            if (_targetSlotView == null)
+            {
+                return;
+            }
+
+            if (_targetSlotView.InventoryWidget != _inventoryWidget)
+            {
+                return;
+            }
+
+            InventoryItem grabbedInventoryItem = _context.LocalPlayer.GrabbedInventoryItemLogic.GrabbedInventoryItem;
+
+            if (grabbedInventoryItem == null)
+            {
                 return;
             }
 
