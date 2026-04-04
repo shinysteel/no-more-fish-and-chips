@@ -85,7 +85,7 @@ namespace FishFlingers.Networking
 
         public async Task<Dictionary<ELobbyService, Lobby[]>> SearchLobbies()
         {
-            var tasks = new List<Task<KeyValuePair<ELobbyService, Lobby[]>>>();
+            List<Task<KeyValuePair<ELobbyService, Lobby[]>>> tasks = new();
 
             foreach (var kvp in _lobbyServices)
             {

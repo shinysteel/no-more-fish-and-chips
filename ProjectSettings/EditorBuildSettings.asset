@@ -20,13 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Features/Scenes/Environments/EnvironmentGameplay.unity
     guid: f19e93d458f9d014983ef0b3244225df
-  - enabled: 0
-    path: Assets/Plugins/PurrLobby/LobbyScenes/LobbySample.unity
-    guid: 163ab76a47bff6646b7627336bc33bdf
-  - enabled: 0
-    path: Assets/Plugins/PurrLobby/LobbyScenes/NetworkedScene.unity
-    guid: e6ba6bbd3072e63449ec09bda4a1b5e6
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 253db7baefcdbdb498510218af21d6b0, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.localization.settings: {fileID: 11400000, guid: 6836b3380a5748545870572ae0add4bc, type: 2}
   m_UseUCBPForAssetBundles: 0

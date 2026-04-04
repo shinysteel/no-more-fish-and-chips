@@ -2,7 +2,6 @@ using FishFlingers.Inventories;
 using FishFlingers.Items;
 using FishFlingers.Pools;
 using FishFlingers.States;
-using PurrNet.Prediction;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using ShinyOwl.Common.Utils;
