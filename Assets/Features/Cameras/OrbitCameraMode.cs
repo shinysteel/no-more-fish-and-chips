@@ -27,7 +27,7 @@ namespace FishFlingers.Cameras
         {
             _timer += Time.deltaTime;
 
-            float angle = -_speed * _timer;
+            float angle = -_speed * _timer - Mathf.PI / 2f;
             float x = _center.x - _radius * Mathf.Cos(angle);
             float z = _center.z + _radius * Mathf.Sin(angle);
 
