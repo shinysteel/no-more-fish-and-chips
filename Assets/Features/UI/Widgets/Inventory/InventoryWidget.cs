@@ -68,12 +68,12 @@ namespace FishFlingers.UI
             {
                 foreach (InventorySlotView view in _inventorySlotViews.Values)
                 {
-                    _poolManager.Return(view);
+                    _poolManager.ReturnPoolable(view);
                 }
 
                 foreach (InventoryItemView view in _inventoryItemViews.Values)
                 {
-                    _poolManager.Return(view);
+                    _poolManager.ReturnPoolable(view);
                 }
             }
 
@@ -95,7 +95,7 @@ namespace FishFlingers.UI
 
             foreach (KeyValuePair<Vector2Int, NetInventorySlot> kvp in _inventory)
             {
-                InventorySlotView view = _poolManager.Get<InventorySlotView>(new SpawnParams() { Parent = _inventorySlotViewsContainer });
+                InventorySlotView view = _poolManager.GetPoolable<InventorySlotView>(new SpawnParams() { Parent = _inventorySlotViewsContainer });
 
                 Vector2Int cell = kvp.Key;
 
@@ -151,7 +151,7 @@ namespace FishFlingers.UI
         {
             if (!_inventoryItemViews.ContainsKey(key))
             {
-                _inventoryItemViews[key] = _poolManager.Get<InventoryItemView>(new SpawnParams() { Parent = _inventoryItemViewsContainer });   
+                _inventoryItemViews[key] = _poolManager.GetPoolable<InventoryItemView>(new SpawnParams() { Parent = _inventoryItemViewsContainer });   
             }
             
             InventoryItemView view = _inventoryItemViews[key];
@@ -166,7 +166,7 @@ namespace FishFlingers.UI
                 return;
             }
 
-            _poolManager.Return(_inventoryItemViews[key]);
+            _poolManager.ReturnPoolable(_inventoryItemViews[key]);
             _inventoryItemViews.Remove(key);
         }
 

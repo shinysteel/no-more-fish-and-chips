@@ -32,8 +32,8 @@ namespace FishFlingers.UI
             base.Show(onComplete);
 
             Utils.Collections.ResizeList(_saveEntries, _saveManager.SaveFiles.Count + 1,
-                createElement: () => _poolManager.Get<SaveEntry>(new SpawnParams() { Parent = _saveEntryContainer.transform }),
-                removeElement: (SaveEntry entry) => _poolManager.Return(entry),
+                createElement: () => _poolManager.GetPoolable<SaveEntry>(new SpawnParams() { Parent = _saveEntryContainer.transform }),
+                removeElement: (SaveEntry entry) => _poolManager.ReturnPoolable(entry),
                 processElement: (SaveEntry entry, int index) => entry.Setup(_saveManager.SaveFiles.ElementAtOrDefault(index)));
         }
     }

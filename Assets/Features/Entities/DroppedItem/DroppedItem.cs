@@ -48,7 +48,7 @@ namespace FishFlingers.Entities
 
     public class DroppedItem : NetEntity, IInteractable
     {
-        [SerializeField] private SpriteRenderer _spriteRenderer;
+        private ItemModel _itemModel;
 
         private SyncVar<NetItemInstance> _netItemInstance = new SyncVar<NetItemInstance>(ownerAuth: true);
         public SyncVar<NetItemInstance> NetItemInstance => _netItemInstance;
@@ -82,6 +82,8 @@ namespace FishFlingers.Entities
             base.OnDespawned();
 
             _netItemInstance.onChanged -= HandleNetItemInstanceChanged;
+
+            HandleItemIdChanged(ItemId.None);
         }
 
         public void Set(NetItemInstance netItemInstance, DroppedItemType type)
@@ -92,9 +94,23 @@ namespace FishFlingers.Entities
 
         private void HandleNetItemInstanceChanged(NetItemInstance netItemInstance)
         {
-            _spriteRenderer.sprite = netItemInstance.ItemId != ItemId.None ? _itemManager.GetItemData(netItemInstance.ItemId).Sprite : null;
+            HandleItemIdChanged(netItemInstance.ItemId);
         }
 
+        private void HandleItemIdChanged(ItemId itemId)
+        {
+            if (_itemModel != null && _itemModel.ItemId != itemId)
+            {
+                _poolManager.ReturnItemModel(_itemModel);
+                _itemModel = null;
+            }
+
+            if (itemId != ItemId.None)
+            {
+                _itemModel = _poolManager.GetItemModel(itemId, new SpawnParams() { Parent = transform });
+            }
+        }
+        
         private void Update()
         {
             // It seems calling Rpcs is unsafe before isFullySpawned is true, given there's errors if the despawn condition is immediately true on spawn

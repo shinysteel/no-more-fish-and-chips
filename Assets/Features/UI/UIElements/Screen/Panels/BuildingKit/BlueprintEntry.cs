@@ -53,8 +53,8 @@ namespace FishFlingers.UI
         private void RefreshEntries()
         {
             Utils.Collections.ResizeList(_requirementEntries, _buildable.Recipe.Requirements.Length,
-                createElement: () => _poolManager.Get<RequirementEntry>(new SpawnParams() { Parent = _requirementEntriesContainer }),
-                removeElement: (RequirementEntry entry) => _poolManager.Return(entry),
+                createElement: () => _poolManager.GetPoolable<RequirementEntry>(new SpawnParams() { Parent = _requirementEntriesContainer }),
+                removeElement: (RequirementEntry entry) => _poolManager.ReturnPoolable(entry),
                 processElement: (RequirementEntry entry, int index) => entry.Setup(_buildable.Recipe.Requirements[index]));
         }
 
@@ -79,7 +79,7 @@ namespace FishFlingers.UI
         { 
             foreach (RequirementEntry entry in _requirementEntries)
             {
-                _poolManager.Return(entry);
+                _poolManager.ReturnPoolable(entry);
             }
 
             _requirementEntries.Clear();

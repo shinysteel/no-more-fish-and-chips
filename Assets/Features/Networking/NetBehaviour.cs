@@ -8,6 +8,7 @@ using ShinyOwl.Common;
 using FishFlingers.States;
 using FishFlingers.Saving;
 using FishFlingers.Instantiating;
+using FishFlingers.Pools;
 
 namespace FishFlingers.Networking
 {
@@ -21,6 +22,7 @@ namespace FishFlingers.Networking
         protected UIManager _uiManager;
         protected SaveManager _saveManager;
         protected InstantiateManager _instantiateManager;
+        protected PoolManager _poolManager;
 
         protected virtual void Awake()
         {
@@ -32,6 +34,7 @@ namespace FishFlingers.Networking
             _uiManager = GameManager.Instance.Get<UIManager>();
             _saveManager = GameManager.Instance.Get<SaveManager>();
             _instantiateManager = GameManager.Instance.Get<InstantiateManager>();
+            _poolManager = GameManager.Instance.Get<PoolManager>();
         }
 
         protected override void OnSpawned()

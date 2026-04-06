@@ -40,13 +40,13 @@ public class GameManager : MonoBehaviour
         CameraManager       ,
         StateManager        ,
         UIManager           ,
-        PoolManager         ,
         TransitionManager   ,
         DebugManager        ,
         LocalisationManager ,
         LobbyManager        ,
         ItemManager         ,
         EntityManager       ,
+        PoolManager         ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem

@@ -53,7 +53,7 @@ namespace FishFlingers.UI
 
             foreach (BlueprintEntry entry in _blueprintEntries)
             {
-                _poolManager.Return(entry);
+                _poolManager.ReturnPoolable(entry);
             }
         }
 
@@ -80,8 +80,8 @@ namespace FishFlingers.UI
                 : _entityManager.GetEntityPrefabs<Structure>().Select(structure => structure.StructureData);
 
             Utils.Collections.ResizeList(_blueprintEntries, buildables.Count(),
-                createElement: () => _poolManager.Get<BlueprintEntry>(new SpawnParams() { Parent = _blueprintsScrollRect.content }),
-                removeElement: (BlueprintEntry entry) => _poolManager.Return(entry),
+                createElement: () => _poolManager.GetPoolable<BlueprintEntry>(new SpawnParams() { Parent = _blueprintsScrollRect.content }),
+                removeElement: (BlueprintEntry entry) => _poolManager.ReturnPoolable(entry),
                 processElement: (BlueprintEntry entry, int index) => entry.Setup(_context, buildables.ElementAt(index)));
         }
         

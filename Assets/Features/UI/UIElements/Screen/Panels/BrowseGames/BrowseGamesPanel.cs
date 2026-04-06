@@ -122,8 +122,8 @@ namespace FishFlingers.UI
         private void SyncLobbyEntries(LobbyContainerModel model, Lobby[] lobbies)
         {
             Utils.Collections.ResizeList(model.Entries, lobbies.Length,
-                createElement: () => _poolManager.Get<LobbyEntry>(new SpawnParams() { Parent = model.Container.transform }),
-                removeElement: (LobbyEntry entry) => _poolManager.Return(entry),
+                createElement: () => _poolManager.GetPoolable<LobbyEntry>(new SpawnParams() { Parent = model.Container.transform }),
+                removeElement: (LobbyEntry entry) => _poolManager.ReturnPoolable(entry),
                 processElement: (LobbyEntry entry, int index) => entry.Setup(lobbies[index]));
 
             model.Container.gameObject.SetActive(true);

@@ -10,13 +10,19 @@ namespace ShinyOwl.Common
         [SerializeField] private GameObject _prefab;
         [SerializeField] private string _destination = "Assets";
         [SerializeField] private string _suffix = "Icon";
-        [SerializeField] private int _resolution = 256;
-        [SerializeField] private Vector3 _cameraOffset = new Vector3(0.025f, 0.35f, -0.75f);
+        [SerializeField] private float _fov = 20f;
+        [SerializeField] private Vector2Int _resolution = Vector2Int.one * 256;
+        [SerializeField] private Vector3 _cameraOffset = new Vector3(0f, 0f, -10f);
         [SerializeField] private Vector3 _cameraRotation = new Vector3(25f, -25f, 0f);
         [SerializeField] private Vector3 _lightRotation = new Vector3(45f, -45f, 0f);
 
+        private Texture2D _previewTexture;
+
         private const int MinResolution = 1;
-        private const int MaxResolution = 512;
+        private const int MaxResolution = 1024;
+
+        // Helps fine tune the right position
+        private const float CameraOffsetMultiplier = 0.1f;
 
         private const float NearClipPlane = 0.01f;
 
@@ -30,27 +36,40 @@ namespace ShinyOwl.Common
         {
             GUILayout.Label("Prefab Capture", EditorStyles.boldLabel);
 
+            EditorGUI.BeginChangeCheck();
+
             _prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", _prefab, typeof(GameObject), false);
             _destination = EditorGUILayout.TextField("Destination", _destination);
             _suffix = EditorGUILayout.TextField("Suffix", _suffix);
-            _resolution = EditorGUILayout.IntField("Resolution", _resolution);
+            _fov = EditorGUILayout.FloatField("FOV", _fov);
+            _resolution = EditorGUILayout.Vector2IntField("Resolution", _resolution);
             _cameraOffset = EditorGUILayout.Vector3Field("Camera Offset", _cameraOffset);
             _cameraRotation = EditorGUILayout.Vector3Field("Camera Rotation", _cameraRotation);
             _lightRotation = EditorGUILayout.Vector3Field("Light Rotation", _lightRotation);
 
-            _resolution = Mathf.Clamp(_resolution, MinResolution, MaxResolution);
+            _resolution = new Vector2Int(Mathf.Clamp(_resolution.x, MinResolution, MaxResolution), Mathf.Clamp(_resolution.y, MinResolution, MaxResolution));
 
-            if (GUILayout.Button("Capture"))
+            if (EditorGUI.EndChangeCheck())
             {
-                Capture();
+                RefreshPreview();
+            }
+
+            if (_previewTexture != null)
+            {
+                DrawPreview();
+            }
+
+            if (GUILayout.Button("Save"))
+            {
+                Save();
             }
         }
 
-        private void Capture()
+        private void RefreshPreview()
         {
             if (_prefab == null)
             {
-                Log.Error($"Missing a prefab reference");
+                // This is the case by default, so there's no need to spam errors here
                 return;
             }
 
@@ -76,36 +95,62 @@ namespace ShinyOwl.Common
             Camera camera = new GameObject().AddComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = new Color(0f, 0f, 0f, 0f);
+            camera.fieldOfView = _fov;
             camera.nearClipPlane = NearClipPlane;
 
             camera.transform.Rotate(_cameraRotation);
-            camera.transform.Translate(_cameraOffset, Space.Self);
+            camera.transform.Translate(_cameraOffset * CameraOffsetMultiplier, Space.Self);
 
             // Capture the image
-            RenderTexture texture = new RenderTexture(_resolution, _resolution, 32);
-            camera.targetTexture = texture;
+            RenderTexture renderTexture = new RenderTexture(_resolution.x, _resolution.y, 32);
+            camera.targetTexture = renderTexture;
             camera.Render();
 
             RenderSettings.ambientMode = previousAmbientMode;
             RenderSettings.ambientLight = previousAmbientLight;
 
             RenderTexture previousTexture = RenderTexture.active;
-            RenderTexture.active = texture;
+            RenderTexture.active = renderTexture;
 
             // Extract into .png
-            Texture2D texture2D = new Texture2D(_resolution, _resolution, TextureFormat.RGBA32, false);
-            texture2D.ReadPixels(new Rect(0, 0, _resolution, _resolution), 0, 0);
-            texture2D.Apply();
-
-            byte[] bytes = texture2D.EncodeToPNG();
-            string path = Path.Combine(_destination, $"{_prefab.name}{_suffix}.png");
-            File.WriteAllBytes(path, bytes);
+            _previewTexture = new Texture2D(_resolution.x, _resolution.y, TextureFormat.RGBA32, false);
+            _previewTexture.ReadPixels(new Rect(0, 0, _resolution.x, _resolution.y), 0, 0);
+            _previewTexture.Apply();
 
             // Cleanup temporary objects
             RenderTexture.active = previousTexture;
+            renderTexture.Release();
+
             DestroyImmediate(obj);
             DestroyImmediate(light.gameObject);
             DestroyImmediate(camera.gameObject);
+            DestroyImmediate(renderTexture);
+        }
+
+        private void DrawPreview()
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+
+            float aspect = (float)_resolution.x / _resolution.y;
+            float height = _resolution.x / aspect;
+            EditorGUI.DrawPreviewTexture(GUILayoutUtility.GetRect(_resolution.x, height, GUILayout.ExpandWidth(false)), _previewTexture);
+
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+        }
+
+        private void Save()
+        {
+            if (_previewTexture == null)
+            {
+                Log.Error($"No preview texture exists to save");
+                return;
+            }
+
+            byte[] bytes = _previewTexture.EncodeToPNG();
+            string path = Path.Combine(_destination, $"{_prefab.name}{_suffix}.png");
+            File.WriteAllBytes(path, bytes);
 
             AssetDatabase.Refresh();
 

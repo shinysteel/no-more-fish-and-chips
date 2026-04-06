@@ -17,6 +17,7 @@ MonoBehaviour:
   _maxStack: 3
   _sprite: {fileID: 21300000, guid: fbb2d269ec60b20418815636f40e850e, type: 3}
   _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
+  _model: {fileID: 1665052223595131425, guid: b24ee4f1886578a4689460237f34a23d, type: 3}
   _leftClickAction: {fileID: 0}
   _rightClickAction: {fileID: 0}
   _showsTarget: 0

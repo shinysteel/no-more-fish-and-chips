@@ -1,5 +1,7 @@
 using FishFlingers.Environments;
 using FishFlingers.Instantiating;
+using FishFlingers.Inventories;
+using FishFlingers.Items;
 using FishFlingers.Scenes;
 using FishFlingers.UI;
 using ShinyOwl.Common;
@@ -23,10 +25,14 @@ namespace FishFlingers.Pools
 
     public class PoolManager : GameSystem<IPoolManagerListener>
     {
+        private ItemManager _itemManager;
+
         private PoolManagerConfig _config;
 
-        private Dictionary<Type, IPoolable> _prefabRegistry = new();
-        private Dictionary<Type, IPool> _pools = new();
+        private Dictionary<Type, IPoolable> _typeRegistry = new();
+        private Dictionary<Type, IPool> _typePools = new();
+        private Dictionary<ItemId, Pool<ItemModel>> _itemModelPools = new(); 
+
         private Transform _container;
         
         private const string ContainerName = "Pools";
@@ -111,6 +117,8 @@ namespace FishFlingers.Pools
 
         public override void Initialise(GameManagerConfig config)
         {
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+
             _config = config.PoolManagerConfig;
 
             _container = new GameObject(ContainerName).transform;
@@ -118,13 +126,13 @@ namespace FishFlingers.Pools
 
             foreach (IPoolable poolable in _config.PoolableScanner.GetAssets())
             {
-                Register(poolable);   
+                RegisterType(poolable);   
             }
             
             base.Initialise(config);
         }
 
-        private void Register<T>(T prefab) where T : IPoolable
+        private void RegisterType<T>(T prefab) where T : IPoolable
         {
             if (prefab is not Component component)
             {
@@ -133,52 +141,76 @@ namespace FishFlingers.Pools
 
             Type type = component.GetType();
 
-            if (_prefabRegistry.ContainsKey(type))
+            if (_typeRegistry.ContainsKey(type))
             {
-                Log.Error($"The type {type} has alreaady been registered");
+                Log.Error($"The type {type} has already been registered");
                 return;
             }
 
-            _prefabRegistry[type] = prefab;
+            _typeRegistry[type] = prefab;
         }
         
         // Allows requesting runtime-known types
-        public Component Get(Type type, SpawnParams parameters)
+        public Component GetPoolable(Type type, SpawnParams parameters)
         {
-            if (!_prefabRegistry.TryGetValue(type, out IPoolable prefab))
+            if (!_typeRegistry.TryGetValue(type, out IPoolable prefab))
             {
                 Log.Error($"Tried to retrieve an unregistered poolable object with type {type}");
                 return null;
             }
 
-            if (!_pools.ContainsKey(type))
+            if (!_typePools.ContainsKey(type))
             {
                 Transform container = new GameObject($"{type.Name}s").transform;
                 container.SetParent(_container);
 
                 Type poolType = typeof(Pool<>).MakeGenericType(type);
-                _pools[type] = (IPool)Activator.CreateInstance(poolType, prefab, container);
+                _typePools[type] = (IPool)Activator.CreateInstance(poolType, prefab, container);
             }
 
-            return (Component)_pools[type].Get(parameters);
+            return (Component)_typePools[type].Get(parameters);
         }
 
-        public T Get<T>(SpawnParams parameters) where T : Component, IPoolable
+        public T GetPoolable<T>(SpawnParams parameters) where T : Component, IPoolable
         {
-            return (T)Get(typeof(T), parameters);
+            return (T)GetPoolable(typeof(T), parameters);
         }
 
-        public void Return<T>(T obj) where T : Component, IPoolable
+        public void ReturnPoolable<T>(T obj) where T : Component, IPoolable
         {
             Type type = typeof(T);
             
-            if (!_pools.TryGetValue(type, out IPool pool))
+            if (!_typePools.TryGetValue(type, out IPool pool))
             {
                 Log.Error("No pool is defined for the poolable object being returned");
                 return;
             }
 
             pool.Return(obj);
+        }
+
+        public ItemModel GetItemModel(ItemId id, SpawnParams parameters)
+        {
+            if (!_itemModelPools.ContainsKey(id))
+            {
+                Transform container = new GameObject($"{id.ToString()}s").transform;
+                container.SetParent(_container);
+
+                ItemData data = _itemManager.GetItemData(id);
+                _itemModelPools.Add(id, new Pool<ItemModel>(data.Model, container));
+            }
+
+            return (ItemModel)_itemModelPools[id].Get(parameters);
+        }
+
+        public void ReturnItemModel(ItemModel model)
+        {
+            if (!_itemModelPools.TryGetValue(model.ItemId, out Pool<ItemModel> pool))
+            {
+                return;
+            }
+
+            pool.Return(model);
         }
     }
 }

@@ -134,7 +134,7 @@ namespace FishFlingers.Entities
             // Entity + Poolable
             if (entity is IPoolable)
             {
-                return (IEntity)_poolManager.Get(entity.GetType(), parameters);
+                return (IEntity)_poolManager.GetPoolable(entity.GetType(), parameters);
             }
 
             // Entity
@@ -169,7 +169,7 @@ namespace FishFlingers.Entities
         public void Despawn<T>(T entity) where T : Entity, IPoolable
         {
             // Entity + Poolable
-            _poolManager.Return(entity);
+            _poolManager.ReturnPoolable(entity);
         }
 
         /// <summary>

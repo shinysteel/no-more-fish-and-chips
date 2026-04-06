@@ -13,6 +13,7 @@ namespace FishFlingers.Inventories
         [SerializeField] private int _maxStack;
         [SerializeField] private Sprite _sprite;
         [SerializeField] private BoolGrid _shape;
+        [SerializeField] private ItemModel _model;
         [SerializeField] private ItemActionData _leftClickAction;
         [SerializeField] private ItemActionData _rightClickAction;
         [SerializeField] private bool _showsTarget;
@@ -24,6 +25,7 @@ namespace FishFlingers.Inventories
         public int MaxStack => _maxStack;
         public Sprite Sprite => _sprite;
         public BoolGrid Shape => _shape;
+        public ItemModel Model => _model;
         public ItemActionData LeftClickAction => _leftClickAction;
         public ItemActionData RightClickAction => _rightClickAction;
         public bool ShowsTarget => _showsTarget;
