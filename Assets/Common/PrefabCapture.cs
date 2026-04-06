@@ -10,11 +10,12 @@ namespace ShinyOwl.Common
         [SerializeField] private GameObject _prefab;
         [SerializeField] private string _destination = "Assets";
         [SerializeField] private string _suffix = "Icon";
-        [SerializeField] private float _fov = 20f;
         [SerializeField] private Vector2Int _resolution = Vector2Int.one * 256;
         [SerializeField] private Vector3 _cameraOffset = new Vector3(0f, 0f, -10f);
         [SerializeField] private Vector3 _cameraRotation = new Vector3(25f, -25f, 0f);
         [SerializeField] private Vector3 _lightRotation = new Vector3(45f, -45f, 0f);
+        [SerializeField] private float _cameraFOV = 20f;
+        [SerializeField] private int _outlineThickness = 5;
 
         private Texture2D _previewTexture;
 
@@ -41,11 +42,12 @@ namespace ShinyOwl.Common
             _prefab = (GameObject)EditorGUILayout.ObjectField("Prefab", _prefab, typeof(GameObject), false);
             _destination = EditorGUILayout.TextField("Destination", _destination);
             _suffix = EditorGUILayout.TextField("Suffix", _suffix);
-            _fov = EditorGUILayout.FloatField("FOV", _fov);
             _resolution = EditorGUILayout.Vector2IntField("Resolution", _resolution);
             _cameraOffset = EditorGUILayout.Vector3Field("Camera Offset", _cameraOffset);
             _cameraRotation = EditorGUILayout.Vector3Field("Camera Rotation", _cameraRotation);
             _lightRotation = EditorGUILayout.Vector3Field("Light Rotation", _lightRotation);
+            _cameraFOV = EditorGUILayout.FloatField("Camera FOV", _cameraFOV);
+            _outlineThickness = EditorGUILayout.IntField("Outline Thickness", _outlineThickness);
 
             _resolution = new Vector2Int(Mathf.Clamp(_resolution.x, MinResolution, MaxResolution), Mathf.Clamp(_resolution.y, MinResolution, MaxResolution));
 
@@ -95,7 +97,7 @@ namespace ShinyOwl.Common
             Camera camera = new GameObject().AddComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = new Color(0f, 0f, 0f, 0f);
-            camera.fieldOfView = _fov;
+            camera.fieldOfView = _cameraFOV;
             camera.nearClipPlane = NearClipPlane;
 
             camera.transform.Rotate(_cameraRotation);
@@ -117,6 +119,12 @@ namespace ShinyOwl.Common
             _previewTexture.ReadPixels(new Rect(0, 0, _resolution.x, _resolution.y), 0, 0);
             _previewTexture.Apply();
 
+            // Outline it
+            if (_outlineThickness > 0)
+            {
+                OutlinePreview();
+            }
+
             // Cleanup temporary objects
             RenderTexture.active = previousTexture;
             renderTexture.Release();
@@ -125,6 +133,69 @@ namespace ShinyOwl.Common
             DestroyImmediate(light.gameObject);
             DestroyImmediate(camera.gameObject);
             DestroyImmediate(renderTexture);
+        }
+
+        private void OutlinePreview()
+        {
+            bool IsOpaque(Color color)
+            {
+                float threshold = 0.01f;
+                return color.a > threshold;
+            }
+
+            int width = _previewTexture.width;
+            int height = _previewTexture.height;
+
+            Color[] oldPixels = _previewTexture.GetPixels();
+            Color[] newPixels = _previewTexture.GetPixels();
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int pixelIndex = y * width + x;
+
+                    // Ignore pixels that are opaque
+                    if (oldPixels[pixelIndex].a > 0.01f)
+                    {
+                        continue;
+                    }
+
+                    bool isEdge = false;
+
+                    // Determine if the pixel is an edge by searching its neighbours
+                    for (int offsetY = -_outlineThickness; offsetY <= _outlineThickness; offsetY++)
+                    {
+                        for (int offsetX = -_outlineThickness; offsetX <= _outlineThickness; offsetX++)
+                        {
+                            int neighbourX = x + offsetX;
+                            int neighbourY = y + offsetY;
+
+                            if (neighbourX < 0 || neighbourY < 0 || neighbourX >= width || neighbourY >= height)
+                            {
+                                continue;
+                            }
+
+                            int neighbourIndex = neighbourY * width + neighbourX;
+
+                            if (IsOpaque(oldPixels[neighbourIndex]))
+                            {
+                                isEdge = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isEdge)
+                    {
+                        newPixels[pixelIndex] = Color.white;
+                    }
+                }
+            }
+
+            _previewTexture.SetPixels(newPixels);
+
+            _previewTexture.Apply();
         }
 
         private void DrawPreview()
