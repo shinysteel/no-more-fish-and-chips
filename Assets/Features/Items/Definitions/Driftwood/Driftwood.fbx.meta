@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Driftwood.png
-    second: {fileID: 2100000, guid: 5c9bbf5aa10e37241b9de984b195ed61, type: 2}
+    second: {fileID: 2100000, guid: 9d533a8dbdb35984590c5f796dcd44e8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

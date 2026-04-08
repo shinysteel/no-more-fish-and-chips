@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FlyingFish.png
-    second: {fileID: 2100000, guid: a150e92c6e22c17468e4948c8bb5f5e8, type: 2}
+    second: {fileID: 2100000, guid: 59504d84a6d41354ab06e3e8288f8336, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

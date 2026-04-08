@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WaveSign.png
-    second: {fileID: 2100000, guid: ec9a475839f5b1848938bdcfc30d6d53, type: 2}
+    second: {fileID: 2100000, guid: 8ee1df2da77df6442b4fc6dbc50d06d4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
