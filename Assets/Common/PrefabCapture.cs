@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -15,7 +16,8 @@ namespace ShinyOwl.Common
         [SerializeField] private Vector3 _cameraRotation = new Vector3(25f, -25f, 0f);
         [SerializeField] private Vector3 _lightRotation = new Vector3(45f, -45f, 0f);
         [SerializeField] private float _cameraFOV = 20f;
-        [SerializeField] private int _outlineThickness = 5;
+        [SerializeField] private int _outlineThickness = 10;
+        [SerializeField] private Color _outlineColor = new Color32(14, 57, 84, 255);
 
         private Texture2D _previewTexture;
 
@@ -23,7 +25,7 @@ namespace ShinyOwl.Common
         private const int MaxResolution = 1024;
 
         // Helps fine tune the right position
-        private const float CameraOffsetMultiplier = 0.1f;
+        private const float CameraOffsetMultiplier = 0.05f;
 
         private const float NearClipPlane = 0.01f;
 
@@ -48,6 +50,7 @@ namespace ShinyOwl.Common
             _lightRotation = EditorGUILayout.Vector3Field("Light Rotation", _lightRotation);
             _cameraFOV = EditorGUILayout.FloatField("Camera FOV", _cameraFOV);
             _outlineThickness = EditorGUILayout.IntField("Outline Thickness", _outlineThickness);
+            _outlineColor = EditorGUILayout.ColorField("Outline Color", _outlineColor);
 
             _resolution = new Vector2Int(Mathf.Clamp(_resolution.x, MinResolution, MaxResolution), Mathf.Clamp(_resolution.y, MinResolution, MaxResolution));
 
@@ -137,58 +140,88 @@ namespace ShinyOwl.Common
 
         private void OutlinePreview()
         {
+            float alphaThreshold = 0.01f;
+
             bool IsOpaque(Color color)
             {
-                float threshold = 0.01f;
-                return color.a > threshold;
+                return color.a > alphaThreshold;
             }
 
             int width = _previewTexture.width;
             int height = _previewTexture.height;
 
             Color[] oldPixels = _previewTexture.GetPixels();
-            Color[] newPixels = _previewTexture.GetPixels();
+            Color[] newPixels = (Color[])oldPixels.Clone();
+
+            // Precompute offsets
+            List<Vector2Int> offsets = new();
+
+            for (int offsetY = -_outlineThickness; offsetY <= _outlineThickness; offsetY++)
+            {
+                for (int offsetX = -_outlineThickness; offsetX <= _outlineThickness; offsetX++)
+                {
+                    offsets.Add(new Vector2Int(offsetX, offsetY));
+                }
+            }
 
             for (int y = 0; y < height; y++)
             {
+                int rowIndex = y * width;
+
                 for (int x = 0; x < width; x++)
                 {
-                    int pixelIndex = y * width + x;
+                    int index = rowIndex + x;
 
-                    // Ignore pixels that are opaque
-                    if (oldPixels[pixelIndex].a > 0.01f)
+                    // Ignore pixels that are transparent
+                    if (!IsOpaque(oldPixels[index]))
                     {
                         continue;
                     }
 
+                    // Determine if the pixel is an edge
                     bool isEdge = false;
 
-                    // Determine if the pixel is an edge by searching its neighbours
-                    for (int offsetY = -_outlineThickness; offsetY <= _outlineThickness; offsetY++)
+                    if (x > 0 && !IsOpaque(oldPixels[index - 1]))
                     {
-                        for (int offsetX = -_outlineThickness; offsetX <= _outlineThickness; offsetX++)
-                        {
-                            int neighbourX = x + offsetX;
-                            int neighbourY = y + offsetY;
-
-                            if (neighbourX < 0 || neighbourY < 0 || neighbourX >= width || neighbourY >= height)
-                            {
-                                continue;
-                            }
-
-                            int neighbourIndex = neighbourY * width + neighbourX;
-
-                            if (IsOpaque(oldPixels[neighbourIndex]))
-                            {
-                                isEdge = true;
-                                break;
-                            }
-                        }
+                        isEdge = true;
+                    }
+                    else if (x < width - 1 && !IsOpaque(oldPixels[index + 1]))
+                    {
+                        isEdge = true;
+                    }
+                    else if (y > 0 && !IsOpaque(oldPixels[index - width]))
+                    {
+                        isEdge = true;
+                    }
+                    else if (y < height - 1 && !IsOpaque(oldPixels[index + width]))
+                    {
+                        isEdge = true;
                     }
 
-                    if (isEdge)
+                    if (!isEdge)
                     {
-                        newPixels[pixelIndex] = Color.white;
+                        continue;
+                    }
+
+                    // Determine if the pixel is close enough to be outlined
+                    foreach (Vector2Int offset in offsets)
+                    {
+                        int neighbourX = x + offset.x;
+                        int neighbourY = y + offset.y;
+
+                        if (neighbourX < 0 || neighbourY < 0 || neighbourX >= width || neighbourY >= height)
+                        {
+                            continue;
+                        }
+
+                        int neighbourIndex = neighbourY * width + neighbourX;
+
+                        if (IsOpaque(oldPixels[neighbourIndex]))
+                        {
+                            continue;
+                        }
+
+                        newPixels[neighbourIndex] = _outlineColor;
                     }
                 }
             }

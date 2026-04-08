@@ -134,6 +134,12 @@ namespace FishFlingers.Pools
 
         private void RegisterType<T>(T prefab) where T : IPoolable
         {
+            // Ignore ItemModels, since we pool those separately
+            if (prefab is ItemModel)
+            {
+                return;
+            }
+
             if (prefab is not Component component)
             {
                 return;

@@ -121,6 +121,10 @@ PrefabInstance:
       value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: cb429558fea6cd242847fc013f15eebe, type: 2}
+    - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_VerticalAlignment
       value: 1024
       objectReference: {fileID: 0}

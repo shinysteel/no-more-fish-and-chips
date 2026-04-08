@@ -24,7 +24,7 @@ namespace FishFlingers.UI
         {
             ItemData itemData = _itemManager.GetItemData(requirement.ItemId);
 
-            _text.text = $"x{requirement.Count} <sprite name=\"{itemData.SpriteAssetName}\">";
+            _text.text = $"x{requirement.Count}<sprite name=\"{itemData.SpriteAssetName}\">";
 
             _image.enabled = transform.GetSiblingIndex() % 2 != 0;
         }
