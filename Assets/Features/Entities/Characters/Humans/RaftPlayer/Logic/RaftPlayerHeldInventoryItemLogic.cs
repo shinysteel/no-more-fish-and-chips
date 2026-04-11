@@ -1,6 +1,7 @@
 using FishFlingers.Inventories;
 using FishFlingers.Items;
 using FishFlingers.Pools;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -41,8 +42,8 @@ namespace FishFlingers.Entities
                 _poolManager.ReturnItemModel(_heldModel);
                 _heldModel = null;
             }
-
-            if (item != null)
+            
+            if (_heldModel == null && item != null)
             {
                 _heldModel = _poolManager.GetItemModel(item.ItemInstance.Data.ItemId, new SpawnParams() { Parent = _playerModel.ItemLocator });
             }
