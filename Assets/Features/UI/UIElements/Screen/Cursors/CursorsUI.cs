@@ -7,6 +7,7 @@ using PurrNet;
 using PurrNet.Transports;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,10 @@ namespace FishFlingers.UI
         {
             _context = context;
 
-            SyncCursors();
+            foreach (RaftPlayer player in _context.Players)
+            {
+                ((IEntityManagerListener)this).OnEntitySpawned(player);
+            }
 
             _entityManager.AddListener(this);
         }
@@ -72,22 +76,54 @@ namespace FishFlingers.UI
 
         void IEntityManagerListener.OnEntitySpawned(IEntity entity)
         {
-            if (entity is not RaftPlayer)
+            if (entity is not RaftPlayer player)
             {
                 return;
             }
             
             SyncCursors();
+
+            HandleOpenNetworkIdChanged(player.OpenNetworkIdLogic.Id);
+
+            player.OpenNetworkIdLogic.OnIdChanged += HandleOpenNetworkIdChanged;
         }
 
         void IEntityManagerListener.OnEntityDespawned(IEntity entity)
         { 
-            if (entity is not RaftPlayer)
+            if (entity is not RaftPlayer player)
             {
                 return;
             }
 
             SyncCursors();
+
+            player.OpenNetworkIdLogic.OnIdChanged -= HandleOpenNetworkIdChanged;
+        }
+
+        private void HandleOpenNetworkIdChanged(NetworkID id)
+        {
+            foreach (Cursor cursor in _cursors)
+            {
+                cursor.SetVisualsActive(false);
+            }
+
+            if (_context.LocalPlayer.OpenNetworkIdLogic.Id == default)
+            {
+                return;
+            }
+
+            for (int i = 0; i < _context.Players.Count; i++)
+            {
+                if (_context.Players[i].IsLocalPlayer)
+                {
+                    continue;
+                }
+
+                if (_context.Players[i].OpenNetworkIdLogic.Id == _context.LocalPlayer.OpenNetworkIdLogic.Id)
+                {
+                    _cursors[i].SetVisualsActive(true);
+                }
+            }
         }
     }
 }

@@ -95,6 +95,7 @@ namespace FishFlingers.Entities
         private RaftPlayerDropInventoryItemLogic _dropInventoryItemLogic;
         private RaftPlayerAnimateLogic _animateLogic;
         private RaftPlayerHeldInventoryItemLogic _heldInventoryItemLogic;
+        private RaftPlayerOpenNetworkIdLogic _openNetworkObjectLogic;
         private RaftPlayerHotkeyLogic _hotkeyLogic;
         private RaftPlayerTileTargetLogic _tileTargetLogic;
 
@@ -102,6 +103,7 @@ namespace FishFlingers.Entities
         public RaftPlayerInteractLogic InteractLogic => _interactLogic;
         public RaftPlayerGrabbedInventoryItemLogic GrabbedInventoryItemLogic => _grabbedInventoryItemLogic;
         public RaftPlayerDropInventoryItemLogic DropInventoryItemLogic => _dropInventoryItemLogic;
+        public RaftPlayerOpenNetworkIdLogic OpenNetworkIdLogic => _openNetworkObjectLogic;
         public RaftPlayerTileTargetLogic TileTargetLogic => _tileTargetLogic;
 
         public bool CanAct => !_uiManager.IsLayerInUse(UILayer.Panels);
@@ -109,6 +111,7 @@ namespace FishFlingers.Entities
         // SyncVars
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem = new SyncVar<NetInventoryItem>(ownerAuth: true);
         private SyncVar<Vector2> _netMousePositionNormalised = new SyncVar<Vector2>(ownerAuth: true);
+        private SyncVar<NetworkID> _netOpenNetworkId = new SyncVar<NetworkID>(ownerAuth: true);
 
         public Vector2 MousePositionNormalised => _netMousePositionNormalised.value;
 
@@ -123,6 +126,7 @@ namespace FishFlingers.Entities
             _dropInventoryItemLogic = new RaftPlayerDropInventoryItemLogic(this);
             _animateLogic = new RaftPlayerAnimateLogic(this, _characterModel);
             _heldInventoryItemLogic = new RaftPlayerHeldInventoryItemLogic(this, _characterModel);
+            _openNetworkObjectLogic = new RaftPlayerOpenNetworkIdLogic(_netOpenNetworkId);
 
             if (isOwner)
             {
@@ -193,6 +197,16 @@ namespace FishFlingers.Entities
         private void SyncVarsUpdate()
         {   
             _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(_inputLogic.Mouse.x / Screen.width), Mathf.Clamp01(_inputLogic.Mouse.y / Screen.height));
+        }
+
+        public void SetNetOpenObjectNetworkId(NetworkID id)
+        {
+            if (!isOwner)
+            {
+                return;
+            }
+
+            _netOpenNetworkId.value = id;
         }
 
         [TargetRpc]

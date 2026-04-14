@@ -4,6 +4,7 @@ using FishFlingers.Items;
 using FishFlingers.Pools;
 using FishFlingers.States;
 using PrimeTween;
+using PurrNet;
 using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,13 @@ namespace FishFlingers.UI
     public class Cursor : MonoBehaviour, IPoolable
     {
         [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private GameObject _visualsGameObject;
         [SerializeField] private ItemView _itemView;
         [SerializeField] private Image _handImage;
 
         private UIManager _uiManager;
 
-        private RaftPlayer _owner;
+        private RaftPlayer _ownerRaftPlayer;
 
         private PointerEventData _pointerEventData;
         private List<RaycastResult> _raycastResults = new();
@@ -100,27 +102,24 @@ namespace FishFlingers.UI
 
         public void SetOwner(RaftPlayer owner)
         {
-            if (_owner == owner)
+            if (_ownerRaftPlayer == owner)
             {
                 return;
             }
             
-            if (_owner != null)
+            if (_ownerRaftPlayer != null)
             {
-                _owner.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged -= HandleGrabbedInventoryItemChanged;
+                _ownerRaftPlayer.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged -= HandleGrabbedInventoryItemChanged;
             }
 
-            _owner = owner;
+            _ownerRaftPlayer = owner;
 
-            if (_owner != null)
+            if (_ownerRaftPlayer != null)
             {
-                _owner.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged += HandleGrabbedInventoryItemChanged;
+                _ownerRaftPlayer.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged += HandleGrabbedInventoryItemChanged;
             }
 
-            HandleGrabbedInventoryItemChanged(_owner?.GrabbedInventoryItemLogic.GrabbedInventoryItem);
-
-            // No need to show the hand image for the local client
-            _handImage.gameObject.SetActive(!_owner?.IsLocalPlayer ?? false);
+            HandleGrabbedInventoryItemChanged(_ownerRaftPlayer?.GrabbedInventoryItemLogic.GrabbedInventoryItem);
         }
 
         private void HandleGrabbedInventoryItemChanged(InventoryItem item)
@@ -134,6 +133,11 @@ namespace FishFlingers.UI
             {
                 _itemView.gameObject.SetActive(false);
             }
+        }
+
+        public void SetVisualsActive(bool active)
+        {
+            _visualsGameObject.SetActive(active);
         }
 
         public void OnReturnedToPool()

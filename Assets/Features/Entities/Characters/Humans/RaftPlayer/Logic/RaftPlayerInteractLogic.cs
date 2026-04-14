@@ -227,8 +227,6 @@ namespace FishFlingers.Entities
 
         public void Tick()
         {
-            Log.Info($"State: {_uiStateMachine.CurrentEnum}");
-
             _targetInteractable = FindTarget();
 
             _uiStateMachine.Tick();

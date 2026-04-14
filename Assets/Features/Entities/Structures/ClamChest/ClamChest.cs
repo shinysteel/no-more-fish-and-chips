@@ -44,6 +44,8 @@ namespace FishFlingers.Entities
 
         public void Interact()
         {
+            _context.LocalPlayer.SetNetOpenObjectNetworkId(id.Value);
+
             _clamChestPanelInstance.Toggle((ClamChestPanel panel) => panel.Setup(_context, _inventory));
         }
     }
