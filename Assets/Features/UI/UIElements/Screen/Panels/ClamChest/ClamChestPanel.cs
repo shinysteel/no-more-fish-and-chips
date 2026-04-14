@@ -23,7 +23,7 @@ namespace FishFlingers.UI
 
         public override void Hide(Action onComplete)
         {
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(default);
+            _context.LocalPlayer.SetNetOpenObjectNetworkId(null);
 
             base.Hide(onComplete);
         }

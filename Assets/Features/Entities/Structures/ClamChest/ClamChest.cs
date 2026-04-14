@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public class ClamChest : Structure<ClamChestData>, IInteractable
+    public class ClamChest : Structure<ClamChestData>, IInteractable, IHasInventory
     {
         [SerializeField] private Inventory _inventory;
         [SerializeField] private BoolGrid _inventoryLayout;
@@ -17,6 +17,7 @@ namespace FishFlingers.Entities
         private PanelInstance<ClamChestPanel> _clamChestPanelInstance;
 
         public Vector3 Position => transform.position;
+        public Inventory Inventory => _inventory;
 
         protected override void Awake()
         {
@@ -44,7 +45,7 @@ namespace FishFlingers.Entities
 
         public void Interact()
         {
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(id.Value);
+            _context.LocalPlayer.SetNetOpenObjectNetworkId(this);
 
             _clamChestPanelInstance.Toggle((ClamChestPanel panel) => panel.Setup(_context, _inventory));
         }

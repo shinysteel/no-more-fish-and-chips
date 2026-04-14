@@ -115,7 +115,11 @@ namespace FishFlingers.Entities
         {
             _inventoryRaycaster.GetViews(out InventoryItemView itemView, out InventorySlotView inventorySlot, out HotbarWidgetSlot hotbarSlot, out _);
 
-            if (hotbarSlot != null)
+            if (_context.LocalPlayer.InputLogic.Shift)
+            {
+                MoveItem(itemView);
+            }
+            else if (hotbarSlot != null)
             {
                 _context.LocalPlayer.Hotbar.SetSlot(hotbarSlot.Index, null);
             }
@@ -123,6 +127,35 @@ namespace FishFlingers.Entities
             {
                 GrabItem(itemView, inventorySlot);
             }
+        }
+
+        private void MoveItem(InventoryItemView itemView)
+        {
+            if (itemView == null)
+            {
+                return;
+            }
+
+            if (_context.LocalPlayer.OpenNetBehaviourLogic.Behaviour is not IHasInventory hasInventory)
+            {
+                return;
+            }
+
+            //Inventory inventory = itemView.InventoryWidget.Inventory == _context.LocalPlayer.Inventory
+            //    ? hasInventory.Inventory
+            //    : _context.LocalPlayer.Inventory;
+
+            // scenario a: move item from our inventory to open inventory
+
+            // scenario b: move item from open inventory to our inventory
+            // ensure the destination can fit the item
+            // reserve that space for this operation
+            // request to remove item
+            // listen to response
+            // if accepted, apply that item to the reservation
+            // if rejected, release that reservation
+
+            // if a slot is reserved, you can't place anything into it
         }
 
         private void GrabItem(InventoryItemView itemView, InventorySlotView inventorySlot)

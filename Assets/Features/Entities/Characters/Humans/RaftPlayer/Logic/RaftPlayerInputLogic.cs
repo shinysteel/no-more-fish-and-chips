@@ -10,6 +10,7 @@ namespace FishFlingers.Entities
         // Vars always active
         private Vector2 _mouse;
         private float _scroll;
+        private bool _shift;
         private bool _leftClick;
         private bool _rightClick;
         private bool _one;
@@ -22,6 +23,7 @@ namespace FishFlingers.Entities
 
         public Vector2 Mouse => _mouse;
         public float Scroll => _scroll;
+        public bool Shift => _shift;
         public bool LeftClick => _leftClick;
         public bool RightClick => _rightClick;
         public bool One => _one;
@@ -58,6 +60,7 @@ namespace FishFlingers.Entities
         {
             _mouse = Input.mousePosition;
             _scroll = Input.GetAxis(MouseScrollWheelAxis);
+            _shift = Input.GetKey(KeyCode.LeftShift);
             _leftClick = Input.GetMouseButtonDown(0);
             _rightClick = Input.GetMouseButtonDown(1);
             _one = Input.GetKeyDown(KeyCode.Alpha1);

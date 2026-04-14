@@ -83,9 +83,9 @@ namespace FishFlingers.UI
             
             SyncCursors();
 
-            HandleOpenNetworkIdChanged(player.OpenNetworkIdLogic.Id);
+            HandleOpenNetBehaviourChanged(player.OpenNetBehaviourLogic.Behaviour);
 
-            player.OpenNetworkIdLogic.OnIdChanged += HandleOpenNetworkIdChanged;
+            player.OpenNetBehaviourLogic.OnBehaviourChanged += HandleOpenNetBehaviourChanged;
         }
 
         void IEntityManagerListener.OnEntityDespawned(IEntity entity)
@@ -97,11 +97,12 @@ namespace FishFlingers.UI
 
             SyncCursors();
 
-            player.OpenNetworkIdLogic.OnIdChanged -= HandleOpenNetworkIdChanged;
+            player.OpenNetBehaviourLogic.OnBehaviourChanged -= HandleOpenNetBehaviourChanged;
         }
 
-        private void HandleOpenNetworkIdChanged(NetworkID id)
+        private void HandleOpenNetBehaviourChanged(NetBehaviour behaviour)
         {
+            // Cursors besides the local player have all visuals off by default
             foreach (Cursor cursor in _cursors)
             {
                 if (cursor.Owner.IsLocalPlayer)
@@ -112,11 +113,13 @@ namespace FishFlingers.UI
                 cursor.SetVisualsActive(false);
             }
 
-            if (_context.LocalPlayer.OpenNetworkIdLogic.Id == default)
+            // If the local player has no behaviour open, we can stop here
+            if (_context.LocalPlayer.OpenNetBehaviourLogic.Behaviour == null)
             {
                 return;
             }
 
+            // Show the visuals of other player cursors if have the same behaviour open
             for (int i = 0; i < _context.Players.Count; i++)
             {
                 if (_context.Players[i].IsLocalPlayer)
@@ -124,7 +127,7 @@ namespace FishFlingers.UI
                     continue;
                 }
 
-                if (_context.Players[i].OpenNetworkIdLogic.Id == _context.LocalPlayer.OpenNetworkIdLogic.Id)
+                if (_context.Players[i].OpenNetBehaviourLogic.Behaviour == _context.LocalPlayer.OpenNetBehaviourLogic.Behaviour)
                 {
                     _cursors[i].SetVisualsActive(true);
                 }
