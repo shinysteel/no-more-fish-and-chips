@@ -1,9 +1,0 @@
-﻿<Solution>
-  <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="AmplifyShaderEditor.csproj" />
-  <Project Path="PrimeTween.Demo.csproj" />
-  <Project Path="PurrNetLobbySetup.csproj" />
-  <Project Path="PurrNetLobby_Editor.csproj" />
-  <Project Path="PrimeTween.Debug.csproj" />
-  <Project Path="PrimeTween.Installer.csproj" />
-</Solution>
