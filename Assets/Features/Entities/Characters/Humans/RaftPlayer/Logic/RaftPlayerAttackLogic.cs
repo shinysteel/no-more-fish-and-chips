@@ -1,16 +1,23 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using PrimeTween;
+using ShinyOwl.Common;
 
 namespace FishFlingers.Entities
 {
+    public enum RaftPlayerAttackState
+    {
+        None,
+        Windup,
+        Impact
+    }
+
     public class RaftPlayerAttackLogic
     {
         private RaftPlayer _player;
 
-        private bool _isAttacking;
-
-        public bool IsAttacking => _isAttacking;
+        private RaftPlayerAttackState _attackState;
+        public RaftPlayerAttackState AttackState => _attackState;
         
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
@@ -19,16 +26,25 @@ namespace FishFlingers.Entities
 
         public async Task AttackAsync()
         {
-            if (_isAttacking)
+            if (_attackState > RaftPlayerAttackState.None)
             {
                 return;
             }
 
-            _isAttacking = true;
+            _attackState = RaftPlayerAttackState.Windup;
 
-            await _player.AnimateLogic.AttackAsync();
+            AnimateEvents events = new AnimateEvents()
+            {
+                new AnimateEvent(0.5f, () =>
+                {
+                    _player.Rigidbody.AddForce(_player.transform.forward, ForceMode.Impulse);
+                    _attackState = RaftPlayerAttackState.Impact;
+                }),
+            };
 
-            _isAttacking = false;
+            await _player.AnimateLogic.AttackAsync(events);
+
+            _attackState = RaftPlayerAttackState.None;
         }
     }
 }

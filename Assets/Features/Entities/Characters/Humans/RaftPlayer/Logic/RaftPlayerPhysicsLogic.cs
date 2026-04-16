@@ -62,13 +62,20 @@ namespace FishFlingers.Entities
 
         private void MoveFixedTick()
         {
-            if (_player.AttackLogic.IsAttacking)
+            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Impact)
             {
                 return;
             }
 
             Vector3 targetVelocity = _player.InputLogic.MoveDirection * _player.Data.MoveSettings.Speed;
+
+            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Windup)
+            {
+                targetVelocity *= 0.25f;
+            }
+
             targetVelocity.y = _player.Rigidbody.linearVelocity.y;
+
             float speed = _player.InputLogic.MoveDirection != Vector3.zero ? _player.Data.MoveSettings.Acceleration : _player.Data.MoveSettings.Deceleration;
 
             _player.Rigidbody.linearVelocity = Vector3.MoveTowards(_player.Rigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
@@ -91,7 +98,18 @@ namespace FishFlingers.Entities
 
             Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-            _player.Rigidbody.MoveRotation(Quaternion.Slerp(_player.Rigidbody.rotation, targetRotation, _player.Data.LookSettings.Speed * Time.fixedDeltaTime));
+            float speed = _player.Data.LookSettings.Speed;
+
+            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Windup)
+            {
+                speed *= 0.5f;
+            }
+            else if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Impact)
+            {
+                speed *= 0.25f;
+            }
+
+            _player.Rigidbody.MoveRotation(Quaternion.Slerp(_player.Rigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
         }
 
         private void GroundDetectionFixedTick()
@@ -125,11 +143,6 @@ namespace FishFlingers.Entities
             // Consume the request
             _jumpTimer = 0f;
             _jumpRequest = false;
-
-            if (_player.AttackLogic.IsAttacking)
-            {
-                return;
-            }
 
             if (!_isGrounded)
             {

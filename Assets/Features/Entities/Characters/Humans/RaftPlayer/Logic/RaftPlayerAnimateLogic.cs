@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using PrimeTween;
+using ShinyOwl.Common;
 
 namespace FishFlingers.Entities
 {
@@ -35,8 +36,11 @@ namespace FishFlingers.Entities
             _model.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
         }
 
-        public async Task AttackAsync()
+        public async Task AttackAsync(AnimateEvents events)
         {
+            _ = events.PlayAsync(_model.Animator, (int)Layer.Base, AttackStateName);
+            
+            // Mark IsAttacking as true until we are transitioning out of the attack state
             _model.Animator.SetBool(IsAttackingBoolName, true);
             
             while (!_model.Animator.GetCurrentAnimatorStateInfo((int)Layer.Base).IsName(AttackStateName))
@@ -44,14 +48,7 @@ namespace FishFlingers.Entities
                 await Task.Yield();
             }
 
-            while (_model.Animator.GetCurrentAnimatorStateInfo((int)Layer.Base).normalizedTime < 0.5f)
-            {
-                await Task.Yield();
-            }
-
-            _player.Rigidbody.AddForce(_player.transform.forward * 2f, ForceMode.Impulse);
-
-            while (!_model.Animator.IsInTransition((int)Layer.Base))
+            while (_model.Animator.GetCurrentAnimatorStateInfo((int)Layer.Base).IsName(AttackStateName))
             {
                 await Task.Yield();
             }
