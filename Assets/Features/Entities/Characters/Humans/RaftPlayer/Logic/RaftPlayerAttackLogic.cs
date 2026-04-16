@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Threading.Tasks;
+using PrimeTween;
 
 namespace FishFlingers.Entities
 {
@@ -6,14 +8,27 @@ namespace FishFlingers.Entities
     {
         private RaftPlayer _player;
 
+        private bool _isAttacking;
+
+        public bool IsAttacking => _isAttacking;
+        
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
             _player = player;
         }
 
-        public void Attack()
+        public async Task AttackAsync()
         {
-            _ = _player.AnimateLogic.Attack();
+            if (_isAttacking)
+            {
+                return;
+            }
+
+            _isAttacking = true;
+
+            await _player.AnimateLogic.AttackAsync();
+
+            _isAttacking = false;
         }
     }
 }

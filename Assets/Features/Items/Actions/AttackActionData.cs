@@ -8,7 +8,7 @@ namespace FishFlingers.Items
     {
         public override void Execute(GameplayContext context)
         {
-            context.LocalPlayer.AttackLogic.Attack();   
+            _ = context.LocalPlayer.AttackLogic.AttackAsync();   
         }
     }
 }

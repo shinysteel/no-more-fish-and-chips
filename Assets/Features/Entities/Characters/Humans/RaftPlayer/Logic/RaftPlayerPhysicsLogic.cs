@@ -62,6 +62,11 @@ namespace FishFlingers.Entities
 
         private void MoveFixedTick()
         {
+            if (_player.AttackLogic.IsAttacking)
+            {
+                return;
+            }
+
             Vector3 targetVelocity = _player.InputLogic.MoveDirection * _player.Data.MoveSettings.Speed;
             targetVelocity.y = _player.Rigidbody.linearVelocity.y;
             float speed = _player.InputLogic.MoveDirection != Vector3.zero ? _player.Data.MoveSettings.Acceleration : _player.Data.MoveSettings.Deceleration;
@@ -120,6 +125,11 @@ namespace FishFlingers.Entities
             // Consume the request
             _jumpTimer = 0f;
             _jumpRequest = false;
+
+            if (_player.AttackLogic.IsAttacking)
+            {
+                return;
+            }
 
             if (!_isGrounded)
             {

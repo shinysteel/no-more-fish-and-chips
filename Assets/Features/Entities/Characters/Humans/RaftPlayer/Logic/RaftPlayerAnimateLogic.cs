@@ -31,25 +31,32 @@ namespace FishFlingers.Entities
             bool isMoving = _player.InputLogic.MoveDirection != Vector3.zero;
             bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
             
-            _model.SetBool(IsMovingBoolName, isMoving);
-            _model.SetBool(IsHoldingItemBoolName, isHoldingItem);
+            _model.Animator.SetBool(IsMovingBoolName, isMoving);
+            _model.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
         }
 
-        public async Task Attack()
+        public async Task AttackAsync()
         {
-            _model.SetBool(IsAttackingBoolName, true);
+            _model.Animator.SetBool(IsAttackingBoolName, true);
             
-            while (!_model.GetCurrentAnimatorStateInfo((int)Layer.Base).IsName(AttackStateName))
-            {
-                await Task.Yield();
-            }
-            
-            while (!_model.IsInTransition((int)Layer.Base))
+            while (!_model.Animator.GetCurrentAnimatorStateInfo((int)Layer.Base).IsName(AttackStateName))
             {
                 await Task.Yield();
             }
 
-            _model.SetBool(IsAttackingBoolName, false);
+            while (_model.Animator.GetCurrentAnimatorStateInfo((int)Layer.Base).normalizedTime < 0.5f)
+            {
+                await Task.Yield();
+            }
+
+            _player.Rigidbody.AddForce(_player.transform.forward * 2f, ForceMode.Impulse);
+
+            while (!_model.Animator.IsInTransition((int)Layer.Base))
+            {
+                await Task.Yield();
+            }
+
+            _model.Animator.SetBool(IsAttackingBoolName, false);
         }
     }
 }
