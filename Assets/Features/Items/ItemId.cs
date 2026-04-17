@@ -9,5 +9,6 @@ namespace FishFlingers.Items
         Paddle    = 2,
         Hammer    = 3,
         Scrap     = 4,
+        Goop      = 5,
     }
 }
