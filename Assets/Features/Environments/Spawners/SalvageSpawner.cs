@@ -5,6 +5,7 @@ using FishFlingers.Scenes;
 using FishFlingers.States;
 using PurrNet;
 using PurrNet.Transports;
+using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
 using EntityId = FishFlingers.Entities.EntityId;
@@ -14,12 +15,21 @@ namespace FishFlingers.Environments
     public class SalvageSpawner : GameplayBehaviour, IEntityManagerListener
     {
         [SerializeField] private float _spawnInterval = 5f;
+        [SerializeField] private List<WeightedEntry<ItemId>> _weightedEntries = new();
 
         private float _spawnTimer;
+        private WeightedPicker<ItemId> _weightedPicker = new();
 
         private List<DroppedItem> _salvages = new();
 
         private const int MaxSalvage = 10;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _weightedPicker.Set(_weightedEntries);
+        }
 
         protected override void OnSpawned()
         {
@@ -78,7 +88,8 @@ namespace FishFlingers.Environments
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(new Vector2(x, y));
 
             DroppedItem item = (DroppedItem)_entityManager.Spawn(EntityId.DroppedItem, new SpawnParams() { Position = position });
-            item.Set(new NetItemInstance(null, ItemId.Scrap, 1), DroppedItemType.Salvage);
+
+            item.Set(new NetItemInstance(null, _weightedPicker.Pick(), 1), DroppedItemType.Salvage);
         }
 
         void IEntityManagerListener.OnEntitySpawned(IEntity entity)

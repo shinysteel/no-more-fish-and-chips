@@ -53,5 +53,9 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _driftwoodPrefab: {fileID: 2964048532901743774, guid: a0eec514e324f184c8c17ccb5d270e3b, type: 3}
   _spawnInterval: 5
+  _weightedEntries:
+  - _value: 1
+    _weight: 5
+  - _value: 4
+    _weight: 1
