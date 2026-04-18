@@ -18,10 +18,11 @@ namespace FishFlingers.Entities
 
         private Material _material;
 
-        private const string DamagedBlendName = "_DamagedBlend";
-
         private Vector2Int _cell = Vector2Int.one * int.MinValue;
         public Vector2Int Cell => _cell;
+
+        private int _rotations;
+        public int Rotations => _rotations;
         
         public TileData Data => (TileData)_entityData;
 
@@ -62,6 +63,13 @@ namespace FishFlingers.Entities
             _cell = cell;
 
             transform.position = _context.Raft.Queries.CellToWorldPosition(cell);
+        }
+
+        public void SetRotations(int rotations)
+        {
+            _rotations = rotations;
+
+            transform.rotation = Quaternion.AngleAxis(_rotations * 90f, Vector3.up);
         }
 
         public void SetStructure(Structure structure)

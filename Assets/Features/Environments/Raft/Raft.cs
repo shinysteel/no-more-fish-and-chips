@@ -26,12 +26,14 @@ namespace FishFlingers.Environments
 
         public const int MaxHealth = 3;
 
+        public int Rotations { get; private set; }
         public Structure Structure { get; private set; }
 
-        public NetTile(EntityId tileId, int health)
+        public NetTile(EntityId tileId, int health, int rotations)
         {
             TileId = tileId;
             SetHealth(health);
+            Rotations = rotations;
         }
 
         public void SetHealth(int health)
@@ -88,9 +90,9 @@ namespace FishFlingers.Environments
         }
 
         [ServerRpc(requireOwnership: false)]
-        public void AddNetTileRpc(Vector2Int cell, EntityId tileId, int health)
+        public void AddNetTileRpc(Vector2Int cell, EntityId tileId, int health, int rotations)
         {
-            _netTiles.TryAdd(cell, new NetTile(tileId, health));
+            _netTiles.TryAdd(cell, new NetTile(tileId, health, rotations));
         }
 
         [ServerRpc(requireOwnership: false)]
@@ -192,6 +194,7 @@ namespace FishFlingers.Environments
 
             tile.SetHealth(netTile.Health);
             tile.SetCell(cell);
+            tile.SetRotations(netTile.Rotations);
             tile.SetStructure(netTile.Structure);
 
             OnTileChanged?.Invoke(cell, tile);

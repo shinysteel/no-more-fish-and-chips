@@ -15,7 +15,7 @@ namespace FishFlingers.Environments
         {
             foreach (TileSave save in Tiles)
             {
-                raft.AddNetTileRpc(save.Cell, save.TileId, save.Health);
+                raft.AddNetTileRpc(save.Cell, save.TileId, save.Health, save.Rotations);
             }
 
             foreach (StructureSave save in Structures)
@@ -58,12 +58,14 @@ namespace FishFlingers.Environments
                         health--;
                     }
 
-                    Tiles.Add(new TileSave(new Vector2Int(x, y), EntityId.WoodenTile, health));
+                    int rotations = Random.Range(0, 4);
+
+                    Tiles.Add(new TileSave(new Vector2Int(x, y), EntityId.WoodenTile, health, rotations));
                 }
             }
 
             // Start with a wave sign
-            Structures.Add(new Entities.StructureSave(new Vector2Int(0, 1), EntityId.WaveSign, string.Empty));
+            Structures.Add(new StructureSave(new Vector2Int(0, 1), EntityId.WaveSign, string.Empty));
         }
     }
 }

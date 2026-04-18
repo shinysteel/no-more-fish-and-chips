@@ -3,6 +3,7 @@ using FishFlingers.Items;
 using FishFlingers.States;
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FishFlingers.Entities
 {
@@ -49,7 +50,7 @@ namespace FishFlingers.Entities
                 return false;
             }
 
-            context.Raft.AddNetTileRpc(target.Cell, _id, NetTile.MaxHealth);
+            context.Raft.AddNetTileRpc(target.Cell, _id, NetTile.MaxHealth, Random.Range(0, 4));
 
             return true;
         }
