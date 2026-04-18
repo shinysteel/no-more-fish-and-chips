@@ -10,7 +10,7 @@ using ShinyOwl.Common.Utils;
 
 namespace FishFlingers.Entities
 {
-    public class Tile : Entity
+    public abstract class Tile : Entity
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
