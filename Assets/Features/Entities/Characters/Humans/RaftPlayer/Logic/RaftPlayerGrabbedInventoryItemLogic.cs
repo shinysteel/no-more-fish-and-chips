@@ -120,7 +120,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            _player.DropInventoryItemLogic.SpawnDroppedItem(_grabbedInventoryItem.ItemInstance, true);
+            _player.DropInventoryItemLogic.SpawnDroppedItem(_grabbedInventoryItem.ItemInstance);
 
             await ReleaseAsync();
         }

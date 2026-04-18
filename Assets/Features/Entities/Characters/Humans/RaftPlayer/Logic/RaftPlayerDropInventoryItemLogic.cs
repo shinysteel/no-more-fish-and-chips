@@ -28,22 +28,11 @@ namespace FishFlingers.Entities
         /// <summary>
         /// Spawns a DroppedItem at the player and launches it
         /// </summary>
-        public void SpawnDroppedItem(ItemInstance itemInstance, bool towardsMouse)
+        public void SpawnDroppedItem(ItemInstance itemInstance)
         {
             Vector3 direction = _player.transform.forward;
             direction.y = 0f;
             direction.Normalize();
-
-            if (towardsMouse)
-            {
-                Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_player.InputLogic.Mouse);
-                Plane plane = new Plane(Vector3.up, _player.transform.position);
-
-                if (plane.Raycast(ray, out float distance))
-                {
-                    direction = (ray.GetPoint(distance) - _player.transform.position).normalized;
-                }
-            }
 
             direction = Quaternion.AngleAxis(Pitch, Vector3.Cross(Vector3.up, direction)) * direction;
 
