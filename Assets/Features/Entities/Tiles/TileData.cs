@@ -50,7 +50,7 @@ namespace FishFlingers.Entities
                 return false;
             }
 
-            context.Raft.AddNetTileRpc(target.Cell, _id, NetTile.MaxHealth, Random.Range(0, 4));
+            context.Raft.AddNetTileRpc(target.Cell, _id, _health, Random.Range(0, 4));
 
             return true;
         }

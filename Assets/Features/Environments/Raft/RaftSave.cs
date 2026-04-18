@@ -1,4 +1,5 @@
 using FishFlingers.Entities;
+using FishFlingers.Inventories;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,12 +46,18 @@ namespace FishFlingers.Environments
 
         public void ApplyDefaults()
         {
+            EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
+
             // Start with a 3x3 grid
             for (int x = -1; x <= 1; x++)
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    int health = NetTile.MaxHealth;
+                    EntityId id = EntityId.WoodenTile;
+
+                    EntityData data = entityManager.GetEntityPrefab(id).EntityData;
+
+                    int health = data.Health;
 
                     // 33% chance to have one less health
                     if (Random.value < 1f / 3f)
@@ -60,7 +67,7 @@ namespace FishFlingers.Environments
 
                     int rotations = Random.Range(0, 4);
 
-                    Tiles.Add(new TileSave(new Vector2Int(x, y), EntityId.WoodenTile, health, rotations));
+                    Tiles.Add(new TileSave(new Vector2Int(x, y), id, health, rotations));
                 }
             }
 

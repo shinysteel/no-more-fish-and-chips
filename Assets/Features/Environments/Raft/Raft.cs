@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
 using EntityId = FishFlingers.Entities.EntityId;
-using Random = UnityEngine.Random;
 
 namespace FishFlingers.Environments
 {
@@ -23,8 +22,6 @@ namespace FishFlingers.Environments
     {
         public EntityId TileId { get; private set; }
         public int Health { get; private set; }
-
-        public const int MaxHealth = 3;
 
         public int Rotations { get; private set; }
         public Structure Structure { get; private set; }
@@ -38,7 +35,7 @@ namespace FishFlingers.Environments
 
         public void SetHealth(int health)
         {
-            Health = Mathf.Clamp(health, 0, MaxHealth);
+            Health = health;
         }
 
         public void SetStructure(Structure structure)
