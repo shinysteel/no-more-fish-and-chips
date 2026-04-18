@@ -78,7 +78,7 @@ namespace FishFlingers.Environments
             }
             else
             {
-                _lines[anchor].RemoveTile(tile);
+                _lines[anchor].RemoveTile(cell);
             }
         }
 
@@ -149,9 +149,9 @@ namespace FishFlingers.Environments
             RefreshEdges();
         }
 
-        public void RemoveTile(Tile tile)
+        public void RemoveTile(Vector2Int cell)
         {
-            _tiles.Remove(tile);
+            _tiles.RemoveWhere(tile => tile.Cell == cell);
 
             RefreshEdges();
         }
