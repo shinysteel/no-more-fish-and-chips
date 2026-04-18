@@ -364,6 +364,11 @@ namespace FishFlingers.Networking
 
         void INetworkManagerListener.OnPlayerJoined(PlayerID playerId, bool isReconnect, bool asServer)
         {
+            if (CurrentLobby == null)
+            {
+                return;
+            }
+
             if (asServer)
             {
                 return;
@@ -386,6 +391,11 @@ namespace FishFlingers.Networking
 
         void INetworkManagerListener.OnPlayerLeft(PlayerID playerId, bool asServer) 
         {
+            if (CurrentLobby == null)
+            {
+                return;
+            }
+
             if (asServer)
             {
                 return;
