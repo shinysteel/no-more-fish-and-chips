@@ -150,7 +150,7 @@ namespace FishFlingers.Entities
 
         private void HandleHotbarSelectedSlotChanged(HotbarSlot slot)
         {
-            _showingTarget = slot.InventoryItem?.ItemInstance.Data.ShowsTarget ?? false;
+            _showingTarget = slot.InventoryItem?.ItemInstance.Data.ShowsTileTarget ?? false;
 
             _fadeTween.Stop();
 

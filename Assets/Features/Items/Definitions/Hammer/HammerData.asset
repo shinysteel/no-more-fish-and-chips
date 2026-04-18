@@ -20,4 +20,4 @@ MonoBehaviour:
   _model: {fileID: 2038800490088435018, guid: e1c5006468e0dec4ca29d0478123d316, type: 3}
   _leftClickAction: {fileID: 0}
   _rightClickAction: {fileID: 11400000, guid: b81f3743d0b140a44bb0052430656351, type: 2}
-  _showsTarget: 1
+  _showsTileTarget: 1
