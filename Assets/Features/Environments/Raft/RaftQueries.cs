@@ -316,12 +316,13 @@ namespace FishFlingers.Environments
                 return false;
             }
 
-            RaftEdge[] edges = ArrayPool<RaftEdge>.Shared.Rent(4);
-
-            edges[0] = horizontalLine.MinEdge;
-            edges[1] = horizontalLine.MaxEdge;
-            edges[2] = verticalLine.MinEdge;
-            edges[3] = verticalLine.MaxEdge;
+            RaftEdge[] edges = new RaftEdge[]
+            {
+                horizontalLine.MinEdge,
+                horizontalLine.MaxEdge,
+                verticalLine.MinEdge,
+                verticalLine.MaxEdge
+            };
 
             int minDistance = edges.Min(edge => (cell - edge.Tile.Cell).sqrMagnitude);
 
@@ -329,8 +330,6 @@ namespace FishFlingers.Environments
                 .Where(edge => (cell - edge.Tile.Cell).sqrMagnitude == minDistance)
                 .OrderBy(_ => Random.value)
                 .First();
-
-            ArrayPool<RaftEdge>.Shared.Return(edges);
 
             return true;
         }

@@ -184,7 +184,8 @@ namespace FishFlingers.Pools
 
         public void ReturnPoolable<T>(T obj) where T : Component, IPoolable
         {
-            Type type = typeof(T);
+            // Runtime types are useful here. For example, it allows returning a Tile object without knowing it's concrete type
+            Type type = obj.GetType();
             
             if (!_typePools.TryGetValue(type, out IPool pool))
             {
