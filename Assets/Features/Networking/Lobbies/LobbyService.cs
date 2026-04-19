@@ -31,6 +31,7 @@ namespace FishFlingers.Networking
         public int MemberLimit { get; set; } = LobbyService.DefaultMemberLimit;
         public List<LobbyMember> Members { get; set; } = new();
         public Dictionary<string, string> Properties { get; set; } = new();
+        public ELobbyService Service { get; set; } = ELobbyService.None;
     }
 
     public class Lobby
@@ -41,6 +42,7 @@ namespace FishFlingers.Networking
         public int MemberLimit { get; private set; }
         public List<LobbyMember> Members { get; private set; }
         public Dictionary<string, string> Properties { get; private set; }
+        public ELobbyService Service { get; private set; }
 
         public Lobby(LobbyParams parameters)
         {
@@ -52,6 +54,8 @@ namespace FishFlingers.Networking
             // DTO best practice involves copying collections to ensure ownership
             Members = new List<LobbyMember>(parameters.Members);
             SetProperties(new Dictionary<string, string>(parameters.Properties));
+
+            Service = parameters.Service;
         }
 
         public void SetProperties(Dictionary<string, string> properties)

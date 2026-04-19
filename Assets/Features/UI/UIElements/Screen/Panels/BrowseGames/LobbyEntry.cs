@@ -16,7 +16,7 @@ namespace FishFlingers.UI
 
         private LobbyManager _lobbyManager;
 
-        private string _lobbyId;
+        private Lobby _lobby;
 
         private void Awake()
         {
@@ -30,14 +30,16 @@ namespace FishFlingers.UI
 
         public void Setup(Lobby lobby)
         {
-            _lobbyId = lobby.LobbyId;
-            _nameText.text = lobby.Name;
-            _playerCountText.text = $"({lobby.Members.Count} / {lobby.MemberLimit})";
+            _lobby = lobby;
+            _nameText.text = _lobby.Name;
+            _playerCountText.text = $"({_lobby.Members.Count} / {_lobby.MemberLimit})";
         }
 
         private void Pressed()
         {
-            _ = _lobbyManager.JoinLobbyAsync(_lobbyId);
+            _lobbyManager.SetLobbyService(_lobby.Service);
+
+            _ = _lobbyManager.JoinLobbyAsync(_lobby.LobbyId);
         }
 
         public void OnTakenFromPool() 

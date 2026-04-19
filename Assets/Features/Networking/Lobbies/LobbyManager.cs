@@ -124,6 +124,8 @@ namespace FishFlingers.Networking
         public void LeaveLobby()
         {
             _currentLobbyService.LeaveLobby();
+
+            SetLobbyService(ELobbyService.None);
         }
 
         public bool IsLobbyOwner(Lobby lobby)

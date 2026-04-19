@@ -91,7 +91,8 @@ namespace FishFlingers.Networking
                         OwnerId = SteamMatchmaking.GetLobbyOwner(lobbyId).ToString(),
                         MemberLimit = SteamMatchmaking.GetLobbyMemberLimit(lobbyId),
                         Members = GetLobbyMembers(lobbyId),
-                        Properties = GetLobbyProperties(lobbyId)
+                        Properties = GetLobbyProperties(lobbyId),
+                        Service = ELobbyService.LAN
                     });
                 }
 
@@ -142,7 +143,8 @@ namespace FishFlingers.Networking
                 OwnerId = SteamMatchmaking.GetLobbyOwner(lobbyId).ToString(),
                 MemberLimit = DefaultMemberLimit,
                 Members = GetLobbyMembers(lobbyId),
-                Properties = GetLobbyProperties(lobbyId)
+                Properties = GetLobbyProperties(lobbyId),
+                Service = ELobbyService.Steam
             });
 
             _networkManager.SetClientTransport<SteamTransport>();
@@ -305,7 +307,8 @@ namespace FishFlingers.Networking
                 OwnerId = SteamMatchmaking.GetLobbyOwner(cLobbyId).ToString(),
                 MemberLimit = SteamMatchmaking.GetLobbyMemberLimit(cLobbyId),
                 Members = GetLobbyMembers(cLobbyId),
-                Properties = GetLobbyProperties(cLobbyId)
+                Properties = GetLobbyProperties(cLobbyId),
+                Service = ELobbyService.Steam
             };
         }
     }
