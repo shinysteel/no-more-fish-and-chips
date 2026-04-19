@@ -33,14 +33,10 @@ namespace FishFlingers.UI
             _lobby = lobby;
             _nameText.text = _lobby.Name;
             _playerCountText.text = $"({_lobby.Members.Count} / {_lobby.MemberLimit})";
-
-            Log.Info($"setup with service {lobby.Service}");
         }
 
         private void Pressed()
         {
-            Log.Info($"setting service to {_lobby.Service}");
-
             _lobbyManager.SetLobbyService(_lobby.Service);
 
             _ = _lobbyManager.JoinLobbyAsync(_lobby.LobbyId);

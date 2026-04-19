@@ -15,6 +15,8 @@ namespace FishFlingers.Networking
 
         public virtual void Initialise(GameplayContext context)
         {
+            Log.Info($"{name} is initialised");
+
             _context = context;
 
             _isInitialised = true;
@@ -50,7 +52,7 @@ namespace FishFlingers.Networking
 
             transform.SetParent(null);
 
-            int frames = 5;
+            int frames = 10;
             for (int i = 0; i < frames; i++)
             {
                 await Task.Yield();

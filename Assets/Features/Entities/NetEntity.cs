@@ -49,6 +49,8 @@ namespace FishFlingers.Entities
 
         protected override void OnSpawned()
         {
+            Log.Info($"{name} raises spawned");
+
             base.OnSpawned();
 
             if (isServer)
