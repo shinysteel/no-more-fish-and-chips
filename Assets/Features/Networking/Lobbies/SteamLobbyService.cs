@@ -19,6 +19,8 @@ namespace FishFlingers.Networking
         private CallResult<LobbyCreated_t> _lobbyCreatedListener;
         private CallResult<LobbyEnter_t> _lobbyEnterListener;
 
+        private Callback<LobbyDataUpdate_t> _lobbyDataUpdateListener;
+
         // Replace this once the player can specify what lobby they want to create
         private const ELobbyType DefaultLobbyType = ELobbyType.k_ELobbyTypePublic;
 
@@ -27,12 +29,16 @@ namespace FishFlingers.Networking
         public SteamLobbyService()
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
+
+            _lobbyDataUpdateListener = Callback<LobbyDataUpdate_t>.Create(HandleLobbyDataUpdate);
         }
 
         public override void Shutdown()
         {
+            _lobbyMatchListListener?.Dispose();
             _lobbyCreatedListener?.Dispose();
             _lobbyEnterListener?.Dispose();
+            _lobbyDataUpdateListener?.Dispose();
 
             LeaveLobby();
         }
@@ -52,7 +58,7 @@ namespace FishFlingers.Networking
 
         // It's no good storing the same thing in two places, so instead of storing the lobby id both here
         // and in _currentLobby.LobbyId, let's just point to it. The tradeoff is we need to create it for each request
-        private CSteamID GetLobbyId()
+        private CSteamID GetCLobbyId()
         {
             return new CSteamID(ulong.Parse(CurrentLobby.LobbyId));
         }
@@ -178,15 +184,7 @@ namespace FishFlingers.Networking
                 return null;
             }
 
-            CurrentLobby = new Lobby(new LobbyParams()
-            {
-                Name = SteamMatchmaking.GetLobbyData(cLobbyId, NameKey),
-                LobbyId = lobbyId,
-                OwnerId = SteamMatchmaking.GetLobbyOwner(cLobbyId).ToString(),
-                MemberLimit = SteamMatchmaking.GetLobbyMemberLimit(cLobbyId),
-                Members = GetLobbyMembers(cLobbyId),
-                Properties = GetLobbyProperties(cLobbyId)
-            });
+            CurrentLobby = new Lobby(CreateLobbyParams(cLobbyId));
 
             _networkManager.SetClientTransport<SteamTransport>();
             _networkManager.TryGetClientTransport(out SteamTransport transport);
@@ -195,6 +193,7 @@ namespace FishFlingers.Networking
             _networkManager.StartClient();
 
             RaiseLobbyEnter(CurrentLobby);
+            RaiseLobbyEvents(null, CurrentLobby);
             
             return CurrentLobby;
         }
@@ -211,8 +210,11 @@ namespace FishFlingers.Networking
                 return;
             }
 
-            SteamMatchmaking.SetLobbyGameServer(GetLobbyId(), 0, 0, SteamUser.GetSteamID());
-            
+            CSteamID cLobbyId = GetCLobbyId();
+
+            SteamMatchmaking.SetLobbyGameServer(cLobbyId, 0, 0, SteamUser.GetSteamID());
+            SteamMatchmaking.SetLobbyData(cLobbyId, StartedKey, true.ToString());
+
             RaiseLobbyStart(CurrentLobby);
         }
 
@@ -228,7 +230,7 @@ namespace FishFlingers.Networking
                 return;
             }
 
-            SteamMatchmaking.LeaveLobby(GetLobbyId());
+            SteamMatchmaking.LeaveLobby(GetCLobbyId());
             CurrentLobby = null;
 
             RaiseLobbyLeave();
@@ -273,6 +275,38 @@ namespace FishFlingers.Networking
             }
 
             return properties;
+        }
+
+        private void HandleLobbyDataUpdate(LobbyDataUpdate_t lobbyDataUpdate)
+        {
+            if (CurrentLobby == null)
+            {
+                return;
+            }
+
+            if (CurrentLobby.LobbyId != lobbyDataUpdate.m_ulSteamIDLobby.ToString())
+            {
+                return;
+            }
+
+            Lobby lobby = new Lobby(CreateLobbyParams(GetCLobbyId()));
+
+            RaiseLobbyEvents(CurrentLobby, lobby);
+
+            CurrentLobby = lobby;
+        }
+
+        private LobbyParams CreateLobbyParams(CSteamID cLobbyId)
+        {
+            return new LobbyParams()
+            {
+                Name = SteamMatchmaking.GetLobbyData(cLobbyId, NameKey),
+                LobbyId = cLobbyId.ToString(),
+                OwnerId = SteamMatchmaking.GetLobbyOwner(cLobbyId).ToString(),
+                MemberLimit = SteamMatchmaking.GetLobbyMemberLimit(cLobbyId),
+                Members = GetLobbyMembers(cLobbyId),
+                Properties = GetLobbyProperties(cLobbyId)
+            };
         }
     }
 }

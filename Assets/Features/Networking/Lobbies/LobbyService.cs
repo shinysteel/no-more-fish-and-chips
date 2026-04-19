@@ -2,6 +2,7 @@ using PurrNet.Packing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -50,7 +51,12 @@ namespace FishFlingers.Networking
 
             // DTO best practice involves copying collections to ensure ownership
             Members = new List<LobbyMember>(parameters.Members);
-            Properties = new Dictionary<string, string>(parameters.Properties);
+            SetProperties(new Dictionary<string, string>(parameters.Properties));
+        }
+
+        public void SetProperties(Dictionary<string, string> properties)
+        {
+            Properties = properties;
         }
     }
 
@@ -79,5 +85,51 @@ namespace FishFlingers.Networking
         protected void RaiseLobbyEnter(Lobby lobby) => OnLobbyEnter?.Invoke(lobby);
         protected void RaiseLobbyStart(Lobby lobby) => OnLobbyStart?.Invoke(lobby);
         protected void RaiseLobbyLeave() => OnLobbyLeave?.Invoke();
+
+        /// <summary>
+        /// We have to manually relay changes to lobby properties
+        /// </summary>
+        /// <param name="previous">The lobby we are in, in its previous state</param>
+        /// <param name="current">The lobby we are in, in its current state</param>
+        protected void RaiseLobbyEvents(Lobby previous, Lobby current)
+        {
+            // We only care if we are in this lobby
+            if (current == null || CurrentLobby == null || current.LobbyId != CurrentLobby.LobbyId)
+            {
+                return;
+            }
+
+            // Ignore our own broadcasts, since we as the host raise them locally
+            if (IsLobbyOwner(current))
+            {
+                return;
+            }
+
+            // Detects when the 'started' property goes from false to true and relays it
+            if (GetBool(previous, StartedKey) == false && GetBool(current, StartedKey) == true)
+            {
+                RaiseLobbyStart(current);
+            }
+        }
+
+        private bool GetBool(Lobby lobby, string key)
+        {
+            if (lobby == null)
+            {
+                return false;
+            }
+
+            if (!lobby.Properties.TryGetValue(key, out string value))
+            {
+                return false;
+            }
+
+            if (!bool.TryParse(value, out bool result))
+            {
+                return false;
+            }
+
+            return result;
+        }
     }
 }

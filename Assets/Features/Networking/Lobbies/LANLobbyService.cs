@@ -305,53 +305,6 @@ namespace FishFlingers.Networking
             });
         }
 
-        /// <summary>
-        /// Since this is LAN, we have to manually relay changes to lobby properties that
-        /// would normally raise events for all clients, such as OnLobbyStart
-        /// </summary>
-        /// <param name="previous">The lobby we are in, in its previous state</param>
-        /// <param name="current">The lobby we are in, in its current state</param>
-        private void RaiseLobbyEvents(LANLobby previous, LANLobby current)
-        {
-            // We only care if we are in this lobby
-            if (current == null || CurrentLobby == null || current.LobbyId != CurrentLobby.LobbyId)
-            {
-                return;
-            }
-
-            // Ignore our own broadcasts, since we as the host raise them locally
-            if (current.OwnerId == _lanId)
-            {
-                return;
-            }
-
-            // Detects when the 'started' property goes from false to true and relays it
-            if (GetBool(previous, StartedKey) == false && GetBool(current, StartedKey) == true)
-            {
-                RaiseLobbyStart(current);
-            }
-        }
-
-        private static bool GetBool(LANLobby lobby, string key)
-        {
-            if (lobby == null)
-            {
-                return false;
-            }
-
-            if (!lobby.Properties.TryGetValue(key, out string value))
-            {
-                return false;
-            }
-
-            if (!bool.TryParse(value, out bool result))
-            {
-                return false;
-            }
-
-            return result;
-        }
-
         private void StopBroadcasting()
         {
             _isBroadcasting = false;
