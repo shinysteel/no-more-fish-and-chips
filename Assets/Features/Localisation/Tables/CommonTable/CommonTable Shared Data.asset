@@ -19,6 +19,14 @@ MonoBehaviour:
     m_Key: common.quit
     m_Metadata:
       m_Items: []
+  - m_Id: 42823193322680320
+    m_Key: common.lan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42823193352040448
+    m_Key: common.steam
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

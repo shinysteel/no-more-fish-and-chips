@@ -18,14 +18,6 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 263629475840
-    m_Localized: Vapor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 287235018752
-    m_Localized: LAN
-    m_Metadata:
-      m_Items: []
   - m_Id: 434358620160
     m_Localized: "Vest\xEDbulos"
     m_Metadata:

@@ -22,14 +22,6 @@ MonoBehaviour:
     m_Localized: Hall de entrada
     m_Metadata:
       m_Items: []
-  - m_Id: 287235018752
-    m_Localized: LAN
-    m_Metadata:
-      m_Items: []
-  - m_Id: 263629475840
-    m_Localized: Vapor
-    m_Metadata:
-      m_Items: []
   references:
     version: 2
     RefIds: []

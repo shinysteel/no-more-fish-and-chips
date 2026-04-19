@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-it-IT
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a024a5a8f28e6bb4d865a5d50081851d
+    m_Address: HostGamePanel_it-IT
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-it-IT
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b0586decdc76cd64888c545d82b5e307
     m_Address: CommonTable_it-IT
     m_ReadOnly: 1
@@ -53,6 +59,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c9dee1fee6eee564699eb5ef0bfc8379
     m_Address: FishingBagPanelTable_it-IT
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-it-IT
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb85d61f16bfc694a843afc06c164f0b
+    m_Address: WorldPanelTable_it-IT
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-it-IT

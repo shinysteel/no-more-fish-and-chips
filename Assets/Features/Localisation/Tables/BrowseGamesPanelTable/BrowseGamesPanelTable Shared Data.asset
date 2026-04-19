@@ -19,14 +19,6 @@ MonoBehaviour:
     m_Key: browseGamesPanel.title
     m_Metadata:
       m_Items: []
-  - m_Id: 287235018752
-    m_Key: browseGamesPanel.lan
-    m_Metadata:
-      m_Items: []
-  - m_Id: 263629475840
-    m_Key: browseGamesPanel.steam
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

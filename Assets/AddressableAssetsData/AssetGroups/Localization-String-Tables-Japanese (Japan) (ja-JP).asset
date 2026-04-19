@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Japanese (Japan) (ja-JP)
   m_GUID: 9019508ede71dbb4c83745df91024862
   m_SerializeEntries:
+  - m_GUID: 02c0c4fe81a5c18419fb6f4921ce2b57
+    m_Address: HostGamePanel_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2abc57e3324b2644b92a275a251a4f0c
     m_Address: EntitiesTable_ja-JP
     m_ReadOnly: 1
@@ -59,6 +65,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8c03fc9f7ee3ab247a29aff44e67ee49
     m_Address: ClamChestPanel_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae58e1180388ab74785437a9f16bc51a
+    m_Address: WorldPanelTable_ja-JP
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ja-JP

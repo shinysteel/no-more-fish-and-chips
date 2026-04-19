@@ -22,6 +22,14 @@ MonoBehaviour:
     m_Localized: "\uADF8\uB9CC\uB450\uB2E4"
     m_Metadata:
       m_Items: []
+  - m_Id: 42823193322680320
+    m_Localized: LAN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42823193352040448
+    m_Localized: "\uC99D\uAE30"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

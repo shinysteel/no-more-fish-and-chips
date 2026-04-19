@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ru-RU
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7596fbf408d905640a85d02f0b6706f3
+    m_Address: WorldPanelTable_ru-RU
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru-RU
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 860d4f36945d05247b5c68b61a68e90c
     m_Address: EntitiesTable_ru-RU
     m_ReadOnly: 1
@@ -53,6 +59,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b88f77e7b06963947b773c0995bbdc69
     m_Address: BuildingKitPanelTable_ru-RU
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru-RU
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d525f791f98c1bf42b6546bff5410ae1
+    m_Address: HostGamePanel_ru-RU
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ru-RU

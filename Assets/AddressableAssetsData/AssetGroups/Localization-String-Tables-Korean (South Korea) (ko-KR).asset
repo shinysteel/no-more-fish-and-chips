@@ -15,8 +15,20 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Korean (South Korea) (ko-KR)
   m_GUID: fca1fd61874e9a04badb0594d3a57d8f
   m_SerializeEntries:
+  - m_GUID: 006a2d7d3c083f5479ab2c3b250cc1ce
+    m_Address: WorldPanelTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 15df1f72d2017cf4893981b8b6827e09
     m_Address: CommonTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 200b619610a9cbd41a84c97dede81189
+    m_Address: HostGamePanel_ko-KR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko-KR

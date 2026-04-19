@@ -27,8 +27,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5046128e2edef104d81476b21bc87af6
+    m_Address: HostGamePanel_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74053e449baab8f4eacd8a0144991f00
     m_Address: BrowseGamesPanelTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75519ca5842702a45a3093327317d261
+    m_Address: WorldPanelTable_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR

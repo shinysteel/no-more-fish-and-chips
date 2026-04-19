@@ -27,8 +27,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-CN
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fcd4fdcac5272f43b7fda667d670296
+    m_Address: WorldPanelTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60ccdb5e085c65343898ec95ea858a7f
     m_Address: EntitiesTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d8d0e2c638c0914382e417d9b97fc0e
+    m_Address: HostGamePanel_zh-CN
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-CN

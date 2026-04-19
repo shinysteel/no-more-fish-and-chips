@@ -160,7 +160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_fontSize
-      value: 94.3
+      value: 75.8
       objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_fontColor.b
@@ -387,6 +387,10 @@ PrefabInstance:
     - target: {fileID: 5604885689152244312, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_Name
       value: QuitButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902265948050307973, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6059495618770986416, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
@@ -656,6 +660,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BrowseGamesButton
       objectReference: {fileID: 0}
+    - target: {fileID: 5902265948050307973, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6059495618770986416, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 72209829888
@@ -882,7 +890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2249327495789389110, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_text
-      value: HOst game
+      value: Host game
       objectReference: {fileID: 0}
     - target: {fileID: 2249327495789389110, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_fontSize
@@ -923,6 +931,10 @@ PrefabInstance:
     - target: {fileID: 5604885689152244312, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_Name
       value: HostGameButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5902265948050307973, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6059495618770986416, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId

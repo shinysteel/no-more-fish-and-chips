@@ -21,6 +21,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 528df7955c2c0144595a141497a15f69
+    m_Address: Assets/Features/Localisation/Tables/WorldPanelTable Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8dac87a24d455cb4886513b5aaef53c0
     m_Address: Assets/Features/Localisation/Tables/FishingBagPanelTable/FishingBagPanelTable
       Shared Data.asset
@@ -41,6 +46,12 @@ MonoBehaviour:
   - m_GUID: bc9b20d7f8cd0b840aa91970d83515a8
     m_Address: Assets/Features/Localisation/Tables/ClamChestPanelTable/ClamChestPanel
       Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d47e2c1219e61ed4892b973f2604d21b
+    m_Address: Assets/Features/Localisation/Tables/HostGamePanel/HostGamePanel Shared
+      Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

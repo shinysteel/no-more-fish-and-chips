@@ -45,8 +45,6 @@ namespace FishFlingers.Networking
             _lobbyServices.Add(ELobbyService.LAN, _lanLobbyService);
             _lobbyServices.Add(ELobbyService.Steam, _steamLobbyService);
 
-            SetLobbyService(ELobbyService.Steam);
-
             base.Initialise(config);
         }
 

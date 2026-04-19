@@ -47,11 +47,13 @@ namespace FishFlingers.Saving
         private string _folderPath;
         private string _gameSavePath;
         private string _thumbnailPath;
+        private string _name;
 
         public string FolderPath => _folderPath;
         public string GameSavePath => _gameSavePath;
         public string ThumbnailPath => _thumbnailPath;
-        
+        public string Name => _name;
+
         public SaveFile(string path)
         {
             _saveManager = GameManager.Instance.Get<SaveManager>();
@@ -63,6 +65,8 @@ namespace FishFlingers.Saving
 
             _gameSavePath = Path.Combine(_folderPath, $"{_saveManager.Config.GameSaveFileName}.json");
             _thumbnailPath = Path.Combine(_folderPath, $"{_saveManager.Config.ThumbnailFileName}.png");
+
+            _name = Path.GetFileName(_folderPath);
         }
 
         /// <summary>

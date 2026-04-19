@@ -16,8 +16,6 @@ public class SaveEntry : MonoBehaviour, IPoolable
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private Image _newWorldImage;
 
-    private SaveManager _saveManager;
-    private LobbyManager _lobbyManager;
     private UIManager _uiManager;
 
     private SaveFile _saveFile;
@@ -26,8 +24,6 @@ public class SaveEntry : MonoBehaviour, IPoolable
 
     private void Awake()
     {
-        _saveManager = GameManager.Instance.Get<SaveManager>();
-        _lobbyManager = GameManager.Instance.Get<LobbyManager>();
         _uiManager = GameManager.Instance.Get<UIManager>();
     }
 
@@ -40,21 +36,7 @@ public class SaveEntry : MonoBehaviour, IPoolable
 
     private void Pressed()
     {
-        //_worldPanelInstance.Toggle(null);
-        
-        //return;
-
-        SaveFile file = _saveFile;
-
-        if (file == null)
-        {
-            file = new SaveFile(null);
-            _saveManager.AddSaveFile(file);
-        }
-
-        _saveManager.SelectSaveFile(file);
-
-        _ = _lobbyManager.CreateLobbyAsync();
+        _worldPanelInstance.Toggle((WorldPanel panel) => panel.Setup(_saveFile));
     }
 
     public void Setup(SaveFile file)

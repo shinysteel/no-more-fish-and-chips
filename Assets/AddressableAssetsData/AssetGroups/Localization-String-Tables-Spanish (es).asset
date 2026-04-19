@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 704360356768ca849b17e5a9210a793d
+    m_Address: HostGamePanel_es
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8039a09e5f89573499743190952b81c6
     m_Address: BrowseGamesPanelTable_es
     m_ReadOnly: 1
@@ -59,6 +65,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c7926a8e5c4bda34da02b4c05ca587f5
     m_Address: MainMenuScreenTable_es
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe88a5fe9b13b8349bc268e0403a91da
+    m_Address: WorldPanelTable_es
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-es

@@ -22,6 +22,14 @@ MonoBehaviour:
     m_Localized: "Aufh\xF6ren"
     m_Metadata:
       m_Items: []
+  - m_Id: 42823193322680320
+    m_Localized: LAN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 42823193352040448
+    m_Localized: Dampf
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

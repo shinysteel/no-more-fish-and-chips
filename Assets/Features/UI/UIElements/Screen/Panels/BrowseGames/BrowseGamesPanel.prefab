@@ -46,11 +46,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6090636320031129619, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -40
+      value: -48
       objectReference: {fileID: 0}
     - target: {fileID: 6090636320031129619, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -20
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 6090636320031129619, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_LocalPosition.x
@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6090636320031129619, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 6090636320031129619, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -352,9 +352,9 @@ MonoBehaviour:
   _lobbyContainerPrefab: {fileID: 2810597675660413345, guid: aabaeaacd6d0b3840a6c32d63d1203e0, type: 3}
   _lobbyContainerModels:
   - _lobbyService: 1
-    _titleTerm: -527790014
+    _titleTerm: -1430432905
   - _lobbyService: 2
-    _titleTerm: 1636470845
+    _titleTerm: -1417849993
 --- !u!225 &6622945185957960759 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 2403927208547714065, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
