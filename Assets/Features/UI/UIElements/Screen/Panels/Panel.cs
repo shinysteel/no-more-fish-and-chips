@@ -30,11 +30,6 @@ namespace FishFlingers.UI
                 return;
             }
 
-            if (_uiManager.IsLayerInUse(UILayer.Panels))
-            {
-                return;
-            }
-
             if (!_creating)
             {
                 _creating = true;

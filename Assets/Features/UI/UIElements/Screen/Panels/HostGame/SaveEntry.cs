@@ -1,6 +1,7 @@
 using FishFlingers.Networking;
 using FishFlingers.Pools;
 using FishFlingers.Saving;
+using FishFlingers.UI;
 using ShinyOwl.Common;
 using System.IO;
 using TMPro;
@@ -13,26 +14,36 @@ public class SaveEntry : MonoBehaviour, IPoolable
     [SerializeField] private Image _thumbnailImage;
     [SerializeField] private AspectRatioFitter _thumbnailAspectRatioFitter;
     [SerializeField] private TMP_Text _nameText;
-    [SerializeField] private TMP_Text _plusText;
+    [SerializeField] private Image _newWorldImage;
 
     private SaveManager _saveManager;
     private LobbyManager _lobbyManager;
+    private UIManager _uiManager;
 
     private SaveFile _saveFile;
+
+    private PanelInstance<WorldPanel> _worldPanelInstance;
 
     private void Awake()
     {
         _saveManager = GameManager.Instance.Get<SaveManager>();
         _lobbyManager = GameManager.Instance.Get<LobbyManager>();
+        _uiManager = GameManager.Instance.Get<UIManager>();
     }
 
     private void Start()
     {
+        _worldPanelInstance = new PanelInstance<WorldPanel>(_uiManager.Config.WorldPanel);
+
         _button.onClick.AddListener(Pressed);
     }
 
     private void Pressed()
     {
+        _worldPanelInstance.Toggle(null);
+
+        return;
+
         SaveFile file = _saveFile;
 
         if (file == null)
@@ -52,7 +63,7 @@ public class SaveEntry : MonoBehaviour, IPoolable
 
         _thumbnailImage.gameObject.SetActive(file != null);
         _nameText.gameObject.SetActive(file != null);
-        _plusText.gameObject.SetActive(file == null);
+        _newWorldImage.gameObject.SetActive(file == null);
 
         if (file != null)
         {
