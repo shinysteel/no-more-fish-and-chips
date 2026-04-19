@@ -40,9 +40,9 @@ public class SaveEntry : MonoBehaviour, IPoolable
 
     private void Pressed()
     {
-        _worldPanelInstance.Toggle(null);
-
-        return;
+        //_worldPanelInstance.Toggle(null);
+        
+        //return;
 
         SaveFile file = _saveFile;
 
