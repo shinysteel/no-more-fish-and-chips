@@ -5,6 +5,7 @@ using UnityEngine;
 using ShinyOwl.Common.Utils;
 using PrimeTween;
 using ShinyOwl.Common.Extensions;
+using ShinyOwl.Common;
 
 namespace FishFlingers.Entities
 {
@@ -13,6 +14,10 @@ namespace FishFlingers.Entities
         private StateMachine<EState> _stateMachine;
 
         private Tile _targetTile;
+
+        private TileMarker _marker;
+
+        private const string IsFlyingBoolName = "IsFlying";
 
         private enum EState
         {
@@ -71,6 +76,10 @@ namespace FishFlingers.Entities
                 float surfaceDistance = 0.5f;
                 _flyingFish.transform.position += Vector3.down * surfaceDistance;
                 Tween.Position(_flyingFish.transform, _flyingFish.transform.position + Vector3.up * surfaceDistance, surfaceDuration, Ease.OutBack);
+
+                // Place a marker
+                _flyingFish._marker = _flyingFish._poolManager.GetPoolable<TileMarker>(new SpawnParams() { Parent = _flyingFish._targetTile.transform });
+                _flyingFish._marker.Initialise(_flyingFish._context, _flyingFish._targetTile);
             }
 
             public override void Tick()
@@ -152,8 +161,6 @@ namespace FishFlingers.Entities
             }
         }
 
-        private const string IsFlyingBoolName = "IsFlying";
-
         protected override void Awake()
         {
             base.Awake();
@@ -192,6 +199,12 @@ namespace FishFlingers.Entities
             }
 
             _targetTile = null;
+
+            if (_marker != null)
+            {
+                _poolManager.ReturnPoolable(_marker);
+                _marker = null;
+            }
 
             _characterModel.Animator.SetBool(IsFlyingBoolName, false);
 

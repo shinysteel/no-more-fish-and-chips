@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameManagerConfig
   m_EditorClassIdentifier: 
   _saveManagerConfig: {fileID: 11400000, guid: e77d497a29b900a46bad3a24d6cf6d87, type: 2}
-  _gameObjectManagerConfig: {fileID: 11400000, guid: b2e54ce941c2fbf4bb5b1a6bf9f63bd9, type: 2}
+  _instantiateManagerConfig: {fileID: 0}
   _steamManagerConfig: {fileID: 11400000, guid: 5a139f4ff3668fc478420ab83abd5969, type: 2}
   _networkManagerConfig: {fileID: 11400000, guid: f145da72aeb15a343a07d43296a05eb4, type: 2}
   _cameraManagerConfig: {fileID: 11400000, guid: 0bf333f339521044782df1cde448b947, type: 2}
@@ -27,3 +27,4 @@ MonoBehaviour:
   _lobbyManagerConfig: {fileID: 11400000, guid: 57a7c6b0f27b0704fb67cf69809c45a9, type: 2}
   _itemManagerConfig: {fileID: 11400000, guid: 009b80f3b90ca544fb56f42325a4ebf9, type: 2}
   _entityManagerConfig: {fileID: 11400000, guid: 78c8ff6cf25e67b4591a095bb6e4ff95, type: 2}
+  _effectManagerConfig: {fileID: 11400000, guid: 69b72db8d3ed7544e9374e2762000d5b, type: 2}

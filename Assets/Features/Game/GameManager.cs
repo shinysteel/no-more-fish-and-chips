@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         ItemManager         ,
         EntityManager       ,
         PoolManager         ,
+        EffectManager       ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem

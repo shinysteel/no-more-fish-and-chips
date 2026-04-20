@@ -40,7 +40,7 @@ namespace FishFlingers.Environments
             for (int i = 0; i < DefaultLines; i++)
             {
                 int anchor = i - DefaultLines / 2;
-                _lines.Add(anchor, new RaftLine(_raft, _type, anchor));
+                _lines.Add(anchor, new RaftLine(_type));
             }
 
             _raft.OnTileChanged += HandleTileChanged;
@@ -110,9 +110,7 @@ namespace FishFlingers.Environments
     // A line represents a span of cells along a point and axis
     public class RaftLine
     {
-        private Raft _raft;
         private ERaftAxis _axis;
-        private int _anchor;
 
         private SortedSet<Tile> _tiles;
         public IReadOnlyCollection<Tile> Tiles => _tiles;
@@ -123,21 +121,19 @@ namespace FishFlingers.Environments
         public RaftEdge MinEdge => _minEdge;
         public RaftEdge MaxEdge => _maxEdge;
 
-        public RaftLine(Raft raft, ERaftAxis axis, int anchor)
+        public RaftLine(ERaftAxis axis)
         {
-            _raft = raft;
             _axis = axis;
-            _anchor = anchor;
 
             _tiles = new SortedSet<Tile>(Comparer<Tile>.Create((a, b) =>
             {
                 if (_axis == ERaftAxis.Horizontal)
                 {
-                    return b.Cell.x.CompareTo(a.Cell.x);
+                    return a.Cell.x.CompareTo(b.Cell.x);
                 }
                 else
                 {
-                    return b.Cell.y.CompareTo(a.Cell.y);
+                    return a.Cell.y.CompareTo(b.Cell.y);
                 }
             }));
         }
@@ -164,16 +160,9 @@ namespace FishFlingers.Environments
                 _maxEdge = null;
                 return;
             }
-
-            if (_minEdge == null || !_tiles.Contains(_minEdge.Tile))
-            {
-                _minEdge = new RaftEdge(_tiles.First(), _axis == ERaftAxis.Horizontal ? Vector2Int.left : Vector2Int.down);
-            }
-
-            if (_maxEdge == null || !_tiles.Contains(_maxEdge.Tile))
-            {
-                _maxEdge = new RaftEdge(_tiles.Last(), _axis == ERaftAxis.Horizontal ? Vector2Int.right : Vector2Int.up);
-            }
+            
+            _minEdge = new RaftEdge(_tiles.First(), _axis == ERaftAxis.Horizontal ? Vector2Int.left : Vector2Int.down);
+            _maxEdge = new RaftEdge(_tiles.Last(), _axis == ERaftAxis.Horizontal ? Vector2Int.right : Vector2Int.up);
         }
     }
 

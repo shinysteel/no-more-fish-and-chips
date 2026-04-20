@@ -102,7 +102,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _OutlineAlpha: 0.8
-    - _OutlineExponent: 2
+    - _OutlineExponent: 3
     - _OutlineWidth: 0.25
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -114,6 +114,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _TestProgress: 0
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
