@@ -19,17 +19,13 @@ namespace FishFlingers.Entities
 
         private SyncVar<int> _currentHealth;
 
-        protected EntityHealthModule _entityHealthModule;
+        protected EntityHealthModule _healthModule;
+        protected EntityDefeatModule _defeatModule;
+        protected EntityRagdollModule _ragdollModule;
 
-        public int CurrentHealth => _entityHealthModule.Current;
-        public int MaxHealth => _entityHealthModule.Max;
-
-        public void SetHealth(int health)
-        {
-            _entityHealthModule.SetHealth(health);
-        }
-
-        protected virtual void OnHealthChanged(int previous, int current) { }
+        public EntityHealthModule HealthModule => _healthModule;
+        public EntityDefeatModule DefeatModule => _defeatModule;
+        public EntityRagdollModule RagdollModule => _ragdollModule;
 
         [SerializeField] protected Rigidbody _rigidbody;
 
@@ -41,10 +37,13 @@ namespace FishFlingers.Entities
         {
             _currentHealth = new SyncVar<int>(_entityData.Health);
 
-            _entityHealthModule = new EntityHealthModule(_entityData.Health,
+            _healthModule = new EntityHealthModule(_entityData.Health,
                 getter: () => _currentHealth.value,
-                setter: (int health) => _currentHealth.value = health,
-                onChanged: OnHealthChanged);
+                setter: (int health) => _currentHealth.value = health);
+
+            _defeatModule = new EntityDefeatModule(this, _entityData.DefeatTime);
+
+            _ragdollModule = new EntityRagdollModule(_rigidbody);
         }
 
         protected override void OnSpawned()
@@ -53,7 +52,10 @@ namespace FishFlingers.Entities
 
             if (isServer)
             {
-                SetHealth(_entityData.Health);
+                _healthModule.OnChanged += HandleHealthChanged;
+                _defeatModule.OnDefeated += HandleDefeated;
+
+                _healthModule.SetHealth(_entityData.Health);
             }
             
             _entityManager.RaiseNetEntitySpawned(this);
@@ -65,7 +67,32 @@ namespace FishFlingers.Entities
 
             _entityManager?.RaiseNetEntityDespawned(this);
 
+            if (isServer)
+            {
+                _healthModule.OnChanged -= HandleHealthChanged;
+                _defeatModule.OnDefeated -= HandleDefeated;
+
+                _ragdollModule.SetEnabled(false);
+            }
+
             _context = null;
+
+            _healthModule = null;
+            _defeatModule = null;
+            _ragdollModule = null;
+        }
+
+        private void HandleHealthChanged(int previous, int current)
+        {
+            if (current == 0)
+            {
+                _defeatModule.Defeat();
+            }
+        }
+
+        private void HandleDefeated()
+        {
+            _ragdollModule.SetEnabled(true);
         }
     }
 }

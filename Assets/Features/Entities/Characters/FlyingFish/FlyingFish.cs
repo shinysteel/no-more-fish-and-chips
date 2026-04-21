@@ -181,34 +181,27 @@ namespace FishFlingers.Entities
         {
             base.OnSpawned();
 
-            if (!isServer)
+            if (isServer)
             {
-                return;
-            }
+                _defeatModule.OnDefeated += HandleDefeated;
 
-            _stateMachine.ChangeState(EState.Scout);
+                _stateMachine.ChangeState(EState.Scout);
+            }
         }
 
         protected override void OnDespawned()
         {
+            if (isServer)
+            {
+                _defeatModule.OnDefeated -= HandleDefeated;
+            }
+
             base.OnDespawned();
 
-            if (!isServer)
+            if (isServer)
             {
-                return;
+                Cleanup();
             }
-
-            _targetTile = null;
-
-            if (_marker != null)
-            {
-                _poolManager.ReturnPoolable(_marker);
-                _marker = null;
-            }
-
-            _characterModel.Animator.SetBool(IsFlyingBoolName, false);
-
-            _stateMachine.ChangeState(EState.None);
         }
 
         private void Update()
@@ -219,6 +212,30 @@ namespace FishFlingers.Entities
             }
 
             _stateMachine.Tick();
+        }
+
+        private void HandleDefeated()
+        {
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            _targetTile = null;
+
+            if (_marker != null)
+            {
+                _poolManager.ReturnPoolable(_marker);
+                _marker = null;
+            }
+
+            _characterModel.Animator.SetBool(IsFlyingBoolName, false);
+
+            // Cleanup will always happen on Despawn, but can also happen when Defeated
+            if (_stateMachine.CurrentEnum != EState.None)
+            {
+                _stateMachine.ChangeState(EState.None);
+            }
         }
     }
 }

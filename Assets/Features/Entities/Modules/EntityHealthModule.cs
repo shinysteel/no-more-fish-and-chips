@@ -6,24 +6,21 @@ namespace FishFlingers.Entities
 {
     public class EntityHealthModule
     {
+        private int _max;
         private Func<int> _getter;
         private Action<int> _setter;
 
-        private Action<int, int> _onChanged;
-
-        public int Max { get; private set; }
-
+        public int Max => _max;
         public int Current => _getter();
 
-        /// <param name="setter">Does not require clamping - we do that for you</param>
-        public EntityHealthModule(int max, Func<int> getter, Action<int> setter, Action<int, int> onChanged)
-        {
-            Max = max;
+        public event Action<int, int> OnChanged;
 
+        /// <param name="setter">Does not require clamping - we do that for you</param>
+        public EntityHealthModule(int max, Func<int> getter, Action<int> setter)
+        {
+            _max = max;
             _getter = getter;
             _setter = setter;
-
-            _onChanged = onChanged;
         }
 
         public void SetHealth(int health)
@@ -39,7 +36,12 @@ namespace FishFlingers.Entities
 
             _setter(health);
 
-            _onChanged?.Invoke(previous, Current);
+            OnChanged?.Invoke(previous, Current);
+        }
+
+        public void ChangeHealth(int change)
+        {
+            SetHealth(Current + change);
         }
     }
 }

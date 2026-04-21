@@ -22,17 +22,13 @@ namespace FishFlingers.Entities
 
         private int _currentHealth;
 
-        protected EntityHealthModule _entityHealthModule;
+        protected EntityHealthModule _healthModule;
+        protected EntityDefeatModule _defeatModule;
+        protected EntityRagdollModule _ragdollModule;
 
-        public int CurrentHealth => _entityHealthModule.Current;
-        public int MaxHealth => _entityHealthModule.Max;
-
-        public virtual void SetHealth(int health)
-        {
-            _entityHealthModule.SetHealth(health);
-        }
-
-        protected virtual void OnHealthChanged(int previous, int current) { }
+        public EntityHealthModule HealthModule => _healthModule;
+        public EntityDefeatModule DefeatModule => _defeatModule;
+        public EntityRagdollModule RagdollModule => _ragdollModule;
 
         [SerializeField] protected Rigidbody _rigidbody;
 
@@ -51,14 +47,17 @@ namespace FishFlingers.Entities
 
         public virtual void OnTakenFromPool()
         {
-            _entityHealthModule = new EntityHealthModule(_entityData.Health,
+            _healthModule = new EntityHealthModule(_entityData.Health,
                 getter: () => _currentHealth,
-                setter: (int health) => _currentHealth = health,
-                onChanged: OnHealthChanged);
+                setter: (int health) => _currentHealth = health);
+
+            _defeatModule = new EntityDefeatModule(this, _entityData.DefeatTime);
+
+            _ragdollModule = new EntityRagdollModule(_rigidbody);
 
             if (_networkManager.IsServer)
             {
-                SetHealth(_entityData.Health);
+                _healthModule.SetHealth(_entityData.Health);
             }
 
             _entityManager.RaiseNetEntitySpawned(this);
@@ -70,7 +69,9 @@ namespace FishFlingers.Entities
 
             _context = null;
 
-            _entityHealthModule = null;
+            _healthModule = null;
+            _defeatModule = null;
+            _ragdollModule = null;
         }
     }
 }

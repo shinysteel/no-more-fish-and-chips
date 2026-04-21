@@ -12,8 +12,9 @@ namespace FishFlingers.Entities
 
         EntityData EntityData { get; }
 
-        int CurrentHealth { get; }
-        void SetHealth(int health);
+        EntityHealthModule HealthModule { get; }
+        EntityDefeatModule DefeatModule { get; }
+        EntityRagdollModule RagdollModule { get; }
 
         Rigidbody Rigidbody { get; }
     }

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 936ea1848468185459402a5a339a5632, type: 3}
   m_Name: SharkData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.SharkData
-  _id: 0
+  _id: 102
   _nameTerm: 0
   _descriptionTerm: 0
   _sprite: {fileID: 0}
   _health: 1
+  _alliance: 1

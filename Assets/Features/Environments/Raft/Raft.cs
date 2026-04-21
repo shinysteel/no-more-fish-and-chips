@@ -189,7 +189,7 @@ namespace FishFlingers.Environments
 
             Tile tile = _tiles[cell];
 
-            tile.SetHealth(netTile.Health);
+            tile.HealthModule.SetHealth(netTile.Health);
             tile.SetCell(cell);
             tile.SetRotations(netTile.Rotations);
             tile.SetStructure(netTile.Structure);

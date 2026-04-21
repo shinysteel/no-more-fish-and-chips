@@ -37,15 +37,24 @@ namespace FishFlingers.Entities
 
             _material = _meshRenderer.material;
         }
-        
-        public override void SetHealth(int health)
+
+        public override void OnTakenFromPool()
         {
-            base.SetHealth(health);
+            base.OnTakenFromPool();
+
+            _healthModule.OnChanged += HandleHealthChanged;
         }
 
-        protected override void OnHealthChanged(int previous, int current)
+        public override void OnReturnedToPool()
         {
-            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)_entityHealthModule.Current / _entityHealthModule.Max));
+            _healthModule.OnChanged -= HandleHealthChanged;
+
+            base.OnReturnedToPool();
+        }
+
+        private void HandleHealthChanged(int previous, int current)
+        {
+            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)_healthModule.Current / _healthModule.Max));
 
             if (current < previous)
             {

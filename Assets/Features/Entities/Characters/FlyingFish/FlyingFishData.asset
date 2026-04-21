@@ -17,6 +17,7 @@ MonoBehaviour:
   _descriptionTerm: 936022047
   _sprite: {fileID: 21300000, guid: 26ac797996e24a94baa353639730d331, type: 3}
   _health: 1
+  _alliance: 1
   _scoutDuration: 1.5
   _flyDuration: 1.25
   _launchAngle: 75

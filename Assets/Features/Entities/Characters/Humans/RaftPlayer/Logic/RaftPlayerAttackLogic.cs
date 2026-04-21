@@ -39,6 +39,21 @@ namespace FishFlingers.Entities
                 {
                     _player.Rigidbody.AddForce(_player.transform.forward, ForceMode.Impulse);
                     _attackState = RaftPlayerAttackState.Impact;
+
+                    EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
+                    foreach (IEntity entity in entityManager.Entities)
+                    {
+                        if (entity.EntityData.Alliance == EntityAlliance.Ally)
+                        {
+                            continue;
+                        }
+
+                        float distance = Vector3.Distance(_player.transform.position, entity.Rigidbody.position);
+                        if (distance <= 2.5f)
+                        {
+                            entity.HealthModule.ChangeHealth(-1);
+                        }
+                    }
                 }),
             };
 
