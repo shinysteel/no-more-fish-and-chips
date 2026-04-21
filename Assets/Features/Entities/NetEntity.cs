@@ -23,12 +23,8 @@ namespace FishFlingers.Entities
         private SyncVar<int> _currentHealth;
 
         protected EntityHealthModule _healthModule;
-        protected EntityDefeatModule _defeatModule;
-        protected EntityRagdollModule _ragdollModule;
 
         public EntityHealthModule HealthModule => _healthModule;
-        public EntityDefeatModule DefeatModule => _defeatModule;
-        public EntityRagdollModule RagdollModule => _ragdollModule;
 
         public Transform Transform => transform;
 
@@ -44,10 +40,6 @@ namespace FishFlingers.Entities
             _healthModule = new EntityHealthModule(this,
                 getter: () => _currentHealth.value,
                 setter: (int health) => _currentHealth.value = health);
-
-            _defeatModule = new EntityDefeatModule(this);
-
-            _ragdollModule = new EntityRagdollModule(this);
         }
 
         protected override void OnSpawned()
@@ -68,16 +60,9 @@ namespace FishFlingers.Entities
 
             _entityManager?.RaiseNetEntityDespawned(this);
 
-            if (isServer)
-            {
-                _ragdollModule.SetEnabled(false);
-            }
-
             _context = null;
 
             _healthModule = null;
-            _defeatModule = null;
-            _ragdollModule = null;
         }
     }
 }

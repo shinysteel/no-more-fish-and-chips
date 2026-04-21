@@ -12,8 +12,6 @@ namespace FishFlingers.Entities
         [SerializeField] private Sprite _sprite;
         [SerializeField] protected int _health = 1;
         [SerializeField] private EntityAlliance _alliance;
-        [SerializeField] protected EntityDefeatSettings _entityDefeatSettings;
-        [SerializeField] protected EntityPhysicsSettings _entityPhysicsSettings;
 
         public EntityId Id => _id;
         public LocalisationTerm NameTerm => _nameTerm;
@@ -21,7 +19,5 @@ namespace FishFlingers.Entities
         public Sprite Sprite => _sprite;
         public int Health => _health;
         public EntityAlliance Alliance => _alliance;
-        public EntityDefeatSettings EntityDefeatSettings => _entityDefeatSettings;
-        public EntityPhysicsSettings EntityPhysicsSettings => _entityPhysicsSettings;
     }
 }

@@ -39,11 +39,6 @@ namespace FishFlingers.Entities
             int previous = Current;
 
             _setter(health);
-            
-            if (health == 0)
-            {
-                _entity.DefeatModule.Defeat();
-            }
 
             OnChanged?.Invoke(previous, Current);
         }

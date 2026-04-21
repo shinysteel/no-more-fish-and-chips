@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    [CreateAssetMenu(fileName = "EntityPhysicsSettings", menuName = "Settings/Entities/EntityPhysicsSettings")]
-    public class EntityPhysicsSettings : ScriptableObject
+    [CreateAssetMenu(fileName = "CharacterPhysicsSettings", menuName = "Settings/Entities/CharacterPhysicsSettings")]
+    public class CharacterPhysicsSettings : ScriptableObject
     {
-        [SerializeField] private EntityGroundDetectionSettings _groundDetection;
+        [SerializeField] private CharacterGroundDetectionSettings _groundDetection;
 
-        public EntityGroundDetectionSettings GroundDetection => _groundDetection;
+        public CharacterGroundDetectionSettings GroundDetection => _groundDetection;
     }
 
     [Serializable]
-    public class EntityGroundDetectionSettings
+    public class CharacterGroundDetectionSettings
     {
         [SerializeField] private LayerMask _mask;
         [SerializeField] private float _castRadius = 0.125f;

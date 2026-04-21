@@ -26,12 +26,8 @@ namespace FishFlingers.Entities
         private int _currentHealth;
 
         protected EntityHealthModule _healthModule;
-        protected EntityDefeatModule _defeatModule;
-        protected EntityRagdollModule _ragdollModule;
 
         public EntityHealthModule HealthModule => _healthModule;
-        public EntityDefeatModule DefeatModule => _defeatModule;
-        public EntityRagdollModule RagdollModule => _ragdollModule;
 
         public Transform Transform => transform;
 
@@ -55,10 +51,6 @@ namespace FishFlingers.Entities
                 getter: () => _currentHealth,
                 setter: (int health) => _currentHealth = health);
 
-            _defeatModule = new EntityDefeatModule(this);
-
-            _ragdollModule = new EntityRagdollModule(this);
-
             if (_networkManager.IsServer)
             {
                 _healthModule.SetHealth(_entityData.Health);
@@ -74,8 +66,6 @@ namespace FishFlingers.Entities
             _context = null;
 
             _healthModule = null;
-            _defeatModule = null;
-            _ragdollModule = null;
         }
     }
 }

@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75386801be70a654097a53ce38dbb74a, type: 3}
-  m_Name: EntityPhysicsSettings
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.EntityPhysicsSettings
+  m_Script: {fileID: 11500000, guid: 183dfbaa91a250244b9ba6a7a866e138, type: 3}
+  m_Name: CharacterPhysicsSettings
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.CharacterPhysicsSettings
   _groundDetection:
     _mask:
       serializedVersion: 2
-      m_Bits: 193
+      m_Bits: 0
     _castRadius: 0.125
     _castDist: 0.05

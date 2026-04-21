@@ -4,7 +4,7 @@ using UnityEngine;
 namespace FishFlingers.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerPhysicsSettings", menuName = "Settings/Entities/RaftPlayerPhysicsSettings")]
-    public class RaftPlayerPhysicsSettings : EntityPhysicsSettings
+    public class RaftPlayerPhysicsSettings : CharacterPhysicsSettings
     {
         [SerializeField] private RaftPlayerMoveSettings _move;
         [SerializeField] private RaftPlayerLookSettings _look;
