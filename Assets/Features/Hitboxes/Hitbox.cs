@@ -8,51 +8,6 @@ using System.Collections.Generic;
 
 namespace FishFlingers.Hitboxes
 {
-    [CreateAssetMenu(fileName = "HitboxData", menuName = "Data/Hitboxes/HitboxData")]
-    public class HitboxData : ScriptableObject
-    {
-        [SerializeField] private int _damage = 1;
-        [SerializeField] private float _knockbackStrength = 1f;
-        [SerializeField] private EntityAlliance _alliance = EntityAlliance.Ally;
-        [SerializeField] private HitboxStep[] _steps = new HitboxStep[0];
-
-        public int Damage => _damage;
-        public float KnockbackStrength => _knockbackStrength;
-        public EntityAlliance Alliance => _alliance;
-        public HitboxStep[] Steps => _steps;
-
-        // We don't cache this since it's nice to have it update in realtime while editing
-        public float Duration => _steps.Max(step => step.StartTime + step.Duration);
-    }
-
-    [Serializable]
-    public class HitboxStep
-    {
-        [SerializeField] private HitboxShape _shape = HitboxShape.Box;
-        [SerializeField] private Vector3 _offset = Vector3.zero;
-        [SerializeField] private Vector3 _size = Vector3.one;
-        [SerializeField] private float _radius = 1f;
-        [SerializeField] private float _startTime = 0f;
-        [SerializeField] private float _duration = 0.5f;
-
-        public HitboxShape Shape => _shape;
-        public Vector3 Offset => _offset;
-        public Vector3 Size => _size;
-        public float Radius => _radius;
-        public float StartTime => _startTime;
-        public float Duration => _duration;
-        
-        public bool InTimeWindow(float time)
-        {
-            return time >= _startTime && time < _startTime + _duration;
-        }
-
-        public Vector3 GetPosition(Transform hitboxTransform)
-        {
-            return hitboxTransform.transform.position + hitboxTransform.TransformDirection(_offset);
-        }
-    }
-
     public enum HitboxShape
     {
         Box,
@@ -79,11 +34,8 @@ namespace FishFlingers.Hitboxes
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
         }
 
-        public void Initialise(Vector3 position, Quaternion rotation, HitboxData data)
+        public void Initialise(HitboxData data)
         {
-            transform.position = position;
-            transform.rotation = rotation;
-
             _data = data;
         }
 
@@ -132,21 +84,23 @@ namespace FishFlingers.Hitboxes
                         continue;
                     }
 
-                    HitEntity(entity);
+                    // Hit the entity
+                    entity.HealthModule.ChangeHealth(-_data.Damage);
+
+                    Vector3 forceDirection = (entity.Transform.position - transform.position).normalized;
+                    entity.Rigidbody.AddForce(forceDirection * _data.KnockbackForceStrength, ForceMode.Impulse);
+
+                    Vector3 torqueDirection = forceDirection;
+                    torqueDirection.y = 0f;
+                    torqueDirection.Normalize();
+                    torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
+                    entity.Rigidbody.AddTorque(torqueDirection * _data.KnockbackTorqueStrength, ForceMode.Impulse);
+
+                    _hitEntities.Add(entity);
                 }
             }
         }
-
-        private void HitEntity(IEntity entity)
-        {
-            entity.HealthModule.ChangeHealth(-_data.Damage);
-
-            Vector3 knockbackDirection = (entity.Transform.position - transform.position).normalized;
-            entity.Rigidbody.AddForce(knockbackDirection * _data.KnockbackStrength, ForceMode.Impulse);
-
-            _hitEntities.Add(entity);
-        }
-
+        
         public void OnReturnedToPool()
         {
             _data = null;

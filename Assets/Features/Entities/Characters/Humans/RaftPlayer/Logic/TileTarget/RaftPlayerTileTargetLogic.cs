@@ -13,18 +13,6 @@ using Object = UnityEngine.Object;
 
 namespace FishFlingers.Entities
 {
-    [CreateAssetMenu(fileName = "RaftPlayerTargetSettings", menuName = "Settings/Entities/RaftPlayerTargetSettings")]
-    public class RaftPlayerTileTargetSettings : ScriptableObject
-    {
-        [SerializeField] private RaftPlayerTileTargetVisual _targetVisualPrefab;
-        [SerializeField] private Color _validColor;
-        [SerializeField] private Color _invalidColor;
-
-        public RaftPlayerTileTargetVisual TargetVisualPrefab => _targetVisualPrefab;
-        public Color ValidColor => _validColor;
-        public Color InvalidColor => _invalidColor;
-    }
-
     public class RaftPlayerTileTarget
     {
         private GameplayContext _context;

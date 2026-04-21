@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: a5700e29a1e1b4546949edf5435aacd6, type: 3}
   m_Name: RaftPlayerPhysicsSettings
-  m_EditorClassIdentifier: Assembly-CSharp:FishFlingers.Entities:RaftPlayerPhysicsSettings
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerPhysicsSettings
   _move:
     _speed: 2
     _acceleration: 10

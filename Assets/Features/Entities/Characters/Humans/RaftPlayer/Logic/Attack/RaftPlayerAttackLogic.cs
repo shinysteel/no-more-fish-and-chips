@@ -3,19 +3,10 @@ using System.Threading.Tasks;
 using PrimeTween;
 using ShinyOwl.Common;
 using FishFlingers.Hitboxes;
+using FishFlingers.Pools;
 
 namespace FishFlingers.Entities
 {
-    [CreateAssetMenu(fileName = "RaftPlayerAttackSettings", menuName = "Settings/Entities/RaftPlayerAttackSettings")]
-    public class RaftPlayerAttackSettings : ScriptableObject
-    {
-        [SerializeField] private HitboxData _hitboxData;
-        [SerializeField] private float _lungeStrength;
-
-        public HitboxData HitboxData => _hitboxData;
-        public float LungeStrength => _lungeStrength;
-    }
-
     public enum RaftPlayerAttackState
     {
         None,
@@ -25,7 +16,7 @@ namespace FishFlingers.Entities
 
     public class RaftPlayerAttackLogic
     {
-        private HitboxManager _hitboxManager;
+        private PoolManager _poolManager;
 
         private RaftPlayer _player;
 
@@ -36,7 +27,7 @@ namespace FishFlingers.Entities
         
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
-            _hitboxManager = GameManager.Instance.Get<HitboxManager>();
+            _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _player = player;
 
@@ -60,7 +51,8 @@ namespace FishFlingers.Entities
 
                     _attackState = RaftPlayerAttackState.Impact;
 
-                    _hitboxManager.CreateHitbox(_player.transform.position, _player.transform.rotation, _settings.HitboxData);
+                    Hitbox hitbox = _poolManager.GetPoolable<Hitbox>(new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation });
+                    hitbox.Initialise(_settings.HitboxData);
                 }),
             };
 

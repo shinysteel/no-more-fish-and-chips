@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 547c6206f0b53964f837f10b4f2e8ce3, type: 3}
   m_Name: RaftPlayerAttackSettings
-  m_EditorClassIdentifier: Assembly-CSharp:FishFlingers.Entities:RaftPlayerAttackSettings
-  _hitboxData: {fileID: 11400000, guid: da189430841d2ae47b42d4b8707d2544, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerAttackSettings
+  _hitboxData: {fileID: 11400000, guid: b5504cab220717048bb35d4b28c08231, type: 2}
   _lungeStrength: 1
