@@ -17,5 +17,8 @@ namespace FishFlingers.Entities
 
         Transform Transform { get; }
         Rigidbody Rigidbody { get; }
+
+        void AddForce(Vector3 force);
+        void AddTorque(Vector3 torque);
     }
 }

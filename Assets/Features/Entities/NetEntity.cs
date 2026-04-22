@@ -31,6 +31,28 @@ namespace FishFlingers.Entities
         [SerializeField] protected Rigidbody _rigidbody;
         public Rigidbody Rigidbody => _rigidbody;
 
+        void IEntity.AddForce(Vector3 force)
+        {
+            AddForceRpc(force);
+        }
+
+        void IEntity.AddTorque(Vector3 torque)
+        {
+            AddTorqueRpc(torque);
+        }
+
+        [ServerRpc]
+        private void AddForceRpc(Vector3 force)
+        {
+            _rigidbody.AddForce(force, ForceMode.Impulse);
+        }
+
+        [ServerRpc]
+        private void AddTorqueRpc(Vector3 torque)
+        {
+            _rigidbody.AddTorque(torque, ForceMode.Impulse);
+        }
+
         // End of IEntity
 
         protected override void OnInitializeModules()

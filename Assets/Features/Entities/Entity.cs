@@ -34,6 +34,16 @@ namespace FishFlingers.Entities
         [SerializeField] protected Rigidbody _rigidbody;
         public Rigidbody Rigidbody => _rigidbody;
 
+        void IEntity.AddForce(Vector3 force)
+        {
+            _rigidbody.AddForce(force);
+        }
+
+        void IEntity.AddTorque(Vector3 torque)
+        {
+            _rigidbody.AddTorque(torque);
+        }
+
         // End of IEntity
 
         protected NetworkManager _networkManager;

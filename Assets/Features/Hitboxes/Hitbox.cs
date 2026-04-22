@@ -88,13 +88,13 @@ namespace FishFlingers.Hitboxes
                     entity.HealthModule.ChangeHealth(-_data.Damage);
 
                     Vector3 forceDirection = (entity.Transform.position - transform.position).normalized;
-                    entity.Rigidbody.AddForce(forceDirection * _data.KnockbackForceStrength, ForceMode.Impulse);
+                    entity.AddForce(forceDirection * _data.KnockbackForceStrength);
 
                     Vector3 torqueDirection = forceDirection;
                     torqueDirection.y = 0f;
                     torqueDirection.Normalize();
                     torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
-                    entity.Rigidbody.AddTorque(torqueDirection * _data.KnockbackTorqueStrength, ForceMode.Impulse);
+                    entity.AddTorque(torqueDirection * _data.KnockbackTorqueStrength);
 
                     _hitEntities.Add(entity);
                 }
