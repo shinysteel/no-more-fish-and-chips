@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace ShinyOwl.Common.Structures
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(BoolGrid))]
     public class BoolGridEditor : Editor
     {
@@ -145,6 +149,7 @@ namespace ShinyOwl.Common.Structures
             }
         }
     }
+#endif
 
     [CreateAssetMenu(fileName = "BoolGrid", menuName = "Common/Structures/BoolGrid")]
     public class BoolGrid : ScriptableObject, IEnumerable<KeyValuePair<Vector2Int, bool>>

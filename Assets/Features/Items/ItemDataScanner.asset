@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1ef973f2ef2c74c87e35596fc1695a, type: 3}
   m_Name: ItemDataScanner
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.ItemDataScanner
-  _folder: {fileID: 102900000, guid: 1ce65043cc472d147893f12de97b7973, type: 3}
+  _folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
+  _assets:
+  - {fileID: 11400000, guid: 37602de193f1fd141a0a75b9184ae025, type: 2}
+  - {fileID: 11400000, guid: 38a2f4db06bf8cc479d8fddd70fc0c22, type: 2}
+  - {fileID: 11400000, guid: a2ecdc1075f52ec42a30be80eadf3eb0, type: 2}
+  - {fileID: 11400000, guid: b3ebf7e9303318f4ca158af280af2d36, type: 2}
+  - {fileID: 11400000, guid: cbe346ab548e78a4297bf67f1b11cb6c, type: 2}

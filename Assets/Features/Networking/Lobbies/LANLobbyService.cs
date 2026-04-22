@@ -12,8 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
-using ParrelSync;
 using FishFlingers.Scenes;
+
+#if UNITY_EDITOR
+using ParrelSync;
+#endif
 
 namespace FishFlingers.Networking
 {
@@ -121,6 +124,7 @@ namespace FishFlingers.Networking
             _broadcastClient = new();
             _broadcastClient.EnableBroadcast = true;
 
+#if UNITY_EDITOR
             // Allow testing on the same computer. The clone just won't be able to listen, but
             // they will still broadcast to our main editor
             if (!ClonesManager.IsClone())
@@ -129,6 +133,7 @@ namespace FishFlingers.Networking
 
                 StartListening();
             }
+#endif
         }
 
         public override void Shutdown()

@@ -2,7 +2,6 @@ using FishFlingers.Localisation;
 using FishFlingers.Networking;
 using FishFlingers.Saving;
 using TMPro;
-using UnityEditor.U2D.Tooling.Analyzer;
 using UnityEngine;
 using UnityEngine.UI;
 

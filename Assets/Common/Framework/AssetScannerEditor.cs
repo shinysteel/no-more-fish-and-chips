@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -27,3 +28,4 @@ namespace ShinyOwl.Common.Framework
         }
     }
 }
+#endif

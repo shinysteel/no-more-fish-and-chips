@@ -1,17 +1,24 @@
-using ParrelSync;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using System.Linq;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+using ParrelSync;
+#endif
 
 namespace ShinyOwl.Common.Framework
 {
     public abstract class AssetScanner : ScriptableObject
     {
-        [SerializeField] protected DefaultAsset _folder;
-
         public abstract Array GetAssets();
+
+#if UNITY_EDITOR
+        [SerializeField] protected DefaultAsset _folder;
 
         public abstract void Scan();
 
@@ -46,23 +53,27 @@ namespace ShinyOwl.Common.Framework
         {
             Scan();
         }
+#endif
     }
 
     public abstract class AssetScanner<T> : AssetScanner
     {
         // Declare as null so to allow for lazy access
-        private T[] _assets;
+        [SerializeField] private Object[] _assets;
 
         public override Array GetAssets()
         {
+#if UNITY_EDITOR
             if (_assets == null)
             {
                 Scan();
             }
+#endif
 
-            return _assets;
+            return Array.ConvertAll(_assets, asset => (T)(object)asset);
         }
 
+#if UNITY_EDITOR
         private class Lookup : IComparable<Lookup>
         {
             public string Guid { get; private set; }
@@ -100,17 +111,17 @@ namespace ShinyOwl.Common.Framework
             lookups.Sort();
 
             // After the first scan, we need to guarentee assets is not null
-            _assets ??= new T[0];
+            _assets ??= new Object[0];
 
             if (!HaveChanges(_assets, lookups))
             {
                 return;
             }
 
-            _assets = new T[lookups.Count];
+            _assets = new Object[lookups.Count];
             for (int i = 0; i < _assets.Length; i++)
             {
-                _assets[i] = lookups[i].Obj;
+                _assets[i] = (Object)(object)lookups[i].Obj;
             }
 
             EditorUtility.SetDirty(this);
@@ -149,7 +160,7 @@ namespace ShinyOwl.Common.Framework
         }
 
         // It's worth checking for changes, since we want to avoid needlessly marking the asset dirty
-        private bool HaveChanges(T[] assets, List<Lookup> lookups)
+        private bool HaveChanges(Object[] assets, List<Lookup> lookups)
         {
             if (_assets.Length != lookups.Count)
             {
@@ -158,7 +169,7 @@ namespace ShinyOwl.Common.Framework
 
             for (int i = 0; i < _assets.Length; i++)
             {
-                if (!Equals(_assets[i], lookups[i].Obj))
+                if (!Equals((T)(object)_assets[i], lookups[i].Obj))
                 {
                     return true;
                 }
@@ -166,5 +177,6 @@ namespace ShinyOwl.Common.Framework
             
             return false;
         }
+#endif
     }
 }

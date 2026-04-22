@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using static UnityEditor.Progress;
 using EntityId = FishFlingers.Entities.EntityId;
 
 namespace FishFlingers.Items

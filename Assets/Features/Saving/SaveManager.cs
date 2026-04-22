@@ -3,7 +3,6 @@ using FishFlingers.Environments;
 using FishFlingers.Networking;
 using FishFlingers.States;
 using Newtonsoft.Json;
-using ParrelSync;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
@@ -15,6 +14,10 @@ using FishFlingers.Instantiating;
 using System.Threading.Tasks;
 using UnityEngine.Pool;
 using System.Linq;
+
+#if UNITY_EDITOR
+using ParrelSync;
+#endif
 
 namespace FishFlingers.Saving
 {
@@ -170,6 +173,7 @@ namespace FishFlingers.Saving
         {
             string path = Application.persistentDataPath;
 
+#if UNITY_EDITOR
             if (ClonesManager.IsClone())
             {
                 int cloneNumber = int.Parse(ClonesManager.GetCurrentProjectPath().Split($"{ClonesManager.CloneNameSuffix}_")[1]);
@@ -178,6 +182,7 @@ namespace FishFlingers.Saving
 
                 Directory.CreateDirectory(path);
             }
+#endif
 
             return path;
         }
