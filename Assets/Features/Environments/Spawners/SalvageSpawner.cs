@@ -87,13 +87,7 @@ namespace FishFlingers.Environments
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(new Vector2(x, y));
 
-            WeightedPick<ItemId> pick = _weightedPicker.Pick();
-
-            for (int i = 0; i < pick.Count; i++)
-            {
-                DroppedItem item = (DroppedItem)_entityManager.Spawn(EntityId.DroppedItem, new SpawnParams() { Position = position });
-                item.Set(new NetItemInstance(null, pick.Value, 1), DroppedItemType.Salvage);
-            }
+            _itemManager.SpawnDrop(position, _dropTable);
         }
 
         void IEntityManagerListener.OnEntitySpawned(IEntity entity)

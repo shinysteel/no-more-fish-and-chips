@@ -53,5 +53,5 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _spawnInterval: 5
+  _spawnInterval: 10
   _dropTable: {fileID: 11400000, guid: 9517acabb23255a4799bab42ae284706, type: 2}

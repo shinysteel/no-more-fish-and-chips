@@ -18,5 +18,14 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: 613c7c555dab2ab468e3c294e10b1aeb, type: 3}
   _health: 1
   _alliance: 0
-  _entityDefeatSettings: {fileID: 11400000, guid: 0ec25a856cce2e94b8ce3d7fedabe1c7, type: 2}
-  _entityPhysicsSettings: {fileID: 11400000, guid: bec005a58fd82a847a5b9d0b9d39cc51, type: 2}
+  _dropTables: []
+  _dropOrientations:
+  - _positions:
+    - {x: 0, y: 0, z: 0}
+  - _positions:
+    - {x: -0.033, y: -0.01, z: -0.033}
+    - {x: 0.033, y: 0.01, z: 0.033}
+  - _positions:
+    - {x: -0.05, y: -0.02, z: -0.066}
+    - {x: 0, y: 0.02, z: 0.033}
+    - {x: 0.05, y: 0, z: -0.033}

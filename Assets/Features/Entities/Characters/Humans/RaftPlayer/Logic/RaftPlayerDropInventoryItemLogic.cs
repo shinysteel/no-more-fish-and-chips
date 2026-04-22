@@ -16,7 +16,7 @@ namespace FishFlingers.Entities
         private RaftPlayer _player;
 
         private const float Pitch = -45f;
-        private const float Strength = 3f;
+        private const float Strength = 5f;
 
         public RaftPlayerDropInventoryItemLogic(RaftPlayer player)
         {

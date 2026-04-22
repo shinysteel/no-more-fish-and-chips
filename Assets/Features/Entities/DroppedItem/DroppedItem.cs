@@ -6,7 +6,8 @@ using FishFlingers.Items;
 using FishFlingers.Inventories;
 using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
-using System;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace FishFlingers.Entities
 {
@@ -18,7 +19,7 @@ namespace FishFlingers.Entities
 
     public class DroppedItem : NetEntity, IInteractable
     {
-        private ItemModel _itemModel;
+        private List<ItemModel> _itemModels = new();
 
         private SyncVar<NetItemInstance> _netItemInstance = new SyncVar<NetItemInstance>(ownerAuth: true);
         public SyncVar<NetItemInstance> NetItemInstance => _netItemInstance;
@@ -31,6 +32,8 @@ namespace FishFlingers.Entities
         public Vector3 Position => transform.position;
 
         private const float DespawnDistance = 15f;
+
+        private const int MaxItemModels = 3;
 
         protected override void OnSpawned()
         {
@@ -53,7 +56,7 @@ namespace FishFlingers.Entities
 
             _netItemInstance.onChanged -= HandleNetItemInstanceChanged;
 
-            HandleItemIdChanged(ItemId.None);
+            HandleNetItemInstanceChanged(null);
         }
 
         public void Set(NetItemInstance netItemInstance, DroppedItemType type)
@@ -64,21 +67,12 @@ namespace FishFlingers.Entities
 
         private void HandleNetItemInstanceChanged(NetItemInstance netItemInstance)
         {
-            HandleItemIdChanged(netItemInstance.ItemId);
-        }
+            int count = (netItemInstance?.ItemId ?? ItemId.None) != ItemId.None ? Mathf.Min(netItemInstance.Count, MaxItemModels) : 0;
 
-        private void HandleItemIdChanged(ItemId itemId)
-        {
-            if (_itemModel != null && _itemModel.ItemId != itemId)
-            {
-                _poolManager.ReturnItemModel(_itemModel);
-                _itemModel = null;
-            }
-
-            if (itemId != ItemId.None)
-            {
-                _itemModel = _poolManager.GetItemModel(itemId, new SpawnParams() { Parent = transform });
-            }
+            Utils.Collections.ResizeList(_itemModels, count,
+                createElement: () => _poolManager.GetItemModel(netItemInstance.ItemId, new SpawnParams() { Parent = transform }),
+                removeElement: (ItemModel model) => _poolManager.ReturnItemModel(model),
+                processElement: (ItemModel model, int index) => model.transform.localPosition = Data.DropOrientations[count - 1].Positions[index]);
         }
         
         private void Update()

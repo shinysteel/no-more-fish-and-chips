@@ -41,6 +41,11 @@ namespace FishFlingers.Items
             return _idDataMap[id];
         }
 
+        public void SpawnDrop(Vector3 position, DropTable table)
+        {
+            SpawnDrops(position, new DropTable[] { table });
+        }
+
         public void SpawnDrops(Vector3 position, DropTable[] tables)
         {
             List<WeightedPick<ItemId>> picks = ListPool<WeightedPick<ItemId>>.Get();
