@@ -1,6 +1,7 @@
 using FishFlingers.Environments;
 using PrimeTween;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace FishFlingers.Entities
         private RaftLine[] _targetLines = new RaftLine[2];
         private Direction _swimDirection;
         private int _flatSwimDirection;
+
+        private const string IsBitingBoolName = "IsBiting";
 
         private enum EState
         {
@@ -137,12 +140,24 @@ namespace FishFlingers.Entities
         {
             public BiteState(StateMachine<EState> parent) : base(parent)
             { }
+
+            public override void Enter()
+            {
+                Vector3 bitePosition = _shark.transform.position + _shark.transform.forward * 0.1f + Vector3.up * 0.2f;
+                float duration = 0.5f;
+
+                Sequence sequence = Sequence.Create();
+                sequence.Chain(Tween.Position(_shark.transform, endValue: bitePosition, duration: duration));
+                sequence.Group(TweenExtensions.Rotation(_shark.transform, endValue: _shark.transform.rotation * Quaternion.AngleAxis(-30f, Vector3.right), duration: duration, ease: Ease.OutQuad));
+
+                _shark.CharacterModel.Animator.SetBool(IsBitingBoolName, true);
+            }
         }
 
         protected override void Awake()
         {
             base.Awake();
-
+            
             _stateMachine = new();
 
             SurfaceState surfaceState = new SurfaceState(_stateMachine);

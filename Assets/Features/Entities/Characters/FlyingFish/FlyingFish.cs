@@ -128,7 +128,7 @@ namespace FishFlingers.Entities
                 // Anticipate with a small duck
                 Sequence.Create()
                     .Group(Tween.Position(_fish.transform, _anticipatePosition, anticipateDuration, Ease.OutQuad))
-                    .Group(TweenExtensions.Rotate(_fish.transform, _anticipateRotation, anticipateDuration, Ease.OutQuad))
+                    .Group(TweenExtensions.Rotation(_fish.transform, _anticipateRotation, anticipateDuration, Ease.OutQuad))
                     .OnComplete(() =>
                     {
                         _isAnticipating = false;
