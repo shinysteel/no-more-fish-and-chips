@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Pools.PoolableScanner
   _folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
   _assets:
-  - {fileID: 0}
   - {fileID: 6797095063698752868, guid: 05acb84182cd7d443af95b8c4d1d0072, type: 3}
   - {fileID: 2366098855654131150, guid: 05de741365fc6f048994a2f54011a2ff, type: 3}
   - {fileID: 8374647551987080815, guid: 119a5e29c3e516248aa790b5386dde29, type: 3}

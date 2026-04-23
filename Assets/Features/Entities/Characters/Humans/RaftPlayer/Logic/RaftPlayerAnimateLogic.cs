@@ -12,6 +12,7 @@ namespace FishFlingers.Entities
         private const string IsMovingBoolName = "IsMoving";
         private const string IsHoldingItemBoolName = "IsHoldingItem";
         private const string IsAttackingBoolName = "IsAttacking";
+        private const string AttackTriggerName = "Attack";
         private const string AttackStateName = "Attack";
 
         private enum Layer
@@ -37,6 +38,8 @@ namespace FishFlingers.Entities
         public async Task AttackAsync(AnimateEvents events)
         {
             _ = events.PlayAsync(_player.CharacterModel.Animator, (int)Layer.Base, AttackStateName);
+
+            _player.CharacterModel.SetTrigger(AttackTriggerName);
 
             // Mark IsAttacking as true until we are transitioning out of the attack state
             _player.CharacterModel.Animator.SetBool(IsAttackingBoolName, true);
