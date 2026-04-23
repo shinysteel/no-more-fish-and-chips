@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Human.png
-    second: {fileID: 2100000, guid: 7f4c57414aecdc24193cb9f7ab4d0a33, type: 2}
+    second: {fileID: 2100000, guid: 3a7dbbcfb1cb90748b223c57480a6afe, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -1,31 +1,88 @@
-using FishFlingers.Entities;
-using FishFlingers.Pools;
-using FishFlingers.States;
-using PrimeTween;
+using FishFlingers.Networking;
 using UnityEngine;
+using PurrNet;
+using System.Collections.Generic;
+using FishFlingers.Entities;
+using ShinyOwl.Common;
 
-public class TileMarker : MonoBehaviour, IPoolable
+namespace FishFlingers.Effects
 {
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    
-    public void Initialise(GameplayContext context, Tile tile)
+    public enum TileMarkShape
     {
-        transform.SetParent(tile.transform);
-
-        Vector3 position = tile.transform.position;
-        position.y = tile.GetSurfaceY() + 0.01f;
-        transform.position = position;
-
-        Tween.Alpha(_spriteRenderer, startValue: 0f, endValue: 1f, duration: 0.5f);
-        Tween.Scale(transform, startValue: Vector3.zero, endValue: Vector3.one, duration: 0.5f, ease: Ease.OutBack);
+        Single,
+        OneByTwo
     }
 
-    public void OnReturnedToPool()
+    public class NetTileMark
     {
-        Tween.StopAll(_spriteRenderer);
-        Tween.StopAll(transform);
+        private Vector2Int _cell;
+        private TileMarkShape _shape;
+
+        public Vector2Int Cell => _cell;
+        public TileMarkShape Shape => _shape;
+
+        public NetTileMark(Vector2Int cell, TileMarkShape shape)
+        {
+            _cell = cell;
+            _shape = shape;
+        }
     }
 
-    public void OnTakenFromPool()
-    { }
+    public class TileMarker : GameplayBehaviour
+    {
+        private SyncDictionaryWrapper<int, NetTileMark> _netTileMarks = new SyncDictionaryWrapper<int, NetTileMark>(ownerAuth: true);
+
+        private Dictionary<int, TileMark> _tileMarks = new();
+
+        private int _idCounter;
+
+        protected override void OnSpawned()
+        {
+            foreach (KeyValuePair<int, NetTileMark> kvp in _netTileMarks)
+            {
+                SyncDictionaryChange<int, NetTileMark> change = new SyncDictionaryChange<int, NetTileMark>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
+                HandleNetMarkedCellsChanged(change);
+            }
+
+            _netTileMarks.onChanged += HandleNetMarkedCellsChanged;
+
+            base.OnSpawned();
+        }
+
+        protected override void OnDespawned()
+        {
+            base.OnDespawned();
+
+            _netTileMarks.onChanged -= HandleNetMarkedCellsChanged;
+        }
+
+        public int AddNetMarkedCell(NetTileMark mark)
+        {
+            int id = _idCounter++;
+            _netTileMarks.Add(id, mark);
+
+            return id;
+        }
+
+        public void RemoveNetMarkedCell(int id)
+        {
+            _netTileMarks.Remove(id);
+        }
+
+        private void HandleNetMarkedCellsChanged(SyncDictionaryChange<int, NetTileMark> change)
+        {
+            if (change.operation == SyncDictionaryOperation.Added)
+            {
+                Tile tile = _context.Raft.Tiles[change.value.Cell];
+                TileMark mark = _poolManager.GetPoolable<TileMark>(new SpawnParams() { Parent = tile.transform });
+                mark.Initialise(_context, tile);
+                _tileMarks.Add(change.key, mark);
+            }
+            else if (change.operation == SyncDictionaryOperation.Removed)
+            {
+                _poolManager.ReturnPoolable(_tileMarks[change.key]);
+                _tileMarks.Remove(change.key);
+            }
+        }
+    }
 }

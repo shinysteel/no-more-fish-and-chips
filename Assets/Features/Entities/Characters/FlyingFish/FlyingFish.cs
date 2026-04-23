@@ -6,6 +6,7 @@ using ShinyOwl.Common.Utils;
 using PrimeTween;
 using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common;
+using FishFlingers.Effects;
 
 namespace FishFlingers.Entities
 {
@@ -15,7 +16,7 @@ namespace FishFlingers.Entities
 
         private Tile _targetTile;
 
-        private TileMarker _marker;
+        private int _tileMarkId = -1;
 
         private const string IsFlyingBoolName = "IsFlying";
 
@@ -78,8 +79,7 @@ namespace FishFlingers.Entities
                 Tween.Position(_flyingFish.transform, _flyingFish.transform.position + Vector3.up * surfaceDistance, surfaceDuration, Ease.OutBack);
 
                 // Place a marker
-                _flyingFish._marker = _flyingFish._poolManager.GetPoolable<TileMarker>(new SpawnParams() { Parent = _flyingFish._targetTile.transform });
-                _flyingFish._marker.Initialise(_flyingFish._context, _flyingFish._targetTile);
+                _flyingFish._tileMarkId = _flyingFish._context.TileMarker.AddNetMarkedCell(new NetTileMark(_flyingFish._targetTile.Cell, TileMarkShape.Single));
             }
 
             public override void Tick()
@@ -195,15 +195,12 @@ namespace FishFlingers.Entities
         {
             if (isServer)
             {
+                Cleanup();
+
                 _defeatLogic.OnDefeated -= HandleDefeated;
             }
 
             base.OnDespawned();
-
-            if (isServer)
-            {
-                Cleanup();
-            }
         }
 
         protected override void Update()
@@ -227,10 +224,10 @@ namespace FishFlingers.Entities
         {
             _targetTile = null;
 
-            if (_marker != null)
+            if (_tileMarkId >= 0)
             {
-                _poolManager.ReturnPoolable(_marker);
-                _marker = null;
+                _context.TileMarker.RemoveNetMarkedCell(_tileMarkId);
+                _tileMarkId = -1;
             }
 
             CharacterModel.Animator.SetBool(IsFlyingBoolName, false);

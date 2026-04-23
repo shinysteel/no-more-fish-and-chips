@@ -1,3 +1,4 @@
+using FishFlingers.Effects;
 using FishFlingers.Entities;
 using FishFlingers.Environments;
 using FishFlingers.Instantiating;
@@ -93,7 +94,8 @@ namespace FishFlingers.Networking
             PackCollections.RegisterDictionary<Vector2Int, NetInventorySlot>();
             PackCollections.RegisterDictionary<string, NetInventoryItem>();
             PackCollections.RegisterDictionary<Vector2Int, Structure>();
-
+            PackCollections.RegisterDictionary<int, NetTileMark>();
+            
             base.Initialise(config);
         }
 

@@ -19,6 +19,7 @@ using FishFlingers.Saving;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 using Object = UnityEngine.Object;
+using FishFlingers.Effects;
 
 namespace FishFlingers.States
 {
@@ -28,14 +29,16 @@ namespace FishFlingers.States
         public RaftPlayer LocalPlayer { get; private set; }
         public Raft Raft { get; private set; }
         public WaveSpawner WaveSpawner { get; private set; }
+        public TileMarker TileMarker { get; private set; }
         public CursorsUI CursorsUI { get; private set; }
 
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner, CursorsUI cursorsUI)
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner, TileMarker tileMarker, CursorsUI cursorsUI)
         {
             Players = players;
             LocalPlayer = localPlayer;
             Raft = raft;
             WaveSpawner = waveSpawner;
+            TileMarker = tileMarker;
             CursorsUI = cursorsUI;
         }
     }
@@ -107,12 +110,14 @@ namespace FishFlingers.States
                 Raft raft = null;
                 WaveSpawner waveSpawner = null;
                 SalvageSpawner salvageSpawner = null;
+                TileMarker tileMarker = null;
 
                 if (_networkManager.IsServer)
                 {
                     raft = _networkManager.Spawn(_config.RaftPrefab);
                     waveSpawner = _networkManager.Spawn(_config.WaveSpawnerPrefab);
                     salvageSpawner = _networkManager.Spawn(_config.SalvageSpawnerPrefab);
+                    tileMarker = _networkManager.Spawn(_config.TileMarkerPrefab);
                 }
                 else
                 {
@@ -122,6 +127,7 @@ namespace FishFlingers.States
                         raft ??= Object.FindFirstObjectByType<Raft>();
                         waveSpawner ??= Object.FindFirstObjectByType<WaveSpawner>();
                         salvageSpawner ??= Object.FindFirstObjectByType<SalvageSpawner>();
+                        tileMarker ??= Object.FindFirstObjectByType<TileMarker>();
                         await Task.Yield();
                     }
                 }
@@ -130,7 +136,7 @@ namespace FishFlingers.States
 
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
-                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, _cursorsUI);
+                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, tileMarker, _cursorsUI);
 
                 // The server will setup an environment object
                 if (_networkManager.IsServer)
