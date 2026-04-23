@@ -31,11 +31,67 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1530265155386209080}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5423686382908397062}
   m_SourcePrefab: {fileID: 100100000, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
 --- !u!4 &3881972260847336758 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+  m_PrefabInstance: {fileID: 3626858166568147677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4509327639379044236 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+  m_PrefabInstance: {fileID: 3626858166568147677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1530265155386209080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509327639379044236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.CharacterModel
+  _animator: {fileID: 7151617117576783692}
+  _networkAnimator: {fileID: 5423686382908397062}
+  _itemLocator: {fileID: 0}
+--- !u!114 &5423686382908397062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509327639379044236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b598b9d8509d64abb9fdaf07fa3f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkAnimator
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _animator: {fileID: 7151617117576783692}
+  _ownerAuth: 1
+  _autoSyncParameters: 1
+  _dontSyncParameters: []
+--- !u!95 &7151617117576783692 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
   m_PrefabInstance: {fileID: 3626858166568147677}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8035880012891379421
@@ -129,7 +185,7 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _entityData: {fileID: 11400000, guid: 7a69f78e97e2eb4409da57692cd4d9f2, type: 2}
-  _entityModel: {fileID: 0}
+  _entityModel: {fileID: 1530265155386209080}
   _rigidbody: {fileID: 1258279480172985188}
   _characterCollider: {fileID: 4975119389212087691}
 --- !u!65 &4975119389212087691

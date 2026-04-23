@@ -110,7 +110,7 @@ namespace FishFlingers.Entities
             _character.CharacterModel.Animator.SetBool(CharacterModel.IsDefeatedAnimatorBoolName, true);
 
             _character.CharacterModel.Animator.Update(0f);
-            
+
             _character.RagdollLogic.SetEnabled(true);
 
             OnDefeated?.Invoke();

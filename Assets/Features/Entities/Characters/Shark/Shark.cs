@@ -45,13 +45,13 @@ namespace FishFlingers.Entities
             public override void Enter()
             {
                 // Find a target edge
-                if (!_shark._context.Raft.Queries.TryGetRandomLine(out RaftLine line))
+                if (!_shark._context.Raft.Queries.TryGetRandomLine(out _shark._targetLine))
                 {
                     _shark._entityManager.Despawn(_shark);
                     return;
                 }
 
-                RaftEdge edge = Random.value < 0.5f ? line.MinEdge : line.MaxEdge;
+                RaftEdge edge = Random.value < 0.5f ? _shark._targetLine.MinEdge : _shark._targetLine.MaxEdge;
                 _shark._lineDirection = -edge.CellDirection;
 
                 // Start away from the edge
@@ -129,34 +129,49 @@ namespace FishFlingers.Entities
         {
             base.OnSpawned();
 
-            if (!isOwner)
+            if (isOwner)
             {
-                return;
-            }
+                _defeatLogic.OnDefeated += HandleDefeated;
 
-            _stateMachine.ChangeState(EState.Surface);
+                _stateMachine.ChangeState(EState.Surface);
+            }
         }
 
         protected override void OnDespawned()
         {
-            base.OnDespawned();
-
-            if (!isOwner)
+            if (isOwner)
             {
-                return;
+                Cleanup();
+
+                _defeatLogic.OnDefeated -= HandleDefeated;
             }
 
-            _stateMachine.ChangeState(EState.None);
+            base.OnDespawned();
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+
             if (!isOwner)
             {
                 return;
             }
 
             _stateMachine.Tick();
+        }
+
+        private void HandleDefeated()
+        {
+            Cleanup();
+        }
+
+        private void Cleanup()
+        {
+            if (_stateMachine.CurrentEnum != EState.None)
+            {
+                _stateMachine.ChangeState(EState.None);
+            }
         }
     }
 }

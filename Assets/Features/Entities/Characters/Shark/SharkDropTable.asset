@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf848d7c76681e84bb99ed4e4fc6d0dd, type: 3}
+  m_Name: SharkDropTable
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.ItemDropTable
+  _entries:
+  - _value: 5
+    _weight: 1
+    _minCount: 1
+    _maxCount: 3

@@ -42,7 +42,7 @@ namespace FishFlingers.Environments
                 int anchor = i - DefaultLines / 2;
                 _lines.Add(anchor, new RaftLine(_type));
             }
-
+            
             _raft.OnTileChanged += HandleTileChanged;
         }
 
@@ -107,7 +107,7 @@ namespace FishFlingers.Environments
         }
     }
 
-    // A line represents a span of cells along a point and axis
+    // A line represents a span of cells along a point and axis. They don't need tiles to exist
     public class RaftLine
     {
         private ERaftAxis _axis;
@@ -249,6 +249,9 @@ namespace FishFlingers.Environments
             return true;
         }
 
+        /// <summary>
+        /// Retrieves a random line that has tiles in it
+        /// </summary>
         public bool TryGetRandomLine(out RaftLine randomLine)
         {
             List<RaftLine> lines = ListPool<RaftLine>.Get();

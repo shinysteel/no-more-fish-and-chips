@@ -29,14 +29,14 @@ namespace FishFlingers.Entities
 
         private class State : State<EState, ENone>
         {
-            protected FlyingFish _flyingFish;
+            protected FlyingFish _fish;
 
             public State(StateMachine<EState> parent) : base(parent)
             { }
 
-            public void Initialise(FlyingFish flyingFish)
+            public void Initialise(FlyingFish fish)
             {
-                _flyingFish = flyingFish;
+                _fish = fish;
             }
         }
 
@@ -53,33 +53,33 @@ namespace FishFlingers.Entities
                 _scoutTimer = 0f;
 
                 // Choose a tile to target and a position to scout from
-                if (!_flyingFish._context.Raft.Queries.TryGetRandomTile(out _flyingFish._targetTile) 
-                    || !_flyingFish._context.Raft.Queries.TryGetClosestEdge(_flyingFish._targetTile.Cell, out RaftEdge edge))
+                if (!_fish._context.Raft.Queries.TryGetRandomTile(out _fish._targetTile) 
+                    || !_fish._context.Raft.Queries.TryGetClosestEdge(_fish._targetTile.Cell, out RaftEdge edge))
                 {
-                    _flyingFish._entityManager.Despawn(_flyingFish);
+                    _fish._entityManager.Despawn(_fish);
                     return;
                 }
 
                 int scoutOffset = 3;
-                _flyingFish.transform.position = _flyingFish._context.Raft.Queries.CellToWorldPosition(edge.Tile.Cell + edge.CellDirection * scoutOffset);
+                _fish.transform.position = _fish._context.Raft.Queries.CellToWorldPosition(edge.Tile.Cell + edge.CellDirection * scoutOffset);
 
                 // Rest slightly in the water
                 float restDistance = 0.05f;
-                _flyingFish.transform.position += Vector3.down * restDistance;
+                _fish.transform.position += Vector3.down * restDistance;
                 
                 // Face towards the raft, with a slight tilt up
                 float scoutTilt = 15f;
-                _flyingFish.transform.rotation = Quaternion.LookRotation(edge.WorldDirection);
-                _flyingFish.transform.rotation = Quaternion.AngleAxis(scoutTilt, _flyingFish.transform.right) * _flyingFish.transform.rotation;
+                _fish.transform.rotation = Quaternion.LookRotation(edge.WorldDirection);
+                _fish.transform.rotation = Quaternion.AngleAxis(scoutTilt, _fish.transform.right) * _fish.transform.rotation;
 
                 // Animate from underwater to surface
                 float surfaceDuration = 0.5f;
                 float surfaceDistance = 0.5f;
-                _flyingFish.transform.position += Vector3.down * surfaceDistance;
-                Tween.Position(_flyingFish.transform, _flyingFish.transform.position + Vector3.up * surfaceDistance, surfaceDuration, Ease.OutBack);
+                _fish.transform.position += Vector3.down * surfaceDistance;
+                Tween.Position(_fish.transform, _fish.transform.position + Vector3.up * surfaceDistance, surfaceDuration, Ease.OutBack);
 
                 // Place a marker
-                _flyingFish._tileMarkId = _flyingFish._context.TileMarker.AddNetMarkedCell(new NetTileMark(_flyingFish._targetTile.Cell, TileMarkShape.Single));
+                _fish._tileMarkId = _fish._context.TileMarker.AddNetMarkedCell(new NetTileMark(_fish._targetTile.Cell, TileMarkShape.Single));
             }
 
             public override void Tick()
@@ -87,7 +87,7 @@ namespace FishFlingers.Entities
                 _scoutTimer += Time.deltaTime;
 
                 // Scout for some time before attacking
-                if (_scoutTimer < _flyingFish.Data.ScoutDuration)
+                if (_scoutTimer < _fish.Data.ScoutDuration)
                 {
                     return;
                 }
@@ -119,25 +119,25 @@ namespace FishFlingers.Entities
                 Vector3 anticipateOffset = Vector3.down * 0.2f;
                 float anticipateDuration = 0.2f;
 
-                _anticipatePosition = _flyingFish.transform.position + anticipateOffset;
+                _anticipatePosition = _fish.transform.position + anticipateOffset;
 
                 // Match the launch angle
-                _anticipateRotation = Quaternion.AngleAxis(_flyingFish.Data.LaunchAngle, _flyingFish.transform.right) * _flyingFish.transform.rotation;
+                _anticipateRotation = Quaternion.AngleAxis(_fish.Data.LaunchAngle, _fish.transform.right) * _fish.transform.rotation;
 
                 // Anticipate with a small duck
                 Sequence.Create()
-                    .Group(Tween.Position(_flyingFish.transform, _anticipatePosition, anticipateDuration, Ease.OutQuad))
-                    .Group(TweenExtensions.Rotate(_flyingFish.transform, _anticipateRotation, anticipateDuration, Ease.OutQuad))
+                    .Group(Tween.Position(_fish.transform, _anticipatePosition, anticipateDuration, Ease.OutQuad))
+                    .Group(TweenExtensions.Rotate(_fish.transform, _anticipateRotation, anticipateDuration, Ease.OutQuad))
                     .OnComplete(() =>
                     {
                         _isAnticipating = false;
-                        _flyingFish.CharacterModel.Animator.SetBool(IsFlyingBoolName, true);
+                        _fish.CharacterModel.Animator.SetBool(IsFlyingBoolName, true);
                     });
 
-                _landPosition = _flyingFish._targetTile.transform.position;
+                _landPosition = _fish._targetTile.transform.position;
 
                 // Straight down
-                _landRotation = Quaternion.AngleAxis(-90f, _flyingFish.transform.right) * _flyingFish.transform.rotation;
+                _landRotation = Quaternion.AngleAxis(-90f, _fish.transform.right) * _fish.transform.rotation;
             }
             
             public override void Tick()
@@ -150,15 +150,15 @@ namespace FishFlingers.Entities
                 _flyTimer += Time.deltaTime;
 
                 // Interpolate from start to end
-                float time = _flyTimer / _flyingFish.Data.FlyDuration;
-                _flyingFish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, Physics.gravity.magnitude, _flyingFish.Data.LaunchAngle, time);
-                _flyingFish.transform.rotation = Quaternion.Slerp(_anticipateRotation, _landRotation, time);
+                float time = _flyTimer / _fish.Data.FlyDuration;
+                _fish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, Physics.gravity.magnitude, _fish.Data.LaunchAngle, time);
+                _fish.transform.rotation = Quaternion.Slerp(_anticipateRotation, _landRotation, time);
 
-                if (_flyTimer > _flyingFish.Data.FlyDuration)
+                if (_flyTimer > _fish.Data.FlyDuration)
                 {
-                    _flyingFish._context.Raft.ChangeNetTileHealth(_flyingFish._targetTile.Cell, -1);
+                    _fish._context.Raft.ChangeNetTileHealth(_fish._targetTile.Cell, -1);
 
-                    _flyingFish._entityManager.Despawn(_flyingFish);
+                    _fish._entityManager.Despawn(_fish);
                 }
             }
         }
