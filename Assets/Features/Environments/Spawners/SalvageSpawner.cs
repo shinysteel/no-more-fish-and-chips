@@ -8,6 +8,7 @@ using PurrNet.Transports;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
+using ShinyOwl.Common.Utils;
 using EntityId = FishFlingers.Entities.EntityId;
 
 namespace FishFlingers.Environments
@@ -78,12 +79,12 @@ namespace FishFlingers.Environments
             int minSpread = 3;
 
             float x = Random.Range(
-                (float)Mathf.Min(-minSpread, _context.Raft.Queries.Axes[ERaftAxis.Horizontal].MinAnchor), 
-                Mathf.Max(minSpread, _context.Raft.Queries.Axes[ERaftAxis.Horizontal].MaxAnchor));
+                (float)Mathf.Min(-minSpread, _context.Raft.Queries.Axes[Axis.Horizontal].MinIndex), 
+                Mathf.Max(minSpread, _context.Raft.Queries.Axes[Axis.Horizontal].MaxIndex));
 
             int forwardDist = 10;
 
-            int y = _context.Raft.Queries.Axes[ERaftAxis.Vertical].MaxAnchor + forwardDist;
+            int y = _context.Raft.Queries.Axes[Axis.Vertical].MaxIndex + forwardDist;
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(new Vector2(x, y));
 

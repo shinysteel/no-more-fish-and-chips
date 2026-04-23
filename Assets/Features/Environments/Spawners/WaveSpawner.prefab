@@ -54,4 +54,5 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _spawnInterval: 99999
+  _initialDelay: 1
   _prewarm: 1

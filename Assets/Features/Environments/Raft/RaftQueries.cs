@@ -1,46 +1,52 @@
+using FishFlingers.Entities;
+using FishFlingers.Networking;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
+using System;
+using System.Buffers;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using FishFlingers.Entities;
-using FishFlingers.Networking;
-using System.Collections;
 using UnityEngine.Pool;
-using System.Buffers;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace FishFlingers.Environments
 {
-    public enum ERaftAxis
-    {
-        Horizontal,
-        Vertical
-    }
-
+    /// <summary>
+    /// A RaftLine will be either horizontal or vertical. It contains a collection of RaftLines, and keeps
+    /// track of its bounds
+    /// </summary>
     public class RaftAxis
     {
         private Raft _raft;
-        private ERaftAxis _type;
+        private Axis _type;
         private Dictionary<int, RaftLine> _lines = new();
 
-        private int _minAnchor;
-        private int _maxAnchor;
+        public Axis Type => _type;
 
-        public int MinAnchor => _minAnchor;
-        public int MaxAnchor => _maxAnchor;
+        private int _minIndex;
+        private int _maxIndex;
+
+        public int MinIndex => _minIndex;
+        public int MaxIndex => _maxIndex;
 
         public IReadOnlyDictionary<int, RaftLine> Lines => _lines;
 
+        // An arbitrary value for how many lines we setup on each axix
         private const int DefaultLines = 20;
 
-        public RaftAxis(Raft raft, ERaftAxis type)
+        public RaftAxis(Raft raft, Axis type)
         {
             _raft = raft;
             _type = type;
 
             for (int i = 0; i < DefaultLines; i++)
             {
-                int anchor = i - DefaultLines / 2;
-                _lines.Add(anchor, new RaftLine(_type));
+                // Evenly distribute from negative to positive
+                int index = i - DefaultLines / 2;
+                _lines.Add(index, new RaftLine(this, index));
             }
             
             _raft.OnTileChanged += HandleTileChanged;
@@ -60,13 +66,12 @@ namespace FishFlingers.Environments
             UpdateBounds(cell, tile);
         }
 
-        // Maintains positional maps when SetTile is called
+        // Maintains positional maps when any Tile is changed
         private void UpdateLines(Vector2Int cell, Tile tile)
         {
-            int anchor = _type == ERaftAxis.Horizontal ? cell.y : cell.x;
-            int index = _type == ERaftAxis.Horizontal ? cell.x : cell.y;
+            int index = _type == Axis.Horizontal ? cell.y : cell.x;
 
-            if (!_lines.ContainsKey(anchor))
+            if (!_lines.ContainsKey(index))
             {
                 Log.Error($"No line exists for the cell {cell}");
                 return;
@@ -74,46 +79,90 @@ namespace FishFlingers.Environments
 
             if (tile != null)
             {
-                _lines[anchor].AddTile(tile);
+                _lines[index].AddTile(tile);
             }
             else
             {
-                _lines[anchor].RemoveTile(cell);
+                _lines[index].RemoveTile(cell);
             }
         }
 
-        // Recalculates boundaries when SetTile is called
+        // Recalculates boundaries when any Tile is changed
         private void UpdateBounds(Vector2Int cell, Tile tile)
         {
-            int anchor = _type == ERaftAxis.Horizontal ? cell.y : cell.x;
+            int index = _type == Axis.Horizontal ? cell.y : cell.x;
 
             if (tile != null)
             {
-                _minAnchor = Mathf.Min(_minAnchor, anchor);
-                _maxAnchor = Mathf.Max(_maxAnchor, anchor);
+                _minIndex = Mathf.Min(_minIndex, index);
+                _maxIndex = Mathf.Max(_maxIndex, index);
             }
             else
             {
-                if (_minAnchor == anchor && !_lines.ContainsKey(anchor))
+                if (_minIndex == index && !_lines.ContainsKey(index))
                 {
-                    _minAnchor = _lines.Keys.Min();
+                    _minIndex = _lines.Keys.Min();
                 }
 
-                if (_maxAnchor == anchor && !_lines.ContainsKey(anchor))
+                if (_maxIndex == index && !_lines.ContainsKey(index))
                 {
-                    _maxAnchor = _lines.Keys.Max();
+                    _maxIndex = _lines.Keys.Max();
                 }
             }
         }
+
+        // The AxisIndex is a stripped coordinate from a position - one that is relevant to this axis. For example,
+        // if this axis is Horizontal, the x-coordinate is relevant
+        public int GetAxisIndex(Vector2Int cell)
+        {
+            return _type == Axis.Horizontal ? Mathf.RoundToInt(cell.x) : Mathf.RoundToInt(cell.y);
+        }
+
+        public int GetAxisIndex(Vector3 position)
+        {
+            return GetAxisIndex(new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z)));
+        }
     }
 
-    // A line represents a span of cells along a point and axis. They don't need tiles to exist
+    /// <summary>
+    /// A context container for both a Tile and it's AxisIndex within a RaftLine
+    /// </summary>
+    public class RaftLineTile : IComparable<RaftLineTile>
+    {
+        private Tile _tile;
+        private RaftLine _line;
+        private int _axisIndex;
+
+        public Tile Tile => _tile;
+        public int AxisIndex => _axisIndex;
+
+        public RaftLineTile(Tile tile, RaftLine line)
+        {
+            _tile = tile;
+            _line = line;
+            _axisIndex = _line.RaftAxis.GetAxisIndex(_tile.Cell);
+        }
+
+        public int CompareTo(RaftLineTile other)
+        {
+            return _axisIndex.CompareTo(other._axisIndex);
+        }
+    }
+
+    /// <summary>
+    /// A RaftLine represents a span of cells along an index on an axis. It stores its ends
+    /// into the values '_minEdge' and '_maxEdge'
+    /// </summary>
     public class RaftLine
     {
-        private ERaftAxis _axis;
+        private RaftAxis _raftAxis;
+        public RaftAxis RaftAxis => _raftAxis;
 
-        private SortedSet<Tile> _tiles;
-        public IReadOnlyCollection<Tile> Tiles => _tiles;
+        private int _index;
+        public int Index => _index;
+
+        private SortedSet<RaftLineTile> _lineTiles;
+        public IReadOnlyCollection<RaftLineTile> LineTiles => _lineTiles;
 
         private RaftEdge _minEdge;
         private RaftEdge _maxEdge;
@@ -121,87 +170,84 @@ namespace FishFlingers.Environments
         public RaftEdge MinEdge => _minEdge;
         public RaftEdge MaxEdge => _maxEdge;
 
-        public RaftLine(ERaftAxis axis)
+        public RaftLine(RaftAxis axis, int index)
         {
-            _axis = axis;
+            _raftAxis = axis;
+            _index = index;
 
-            _tiles = new SortedSet<Tile>(Comparer<Tile>.Create((a, b) =>
-            {
-                if (_axis == ERaftAxis.Horizontal)
-                {
-                    return a.Cell.x.CompareTo(b.Cell.x);
-                }
-                else
-                {
-                    return a.Cell.y.CompareTo(b.Cell.y);
-                }
-            }));
+            _lineTiles = new();
         }
 
         public void AddTile(Tile tile)
         {
-            _tiles.Add(tile);
+            _lineTiles.Add(new RaftLineTile(tile, this));
 
             RefreshEdges();
         }
 
         public void RemoveTile(Vector2Int cell)
         {
-            _tiles.RemoveWhere(tile => tile.Cell == cell);
+            _lineTiles.RemoveWhere(tile => tile.Tile.Cell == cell);
 
             RefreshEdges();
         }
 
+        // Manual refresh when we know min and max are potentially dirty
         private void RefreshEdges()
         {
-            if (_tiles.Count == 0)
+            if (_lineTiles.Count == 0)
             {
                 _minEdge = null;
                 _maxEdge = null;
                 return;
             }
-            
-            _minEdge = new RaftEdge(_tiles.First(), _axis == ERaftAxis.Horizontal ? Vector2Int.left : Vector2Int.down);
-            _maxEdge = new RaftEdge(_tiles.Last(), _axis == ERaftAxis.Horizontal ? Vector2Int.right : Vector2Int.up);
+
+            RaftLineTile minLineTile = _lineTiles.First();
+            RaftLineTile maxLineTile = _lineTiles.Last();
+
+            _minEdge = new RaftEdge(minLineTile, _raftAxis.Type == Axis.Horizontal ? Direction.Left : Direction.Down);
+            _maxEdge = new RaftEdge(maxLineTile, _raftAxis.Type == Axis.Horizontal ? Direction.Right : Direction.Up);
         }
-    }
 
-    public class RaftEdge
-    {
-        private Tile _tile;
-        private Vector2Int _cellDirection;
-        private Vector3 _worldDirection;
-
-        public Tile Tile => _tile;
-        public Vector2Int CellDirection => _cellDirection;
-        public Vector3 WorldDirection => _worldDirection;
-
-        public RaftEdge(Tile tile, Vector2Int cellDirection)
+        public RaftEdge GetEdge(int direction)
         {
-            _tile = tile;
-            _cellDirection = cellDirection;
+            return direction < 0 ? _minEdge : _maxEdge;
+        }
 
-            // Convert 2d to 3d
-            if (_cellDirection == Vector2Int.up)
+        public RaftEdge GetRandomEdge()
+        {
+            return Random.value < 0.5f ? _minEdge : _maxEdge;
+        }
+
+        public RaftLineTile GetNextLineTile(int axisIndex, int direction)
+        {
+            if (direction < 0)
             {
-                _worldDirection = Vector3.forward;
-            }
-            else if (_cellDirection == Vector2Int.right)
-            {
-                _worldDirection = Vector3.right;
-            }
-            else if (_cellDirection == Vector2Int.down)
-            {
-                _worldDirection = Vector3.back;
-            }
-            else if (_cellDirection == Vector2Int.left)
-            {
-                _worldDirection = Vector3.left;
+                return _lineTiles.LastOrDefault(lineTile => lineTile.AxisIndex < axisIndex);
             }
             else
             {
-                _worldDirection = Vector3.zero;
+                return _lineTiles.FirstOrDefault(lineTile => lineTile.AxisIndex > axisIndex);
             }
+        }
+    }
+
+    /// <summary>
+    /// A RaftEdge captures information about a tile that at the time of creation was considered on
+    /// the edge of the raft. This simply means that the tile had either the smallest or biggest value in a RaftLine
+    /// </summary>
+    public class RaftEdge
+    {
+        private RaftLineTile _lineTile;
+        private Direction _direction;
+
+        public RaftLineTile LineTile => _lineTile;
+        public Direction Direction => _direction;
+
+        public RaftEdge(RaftLineTile lineTile, Direction direction)
+        {
+            _lineTile = lineTile;
+            _direction = direction;
         }
     }
 
@@ -209,16 +255,17 @@ namespace FishFlingers.Environments
     {
         private Raft _raft;
 
-        private Dictionary<ERaftAxis, RaftAxis> _axes = new();
+        // Axes is plural for axis
+        private Dictionary<Axis, RaftAxis> _axes = new();
 
-        public IReadOnlyDictionary<ERaftAxis, RaftAxis> Axes => _axes;
+        public IReadOnlyDictionary<Axis, RaftAxis> Axes => _axes;
 
         public RaftQueries(Raft raft)
         {
             _raft = raft;
 
-            _axes.Add(ERaftAxis.Horizontal, new RaftAxis(_raft, ERaftAxis.Horizontal));
-            _axes.Add(ERaftAxis.Vertical, new RaftAxis(_raft, ERaftAxis.Vertical));
+            _axes.Add(Axis.Horizontal, new RaftAxis(_raft, Axis.Horizontal));
+            _axes.Add(Axis.Vertical, new RaftAxis(_raft, Axis.Vertical));
         }
 
         // Uses Vector2 to allow for floating-point cells
@@ -229,7 +276,7 @@ namespace FishFlingers.Environments
 
         public Vector2Int WorldPositionToCell(Vector3 position)
         {
-            return new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
+            return new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
 
         /// <summary>
@@ -250,9 +297,9 @@ namespace FishFlingers.Environments
         }
 
         /// <summary>
-        /// Retrieves a random line that has tiles in it
+        /// Retrieves a random line that fulfills a coniditon
         /// </summary>
-        public bool TryGetRandomLine(out RaftLine randomLine)
+        public bool TryGetRandomLine(Func<RaftLine, bool> condition, out RaftLine randomLine)
         {
             List<RaftLine> lines = ListPool<RaftLine>.Get();
             List<RaftLine> candidates = ListPool<RaftLine>.Get();
@@ -266,9 +313,9 @@ namespace FishFlingers.Environments
 
             foreach (RaftLine line in lines)
             {
-                if (line.Tiles.Count > 0)
+                if (condition(line))
                 {
-                    candidates.Add(line);
+                    candidates.Add(line);   
                 }
             }
 
@@ -290,6 +337,40 @@ namespace FishFlingers.Environments
             }
         }
 
+        public bool TryGetRandomAdjacentLine(RaftLine targetLine, out RaftLine adjacentLine, out int adjacentDirection)
+        {
+            adjacentLine = null;
+            adjacentDirection = 0;
+
+            List<RaftLine> lines = ListPool<RaftLine>.Get();
+
+            try
+            {
+                // An index of +1 or -1 means the line is adjacent
+                for (int i = -1; i < 2; i += 2)
+                {
+                    if (targetLine.RaftAxis.Lines.TryGetValue(targetLine.Index + i, out RaftLine line))
+                    {
+                        lines.Add(line);
+                    }
+                }
+
+                if (lines.Count == 0)
+                {
+                    return false;
+                }
+
+                adjacentLine = lines[Random.Range(0, lines.Count)];
+                adjacentDirection = adjacentLine.Index < targetLine.Index ? -1 : 1;
+
+                return true;
+            }
+            finally
+            {
+                ListPool<RaftLine>.Release(lines);
+            }
+        }
+
         /// <summary>
         /// Finds the closest edge to a cell. Ties are resolved randomly
         /// </summary>
@@ -297,13 +378,13 @@ namespace FishFlingers.Environments
         {
             closestEdge = null;
 
-            if (!_axes[ERaftAxis.Horizontal].Lines.TryGetValue(cell.y, out RaftLine horizontalLine) 
-                || !_axes[ERaftAxis.Vertical].Lines.TryGetValue(cell.x, out RaftLine verticalLine))
+            if (!_axes[Axis.Horizontal].Lines.TryGetValue(cell.y, out RaftLine horizontalLine) 
+                || !_axes[Axis.Vertical].Lines.TryGetValue(cell.x, out RaftLine verticalLine))
             {
                 return false;
             }
 
-            if (horizontalLine.Tiles.Count == 0)
+            if (horizontalLine.LineTiles.Count == 0 || verticalLine.LineTiles.Count == 0)
             {
                 return false;
             }
@@ -316,10 +397,10 @@ namespace FishFlingers.Environments
                 verticalLine.MaxEdge
             };
 
-            int minDistance = edges.Min(edge => (cell - edge.Tile.Cell).sqrMagnitude);
+            int minDistance = edges.Min(edge => (cell - edge.LineTile.Tile.Cell).sqrMagnitude);
 
             closestEdge = edges
-                .Where(edge => (cell - edge.Tile.Cell).sqrMagnitude == minDistance)
+                .Where(edge => (cell - edge.LineTile.Tile.Cell).sqrMagnitude == minDistance)
                 .OrderBy(_ => Random.value)
                 .First();
 

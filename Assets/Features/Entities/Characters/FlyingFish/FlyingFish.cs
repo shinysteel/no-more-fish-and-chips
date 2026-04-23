@@ -43,8 +43,14 @@ namespace FishFlingers.Entities
         // Surface and scout a tile on the raft
         private class ScoutState : State
         {
-            private float _scoutTimer;
+            private int _scoutOffset = 3;
+            private float _restDistance = 0.05f;
+            private float _scoutTilt = 15f;
+            private float _surfaceDuration = 0.5f;
+            private float _surfaceDistance = 0.5f;
 
+            private float _scoutTimer;
+            
             public ScoutState(StateMachine<EState> parent) : base(parent)
             { }
 
@@ -60,23 +66,18 @@ namespace FishFlingers.Entities
                     return;
                 }
 
-                int scoutOffset = 3;
-                _fish.transform.position = _fish._context.Raft.Queries.CellToWorldPosition(edge.Tile.Cell + edge.CellDirection * scoutOffset);
+                _fish.transform.position = _fish._context.Raft.Queries.CellToWorldPosition(edge.LineTile.Tile.Cell + Utils.Math.DirectionToVector2Int(edge.Direction) * _scoutOffset);
 
                 // Rest slightly in the water
-                float restDistance = 0.05f;
-                _fish.transform.position += Vector3.down * restDistance;
+                _fish.transform.position += Vector3.down * _restDistance;
                 
                 // Face towards the raft, with a slight tilt up
-                float scoutTilt = 15f;
-                _fish.transform.rotation = Quaternion.LookRotation(edge.WorldDirection);
-                _fish.transform.rotation = Quaternion.AngleAxis(scoutTilt, _fish.transform.right) * _fish.transform.rotation;
+                _fish.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(edge.Direction));
+                _fish.transform.rotation = Quaternion.AngleAxis(_scoutTilt, _fish.transform.right) * _fish.transform.rotation;
 
                 // Animate from underwater to surface
-                float surfaceDuration = 0.5f;
-                float surfaceDistance = 0.5f;
-                _fish.transform.position += Vector3.down * surfaceDistance;
-                Tween.Position(_fish.transform, _fish.transform.position + Vector3.up * surfaceDistance, surfaceDuration, Ease.OutBack);
+                _fish.transform.position += Vector3.down * _surfaceDistance;
+                Tween.Position(_fish.transform, _fish.transform.position + Vector3.up * _surfaceDistance, _surfaceDuration, Ease.OutBack);
 
                 // Place a marker
                 _fish._tileMarkId = _fish._context.TileMarker.AddNetMarkedCell(new NetTileMark(_fish._targetTile.Cell, TileMarkShape.Single));

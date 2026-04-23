@@ -3,10 +3,59 @@ using UnityEngine;
 
 namespace ShinyOwl.Common.Utils
 {
+    public enum Axis
+    {
+        Horizontal,
+        Vertical
+    }
+
+    // Make sure this enum is clockwise, as methods like FlipDirection assume it as so
+    public enum Direction
+    {
+        Up,
+        Right,
+        Down,
+        Left
+    }
+
     public static partial class Utils
     {
         public static class Math
         {
+            public static Vector2Int DirectionToVector2Int(Direction direction)
+            {
+                return direction switch
+                {
+                    Direction.Up => Vector2Int.up,
+                    Direction.Right => Vector2Int.right,
+                    Direction.Down => Vector2Int.down,
+                    Direction.Left => Vector2Int.left,
+                    _ => Vector2Int.zero
+                };
+            }
+
+            public static Vector3 DirectionToVector3(Direction direction)
+            {
+                return direction switch
+                {
+                    Direction.Up => Vector3.forward,
+                    Direction.Right => Vector3.right,
+                    Direction.Down => Vector3.back,
+                    Direction.Left => Vector3.left,
+                    _ => Vector3.zero
+                };
+            }
+
+            public static Direction FlipDirection(Direction direction)
+            {
+                return (Direction)EuclideanModulo((int)direction + 2, 4);
+            }
+
+            public static Direction PerpendicularDirection(Direction direction, bool clockwise)
+            {
+                return (Direction)EuclideanModulo((int)direction + (clockwise ? 1 : -1), 4);
+            }
+
             public static int EuclideanModulo(int dividend, int modulus)
             {
                 int remainder = dividend % modulus;
