@@ -7,6 +7,7 @@ using PrimeTween;
 using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common;
 using FishFlingers.Effects;
+using FishFlingers.Hitboxes;
 
 namespace FishFlingers.Entities
 {
@@ -157,7 +158,8 @@ namespace FishFlingers.Entities
 
                 if (_flyTimer > _fish.Data.FlyDuration)
                 {
-                    _fish._context.Raft.ChangeNetTileHealth(_fish._targetTile.Cell, -1);
+                    Hitbox hitbox = _fish._poolManager.GetPoolable<Hitbox>(new SpawnParams() { Position = _fish._targetTile.transform.position });
+                    hitbox.Initialise(_fish.Data.ImpactHitboxData);
 
                     _fish._entityManager.Despawn(_fish);
                 }

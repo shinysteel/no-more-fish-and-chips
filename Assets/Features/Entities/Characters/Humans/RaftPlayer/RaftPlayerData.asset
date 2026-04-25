@@ -16,8 +16,9 @@ MonoBehaviour:
   _nameTerm: 814387201
   _descriptionTerm: 1347063821
   _sprite: {fileID: 21300000, guid: 4d5437e4103caf0479f3fe3a36805b12, type: 3}
-  _health: 3
+  _health: 100
   _alliance: 0
+  _dropTables: []
   _characterDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}
   _characterPhysicsSettings: {fileID: 11400000, guid: 1cb918813fdeea64ba84e4ef6eb1ffb8, type: 2}
   _interactSettings: {fileID: 11400000, guid: da84a5b8bf687604b84d0bb4818d2391, type: 2}

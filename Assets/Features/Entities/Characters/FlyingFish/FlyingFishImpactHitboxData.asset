@@ -10,28 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6c0829d1599f28418a14f0b5f8d89a9, type: 3}
-  m_Name: RaftPlayerAttackHitboxData
+  m_Name: FlyingFishImpactHitboxData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Hitboxes.HitboxData
   _damage: 1
-  _knockbackForceStrength: 20
-  _knockbackTorqueStrength: 0.25
-  _alliance: 0
+  _knockbackForceStrength: 1
+  _knockbackTorqueStrength: 0.5
+  _alliance: 1
   _steps:
-  - _shape: 1
-    _offset: {x: 0, y: 0.25, z: 0}
-    _size: {x: 1, y: 1, z: 1}
-    _radius: 0.33
+  - _shape: 0
+    _offset: {x: 0, y: 0, z: 0}
+    _size: {x: 0.99, y: 0.99, z: 0.99}
+    _radius: 0
     _startTime: 0
     _duration: 0.1
-  - _shape: 1
-    _offset: {x: 0, y: 0.5, z: 0.66}
-    _size: {x: 1, y: 1, z: 1}
-    _radius: 0.5
-    _startTime: 0
-    _duration: 0.1
-  - _shape: 1
-    _offset: {x: 0, y: 1.25, z: 0.66}
-    _size: {x: 1, y: 1, z: 1}
-    _radius: 0.3
-    _startTime: 0.1
-    _duration: 0.2

@@ -25,3 +25,4 @@ MonoBehaviour:
   _scoutDuration: 1.5
   _flyDuration: 1.25
   _launchAngle: 75
+  _impactHitboxData: {fileID: 11400000, guid: 4237e9e1fb991bc4b88a5900687465e3, type: 2}

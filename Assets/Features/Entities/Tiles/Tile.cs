@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
+using FishFlingers.States;
 
 namespace FishFlingers.Entities
 {
@@ -37,6 +38,11 @@ namespace FishFlingers.Entities
 
             _material = _meshRenderer.material;
         }
+        
+        protected override void HealthModuleSetter(int health)
+        {
+            _context.Raft.SetNetTileHealth(_cell, health);
+        }
 
         public override void OnTakenFromPool()
         {
@@ -49,9 +55,9 @@ namespace FishFlingers.Entities
 
         public override void OnReturnedToPool()
         {
-            _cell = Vector2Int.one * int.MinValue;
-
             _healthModule.OnChanged -= HandleHealthChanged;
+
+            _cell = Vector2Int.one * int.MinValue;
 
             base.OnReturnedToPool();
         }

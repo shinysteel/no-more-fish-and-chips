@@ -100,14 +100,9 @@ namespace FishFlingers.Environments
 
         // No tile param is good here, since it lets callers request to damage a cell without having to worry
         // if it exists anymore
-        public void ChangeNetTileHealth(Vector2Int cell, int change)
+        public void SetNetTileHealth(Vector2Int cell, int health)
         {
             if (!isOwner)
-            {
-                return;
-            }
-
-            if (change == 0)
             {
                 return;
             }
@@ -117,7 +112,12 @@ namespace FishFlingers.Environments
                 return;
             }
 
-            netTile.SetHealth(netTile.Health + change);
+            if (netTile.Health == health)
+            {
+                return;
+            }
+
+            netTile.SetHealth(health);
 
             if (netTile.Health > 0)
             {
@@ -189,7 +189,7 @@ namespace FishFlingers.Environments
 
             Tile tile = _tiles[cell];
 
-            tile.HealthModule.SetHealth(netTile.Health);
+            tile.SetHealth(netTile.Health);
             tile.SetCell(cell);
             tile.SetRotations(netTile.Rotations);
             tile.SetStructure(netTile.Structure);

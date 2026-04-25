@@ -2,6 +2,7 @@ using FishFlingers.Environments;
 using FishFlingers.Networking;
 using FishFlingers.Pools;
 using FishFlingers.States;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -15,6 +16,11 @@ namespace FishFlingers.Entities
         public virtual void Initialise(GameplayContext context)
         {
             _context = context;
+            
+            if (_networkManager.IsServer)
+            {
+                _healthModule.SetHealth(_entityData.Health);
+            }
         }
 
         [SerializeField] protected EntityData _entityData;
@@ -23,7 +29,7 @@ namespace FishFlingers.Entities
         [SerializeField] protected EntityModel _entityModel;
         public EntityModel EntityModel => _entityModel;
 
-        private int _currentHealth;
+        protected int _currentHealth;
 
         protected EntityHealthModule _healthModule;
 
@@ -55,21 +61,25 @@ namespace FishFlingers.Entities
             _entityManager = GameManager.Instance.Get<EntityManager>();
         }
 
+        protected abstract void HealthModuleSetter(int health);
+
+        public void SetHealth(int health)
+        {
+            if (_currentHealth == health)
+            {
+                return;
+            }
+
+            int previous = _currentHealth;
+            _currentHealth = health;
+            _healthModule.RaiseChanged(previous, _currentHealth);
+        }
+
         public virtual void OnTakenFromPool()
         {
             _healthModule = new EntityHealthModule(this,
                 getter: () => _currentHealth,
-                setter: (int health) =>
-                {
-                    int previous = _currentHealth;
-                    _currentHealth = health;
-                    _healthModule.RaiseChanged(previous, _currentHealth);
-                });
-
-            if (_networkManager.IsServer)
-            {
-                _healthModule.SetHealth(_entityData.Health);
-            }
+                setter: HealthModuleSetter);
 
             _entityManager.RaiseNetEntitySpawned(this);
         }
