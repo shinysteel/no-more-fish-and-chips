@@ -14,6 +14,8 @@ namespace FishFlingers.Entities
 
         private ItemModel _heldModel;
 
+        public ItemModel HeldModel => _heldModel;
+
         public RaftPlayerHeldInventoryItemLogic(RaftPlayer player)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();

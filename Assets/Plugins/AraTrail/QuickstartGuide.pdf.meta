@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a0a39814c08724633b92904f24371cbe
+timeCreated: 1508403416
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 102638
+  packageName: Ara Trails
+  packageVersion: 1.5.3
+  assetPath: Assets/AraTrail/QuickstartGuide.pdf
+  uploadId: 602908

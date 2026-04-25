@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 369c67612262b4dfea59a217ba976d3e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 102638
+  packageName: Ara Trails
+  packageVersion: 1.5.3
+  assetPath: Assets/AraTrail/HelperScripts/BakeTrail.cs
+  uploadId: 602908

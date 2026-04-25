@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace ShinyOwl.Common
 {
-    public class AnimateEvent
+    public class AnimateEvent : IComparable<AnimateEvent>
     {
         private float _normalisedTime;
         private Action _method;
@@ -22,7 +22,12 @@ namespace ShinyOwl.Common
 
         public void SetNormalisedTime(float time)
         {
-            _normalisedTime = time;
+            _normalisedTime = Mathf.Clamp(time, 0f, 1f);
+        }
+
+        public int CompareTo(AnimateEvent other)
+        {
+            return _normalisedTime.CompareTo(other._normalisedTime);
         }
     }
 
@@ -45,23 +50,11 @@ namespace ShinyOwl.Common
             _events.Add(animateEvent);
         }
 
-        public AnimateEvents()
-        {
-            // Only accept valid values for normalised time
-            for (int i = 0; i < _events.Count; i++)
-            {
-                _events[i].SetNormalisedTime(Mathf.Clamp(_events[i].NormalisedTime, 0f, 1f));
-            }
-
-            // Ensure the collection is in ascending order
-            _events.Sort((a, b) =>
-            {
-                return a.NormalisedTime.CompareTo(b.NormalisedTime);
-            });
-        }
-
         public async Task PlayAsync(Animator animator, int layerIndex, string stateName)
         {
+            // Ensure the collection is in ascending order
+            _events.Sort();
+
             // Wait until the desired state is active
             while (!animator.GetCurrentAnimatorStateInfo(layerIndex).IsName(stateName))
             {

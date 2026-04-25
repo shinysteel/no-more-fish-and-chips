@@ -1,15 +1,16 @@
 using FishFlingers.Entities;
 using UnityEngine;
 using FishFlingers.Networking;
+using ShinyOwl.Common;
 
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 using EntityId = FishFlingers.Entities.EntityId;
-using ShinyOwl.Common;
 
 namespace FishFlingers.Environments
 {
     public class WaveSpawner : GameplayBehaviour
     {
+        [SerializeField] private EntityId _entityId;
         [SerializeField] private float _spawnInterval = 2.5f;
         [SerializeField] private float _initialDelay = 1f;
         [SerializeField] private bool _prewarm;
@@ -61,7 +62,7 @@ namespace FishFlingers.Environments
 
         private void Spawn()
         {
-            _entityManager.Spawn(EntityId.Shark, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+            _entityManager.Spawn(_entityId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
         }
     }
 }

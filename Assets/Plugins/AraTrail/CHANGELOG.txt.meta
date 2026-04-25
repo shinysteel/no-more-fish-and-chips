@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cf81d3e237d2449bd808c05078ad598e
+timeCreated: 1520360702
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 102638
+  packageName: Ara Trails
+  packageVersion: 1.5.3
+  assetPath: Assets/AraTrail/CHANGELOG.txt
+  uploadId: 602908

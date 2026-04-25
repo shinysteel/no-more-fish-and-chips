@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: b950e038d44bf4dd5bb7675161554ed5
+timeCreated: 1548852241
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 102638
+  packageName: Ara Trails
+  packageVersion: 1.5.3
+  assetPath: Assets/AraTrail/TrailSection.cs
+  uploadId: 602908

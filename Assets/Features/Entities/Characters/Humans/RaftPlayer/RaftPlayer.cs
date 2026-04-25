@@ -47,6 +47,7 @@ namespace FishFlingers.Entities
         public RaftPlayerGrabbedInventoryItemLogic GrabbedInventoryItemLogic => _grabbedInventoryItemLogic;
         public RaftPlayerDropInventoryItemLogic DropInventoryItemLogic => _dropInventoryItemLogic;
         public RaftPlayerAnimateLogic AnimateLogic => _animateLogic;
+        public RaftPlayerHeldInventoryItemLogic HeldInventoryItemLogic => _heldInventoryItemLogic;
         public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => _openNetBehaviourLogic;
         public RaftPlayerAttackLogic AttackLogic => _attackLogic;
         public RaftPlayerTileTargetLogic TileTargetLogic => _tileTargetLogic;

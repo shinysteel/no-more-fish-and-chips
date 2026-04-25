@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4b63e8d7032e442e0bbc11833ab79249
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 102638
+  packageName: Ara Trails
+  packageVersion: 1.5.3
+  assetPath: Assets/AraTrail/ElasticArray.cs
+  uploadId: 602908

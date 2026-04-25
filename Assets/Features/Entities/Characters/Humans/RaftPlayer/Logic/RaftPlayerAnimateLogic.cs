@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using PrimeTween;
 using ShinyOwl.Common;
+using FishFlingers.Items;
 
 namespace FishFlingers.Entities
 {
@@ -37,6 +38,10 @@ namespace FishFlingers.Entities
 
         public async Task AttackAsync(AnimateEvents events)
         {
+            ItemModel heldModel = _player.HeldInventoryItemLogic.HeldModel;
+            events.Add(new AnimateEvent(0.3f, () => heldModel?.SetTrailEmitting(true)));
+            events.Add(new AnimateEvent(0.7f, () => heldModel?.SetTrailEmitting(false)));
+
             _ = events.PlayAsync(_player.CharacterModel.Animator, (int)Layer.Base, AttackStateName);
 
             _player.CharacterModel.SetTrigger(AttackTriggerName);
@@ -53,6 +58,8 @@ namespace FishFlingers.Entities
             {
                 await Task.Yield();
             }
+
+            heldModel?.SetTrailEmitting(false);
 
             _player.CharacterModel.Animator.SetBool(IsAttackingBoolName, false);
         }
