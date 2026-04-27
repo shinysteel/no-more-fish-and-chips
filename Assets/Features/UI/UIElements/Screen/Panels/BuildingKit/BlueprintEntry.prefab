@@ -73,15 +73,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5921569, g: 0.5411765, b: 0.48235294, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 1830564085, guid: 277e6c4d04ad863488c1e939265922c7, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.25
 --- !u!1 &1971885336522233842
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,14 +293,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5921569, g: 0.5411765, b: 0.48235294, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1830564085, guid: 277e6c4d04ad863488c1e939265922c7, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2.5
+  m_PixelsPerUnitMultiplier: 0.25
 --- !u!114 &1815904049326188500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,14 +526,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.6313726, b: 0.6, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5177388603050735206, guid: 71ebafeef3c03457483266a33ab2b270, type: 3}
+  m_Sprite: {fileID: -828750132, guid: 277e6c4d04ad863488c1e939265922c7, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 2.5
+  m_PixelsPerUnitMultiplier: 0.25
 --- !u!114 &9011402309724059247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,28 +635,20 @@ PrefabInstance:
       value: GUID:d9e39116b1d7da44cb372bb0a7690eea
       objectReference: {fileID: 0}
     - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
-      propertyPath: m_Type
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1054548083, guid: 277e6c4d04ad863488c1e939265922c7, type: 3}
+    - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+      propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -5177388603050735206, guid: 71ebafeef3c03457483266a33ab2b270, type: 3}
-    - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
-      propertyPath: m_Color.b
-      value: 0.77254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_Color.g
-      value: 0.7490196
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_Color.r
-      value: 0.3137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 7194506474341024424, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
-      propertyPath: m_PixelsPerUnitMultiplier
-      value: 2.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7533406780845403877, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_text

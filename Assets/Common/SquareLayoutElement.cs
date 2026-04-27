@@ -8,7 +8,7 @@ namespace ShinyOwl.Common
     public class SquareLayoutElement : MonoBehaviour, ILayoutElement
     {
         [SerializeField] private RectTransform _rectTransform;
-        
+
         public void CalculateLayoutInputHorizontal()
         { }
 
@@ -16,28 +16,16 @@ namespace ShinyOwl.Common
         { }
 
         public float minWidth => -1;
-        public float preferredWidth
-        {
-            get
-            {
-                float height = LayoutUtility.GetPreferredHeight(_rectTransform);
 
-                if (height <= 0)
-                {
-                    height = _rectTransform.rect.height;
-                }
+        public float preferredWidth => _rectTransform?.rect.height ?? -1;
 
-                return height;
-            }
-        }
+        public float flexibleWidth => 0f;
 
-        public float flexibleWidth => 0;
+        public float minHeight => -1f;
 
-        public float minHeight => -1;
+        public float preferredHeight => -1f;
 
-        public float preferredHeight => -1;
-
-        public float flexibleHeight => -1;
+        public float flexibleHeight => -1f;
 
         public int layoutPriority => 1;
     }
