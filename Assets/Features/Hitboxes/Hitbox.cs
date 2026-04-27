@@ -45,7 +45,7 @@ namespace FishFlingers.Hitboxes
 
             StepUpdate();
 
-            if (_timer >= _data.Duration)
+            if (_timer >= _data.HitboxDuration)
             {
                 _poolManager.ReturnPoolable(this);
             }
@@ -100,6 +100,11 @@ namespace FishFlingers.Hitboxes
                     torqueDirection.Normalize();
                     torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
                     entity.AddTorque(torqueDirection * _data.KnockbackTorqueStrength);
+
+                    if (entity is Character character)
+                    {
+                        character.StunRpc(_data.StunDuration);
+                    }
 
                     _hitEntities.Add(entity);
                 }

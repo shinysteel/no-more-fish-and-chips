@@ -15,6 +15,7 @@ MonoBehaviour:
   _damage: 1
   _knockbackForceStrength: 20
   _knockbackTorqueStrength: 0.25
+  _stunDuration: 0.5
   _alliance: 0
   _steps:
   - _shape: 1

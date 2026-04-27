@@ -12,17 +12,19 @@ namespace FishFlingers.Hitboxes
         [SerializeField] private int _damage = 1;
         [SerializeField] private float _knockbackForceStrength = 1f;
         [SerializeField] private float _knockbackTorqueStrength = 0.5f;
+        [SerializeField] private float _stunDuration = 0.2f;
         [SerializeField] private EntityAlliance _alliance = EntityAlliance.Ally;
         [SerializeField] private HitboxStep[] _steps = new HitboxStep[0];
 
         public int Damage => _damage;
         public float KnockbackForceStrength => _knockbackForceStrength;
         public float KnockbackTorqueStrength => _knockbackTorqueStrength;
+        public float StunDuration => _stunDuration;
         public EntityAlliance Alliance => _alliance;
         public HitboxStep[] Steps => _steps;
 
         // We don't cache this since it's nice to have it update in realtime while editing
-        public float Duration => _steps.Max(step => step.StartTime + step.Duration);
+        public float HitboxDuration => _steps.Max(step => step.StartTime + step.Duration);
     }
 
     [Serializable]

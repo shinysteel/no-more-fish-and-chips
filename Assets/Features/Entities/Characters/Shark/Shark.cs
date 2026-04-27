@@ -105,6 +105,11 @@ namespace FishFlingers.Entities
             
             public override void Tick()
             {
+                if (_shark._stunLogic.IsStunned)
+                {
+                    return;
+                }
+
                 // Retrieve the next nodes in the lines
                 int axisIndex = _shark._targetLines[0].RaftAxis.WorldPositionToAxisIndex(_shark.transform.position);
                 for (int i = 0; i < _shark._targetLines.Length; i++)
@@ -152,8 +157,12 @@ namespace FishFlingers.Entities
         /// </summary>
         private class BiteState : State
         {
-            private float _biteTimer = 0f;
-            private float _biteInterval = 2.5f;
+            private float _biteTimer;
+            private float _biteInterval = 3f;
+
+            private float _cooldownTimer;
+            private float _cooldownDuration = 0.5f;
+
             private float _tweenDuration = 0.5f;
 
             private Vector3 _startPosition;
@@ -167,6 +176,8 @@ namespace FishFlingers.Entities
 
             public override void Enter()
             {
+                _cooldownTimer = _cooldownDuration;
+
                 _startPosition = _shark.transform.position;
                 _startRotation = _shark.transform.rotation;
 
@@ -176,12 +187,20 @@ namespace FishFlingers.Entities
                 TweenExtensions.Rotation(_shark.transform, endValue: _shark.transform.rotation * Quaternion.AngleAxis(-30f, Vector3.right), duration: _tweenDuration, ease: Ease.OutQuad);
 
                 _shark.CharacterModel.Animator.SetBool(IsBitingBoolName, true);
+
             }
 
             public override void Tick()
             {
                 if (_transitionSequence.isAlive)
                 {
+                    return;
+                }
+
+                if (_shark._stunLogic.IsStunned)
+                {
+                    RemoveMarker();
+                    _biteTimer = 0f;
                     return;
                 }
 
@@ -199,7 +218,14 @@ namespace FishFlingers.Entities
 
                     if (tiles.Count == 0)
                     {
+                        RemoveMarker();
                         TransitionToSwim();
+                        return;
+                    }
+
+                    if (_cooldownTimer < _cooldownDuration)
+                    {
+                        _cooldownTimer += Time.deltaTime;
                         return;
                     }
 
@@ -207,19 +233,21 @@ namespace FishFlingers.Entities
 
                     _markerId ??= _shark._context.EnvironmentMarker.AddNetMarkedCells(_shark._targetLines.Select(line => line.AxisIndexToCell(axisIndex + 1 * _shark._swimDirectionFlat)).ToArray());                    
 
-                    _biteTimer += Time.deltaTime;
-
                     if (_biteTimer < _biteInterval)
                     {
+                        _biteTimer += Time.deltaTime;
                         return;
                     }
 
+                    _cooldownTimer -= _cooldownDuration;
                     _biteTimer -= _biteInterval;
 
                     Vector3 hitboxDirection = Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
                     Vector3 hitboxPosition = _shark._targetLines[0].AxisIndexToWorldPosition(axisIndex) + _shark._shiftDirection * Tile.Size * 0.5f + hitboxDirection;
                     Hitbox hitbox = _shark._poolManager.GetPoolable<Hitbox>(new SpawnParams() { Position = hitboxPosition, Rotation = Quaternion.LookRotation(hitboxDirection, Vector3.up) });
                     hitbox.Initialise(_shark.Data.BiteHitboxData);
+
+                    RemoveMarker();
                 }
                 finally
                 {
@@ -238,6 +266,13 @@ namespace FishFlingers.Entities
             }
 
             public override void Exit()
+            {
+                RemoveMarker();
+
+                _biteTimer = 0f;
+            }
+
+            private void RemoveMarker()
             {
                 if (_markerId.HasValue)
                 {

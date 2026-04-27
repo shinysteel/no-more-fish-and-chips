@@ -1,4 +1,5 @@
 using PrimeTween;
+using PurrNet;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -14,6 +15,7 @@ namespace FishFlingers.Entities
         private CharacterRagdollLogic _ragdollLogic;
         protected CharacterPhysicsLogic _physicsLogic;
         protected CharacterDefeatLogic _defeatLogic;
+        protected CharacterStunLogic _stunLogic;
 
         public CharacterRagdollLogic RagdollLogic => _ragdollLogic;
         public CharacterPhysicsLogic PhysicsLogic => _physicsLogic;
@@ -27,19 +29,21 @@ namespace FishFlingers.Entities
 
             _defeatLogic = new CharacterDefeatLogic(this);
 
-            _healthModule.OnChanged += HandleHealthChangned;
+            _stunLogic = new CharacterStunLogic();
+
+            _healthModule.OnChanged += HandleHealthChanged;
 
             base.OnSpawned();
         }
 
         protected override void OnDespawned()
         {
-            _healthModule.OnChanged -= HandleHealthChangned;
+            _healthModule.OnChanged -= HandleHealthChanged;
 
             base.OnDespawned();
         }
 
-        private void HandleHealthChangned(int previous, int current)
+        private void HandleHealthChanged(int previous, int current)
         {
             if (current == 0)
             {
@@ -63,9 +67,10 @@ namespace FishFlingers.Entities
             {
                 return;
             }
-
+            
             _defeatLogic.Tick();
             _physicsLogic.Tick();
+            _stunLogic.Tick();
         }
 
         protected virtual void FixedUpdate()
@@ -81,6 +86,12 @@ namespace FishFlingers.Entities
             }
 
             _physicsLogic.FixedTick();
+        }
+
+        [ServerRpc]
+        public void StunRpc(float duration)
+        {
+            _stunLogic.Stun(duration);
         }
     }
 
