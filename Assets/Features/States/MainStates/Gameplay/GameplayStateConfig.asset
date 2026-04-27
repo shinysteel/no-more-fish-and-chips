@@ -15,5 +15,5 @@ MonoBehaviour:
   _raftPrefab: {fileID: 7063333984185181477, guid: 8e771b24d3280c34ca31d8e8f161fad4, type: 3}
   _waveSpawnerPrefab: {fileID: 6021264650511489451, guid: e59782811f70e184b97633ac1595d6ec, type: 3}
   _salvageSpawnerPrefab: {fileID: 4139656734816785391, guid: 066dc7468a41ebe48a7ca1cd9051b5ea, type: 3}
-  _tileMarkerPrefab: {fileID: 7166746487624367632, guid: 0154e4c902415144fbbef2046d81d0da, type: 3}
+  _environmentMarkerPrefab: {fileID: 7166746487624367632, guid: 0154e4c902415144fbbef2046d81d0da, type: 3}
   _gameplayEnvironmentPrefab: {fileID: 4294853613717333526, guid: 6c78b54fc11a2cb44a90472645486151, type: 3}

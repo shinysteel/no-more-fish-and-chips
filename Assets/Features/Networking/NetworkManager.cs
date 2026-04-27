@@ -94,7 +94,7 @@ namespace FishFlingers.Networking
             PackCollections.RegisterDictionary<Vector2Int, NetInventorySlot>();
             PackCollections.RegisterDictionary<string, NetInventoryItem>();
             PackCollections.RegisterDictionary<Vector2Int, Structure>();
-            PackCollections.RegisterDictionary<int, NetTileMark>();
+            PackCollections.RegisterDictionary<int, Vector2Int[]>();
             
             base.Initialise(config);
         }

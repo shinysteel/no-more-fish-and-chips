@@ -159,7 +159,9 @@ namespace FishFlingers.Entities
             private Vector3 _startPosition;
             private Quaternion _startRotation;
             private Sequence _transitionSequence;
-            
+
+            private int? _markerId;
+
             public BiteState(StateMachine<EState> parent) : base(parent)
             { }
 
@@ -201,6 +203,10 @@ namespace FishFlingers.Entities
                         return;
                     }
 
+                    int axisIndex = _shark._targetLines[0].RaftAxis.WorldPositionToAxisIndex(_shark.transform.position);
+
+                    _markerId ??= _shark._context.EnvironmentMarker.AddNetMarkedCells(_shark._targetLines.Select(line => line.AxisIndexToCell(axisIndex + 1 * _shark._swimDirectionFlat)).ToArray());                    
+
                     _biteTimer += Time.deltaTime;
 
                     if (_biteTimer < _biteInterval)
@@ -210,7 +216,6 @@ namespace FishFlingers.Entities
 
                     _biteTimer -= _biteInterval;
 
-                    int axisIndex = _shark._targetLines[0].RaftAxis.WorldPositionToAxisIndex(_shark.transform.position);
                     Vector3 hitboxDirection = Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
                     Vector3 hitboxPosition = _shark._targetLines[0].AxisIndexToWorldPosition(axisIndex) + _shark._shiftDirection * Tile.Size * 0.5f + hitboxDirection;
                     Hitbox hitbox = _shark._poolManager.GetPoolable<Hitbox>(new SpawnParams() { Position = hitboxPosition, Rotation = Quaternion.LookRotation(hitboxDirection, Vector3.up) });
@@ -230,6 +235,15 @@ namespace FishFlingers.Entities
                 _transitionSequence.Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration));
                 _transitionSequence.Group(TweenExtensions.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: Ease.OutQuad));
                 _transitionSequence.OnComplete(() => _parentStateMachine.ChangeState(EState.Swim));
+            }
+
+            public override void Exit()
+            {
+                if (_markerId.HasValue)
+                {
+                    _shark._context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
+                    _markerId = null;
+                }
             }
         }
 

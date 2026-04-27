@@ -17,7 +17,7 @@ namespace FishFlingers.Entities
 
         private Tile _targetTile;
 
-        private int _tileMarkId = -1;
+        private int? _markerId;
 
         private const string IsFlyingBoolName = "IsFlying";
 
@@ -81,7 +81,7 @@ namespace FishFlingers.Entities
                 Tween.Position(_fish.transform, _fish.transform.position + Vector3.up * _surfaceDistance, _surfaceDuration, Ease.OutBack);
 
                 // Place a marker
-                _fish._tileMarkId = _fish._context.TileMarker.AddNetMarkedCell(new NetTileMark(_fish._targetTile.Cell, TileMarkShape.Single));
+                _fish._markerId = _fish._context.EnvironmentMarker.AddNetMarkedCells(_fish._targetTile.Cell);
             }
 
             public override void Tick()
@@ -227,10 +227,10 @@ namespace FishFlingers.Entities
         {
             _targetTile = null;
 
-            if (_tileMarkId >= 0)
+            if (_markerId.HasValue)
             {
-                _context.TileMarker.RemoveNetMarkedCell(_tileMarkId);
-                _tileMarkId = -1;
+                _context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
+                _markerId = null;
             }
 
             CharacterModel.Animator.SetBool(IsFlyingBoolName, false);
