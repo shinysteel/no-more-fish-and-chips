@@ -99,6 +99,7 @@ namespace FishFlingers.Entities
         private class SwimState : State
         {
             private float _swimSpeed = 0.5f;
+            private float _despawnDistance = 10f;
 
             public SwimState(StateMachine<EState> parent) : base(parent)
             { }
@@ -120,6 +121,12 @@ namespace FishFlingers.Entities
                 // Move to the next node from either line, and stop in front of it. If there is nno next node, keep swimming forward
                 Vector3 targetPosition = GetTargetPosition(axisIndex);
                 _shark.transform.position = Vector3.MoveTowards(_shark.transform.position, targetPosition, _swimSpeed * Time.deltaTime);
+                
+                if (_shark.transform.position.magnitude > _despawnDistance)
+                {
+                    _shark._entityManager.Despawn(_shark);
+                    return;
+                }
 
                 // When close enough, move to bite state
                 if (Vector3.Distance(_shark.transform.position, targetPosition) < 0.01f)
@@ -134,7 +141,7 @@ namespace FishFlingers.Entities
                     .Where(node => node != null)
                     .OrderBy(node => Mathf.Abs(node.AxisIndex - axisIndex))
                     .FirstOrDefault();
-
+                
                 Tile closestTile = null;
                 if (closestNode != null)
                 {
@@ -142,10 +149,9 @@ namespace FishFlingers.Entities
                 }
 
                 Vector3 targetPosition = closestTile != null
-                    ? closestTile.transform.position - Utils.Math.DirectionToVector3(_shark._swimDirectionEnum)
-                    : Utils.Math.DirectionToVector3(_shark._swimDirectionEnum) * RaftAxis.DefaultLines;
+                    ? closestTile.transform.position - Utils.Math.DirectionToVector3(_shark._swimDirectionEnum) + _shark._shiftDirection * Tile.Size * 0.5f
+                    : _shark.transform.position + Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
 
-                targetPosition += _shark._shiftDirection * Tile.Size * 0.5f;
                 targetPosition.y = _shark.transform.position.y;
 
                 return targetPosition;
@@ -161,7 +167,7 @@ namespace FishFlingers.Entities
             private float _biteInterval = 3f;
 
             private float _cooldownTimer;
-            private float _cooldownDuration = 0.5f;
+            private float _cooldownDuration = 1f;
 
             private float _tweenDuration = 0.5f;
 
@@ -200,6 +206,7 @@ namespace FishFlingers.Entities
                 if (_shark._stunLogic.IsStunned)
                 {
                     RemoveMarker();
+                    _cooldownTimer = 0f;
                     _biteTimer = 0f;
                     return;
                 }
@@ -265,13 +272,6 @@ namespace FishFlingers.Entities
                 _transitionSequence.OnComplete(() => _parentStateMachine.ChangeState(EState.Swim));
             }
 
-            public override void Exit()
-            {
-                RemoveMarker();
-
-                _biteTimer = 0f;
-            }
-
             private void RemoveMarker()
             {
                 if (_markerId.HasValue)
@@ -279,6 +279,13 @@ namespace FishFlingers.Entities
                     _shark._context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
                     _markerId = null;
                 }
+            }
+
+            public override void Exit()
+            {
+                RemoveMarker();
+
+                _biteTimer = 0f;
             }
         }
 

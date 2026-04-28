@@ -53,7 +53,7 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _entityIds: 66000000
-  _spawnInterval: 9999
+  _entityIds: 6500000066000000
+  _spawnInterval: 5
   _initialDelay: 1
   _prewarm: 1
