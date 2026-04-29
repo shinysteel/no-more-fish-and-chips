@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 558ac3bb49582b94d91ae1493fddbdf0
+guid: 388d9fed225dcbb41a09567093448652
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,7 +127,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -138,8 +138,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3565db00ed2ff94e915688e8a1cf825
-      internalID: -1959835310
+      spriteID: 71d5515e04171294ca1809c4d2d5f6b5
+      internalID: 1860964170
       vertices: []
       indices: 
       edges: []
@@ -149,7 +149,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 0
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -160,8 +160,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1abfc9d5ab2aaad458a30f43e804e97d
-      internalID: -591328552
+      spriteID: db565728f9970c54287ee5db396a27ca
+      internalID: 79835215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WaveMeterEnd
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 14
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ea45217c4a4c6a4bbd6314bf6fe3446
+      internalID: 1737367191
       vertices: []
       indices: 
       edges: []
@@ -170,7 +192,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b8024ef9a1b18c04995c6653f5f84720
+    spriteID: e5be44feed260674b9ae9438571ca5e6
     internalID: 0
     vertices: []
     indices: 
@@ -180,8 +202,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      WaveMeterCell: -1959835310
-      WaveMeterCellEmpty: -591328552
+      WaveMeterCell: 1860964170
+      WaveMeterCellEmpty: 79835215
+      WaveMeterEnd: 1737367191
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

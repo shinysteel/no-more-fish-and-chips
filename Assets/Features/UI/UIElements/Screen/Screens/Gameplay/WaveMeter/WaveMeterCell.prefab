@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveMeterCell
   _image: {fileID: 297823034130160309}
-  _defaultSprite: {fileID: -1959835310, guid: 558ac3bb49582b94d91ae1493fddbdf0, type: 3}
-  _emptySprite: {fileID: -591328552, guid: 558ac3bb49582b94d91ae1493fddbdf0, type: 3}
+  _defaultSprite: {fileID: 1860964170, guid: 388d9fed225dcbb41a09567093448652, type: 3}
+  _emptySprite: {fileID: 79835215, guid: 388d9fed225dcbb41a09567093448652, type: 3}
 --- !u!222 &6001534251396837197
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1959835310, guid: 558ac3bb49582b94d91ae1493fddbdf0, type: 3}
+  m_Sprite: {fileID: 1860964170, guid: 388d9fed225dcbb41a09567093448652, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -98,6 +98,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _conveyerDuration: 0.5
   _cells:
   - {fileID: 6494312519918713716}
   - {fileID: 8397169517460693132}
@@ -318,7 +319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 222304169137982043, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 64
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 222304169137982043, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -371,7 +372,7 @@ PrefabInstance:
     - target: {fileID: 297823034130160309, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -591328552, guid: 558ac3bb49582b94d91ae1493fddbdf0, type: 3}
+      objectReference: {fileID: 1737367191, guid: 388d9fed225dcbb41a09567093448652, type: 3}
     - target: {fileID: 2753842617363772634, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_Name
       value: WaveMeterCellEnd
@@ -441,7 +442,7 @@ PrefabInstance:
     - target: {fileID: 297823034130160309, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -591328552, guid: 558ac3bb49582b94d91ae1493fddbdf0, type: 3}
+      objectReference: {fileID: 79835215, guid: 388d9fed225dcbb41a09567093448652, type: 3}
     - target: {fileID: 2753842617363772634, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_Name
       value: WaveMeterCell
@@ -679,7 +680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 222304169137982043, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 64
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 222304169137982043, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -732,7 +733,7 @@ PrefabInstance:
     - target: {fileID: 297823034130160309, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -591328552, guid: 558ac3bb49582b94d91ae1493fddbdf0, type: 3}
+      objectReference: {fileID: 1737367191, guid: 388d9fed225dcbb41a09567093448652, type: 3}
     - target: {fileID: 2753842617363772634, guid: 1baf59b4adbd86b429ad8186c7e08a3d, type: 3}
       propertyPath: m_Name
       value: WaveMeterCellEnd
