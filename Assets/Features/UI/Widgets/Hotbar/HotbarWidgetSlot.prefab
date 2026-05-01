@@ -129,4 +129,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.HotbarSlotView
   _view: {fileID: 2465199594841087275}
-  _button: {fileID: 0}
