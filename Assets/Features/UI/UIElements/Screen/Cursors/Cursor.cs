@@ -84,10 +84,7 @@ namespace FishFlingers.UI
             }
 
             // One scale tween active at a time
-            if (_resizeTween.isAlive)
-            {
-                _resizeTween.Stop();
-            }
+            _resizeTween.Stop();
 
             _resizeTween = Tween.Custom(startValue: _targetSlotSize, endValue: newTargetSize, duration: ResizeDuration, onValueChange: Resize);
 

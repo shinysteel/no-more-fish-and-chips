@@ -57,10 +57,7 @@ namespace FishFlingers.Entities
 
         public void AnimateHurt()
         {
-            if (_hurtTween.isAlive)
-            {
-                _hurtTween.Stop();
-            }
+            _hurtTween.Stop();   
 
             // Flash red
             _hurtTween = Tween.Custom(startValue: 1f, endValue: 0f, duration: 0.5f, onValueChange: (float value) =>

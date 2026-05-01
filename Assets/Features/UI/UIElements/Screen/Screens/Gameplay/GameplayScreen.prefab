@@ -334,6 +334,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5997467655837129047, guid: 1a1d6a5783edc6841b10003339e48bb1, type: 3}
   m_PrefabInstance: {fileID: 5285836592678130984}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7384580688296998974 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3395816798190415126, guid: 1a1d6a5783edc6841b10003339e48bb1, type: 3}
+  m_PrefabInstance: {fileID: 5285836592678130984}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef681e51e2372c847a69c1ac5ca29981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.WaveMeter
 --- !u!1001 &7006873182628892783
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -480,7 +491,7 @@ MonoBehaviour:
   _itemActionsView: {fileID: 5507301903238883138}
   _settingsButton: {fileID: 8585480431251104968}
   _fishingBagButton: {fileID: 8012368499549825537}
-  _waveMeter: {fileID: 0}
+  _waveMeter: {fileID: 7384580688296998974}
 --- !u!114 &6644086406560650574 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4398296562300798241, guid: 55546b0b0191b2646974781ac294f8ad, type: 3}

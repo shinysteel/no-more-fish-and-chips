@@ -4,28 +4,27 @@ using PrimeTween;
 using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FishFlingers.UI
 {
     public class WaveMeter : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _remainingWavesText;
-
-        [SerializeField] private RectTransform _conveyerRectTransform;
-        [SerializeField] private AnimationCurve _conveyerEase;
-        [SerializeField] private float _conveyerDuration = 0.5f;
-
-        [SerializeField] private WaveMeterCell[] _cells;
+        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private Image _fillImage;
 
         private WaveSpawner _waveSpawner;
 
-        private Tween _conveyerTween;
+        private Tween _fillTween;
 
-        private const float CellWidth = 64f;
+        private const float BaseWidth = 80f;
+        private const float IndexWidth = 16f;
 
         public void Setup(GameplayContext context)
         {
             _waveSpawner = context.WaveSpawner;
+
+            _rectTransform.sizeDelta = new Vector2(BaseWidth + IndexWidth * _waveSpawner.StageData.Waves.Length, _rectTransform.sizeDelta.y);
 
             HandleWaveIndexChanged(_waveSpawner.WaveIndex);
 
@@ -42,30 +41,9 @@ namespace FishFlingers.UI
 
         private void HandleWaveIndexChanged(int index)
         {
-            _conveyerTween.Complete();
+            _fillTween.Stop();
 
-            void setupCell(int cellIndex, int offset)
-            {
-                int index = _waveSpawner.WaveIndex + cellIndex + offset;
-                _cells[cellIndex].Setup(index >= 1 && index < _waveSpawner.StageData.Waves.Length + 1);
-            }
-
-            for (int i = 0; i < _cells.Length; i++)
-            {
-                setupCell(i, -1);
-            }
-
-            _remainingWavesText.text = Mathf.Max(_waveSpawner.StageData.Waves.Length - _waveSpawner.WaveIndex - 2, 0).ToString();
-
-            _conveyerTween = Tween.UIAnchoredPosition(_conveyerRectTransform, endValue: Vector2.left * CellWidth, duration: _conveyerDuration, ease: _conveyerEase).OnComplete(() =>
-            {
-                _conveyerRectTransform.anchoredPosition = Vector2.zero;
-
-                for (int i = 0; i < _cells.Length; i++)
-                {
-                    setupCell(i, 0);
-                }
-            });
+            _fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _waveSpawner.StageData.Waves.Length, duration: 0.5f);
         }
     }
 }

@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Test1
+      name: WaveMeterBackground
       rect:
         serializedVersion: 2
         x: 0
@@ -145,7 +145,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Test2
+      name: WaveMeterFillMask
       rect:
         serializedVersion: 2
         x: 16
@@ -167,7 +167,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Test3
+      name: WaveMeterFill
       rect:
         serializedVersion: 2
         x: 28
@@ -202,12 +202,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Test1: 1860964170
-      Test2: -383683567
-      Test3: -1373933637
+      WaveMeterBackground: 1860964170
       WaveMeterCellEmpty: 79835215
       WaveMeterEndLeft: -1658817512
       WaveMeterEndRight: 1751037401
+      WaveMeterFill: -1373933637
+      WaveMeterFillMask: -383683567
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,7 +1,6 @@
 using PrimeTween;
 using ShinyOwl.Common;
 using System;
-using System.Security.Cryptography;
 using UnityEngine;
 
 namespace FishFlingers.UI
@@ -22,10 +21,7 @@ namespace FishFlingers.UI
                 return;
             }
 
-            if (_hideSequence.isAlive)
-            {
-                _hideSequence.Stop();
-            }
+            _hideSequence.Stop();
 
             parameters.CanvasGroup.interactable = false;
             parameters.GameObject.SetActive(true);
@@ -46,10 +42,7 @@ namespace FishFlingers.UI
                 return;
             }
 
-            if (_showSequence.isAlive)
-            {
-                _showSequence.Stop();
-            }
+            _showSequence.Stop();
 
             parameters.CanvasGroup.interactable = false;
 

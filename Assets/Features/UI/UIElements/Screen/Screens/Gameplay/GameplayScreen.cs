@@ -48,7 +48,7 @@ namespace FishFlingers.UI
 
             _hotbarView.Setup(context);
             _itemActionsView.Setup(context);
-            // _waveMeter.Setup(context);
+            _waveMeter.Setup(context);
         }
 
         private void Update()
