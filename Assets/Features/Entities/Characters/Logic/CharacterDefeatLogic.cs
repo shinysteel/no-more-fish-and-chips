@@ -59,7 +59,7 @@ namespace FishFlingers.Entities
             {
                 return;
             }
-            
+
             _defeatTimer += Time.deltaTime;
 
             if (_defeatTimer < _settings.DefeatDuration)

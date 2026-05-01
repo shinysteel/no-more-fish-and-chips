@@ -221,7 +221,7 @@ PrefabInstance:
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 8e57eec41c9da5b45a54537fad84f5f7, type: 2}
+      objectReference: {fileID: 2100000, guid: 3652e302dbda2184d8a2aa2725984909, type: 2}
     - target: {fileID: 6722119670988573049, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_Name
       value: Text

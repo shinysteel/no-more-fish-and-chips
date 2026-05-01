@@ -332,6 +332,20 @@ namespace FishFlingers.Environments
             return true;
         }
 
+        public bool TryGetClosestTile(Vector3 position, out Tile tile)
+        {
+            tile = null;
+
+            if (_raft.Tiles.Count == 0)
+            {
+                return false;
+            }
+
+            tile = _raft.Tiles.Values.OrderBy(tile => Vector3.Distance(tile.transform.position, position)).First();
+
+            return true;
+        }
+
         /// <summary>
         /// Retrieves a random line that fulfills a coniditon
         /// </summary>

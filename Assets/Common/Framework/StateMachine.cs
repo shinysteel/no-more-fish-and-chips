@@ -15,6 +15,7 @@ namespace ShinyOwl.Common.Framework
         void Enter();
         Task EnterAsync();
         void Tick();
+        void FixedTick();
         void Exit();
         Task ExitAsync();
     }
@@ -44,6 +45,11 @@ namespace ShinyOwl.Common.Framework
         public virtual void Tick()
         {
             _subStateMachine?.Tick();
+        }
+
+        public virtual void FixedTick()
+        {
+            _subStateMachine?.FixedTick();
         }
 
         public virtual void Exit()
@@ -124,6 +130,11 @@ namespace ShinyOwl.Common.Framework
         public void Tick()
         {
             CurrentState?.Tick();
+        }
+
+        public void FixedTick()
+        {
+            CurrentState?.FixedTick();
         }
 
         public void Exit()

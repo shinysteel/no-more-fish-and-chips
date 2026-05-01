@@ -60,7 +60,7 @@ namespace FishFlingers.Entities
         
         private void InWaterFixedTick()
         {
-            float radius = Vector3.Distance(_character.CharacterCollider.bounds.center, _character.CharacterCollider.bounds.min);
+            float radius = Vector3.Distance(_character.CharacterCollider.bounds.center, _character.CharacterCollider.bounds.min) * 0.5f;
 
             // If we are overlapping a collider on the water mask, we are in water
             _inWater = Physics.OverlapSphereNonAlloc(_character.CharacterCollider.bounds.center, radius, _inWaterCollidersNonAlloc, _settings.ContactDetection.WaterMask) > 0;

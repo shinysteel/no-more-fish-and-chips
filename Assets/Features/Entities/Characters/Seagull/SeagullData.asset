@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 936ea1848468185459402a5a339a5632, type: 3}
-  m_Name: SharkData
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.SharkData
-  _id: 102
+  m_Script: {fileID: 11500000, guid: 3e30057b892cf6f4bb8811c0185f2f45, type: 3}
+  m_Name: SeagullData
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.SeagullData
+  _id: 103
   _nameTerm: 0
   _descriptionTerm: 0
   _sprite: {fileID: 0}
-  _health: 3
+  _health: 2
   _alliance: 1
-  _dropTables:
-  - {fileID: 11400000, guid: 47994c5164036cf49ae9067fe0a27753, type: 2}
-  _canSwim: 1
+  _dropTables: []
   _characterDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}
   _characterPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
-  _biteHitboxData: {fileID: 11400000, guid: 8f0211f78d1d68a42a405b7a3a7de599, type: 2}
+  _flySettings:
+    _speed: 2.5
+    _acceleration: 2.5
