@@ -29,3 +29,4 @@ MonoBehaviour:
   _entityManagerConfig: {fileID: 11400000, guid: 78c8ff6cf25e67b4591a095bb6e4ff95, type: 2}
   _effectManagerConfig: {fileID: 11400000, guid: 69b72db8d3ed7544e9374e2762000d5b, type: 2}
   _hitboxManagerConfig: {fileID: 11400000, guid: a0a5de70e267bce458bf94b92586a7fa, type: 2}
+  _audioManagerConfig: {fileID: 11400000, guid: dbdf0da829e4bd4478fb08adf481aa30, type: 2}

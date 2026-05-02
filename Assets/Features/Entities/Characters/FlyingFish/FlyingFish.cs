@@ -8,6 +8,7 @@ using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common;
 using FishFlingers.Effects;
 using FishFlingers.Hitboxes;
+using FishFlingers.Audio;
 
 namespace FishFlingers.Entities
 {

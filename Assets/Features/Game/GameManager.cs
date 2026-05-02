@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         PoolManager         ,
         EffectManager       ,
         HitboxManager       ,
+        AudioManager        ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem
