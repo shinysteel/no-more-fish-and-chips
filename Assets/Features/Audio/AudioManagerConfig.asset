@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Audio.AudioManagerConfig
   _soundMappings:
   - _id: 0
-    _data: {fileID: 11400000, guid: e5b037c18976549409d4eca9ed0eec94, type: 2}
+    _data: {fileID: 11400000, guid: 64f54cfafd59e64468dbe81bcc42f13e, type: 2}

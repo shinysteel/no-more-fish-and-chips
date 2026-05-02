@@ -23,7 +23,11 @@ namespace FishFlingers.Audio
 
         public void Initialise(SoundCueData data)
         {
-            _audioSource.clip = data.AudioClip;
+            _audioSource.volume = data.Volume;
+
+            _audioSource.pitch = Random.Range(data.MinPitch, data.MaxPitch);
+
+            _audioSource.clip = data.AudioClips[Random.Range(0, data.AudioClips.Length)];
 
             _audioSource.Play();
         }

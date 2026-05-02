@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace FishFlingers.Audio
 {
@@ -72,11 +73,13 @@ namespace FishFlingers.Audio
             obj.hideFlags = HideFlags.HideAndDontSave;
             AudioSource source = obj.AddComponent<AudioSource>();
 
-            source.PlayOneShot(data.AudioClip);
+            AudioClip clip = data.AudioClips[Random.Range(0, data.AudioClips.Length)];
+            source.clip = clip;
+            source.Play();
 
             try
             {
-                await Task.Delay((int)(data.AudioClip.length * 1000f), cts.Token);
+                await Task.Delay((int)(clip.length * 1000f), cts.Token);
             }
             catch (OperationCanceledException) { }
 

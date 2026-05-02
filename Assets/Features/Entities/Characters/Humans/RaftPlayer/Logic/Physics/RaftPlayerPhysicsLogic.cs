@@ -1,3 +1,4 @@
+using FishFlingers.Audio;
 using FishFlingers.Cameras;
 using PurrNet;
 using ShinyOwl.Common;
@@ -10,6 +11,7 @@ namespace FishFlingers.Entities
     public class RaftPlayerPhysicsLogic : CharacterPhysicsLogic
     {
         private CameraManager _cameraManager;
+        private AudioManager _audioManager;
 
         private RaftPlayer _player;
 
@@ -21,6 +23,7 @@ namespace FishFlingers.Entities
         public RaftPlayerPhysicsLogic(RaftPlayer player) : base(player)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
+            _audioManager = GameManager.Instance.Get<AudioManager>();
 
             _player = player;
 
@@ -141,10 +144,12 @@ namespace FishFlingers.Entities
             {
                 return;
             }
-
+            
             // Cancel out gravity
             _player.Rigidbody.linearVelocity = new Vector3(_player.Rigidbody.linearVelocity.x, 0f, _player.Rigidbody.linearVelocity.z);
             _player.Rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
+
+            _audioManager.PlaySound(SoundId.Jump);
         }
 
         private void SwimFixedTick()
