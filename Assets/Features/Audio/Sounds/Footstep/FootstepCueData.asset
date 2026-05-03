@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
+  m_Name: FootstepCueData
+  m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
+  _volume: 0.25
+  _minPitch: 0.95
+  _maxPitch: 1.05
+  _audioClips:
+  - {fileID: 8300000, guid: 0335e97ba7b87da43ac0f01c186f10d0, type: 3}
+  - {fileID: 8300000, guid: 48f853f8681908f439b01459a8f8b7e0, type: 3}
+  - {fileID: 8300000, guid: 1510b55d9235dcb4e9bc04fdb4adc7f6, type: 3}

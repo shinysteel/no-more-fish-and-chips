@@ -4,13 +4,17 @@ using PrimeTween;
 using ShinyOwl.Common;
 using FishFlingers.Items;
 using System;
+using FishFlingers.Audio;
 
 namespace FishFlingers.Entities
 {
     public class RaftPlayerAnimateLogic
     {
+        private AudioManager _audioManager;
+
         private RaftPlayer _player;
 
+        private StateAnimationEvents _moveStateAnimationEvents;
         private StateAnimationEvents _attackStateAnimationEvents;
 
         public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
@@ -18,9 +22,12 @@ namespace FishFlingers.Entities
         private const string IsMovingBoolName = "IsMoving";
         private const string IsHoldingItemBoolName = "IsHoldingItem";
         private const string IsAttackingBoolName = "IsAttacking";
-        private const string AttackStateName = "Attack";
-        private const string AttackTriggerName = "Attack";
 
+        private const string MoveStateName = "Move";
+        private const string AttackStateName = "Attack";
+
+        private const string AttackTriggerName = "Attack";
+        
         private enum Layer
         {
             Base,
@@ -29,9 +36,17 @@ namespace FishFlingers.Entities
 
         public RaftPlayerAnimateLogic(RaftPlayer player)
         {
+            _audioManager = GameManager.Instance.Get<AudioManager>();
+
             _player = player;
 
-            _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName)
+            _moveStateAnimationEvents = new StateAnimationEvents(MoveStateName, true)
+            {
+                new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.Footstep)),
+                new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.Footstep))
+            };
+
+            _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName, false)
             {
                 new StateAnimationEvent(0.3f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
                 new StateAnimationEvent(0.7f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false)),
@@ -50,8 +65,10 @@ namespace FishFlingers.Entities
                 _player.CharacterModel.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
                 _player.CharacterModel.Animator.SetBool(IsAttackingBoolName, isAttacking);
             }
-            
+
             AnimatorStateInfo info = _player.CharacterModel.Animator.GetCurrentAnimatorStateInfo(0);
+
+            _moveStateAnimationEvents.Tick(info);
             _attackStateAnimationEvents.Tick(info);
         }
 

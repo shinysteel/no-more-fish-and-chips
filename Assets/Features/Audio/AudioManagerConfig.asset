@@ -15,3 +15,5 @@ MonoBehaviour:
   _soundMappings:
   - _id: 0
     _data: {fileID: 11400000, guid: 64f54cfafd59e64468dbe81bcc42f13e, type: 2}
+  - _id: 1
+    _data: {fileID: 11400000, guid: 81a326fea628e91479fc56162a515e6d, type: 2}
