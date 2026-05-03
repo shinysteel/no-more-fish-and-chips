@@ -90,7 +90,7 @@ namespace FishFlingers.Entities
                 _ => Color.white
             };
 
-            _repairMaterial.color = color;
+            _repairMaterial.color = new Color(color.r, color.g, color.b, color.a * 0.5f);
             _tileScaffoldMaterial.color = color;
             _structureScaffoldMaterial.color = color;
         }

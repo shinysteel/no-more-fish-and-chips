@@ -241,9 +241,16 @@ namespace FishFlingers.Entities
             }
         }
 
-        public void SetIsBuilding(bool isBuilding)
+        public void SetIsBuilding(bool building)
         {
-            _isBuilding = isBuilding;
+            if (_isBuilding == building)
+            {
+                return;
+            }
+
+            _isBuilding = building;
+
+            RefreshVisual();
         }
     }
 }

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e30d76f877aea2e47a6529d5aa9fbb56
+guid: 09677f019338abf48adf344e632b476e
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Scaffold.png
-    second: {fileID: 2100000, guid: 27621c19a9711cf459ed21302fd7ea5a, type: 2}
+      name: TileScaffold.png
+    second: {fileID: 2100000, guid: 4a8d44448944b43479be2ec6e6a9d91e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
