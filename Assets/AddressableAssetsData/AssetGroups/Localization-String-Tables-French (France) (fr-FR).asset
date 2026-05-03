@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fr-FR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0d04047105fb9bf4aac724de26c1c11b
+    m_Address: CraftingKitPanelTable_fr-FR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fr-FR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 13030d352fbf99049ad7bda7471dc434
     m_Address: BrowseGamesPanelTable_fr-FR
     m_ReadOnly: 1

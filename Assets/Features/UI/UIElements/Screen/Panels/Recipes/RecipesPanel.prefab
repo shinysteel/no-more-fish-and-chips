@@ -121,17 +121,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
---- !u!114 &1472711437564252167 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3941829643475028699, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
-  m_PrefabInstance: {fileID: 2505177951809772252}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8521487125664717519 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6090636320031129619, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
@@ -145,14 +134,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 750988990251542737, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 5944020992
-      objectReference: {fileID: 0}
-    - target: {fileID: 750988990251542737, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
-      value: GUID:d9e39116b1d7da44cb372bb0a7690eea
-      objectReference: {fileID: 0}
     - target: {fileID: 882401190243713336, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
       value: 5944020992
@@ -163,19 +144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3802163686133970347, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_Name
-      value: BuildingKitPanel
+      value: RecipesPanel
       objectReference: {fileID: 0}
     - target: {fileID: 4619599197589356375, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_text
       value: Building Kit
-      objectReference: {fileID: 0}
-    - target: {fileID: 4705308164282050647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      propertyPath: m_text
-      value: Building Kit
-      objectReference: {fileID: 0}
-    - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_AnchorMax.x
@@ -186,19 +159,11 @@ PrefabInstance:
       value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
@@ -219,67 +184,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2782932405702096647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8521487125664717519}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3802163686133970347, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 1675682817760424064}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
---- !u!114 &29413838363624518 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2829160585835182037, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-  m_PrefabInstance: {fileID: 2822434437887226771}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!224 &123210644262683796 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2782932405702096647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-  m_PrefabInstance: {fileID: 2822434437887226771}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &465905019652863874 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 2403927208547714065, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-  m_PrefabInstance: {fileID: 2822434437887226771}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1294130996092735815 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3953844234707460820, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-  m_PrefabInstance: {fileID: 2822434437887226771}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434592815177745976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f5533f75ddf46c46a435768440ac0a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.FadeUIAnimation
---- !u!1 &1434592815177745976 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3802163686133970347, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-  m_PrefabInstance: {fileID: 2822434437887226771}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1675682817760424064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434592815177745976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc71d3180bb8c794aa697cab5160e8d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.BuildingKitPanel
-  _uiAnimation: {fileID: 1294130996092735815}
-  _rectTransform: {fileID: 5990418614809492502}
-  _canvasGroup: {fileID: 465905019652863874}
-  _closeButton: {fileID: 29413838363624518}
-  _blueprintsScrollRect: {fileID: 1472711437564252167}
---- !u!224 &5990418614809492502 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
   m_PrefabInstance: {fileID: 2822434437887226771}
   m_PrefabAsset: {fileID: 0}

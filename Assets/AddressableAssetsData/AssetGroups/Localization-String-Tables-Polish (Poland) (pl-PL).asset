@@ -63,6 +63,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pl-PL
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce774897498288f4f86ec5d4bbb0a9ac
+    m_Address: CraftingKitPanelTable_pl-PL
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pl-PL
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd34477258d12064a9ead60f2a7038c0
     m_Address: StructuresTable_pl-PL
     m_ReadOnly: 1

@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25b4f0e634a221841a86a6c2ced912ab
+    m_Address: CraftingKitPanelTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 314278e40f2e4be41be7b43f99999182
     m_Address: EntitiesTable_en
     m_ReadOnly: 1

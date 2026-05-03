@@ -26,6 +26,12 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7591ee45632c75a4bada3755faede7a8
+    m_Address: Assets/Features/Localisation/Tables/CraftingKitPanelTable/CraftingKitPanelTable
+      Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8dac87a24d455cb4886513b5aaef53c0
     m_Address: Assets/Features/Localisation/Tables/FishingBagPanelTable/FishingBagPanelTable
       Shared Data.asset

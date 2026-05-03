@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17334b047654a1844be90b0969739856
+    m_Address: CraftingKitPanelTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5f45bdf2a7633124b80d57de3784b911
     m_Address: WorldPanelTable_zh-TW
     m_ReadOnly: 1
