@@ -1,12 +1,12 @@
 using FishFlingers;
 using FishFlingers.Items;
+using FishFlingers.States;
 using UnityEngine;
 
 namespace FishFlingers.Items
 {
-    public interface ICraftable
+    public interface ICraftable : ICreatable
     {
-        DefinitionData DefinitionData { get; }
-        Recipe Recipe { get; }
+        bool TryCraft(GameplayContext context);
     }
 }

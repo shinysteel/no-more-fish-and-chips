@@ -36,15 +36,17 @@ namespace FishFlingers.UI
         [SerializeField] private HostGamePanel _hostGamePanelPrefab;
         [SerializeField] private FishingBagPanel _fishingBagPanelPrefab;
         [SerializeField] private BuildingKitPanel _buildingKitPanelPrefab;
-        [SerializeField] private ClamChestPanel _clamChestPanel;
-        [SerializeField] private WorldPanel _worldPanel;
+        [SerializeField] private ClamChestPanel _clamChestPanelPrefab;
+        [SerializeField] private WorldPanel _worldPanelPrefab;
+        [SerializeField] private CraftingKitPanel _craftingKitPanelPrefab;
 
         public BrowseGamesPanel BrowseGamesPanelPrefab => _browseGamesPanelPrefab;
         public HostGamePanel HostGamePanelPrefab => _hostGamePanelPrefab;
         public FishingBagPanel FishingBagPanelPrefab => _fishingBagPanelPrefab;
         public BuildingKitPanel BuildingKitPanelPrefab => _buildingKitPanelPrefab;
-        public ClamChestPanel ClamChestPanel => _clamChestPanel;
-        public WorldPanel WorldPanel => _worldPanel;
+        public ClamChestPanel ClamChestPanelPrefab => _clamChestPanelPrefab;
+        public WorldPanel WorldPanelPrefab => _worldPanelPrefab;
+        public CraftingKitPanel CraftingKitPanelPrefab => _craftingKitPanelPrefab;
 
         [Header("ScreenUI - Cursors")]
         [SerializeField] private CursorsUI _cursorsUIPrefab;

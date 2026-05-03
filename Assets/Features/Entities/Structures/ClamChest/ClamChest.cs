@@ -42,7 +42,7 @@ namespace FishFlingers.Entities
         {
             base.Initialise(context);
 
-            _clamChestPanelInstance = new PanelInstance<ClamChestPanel>(_uiManager.Config.ClamChestPanel);
+            _clamChestPanelInstance = new PanelInstance<ClamChestPanel>(_uiManager.Config.ClamChestPanelPrefab);
 
             foreach (RaftPlayer player in context.Players)
             {

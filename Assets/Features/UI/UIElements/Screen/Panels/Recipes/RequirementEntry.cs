@@ -22,7 +22,7 @@ namespace FishFlingers.UI
 
         public void Setup(RecipeRequirement requirement)
         {
-            ItemDefinitionData itemData = _itemManager.GetItemData(requirement.ItemId);
+            ItemDefinitionData itemData = _itemManager.GetItemDefinitionData(requirement.ItemId);
 
             _text.text = $"x{requirement.Count}<sprite name=\"{itemData.SpriteAssetName}\">";
 

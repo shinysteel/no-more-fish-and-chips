@@ -203,7 +203,7 @@ namespace FishFlingers.Pools
                 Transform container = new GameObject($"{id.ToString()}s").transform;
                 container.SetParent(_container);
 
-                ItemDefinitionData data = _itemManager.GetItemData(id);
+                ItemDefinitionData data = _itemManager.GetItemDefinitionData(id);
                 _itemModelPools.Add(id, new Pool<ItemModel>(data.Model, container));
             }
 

@@ -193,6 +193,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a9e1d8f51a3c2f4a9d776a502b2c5e7, type: 3}
+--- !u!114 &2245345676039068247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2277577464108565316, guid: 4a9e1d8f51a3c2f4a9d776a502b2c5e7, type: 3}
+  m_PrefabInstance: {fileID: 50249176220752147}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2728801258337413527 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2696568851787935876, guid: 4a9e1d8f51a3c2f4a9d776a502b2c5e7, type: 3}
@@ -610,6 +621,7 @@ MonoBehaviour:
   _itemActionsView: {fileID: 5507301903238883138}
   _settingsButton: {fileID: 8585480431251104968}
   _fishingBagButton: {fileID: 8012368499549825537}
+  _craftingKitButton: {fileID: 2245345676039068247}
   _waveMeter: {fileID: 7384580688296998974}
 --- !u!114 &6644086406560650574 stripped
 MonoBehaviour:

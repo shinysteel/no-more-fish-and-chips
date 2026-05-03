@@ -2,6 +2,7 @@ using ShinyOwl.Common.Structures;
 using UnityEngine;
 using FishFlingers.Items;
 using UnityEngine.Events;
+using FishFlingers.States;
 
 namespace FishFlingers.Inventories
 {
@@ -30,5 +31,10 @@ namespace FishFlingers.Inventories
         public ItemActionData RightClickAction => _rightClickAction;
 
         public bool CanRepair => _leftClickAction is RepairActionData || _rightClickAction is RepairActionData;
+
+        public bool TryCraft(GameplayContext context)
+        {
+            return false;
+        }
     }
 }

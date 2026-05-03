@@ -20,6 +20,7 @@ namespace FishFlingers.Entities
         private bool _dropItem;
         private bool _toggleSettings;
         private bool _toggleFishingBag;
+        private bool _toggleCraftingKit;
 
         public Vector2 Mouse => _mouse;
         public float Scroll => _scroll;
@@ -33,6 +34,7 @@ namespace FishFlingers.Entities
         public bool DropItem => _dropItem;
         public bool ToggleSettings => _toggleSettings;
         public bool ToggleFishingBag => _toggleFishingBag;
+        public bool ToggleCraftingKit => _toggleCraftingKit;
         
         // Vars dependent on RaftPlayer.CanAct
         private Vector2 _gameplayMouse;
@@ -70,6 +72,7 @@ namespace FishFlingers.Entities
             _dropItem = Input.GetKeyDown(KeyCode.Q);
             _toggleSettings = Input.GetKeyDown(KeyCode.Escape);
             _toggleFishingBag = Input.GetKeyDown(KeyCode.E);
+            _toggleCraftingKit = Input.GetKeyDown(KeyCode.C);
 
             if (Application.isFocused && _player.CanAct)
             {

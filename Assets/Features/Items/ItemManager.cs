@@ -35,9 +35,14 @@ namespace FishFlingers.Items
             base.Initialise(config);
         }
 
-        public ItemDefinitionData GetItemData(ItemId id)
+        public ItemDefinitionData GetItemDefinitionData(ItemId id)
         {
             return _idDataMap[id];
+        }
+
+        public IEnumerable<ItemDefinitionData> GetAllItemDefinitionDatas()
+        {
+            return _idDataMap.Values;
         }
 
         public void SpawnDrop(Vector3 position, DropTable table)
@@ -73,7 +78,7 @@ namespace FishFlingers.Items
                 // Enforce max stack for each pick
                 foreach (WeightedPick<ItemId> pick in picks)
                 {
-                    ItemDefinitionData data = GetItemData(pick.Value);
+                    ItemDefinitionData data = GetItemDefinitionData(pick.Value);
                     int pickCount = pick.Count;
 
                     while (pickCount > 0)

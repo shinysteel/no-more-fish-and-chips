@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using ShinyOwl.Common.Utils;
 using FishFlingers.Inventories;
 using System.Linq;
+using System;
+using ShinyOwl.Common;
 
 namespace FishFlingers.UI
 {
@@ -24,8 +26,8 @@ namespace FishFlingers.UI
         private LocalisationManager _localisationManager;
         private PoolManager _poolManager;
 
-        private GameplayContext _context;
-        private IBuildable _buildable;
+        private ICreatable _creatable;
+        private Action _onCreatePressed;
 
         private List<RequirementEntry> _requirementEntries = new();
 
@@ -34,17 +36,19 @@ namespace FishFlingers.UI
             _localisationManager = GameManager.Instance.Get<LocalisationManager>();
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
-            _buildButton.onClick.AddListener(BuildPressed);
+            _buildButton.onClick.AddListener(CreatePressed);
         }
 
-        public void Setup(GameplayContext context, IBuildable buildable)
+        public void Setup(ICreatable creatable, Action onCreatePressed)
         {
-            _context = context;
-            _buildable = buildable;
+            Log.Info($"setting up {creatable.DefinitionData.name}");
+            
+            _creatable = creatable;
+            _onCreatePressed = onCreatePressed;
 
-            _image.sprite = _buildable.DefinitionData.Sprite;
-            _nameText.text = _localisationManager.GetString(_buildable.DefinitionData.NameTerm);
-            _descriptionText.text = _localisationManager.GetString(_buildable.DefinitionData.DescriptionTerm);
+            _image.sprite = _creatable.DefinitionData.Sprite;
+            _nameText.text = _localisationManager.GetString(_creatable.DefinitionData.NameTerm);
+            _descriptionText.text = _localisationManager.GetString(_creatable.DefinitionData.DescriptionTerm);
 
             RefreshEntries();
         }
@@ -52,27 +56,15 @@ namespace FishFlingers.UI
         // Populate the recipe requirements
         private void RefreshEntries()
         {
-            Utils.Collections.ResizeList(_requirementEntries, _buildable.Recipe.Requirements.Length,
+            Utils.Collections.ResizeList(_requirementEntries, _creatable.Recipe.Requirements.Length,
                 createElement: () => _poolManager.GetPoolable<RequirementEntry>(new SpawnParams() { Parent = _requirementEntriesContainer }),
                 removeElement: (RequirementEntry entry) => _poolManager.ReturnPoolable(entry),
-                processElement: (RequirementEntry entry, int index) => entry.Setup(_buildable.Recipe.Requirements[index]));
+                processElement: (RequirementEntry entry, int index) => entry.Setup(_creatable.Recipe.Requirements[index]));
         }
 
-        private void BuildPressed()
+        private void CreatePressed()
         {
-            List<InventoryChangeParams> parameters = _buildable.Recipe.ToChangeParams();
-
-            if (!_context.LocalPlayer.Inventory.CanRemoveItems(parameters, out _))
-            {
-                return;
-            }
-
-            if (!_buildable.TryBuild(_context, _context.LocalPlayer.TileTargetLogic.Target))
-            {
-                return;
-            }
-
-            _context.LocalPlayer.Inventory.TryRemoveItems(parameters);
+            _onCreatePressed?.Invoke();
         }
 
         public void OnReturnedToPool()

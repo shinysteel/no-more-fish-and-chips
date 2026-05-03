@@ -18,6 +18,7 @@ namespace FishFlingers.UI
         [SerializeField] private ItemActionsView _itemActionsView;
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _fishingBagButton;
+        [SerializeField] private Button _craftingKitButton;
         [SerializeField] private WaveMeter _waveMeter;
         
         private NetworkManager _networkManager;
@@ -27,6 +28,7 @@ namespace FishFlingers.UI
         private GameplayContext _context;
 
         private PanelInstance<FishingBagPanel> _fishingBagPanelInstance;
+        private PanelInstance<CraftingKitPanel> _craftingKitPanelInstance;
 
         public override void Load(Canvas canvas)
         {
@@ -37,9 +39,11 @@ namespace FishFlingers.UI
             _saveManager = GameManager.Instance.Get<SaveManager>();
 
             _fishingBagPanelInstance = new PanelInstance<FishingBagPanel>(_uiManager.Config.FishingBagPanelPrefab);
+            _craftingKitPanelInstance = new PanelInstance<CraftingKitPanel>(_uiManager.Config.CraftingKitPanelPrefab);
 
             _settingsButton.onClick.AddListener(SettingsPressed);
             _fishingBagButton.onClick.AddListener(FishingBagPressed);
+            _craftingKitButton.onClick.AddListener(CraftingKitPressed);
         }
 
         public void Setup(GameplayContext context)
@@ -61,6 +65,11 @@ namespace FishFlingers.UI
             if (_context.LocalPlayer.InputLogic.ToggleFishingBag)
             {
                 Utils.UI.SimulatePressed(_fishingBagButton);
+            }
+
+            if (_context.LocalPlayer.InputLogic.ToggleCraftingKit)
+            {
+                Utils.UI.SimulatePressed(_craftingKitButton);
             }
         }
 
@@ -88,6 +97,11 @@ namespace FishFlingers.UI
         private void FishingBagPressed()
         {
             _fishingBagPanelInstance.Toggle((FishingBagPanel panel) => panel.Setup(_context));
+        }
+
+        private void CraftingKitPressed()
+        {
+            _craftingKitPanelInstance.Toggle((CraftingKitPanel panel) => panel.Setup(_context));
         }
     }
 }

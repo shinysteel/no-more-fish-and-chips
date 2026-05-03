@@ -21,9 +21,10 @@ MonoBehaviour:
   _browseGamesPanelPrefab: {fileID: 6530453185160498948, guid: 8c64bae2a57806b459e4abb61cba563f, type: 3}
   _hostGamePanelPrefab: {fileID: 8187131346093847541, guid: adbd3bc624a9e334faa37f36a5a0dc21, type: 3}
   _fishingBagPanelPrefab: {fileID: 8117997859085951373, guid: b1738a99c502e7943a156b42483f29db, type: 3}
-  _buildingKitPanelPrefab: {fileID: 5050587804496203720, guid: d8822682c6e6b5b4f91dc71db5c0e4ce, type: 3}
-  _clamChestPanel: {fileID: 754690044418743351, guid: 3d89d24df53db4f42a4a59d1c2a9bf27, type: 3}
-  _worldPanel: {fileID: 3778087263474575270, guid: d9b4137c53c36dc469a5060d1d3c513d, type: 3}
+  _buildingKitPanelPrefab: {fileID: 1958129456515683056, guid: d8822682c6e6b5b4f91dc71db5c0e4ce, type: 3}
+  _clamChestPanelPrefab: {fileID: 754690044418743351, guid: 3d89d24df53db4f42a4a59d1c2a9bf27, type: 3}
+  _worldPanelPrefab: {fileID: 3778087263474575270, guid: d9b4137c53c36dc469a5060d1d3c513d, type: 3}
+  _craftingKitPanelPrefab: {fileID: 5398720259285186823, guid: c4bfcc4ffc8ddfe42864342bfc28b300, type: 3}
   _cursorsUIPrefab: {fileID: 3344945000103229724, guid: e558a1cf45d47a047b893283dd78e7a1, type: 3}
   _fadeOverlayPrefab: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}
   _interactPromptUIPrefab: {fileID: 4809291724522747272, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}

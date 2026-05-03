@@ -29,7 +29,7 @@ public class SaveEntry : MonoBehaviour, IPoolable
 
     private void Start()
     {
-        _worldPanelInstance = new PanelInstance<WorldPanel>(_uiManager.Config.WorldPanel);
+        _worldPanelInstance = new PanelInstance<WorldPanel>(_uiManager.Config.WorldPanelPrefab);
 
         _button.onClick.AddListener(Pressed);
     }

@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b87a32c41585134fa7bda360bec58d1, type: 3}
   m_Name: GoopDefinitionData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Inventories.ItemData
+  _nameTerm: 0
+  _descriptionTerm: 0
+  _sprite: {fileID: 21300000, guid: 46b216f431950a94e8246a8e62d12397, type: 3}
   _itemId: 5
   _spriteAssetName: item_goop
-  _maxStack: 3
-  _sprite: {fileID: 21300000, guid: 46b216f431950a94e8246a8e62d12397, type: 3}
+  _maxStack: 0
+  _recipe:
+    _requirements: []
   _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
   _model: {fileID: 8374647551987080815, guid: 119a5e29c3e516248aa790b5386dde29, type: 3}
   _leftClickAction: {fileID: 0}
   _rightClickAction: {fileID: 0}
-  _showsTarget: 0

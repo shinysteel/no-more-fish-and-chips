@@ -21,7 +21,7 @@ namespace FishFlingers.Items
         public static ItemInstance Create(NetItemInstance netItemInstance)
         {
             ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
-            return new ItemInstance(netItemInstance.InstanceId, itemManager.GetItemData(netItemInstance.ItemId), netItemInstance.Count);
+            return new ItemInstance(netItemInstance.InstanceId, itemManager.GetItemDefinitionData(netItemInstance.ItemId), netItemInstance.Count);
         }
 
         public ItemInstance DeepClone()
@@ -70,7 +70,7 @@ namespace FishFlingers.Items
             }
 
             ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
-            ItemDefinitionData data = itemManager.GetItemData(ItemId);
+            ItemDefinitionData data = itemManager.GetItemDefinitionData(ItemId);
 
             // Check for remaining space
             int remainingSpace = data.MaxStack - Count;
@@ -133,7 +133,7 @@ namespace FishFlingers.Items
         public void SetCount(int count)
         {
             ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
-            ItemDefinitionData data = itemManager.GetItemData(ItemId);
+            ItemDefinitionData data = itemManager.GetItemDefinitionData(ItemId);
 
             count = Mathf.Clamp(count, 0, data.MaxStack);
             Count = count;

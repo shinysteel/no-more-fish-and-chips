@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public interface IBuildable : ICraftable
+    public interface IBuildable : ICreatable
     {
         bool TryBuild(GameplayContext context, RaftPlayerTileTarget target);
     }

@@ -130,7 +130,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1434592815177745976, guid: adc87e0ae4df5bf48a642af17ff5c542, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 5050587804496203720}
+      addedObject: {fileID: 1958129456515683056}
   m_SourcePrefab: {fileID: 100100000, guid: adc87e0ae4df5bf48a642af17ff5c542, type: 3}
 --- !u!224 &844121769638303681 stripped
 RectTransform:
@@ -153,7 +153,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1434592815177745976, guid: adc87e0ae4df5bf48a642af17ff5c542, type: 3}
   m_PrefabInstance: {fileID: 6382957173616176087}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5050587804496203720
+--- !u!114 &1958129456515683056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5439331489178398191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc71d3180bb8c794aa697cab5160e8d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5672510f6a08ab840a6f7928b80688fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.BuildingKitPanel
   _uiAnimation: {fileID: 5287644824638487184}

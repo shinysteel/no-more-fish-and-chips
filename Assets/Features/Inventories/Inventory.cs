@@ -463,7 +463,7 @@ namespace FishFlingers.Inventories
                 return;
             }
 
-            ItemDefinitionData data = _itemManager.GetItemData(item.ItemInstance.ItemId);
+            ItemDefinitionData data = _itemManager.GetItemDefinitionData(item.ItemInstance.ItemId);
 
             data.Shape.GetTransformed(item.Pivot, item.Rotations).ForEachTrue((Vector2Int cell) =>
             {
@@ -625,7 +625,7 @@ namespace FishFlingers.Inventories
             changes = new();
             places = new();
 
-            ItemDefinitionData data = _itemManager.GetItemData(addParams.ItemId);
+            ItemDefinitionData data = _itemManager.GetItemDefinitionData(addParams.ItemId);
 
             if (data == null || addParams.Count <= 0)
             {
@@ -723,7 +723,7 @@ namespace FishFlingers.Inventories
             place = default;
             change = default;
 
-            ItemDefinitionData data = _itemManager.GetItemData(parameters.ItemId);
+            ItemDefinitionData data = _itemManager.GetItemDefinitionData(parameters.ItemId);
 
             if (data == null || parameters.Count <= 0 || parameters.Count > data.MaxStack)
             {
@@ -809,7 +809,7 @@ namespace FishFlingers.Inventories
             remaining = parameters.Count;
             changes = new();
             
-            ItemDefinitionData data = _itemManager.GetItemData(parameters.ItemId);
+            ItemDefinitionData data = _itemManager.GetItemDefinitionData(parameters.ItemId);
 
             if (data == null || parameters.Count <= 0)
             {
@@ -849,7 +849,7 @@ namespace FishFlingers.Inventories
             }
 
             NetInventoryItem item = _netInventoryItems[change.InstanceId];
-            ItemDefinitionData data = _itemManager.GetItemData(item.ItemInstance.ItemId);
+            ItemDefinitionData data = _itemManager.GetItemDefinitionData(item.ItemInstance.ItemId);
 
             item.ItemInstance.ChangeCount(change.Amount);
 
@@ -871,7 +871,7 @@ namespace FishFlingers.Inventories
                 return;
             }
 
-            ItemDefinitionData data = _itemManager.GetItemData(place.Parameters.ItemId);
+            ItemDefinitionData data = _itemManager.GetItemDefinitionData(place.Parameters.ItemId);
 
             // A null place.InstanceId indicates this will be a new item. We validate instanceId here since we know for sure it will be placed
             string instanceId = place.Parameters.InstanceId != null ? place.Parameters.InstanceId : _networkManager.LocalPurrnetPlayer.GetNextNetItemInstanceId();
