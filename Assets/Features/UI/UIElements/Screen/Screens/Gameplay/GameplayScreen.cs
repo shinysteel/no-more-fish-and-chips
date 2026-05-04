@@ -27,6 +27,7 @@ namespace FishFlingers.UI
 
         private GameplayContext _context;
 
+        private PanelInstance<SettingsPanel> _settingsPanelInstance;
         private PanelInstance<FishingBagPanel> _fishingBagPanelInstance;
         private PanelInstance<CraftingKitPanel> _craftingKitPanelInstance;
 
@@ -38,6 +39,7 @@ namespace FishFlingers.UI
             _uiManager = GameManager.Instance.Get<UIManager>();
             _saveManager = GameManager.Instance.Get<SaveManager>();
 
+            _settingsPanelInstance = new PanelInstance<SettingsPanel>(_uiManager.Config.SettingsPanelPrefab);
             _fishingBagPanelInstance = new PanelInstance<FishingBagPanel>(_uiManager.Config.FishingBagPanelPrefab);
             _craftingKitPanelInstance = new PanelInstance<CraftingKitPanel>(_uiManager.Config.CraftingKitPanelPrefab);
 
@@ -75,24 +77,26 @@ namespace FishFlingers.UI
 
         private void SettingsPressed()
         {
-            if (_uiManager.IsLayerInUse(UILayer.Panels))
-            {
-                return;
-            }
+            _settingsPanelInstance.Toggle(null);
 
-            _ = SettingsPressedAsync();
+            //if (_uiManager.IsLayerInUse(UILayer.Panels))
+            //{
+            //    return;
+            //}
+
+            //_ = SettingsPressedAsync();
         }
 
-        private async Task SettingsPressedAsync()
-        {
-            if (_networkManager.IsServer)
-            {
-                await _saveManager.SaveGameAsync();
-                _networkManager.StopServer();
-            }
+        //private async Task SettingsPressedAsync()
+        //{
+        //    if (_networkManager.IsServer)
+        //    {
+        //        await _saveManager.SaveGameAsync();
+        //        _networkManager.StopServer();
+        //    }
 
-            _networkManager.StopClient();
-        }
+        //    _networkManager.StopClient();
+        //}
 
         private void FishingBagPressed()
         {

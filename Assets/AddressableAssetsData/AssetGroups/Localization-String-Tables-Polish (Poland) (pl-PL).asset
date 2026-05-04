@@ -28,7 +28,7 @@ MonoBehaviour:
     - Locale-pl-PL
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ed77fd173ef5ce4688f6b3ccaee64f8
-    m_Address: ClamChestPanel_pl-PL
+    m_Address: ClamChestPanelTable_pl-PL
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pl-PL
@@ -46,7 +46,7 @@ MonoBehaviour:
     - Locale-pl-PL
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a67bc2841a71ba94e8f737b7a9ccc3d2
-    m_Address: HostGamePanel_pl-PL
+    m_Address: HostGamePanelTable_pl-PL
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pl-PL
@@ -77,6 +77,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd34477258d12064a9ead60f2a7038c0
     m_Address: StructuresTable_pl-PL
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pl-PL
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1bc393fecd5c0e4895290fbf78628be
+    m_Address: SettingsPanelTable_pl-PL
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pl-PL

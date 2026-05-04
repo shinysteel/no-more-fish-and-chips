@@ -15,8 +15,14 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-English (en)
   m_GUID: 7aa84236e4bab9b49b004be256899123
   m_SerializeEntries:
+  - m_GUID: 015e7c6792a4f0f478b154990aef3485
+    m_Address: SettingsPanelTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 05859cd5a8c26084cb2bbaab639403ec
-    m_Address: ClamChestPanel_en
+    m_Address: ClamChestPanelTable_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
@@ -70,7 +76,7 @@ MonoBehaviour:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 989d61a4a7b9eb842919fe438ae3bfa0
-    m_Address: HostGamePanel_en
+    m_Address: HostGamePanelTable_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

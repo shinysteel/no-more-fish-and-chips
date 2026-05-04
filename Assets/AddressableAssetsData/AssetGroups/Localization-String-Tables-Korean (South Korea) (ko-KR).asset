@@ -28,7 +28,7 @@ MonoBehaviour:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 200b619610a9cbd41a84c97dede81189
-    m_Address: HostGamePanel_ko-KR
+    m_Address: HostGamePanelTable_ko-KR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko-KR
@@ -41,6 +41,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4d95b43a1e3d2484bb40fdcc47f58f38
     m_Address: CraftingKitPanelTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5ef6dcb11fef6d941bf753fe32a68ebc
+    m_Address: SettingsPanelTable_ko-KR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko-KR
@@ -58,7 +64,7 @@ MonoBehaviour:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9d376c917be94b54cb5315b6de8cc292
-    m_Address: ClamChestPanel_ko-KR
+    m_Address: ClamChestPanelTable_ko-KR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko-KR
