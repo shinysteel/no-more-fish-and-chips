@@ -74,8 +74,8 @@ namespace FishFlingers.Entities
                 _fish.transform.position += Vector3.down * _restDistance;
                 
                 // Face towards the raft, with a slight tilt up
-                _fish.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(edge.Direction));
-                _fish.transform.rotation = Quaternion.AngleAxis(_scoutTilt, _fish.transform.right) * _fish.transform.rotation;
+                _fish.transform.rotation = Quaternion.LookRotation(-Utils.Math.DirectionToVector3(edge.Direction));
+                _fish.transform.rotation = Quaternion.AngleAxis(-_scoutTilt, _fish.transform.right) * _fish.transform.rotation;
 
                 // Animate from underwater to surface
                 _fish.transform.position += Vector3.down * _surfaceDistance;
@@ -125,7 +125,7 @@ namespace FishFlingers.Entities
                 _anticipatePosition = _fish.transform.position + anticipateOffset;
 
                 // Match the launch angle
-                _anticipateRotation = Quaternion.AngleAxis(_fish.DefinitionData.LaunchAngle, _fish.transform.right) * _fish.transform.rotation;
+                _anticipateRotation = Quaternion.AngleAxis(-_fish.DefinitionData.LaunchAngle, _fish.transform.right) * _fish.transform.rotation;
 
                 // Anticipate with a small duck
                 Sequence.Create()
@@ -140,7 +140,7 @@ namespace FishFlingers.Entities
                 _landPosition = _fish._targetTile.transform.position;
 
                 // Straight down
-                _landRotation = Quaternion.AngleAxis(-90f, _fish.transform.right) * _fish.transform.rotation;
+                _landRotation = Quaternion.AngleAxis(90f, _fish.transform.right) * _fish.transform.rotation;
             }
             
             public override void Tick()
