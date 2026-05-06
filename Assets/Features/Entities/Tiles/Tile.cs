@@ -65,11 +65,6 @@ namespace FishFlingers.Entities
         private void HandleHealthChanged(int previous, int current)
         {
             _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)_healthModule.Current / _healthModule.Max));
-
-            if (current < previous)
-            {
-                // Oscillate our scale for some feedback
-            }
         }
 
         public void SetCell(Vector2Int cell)
