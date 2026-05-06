@@ -1,4 +1,6 @@
+using FishFlingers.Pools;
 using UnityEngine;
+using FishFlingers.Environments;
 
 namespace FishFlingers.Entities
 {
@@ -7,8 +9,10 @@ namespace FishFlingers.Entities
         public RaftPlayer Player => (RaftPlayer)_entity;
 
         public RaftPlayerDefeatModule(RaftPlayer player) : base(player)
-        { }
-
+        { 
+            
+        }
+        
         public override void DefeatTick()
         {
             
@@ -16,7 +20,7 @@ namespace FishFlingers.Entities
 
         public override void Defeat()
         {
-            
+
         }
 
         public override void Despawn()

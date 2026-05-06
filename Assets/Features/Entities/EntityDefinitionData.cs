@@ -10,6 +10,7 @@ namespace FishFlingers.Entities
     {
         [SerializeField] protected EntityId _id;
         [SerializeField] protected int _health = 1;
+        [SerializeField] private bool _isDamageable = true;
         [SerializeField] private EntityAlliance _alliance;
         [SerializeField] private DropTable[] _dropTables;
         [SerializeField] private EntityDefeatSettings _entityDefeatSettings;
@@ -17,6 +18,7 @@ namespace FishFlingers.Entities
 
         public EntityId Id => _id;
         public int Health => _health;
+        public bool IsDamageable => _isDamageable;
         public EntityAlliance Alliance => _alliance;
         public DropTable[] DropTables => _dropTables;
         public EntityDefeatSettings EntityDefeatSettings => _entityDefeatSettings;

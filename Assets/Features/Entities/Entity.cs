@@ -118,6 +118,8 @@ namespace FishFlingers.Entities
             _context = null;
 
             _healthModule = null;
+            _defeatModule = null;
+            _lifecycleModule = null;
         }
     }
 }

@@ -29,6 +29,11 @@ namespace FishFlingers.Entities
 
         public void SetHealth(int health)
         {
+            if (!_entity.EntityDefinitionData.IsDamageable)
+            {
+                return;
+            }
+
             health = Mathf.Clamp(health, 0, _max);
 
             if (Current == health)

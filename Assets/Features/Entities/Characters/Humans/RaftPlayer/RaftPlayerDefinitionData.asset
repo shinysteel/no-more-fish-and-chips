@@ -16,7 +16,7 @@ MonoBehaviour:
   _descriptionTerm: 1347063821
   _sprite: {fileID: 21300000, guid: 4d5437e4103caf0479f3fe3a36805b12, type: 3}
   _id: 100
-  _health: 3
+  _health: 1
   _alliance: 0
   _dropTables: []
   _entityDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}

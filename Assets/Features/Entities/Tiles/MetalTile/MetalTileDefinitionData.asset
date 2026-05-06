@@ -17,6 +17,7 @@ MonoBehaviour:
   _sprite: {fileID: 21300000, guid: 09a933b168b36364d97b9d01f578880e, type: 3}
   _id: 3
   _health: 4
+  _isDamageable: 1
   _alliance: 0
   _dropTables:
   - {fileID: 11400000, guid: bbed14a4c6202b24ba9ee8dd4e45e331, type: 2}

@@ -17,6 +17,7 @@ MonoBehaviour:
   _sprite: {fileID: 0}
   _id: 103
   _health: 2
+  _isDamageable: 1
   _alliance: 1
   _dropTables: []
   _entityDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}

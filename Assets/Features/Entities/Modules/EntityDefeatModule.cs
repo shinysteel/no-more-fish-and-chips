@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using ShinyOwl.Common;
 using FishFlingers.Networking;
+using FishFlingers.Pools;
 
 namespace FishFlingers.Entities
 {
@@ -12,6 +13,7 @@ namespace FishFlingers.Entities
         protected EntityManager _entityManager;
         protected ItemManager _itemManager;
         protected NetworkManager _networkManager;
+        protected PoolManager _poolManager;
 
         protected IEntity _entity;
 
@@ -26,6 +28,7 @@ namespace FishFlingers.Entities
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _entity = entity;
 
