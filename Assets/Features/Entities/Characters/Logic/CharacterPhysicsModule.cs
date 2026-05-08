@@ -13,8 +13,10 @@ namespace FishFlingers.Entities
         protected bool _isGrounded;
         public bool IsGrounded => _isGrounded;
 
-        protected bool _inWater;
-        public bool InWater => _inWater;
+        private float _timeInWater;
+        public float TimeInWater => _timeInWater;
+
+        public bool InWater => _timeInWater > 0f;
 
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
@@ -24,11 +26,6 @@ namespace FishFlingers.Entities
 
         public override void FixedTick()
         {
-            if (!Character.isOwner)
-            {
-                return;
-            }
-
             IsGroundedFixedTick();
             InWaterFixedTick();
         }
@@ -61,7 +58,16 @@ namespace FishFlingers.Entities
             float radius = Vector3.Distance(Character.CharacterCollider.bounds.center, Character.CharacterCollider.bounds.min) * 0.5f;
 
             // If we are overlapping a collider on the water mask, we are in water
-            _inWater = Physics.OverlapSphereNonAlloc(Character.CharacterCollider.bounds.center, radius, _inWaterCollidersNonAlloc, CharacterPhysicsSettings.ContactDetection.WaterMask) > 0;
+            bool inWater = Physics.OverlapSphereNonAlloc(Character.CharacterCollider.bounds.center, radius, _inWaterCollidersNonAlloc, CharacterPhysicsSettings.ContactDetection.WaterMask) > 0;
+
+            if (inWater)
+            {
+                _timeInWater += Time.fixedDeltaTime;
+            }
+            else
+            {
+                _timeInWater = 0f;
+            }
         }
     }
 }

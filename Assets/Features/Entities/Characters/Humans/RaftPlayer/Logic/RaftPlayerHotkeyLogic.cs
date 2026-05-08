@@ -21,17 +21,19 @@ namespace FishFlingers.Entities
         private UIManager _uiManager;
         private NetworkManager _networkManager;
 
+        private RaftPlayer _player;
         private GameplayContext _context;
 
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem;
 
         private InventoryRaycaster _inventoryRaycaster;
 
-        public RaftPlayerHotkeyLogic(GameplayContext context, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
+        public RaftPlayerHotkeyLogic(RaftPlayer player, GameplayContext context, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();
 
+            _player = player;
             _context = context;
 
             _netGrabbedInventoryItem = netGrabbedInventoryItem;
@@ -44,42 +46,42 @@ namespace FishFlingers.Entities
         /// </summary>
         public void Tick()
         {
-            if (!_context.LocalPlayer.isOwner)
+            if (!_player.isOwner)
             {
                 return;
             }
 
-            if (_context.LocalPlayer.InputLogic.LeftClick)
+            if (_player.InputLogic.LeftClick)
             {
                 LeftClick();
             }
 
-            if (_context.LocalPlayer.InputLogic.RightClick)
+            if (_player.InputLogic.RightClick)
             {
                 RightClick();
             }
 
-            if (_context.LocalPlayer.InputLogic.RotateItem)
+            if (_player.InputLogic.RotateItem)
             {
                 RotateInventoryItem();
             }
 
-            if (_context.LocalPlayer.InputLogic.DropItem)
+            if (_player.InputLogic.DropItem)
             {
                 DropItem();
             }
 
-            if (_context.LocalPlayer.InputLogic.Interact)
+            if (_player.InputLogic.Interact)
             {
                 Interact();
             }
 
-            if (_context.LocalPlayer.InputLogic.TryGetScroll(out float scroll))
+            if (_player.InputLogic.TryGetScroll(out float scroll))
             {
-                Scroll(_context.LocalPlayer.InputLogic.Scroll);
+                Scroll(_player.InputLogic.Scroll);
             }
 
-            if (_context.LocalPlayer.InputLogic.TryGetNumber(out int number))
+            if (_player.InputLogic.TryGetNumber(out int number))
             {
                 Number(number);
             }
@@ -95,7 +97,7 @@ namespace FishFlingers.Entities
                 ExecuteItemLeftClick();
                 
             }
-            else if (_context.LocalPlayer.GrabbedInventoryItemLogic.GrabbedInventoryItem == null)
+            else if (_player.GrabbedInventoryItemLogic.GrabbedInventoryItem == null)
             {
                 LeftClickWithoutGrabbed();
             }
@@ -107,12 +109,12 @@ namespace FishFlingers.Entities
 
         private void ExecuteItemLeftClick()
         {
-            if (_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem == null)
+            if (_player.Hotbar.SelectedSlot.InventoryItem == null)
             {
                 return;
             }
 
-            _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.LeftClickAction?.Execute(_context);
+            _player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.LeftClickAction?.Execute(_context);
         }
 
         /// <summary>
@@ -122,13 +124,13 @@ namespace FishFlingers.Entities
         {
             _inventoryRaycaster.GetViews(out InventoryItemView itemView, out InventorySlotView inventorySlot, out HotbarWidgetSlot hotbarSlot, out _);
 
-            if (_context.LocalPlayer.InputLogic.Shift)
+            if (_player.InputLogic.Shift)
             {
                 MoveItem(itemView);
             }
             else if (hotbarSlot != null)
             {
-                _context.LocalPlayer.Hotbar.SetSlot(hotbarSlot.Index, null);
+                _player.Hotbar.SetSlot(hotbarSlot.Index, null);
             }
             else
             {
@@ -146,7 +148,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (_context.LocalPlayer.OpenNetBehaviourLogic.Behaviour is not IHasInventory hasInventory)
+            if (_player.OpenNetBehaviourLogic.Behaviour is not IHasInventory hasInventory)
             {
                 return;
             }
@@ -154,18 +156,18 @@ namespace FishFlingers.Entities
             Inventory fromInventory;
             Inventory toInventory;
             
-            if (itemView.InventoryWidget.Inventory == _context.LocalPlayer.Inventory)
+            if (itemView.InventoryWidget.Inventory == _player.Inventory)
             {
-                fromInventory = _context.LocalPlayer.Inventory;
+                fromInventory = _player.Inventory;
                 toInventory = hasInventory.Inventory;
             }
             else
             {
                 fromInventory = hasInventory.Inventory;
-                toInventory = _context.LocalPlayer.Inventory;
+                toInventory = _player.Inventory;
             }
 
-            _ = _context.LocalPlayer.MoveInventoryItemRpc(fromInventory.owner.Value, fromInventory, toInventory, itemView.InventoryItem.ItemInstance.InstanceId);
+            _ = _player.MoveInventoryItemRpc(fromInventory.owner.Value, fromInventory, toInventory, itemView.InventoryItem.ItemInstance.InstanceId);
         }
 
         private void GrabItem(InventoryItemView itemView, InventorySlotView inventorySlot)
@@ -181,7 +183,7 @@ namespace FishFlingers.Entities
             }
 
             // Since the item is linked to the slot, grab it
-            _ = _context.LocalPlayer.GrabbedInventoryItemLogic.GrabAsync(itemView, inventorySlot);
+            _ = _player.GrabbedInventoryItemLogic.GrabAsync(itemView, inventorySlot);
         }
 
         /// <summary>
@@ -193,21 +195,21 @@ namespace FishFlingers.Entities
 
             if (hotbarSlot != null)
             {
-                _context.LocalPlayer.GrabbedInventoryItemLogic.Assign(hotbarSlot);
+                _player.GrabbedInventoryItemLogic.Assign(hotbarSlot);
             }
             else if (inventorySlot != null)
             {
-                _ = _context.LocalPlayer.GrabbedInventoryItemLogic.PlaceAsync(inventorySlot);
+                _ = _player.GrabbedInventoryItemLogic.PlaceAsync(inventorySlot);
             }
             else if (panel == null)
             {
-                _ = _context.LocalPlayer.GrabbedInventoryItemLogic.DropAsync();
+                _ = _player.GrabbedInventoryItemLogic.DropAsync();
             }
         }
 
         private void RightClick()
         {
-            if (!_context.LocalPlayer.CanAct)
+            if (!_player.CanAct)
             {
                 return;
             }
@@ -217,12 +219,12 @@ namespace FishFlingers.Entities
 
         private void ExecuteItemRightClick()
         {
-            if (_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem == null)
+            if (_player.Hotbar.SelectedSlot.InventoryItem == null)
             {
                 return;
             }
 
-            _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.RightClickAction?.Execute(_context);
+            _player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.RightClickAction?.Execute(_context);
         }
 
         /// <summary>
@@ -235,7 +237,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (_context.LocalPlayer.GrabbedInventoryItemLogic.GrabbedInventoryItem != null)
+            if (_player.GrabbedInventoryItemLogic.GrabbedInventoryItem != null)
             {
                 RotateGrabbedInventoryItem();
             }
@@ -283,7 +285,7 @@ namespace FishFlingers.Entities
             {
                 DropItemAtCursor();
             }
-            else if (_context.LocalPlayer.CanAct)
+            else if (_player.CanAct)
             {
                 DropSelectedItem();
             }
@@ -302,40 +304,40 @@ namespace FishFlingers.Entities
             }
             else if (hotbarSlot?.InventoryItem != null)
             {
-                Drop(hotbarSlot.InventoryItem.ItemInstance, _context.LocalPlayer.Inventory);
+                Drop(hotbarSlot.InventoryItem.ItemInstance, _player.Inventory);
             }
 
             void Drop(ItemInstance instance, Inventory inventory)
             {
-                _context.LocalPlayer.DropInventoryItemLogic.DropItem(instance);
+                _player.DropInventoryItemLogic.DropItem(instance);
                 inventory.TryRemoveItem(instance.InstanceId);
             }
         }
 
         private void DropSelectedItem()
         {
-            if (_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem == null)
+            if (_player.Hotbar.SelectedSlot.InventoryItem == null)
             {
                 return;
             }
 
-            _context.LocalPlayer.DropInventoryItemLogic.DropItem(_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem.ItemInstance);
-            _context.LocalPlayer.Inventory.TryRemoveItem(_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem.ItemInstance.InstanceId);
+            _player.DropInventoryItemLogic.DropItem(_player.Hotbar.SelectedSlot.InventoryItem.ItemInstance);
+            _player.Inventory.TryRemoveItem(_player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.InstanceId);
         }
 
         private void Interact()
         {
-            if (!_context.LocalPlayer.CanAct)
+            if (!_player.CanAct)
             {
                 return;
             }
 
-            _context.LocalPlayer.InteractLogic.Interact();
+            _player.InteractLogic.Interact();
         }
 
         private void Scroll(float scroll)
         {
-            if (!_context.LocalPlayer.CanAct)
+            if (!_player.CanAct)
             {
                 return;
             }
@@ -352,7 +354,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            _context.LocalPlayer.Hotbar.ChangeSelectedIndex(delta);
+            _player.Hotbar.ChangeSelectedIndex(delta);
         }
 
         /// <summary>
@@ -364,15 +366,15 @@ namespace FishFlingers.Entities
             {
                 AssignItem(number);
             }
-            else if (_context.LocalPlayer.CanAct)
+            else if (_player.CanAct)
             {
-                _context.LocalPlayer.Hotbar.SetSelectedIndex(number - 1);
+                _player.Hotbar.SetSelectedIndex(number - 1);
             }
         }
 
         private void AssignItem(int number)
         {
-            if (_context.LocalPlayer.GrabbedInventoryItemLogic.GrabbedInventoryItem != null)
+            if (_player.GrabbedInventoryItemLogic.GrabbedInventoryItem != null)
             {
                 return;
             }
@@ -389,12 +391,12 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (itemView.InventoryWidget.Inventory != _context.LocalPlayer.Inventory)
+            if (itemView.InventoryWidget.Inventory != _player.Inventory)
             {
                 return;
             }
 
-            _context.LocalPlayer.Hotbar.SetSlot(number - 1, itemView.InventoryItem.ItemInstance.InstanceId);
+            _player.Hotbar.SetSlot(number - 1, itemView.InventoryItem.ItemInstance.InstanceId);
         }
     }
 }

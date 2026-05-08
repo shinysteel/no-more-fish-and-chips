@@ -131,11 +131,8 @@ namespace FishFlingers.Entities
         {
             base.Initialise(context);
 
-            if (isOwner)
-            {
-                _hotkeyLogic = new RaftPlayerHotkeyLogic(context, _netGrabbedInventoryItem);
-                _tileTargetLogic = new RaftPlayerTileTargetLogic(context);
-            }
+            _hotkeyLogic = new RaftPlayerHotkeyLogic(this, context, _netGrabbedInventoryItem);
+            _tileTargetLogic = new RaftPlayerTileTargetLogic(this, context);
         }
 
         protected override void OnDespawned()
@@ -148,8 +145,13 @@ namespace FishFlingers.Entities
         protected override void Update()
         {
             base.Update();
-
+            
             if (!isFullySpawned)
+            {
+                return;
+            }
+
+            if (!_isInitialised)
             {
                 return;
             }

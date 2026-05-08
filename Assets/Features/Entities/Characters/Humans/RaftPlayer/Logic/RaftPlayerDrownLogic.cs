@@ -9,7 +9,7 @@ namespace FishFlingers.Entities
         private NetworkManager _networkManager;
 
         private RaftPlayer _player;
-
+        
         private Drowning _drowning;
 
         public RaftPlayerDrownLogic(RaftPlayer player)
@@ -27,7 +27,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (_player.RaftPlayerPhysicsModule.InWater)
+            if (_player.RaftPlayerPhysicsModule.TimeInWater > 0.5f)
             {
                 if (_drowning == null)
                 {

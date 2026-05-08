@@ -31,7 +31,7 @@ namespace FishFlingers.Entities
         {
             base.OnSpawned();
 
-            _rigidbody.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
+            transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
         }
     }
 

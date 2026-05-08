@@ -139,7 +139,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (!_inWater)
+            if (!InWater)
             {
                 return;
             }

@@ -94,6 +94,7 @@ namespace FishFlingers.Entities
     {
         private CameraManager _cameraManager;
 
+        private RaftPlayer _player;
         private GameplayContext _context;
 
         private RaftPlayerTileTargetSettings _settings;
@@ -109,30 +110,31 @@ namespace FishFlingers.Entities
 
         private const float RepairRange = 1f;
 
-        public RaftPlayerTileTargetLogic(GameplayContext context)
+        public RaftPlayerTileTargetLogic(RaftPlayer player, GameplayContext context)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
 
+            _player = player;
             _context = context;
 
-            _settings = _context.LocalPlayer.DefinitionData.TileTargetSettings;
+            _settings = _player.DefinitionData.TileTargetSettings;
 
             _targetVisual = Object.Instantiate(_settings.TargetVisualPrefab);
 
             _target = new RaftPlayerTileTarget(context);
             _target.OnChanged += HandleTargetChanged;
 
-            HandleHotbarSelectedSlotChanged(_context.LocalPlayer.Hotbar.SelectedSlot);
-            _context.LocalPlayer.Hotbar.OnSelectedChanged += HandleHotbarSelectedSlotChanged;
+            HandleHotbarSelectedSlotChanged(_player.Hotbar.SelectedSlot);
+            _player.Hotbar.OnSelectedChanged += HandleHotbarSelectedSlotChanged;
         }
 
         ~RaftPlayerTileTargetLogic()
         {
             _target.OnChanged -= HandleTargetChanged;
 
-            if (_context.LocalPlayer != null)
+            if (_player != null)
             {
-                _context.LocalPlayer.Hotbar.OnSelectedChanged -= HandleHotbarSelectedSlotChanged;
+                _player.Hotbar.OnSelectedChanged -= HandleHotbarSelectedSlotChanged;
             }
         }
 
@@ -151,7 +153,7 @@ namespace FishFlingers.Entities
 
         public void Tick()
         {
-            if (!_context.LocalPlayer.isOwner)
+            if (!_player.isOwner)
             {
                 return;
             }
@@ -166,7 +168,7 @@ namespace FishFlingers.Entities
 
             if (!_isBuilding)
             {
-                Vector2Int playerCell = _context.Raft.Queries.WorldPositionToCell(_context.LocalPlayer.transform.position);
+                Vector2Int playerCell = _context.Raft.Queries.WorldPositionToCell(_player.transform.position);
 
                 List<Tile> tiles = ListPool<Tile>.Get();
 
@@ -183,8 +185,8 @@ namespace FishFlingers.Entities
 
                 // Find the closest tile that can be repaired
                 Tile closestTile = tiles
-                    .Where(tile => tile.EntityHealthModule.Current < tile.EntityHealthModule.Max && Vector3.Distance(tile.transform.position, _context.LocalPlayer.transform.position) < RepairRange)
-                    .OrderBy(tile => Vector3.Distance(tile.transform.position, _context.LocalPlayer.transform.position))
+                    .Where(tile => tile.EntityHealthModule.Current < tile.EntityHealthModule.Max && Vector3.Distance(tile.transform.position, _player.transform.position) < RepairRange)
+                    .OrderBy(tile => Vector3.Distance(tile.transform.position, _player.transform.position))
                     .FirstOrDefault();
 
                 ListPool<Tile>.Release(tiles);
@@ -193,7 +195,7 @@ namespace FishFlingers.Entities
             }
             else
             {
-                newTargetCell = _context.Raft.Queries.WorldPositionToCell(_context.LocalPlayer.transform.position + _context.LocalPlayer.transform.forward * 1f);
+                newTargetCell = _context.Raft.Queries.WorldPositionToCell(_player.transform.position + _player.transform.forward * 1f);
             }
             
             // We only care if the cell has changed
@@ -220,7 +222,7 @@ namespace FishFlingers.Entities
 
         private void RefreshVisual()
         {
-            bool itemCanRepair = _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.CanRepair ?? false;
+            bool itemCanRepair = _player.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.CanRepair ?? false;
 
             if (_isBuilding)
             {

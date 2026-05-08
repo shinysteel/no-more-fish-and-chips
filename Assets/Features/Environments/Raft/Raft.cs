@@ -85,6 +85,11 @@ namespace FishFlingers.Environments
         protected override void OnDespawned()
         {
             _instantiateManager.RaiseComponentDestroyed(this);
+
+            foreach (Tile tile in _tiles.Values)
+            {
+                _entityManager.Despawn(tile);
+            }
         }
 
         [ServerRpc(requireOwnership: false)]
