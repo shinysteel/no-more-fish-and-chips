@@ -81,6 +81,17 @@ namespace FishFlingers.UI
             _ = SearchAsync();
         }
 
+        public override void Unload()
+        {
+            foreach (LobbyContainerModel model in _lobbyContainerModels)
+            {
+                foreach (LobbyEntry entry in model.Entries)
+                {
+                    _poolManager.ReturnTypedPoolable(entry);
+                }
+            }
+        }
+
         private void Update()
         {
             AutoSearchUpdate();
