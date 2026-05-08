@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 211835d87f316ae438114afb1aaae833, type: 2}
   _entityDefeatSettings: {fileID: 11400000, guid: 4d6268f574805274586387a8befa046c, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
+  _entityEffectsSettings: {fileID: 11400000, guid: d20050ef6bf106d42b4c6926d756f22f, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
   _recipe:
     _requirements:

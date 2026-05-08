@@ -97,26 +97,33 @@ namespace FishFlingers.Hitboxes
                     // Hit the entity
                     entity.EntityHealthModule.ChangeHealth(-_data.Damage);
 
-                    // Damaging an entity can cause it to despawn
-                    if (!entity.IsSpawned)
+                    // Damaging an entity can cause it to despawn, which nulls all modules
+                    if (entity.IsSpawned)
                     {
-                        continue;
-                    }
+                        Vector3 forceDirection = (entity.Transform.position - transform.position).normalized;
+                        Vector3 force = forceDirection * _data.KnockbackForceStrength;
 
-                    entity.EntityEffectsModule.AnimateHurt();
+                        Vector3 torqueDirection = forceDirection;
+                        torqueDirection.y = 0f;
+                        torqueDirection.Normalize();
+                        torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
+                        Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
 
-                    Vector3 forceDirection = (entity.Transform.position - transform.position).normalized;
-                    entity.EntityPhysicsModule.Rigidbody.AddForce(forceDirection * _data.KnockbackForceStrength, ForceMode.Impulse);
+                        if (entity is NetEntity netEntity)
+                        {
+                            netEntity.AddForceRpc(force);
+                            netEntity.AddTorqueRpc(torque);
+                        }
+                        else
+                        {
+                            entity.EntityPhysicsModule.Rigidbody.AddForce(force, ForceMode.Impulse);
+                            entity.EntityPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Impulse);
+                        }
 
-                    Vector3 torqueDirection = forceDirection;
-                    torqueDirection.y = 0f;
-                    torqueDirection.Normalize();
-                    torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
-                    entity.EntityPhysicsModule.Rigidbody.AddTorque(torqueDirection * _data.KnockbackTorqueStrength, ForceMode.Impulse);
-
-                    if (entity is Character character)
-                    {
-                        character.StunRpc(_data.StunDuration);
+                        if (entity is Character character)
+                        {
+                            character.StunRpc(_data.StunDuration);
+                        }
                     }
 
                     _hitEntities.Add(entity);

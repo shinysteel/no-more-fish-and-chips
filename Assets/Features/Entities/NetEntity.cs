@@ -51,14 +51,24 @@ namespace FishFlingers.Entities
 
             _entityLifecycleModule = new EntityLifecycleModule(this);
 
-            _entityEffectsModule ??= new EntityEffectsModule(this);
+            _entityEffectsModule = CreateEffectsModule();
 
-            _entityPhysicsModule ??= new EntityPhysicsModule(this, _rigidbody);
+            _entityPhysicsModule = CreatePhysicsModule();
         }
 
         protected virtual EntityDefeatModule CreateDefeatModule()
         {
             return new EntityDefeatModule(this);
+        }
+
+        protected virtual EntityEffectsModule CreateEffectsModule()
+        {
+            return new EntityEffectsModule(this);
+        }
+
+        protected virtual EntityPhysicsModule CreatePhysicsModule()
+        {
+            return new EntityPhysicsModule(this, _rigidbody);
         }
 
         protected override void OnSpawned()

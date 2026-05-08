@@ -18,19 +18,19 @@ namespace FishFlingers.Entities
 
         public CharacterRagdollLogic RagdollLogic => _ragdollLogic;
 
-        protected override void OnInitializeModules()
-        {
-            _entityEffectsModule = new CharacterEffectsModule(this);
-
-            // Some characters setup their own inherited logic script
-            _entityPhysicsModule ??= new CharacterPhysicsModule(this, _rigidbody);
-
-            base.OnInitializeModules();
-        }
-
         protected override EntityDefeatModule CreateDefeatModule()
         {
             return new CharacterDefeatModule(this);
+        }
+
+        protected override EntityEffectsModule CreateEffectsModule()
+        {
+            return new CharacterEffectsModule(this);
+        }
+
+        protected override EntityPhysicsModule CreatePhysicsModule()
+        {
+            return new CharacterPhysicsModule(this, _rigidbody);
         }
 
         protected override void OnSpawned()

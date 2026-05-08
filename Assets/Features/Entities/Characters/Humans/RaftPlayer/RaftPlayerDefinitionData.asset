@@ -22,6 +22,7 @@ MonoBehaviour:
   _dropTables: []
   _entityDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
+  _entityEffectsSettings: {fileID: 11400000, guid: f62f8ac4679007946a7e8655bcbc9fd4, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 1cb918813fdeea64ba84e4ef6eb1ffb8, type: 2}
   _characterPhysicsSettings: {fileID: 11400000, guid: 1cb918813fdeea64ba84e4ef6eb1ffb8, type: 2}
   _interactSettings: {fileID: 11400000, guid: da84a5b8bf687604b84d0bb4818d2391, type: 2}

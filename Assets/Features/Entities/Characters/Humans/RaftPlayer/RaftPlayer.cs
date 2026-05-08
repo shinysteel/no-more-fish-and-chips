@@ -92,16 +92,14 @@ namespace FishFlingers.Entities
             }
         }
 
-        protected override void OnInitializeModules()
-        {
-            _entityPhysicsModule = new RaftPlayerPhysicsModule(this, _rigidbody);
-
-            base.OnInitializeModules();
-        }
-
         protected override EntityDefeatModule CreateDefeatModule()
         {
             return new RaftPlayerDefeatModule(this);
+        }
+
+        protected override EntityPhysicsModule CreatePhysicsModule()
+        {
+            return new RaftPlayerPhysicsModule(this, _rigidbody);
         }
 
         protected override void OnSpawned()
