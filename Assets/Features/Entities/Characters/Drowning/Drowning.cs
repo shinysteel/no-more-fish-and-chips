@@ -14,23 +14,21 @@ namespace FishFlingers.Entities
         {
             _target = target;
 
-            Vector3 direction = target.transform.position;
+            Vector3 direction = _target.transform.position;
             direction.y = 0f;
             direction.Normalize();
-            
+
             direction = Quaternion.AngleAxis(Random.Range(-30f, 30f), Vector3.up) * direction;
 
             Vector3 position = _target.transform.position;
             position.y = 0f;
             position += direction * 3f;
-            
+
             transform.position = position;
         }
 
-        protected override void OnSpawned()
+        protected override void OnEarlySpawn()
         {
-            base.OnSpawned();
-
             Tween.Alpha(_spriteRenderer, startValue: 0f, endValue: 1f, duration: 0.33f);
         }
 
