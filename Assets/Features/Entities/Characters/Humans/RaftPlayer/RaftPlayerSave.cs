@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 using System.Threading.Tasks;
+using ShinyOwl.Common;
 
 namespace FishFlingers.Entities
 {
@@ -37,8 +38,8 @@ namespace FishFlingers.Entities
 
         public async Task LoadToAsync(RaftPlayer player)
         {
-            player.transform.position = Position;
-            player.transform.rotation = Rotation;
+            player.RaftPlayerPhysicsModule.Rigidbody.position = Position;
+            player.RaftPlayerPhysicsModule.Rigidbody.rotation = Rotation;
 
             player.RaftPlayerPhysicsModule.Rigidbody.linearVelocity = Vector3.zero;
             player.RaftPlayerPhysicsModule.Rigidbody.angularVelocity = Vector3.zero;

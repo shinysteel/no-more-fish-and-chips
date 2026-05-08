@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1506918679942186133}
   - component: {fileID: 4733467646641177941}
   m_Layer: 0
-  m_Name: Shadow
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,6 +173,40 @@ MonoBehaviour:
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 3543654061985757809}
   _characterCollider: {fileID: 4807039884850981880}
+  _spriteRenderer: {fileID: 4733467646641177941}
+  _scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 12.122425
+      outSlope: 12.122425
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05105439
+    - serializedVersion: 3
+      time: 0.25
+      value: 1
+      inSlope: 0.002557108
+      outSlope: 0.002557108
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.053518374
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.023580205
+      outSlope: 0.023580205
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.23104899
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!135 &4807039884850981880
 SphereCollider:
   m_ObjectHideFlags: 0
