@@ -111,8 +111,8 @@ namespace FishFlingers.Hitboxes
 
                         if (entity is NetEntity netEntity)
                         {
-                            netEntity.AddForceRpc(force);
-                            netEntity.AddTorqueRpc(torque);
+                            netEntity.AddForceRpc(netEntity.owner.Value, force);
+                            netEntity.AddTorqueRpc(netEntity.owner.Value, torque);
                         }
                         else
                         {
@@ -123,6 +123,12 @@ namespace FishFlingers.Hitboxes
                         if (entity is Character character)
                         {
                             character.StunRpc(_data.StunDuration);
+                        }
+
+                        // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
+                        if (entity is RaftPlayer player)
+                        {
+                            player.AnimateHurtRpc();
                         }
                     }
 

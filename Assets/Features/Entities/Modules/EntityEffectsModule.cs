@@ -1,3 +1,4 @@
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -6,13 +7,9 @@ namespace FishFlingers.Entities
     {
         protected IEntity _entity;
 
-        protected EntityEffectsSettings _entityEffectsSettings;
-
         public EntityEffectsModule(IEntity entity)
         {
             _entity = entity;
-
-            _entityEffectsSettings = _entity.EntityDefinitionData.EntityEffectsSettings;
 
             _entity.EntityHealthModule.OnChanged += HandleHealthChanged;
         }
@@ -32,7 +29,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (current < previous || _entityEffectsSettings.AlwaysAnimateHurt)
+            if (current < previous)
             {
                 AnimateHurt();
             }

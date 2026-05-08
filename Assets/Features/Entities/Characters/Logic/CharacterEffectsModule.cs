@@ -11,7 +11,13 @@ namespace FishFlingers.Entities
 
         public override void AnimateHurt()
         {
-            Character.CharacterModel.AnimateHurt();
+            Character.CharacterModel.FlashRed();
+
+            // The animator is already networked, and so only the owner needs to do this
+            if (Character.IsOwner)
+            {
+                Character.CharacterModel.AdditiveHurt();
+            }
         }
     }
 }

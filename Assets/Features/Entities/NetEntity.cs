@@ -132,14 +132,20 @@ namespace FishFlingers.Entities
             _netCurrentHealth.value = health;
         }
 
-        [ServerRpc]
-        public void AddForceRpc(Vector3 force)
+        [ObserversRpc]
+        public void AnimateHurtRpc()
+        {
+            _entityEffectsModule.AnimateHurt();
+        }
+
+        [TargetRpc]
+        public void AddForceRpc(PlayerID id, Vector3 force)
         {
             _entityPhysicsModule.Rigidbody.AddForce(force, ForceMode.Impulse);
         }
 
-        [ServerRpc]
-        public void AddTorqueRpc(Vector3 torque)
+        [TargetRpc]
+        public void AddTorqueRpc(PlayerID id, Vector3 torque)
         {
             _entityPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Impulse);
         }

@@ -14,7 +14,6 @@ namespace FishFlingers.Entities
         [SerializeField] private DropTable[] _dropTables;
         [SerializeField] private EntityDefeatSettings _entityDefeatSettings;
         [SerializeField] private EntityLifecycleSettings _entityLifecycleSettings;
-        [SerializeField] private EntityEffectsSettings _entityEffectsSettings;
         [SerializeField] private EntityPhysicsSettings _entityPhysicsSettings;
 
         public EntityId Id => _id;
@@ -24,7 +23,6 @@ namespace FishFlingers.Entities
         public DropTable[] DropTables => _dropTables;
         public EntityDefeatSettings EntityDefeatSettings => _entityDefeatSettings;
         public EntityLifecycleSettings EntityLifecycleSettings => _entityLifecycleSettings;
-        public EntityEffectsSettings EntityEffectsSettings => _entityEffectsSettings;
         public EntityPhysicsSettings EntityPhysicsSettings => _entityPhysicsSettings;
     }
 }

@@ -55,7 +55,7 @@ namespace FishFlingers.Entities
             _blinkTimer = Random.Range(_minBlinkInterval, _maxBlinkInterval);
         }
 
-        public void AnimateHurt()
+        public void FlashRed()
         {
             _hurtTween.Stop();   
 
@@ -64,7 +64,10 @@ namespace FishFlingers.Entities
             {
                 _material.SetFloat(HurtBlendShaderPropertyName, value);
             });
+        }
 
+        public void AdditiveHurt()
+        {
             // Additive animation
             SetTrigger(HurtAnimatorTriggerName);
 
