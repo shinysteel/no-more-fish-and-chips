@@ -1,6 +1,8 @@
 using PrimeTween;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common.Framework;
+using ShinyOwl.Common.Utils;
 using UnityEngine;
 
 namespace FishFlingers.Entities
@@ -87,6 +89,8 @@ namespace FishFlingers.Entities
                 _targetPosition = target;
 
                 _targetsChosen++;
+
+                TweenExtensions.Rotation(_seagull.transform, endValue: Quaternion.AngleAxis(_glideDirection * -10f, Vector3.forward), duration: 0.5f, Ease.OutQuad);
             }
 
             public override void Tick()
@@ -130,6 +134,8 @@ namespace FishFlingers.Entities
                 landPosition.y = tile.GetSurfaceY();
 
                 Tween.Position(_seagull.transform, endValue: landPosition, duration: 2f, ease: Ease.InOutQuad).OnComplete(() => _parentStateMachine.ChangeState(EState.Idle));
+
+                TweenExtensions.Rotation(_seagull.transform, endValue: Quaternion.LookRotation(Utils.Math.DirectionToVector3(Utils.Math.GetRandomDirection()), Vector3.up), duration: 1f, ease: Ease.OutQuad);
             }
         }
 

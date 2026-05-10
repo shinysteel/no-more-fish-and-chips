@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ShinyOwl.Common.Utils
 {
@@ -54,6 +55,11 @@ namespace ShinyOwl.Common.Utils
             public static Direction PerpendicularDirection(Direction direction, bool clockwise)
             {
                 return (Direction)EuclideanModulo((int)direction + (clockwise ? 1 : -1), 4);
+            }
+
+            public static Direction GetRandomDirection()
+            {
+                return (Direction)Random.Range(0, Enum.GetValues(typeof(Direction)).Length);
             }
 
             public static int EuclideanModulo(int dividend, int modulus)
