@@ -1,5 +1,6 @@
 using FishFlingers.Instantiating;
 using FishFlingers.Scenes;
+using ShinyOwl.Common;
 using UnityEngine;
 
 public class SpawnParams
@@ -8,6 +9,7 @@ public class SpawnParams
 
     public Vector3 Position { get; set; } = Vector3.zero;
     public Quaternion Rotation { get; set; } = Quaternion.identity;
+    public Vector3 Scale { get; set; } = Vector3.one;
     public Transform Parent { get; set; } = null;
     public SpawnScene SpawnScene { get; set; } = SpawnScene.ActiveScene();
 
@@ -19,6 +21,8 @@ public class SpawnParams
     public T Spawn<T>(T prefab) where T : Component
     {
         T component = Object.Instantiate(prefab, Position, Rotation, Parent);
+
+        component.transform.localScale = Scale;
 
         if (Parent == null)
         {

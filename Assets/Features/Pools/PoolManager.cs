@@ -85,7 +85,7 @@ namespace FishFlingers.Pools
                 // whenever the parent's scale is not 1
 
                 obj.transform.SetParent(parameters.Parent, false);
-                obj.transform.localScale = _prefabScale;
+                obj.transform.localScale = Vector3.Scale(_prefabScale, parameters.Scale);
 
                 obj.transform.localPosition = parameters.Position;
                 obj.transform.localRotation = parameters.Rotation;

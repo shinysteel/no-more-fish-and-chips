@@ -145,9 +145,10 @@ namespace FishFlingers.Entities
 
             private void Despawn()
             {
-                if (_drowning != null)
+                if (_drowning._finisherModel != null)
                 {
                     _drowning._poolManager.ReturnEntityModel(_drowning._finisherModel);
+
                     _drowning._finisherModel = null;
                 }
 
