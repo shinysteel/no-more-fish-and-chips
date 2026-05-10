@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public class Drowning : Character<DrowningDefinitionData>
+    public class Drowning : Character<DrowningDefinitionData>, IEntityManagerListener
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private AnimationCurve _scaleCurve;
@@ -43,6 +43,12 @@ namespace FishFlingers.Entities
 
             public override void Tick()
             {
+                if (!_drowning._targetPlayer.RaftPlayerPhysicsModule.InWater)
+                {
+                    _parentStateMachine.ChangeState(EState.Disappear);
+                    return;
+                }
+
                 ScaleTick();
                 MoveTick();
                 DefeatTick();
@@ -56,7 +62,7 @@ namespace FishFlingers.Entities
 
                 _drowning.transform.localScale = Vector3.one * scale;
             }
-
+            
             private void MoveTick()
             {
                 Vector3 direction = (_drowning._targetPlayer.transform.position - _drowning.transform.position);
@@ -72,7 +78,7 @@ namespace FishFlingers.Entities
             {
                 if (Vector3.Distance(_drowning.transform.position, _drowning._targetPlayer.transform.position) < 0.5f)
                 {
-                    _drowning._targetPlayer.EntityDefeatModule.Defeat();
+                    _drowning._targetPlayer.EntityDefeatModule.SetIsDefeated(true);
                     _parentStateMachine.ChangeState(EState.Finisher);
                 }
             }
@@ -103,7 +109,7 @@ namespace FishFlingers.Entities
                 if (_timer >= 1f)
                 {
                     // Since interpolation is enabled, we need to teleport via rigidbody.position
-                    _drowning._targetPlayer.RaftPlayerPhysicsModule.Rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 10f);
+                    _drowning._targetPlayer.RaftPlayerPhysicsModule.Rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5F);
 
                     _drowning._targetPlayer.RaftPlayerDefeatModule.SetNetInBarrel(true);
                     _parentStateMachine.ChangeState(EState.Disappear);
@@ -120,8 +126,7 @@ namespace FishFlingers.Entities
 
             public override void Enter()
             {
-                Tween.StopAll(_drowning._spriteRenderer);
-                Tween.Alpha(_drowning._spriteRenderer, endValue: 0f, duration: 0.33f);
+                _drowning.DisappearRpc();
             }
 
             public override void Tick()
@@ -180,6 +185,8 @@ namespace FishFlingers.Entities
         {
             if (isOwner)
             {
+                _entityManager.AddListener(this);
+
                 _stateMachine.ChangeState(EState.Chase);
             }
 
@@ -192,6 +199,8 @@ namespace FishFlingers.Entities
 
             if (isOwner)
             {
+                _entityManager?.RemoveListener(this);
+
                 _stateMachine.ChangeState(EState.None);
             }
         }
@@ -203,6 +212,31 @@ namespace FishFlingers.Entities
             if (isOwner)
             {
                 _stateMachine.Tick();
+            }
+        }
+
+        [ObserversRpc]
+        private void DisappearRpc()
+        {
+            Tween.StopAll(_spriteRenderer);
+            Tween.Alpha(_spriteRenderer, endValue: 0f, duration: 0.33f);
+        }
+
+        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        {
+            if (_stateMachine.CurrentEnum == EState.Disappear)
+            {
+                return;
+            }
+            
+            if (entity is not RaftPlayer player)
+            {
+                return;
+            }
+
+            if (player == _targetPlayer)
+            {
+                _stateMachine.ChangeState(EState.Disappear);
             }
         }
     }

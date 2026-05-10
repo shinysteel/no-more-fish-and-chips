@@ -17,7 +17,7 @@ namespace FishFlingers.Entities
 
         private Tween _defeatTween;
 
-        public CharacterDefeatModule(Character character) : base(character)
+        public CharacterDefeatModule(Character character, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(character, isDefeatedGetter, isDefeatedSetter)
         {
             _character = character;
             _settings = (CharacterDefeatSettings)_character.EntityDefinitionData.EntityDefeatSettings;
@@ -30,7 +30,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (!_isDefeated)
+            if (!IsDefeated)
             {
                 return;
             }
@@ -56,19 +56,22 @@ namespace FishFlingers.Entities
                 .OnComplete(Despawn);
         }
 
-        public override void Defeat()
+        public override void HandleIsDefeatedChanged(bool defeated)
         {
-            _defeatTimer = 0f;
+            _character.CharacterModel.SetDefeated(defeated);
 
-            _character.CharacterModel.SetDefeated(true);
+            if (_character.isOwner)
+            {
+                _character.RagdollLogic.SetEnabled(defeated);
 
-            _character.CharacterModel.Animator.Update(0f);
+                if (defeated)
+                {
+                    _defeatTimer = 0f;
+                    _character.CharacterModel.Animator.Update(0f);
+                }
+            }
 
-            _character.RagdollLogic.SetEnabled(true);
-
-            _isDefeated = true;
-
-            RaiseDefeated();
+            RaiseIsDefeatedChanged();
         }
 
         protected override void Despawn()

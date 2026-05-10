@@ -18,7 +18,7 @@ namespace FishFlingers.Entities
 
         private Prop _barrelProp;
 
-        public RaftPlayerDefeatModule(RaftPlayer player, SyncVar<bool> netInBarrel) : base(player)
+        public RaftPlayerDefeatModule(RaftPlayer player, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter, SyncVar<bool> netInBarrel) : base(player, isDefeatedGetter, isDefeatedSetter)
         {
             _player = player;
             _netInBarrel = netInBarrel;
@@ -33,15 +33,16 @@ namespace FishFlingers.Entities
         // Don't inherit Tick logic from CharacterDefeatModule
         public override void Tick()
         { }
-        
-        public override void Defeat()
-        {
-            _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = true;
-            TweenExtensions.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: Ease.OutQuad);
 
-            _isDefeated = true;
-            
-            RaiseDefeated();
+        public override void HandleIsDefeatedChanged(bool defeated)
+        {
+            if (defeated)
+            {
+                _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = defeated;
+                TweenExtensions.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: Ease.OutQuad);
+            }
+
+            RaiseIsDefeatedChanged();
         }
 
         public void SetNetInBarrel(bool inBarrel)

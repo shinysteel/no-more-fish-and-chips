@@ -8,6 +8,11 @@ using FishFlingers.Pools;
 
 namespace FishFlingers.Entities
 {
+    /// <summary>
+    /// The role of a module that includes a getter and setter is such that it is the source of truth for its area.
+    /// In this case, a defeat module should be used to set the defeat status of an entity, as well as retrieve that
+    /// for all clients
+    /// </summary>
     public class EntityDefeatModule
     {
         protected EntityManager _entityManager;
@@ -16,14 +21,16 @@ namespace FishFlingers.Entities
         protected PoolManager _poolManager;
 
         private IEntity _entity;
+        private Func<bool> _isDefeatedGetter;
+        protected Action<bool> _isDefeatedSetter;
+
         private EntityDefeatSettings _settings;
 
-        protected bool _isDefeated;
-        public bool IsDefeated => _isDefeated;
+        public bool IsDefeated => _isDefeatedGetter();
 
-        public event Action OnDefeated;
+        public event Action<bool> OnIsDefeatedChanged;
 
-        public EntityDefeatModule(IEntity entity)
+        public EntityDefeatModule(IEntity entity, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();
@@ -31,6 +38,8 @@ namespace FishFlingers.Entities
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _entity = entity;
+            _isDefeatedGetter = isDefeatedGetter;
+            _isDefeatedSetter = isDefeatedSetter;
 
             _settings = _entity.EntityDefinitionData.EntityDefeatSettings;
 
@@ -50,7 +59,12 @@ namespace FishFlingers.Entities
 
         private void HandleHealthChanged(int previous, int current)
         {
-            if (_isDefeated)
+            if (!_entity.IsOwner)
+            {
+                return;
+            }
+
+            if (IsDefeated)
             {
                 return;
             }
@@ -60,22 +74,30 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            Defeat();
+            SetIsDefeated(true);
         }
 
-        protected void RaiseDefeated()
+        public void SetIsDefeated(bool defeated)
         {
-            OnDefeated?.Invoke();
+            if (IsDefeated == defeated)
+            {
+                return;
+            }
+            
+            _isDefeatedSetter(defeated);
         }
 
-        public virtual void Defeat()
+        // 'Handle' can be misleading, but really this is just listening to the output of the setter, which CAN be async. This then needs to be
+        // broadcasted to other listeners
+        public virtual void HandleIsDefeatedChanged(bool defeated)
         {
-            _isDefeated = true;
+            RaiseIsDefeatedChanged();
 
-            RaiseDefeated();
-
-            // Entities are local, so they need to be 'despawned' on all clients
-            Despawn();
+            // Entities are local, so they need to be 'despawned' on all clients. Immediate despawn when defeated is standard, but can be overridden
+            if (IsDefeated)
+            {
+                Despawn();
+            }
         }
 
         protected virtual void Despawn()
@@ -86,6 +108,11 @@ namespace FishFlingers.Entities
             }
 
             _entityManager.Despawn(_entity);
+        }
+
+        protected void RaiseIsDefeatedChanged()
+        {
+            OnIsDefeatedChanged?.Invoke(IsDefeated);
         }
     }
 }

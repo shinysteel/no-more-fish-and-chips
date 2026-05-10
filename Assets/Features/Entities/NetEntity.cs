@@ -18,6 +18,7 @@ namespace FishFlingers.Entities
         [SerializeField] protected Collider _collider;
 
         private SyncVar<int> _netCurrentHealth;
+        private SyncVar<bool> _netIsDefeated;
 
         protected EntityHealthModule _entityHealthModule;
         protected EntityDefeatModule _entityDefeatModule;
@@ -40,13 +41,15 @@ namespace FishFlingers.Entities
 
         protected override void OnInitializeModules()
         {
-            _netCurrentHealth = new SyncVar<int>(_entityDefinitionData.Health);
+            _netCurrentHealth = new SyncVar<int>(_entityDefinitionData.Health, ownerAuth: true);
+            _netIsDefeated = new SyncVar<bool>(ownerAuth: true);
 
             _netCurrentHealth.onChangedWithOld += HandleNetCurrentHealthChanged;
+            _netIsDefeated.onChanged += HandleNetIsDefeatedChanged;
 
             _entityHealthModule = new EntityHealthModule(this,
                 getter: () => _netCurrentHealth.value,
-                setter: SetHealthRpc);
+                setter: SetNetCurrentHealthRpc);
 
             _entityDefeatModule = CreateDefeatModule();
 
@@ -59,7 +62,7 @@ namespace FishFlingers.Entities
 
         protected virtual EntityDefeatModule CreateDefeatModule()
         {
-            return new EntityDefeatModule(this);
+            return new EntityDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
         }
 
         protected virtual EntityEffectsModule CreateEffectsModule()
@@ -70,6 +73,16 @@ namespace FishFlingers.Entities
         protected virtual EntityPhysicsModule CreatePhysicsModule()
         {
             return new EntityPhysicsModule(this, _rigidbody, _collider);
+        }
+
+        protected bool GetNetIsDefeated()
+        {
+            return _netIsDefeated.value;
+        }
+
+        protected void SetNetIsDefeated(bool isDefeated)
+        {
+            _netIsDefeated.value = isDefeated;
         }
 
         protected override void OnSpawned()
@@ -91,6 +104,7 @@ namespace FishFlingers.Entities
             _entityManager?.RaiseNetEntityDespawned(this);
 
             _netCurrentHealth.onChangedWithOld -= HandleNetCurrentHealthChanged;
+            _netIsDefeated.onChanged -= HandleNetIsDefeatedChanged;
 
             _context = null;
 
@@ -124,11 +138,16 @@ namespace FishFlingers.Entities
 
         private void HandleNetCurrentHealthChanged(int previous, int current)
         {
-            _entityHealthModule.RaiseChanged(previous, current);
+            _entityHealthModule.HandleChanged(previous, current);
+        }
+
+        private void HandleNetIsDefeatedChanged(bool defeated)
+        {
+            _entityDefeatModule.HandleIsDefeatedChanged(defeated);
         }
 
         [ServerRpc]
-        private void SetHealthRpc(int health)
+        private void SetNetCurrentHealthRpc(int health)
         {
             _netCurrentHealth.value = health;
         }

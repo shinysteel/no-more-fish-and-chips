@@ -17,7 +17,7 @@ namespace FishFlingers.Entities
 
         protected override EntityDefeatModule CreateDefeatModule()
         {
-            return new CharacterDefeatModule(this);
+            return new CharacterDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
         }
 
         protected override EntityEffectsModule CreateEffectsModule()

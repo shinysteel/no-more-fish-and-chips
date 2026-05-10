@@ -21,6 +21,7 @@ namespace FishFlingers.Entities
 
         protected bool _isSpawned;
         protected int _currentHealth;
+        protected bool _isDefeated;
 
         protected EntityHealthModule _entityHealthModule;
         protected EntityDefeatModule _entityDefeatModule;
@@ -83,7 +84,9 @@ namespace FishFlingers.Entities
                 getter: () => _currentHealth,
                 setter: HealthModuleSetter);
 
-            _entityDefeatModule ??= new EntityDefeatModule(this);
+            _entityDefeatModule ??= new EntityDefeatModule(this,
+                isDefeatedGetter: () => _isDefeated,
+                isDefeatedSetter: DefeatModuleSetter);
 
             _entityLifecycleModule = new EntityLifecycleModule(this);
 
@@ -120,9 +123,15 @@ namespace FishFlingers.Entities
 
             int previous = _currentHealth;
             _currentHealth = health;
-            _entityHealthModule.RaiseChanged(previous, _currentHealth);
+            _entityHealthModule.HandleChanged(previous, _currentHealth);
         }
 
         protected abstract void HealthModuleSetter(int health);
+
+        private void DefeatModuleSetter(bool defeated)
+        {
+            _isDefeated = defeated;
+            _entityDefeatModule.HandleIsDefeatedChanged(_isDefeated);
+        }
     }
 }

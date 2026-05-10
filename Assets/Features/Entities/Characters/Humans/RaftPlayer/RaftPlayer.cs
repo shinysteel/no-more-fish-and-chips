@@ -93,7 +93,7 @@ namespace FishFlingers.Entities
 
         protected override EntityDefeatModule CreateDefeatModule()
         {
-            return new RaftPlayerDefeatModule(this, _netInBarrel);
+            return new RaftPlayerDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated, _netInBarrel);
         }
 
         protected override EntityPhysicsModule CreatePhysicsModule()

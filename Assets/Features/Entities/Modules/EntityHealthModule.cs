@@ -51,7 +51,7 @@ namespace FishFlingers.Entities
             SetHealth(Current + change);
         }
 
-        public void RaiseChanged(int previous, int current)
+        public void HandleChanged(int previous, int current)
         {
             OnChanged?.Invoke(previous, current);
         }

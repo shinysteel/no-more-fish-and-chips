@@ -218,7 +218,7 @@ namespace FishFlingers.Environments
             // Structures and tiles handle despawning themselves, we just need to remove them from collections
             if (tile.Structure != null)
             {
-                tile.Structure.EntityDefeatModule.Defeat();
+                tile.Structure.EntityDefeatModule.SetIsDefeated(true);
             }
 
             tile.SetHealth(0);

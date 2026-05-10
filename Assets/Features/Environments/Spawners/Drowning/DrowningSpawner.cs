@@ -49,17 +49,13 @@ namespace FishFlingers.Environments
             {
                 if (player.RaftPlayerPhysicsModule.TimeInWater >= 0.5f && !player.RaftPlayerDefeatModule.InBarrel)
                 {
-                    AddDrowning(player);
-                }
-                else
-                {
-                    RemoveDrowning(player);
+                    SpawnDrowning(player);
                 }
             }
         }
 
         // Create a drowning to target a valid player if one doesn't already exist
-        private void AddDrowning(RaftPlayer player)
+        private void SpawnDrowning(RaftPlayer player)
         {
             if (_playerDrowningMap.ContainsKey(player))
             {
@@ -71,23 +67,6 @@ namespace FishFlingers.Environments
             _playerDrowningMap.Add(player, drowning);
         }
 
-        // Cleanup a drowning that no longer needs to exist
-        private void RemoveDrowning(RaftPlayer player)
-        {
-            if (!_playerDrowningMap.TryGetValue(player, out Drowning drowning))
-            {
-                return;
-            }
-
-            _playerDrowningMap.Remove(player);
-
-            // The flow that exists can cause this to be called for a drowning that has already despawned, since we are listening to OnEntityDespawned
-            if (drowning.isSpawned)
-            {
-                _entityManager.Despawn(drowning);
-            }
-        }
-
         void IEntityManagerListener.OnEntityDespawned(IEntity entity)
         {
             if (!isOwner)
@@ -95,13 +74,8 @@ namespace FishFlingers.Environments
                 return;
             }
 
-            // When players disconnect, we still need to remove any drowning associated with them
-            if (entity is RaftPlayer player)
-            {
-                RemoveDrowning(player);
-            }
             // When a drowning despawns itself, we need to track that
-            else if (entity is Drowning drowning)
+            if (entity is Drowning drowning)
             {
                 Utils.Collections.RemoveDictionaryKeys(_playerDrowningMap, (KeyValuePair<RaftPlayer, Drowning> kvp) => kvp.Value == drowning);
             }

@@ -314,7 +314,7 @@ namespace FishFlingers.Entities
 
             if (isOwner)
             {
-                _entityDefeatModule.OnDefeated += HandleDefeated;
+                _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
                 _stateMachine.ChangeState(EState.Surface);
             }
@@ -326,7 +326,7 @@ namespace FishFlingers.Entities
             {
                 Cleanup();
 
-                _entityDefeatModule.OnDefeated -= HandleDefeated;
+                _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
             }
 
             base.OnDespawned();
@@ -344,9 +344,12 @@ namespace FishFlingers.Entities
             _stateMachine.Tick();
         }
 
-        private void HandleDefeated()
+        private void HandleIsDefeatedChanged(bool isDefeated)
         {
-            Cleanup();
+            if (isDefeated)
+            {
+                Cleanup();
+            }
         }
 
         private void Cleanup()
