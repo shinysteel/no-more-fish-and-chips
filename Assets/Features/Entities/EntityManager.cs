@@ -26,6 +26,7 @@ namespace FishFlingers.Entities
         Shark       = 102 ,
         Seagull     = 103 ,
         Drowning    = 104 ,
+        Crab        = 105 ,
 
         // Tiles
         GoopTile    = 201 ,
@@ -51,6 +52,8 @@ namespace FishFlingers.Entities
         private EntityManagerConfig _config;
 
         private Dictionary<EntityId, IEntity> _idPrefabMap = new();
+        private Dictionary<EntityId, EntityModel> _idModelMap = new();
+
         private Dictionary<Type, HashSet<IEntity>> _typePrefabsMap = new();
 
         private List<IEntity> _entities = new();
@@ -67,6 +70,12 @@ namespace FishFlingers.Entities
             foreach (IEntity prefab in _config.IEntityScanner.GetAssets())
             {
                 _idPrefabMap.Add(prefab.EntityDefinitionData.Id, prefab);
+            }
+
+            // Entity model map
+            foreach (EntityModel model in _config.EntityModelScanner.GetAssets())
+            {
+                _idModelMap.Add(model.Id, model);
             }
 
             // Type entities map
@@ -96,8 +105,12 @@ namespace FishFlingers.Entities
         /// </summary>
         public IEntity GetEntityPrefab(EntityId id)
         {
-            _idPrefabMap.TryGetValue(id, out IEntity prefab);
-            return prefab;
+            return _idPrefabMap[id];
+        }
+
+        public EntityModel GetEntityModel(EntityId id)
+        {
+            return _idModelMap[id];
         }
 
         /// <summary>

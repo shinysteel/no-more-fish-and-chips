@@ -22,18 +22,13 @@ namespace FishFlingers.Entities
         private const string IsMovingBoolName = "IsMoving";
         private const string IsHoldingItemBoolName = "IsHoldingItem";
         private const string IsAttackingBoolName = "IsAttacking";
+        private const string InBarrelBoolName = "InBarrel";
         private const string InWaterBoolName = "InWater";
 
         private const string AttackTriggerName = "Attack";
 
         private const string RunStateName = "Base Layer.Ground.Run";
         private const string AttackStateName = "Attack";
-
-        private enum Layer
-        {
-            Base,
-            RightArm
-        }
 
         public RaftPlayerAnimateLogic(RaftPlayer player)
         {
@@ -62,11 +57,13 @@ namespace FishFlingers.Entities
                 bool isMoving = _player.InputLogic.MoveDirection != Vector3.zero;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
                 bool isAttacking = _player.AttackLogic.AttackState > RaftPlayerAttackState.None;
+                bool inBarrel = _player.RaftPlayerDefeatModule.InBarrel;
                 bool inWater = _player.RaftPlayerPhysicsModule.InWater;
 
                 _player.CharacterModel.Animator.SetBool(IsMovingBoolName, isMoving);
                 _player.CharacterModel.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
                 _player.CharacterModel.Animator.SetBool(IsAttackingBoolName, isAttacking);
+                _player.CharacterModel.Animator.SetBool(InBarrelBoolName, inBarrel);
                 _player.CharacterModel.Animator.SetBool(InWaterBoolName, inWater);
             }
 

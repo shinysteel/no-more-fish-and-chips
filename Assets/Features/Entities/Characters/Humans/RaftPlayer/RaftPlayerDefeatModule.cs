@@ -62,11 +62,13 @@ namespace FishFlingers.Entities
             if (_inBarrel)
             {
                 _barrelProp = _poolManager.GetProp(PropId.Barrel, new SpawnParams() { Parent = _player.transform });
+                _player.CharacterModel.transform.localPosition = Vector3.up * 0.1f;
             }
             else
             {
                 _poolManager.ReturnProp(_barrelProp);
                 _barrelProp = null;
+                _player.CharacterModel.transform.localPosition = Vector3.zero;
             }
 
             _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = false;

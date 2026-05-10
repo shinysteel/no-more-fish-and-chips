@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: EntityManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::EntityManagerConfig
   _iEntityScanner: {fileID: 11400000, guid: 03b51085fa8aacb4bbae1aa296c6e8eb, type: 2}
+  _entityModelScanner: {fileID: 11400000, guid: 1d5264cb2c33a3b469733ff993446fd4, type: 2}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96acd2825a475e344acb4d84ec85d4ae, type: 3}
+  m_Name: EntityModelScanner
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.EntityModelScanner
+  _folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
+  _assets:
+  - {fileID: 5655809492014420853, guid: 1578cefee1f454d428c31ff8ff61ee2b, type: 3}
+  - {fileID: 6589124541176741459, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
+  - {fileID: 362016265817290302, guid: 9a70195cce2c95d408f04aba7aa29471, type: 3}
+  - {fileID: 7478642453757943071, guid: d05798bfefece384da760284746018b9, type: 3}
+  - {fileID: 364875083326865371, guid: f1b94106fb446f84bbbff3d0df90f613, type: 3}

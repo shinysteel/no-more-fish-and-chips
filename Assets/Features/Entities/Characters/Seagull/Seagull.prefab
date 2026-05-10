@@ -69,7 +69,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 653801144501751281}
+      addedObject: {fileID: 32723565446122032}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
       insertIndex: 1
@@ -110,7 +110,7 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _entityDefinitionData: {fileID: 11400000, guid: a2868b6d48113a144b0ca8168c8792de, type: 2}
-  _entityModel: {fileID: 9072423710765274325}
+  _entityModel: {fileID: 4430342049962552187}
   _rigidbody: {fileID: 8979648408233181983}
   _collider: {fileID: 5037973609124970909}
 --- !u!136 &5037973609124970909
@@ -141,7 +141,7 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 9147761710190489017, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
   m_PrefabInstance: {fileID: 174934947112873638}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1051728846194747930
+--- !u!1001 &7352963408076707112
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -149,89 +149,40 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3040101059323242178}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
+    - target: {fileID: 7385543487252913944, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
+    - target: {fileID: 7385543487252913944, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
+    - target: {fileID: 7385543487252913944, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
+    - target: {fileID: 7869310304320521634, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
       propertyPath: m_Name
-      value: Seagull
+      value: Model
       objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: fe5cea3e8f7d61345bee8ddb7b0025b3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9072423710765274325}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2621514276076501853}
-  m_SourcePrefab: {fileID: 100100000, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
---- !u!1 &169188459044738891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
-  m_PrefabInstance: {fileID: 1051728846194747930}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
+--- !u!4 &32723565446122032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7385543487252913944, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
+  m_PrefabInstance: {fileID: 7352963408076707112}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9072423710765274325
+--- !u!114 &4430342049962552187 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 6589124541176741459, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
+  m_PrefabInstance: {fileID: 7352963408076707112}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169188459044738891}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.CharacterModel
-  _animator: {fileID: 6913843987824023435}
-  _networkAnimator: {fileID: 2621514276076501853}
-  _itemLocator: {fileID: 0}
---- !u!114 &2621514276076501853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169188459044738891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7b598b9d8509d64abb9fdaf07fa3f6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkAnimator
-  _isSetup: 0
-  _prefabId: -2147483648
-  _componentIndex: -2147483648
-  _shouldBePooled: 0
-  _parent: {fileID: 0}
-  _invertedPathToNearestParent: 
-  _directChildren: []
-  _networkRules: {fileID: 0}
-  _visitiblityRules: {fileID: 0}
-  _animator: {fileID: 6913843987824023435}
-  _ownerAuth: 1
-  _autoSyncParameters: 1
-  _dontSyncParameters: []
---- !u!4 &653801144501751281 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
-  m_PrefabInstance: {fileID: 1051728846194747930}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &6913843987824023435 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 7ba5d1e68e1a4df45a4b6ef41051f03e, type: 3}
-  m_PrefabInstance: {fileID: 1051728846194747930}
-  m_PrefabAsset: {fileID: 0}

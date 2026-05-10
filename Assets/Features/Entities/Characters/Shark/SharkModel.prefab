@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8659540202207762984
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      propertyPath: m_Name
+      value: SharkModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 85883bda634291147be562c1d184c406, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 5655809492014420853}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 370474174599171430}
+  m_SourcePrefab: {fileID: 100100000, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+--- !u!95 &2974144073655281593 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+  m_PrefabInstance: {fileID: 8659540202207762984}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8425588660065527673 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5b646de26b1d7654e8ec45df46a3f049, type: 3}
+  m_PrefabInstance: {fileID: 8659540202207762984}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5655809492014420853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425588660065527673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.CharacterModel
+  _id: 102
+  _animator: {fileID: 2974144073655281593}
+  _networkAnimator: {fileID: 370474174599171430}
+  _itemLocator: {fileID: 0}
+--- !u!114 &370474174599171430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425588660065527673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b598b9d8509d64abb9fdaf07fa3f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkAnimator
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _animator: {fileID: 2974144073655281593}
+  _ownerAuth: 1
+  _autoSyncParameters: 1
+  _dontSyncParameters: []

@@ -1,5 +1,6 @@
 using PrimeTween;
 using PurrNet;
+using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace FishFlingers.Entities
         [SerializeField] private AnimationCurve _scaleCurve;
 
         private RaftPlayer _targetPlayer;
+        private EntityModel _finisherModel;
 
         private StateMachine<EState> _stateMachine;
 
@@ -100,13 +102,15 @@ namespace FishFlingers.Entities
 
                 Tween.Position(_drowning.transform, endValue: position, duration: 0.1f);
                 Tween.Scale(_drowning.transform, endValue: 1f, duration: 0.1f);
+
+                _drowning.FinisherRpc(EntityId.Crab);
             }
 
             public override void Tick()
             {
                 _timer += Time.deltaTime;
                 
-                if (_timer >= 1f)
+                if (_timer >= 0.83f)
                 {
                     // Since interpolation is enabled, we need to teleport via rigidbody.position
                     _drowning._targetPlayer.RaftPlayerPhysicsModule.Rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5F);
@@ -135,8 +139,19 @@ namespace FishFlingers.Entities
 
                 if (_timer >= 0.33f)
                 {
-                    _drowning._entityManager.Despawn(_drowning);
+                    Despawn();
                 }
+            }
+
+            private void Despawn()
+            {
+                if (_drowning != null)
+                {
+                    _drowning._poolManager.ReturnEntityModel(_drowning._finisherModel);
+                    _drowning._finisherModel = null;
+                }
+
+                _drowning._entityManager.Despawn(_drowning);
             }
         }
 
@@ -192,7 +207,7 @@ namespace FishFlingers.Entities
 
             base.OnSpawned();
         }
-
+        
         protected override void OnDespawned()
         {
             base.OnDespawned();
@@ -213,6 +228,12 @@ namespace FishFlingers.Entities
             {
                 _stateMachine.Tick();
             }
+        }
+
+        [ObserversRpc]
+        private void FinisherRpc(EntityId id)
+        {
+            _finisherModel = _poolManager.GetEntityModel(id, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Parent = transform });
         }
 
         [ObserversRpc]

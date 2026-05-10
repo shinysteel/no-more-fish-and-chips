@@ -1,3 +1,4 @@
+using FishFlingers.Entities;
 using FishFlingers.Environments;
 using FishFlingers.Instantiating;
 using FishFlingers.Inventories;
@@ -8,9 +9,9 @@ using ShinyOwl.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using EntityId = FishFlingers.Entities.EntityId;
 
 namespace FishFlingers.Pools
 {
@@ -30,15 +31,17 @@ namespace FishFlingers.Pools
     {
         private ItemManager _itemManager;
         private EnvironmentManager _environmentManager;
+        private EntityManager _entityManager;
 
         private PoolManagerConfig _config;
 
         private Dictionary<Type, IPool> _typePools = new();
+        private Dictionary<EntityId, Pool<EntityModel>> _entityModelPools = new();
         private Dictionary<ItemId, Pool<ItemModel>> _itemModelPools = new();
         private Dictionary<PropId, Pool<Prop>> _propPools = new();
 
         private Transform _container;
-        
+
         private const string ContainerName = "Pools";
 
         private interface IPool
@@ -123,6 +126,7 @@ namespace FishFlingers.Pools
         {
             _itemManager = GameManager.Instance.Get<ItemManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
 
             _config = config.PoolManagerConfig;
 
@@ -131,9 +135,9 @@ namespace FishFlingers.Pools
 
             foreach (ITypedPoolable typedPoolable in _config.ITypedPoolableScanner.GetAssets())
             {
-                CreateTypedPool(typedPoolable);   
+                CreateTypedPool(typedPoolable);
             }
-            
+
             base.Initialise(config);
         }
 
@@ -158,7 +162,7 @@ namespace FishFlingers.Pools
             Type poolType = typeof(Pool<>).MakeGenericType(type);
             _typePools[type] = (IPool)Activator.CreateInstance(poolType, prefab, container);
         }
-        
+
         // Allows requesting runtime-known types
         public Component GetTypedPoolable(Type type, SpawnParams parameters)
         {
@@ -180,7 +184,7 @@ namespace FishFlingers.Pools
         {
             // Runtime types are useful here. For example, it allows returning a Tile object without knowing it's concrete type
             Type type = obj.GetType();
-            
+
             if (!_typePools.TryGetValue(type, out IPool pool))
             {
                 Log.Error("No pool is defined for the poolable object being returned");
@@ -204,7 +208,7 @@ namespace FishFlingers.Pools
             return (T)pools[id].Get(parameters);
         }
 
-        private void ReturnPoolable<T, U>(T poolable, U id, Dictionary<U, Pool<T>> pools) 
+        private void ReturnPoolable<T, U>(T poolable, U id, Dictionary<U, Pool<T>> pools)
             where T : Component, IPoolable
             where U : Enum
         {
@@ -214,6 +218,16 @@ namespace FishFlingers.Pools
             }
 
             pool.Return(poolable);
+        }
+
+        public EntityModel GetEntityModel(EntityId id, SpawnParams parameters)
+        {
+            return GetPoolable(_entityModelPools, id, _entityManager.GetEntityModel(id), parameters);
+        }
+
+        public void ReturnEntityModel(EntityModel model)
+        {
+            ReturnPoolable(model, model.Id, _entityModelPools);
         }
 
         public ItemModel GetItemModel(ItemId id, SpawnParams parameters)

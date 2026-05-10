@@ -1,3 +1,4 @@
+using FishFlingers.Pools;
 using FishFlingers.States;
 using PurrNet;
 using ShinyOwl.Common;
@@ -5,14 +6,16 @@ using UnityEngine;
 
 namespace FishFlingers.Entities
 {
-    public class EntityModel : MonoBehaviour
+    public class EntityModel : MonoBehaviour, IPoolable
     {
+        [SerializeField] private EntityId _id;
         [SerializeField] protected Animator _animator;
         [SerializeField] private NetworkAnimator _networkAnimator;
 
-        public Animator Animator => _animator;
-
         protected Material _material;
+
+        public EntityId Id => _id;
+        public Animator Animator => _animator;
         public Material Material => _material;
 
         private void Awake()
@@ -41,5 +44,11 @@ namespace FishFlingers.Entities
                 _networkAnimator.SetTrigger(name);
             }
         }
+
+        public void OnTakenFromPool()
+        { }
+
+        public void OnReturnedToPool()
+        { }
     }
 }
