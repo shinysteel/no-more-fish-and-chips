@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SaplingPlanter
+  m_Name: Planter
   m_Shader: {fileID: 4800000, guid: 0f271ca43cadef9408e6b10b154b6c33, type: 3}
   m_Parent: {fileID: 2100000, guid: 0214b4a6f65f502409cb56308400b18b, type: 2}
   m_ModifiedSerializedProperties: 0

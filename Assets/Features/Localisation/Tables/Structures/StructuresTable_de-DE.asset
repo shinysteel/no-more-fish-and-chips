@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: Kann Dinge aufbewahren wie eine Muschel.
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: Setzlingspflanzer
+  - m_Id: 42798570824626176
+    m_Localized: Pflanzer
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: Eine Kiste zum Anpflanzen von gefundenen Setzlingen.
     m_Metadata:
       m_Items: []

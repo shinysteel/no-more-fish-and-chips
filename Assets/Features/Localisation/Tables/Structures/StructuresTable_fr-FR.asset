@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: Peut contenir des choses comme une palourde
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: "Jardini\xE8re pour jeunes plants"
+  - m_Id: 42798570824626176
+    m_Localized: Planteur
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: "Une bo\xEEte pour faire pousser les jeunes pousses que vous trouverez"
     m_Metadata:
       m_Items: []

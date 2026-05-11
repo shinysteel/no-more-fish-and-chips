@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2026
 		Month: 5
-		Day: 11
-		Hour: 18
-		Minute: 38
-		Second: 33
-		Millisecond: 753
+		Day: 12
+		Hour: 0
+		Minute: 53
+		Second: 27
+		Millisecond: 747
 	}
 	Creator: "Blockbench 5.1.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-05-11 08:38:33:753"
+CreationTime: "2026-05-11 14:53:27:747"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1871079468 {
+	Document: 1199868237 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 73989968, "Model::sapling_planter", "Null" {
+	Model: 79587532, "Model::planter", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72914683, "Model::base", "Mesh" {
+	Model: 78760479, "Model::base", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72791948, "Geometry::base", "Mesh" {
+	Geometry: 74821929, "Geometry::base", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,12.5,18.75,18.75,12.5,-18.75,18.75,0,18.75,18.75,0,-18.75,-18.75,12.5,-18.75,-18.75,12.5,18.75,-18.75,0,-18.75,-18.75,0,18.75
 		}
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74261154, "Model::side", "Mesh" {
+	Model: 73869785, "Model::side", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71512575, "Geometry::side", "Mesh" {
+	Geometry: 78678370, "Geometry::side", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,3.125,-15.625,18.75,3.125,-18.75,18.75,0,-15.625,18.75,0,-18.75,-18.75,3.125,-18.75,-18.75,3.125,-15.625,-18.75,0,-18.75,-18.75,0,-15.625
 		}
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79913968, "Model::side_1", "Mesh" {
+	Model: 77284541, "Model::side_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -429,7 +429,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78594711, "Geometry::side_1", "Mesh" {
+	Geometry: 79015186, "Geometry::side_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,3.125,-15.625,18.75,3.125,-18.75,18.75,0,-15.625,18.75,0,-18.75,-18.75,3.125,-18.75,-18.75,3.125,-15.625,-18.75,0,-18.75,-18.75,0,-15.625
 		}
@@ -480,7 +480,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79735766, "Model::side_2", "Mesh" {
+	Model: 79126958, "Model::side_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -495,7 +495,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76438765, "Geometry::side_2", "Mesh" {
+	Geometry: 76516199, "Geometry::side_2", "Mesh" {
 		Vertices: *24 {
 			a: -15.625,3.125,0,-15.625,3.125,-31.25,-15.625,0,0,-15.625,0,-31.25,-18.75,3.125,-31.25,-18.75,3.125,0,-18.75,0,-31.25,-18.75,0,0
 		}
@@ -546,7 +546,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75190302, "Model::side_3", "Mesh" {
+	Model: 76564357, "Model::side_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73050617, "Geometry::side_3", "Mesh" {
+	Geometry: 70593386, "Geometry::side_3", "Mesh" {
 		Vertices: *24 {
 			a: -15.625,3.125,0,-15.625,3.125,-31.25,-15.625,0,0,-15.625,0,-31.25,-18.75,3.125,-31.25,-18.75,3.125,0,-18.75,0,-31.25,-18.75,0,0
 		}
@@ -612,7 +612,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 79778680, "Material::SaplingPlanter.png", "" {
+	Material: 73017608, "Material::Planter.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -623,26 +623,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 78302560, "Texture::SaplingPlanter.png", "" {
+	Texture: 75200488, "Texture::Planter.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::SaplingPlanter.png"
-		Media: "Video::SaplingPlanter.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\SaplingPlanter\SaplingPlanter.png"
-		RelativeFilename: "SaplingPlanter.png"
+		TextureName: "Texture::Planter.png"
+		Media: "Video::Planter.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\Planter\Planter.png"
+		RelativeFilename: "Planter.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 79669761, "Video::SaplingPlanter.png", "Clip" {
+	Video: 70311344, "Video::Planter.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\SaplingPlanter\SaplingPlanter.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\Planter\Planter.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\SaplingPlanter\SaplingPlanter.png"
-		RelativeFilename: "SaplingPlanter.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\Planter\Planter.png"
+		RelativeFilename: "Planter.png"
 	}
 }
 
@@ -651,59 +651,59 @@ Objects:  {
 
 Connections:  {
 
-	;Model::sapling_planter, Model::RootNode
-	C: "OO",73989968,0
+	;Model::planter, Model::RootNode
+	C: "OO",79587532,0
 
-	;Model::base, Model::sapling_planter
-	C: "OO",72914683,73989968
+	;Model::base, Model::planter
+	C: "OO",78760479,79587532
 
 	;Geometry::base, Model::base
-	C: "OO",72791948,72914683
+	C: "OO",74821929,78760479
 
-	;Material::SaplingPlanter.png, Model::base
-	C: "OO",79778680,72914683
+	;Material::Planter.png, Model::base
+	C: "OO",73017608,78760479
 
-	;Model::side, Model::sapling_planter
-	C: "OO",74261154,73989968
+	;Model::side, Model::planter
+	C: "OO",73869785,79587532
 
 	;Geometry::side, Model::side
-	C: "OO",71512575,74261154
+	C: "OO",78678370,73869785
 
-	;Material::SaplingPlanter.png, Model::side
-	C: "OO",79778680,74261154
+	;Material::Planter.png, Model::side
+	C: "OO",73017608,73869785
 
-	;Model::side_1, Model::sapling_planter
-	C: "OO",79913968,73989968
+	;Model::side_1, Model::planter
+	C: "OO",77284541,79587532
 
 	;Geometry::side_1, Model::side_1
-	C: "OO",78594711,79913968
+	C: "OO",79015186,77284541
 
-	;Material::SaplingPlanter.png, Model::side_1
-	C: "OO",79778680,79913968
+	;Material::Planter.png, Model::side_1
+	C: "OO",73017608,77284541
 
-	;Model::side_2, Model::sapling_planter
-	C: "OO",79735766,73989968
+	;Model::side_2, Model::planter
+	C: "OO",79126958,79587532
 
 	;Geometry::side_2, Model::side_2
-	C: "OO",76438765,79735766
+	C: "OO",76516199,79126958
 
-	;Material::SaplingPlanter.png, Model::side_2
-	C: "OO",79778680,79735766
+	;Material::Planter.png, Model::side_2
+	C: "OO",73017608,79126958
 
-	;Model::side_3, Model::sapling_planter
-	C: "OO",75190302,73989968
+	;Model::side_3, Model::planter
+	C: "OO",76564357,79587532
 
 	;Geometry::side_3, Model::side_3
-	C: "OO",73050617,75190302
+	C: "OO",70593386,76564357
 
-	;Material::SaplingPlanter.png, Model::side_3
-	C: "OO",79778680,75190302
+	;Material::Planter.png, Model::side_3
+	C: "OO",73017608,76564357
 
-	;Texture::SaplingPlanter.png, Material::SaplingPlanter.png
-	C: "OP",78302560,79778680, "DiffuseColor"
+	;Texture::Planter.png, Material::Planter.png
+	C: "OP",75200488,73017608, "DiffuseColor"
 
-	;Video::SaplingPlanter.png, Texture::SaplingPlanter.png
-	C: "OO",79669761,78302560
+	;Video::Planter.png, Texture::Planter.png
+	C: "OO",70311344,75200488
 }
 
 ; Takes section

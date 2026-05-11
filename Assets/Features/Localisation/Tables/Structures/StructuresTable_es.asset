@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: Puede almacenar cosas como una almeja.
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: "Plantador de reto\xF1os"
+  - m_Id: 42798570824626176
+    m_Localized: Plantador
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: Una caja para cultivar cualquier arbolito que encuentres
     m_Metadata:
       m_Items: []

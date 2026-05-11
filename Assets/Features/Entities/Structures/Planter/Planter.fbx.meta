@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: eba0b22377cba3c4b9656fab054fe378
+guid: 79321acde6212c34c8bd5bd8bbb760e4
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
   externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Planter.png
+    second: {fileID: 2100000, guid: 1adec6ca5fb75844c9f36a2c4676e8bb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

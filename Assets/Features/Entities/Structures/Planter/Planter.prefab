@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1579325128169199085
+--- !u!1001 &3686520924897791646
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,31 +8,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7890003014679263722}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: eba0b22377cba3c4b9656fab054fe378, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: eba0b22377cba3c4b9656fab054fe378, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: eba0b22377cba3c4b9656fab054fe378, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: eba0b22377cba3c4b9656fab054fe378, type: 3}
+    - target: {fileID: 919132149155446097, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
       propertyPath: m_Name
-      value: SaplingPlanter
+      value: Planter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eba0b22377cba3c4b9656fab054fe378, type: 3}
---- !u!4 &1324157982541541894 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
+--- !u!4 &3793049320554408309 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: eba0b22377cba3c4b9656fab054fe378, type: 3}
-  m_PrefabInstance: {fileID: 1579325128169199085}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
+  m_PrefabInstance: {fileID: 3686520924897791646}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6303910751046622800
 PrefabInstance:
@@ -44,7 +44,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       propertyPath: m_Name
-      value: SaplingPlanter
+      value: Planter
       objectReference: {fileID: 0}
     - target: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       propertyPath: m_LocalPosition.x
@@ -91,7 +91,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1324157982541541894}
+      addedObject: {fileID: 3793049320554408309}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       insertIndex: 1

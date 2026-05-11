@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: Pode armazenar coisas como uma ostra
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: Plantador de mudas
+  - m_Id: 42798570824626176
+    m_Localized: Plantador
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: "Uma caixa para cultivar quaisquer mudas que voc\xEA encontrar."
     m_Metadata:
       m_Items: []

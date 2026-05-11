@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: "Mo\u017Cna przechowywa\u0107 rzeczy tak jak ma\u0142\u017C"
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: Sadzarka do sadzonek
+  - m_Id: 42798570824626176
+    m_Localized: Sadzarka
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: Skrzynka do uprawy wszelkich znalezionych sadzonek
     m_Metadata:
       m_Items: []

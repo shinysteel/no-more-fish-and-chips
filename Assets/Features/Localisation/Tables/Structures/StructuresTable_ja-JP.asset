@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: "\u8C9D\u6BBB\u306E\u3088\u3046\u306B\u7269\u3092\u53CE\u7D0D\u3067\u304D\u308B"
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: "\u82D7\u6728\u30D7\u30E9\u30F3\u30BF\u30FC"
+  - m_Id: 42798570824626176
+    m_Localized: "\u30D7\u30E9\u30F3\u30BF\u30FC"
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: "\u898B\u3064\u3051\u305F\u82D7\u6728\u3092\u80B2\u3066\u308B\u305F\u3081\u306E\u7BB1"
     m_Metadata:
       m_Items: []

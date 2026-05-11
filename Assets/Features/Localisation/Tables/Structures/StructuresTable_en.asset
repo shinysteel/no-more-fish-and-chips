@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: Can store things just like a clam
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: Sapling Planter
+  - m_Id: 42798570824626176
+    m_Localized: Planter
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: A box to grow any saplings you find
     m_Metadata:
       m_Items: []

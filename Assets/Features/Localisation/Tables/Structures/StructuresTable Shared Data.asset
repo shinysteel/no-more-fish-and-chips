@@ -31,12 +31,12 @@ MonoBehaviour:
     m_Key: structures.clamChestDescription
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Key: structures.saplingPlanterName
+  - m_Id: 42798570824626176
+    m_Key: structures.planterName
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
-    m_Key: structures.saplingPlanterDescription
+  - m_Id: 42798570853986304
+    m_Key: structures.planterDescription
     m_Metadata:
       m_Items: []
   m_Metadata:

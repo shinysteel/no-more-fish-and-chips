@@ -34,11 +34,11 @@ MonoBehaviour:
     m_Localized: "Pu\xF2 contenere cose proprio come una conchiglia"
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805270605824
-    m_Localized: Piantatore per alberelli
+  - m_Id: 42798570824626176
+    m_Localized: Piantatrice
     m_Metadata:
       m_Items: []
-  - m_Id: 42706805308354560
+  - m_Id: 42798570853986304
     m_Localized: Una scatola per coltivare qualsiasi piantina tu trovi
     m_Metadata:
       m_Items: []
