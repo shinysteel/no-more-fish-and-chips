@@ -14,7 +14,8 @@ namespace FishFlingers.Entities
 
         private RaftPlayer _player;
 
-        private StateAnimationEvents _moveStateAnimationEvents;
+        private StateAnimationEvents _groundRunStateAnimationEvents;
+        private StateAnimationEvents _waterSwimStateAnimationEvents;
         private StateAnimationEvents _attackStateAnimationEvents;
 
         public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
@@ -27,7 +28,8 @@ namespace FishFlingers.Entities
 
         private const string AttackTriggerName = "Attack";
 
-        private const string RunStateName = "Base Layer.Ground.Run";
+        private const string GroundRunStateName = "Base Layer.Ground.Run";
+        private const string WaterSwimStateName = "Base Layer.Water.Swim";
         private const string AttackStateName = "Attack";
 
         public RaftPlayerAnimateLogic(RaftPlayer player)
@@ -36,10 +38,22 @@ namespace FishFlingers.Entities
 
             _player = player;
 
-            _moveStateAnimationEvents = new StateAnimationEvents(RunStateName, true)
+            _groundRunStateAnimationEvents = new StateAnimationEvents(GroundRunStateName, true)
             {
                 new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.HumanFootstep)),
                 new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.HumanFootstep))
+            };
+
+            _waterSwimStateAnimationEvents = new StateAnimationEvents(WaterSwimStateName, true)
+            {
+                new StateAnimationEvent(0.2f, () =>
+                {
+                    if (_player.Hotbar.SelectedSlot.InventoryItem == null)
+                    {
+                        _audioManager.PlaySound(SoundId.HumanSwim);
+                    }
+                }),
+                new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim)),
             };
 
             _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName, false)
@@ -69,7 +83,8 @@ namespace FishFlingers.Entities
 
             AnimatorStateInfo info = _player.CharacterModel.Animator.GetCurrentAnimatorStateInfo(0);
 
-            _moveStateAnimationEvents.Tick(info);
+            _groundRunStateAnimationEvents.Tick(info);
+            _waterSwimStateAnimationEvents.Tick(info);
             _attackStateAnimationEvents.Tick(info);
         }
 

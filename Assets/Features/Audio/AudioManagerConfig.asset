@@ -12,12 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2479a9ee090944f931d3d765f942e4, type: 3}
   m_Name: AudioManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Audio.AudioManagerConfig
-  _soundMappings:
-  - _id: 0
-    _data: {fileID: 11400000, guid: 64f54cfafd59e64468dbe81bcc42f13e, type: 2}
-  - _id: 1
-    _data: {fileID: 11400000, guid: 81a326fea628e91479fc56162a515e6d, type: 2}
-  - _id: 2
-    _data: {fileID: 11400000, guid: 73b04ddc54702b945825fc5b76b7c2bb, type: 2}
-  - _id: 3
-    _data: {fileID: 11400000, guid: 5185926ea1869c6408e300f18315659c, type: 2}
+  _soundCueDataScanner: {fileID: 11400000, guid: d734693315829ec4d94828bb3fa30597, type: 2}

@@ -15,6 +15,6 @@ MonoBehaviour:
   _waves:
   - _steps:
     - _entityId: 103
-      _count: 10
+      _count: 1
       _interval: 1
       _endDelay: 1
