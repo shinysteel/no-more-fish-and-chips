@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
   m_Name: HumanFootstepCueData
   m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
+  _id: 1
   _volume: 0.25
   _minPitch: 0.95
   _maxPitch: 1.05

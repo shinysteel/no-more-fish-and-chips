@@ -9,10 +9,11 @@ namespace FishFlingers.Audio
 
     public enum SoundId
     {
-        Jump,
-        Footstep,
+        HumanJump,
+        HumanFootstep,
         PaddleAttack,
-        SeagullAttack
+        SeagullAttack,
+        HumanSwim
     }
 
     public class AudioManager : GameSystem<IAudioManagerListener>
@@ -29,9 +30,9 @@ namespace FishFlingers.Audio
 
             _config = config.AudioManagerConfig;
 
-            foreach (SoundMapping mapping in _config.SoundMappings)
+            foreach (SoundCueData data in _config.SoundCueDataScanner.GetAssets())
             {
-                _idDataMap.Add(mapping.Id, mapping.Data);
+                _idDataMap.Add(data.Id, data);
             }
 
             base.Initialise(config);

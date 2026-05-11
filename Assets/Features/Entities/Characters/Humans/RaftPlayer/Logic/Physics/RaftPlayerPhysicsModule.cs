@@ -136,7 +136,7 @@ namespace FishFlingers.Entities
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
 
-            _audioManager.PlaySound(SoundId.Jump);
+            _audioManager.PlaySound(SoundId.HumanJump);
         }
 
         private void SwimClimbFixedTick()

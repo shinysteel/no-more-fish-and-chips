@@ -38,8 +38,8 @@ namespace FishFlingers.Entities
 
             _moveStateAnimationEvents = new StateAnimationEvents(RunStateName, true)
             {
-                new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.Footstep)),
-                new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.Footstep))
+                new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.HumanFootstep)),
+                new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.HumanFootstep))
             };
 
             _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName, false)
