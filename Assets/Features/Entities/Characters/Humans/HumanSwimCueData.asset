@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
   m_Name: HumanSwimCueData
   m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
+  _id: 4
   _volume: 1
-  _minPitch: 1
-  _maxPitch: 1
-  _audioClips: []
+  _minPitch: 0.9
+  _maxPitch: 1.1
+  _audioClips:
+  - {fileID: 8300000, guid: 1fcd9f03cb1113949942a78285242d0a, type: 3}
+  - {fileID: 8300000, guid: 20dbe68c7c92f8e409efc132a5a560a5, type: 3}
+  - {fileID: 8300000, guid: 98e2872ecf2578f4bba428d89e85414c, type: 3}
