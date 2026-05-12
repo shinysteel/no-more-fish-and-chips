@@ -80,9 +80,15 @@ namespace FishFlingers.Entities
             return _netIsDefeated.value;
         }
 
-        protected void SetNetIsDefeated(bool isDefeated)
+        protected void SetNetIsDefeated(bool defeated)
         {
-            _netIsDefeated.value = isDefeated;
+            SetNetIsDefeatedRpc(owner.Value, defeated);
+        }
+
+        [TargetRpc]
+        protected void SetNetIsDefeatedRpc(PlayerID id, bool defeated)
+        {
+            _netIsDefeated.value = defeated;
         }
 
         protected override void OnSpawned()

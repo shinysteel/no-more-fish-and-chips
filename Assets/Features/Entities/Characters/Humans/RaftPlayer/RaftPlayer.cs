@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace FishFlingers.Entities
 {
@@ -172,6 +173,19 @@ namespace FishFlingers.Entities
             }
 
             _netOpenNetworkId.value = behaviour;
+        }
+
+        [TargetRpc]
+        public void TeleportRpc(PlayerID id, Vector3 position)
+        {
+            // Since interpolation is enabled, we need to teleport via rigidbody.position
+            RaftPlayerPhysicsModule.Rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5f);
+        }
+
+        [TargetRpc]
+        public void SetNetInBarrelRpc(PlayerID id, bool barrel)
+        {
+            _netInBarrel.value = barrel;
         }
 
         [TargetRpc]

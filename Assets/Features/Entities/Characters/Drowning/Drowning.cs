@@ -113,9 +113,10 @@ namespace FishFlingers.Entities
                 if (_timer >= 0.83f)
                 {
                     // Since interpolation is enabled, we need to teleport via rigidbody.position
-                    _drowning._targetPlayer.RaftPlayerPhysicsModule.Rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5F);
+                    _drowning._targetPlayer.TeleportRpc(_drowning._targetPlayer.owner.Value, new Vector3(Random.Range(-4f, 4f), 0.5f, 5f));
 
-                    _drowning._targetPlayer.RaftPlayerDefeatModule.SetNetInBarrel(true);
+                    _drowning._targetPlayer.SetNetInBarrelRpc(_drowning._targetPlayer.owner.Value, true);
+
                     _parentStateMachine.ChangeState(EState.Disappear);
                 }
             }
@@ -234,7 +235,7 @@ namespace FishFlingers.Entities
         [ObserversRpc]
         private void FinisherRpc(EntityId id)
         {
-            _finisherModel = _poolManager.GetEntityModel(id, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Parent = transform });
+            // _finisherModel = _poolManager.GetEntityModel(id, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Parent = transform });
         }
 
         [ObserversRpc]

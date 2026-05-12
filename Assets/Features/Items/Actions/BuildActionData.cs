@@ -9,11 +9,6 @@ namespace FishFlingers.Items
     {
         public override void Execute(GameplayContext context)
         {
-            if (!context.LocalPlayer.TileTargetLogic.Target.CanBuild())
-            {
-                return;
-            }
-
             context.LocalPlayer.TileTargetLogic.SetIsBuilding(true);
 
             UIManager uiManager = GameManager.Instance.Get<UIManager>();

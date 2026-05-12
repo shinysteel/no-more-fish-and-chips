@@ -121,7 +121,7 @@ namespace FishFlingers.Entities
             }
 
             SetIsDefeated(false);
-            SetNetInBarrel(false);
+            _player.SetNetInBarrelRpc(_player.owner.Value, false);
 
             _player.RaftPlayerPhysicsModule.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
         }
@@ -137,19 +137,14 @@ namespace FishFlingers.Entities
             RaiseIsDefeatedChanged();
         }
 
-        public void SetNetInBarrel(bool inBarrel)
+        private void HandleNetInBarrelChanged(bool barrel)
         {
-            _netInBarrel.value = inBarrel;
-        }
-
-        private void HandleNetInBarrelChanged(bool inBarrel)
-        {
-            if (_inBarrel == inBarrel)
+            if (_inBarrel == barrel)
             {
                 return;
             }
 
-            _inBarrel = inBarrel;
+            _inBarrel = barrel;
 
             if (_inBarrel)
             {
