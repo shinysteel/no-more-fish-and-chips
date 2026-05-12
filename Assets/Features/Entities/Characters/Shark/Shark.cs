@@ -141,18 +141,28 @@ namespace FishFlingers.Entities
                     .Where(node => node != null)
                     .OrderBy(node => Mathf.Abs(node.AxisIndex - axisIndex))
                     .FirstOrDefault();
-                
-                Tile closestTile = null;
-                if (closestNode != null)
+
+                Vector3 forward = Utils.Math.DirectionToVector3( _shark._swimDirectionEnum);
+
+                if (closestNode == null)
                 {
-                    _shark._context.Raft.Tiles.TryGetValue(closestNode.Cell, out closestTile);
+                    return _shark.transform.position + forward;
                 }
 
-                Vector3 targetPosition = closestTile != null
-                    ? closestTile.transform.position - Utils.Math.DirectionToVector3(_shark._swimDirectionEnum) + _shark._shiftDirection * Tile.Size * 0.5f
-                    : _shark.transform.position + Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
+                Vector3 targetPosition;
 
-                targetPosition.y = _shark.transform.position.y;
+                if (_shark._targetLines[0].RaftAxis.Type == Axis.Horizontal)
+                {
+                    float z = (_shark._targetLines[0].LineIndex + _shark._targetLines[1].LineIndex) * 0.5f;
+                    targetPosition = new Vector3(closestNode.AxisIndex, _shark.transform.position.y, z);
+                }
+                else
+                {
+                    float x = (_shark._targetLines[0].LineIndex + _shark._targetLines[1].LineIndex) * 0.5f;
+                    targetPosition = new Vector3(x, _shark.transform.position.y, closestNode.AxisIndex);
+                }
+
+                targetPosition -= forward;
 
                 return targetPosition;
             }

@@ -1,10 +1,13 @@
 using FishFlingers.Entities;
+using FishFlingers.Networking;
 using UnityEngine;
 
 namespace FishFlingers.Environments
 {
     public class Ocean : MonoBehaviour
     {
+        private NetworkManager _networkManager;
+
         [SerializeField] private BoxCollider _boxCollider;
 
         [SerializeField, Range(0f, 1f)] private float _submergePercent = 0.5f;
@@ -12,9 +15,24 @@ namespace FishFlingers.Environments
         [SerializeField] private float _angularDrag = 2.5f;
         [SerializeField] private float _currentSpeed = 0.25f;
 
+        private void Awake()
+        {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+        }
+
         private void OnTriggerStay(Collider collider)
         {
+            if (!_networkManager.IsServer)
+            {
+                return;
+            }
+
             if (!collider.gameObject.TryGetComponent(out IEntity entity))
+            {
+                return;
+            }
+
+            if (!entity.IsSpawned)
             {
                 return;
             }

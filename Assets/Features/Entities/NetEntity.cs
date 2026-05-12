@@ -150,7 +150,6 @@ namespace FishFlingers.Entities
 
         private void HandleNetIsDefeatedChanged(bool defeated)
         {
-            Log.Info($"{name} defeated changed to {defeated}");
             _entityDefeatModule.HandleIsDefeatedChanged(defeated);
         }
 

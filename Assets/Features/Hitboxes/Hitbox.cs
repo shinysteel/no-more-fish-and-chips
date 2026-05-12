@@ -39,11 +39,11 @@ namespace FishFlingers.Hitboxes
             _data = data;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            _timer += Time.deltaTime;
+            _timer += Time.fixedDeltaTime;
 
-            StepUpdate();
+            StepFixedUpdate();
 
             if (_timer >= _data.HitboxDuration)
             {
@@ -51,7 +51,7 @@ namespace FishFlingers.Hitboxes
             }
         }
 
-        private void StepUpdate()
+        private void StepFixedUpdate()
         {
             foreach (HitboxStep step in _data.Steps)
             {
