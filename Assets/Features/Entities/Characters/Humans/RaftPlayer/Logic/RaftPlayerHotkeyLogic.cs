@@ -51,11 +51,11 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            if (_player.RaftPlayerDefeatModule.IsDefeated)
+            if (!_player.CanAct)
             {
                 return;
             }
-
+            
             if (_player.InputLogic.LeftClick)
             {
                 LeftClick();
@@ -214,11 +214,6 @@ namespace FishFlingers.Entities
 
         private void RightClick()
         {
-            if (!_player.CanAct)
-            {
-                return;
-            }
-
             ExecuteItemRightClick();
         }
 
@@ -290,7 +285,7 @@ namespace FishFlingers.Entities
             {
                 DropItemAtCursor();
             }
-            else if (_player.CanAct)
+            else
             {
                 DropSelectedItem();
             }
@@ -332,21 +327,11 @@ namespace FishFlingers.Entities
 
         private void Interact()
         {
-            if (!_player.CanAct)
-            {
-                return;
-            }
-
             _player.InteractLogic.Interact();
         }
 
         private void Scroll(float scroll)
         {
-            if (!_player.CanAct)
-            {
-                return;
-            }
-
             ScrollHotbar(-scroll);
         }
 
@@ -371,7 +356,7 @@ namespace FishFlingers.Entities
             {
                 AssignItem(number);
             }
-            else if (_player.CanAct)
+            else
             {
                 _player.Hotbar.SetSelectedIndex(number - 1);
             }

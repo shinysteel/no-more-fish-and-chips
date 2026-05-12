@@ -166,7 +166,7 @@ namespace FishFlingers.Entities
 
         private class IdleState : State
         {
-            private Collider[] _collidersNonAlloc = new Collider[5];
+            private Collider[] _collidersNonAlloc = new Collider[1];
 
             public IdleState(StateMachine<EState> parent) : base(parent)
             { }

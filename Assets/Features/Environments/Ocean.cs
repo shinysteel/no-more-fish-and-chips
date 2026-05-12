@@ -39,7 +39,7 @@ namespace FishFlingers.Environments
             Vector3 force = Vector3.up * strength * factor;
 
             // Push the entity upwards to simulate floating
-            entity.EntityPhysicsModule.Rigidbody.AddForce(force);
+            entity.EntityPhysicsModule.Rigidbody.AddForce(force, ForceMode.Force);
         }
 
         // Current is referring to motion in water

@@ -57,6 +57,9 @@ namespace FishFlingers.Entities
         public virtual void Tick()
         { }
 
+        public virtual void FixedTick()
+        { }
+
         private void HandleHealthChanged(int previous, int current)
         {
             if (!_entity.IsOwner)

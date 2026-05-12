@@ -3,7 +3,12 @@ guid: 2c947d358ca99a44ba3ed9c6f179361d
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PalmSeed.png
+    second: {fileID: 2100000, guid: 257566b0ebd44ba44993ca61af931d2f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -133,6 +133,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            _entityDefeatModule.FixedTick();
             _entityPhysicsModule.FixedTick();
         }
 

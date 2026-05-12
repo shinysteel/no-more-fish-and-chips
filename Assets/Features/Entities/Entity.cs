@@ -66,6 +66,7 @@ namespace FishFlingers.Entities
             }
 
             _entityDefeatModule.Tick();
+            _entityPhysicsModule.Tick();
         }
 
         protected virtual void FixedUpdate()
@@ -75,6 +76,7 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            _entityDefeatModule.FixedTick();
             _entityPhysicsModule.FixedTick();
         }
 

@@ -56,6 +56,11 @@ namespace FishFlingers.Entities
         {
             _jumpTimer += Time.deltaTime;
 
+            if (!_player.CanAct)
+            {
+                return;
+            }
+
             if (!_player.InputLogic.Jump)
             {
                 return;
@@ -77,7 +82,8 @@ namespace FishFlingers.Entities
                 return;
             }
 
-            Vector3 targetVelocity = _player.InputLogic.MoveDirection * _settings.Move.Speed;
+            Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
+            Vector3 targetVelocity = direction * _settings.Move.Speed;
 
             if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Windup)
             {
@@ -90,14 +96,14 @@ namespace FishFlingers.Entities
 
             targetVelocity.y = _rigidbody.linearVelocity.y;
 
-            float speed = _player.InputLogic.MoveDirection != Vector3.zero ? _settings.Move.Acceleration : _settings.Move.Deceleration;
+            float speed = direction != Vector3.zero ? _settings.Move.Acceleration : _settings.Move.Deceleration;
 
             _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
         }
 
         private void LookFixedTick()
         {
-            Vector3 direction = _player.InputLogic.MoveDirection;
+            Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
 
             if (direction == Vector3.zero)
             {
@@ -127,6 +133,11 @@ namespace FishFlingers.Entities
             _jumpTimer = 0f;
             _jumpRequest = false;
 
+            if (!_player.CanAct)
+            {
+                return;
+            }
+
             if (!_isGrounded)
             {
                 return;
@@ -141,7 +152,9 @@ namespace FishFlingers.Entities
 
         private void SwimClimbFixedTick()
         {
-            if (_player.InputLogic.MoveDirection == Vector3.zero)
+            Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
+
+            if (direction == Vector3.zero)
             {
                 _isSwimClimbing = false;
                 return;
@@ -169,7 +182,7 @@ namespace FishFlingers.Entities
             Vector3 point1 = center - Vector3.up * offset;
             Vector3 point2 = center + Vector3.up * offset;
 
-            _isSwimClimbing = Physics.CapsuleCastNonAlloc(point1, point2, radius, _player.InputLogic.MoveDirection, _swimClimbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.SwimClimb.Mask) > 0;
+            _isSwimClimbing = Physics.CapsuleCastNonAlloc(point1, point2, radius, direction, _swimClimbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.SwimClimb.Mask) > 0;
             
             if (!_isSwimClimbing)
             {
