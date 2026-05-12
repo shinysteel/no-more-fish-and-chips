@@ -118,7 +118,7 @@ namespace FishFlingers.Entities
                     _shark._targetNodes[i] = _shark._targetLines[i].GetNextNode(axisIndex, _shark._swimDirectionFlat);
                 }
 
-                // Move to the next node from either line, and stop in front of it. If there is nno next node, keep swimming forward
+                // Move to the next node from either line, and stop in front of it. If there is no next node, keep swimming forward
                 Vector3 targetPosition = GetTargetPosition(axisIndex);
                 _shark.transform.position = Vector3.MoveTowards(_shark.transform.position, targetPosition, _swimSpeed * Time.deltaTime);
                 

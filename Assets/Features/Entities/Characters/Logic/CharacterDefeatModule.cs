@@ -2,6 +2,7 @@ using FishFlingers.Items;
 using PrimeTween;
 using ShinyOwl.Common;
 using System;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -59,15 +60,14 @@ namespace FishFlingers.Entities
         public override void HandleIsDefeatedChanged(bool defeated)
         {
             _character.CharacterModel.SetDefeated(defeated);
+            _character.CharacterModel.Animator.Update(0f);
+            _character.RagdollLogic.SetEnabled(defeated);
 
             if (_character.isOwner)
             {
-                _character.RagdollLogic.SetEnabled(defeated);
-
                 if (defeated)
                 {
                     _defeatTimer = 0f;
-                    _character.CharacterModel.Animator.Update(0f);
                 }
             }
 

@@ -167,6 +167,10 @@ namespace FishFlingers.Entities
                 if (_player.isOwner)
                 {
                     _player.RaftPlayerPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                }
+
+                if (_networkManager.IsServer)
+                {
                     _player.RaftPlayerPhysicsModule.ResetTimeInWater();
                 }
             }

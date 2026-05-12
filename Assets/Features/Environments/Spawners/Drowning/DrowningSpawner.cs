@@ -47,7 +47,7 @@ namespace FishFlingers.Environments
         {
             foreach (RaftPlayer player in _context.Players)
             {
-                if (player.RaftPlayerPhysicsModule.TimeInWater >= 0.5f && !player.RaftPlayerDefeatModule.InBarrel)
+                if (player.RaftPlayerPhysicsModule.TimeInWater >= 1f && !player.RaftPlayerDefeatModule.InBarrel)
                 {
                     SpawnDrowning(player);
                 }
