@@ -35,7 +35,6 @@ namespace FishFlingers.Entities
 
             if (_player.isOwner)
             {
-                _player.AnimateLogic.AttackStateAnimationEvents.Add(new StateAnimationEvent(0f, () => _attackState = RaftPlayerAttackState.Windup));
                 _player.AnimateLogic.AttackStateAnimationEvents.Add(new StateAnimationEvent(0.5f, Lunge));
                 _player.AnimateLogic.AttackStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _attackState = RaftPlayerAttackState.None));
             }
@@ -48,6 +47,10 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            // StateAnimationEvents aren't perfect. Ideally this would be set to normalised time of 0f, but this can be too late for the
+            // IsAttacking bool to be valid. For example, an Attack trigger can be interrupted by a Jump trigger
+            _attackState = RaftPlayerAttackState.Windup;
+            
             _player.AnimateLogic.Attack();
         }
 

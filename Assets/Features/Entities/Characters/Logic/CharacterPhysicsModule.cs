@@ -18,6 +18,8 @@ namespace FishFlingers.Entities
 
         public bool InWater => _timeInWater > 0f;
 
+        public bool InAir => !_isGrounded && !InWater;
+
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
 

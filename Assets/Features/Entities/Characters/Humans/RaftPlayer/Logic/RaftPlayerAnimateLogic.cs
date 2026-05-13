@@ -1,10 +1,6 @@
-using UnityEngine;
-using System.Threading.Tasks;
-using PrimeTween;
-using ShinyOwl.Common;
-using FishFlingers.Items;
-using System;
 using FishFlingers.Audio;
+using ShinyOwl.Common;
+using UnityEngine;
 
 namespace FishFlingers.Entities
 {
@@ -17,16 +13,19 @@ namespace FishFlingers.Entities
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
         private StateAnimationEvents _attackStateAnimationEvents;
+        private StateAnimationEvents _jumpStateAnimationEvents;
 
         public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
 
         private const string IsMovingBoolName = "IsMoving";
+        private const string InWaterBoolName = "InWater";
+        private const string InAirBoolName = "InAir";
         private const string IsHoldingItemBoolName = "IsHoldingItem";
         private const string IsAttackingBoolName = "IsAttacking";
         private const string InBarrelBoolName = "InBarrel";
-        private const string InWaterBoolName = "InWater";
-
+        
         private const string AttackTriggerName = "Attack";
+        private const string JumpTriggerName = "Jump";
 
         private const string GroundRunStateName = "Base Layer.Ground.Run";
         private const string WaterSwimStateName = "Base Layer.Water.Swim";
@@ -69,16 +68,18 @@ namespace FishFlingers.Entities
             if (_player.isOwner)
             {
                 bool isMoving = _player.InputLogic.MoveDirection != Vector3.zero;
+                bool inWater = _player.RaftPlayerPhysicsModule.InWater;
+                bool inAir = _player.RaftPlayerPhysicsModule.InAir;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
                 bool isAttacking = _player.AttackLogic.AttackState > RaftPlayerAttackState.None;
                 bool inBarrel = _player.RaftPlayerDefeatModule.InBarrel;
-                bool inWater = _player.RaftPlayerPhysicsModule.InWater;
 
                 _player.CharacterModel.Animator.SetBool(IsMovingBoolName, isMoving);
+                _player.CharacterModel.Animator.SetBool(InWaterBoolName, inWater);
+                _player.CharacterModel.Animator.SetBool(InAirBoolName, inAir);
                 _player.CharacterModel.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
                 _player.CharacterModel.Animator.SetBool(IsAttackingBoolName, isAttacking);
                 _player.CharacterModel.Animator.SetBool(InBarrelBoolName, inBarrel);
-                _player.CharacterModel.Animator.SetBool(InWaterBoolName, inWater);
             }
 
             AnimatorStateInfo info = _player.CharacterModel.Animator.GetCurrentAnimatorStateInfo(0);
@@ -91,6 +92,11 @@ namespace FishFlingers.Entities
         public void Attack()
         {
             _player.CharacterModel.SetTrigger(AttackTriggerName);
+        }
+
+        public void Jump()
+        {
+            _player.CharacterModel.SetTrigger(JumpTriggerName);
         }
     }
 }

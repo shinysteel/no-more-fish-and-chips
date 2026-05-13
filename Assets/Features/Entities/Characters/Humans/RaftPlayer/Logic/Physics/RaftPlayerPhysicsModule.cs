@@ -147,7 +147,13 @@ namespace FishFlingers.Entities
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
 
-            _audioManager.PlaySound(SoundId.HumanJump);
+            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.None)
+            {
+                _player.AnimateLogic.Jump();
+            }
+
+            // Since the jump animation won't always interrupt the animator, the sound needs to be separate
+            AudioManager.PlaySoundRpc(SoundId.HumanJump);
         }
 
         private void SwimClimbFixedTick()

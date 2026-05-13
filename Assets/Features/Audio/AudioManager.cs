@@ -1,4 +1,7 @@
+using FishFlingers.Entities;
+using FishFlingers.Items;
 using FishFlingers.Pools;
+using PurrNet;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,6 +45,13 @@ namespace FishFlingers.Audio
         {
             SoundCue cue = _poolManager.GetTypedPoolable<SoundCue>(new SpawnParams());
             cue.Initialise(_idDataMap[id]);
+        }
+
+        [ObserversRpc]
+        public static void PlaySoundRpc(SoundId id)
+        {
+            AudioManager audioManager = GameManager.Instance.Get<AudioManager>();
+            audioManager.PlaySound(id);
         }
     }
 }
