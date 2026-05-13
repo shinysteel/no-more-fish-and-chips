@@ -31,6 +31,24 @@ namespace FishFlingers.Entities
                 return;
             }
 
+            if (_settings.DefeatsInWater)
+            {
+                DefeatsInWaterTick();
+            }
+
+            TweenTick();
+        }
+
+        private void DefeatsInWaterTick()
+        {
+            if (_character.CharacterPhysicsModule.InWater)
+            {
+                SetIsDefeated(true);
+            }
+        }
+
+        private void TweenTick()
+        {
             if (!IsDefeated)
             {
                 return;
