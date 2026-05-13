@@ -176,7 +176,7 @@ namespace FishFlingers.Entities
         }
 
         [TargetRpc]
-        public void TeleportRpc(PlayerID id, Vector3 position)
+        public void SetPositionRpc(PlayerID id, Vector3 position)
         {
             // Since interpolation is enabled, we need to teleport via rigidbody.position
             RaftPlayerPhysicsModule.Rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5f);

@@ -44,14 +44,12 @@ namespace FishFlingers.Entities
         [ServerRpc(requireOwnership: false)]
         private static void SpawnDroppedItemRpc(NetItemInstance netItemInstance, Vector3 position, Vector3 direction, float strength)
         {
-            EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
+            ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
 
-            DroppedItem item = (DroppedItem)entityManager.Spawn(EntityId.DroppedItem, new SpawnParams() { Position = position });
-
-            item.Set(netItemInstance, DroppedItemType.Default);
+            DroppedItem droppedItem = itemManager.SpawnDroppedItem(netItemInstance, DroppedItemType.Default, position);
 
             // Launch the item
-            item.EntityPhysicsModule.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
+            droppedItem.EntityPhysicsModule.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
         }
     }
 }

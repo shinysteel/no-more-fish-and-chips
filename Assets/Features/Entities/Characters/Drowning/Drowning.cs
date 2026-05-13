@@ -1,3 +1,5 @@
+using FishFlingers.Inventories;
+using FishFlingers.Items;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
@@ -110,10 +112,17 @@ namespace FishFlingers.Entities
             {
                 _timer += Time.deltaTime;
                 
+                // This is how long the Crab finisher is, and hopefully that is standardised
                 if (_timer >= 0.83f)
                 {
-                    // Since interpolation is enabled, we need to teleport via rigidbody.position
-                    _drowning._targetPlayer.TeleportRpc(_drowning._targetPlayer.owner.Value, new Vector3(Random.Range(-2f, 2f), 0.5f, 5f));
+                    foreach (InventoryItem inventoryItem in _drowning._targetPlayer.Inventory.InventoryItems.Values)
+                    {
+                        _drowning._itemManager.SpawnDroppedItem(NetItemInstance.Create(inventoryItem.ItemInstance), DroppedItemType.Default, _drowning._targetPlayer.transform.position);
+                    }
+
+                    _drowning._targetPlayer.Inventory.ClearNetInventoryItemsRpc(_drowning._targetPlayer.owner.Value);
+
+                    _drowning._targetPlayer.SetPositionRpc(_drowning._targetPlayer.owner.Value, new Vector3(Random.Range(-2f, 2f), 0.5f, 5f));
 
                     _drowning._targetPlayer.SetNetInBarrelRpc(_drowning._targetPlayer.owner.Value, true);
 

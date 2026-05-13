@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UIElements;
 using EntityId = FishFlingers.Entities.EntityId;
 
 namespace FishFlingers.Items
@@ -86,8 +87,7 @@ namespace FishFlingers.Items
 
                 foreach (NetItemInstance netItemInstance in netItemInstances)
                 {
-                    DroppedItem droppedItem = (DroppedItem)_entityManager.Spawn(EntityId.DroppedItem, new SpawnParams() { Position = position });
-                    droppedItem.Set(netItemInstance, type);
+                    SpawnDroppedItem(netItemInstance, type, position);
                 }
             }
             finally
@@ -95,6 +95,14 @@ namespace FishFlingers.Items
                 ListPool<WeightedPick<ItemId>>.Release(picks);
                 ListPool<NetItemInstance>.Release(netItemInstances);
             }
+        }
+
+        public DroppedItem SpawnDroppedItem(NetItemInstance netItemInstance, DroppedItemType type, Vector3 position)
+        {
+            DroppedItem droppedItem = (DroppedItem)_entityManager.Spawn(EntityId.DroppedItem, new SpawnParams() { Position = position });
+            droppedItem.Set(netItemInstance, type);
+
+            return droppedItem;
         }
     }
 }

@@ -410,13 +410,12 @@ namespace FishFlingers.Inventories
                     break;
 
                 case SyncDictionaryOperation.Cleared:
-                    string[] instanceIds = _inventoryItems.Keys.ToArray();
+                    InventoryItem[] inventoryItems = _inventoryItems.Values.ToArray();
                     _inventoryItems.Clear();
-
-                    foreach (string id in instanceIds)
+                    
+                    foreach (InventoryItem inventoryItem in inventoryItems)
                     {
-                        oldInventoryItem = _inventoryItems[id];
-                        OnInventoryItemChanged?.Invoke(id, oldInventoryItem, null);
+                        OnInventoryItemChanged?.Invoke(inventoryItem.ItemInstance.InstanceId, inventoryItem, null);
                     }
                     break;
             }
@@ -901,9 +900,20 @@ namespace FishFlingers.Inventories
         {
             return _netInventoryItems[instanceId].DeepClone();
         }
-        
+
+        [TargetRpc]
+        public void ClearNetInventoryItemsRpc(PlayerID id)
+        {
+            ClearNetInventoryItems();
+        }
+
         public void ClearNetInventoryItems()
         {
+            foreach (string instanceId in _netInventoryItems.Keys)
+            {
+                ClearSlots(instanceId);
+            }
+            
             _netInventoryItems.Clear();
         }
 
