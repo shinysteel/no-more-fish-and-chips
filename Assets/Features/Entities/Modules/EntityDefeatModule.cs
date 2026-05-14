@@ -62,7 +62,7 @@ namespace FishFlingers.Entities
 
         private void HandleHealthChanged(int previous, int current)
         {
-            if (!_entity.IsOwner)
+            if (!_entity.isOwner)
             {
                 return;
             }
@@ -107,7 +107,7 @@ namespace FishFlingers.Entities
         {
             if (_networkManager.IsServer)
             {
-                _itemManager.SpawnDrops(_entity.Transform.position, DroppedItemType.Default, _entity.EntityDefinitionData.DropTables);
+                _itemManager.SpawnDrops(_entity.transform.position, DroppedItemType.Default, _entity.EntityDefinitionData.DropTables);
             }
 
             _entityManager.Despawn(_entity);

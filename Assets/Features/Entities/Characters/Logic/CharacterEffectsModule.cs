@@ -16,7 +16,7 @@ namespace FishFlingers.Entities
             _character.CharacterModel.FlashRed();
 
             // The animator is already networked, and so only the owner needs to do this
-            if (_character.IsOwner)
+            if (_character.isOwner)
             {
                 _character.CharacterModel.AdditiveHurt();
             }

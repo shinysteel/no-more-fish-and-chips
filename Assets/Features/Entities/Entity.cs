@@ -32,9 +32,8 @@ namespace FishFlingers.Entities
         public EntityDefinitionData EntityDefinitionData => _entityDefinitionData;
         public EntityModel EntityModel => _entityModel;
 
-        public bool IsSpawned => _isSpawned;
-        public bool IsOwner => true;
-        public Transform Transform => transform;
+        public bool isSpawned => _isSpawned;
+        public bool isOwner => true;
 
         public EntityHealthModule EntityHealthModule => _entityHealthModule;
         public EntityDefeatModule EntityDefeatModule => _entityDefeatModule;

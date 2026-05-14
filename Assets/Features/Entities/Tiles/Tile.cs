@@ -66,7 +66,7 @@ namespace FishFlingers.Entities
         private void HandleHealthChanged(int previous, int current)
         {
             // Since this event can also trigger a despawn, we need to account for that
-            if (!IsSpawned)
+            if (!_isSpawned)
             {
                 return;
             }

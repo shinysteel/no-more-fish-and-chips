@@ -74,7 +74,7 @@ namespace FishFlingers.Hitboxes
                         continue;
                     }
 
-                    if (!entity.IsSpawned)
+                    if (!entity.isSpawned)
                     {
                         continue;
                     }
@@ -98,9 +98,9 @@ namespace FishFlingers.Hitboxes
                     entity.EntityHealthModule.ChangeHealth(-_data.Damage);
 
                     // Damaging an entity can cause it to despawn, which nulls all modules
-                    if (entity.IsSpawned)
+                    if (entity.isSpawned)
                     {
-                        Vector3 forceDirection = (entity.Transform.position - transform.position).normalized;
+                        Vector3 forceDirection = (entity.transform.position - transform.position).normalized;
                         Vector3 force = forceDirection * _data.KnockbackForceStrength;
 
                         Vector3 torqueDirection = forceDirection;

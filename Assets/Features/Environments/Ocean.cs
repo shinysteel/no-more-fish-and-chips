@@ -27,12 +27,12 @@ namespace FishFlingers.Environments
                 return;
             }
 
-            if (!entity.IsSpawned)
+            if (!entity.isSpawned)
             {
                 return;
             }
 
-            if (!entity.IsOwner)
+            if (!entity.isOwner)
             {
                 return;
             }
