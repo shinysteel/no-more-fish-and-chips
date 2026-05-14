@@ -13,6 +13,7 @@ namespace FishFlingers.Entities
         private StateMachine<EState> _stateMachine;
 
         private StateAnimationEvents _attackStateAnimationEvents;
+        private StateAnimationEvents _airFlapStateAnimationEvents;
 
         private const string InAirBoolName = "InAir";
         private const string IsFlappingBoolName = "IsFlapping";
@@ -20,6 +21,7 @@ namespace FishFlingers.Entities
         private const string AttackTriggerName = "Attack";
 
         private const string AttackStateName = "Attack";
+        private const string AirFlapStateName = "Base Layer.Air.Flap";
 
         private enum EState
         {
@@ -248,7 +250,12 @@ namespace FishFlingers.Entities
 
             _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName, false)
             {
-                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullAttack)),   
+                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullAttack))
+            };
+
+            _airFlapStateAnimationEvents = new StateAnimationEvents(AirFlapStateName, true)
+            {
+                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullFlap))
             };
 
             if (isOwner)
@@ -284,6 +291,7 @@ namespace FishFlingers.Entities
 
             AnimatorStateInfo info = CharacterModel.Animator.GetCurrentAnimatorStateInfo(0);
             _attackStateAnimationEvents.Tick(info);
+            _airFlapStateAnimationEvents.Tick(info);
 
             if (!isOwner)
             {

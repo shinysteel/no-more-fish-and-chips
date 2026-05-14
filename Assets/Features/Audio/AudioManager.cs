@@ -12,11 +12,16 @@ namespace FishFlingers.Audio
 
     public enum SoundId
     {
+        None,
         HumanJump,
         HumanFootstep,
         PaddleAttack,
         SeagullAttack,
-        HumanSwim
+        HumanSwim,
+        WaterSplash,
+        ClamChestOpen,
+        ClamChestClose,
+        SeagullFlap
     }
 
     public class AudioManager : GameSystem<IAudioManagerListener>

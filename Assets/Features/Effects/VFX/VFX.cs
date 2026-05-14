@@ -1,3 +1,4 @@
+using FishFlingers.Audio;
 using FishFlingers.Pools;
 using UnityEngine;
 
@@ -5,23 +6,31 @@ namespace FishFlingers.Effects
 {
     public class VFX : MonoBehaviour, IPoolable
     {
-        [SerializeField] private VfxId _id;
+        [SerializeField] private VfxId _vfxId;
+        [SerializeField] private SoundId _soundId;
         [SerializeField] private ParticleSystem _particleSystem;
 
         private EffectManager _effectManager;
+        private AudioManager _audioManager;
 
         private float _timer;
 
-        public VfxId Id => _id;
+        public VfxId VfxId => _vfxId;
 
         private void Awake()
         {
             _effectManager = GameManager.Instance.Get<EffectManager>();
+            _audioManager = GameManager.Instance.Get<AudioManager>();
         }
 
         public void OnTakenFromPool()
         {
             _particleSystem.Play();
+
+            if (_soundId != SoundId.None)
+            {
+                _audioManager.PlaySound(_soundId);
+            }
 
             _timer = 0f;
         }

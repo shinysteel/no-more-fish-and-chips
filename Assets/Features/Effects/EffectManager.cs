@@ -32,7 +32,7 @@ namespace FishFlingers.Effects
 
             foreach (VFX vfx in _config.VfxScanner.GetAssets())
             {
-                _idPrefabMap.Add(vfx.Id, vfx);
+                _idPrefabMap.Add(vfx.VfxId, vfx);
             }
 
             base.Initialise(config);
@@ -47,7 +47,7 @@ namespace FishFlingers.Effects
 
         public void ReturnVfx(VFX vfx)
         {
-            _poolManager.ReturnPoolable(vfx, vfx.Id, _vfxPools);
+            _poolManager.ReturnPoolable(vfx, vfx.VfxId, _vfxPools);
         }
     }
 }

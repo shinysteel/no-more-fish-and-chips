@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d84046ef6b40448a8a8bada4e31764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Effects.VFX
-  _id: 1
+  _vfxId: 1
+  _soundId: 6
   _particleSystem: {fileID: 3673493421958628262}
 --- !u!198 &3673493421958628262
 ParticleSystem:

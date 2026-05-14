@@ -8,6 +8,7 @@ using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using UnityEngine;
+using FishFlingers.Audio;
 
 namespace FishFlingers.Entities
 {
@@ -122,12 +123,16 @@ namespace FishFlingers.Entities
                 _closeTween.Stop();
 
                 _openTween = Tween.LocalRotation(_hingeTransform, endValue: Quaternion.AngleAxis(-90f, Vector3.right), duration: OpenDuration);
+
+                _audioManager.PlaySound(SoundId.ClamChestOpen);
             }
             else
             {
                 _openTween.Stop();
 
                 _closeTween = Tween.LocalRotation(_hingeTransform, endValue: Quaternion.identity, duration: OpenDuration, ease: Ease.InQuad);
+
+                _audioManager.PlaySound(SoundId.ClamChestClose);
             }
         }
     }

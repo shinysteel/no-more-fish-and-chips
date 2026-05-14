@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
+  m_Name: ClamChestOpenCueData
+  m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
+  _id: 7
+  _volume: 1
+  _minPitch: 0.9
+  _maxPitch: 1.1
+  _audioClips:
+  - {fileID: 8300000, guid: 96f447f8daaf24042b28e06320774238, type: 3}

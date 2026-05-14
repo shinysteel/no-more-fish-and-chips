@@ -13,7 +13,6 @@ namespace FishFlingers.Entities
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
         private StateAnimationEvents _attackStateAnimationEvents;
-        private StateAnimationEvents _jumpStateAnimationEvents;
 
         public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
 
