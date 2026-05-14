@@ -112,7 +112,7 @@ Material:
     - _OcclusionStrength: 1
     - _OceanRadius: 50
     - _Parallax: 0.005
-    - _PixelDensity: 1500
+    - _PixelDensity: 1800
     - _Pixels: 1000
     - _QueueControl: 0
     - _QueueOffset: 0
