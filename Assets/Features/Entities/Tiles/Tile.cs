@@ -120,8 +120,8 @@ namespace FishFlingers.Entities
             {
                 // Bob up and down
                 targetY = TileDefinitionData.BobSettings.Amplitude * Mathf.PerlinNoise(
-                    _cell.x * TileDefinitionData.BobSettings.NoiseScale + Time.time * TileDefinitionData.BobSettings.TimeScale,
-                    _cell.y * TileDefinitionData.BobSettings.NoiseScale + Time.time * TileDefinitionData.BobSettings.TimeScale);
+                    _cell.x * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale,
+                    _cell.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
             }
 
             Vector3 targetPosition = new Vector3(_entityPhysicsModule.Rigidbody.position.x, targetY, _entityPhysicsModule.Rigidbody.position.z);

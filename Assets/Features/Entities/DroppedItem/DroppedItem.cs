@@ -29,8 +29,6 @@ namespace FishFlingers.Entities
 
         public DroppedItemDefinitionData Data => (DroppedItemDefinitionData)_entityDefinitionData;
 
-        public Vector3 Position => transform.position;
-
         private const float DespawnDistance = 15f;
 
         private const int MaxItemModels = 3;

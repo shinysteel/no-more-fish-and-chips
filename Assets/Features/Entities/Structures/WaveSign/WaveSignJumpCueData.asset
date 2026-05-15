@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaveSignJumpCueData
   m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
   _id: 12
-  _volume: 1
+  _volume: 0.8
   _minPitch: 0.9
   _maxPitch: 1.1
   _audioClips:

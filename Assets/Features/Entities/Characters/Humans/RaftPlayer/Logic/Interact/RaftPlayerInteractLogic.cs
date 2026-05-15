@@ -314,7 +314,7 @@ namespace FishFlingers.Entities
             Vector3 offset = Vector3.up * (amplitude * Mathf.Sin(frequency * (_animateTimer - phaseShift)) + verticalShift);
 
             // Bob up and down slightly above the interactable
-            _interactPromptUI.transform.position = _currentInteractable.Position + offset;
+            _interactPromptUI.transform.position = _currentInteractable.transform.position + offset;
         }
     }
 }

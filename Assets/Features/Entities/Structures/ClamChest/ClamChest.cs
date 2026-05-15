@@ -27,7 +27,6 @@ namespace FishFlingers.Entities
         private Tween _openTween;
         private Tween _closeTween;
 
-        public Vector3 Position => transform.position;
         public Inventory Inventory => _inventory;
 
         private const float OpenDuration = 0.4f;

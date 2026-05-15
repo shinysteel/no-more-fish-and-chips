@@ -76,7 +76,17 @@ namespace FishFlingers.Entities
 
         private void RefreshWaveText()
         {
-            _waveText.text = _index.ToString();
+            string text = _index.ToString();
+            
+            if (_waveText.text == text)
+            {
+                return;
+            }
+
+            _waveText.text = text;
+
+            Tween.CompleteAll(_waveText.transform);
+            Tween.PunchScale(_waveText.transform, strength: Vector3.one * 0.5f, duration: 0.1f, frequency: 1);
         }
 
         private void Slam()
