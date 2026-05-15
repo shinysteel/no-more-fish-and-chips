@@ -2,6 +2,7 @@ using FishFlingers.Environments;
 using FishFlingers.Networking;
 using FishFlingers.Pools;
 using FishFlingers.States;
+using FishFlingers.UI;
 using ShinyOwl.Common;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace FishFlingers.Entities
 
         protected NetworkManager _networkManager;
         protected EntityManager _entityManager;
+        protected UIManager _uiManager;
 
         protected GameplayContext _context;
 
@@ -45,6 +47,7 @@ namespace FishFlingers.Entities
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
         }
 
         public virtual void Initialise(GameplayContext context)

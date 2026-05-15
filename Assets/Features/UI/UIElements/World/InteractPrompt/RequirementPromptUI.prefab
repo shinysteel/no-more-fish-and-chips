@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 63ef3867228c6f84abcbce5b087d9cb2, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -241,18 +241,8 @@ MonoBehaviour:
   _uiAnimation: {fileID: 7915396974455939601}
   _rectTransform: {fileID: 3790279683204971996}
   _canvasGroup: {fileID: 7932830004915189050}
-  _text: {fileID: 5966113184763789628}
---- !u!114 &5966113184763789628 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5229148254527452820, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
-  m_PrefabInstance: {fileID: 1898917007993649064}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  _hotkeyText: {fileID: 0}
+  _hotkeyImage: {fileID: 0}
 --- !u!114 &7915396974455939601 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8611847211842360761, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
@@ -289,6 +279,10 @@ PrefabInstance:
       propertyPath: m_fontSizeMax
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 3652e302dbda2184d8a2aa2725984909, type: 2}
     - target: {fileID: 6722119670988573049, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_Name
       value: CountText

@@ -8,7 +8,6 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System.Threading.Tasks;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using NetworkManager = FishFlingers.Networking.NetworkManager;
 
 namespace FishFlingers.Entities
@@ -76,9 +75,9 @@ namespace FishFlingers.Entities
                 DropItem();
             }
 
-            if (_player.InputLogic.Interact)
+            if (_player.InputLogic.TryGetInteract(out InteractHotkey hotkey))
             {
-                Interact();
+                Interact(hotkey);
             }
 
             if (_player.InputLogic.TryGetScroll(out float scroll))
@@ -325,9 +324,9 @@ namespace FishFlingers.Entities
             _player.Inventory.TryRemoveItem(_player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.InstanceId);
         }
 
-        private void Interact()
+        private void Interact(InteractHotkey hotkey)
         {
-            _player.InteractLogic.Interact();
+            _player.InteractLogic.Interact(hotkey);
         }
 
         private void Scroll(float scroll)

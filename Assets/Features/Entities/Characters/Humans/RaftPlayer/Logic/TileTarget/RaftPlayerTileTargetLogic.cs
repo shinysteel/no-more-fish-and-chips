@@ -237,11 +237,11 @@ namespace FishFlingers.Entities
                     _targetVisual.SetColor(_target.CanBuildStructure() ? RaftPlayerTileTargetVisual.EColor.Valid : RaftPlayerTileTargetVisual.EColor.Invalid);
                 }
             }
-            else if (itemCanRepair && _target.CanRepair())
-            {
-                _targetVisual.SetVisual(RaftPlayerTileTargetVisual.EVisual.Repair);
-                _targetVisual.SetColor(RaftPlayerTileTargetVisual.EColor.Valid);
-            }
+            //else if (itemCanRepair && _target.CanRepair())
+            //{
+            //    _targetVisual.SetVisual(RaftPlayerTileTargetVisual.EVisual.Repair);
+            //    _targetVisual.SetColor(RaftPlayerTileTargetVisual.EColor.Valid);
+            //}
             else
             {
                 _targetVisual.SetVisual(RaftPlayerTileTargetVisual.EVisual.None);

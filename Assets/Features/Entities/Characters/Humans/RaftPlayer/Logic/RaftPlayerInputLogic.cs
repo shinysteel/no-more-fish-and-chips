@@ -92,6 +92,22 @@ namespace FishFlingers.Entities
             }
         }
 
+        public bool TryGetInteract(out InteractHotkey hotkey)
+        {
+            hotkey = InteractHotkey.None;
+
+            if (_player.InputLogic.Interact)
+            {
+                hotkey = InteractHotkey.FKey;
+            }
+            else if (_player.InputLogic.LeftClick)
+            {
+                hotkey = InteractHotkey.LeftClick;
+            }
+
+            return hotkey != InteractHotkey.None;
+        }
+
         public bool TryGetScroll(out float scroll)
         {
             scroll = _scroll;

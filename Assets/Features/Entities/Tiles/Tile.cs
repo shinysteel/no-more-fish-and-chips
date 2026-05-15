@@ -9,10 +9,11 @@ using UnityEngine;
 using ShinyOwl.Common.Utils;
 using FishFlingers.States;
 using System.Collections;
+using FishFlingers.UI;
 
 namespace FishFlingers.Entities
 {
-    public abstract class Tile : Entity
+    public abstract class Tile : Entity, IInteractable
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
@@ -32,6 +33,8 @@ namespace FishFlingers.Entities
         public Structure Structure => _structure;
 
         public const float Size = 1f;
+
+        InteractHotkey IInteractable.Hotkey => InteractHotkey.LeftClick;
 
         protected override void Awake()
         {
@@ -135,6 +138,21 @@ namespace FishFlingers.Entities
         {
             float height = 0.25f;
             return transform.position.y + height * 0.5f;
+        }
+
+        bool IInteractable.CanPrompt()
+        {
+            return _currentHealth < _entityHealthModule.Max && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+        }
+
+        WorldUI IInteractable.CreatePromptUI()
+        {
+            return _uiManager.CreateWorldUI(_uiManager.Config.RequirementPromptUIPrefab, Vector3.zero);
+        }
+
+        void IInteractable.Interact()
+        {
+            _entityHealthModule.ChangeHealth(1);
         }
     }
 }

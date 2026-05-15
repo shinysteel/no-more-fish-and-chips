@@ -30,7 +30,7 @@ namespace FishFlingers.UI
 
             public void Setup(ItemActionData data)
             {
-                _iconImage.sprite = data?.Sprite;
+                _iconImage.sprite = data?.HotkeySprite;
             }
 
             public void Show(bool show)

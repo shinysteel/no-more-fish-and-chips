@@ -31,6 +31,8 @@ namespace FishFlingers.Entities
 
         private const float OpenDuration = 0.4f;
 
+        InteractHotkey IInteractable.Hotkey => InteractHotkey.FKey;
+
         protected override void Awake()
         {
             base.Awake();
@@ -69,7 +71,17 @@ namespace FishFlingers.Entities
             _ = JsonConvert.DeserializeObject<InventorySave>(json).LoadToAsync(_inventory);
         }
 
-        public void Interact()
+        bool IInteractable.CanPrompt()
+        {
+            return true;
+        }
+
+        WorldUI IInteractable.CreatePromptUI()
+        {
+            return _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
+        }
+
+        void IInteractable.Interact()
         {
             _context.LocalPlayer.SetNetOpenObjectNetworkId(this);
 

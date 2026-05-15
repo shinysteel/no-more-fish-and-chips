@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
 using NUnit.Framework;
 using System.Collections.Generic;
+using FishFlingers.UI;
 
 namespace FishFlingers.Entities
 {
@@ -32,6 +33,8 @@ namespace FishFlingers.Entities
         private const float DespawnDistance = 15f;
 
         private const int MaxItemModels = 3;
+
+        InteractHotkey IInteractable.Hotkey => InteractHotkey.FKey;
 
         protected override void OnSpawned()
         {
@@ -97,7 +100,17 @@ namespace FishFlingers.Entities
             DespawnRpc();
         }
 
-        public void Interact()
+        bool IInteractable.CanPrompt()
+        {
+            return true;
+        }
+        
+        WorldUI IInteractable.CreatePromptUI()
+        {
+            return _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
+        }
+
+        void IInteractable.Interact()
         {
             if (_context.LocalPlayer.Inventory.TryAddItem(InventoryChangeParams.Create(_netItemInstance), false, out _, out _, out _))
             {

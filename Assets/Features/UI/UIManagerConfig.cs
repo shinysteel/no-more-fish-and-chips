@@ -54,7 +54,7 @@ namespace FishFlingers.UI
         [SerializeField] private CursorsUI _cursorsUIPrefab;
 
         public CursorsUI CursorsUIPrefab => _cursorsUIPrefab;
-
+        
         [Header("ScreenUI - Overlays")]
         [SerializeField] private FadeOverlay _fadeOverlayPrefab;
 
@@ -62,6 +62,9 @@ namespace FishFlingers.UI
 
         [Header("WorldUI")]
         [SerializeField] private InteractPromptUI _interactPromptUIPrefab;
+        [SerializeField] private RequirementPromptUI _requirementPromptUIPrefab;
+
         public InteractPromptUI InteractPromptUIPrefab => _interactPromptUIPrefab;
+        public RequirementPromptUI RequirementPromptUIPrefab => _requirementPromptUIPrefab;
     }
 }
