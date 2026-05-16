@@ -107,6 +107,7 @@ namespace FishFlingers.Entities
         public event Action<RaftPlayerTileTarget> OnTargetChanged;
 
         private bool _isBuilding;
+        public bool IsBuilding => _isBuilding;
 
         private const float RepairRange = 1f;
 

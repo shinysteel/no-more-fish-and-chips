@@ -157,12 +157,7 @@ namespace FishFlingers.Entities
                     continue;
                 }
 
-                if (!interactable.CanPrompt())
-                {
-                    continue;
-                }
-
-                if (!IsNearby(interactable, out _, out _))
+                if (!CanPrompt(interactable, out _, out _))
                 {
                     continue;
                 }
@@ -176,7 +171,7 @@ namespace FishFlingers.Entities
             // Recalculate angles and distances, and remove any that are no longer 'nearby'
             foreach (NearbyInteractable nearbyInteractable in _nearbyInteractables)
             {
-                if (nearbyInteractable.Interactable.CanPrompt() && IsNearby(nearbyInteractable.Interactable, out float angle, out float distance))
+                if (CanPrompt(nearbyInteractable.Interactable, out float angle, out float distance))
                 {
                     nearbyInteractable.Set(nearbyInteractable.Interactable.Settings.Priority, angle, distance);
                 }
@@ -237,15 +232,27 @@ namespace FishFlingers.Entities
             _promptUI.transform.position = _promptInteractable.transform.position + offset;
         }
 
-        private bool IsNearby(IInteractable interactable, out float angle, out float distance)
+        private bool CanPrompt(IInteractable interactable, out float angle, out float distance)
         {
-            distance = Vector3.Distance(_player.transform.position, interactable.transform.position);
+            angle = 0f;
+            distance = 0f;
+
+            if (_player.TileTargetLogic.IsBuilding)
+            {
+                return false;
+            }
+
+            if (!interactable.CanPrompt())
+            {
+                return false;
+            }
 
             Vector3 direction = (interactable.transform.position - _player.transform.position);
             direction.y = 0f;
             direction.Normalize();
-
             angle = Vector3.Angle(_player.transform.forward, direction);
+
+            distance = Vector3.Distance(_player.transform.position, interactable.transform.position);
 
             if (distance > _settings.Radius)
             {
