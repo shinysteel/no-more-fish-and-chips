@@ -155,7 +155,7 @@ namespace FishFlingers.UI
             }
             
             InventoryItemView view = _inventoryItemViews[key];
-            view.Setup(this, inventoryItem);
+            view.Setup(this, _context, inventoryItem);
         }
 
         private void RemoveInventoryItemView(string key)

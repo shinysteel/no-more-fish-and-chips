@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: ItemManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.ItemManagerConfig
   _itemDataScanner: {fileID: 11400000, guid: e70d00fa0bac06e49acade6db125ba86, type: 2}
+  _assignmentSprites:
+  - {fileID: -705248846, guid: ca22496820fa44a47a53944ba0583622, type: 3}
+  - {fileID: -1211556140, guid: ca22496820fa44a47a53944ba0583622, type: 3}
+  - {fileID: -2133247043, guid: ca22496820fa44a47a53944ba0583622, type: 3}
+  - {fileID: 1250850152, guid: ca22496820fa44a47a53944ba0583622, type: 3}
+  - {fileID: -1315607875, guid: ca22496820fa44a47a53944ba0583622, type: 3}
+  - {fileID: 1487087977, guid: ca22496820fa44a47a53944ba0583622, type: 3}

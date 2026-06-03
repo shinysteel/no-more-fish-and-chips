@@ -43,6 +43,7 @@ namespace FishFlingers.UI
             for (int i = 0; i < _slotViews.Length; i++)
             {
                 _slotViews[i] = Instantiate(_slotViewPrefab, transform);
+                _slotViews[i].Setup(_context);
             }
 
             _backgroundMaterial = _backgroundImage.material;

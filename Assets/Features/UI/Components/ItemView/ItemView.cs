@@ -11,15 +11,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using FishFlingers.Entities;
+using FishFlingers.Items;
 
 namespace FishFlingers.UI
 {
     public class ItemView : MonoBehaviour 
     {
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private Image _image;
+        [SerializeField] private Image _itemImage;
         [SerializeField] private TextMeshProUGUI _countText;
+        [SerializeField] private Image _assignmentImage;
 
+        private ItemManager _itemManager;
+
+        private GameplayContext _context;
         private InventoryItem _inventoryItem;
 
         public RectTransform RectTransform => _rectTransform;
@@ -30,16 +36,42 @@ namespace FishFlingers.UI
 
         public Vector2 SlotSize => _slotSize;
 
-        public void Setup(InventoryItem item)
+        private void Awake()
         {
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+        }
+
+        public void Setup(GameplayContext context, InventoryItem item)
+        {
+            SetContext(context);
             SetInventoryItem(item);
 
             Refresh();
         }
 
+        public void SetContext(GameplayContext context)
+        {
+            _context = context;
+
+            _context.LocalPlayer.Hotbar.OnSlotChanged += HandleHotbarSlotChanged;
+        }
+
         public void SetInventoryItem(InventoryItem item)
         {
             _inventoryItem = item;
+        }
+
+        private void OnDestroy()
+        {
+            if (_context.LocalPlayer != null)
+            {
+                _context.LocalPlayer.Hotbar.OnSlotChanged -= HandleHotbarSlotChanged;
+            }
+        }
+
+        private void HandleHotbarSlotChanged(HotbarSlot slot)
+        {
+            RefreshAssignmentImage();
         }
 
         public void SetSlotSize(Vector2 size)
@@ -54,7 +86,7 @@ namespace FishFlingers.UI
 
         public void SetAlpha(float alpha)
         {
-            _image.color = new Color(1f, 1f, 1f, alpha);
+            _itemImage.color = new Color(1f, 1f, 1f, alpha);
         }
 
         private Vector2 CalculateAnchoredPositionForCell(Vector2Int cell)
@@ -76,11 +108,11 @@ namespace FishFlingers.UI
             }
 
             RefreshRect();
-            RefreshImage();
-            RefreshCount();
+            RefreshItemImage();
+            RefreshDetails();
         }
 
-        public void RefreshRect()
+        private void RefreshRect()
         {
             bool horizontal = _inventoryItem.Rotations % 2 == 0;
 
@@ -117,16 +149,17 @@ namespace FishFlingers.UI
             _rectTransform.eulerAngles = new Vector3(0f, 0f, _inventoryItem.Rotations * -90f);
         }
 
-        public void RefreshImage()
+        public void RefreshItemImage()
         {
             // Sprite
-            _image.sprite = _inventoryItem.ItemInstance.Data.Sprite;
+            _itemImage.sprite = _inventoryItem.ItemInstance.Data.Sprite;
         }
 
-        public void RefreshCount()
+        private void RefreshDetails()
         {
             RefreshCountText();
-            RefreshCountRect();
+            RefreshAssignmentImage();
+            RefreshDetailsRects();
         }
 
         public void RefreshCountText()
@@ -139,7 +172,20 @@ namespace FishFlingers.UI
             _countText.text = count > 1 ? count.ToString() : string.Empty;
         }
 
-        public void RefreshCountRect()
+        public void RefreshAssignmentImage()
+        {
+            if (_context.LocalPlayer.Hotbar.IsItemAssigned(_inventoryItem, out int index))
+            {
+                _assignmentImage.sprite = _itemManager.GetAssignmentSprite(index);
+                _assignmentImage.enabled = true;
+            }
+            else
+            {
+                _assignmentImage.enabled = false;
+            }
+        }
+
+        private void RefreshDetailsRects()
         {
             // Sort by bottom, then rightmost
             Vector2Int cell = _inventoryItem.Shape
@@ -149,11 +195,16 @@ namespace FishFlingers.UI
                 .First()
                 .Key;
 
-            // Position
-            _countText.rectTransform.anchoredPosition = CalculateAnchoredPositionForCell(cell);
+            // Position & Rotation
+            Vector2 position = CalculateAnchoredPositionForCell(cell);
+            _countText.rectTransform.anchoredPosition = position;
+            _countText.transform.eulerAngles = Vector3.zero;
 
-            // Rotation
-            _countText.rectTransform.eulerAngles = Vector3.zero;
+            _assignmentImage.rectTransform.anchoredPosition = position 
+                - Utils.Math.RotateCell(_slotSize * 0.5f, _inventoryItem.Rotations, false)
+                + Utils.Math.RotateCell(_assignmentImage.rectTransform.sizeDelta * 0.6f, _inventoryItem.Rotations, false);
+
+            _assignmentImage.transform.eulerAngles = Vector3.zero;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace FishFlingers.UI
 {
     public class HotbarWidget : MonoBehaviour
     {
-        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private RectTransform _slotsRectTransform;
 
         private PoolManager _poolManager;
 
@@ -35,14 +35,14 @@ namespace FishFlingers.UI
 
             foreach (HotbarSlot slot in _hotbar.Slots)
             {
-                _slots[slot.Index] = _poolManager.GetTypedPoolable<HotbarWidgetSlot>(new SpawnParams() { Parent = transform });
+                _slots[slot.Index] = _poolManager.GetTypedPoolable<HotbarWidgetSlot>(new SpawnParams() { Parent = _slotsRectTransform });
                 _slots[slot.Index].Setup(context, slot.Index);
             }
 
             _hotbarOutliner = new HotbarOutliner(context, this);
 
             // It takes one frame for pooled objects to enable when retrieved. Without this delay, slots will have invalid sizeDelta during OnRectTransformDimensionsChange
-            while (_rectTransform.rect.size == Vector2.zero)
+            while (_slotsRectTransform.rect.size == Vector2.zero)
             {
                 await Task.Yield();
             }
@@ -95,7 +95,7 @@ namespace FishFlingers.UI
 
         private void RefreshSlots()
         {
-            Vector2 size = new Vector2(_rectTransform.rect.width / _slots.Length, _rectTransform.rect.height);
+            Vector2 size = new Vector2(_slotsRectTransform.rect.width / _slots.Length, _slotsRectTransform.rect.height);
             float pivot = (_slots.Length - 1) / 2f;
 
             for (int i = 0; i < _slots.Length; i++)

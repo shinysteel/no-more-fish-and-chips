@@ -24,6 +24,8 @@ namespace FishFlingers.UI
 
         private UIManager _uiManager;
 
+        private GameplayContext _context;
+
         private RaftPlayer _owner;
         public RaftPlayer Owner => _owner;
 
@@ -43,6 +45,11 @@ namespace FishFlingers.UI
         private void Awake()
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
+        }
+
+        public void Setup(GameplayContext context)
+        {
+            _context = context;
         }
 
         private void Start()
@@ -175,7 +182,7 @@ namespace FishFlingers.UI
         {
             if (item != null)
             {
-                _itemView.Setup(item);
+                _itemView.Setup(_context, item);
                 _itemView.gameObject.SetActive(true);
             }
             else

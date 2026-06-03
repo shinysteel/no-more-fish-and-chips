@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 191976d9273a82f4990dc7e4364ebb19
+guid: ca22496820fa44a47a53944ba0583622
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 25
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: shape_1x1
+      name: AssignmentSquare
       rect:
         serializedVersion: 2
         x: 0
-        y: 27
-        width: 5
-        height: 5
+        y: 25
+        width: 7
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0094cbd9bf003c545ae345e4f507dfe9
-      internalID: -345921907
+      spriteID: 867d23acb1a9b3945a7e79f68518bc67
+      internalID: -705248846
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: shape_2x1
+      name: AssignmentTriangle
       rect:
         serializedVersion: 2
-        x: 6
-        y: 27
-        width: 9
-        height: 5
+        x: 16
+        y: 25
+        width: 7
+        height: 7
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,8 +160,140 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97cb00a5a35c042409d617e644fdc291
-      internalID: -137919773
+      spriteID: 087253c0d11cc4d4b899ea457f266925
+      internalID: -2133247043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AssignmentCircle
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 25
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81377ad983cb19a4aa14d28967a08cd6
+      internalID: -1211556140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AssignmentStar
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 17
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25739c0eef9940f498749971006e054f
+      internalID: 1487087977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AssignmentDiamond
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 17
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43922e5650dd1fc488ee40e89099e272
+      internalID: 1250850152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AssignmentHeart
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 17
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfb6c08ed6de5d04b80c898d35d1c0dd
+      internalID: -1315607875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AssignmentHat
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8ec633032b6bc849bb32e09d694d431
+      internalID: 1115946642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AssignmentClothing
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 9
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7ee27632db8d854189a20a17d52dc88
+      internalID: 1207085882
       vertices: []
       indices: 
       edges: []
@@ -170,7 +302,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f852ae4252535c54ea429526180934c4
+    spriteID: 5e1b88755b5837748854d71431761312
     internalID: 0
     vertices: []
     indices: 
@@ -180,8 +312,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      shape_1x1: -345921907
-      shape_2x1: -137919773
+      AssignmentCircle: -1211556140
+      AssignmentClothing: 1207085882
+      AssignmentDiamond: 1250850152
+      AssignmentHat: 1115946642
+      AssignmentHeart: -1315607875
+      AssignmentSquare: -705248846
+      AssignmentStar: 1487087977
+      AssignmentTriangle: -2133247043
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

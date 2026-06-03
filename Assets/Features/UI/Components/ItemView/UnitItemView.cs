@@ -1,5 +1,7 @@
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
+using FishFlingers.States;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace FishFlingers.UI
@@ -11,9 +13,10 @@ namespace FishFlingers.UI
 
         public RectTransform RectTransform => _view.RectTransform;
 
-        public void Setup(InventoryItem item)
+        public void Setup(GameplayContext context, InventoryItem item)
         {
-            // Don't invoke RefreshView through ItemView.Setup, since we don't want to inherit many parts of ItemView
+            // Don't invoke Refresh through ItemView.Setup, since we don't want to inherit many parts of ItemView
+            _view.SetContext(context);
             _view.SetInventoryItem(item);
 
             RefreshView();
@@ -27,11 +30,16 @@ namespace FishFlingers.UI
         public void RefreshView()
         {
             RefreshRect();
-            _view.RefreshImage();
-            _view.RefreshCountText();
+
+            if (_view.InventoryItem != null)
+            {
+                _view.RefreshItemImage();
+                _view.RefreshCountText();
+                _view.RefreshAssignmentImage();
+            }
         }
 
-        public void RefreshRect()
+        private void RefreshRect()
         {
             _view.RectTransform.sizeDelta = _view.SlotSize;
         }

@@ -27,10 +27,6 @@ namespace FishFlingers.UI
         private InventoryItem _inventoryItem;
         public InventoryItem InventoryItem => _inventoryItem;
 
-        [SerializeField] private Color _defaultColor;
-        [SerializeField] private Color _itemColor;
-        [SerializeField] private Color[] _hotbarColors;
-
         private GameplayContext _context;
 
         public void Setup(GameplayContext context)
@@ -48,7 +44,6 @@ namespace FishFlingers.UI
 
             _hotbarIndex = -1;
             _inventoryItem = null;
-            RefreshColor();
         }
 
         private void HandleHotbarSlotChanged(HotbarSlot slot)
@@ -74,7 +69,6 @@ namespace FishFlingers.UI
             if (_hotbarIndex != newIndex)
             {
                 _hotbarIndex = newIndex;
-                RefreshColor();
             }
         }
 
@@ -98,28 +92,6 @@ namespace FishFlingers.UI
             {
                 _hotbarIndex = -1;
             }
-
-            RefreshColor();
-        }
-
-        public void RefreshColor()
-        {
-            Color color;
-
-            if (_hotbarIndex >= 0)
-            {
-                color = _hotbarColors[_hotbarIndex];
-            }
-            else if (_inventoryItem != null)
-            {
-                color = _itemColor;
-            }
-            else
-            {
-                color = _defaultColor;
-            }
-
-            _image.color = color;
         }
 
         public void SetTransform(Vector2 position, Vector2 size)

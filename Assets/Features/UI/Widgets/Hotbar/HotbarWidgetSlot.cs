@@ -1,4 +1,5 @@
 using FishFlingers.Inventories;
+using FishFlingers.Items;
 using FishFlingers.Pools;
 using FishFlingers.States;
 using ShinyOwl.Common;
@@ -12,8 +13,12 @@ namespace FishFlingers.UI
     public class HotbarWidgetSlot : MonoBehaviour, ISlotView, ITypedPoolable
     {
         [SerializeField] private SlotView _view;
-
+        [SerializeField] private Image _assignmentImage;
+        
         private PoolManager _poolManager;
+        private ItemManager _itemManager;
+
+        private GameplayContext _context;
 
         private int _index = -1;
         public int Index => _index;
@@ -28,12 +33,14 @@ namespace FishFlingers.UI
         private void Awake()
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
+            _itemManager = GameManager.Instance.Get<ItemManager>();
         }
 
         public void Setup(GameplayContext context, int index)
         {
             _view.Setup(context);
 
+            _context = context;
             _index = index;
 
             _view.CellOutline.SetColor(CellOutline.EColor.Default);
@@ -54,6 +61,8 @@ namespace FishFlingers.UI
         {
             _view.SetInventoryItem(item);
 
+            RefreshAssignmentImage();
+
             if (item == null)
             {
                 ReturnUnitItemView();
@@ -66,13 +75,27 @@ namespace FishFlingers.UI
                 RefreshItemViewSize();
             }
 
-            _unitItemView.Setup(item);
+            _unitItemView.Setup(_context, item);
         }
 
+        private void RefreshAssignmentImage()
+        {
+            if (_view.InventoryItem != null && _context.LocalPlayer.Hotbar.IsItemAssigned(_view.InventoryItem, out int index))
+            {
+                _assignmentImage.sprite = _itemManager.GetAssignmentSprite(index);
+                _assignmentImage.enabled = true;
+            }
+            else
+            {
+                _assignmentImage.enabled = false;
+            }
+        }
+
+        // Invoked when first retrieving the view and by the widget when OnRectTransformDimensionsChange is invoked
         private void RefreshItemViewSize()
         {
             _unitItemView.SetSlotSize(_view.RectTransform.rect.size * SlotSizeScalar);
-            _unitItemView.RefreshRect();
+            _unitItemView.RefreshView();
         }
         
         private void ReturnUnitItemView()

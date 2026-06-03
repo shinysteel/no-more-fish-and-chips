@@ -1,5 +1,6 @@
 using FishFlingers.Inventories;
 using FishFlingers.Pools;
+using FishFlingers.States;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,14 @@ namespace FishFlingers.UI
 
         private PoolManager _poolManager;
 
+        private GameplayContext _context;
+
         private UnitItemView _unitItemView;
+
+        public void Setup(GameplayContext context)
+        {
+            _context = context;
+        }
 
         public void SetInventoryItem(InventoryItem item)
         {
@@ -26,7 +34,7 @@ namespace FishFlingers.UI
                     _unitItemView.SetSlotSize(_rectTransform.sizeDelta);
                 }
 
-                _unitItemView.Setup(item);
+                _unitItemView.Setup(_context, item);
             }
             else
             {

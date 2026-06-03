@@ -41,8 +41,6 @@ namespace FishFlingers.UI
         public void SetInventoryItem(InventoryItem item)
         {
             _view.SetInventoryItem(item);
-
-            _view.RefreshColor();
         }
 
         public void OnReturnedToPool()

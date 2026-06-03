@@ -4,6 +4,7 @@ using ShinyOwl.Common.Utils;
 using System.Linq;
 using FishFlingers.Pools;
 using ShinyOwl.Common;
+using FishFlingers.States;
 
 namespace FishFlingers.UI
 {
@@ -21,13 +22,13 @@ namespace FishFlingers.UI
         private const float UnavailableAlpha = 0.5f;
         private const float DefaultAlpha = 1f;
 
-        public void Setup(InventoryWidget inventoryWidget, InventoryItem inventoryItem)
+        public void Setup(InventoryWidget inventoryWidget, GameplayContext context, InventoryItem inventoryItem)
         {
             _inventoryWidget = inventoryWidget;
 
             _view.SetSlotSize(_inventoryWidget.SlotSize);
 
-            _view.Setup(inventoryItem);
+            _view.Setup(context, inventoryItem);
 
             // No harm in calling _view.Refresh twice just so we can do one line here
             Refresh();

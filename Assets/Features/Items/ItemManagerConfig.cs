@@ -7,7 +7,9 @@ namespace FishFlingers.Items
     public class ItemManagerConfig : ScriptableObject
     {
         [SerializeField] private ItemDataScanner _itemDataScanner;
+        [SerializeField] private Sprite[] _assignmentSprites;
 
         public ItemDataScanner ItemDataScanner => _itemDataScanner;
+        public Sprite[] AssignmentSprites => _assignmentSprites;
     }
 }

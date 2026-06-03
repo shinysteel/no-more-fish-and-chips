@@ -118,5 +118,10 @@ namespace FishFlingers.Items
         {
             _poolManager.ReturnPoolable(model, model.ItemId, _modelPools);
         }
+
+        public Sprite GetAssignmentSprite(int index)
+        {
+            return _config.AssignmentSprites[index];
+        }
     }
 }

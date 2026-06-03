@@ -71,7 +71,11 @@ namespace FishFlingers.UI
             Utils.Collections.ResizeList(_cursors, _context.Players.Count,
                 createElement: () => _poolManager.GetTypedPoolable<Cursor>(new SpawnParams() { Parent = transform }),
                 removeElement: (Cursor cursor) => _poolManager.ReturnTypedPoolable(cursor),
-                processElement: (Cursor cursor, int index) => cursor.SetOwner(_context.Players[index]));
+                processElement: (Cursor cursor, int index) =>
+                {
+                    cursor.Setup(_context);
+                    cursor.SetOwner(_context.Players[index]);
+                });
         }
 
         void IEntityManagerListener.OnEntitySpawned(IEntity entity)
