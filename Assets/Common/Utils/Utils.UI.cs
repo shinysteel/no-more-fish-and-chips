@@ -1,4 +1,4 @@
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class TileSave
     {

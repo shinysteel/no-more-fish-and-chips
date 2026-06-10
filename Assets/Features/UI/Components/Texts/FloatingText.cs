@@ -1,8 +1,8 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using TMPro;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class FloatingText : MonoBehaviour, ITypedPoolable
     {

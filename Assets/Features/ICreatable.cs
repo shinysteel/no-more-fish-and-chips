@@ -1,7 +1,7 @@
-using FishFlingers.Items;
+using NoMoreFishAndChips.Items;
 using UnityEngine;
 
-namespace FishFlingers
+namespace NoMoreFishAndChips
 {
     public interface ICreatable
     {

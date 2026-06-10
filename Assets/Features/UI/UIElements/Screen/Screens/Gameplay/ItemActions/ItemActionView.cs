@@ -1,12 +1,12 @@
-using FishFlingers.Items;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class ItemActionView : MonoBehaviour, ITypedPoolable
     {

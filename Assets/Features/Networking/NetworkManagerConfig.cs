@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     [CreateAssetMenu(fileName = "NetworkManagerConfig", menuName = "Configs/Managers/Networking/NetworkMangerConfig")]
     public class NetworkManagerConfig : ScriptableObject

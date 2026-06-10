@@ -1,10 +1,10 @@
-using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class HotbarSlotView : MonoBehaviour
     {

@@ -1,19 +1,19 @@
-using FishFlingers.Entities;
-using FishFlingers.Environments;
-using FishFlingers.Instantiating;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Scenes;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Scenes;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Pools
+namespace NoMoreFishAndChips.Pools
 {
     public interface IPoolable
     {

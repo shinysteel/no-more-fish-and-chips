@@ -11,7 +11,7 @@ using System.IO;
 using ShinyOwl.Common.Utils;
 using System;
 
-namespace FishFlingers.Localisation
+namespace NoMoreFishAndChips.Localisation
 {
     public class LocalisationTermGenerator
     {

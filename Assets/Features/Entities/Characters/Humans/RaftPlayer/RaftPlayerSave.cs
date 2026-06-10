@@ -1,13 +1,13 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
 using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 using System.Threading.Tasks;
 using ShinyOwl.Common;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerSave
     {

@@ -1,16 +1,16 @@
 using PurrNet;
 using UnityEngine;
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using ShinyOwl.Common;
-using FishFlingers.Items;
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Inventories;
 using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
 using NUnit.Framework;
 using System.Collections.Generic;
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public enum DroppedItemType
     {

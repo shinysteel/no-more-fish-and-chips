@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Saving
+namespace NoMoreFishAndChips.Saving
 {
     [CreateAssetMenu(fileName = "SaveManagerConfig", menuName = "Configs/Managers/SaveManagerConfig")]
     public class SaveManagerConfig : ScriptableObject

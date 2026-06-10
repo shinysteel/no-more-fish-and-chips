@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using System.Threading.Tasks;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class HotbarWidget : RegisterWidget<HotbarWidgetSlot>
     {

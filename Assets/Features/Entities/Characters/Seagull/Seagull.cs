@@ -1,4 +1,4 @@
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Extensions;
@@ -6,7 +6,7 @@ using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class Seagull : Character<SeagullDefinitionData>
     {

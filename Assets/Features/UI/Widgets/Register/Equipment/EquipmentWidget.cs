@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEditor.Search;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class EquipmentWidget : RegisterWidget<EquipmentSlotView>
     {

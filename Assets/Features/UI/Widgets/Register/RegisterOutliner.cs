@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class RegisterOutliner<T> : SlotViewOutliner<T> where T : RegisterSlotView, ITypedPoolable
     {

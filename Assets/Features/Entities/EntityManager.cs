@@ -1,9 +1,9 @@
-using FishFlingers.Cameras;
-using FishFlingers.Instantiating;
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.Scenes;
 using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using UnityEngine;
 
 using Object = UnityEngine.Object;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public enum EntityId
     {

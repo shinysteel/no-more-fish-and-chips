@@ -1,7 +1,7 @@
-using FishFlingers.Instantiating;
-using FishFlingers.Localisation;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Localisation;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System;
@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Object = UnityEngine.Object;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class BrowseGamesPanel : Panel
     {

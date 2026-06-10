@@ -1,9 +1,9 @@
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Networking;
 using PurrNet;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerOpenNetBehaviourLogic
     {

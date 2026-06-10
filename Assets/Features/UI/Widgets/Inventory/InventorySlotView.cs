@@ -1,14 +1,14 @@
-using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
-    // Ambigious with FishFlingers.Inventories.InventorySlot, so we use the View suffix
+    // Ambigious with Inventories.InventorySlot, so we use the View suffix
     public class InventorySlotView : SlotView, ITypedPoolable
     {
         private InventoryWidget _inventoryWidget;

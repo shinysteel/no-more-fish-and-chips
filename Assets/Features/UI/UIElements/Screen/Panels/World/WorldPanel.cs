@@ -1,11 +1,11 @@
-using FishFlingers.Localisation;
-using FishFlingers.Networking;
-using FishFlingers.Saving;
+using NoMoreFishAndChips.Localisation;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Saving;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class WorldPanel : Panel
     {

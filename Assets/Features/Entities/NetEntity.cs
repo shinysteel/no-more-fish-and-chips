@@ -1,12 +1,12 @@
-using FishFlingers.Cameras;
-using FishFlingers.Environments;
-using FishFlingers.Networking;
-using FishFlingers.States;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     // Maybe it's not so obvious that NetEntity is linked to the GameplayState,
     // but for now they aren't used in any other state

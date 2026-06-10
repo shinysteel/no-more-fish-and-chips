@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Pool;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     /// <summary>
     /// Handles raycasts for views relevant to an InventoryWidget

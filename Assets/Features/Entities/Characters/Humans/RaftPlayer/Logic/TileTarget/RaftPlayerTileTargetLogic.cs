@@ -1,8 +1,8 @@
-using FishFlingers.Cameras;
-using FishFlingers.Environments;
-using FishFlingers.Instantiating;
-using FishFlingers.Inventories;
-using FishFlingers.States;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerTileTarget
     {

@@ -1,10 +1,10 @@
-using FishFlingers.Pools;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.UI;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class EntityHealthModule
     {

@@ -1,8 +1,8 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public interface IEnvironmentManagerListener
     { }

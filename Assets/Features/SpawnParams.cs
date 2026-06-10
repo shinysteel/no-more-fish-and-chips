@@ -1,5 +1,5 @@
-using FishFlingers.Instantiating;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Scenes;
 using ShinyOwl.Common;
 using UnityEngine;
 

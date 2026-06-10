@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.States
+namespace NoMoreFishAndChips.States
 {
     [CreateAssetMenu(fileName = "StateManagerConfig", menuName = "Configs/Managers/State/StateManagerConfig")]
     public class StateManagerConfig : ScriptableObject

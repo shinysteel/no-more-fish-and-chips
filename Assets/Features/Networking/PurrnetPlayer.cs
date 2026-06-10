@@ -1,7 +1,7 @@
-using FishFlingers.Cameras;
-using FishFlingers.Entities;
-using FishFlingers.Saving;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.Scenes;
 using Newtonsoft.Json;
 using PurrLobby;
 using PurrNet;
@@ -14,9 +14,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public class PurrnetPlayer : NetBehaviour, ISaveable
     {

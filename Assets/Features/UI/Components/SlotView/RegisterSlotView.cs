@@ -1,7 +1,7 @@
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public abstract class RegisterSlotView : SlotView
     {

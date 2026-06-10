@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     [CreateAssetMenu(fileName = "LobbyManagerConfig", menuName = "Configs/Managers/Networking/LobbyManagerConfig")]
     public class LobbyManagerConfig : ScriptableObject

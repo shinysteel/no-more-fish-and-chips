@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Scenes
+namespace NoMoreFishAndChips.Scenes
 {
     /// <summary>
     /// Couldn't figure out how to serialise scenes in inspector. This is as good

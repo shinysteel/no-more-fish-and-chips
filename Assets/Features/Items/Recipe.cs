@@ -1,9 +1,9 @@
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     [Serializable]
     public class RecipeRequirement

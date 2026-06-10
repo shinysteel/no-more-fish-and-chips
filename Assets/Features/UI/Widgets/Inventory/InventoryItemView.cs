@@ -1,12 +1,12 @@
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
 using System.Linq;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class InventoryItemView : ItemView, ITypedPoolable
     {

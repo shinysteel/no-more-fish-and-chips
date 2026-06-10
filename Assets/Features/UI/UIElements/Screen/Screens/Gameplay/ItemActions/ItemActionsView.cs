@@ -1,7 +1,7 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.States;
 using NUnit.Framework;
 using PrimeTween;
 using ShinyOwl.Common.Utils;
@@ -10,9 +10,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class ItemActionsView : MonoBehaviour
     {

@@ -1,9 +1,9 @@
-using FishFlingers.Items;
-using FishFlingers.Localisation;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Localisation;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class EntityDefinitionData : DefinitionData
     {

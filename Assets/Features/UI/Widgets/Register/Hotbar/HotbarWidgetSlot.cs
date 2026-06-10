@@ -1,7 +1,7 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using PurrLobby;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
@@ -9,7 +9,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class HotbarWidgetSlot : RegisterSlotView, ITypedPoolable
     {

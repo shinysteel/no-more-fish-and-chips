@@ -1,10 +1,10 @@
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using PurrNet;
 using System.Collections.Generic;
 using UnityEngine;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 
-namespace FishFlingers.Effects
+namespace NoMoreFishAndChips.Effects
 {
     public interface IEffectManagerListener
     { }

@@ -1,7 +1,7 @@
-using FishFlingers.Entities;
-using FishFlingers.Environments;
-using FishFlingers.Networking;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using Newtonsoft.Json;
 using PurrNet;
 using ShinyOwl.Common;
@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using FishFlingers.Instantiating;
+using NoMoreFishAndChips.Instantiating;
 using System.Threading.Tasks;
 using UnityEngine.Pool;
 using System.Linq;
@@ -19,7 +19,7 @@ using System.Linq;
 using ParrelSync;
 #endif
 
-namespace FishFlingers.Saving
+namespace NoMoreFishAndChips.Saving
 {
     public interface ISaveable
     {

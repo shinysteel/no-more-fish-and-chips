@@ -6,16 +6,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ShinyOwl.Common.Framework;
-using FishFlingers.Cameras;
+using NoMoreFishAndChips.Cameras;
 using UnityEngine.UI;
 using ShinyOwl.Common.Utils;
-using FishFlingers.States;
-using FishFlingers.Instantiating;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.Instantiating;
 
 using Object = UnityEngine.Object;
 using System.Threading.Tasks;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public interface IUIManagerListener
     {

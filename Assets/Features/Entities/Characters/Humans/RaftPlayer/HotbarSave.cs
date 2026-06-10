@@ -1,9 +1,9 @@
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Entities;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class HotbarSave
     {

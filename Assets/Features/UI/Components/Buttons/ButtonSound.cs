@@ -1,8 +1,8 @@
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     [RequireComponent(typeof(Button))]
     public class ButtonSound : MonoBehaviour

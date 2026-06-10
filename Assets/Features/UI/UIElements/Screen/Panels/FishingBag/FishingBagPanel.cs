@@ -1,12 +1,12 @@
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.States;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class FishingBagPanel : Panel
     {

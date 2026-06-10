@@ -1,7 +1,7 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class EquipmentSlotView : RegisterSlotView, ITypedPoolable
     {

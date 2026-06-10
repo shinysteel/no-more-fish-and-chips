@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     [CreateAssetMenu(fileName = "EnvironmentManagerConfig", menuName = "Configs/Managers/EnvironmentManagerConfig")]
     public class EnvironmentManagerConfig : ScriptableObject

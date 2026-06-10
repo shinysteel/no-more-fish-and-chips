@@ -2,7 +2,7 @@ using PrimeTween;
 using PurrNet;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class Character : NetEntity
     {

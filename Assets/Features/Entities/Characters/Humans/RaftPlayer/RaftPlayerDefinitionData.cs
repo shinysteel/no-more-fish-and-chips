@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerDefinitionData", menuName = "Data/Entities/Characters/RaftPlayerDefinitionData")]
     public class RaftPlayerDefinitionData : CharacterDefinitionData

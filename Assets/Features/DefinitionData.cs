@@ -1,9 +1,9 @@
-using FishFlingers.Items;
-using FishFlingers.Localisation;
-using FishFlingers.Rarities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Localisation;
+using NoMoreFishAndChips.Rarities;
 using UnityEngine;
 
-namespace FishFlingers
+namespace NoMoreFishAndChips
 {
     public abstract class DefinitionData : ScriptableObject
     {

@@ -7,7 +7,7 @@ using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace FishFlingers.Localisation
+namespace NoMoreFishAndChips.Localisation
 {
     public interface ILocalisationManagerListener
     { }

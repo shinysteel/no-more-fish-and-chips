@@ -1,13 +1,13 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class RequirementPromptItem : MonoBehaviour, ITypedPoolable
     {

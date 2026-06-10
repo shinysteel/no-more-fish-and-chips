@@ -1,12 +1,12 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using UnityEngine;
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using PrimeTween;
 using ShinyOwl.Common.Extensions;
 using PurrNet;
 using System;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerDefeatModule : CharacterDefeatModule
     {

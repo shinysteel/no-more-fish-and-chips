@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerPhysicsSettings", menuName = "Settings/Entities/RaftPlayerPhysicsSettings")]
     public class RaftPlayerPhysicsSettings : CharacterPhysicsSettings

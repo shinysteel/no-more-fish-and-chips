@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Effects
+namespace NoMoreFishAndChips.Effects
 {
     public class EnvironmentMarker : GameplayBehaviour
     {

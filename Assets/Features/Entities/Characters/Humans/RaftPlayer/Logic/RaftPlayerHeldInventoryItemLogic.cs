@@ -1,10 +1,10 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerHeldInventoryItemLogic
     {

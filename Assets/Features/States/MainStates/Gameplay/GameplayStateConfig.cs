@@ -1,7 +1,7 @@
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using UnityEngine;
-using FishFlingers.Entities;
-using FishFlingers.Effects;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Effects;
 
 [CreateAssetMenu(fileName = "GameplayStateConfig", menuName = "Configs/Managers/State/GameplayStateConfig")]
 public class GameplayStateConfig : ScriptableObject

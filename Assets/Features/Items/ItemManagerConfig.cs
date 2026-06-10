@@ -1,7 +1,7 @@
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     [CreateAssetMenu(fileName = "ItemManagerConfig", menuName = "Configs/Managers/ItemManagerConfig")]
     public class ItemManagerConfig : ScriptableObject

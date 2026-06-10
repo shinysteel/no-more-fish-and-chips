@@ -1,12 +1,12 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
 using Newtonsoft.Json;
 using ShinyOwl.Common.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 
-namespace FishFlingers.Inventories
+namespace NoMoreFishAndChips.Inventories
 {
     public class InventorySave
     {

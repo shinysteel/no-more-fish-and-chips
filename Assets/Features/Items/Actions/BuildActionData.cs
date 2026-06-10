@@ -1,8 +1,8 @@
-using FishFlingers.States;
-using FishFlingers.UI;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     [CreateAssetMenu(fileName = "BuildActionData", menuName = "Data/Items/Actions/BuildActionData")]
     public class BuildActionData : ItemActionData

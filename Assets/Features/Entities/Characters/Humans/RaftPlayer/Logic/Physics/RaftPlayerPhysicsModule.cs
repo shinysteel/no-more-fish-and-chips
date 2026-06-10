@@ -1,12 +1,12 @@
-using FishFlingers.Audio;
-using FishFlingers.Cameras;
+using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Cameras;
 using PurrNet;
 using ShinyOwl.Common;
 using System;
 using System.Globalization;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerPhysicsModule : CharacterPhysicsModule
     {

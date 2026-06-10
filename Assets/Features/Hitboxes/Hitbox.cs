@@ -1,12 +1,12 @@
-using FishFlingers.Entities;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace FishFlingers.Hitboxes
+namespace NoMoreFishAndChips.Hitboxes
 {
     public enum HitboxShape
     {

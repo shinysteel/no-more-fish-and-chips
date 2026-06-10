@@ -3,16 +3,16 @@ using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 using System.Collections.Generic;
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common.Framework;
 using System;
 using System.Linq;
 using UnityEngine.Pool;
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 
 using Object = UnityEngine.Object;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerInteractLogic
     {

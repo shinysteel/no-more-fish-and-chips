@@ -1,9 +1,9 @@
-using FishFlingers.Items;
-using FishFlingers.States;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.States;
 using UnityEngine;
 using ShinyOwl.Common;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class StructureDefinitionData : EntityDefinitionData, IBuildable
     {

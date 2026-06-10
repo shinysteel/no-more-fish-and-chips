@@ -1,9 +1,9 @@
 using UnityEngine;
-using FishFlingers.UI;
-using FishFlingers.Environments;
-using FishFlingers.Entities;
+using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Entities;
 
-namespace FishFlingers.Pools
+namespace NoMoreFishAndChips.Pools
 {
     [CreateAssetMenu(fileName = "PoolManagerConfig", menuName = "Configs/Managers/PoolManagerConfig")]
     public class PoolManagerConfig : ScriptableObject

@@ -1,8 +1,8 @@
-using FishFlingers.Items;
-using FishFlingers.States;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public interface IBuildable : ICreatable
     {

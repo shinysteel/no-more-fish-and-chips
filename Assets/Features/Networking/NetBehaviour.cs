@@ -1,19 +1,19 @@
 using UnityEngine;
 using PurrNet;
-using FishFlingers.Entities;
-using FishFlingers.Items;
-using FishFlingers.Cameras;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
-using FishFlingers.States;
-using FishFlingers.Saving;
-using FishFlingers.Instantiating;
-using FishFlingers.Pools;
-using FishFlingers.Audio;
-using FishFlingers.Hitboxes;
-using FishFlingers.Effects;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Hitboxes;
+using NoMoreFishAndChips.Effects;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public abstract class NetBehaviour : NetworkBehaviour
     {

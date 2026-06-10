@@ -1,9 +1,9 @@
-using FishFlingers.Cameras;
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.UI;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerGrabbedInventoryItemLogic : IUIManagerListener
     {

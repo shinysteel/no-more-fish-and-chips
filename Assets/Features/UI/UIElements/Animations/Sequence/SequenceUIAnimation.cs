@@ -3,7 +3,7 @@ using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public abstract class SequenceUIAnimation : UIAnimation
     {

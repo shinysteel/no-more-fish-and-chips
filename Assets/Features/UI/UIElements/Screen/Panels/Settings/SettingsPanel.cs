@@ -1,10 +1,10 @@
-using FishFlingers.Networking;
-using FishFlingers.Saving;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Saving;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class SettingsPanel : Panel
     {

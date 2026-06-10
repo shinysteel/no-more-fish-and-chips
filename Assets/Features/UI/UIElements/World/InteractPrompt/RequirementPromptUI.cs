@@ -1,12 +1,12 @@
-using FishFlingers.Items;
+using NoMoreFishAndChips.Items;
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using ShinyOwl.Common.Utils;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class RequirementPromptUI : InteractPromptUI
     {

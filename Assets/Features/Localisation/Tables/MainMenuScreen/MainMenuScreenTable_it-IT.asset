@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 4215347515392
-    m_Localized: Lanciatori di pesce
+    m_Localized: "MAI PI\xD9 Fish and Chips!"
     m_Metadata:
       m_Items: []
   - m_Id: 72209829888

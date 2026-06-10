@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class UIAnimationParams
     {

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     // The name ActionHotkey is taken by an enum
     public class ActionHotkeyView : MonoBehaviour

@@ -1,8 +1,8 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class Cursor : MonoBehaviour, ITypedPoolable
     {

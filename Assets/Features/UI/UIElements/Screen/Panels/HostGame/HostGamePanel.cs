@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System;
 using ShinyOwl.Common.Utils;
 using System.IO;
-using FishFlingers.Saving;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.Pools;
 using System.Linq;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class HostGamePanel : Panel
     {

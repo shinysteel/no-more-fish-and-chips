@@ -1,10 +1,10 @@
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 using System.Threading.Tasks;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public abstract class GameplayBehaviour : NetBehaviour
     {

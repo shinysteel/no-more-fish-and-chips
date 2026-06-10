@@ -1,5 +1,5 @@
-using FishFlingers.Networking;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Scenes;
 using NUnit.Framework;
 using PrimeTween;
 using ShinyOwl.Common;

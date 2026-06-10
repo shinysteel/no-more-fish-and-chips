@@ -1,13 +1,13 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.States;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class BuildingKitPanel : RecipesPanel<IBuildable>
     {

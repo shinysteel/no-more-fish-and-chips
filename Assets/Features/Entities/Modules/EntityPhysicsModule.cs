@@ -1,11 +1,11 @@
-using FishFlingers.Audio;
-using FishFlingers.Cameras;
+using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Cameras;
 using ShinyOwl.Common;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class EntityPhysicsModule
     {

@@ -1,16 +1,16 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UIElements;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public interface IItemManagerListener
     { }

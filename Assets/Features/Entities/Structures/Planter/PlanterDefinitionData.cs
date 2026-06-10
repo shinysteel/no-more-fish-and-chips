@@ -1,7 +1,7 @@
-using FishFlingers.Items;
+using NoMoreFishAndChips.Items;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "SaplingPlanterDefinitionData", menuName = "Data/Entities/Structures/SaplingPlanterDefinitionData")]
     public class PlanterDefinitionData : StructureDefinitionData

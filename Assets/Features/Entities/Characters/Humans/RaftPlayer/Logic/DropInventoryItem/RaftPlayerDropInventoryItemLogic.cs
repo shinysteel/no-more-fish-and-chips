@@ -1,12 +1,12 @@
-using FishFlingers.Cameras;
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
 using PurrNet;
 using System.Security.Cryptography;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 { 
     public class RaftPlayerDropInventoryItemLogic
     {

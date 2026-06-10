@@ -1,6 +1,6 @@
-using FishFlingers.Inventories;
-using FishFlingers.Networking;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using Newtonsoft.Json;
 using PurrNet;
 using ShinyOwl.Common;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class HotbarSlot
     {

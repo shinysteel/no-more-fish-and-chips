@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public abstract class RegisterWidget<T> : MonoBehaviour where T : RegisterSlotView, ITypedPoolable
     {

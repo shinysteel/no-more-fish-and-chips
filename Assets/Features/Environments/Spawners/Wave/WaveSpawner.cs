@@ -1,15 +1,15 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
 using PurrNet;
 using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
-using EntityId = FishFlingers.Entities.EntityId;
-using NetworkManager = FishFlingers.Networking.NetworkManager;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using Random = UnityEngine.Random;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     [Serializable]
     public class WaveStep

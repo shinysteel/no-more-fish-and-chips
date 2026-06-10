@@ -1,9 +1,9 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
-using FishFlingers.Saving;
-using FishFlingers.Scenes;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.Scenes;
+using NoMoreFishAndChips.States;
 using Newtonsoft.Json;
 using PurrNet;
 using ShinyOwl.Common;
@@ -15,9 +15,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class NetTile
     {

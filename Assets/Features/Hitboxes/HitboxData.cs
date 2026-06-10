@@ -1,10 +1,10 @@
-using FishFlingers.Entities;
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Hitboxes;
 using System;
 using System.Linq;
 using UnityEngine;
 
-namespace FishFlingers.Hitboxes
+namespace NoMoreFishAndChips.Hitboxes
 {
     [CreateAssetMenu(fileName = "HitboxData", menuName = "Data/Hitboxes/HitboxData")]
     public class HitboxData : ScriptableObject

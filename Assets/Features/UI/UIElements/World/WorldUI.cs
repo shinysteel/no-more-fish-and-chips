@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public abstract class WorldUI : UIElement
     {

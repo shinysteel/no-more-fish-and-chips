@@ -1,13 +1,13 @@
-using FishFlingers.Items;
+using NoMoreFishAndChips.Items;
 using PrimeTween;
 using UnityEngine;
 using System;
 using ShinyOwl.Common;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.Environments;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     /// <summary>
     /// The role of a module that includes a getter and setter is such that it is the source of truth for its area.

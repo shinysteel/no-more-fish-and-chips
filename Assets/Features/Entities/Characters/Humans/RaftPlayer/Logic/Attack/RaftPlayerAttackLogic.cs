@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Threading.Tasks;
 using PrimeTween;
 using ShinyOwl.Common;
-using FishFlingers.Hitboxes;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Hitboxes;
+using NoMoreFishAndChips.Pools;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public enum RaftPlayerAttackState
     {

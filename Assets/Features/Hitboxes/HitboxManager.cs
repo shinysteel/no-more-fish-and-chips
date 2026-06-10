@@ -1,9 +1,9 @@
-using FishFlingers.Entities;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Hitboxes
+namespace NoMoreFishAndChips.Hitboxes
 {
     public interface IHitboxManagerListener
     { }

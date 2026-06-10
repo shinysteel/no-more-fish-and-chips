@@ -1,10 +1,10 @@
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class EntityModel : MonoBehaviour, IPoolable
     {

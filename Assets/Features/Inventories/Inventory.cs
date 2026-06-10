@@ -1,6 +1,6 @@
-using FishFlingers.Entities;
-using FishFlingers.Items;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
 using Newtonsoft.Json;
 using PrimeTween;
 using PurrNet;
@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Threading.Tasks;
 
-namespace FishFlingers.Inventories
+namespace NoMoreFishAndChips.Inventories
 {
     public static class InventoryItemUtils
     {

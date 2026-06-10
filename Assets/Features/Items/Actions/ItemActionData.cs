@@ -1,7 +1,7 @@
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public abstract class ItemActionData : ScriptableObject
     {

@@ -1,10 +1,10 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using PrimeTween;
 using PurrNet;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class CharacterModel : EntityModel
     {

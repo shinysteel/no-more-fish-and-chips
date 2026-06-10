@@ -1,4 +1,4 @@
-using FishFlingers.Items;
+using NoMoreFishAndChips.Items;
 using PrimeTween;
 using ShinyOwl.Common;
 using System;
@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class CharacterDefeatModule : EntityDefeatModule
     {

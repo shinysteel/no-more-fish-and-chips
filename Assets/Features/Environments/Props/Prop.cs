@@ -1,7 +1,7 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using UnityEngine;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class Prop : MonoBehaviour, IPoolable
     {

@@ -1,9 +1,9 @@
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 using ShinyOwl.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class CharacterPhysicsModule : EntityPhysicsModule
     {

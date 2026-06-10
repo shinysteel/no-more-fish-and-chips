@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers
+namespace NoMoreFishAndChips
 {
     public enum ActionHotkey
     {

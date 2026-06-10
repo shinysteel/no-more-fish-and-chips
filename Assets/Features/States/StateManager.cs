@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Scenes;
 using PurrNet;
 
-namespace FishFlingers.States
+namespace NoMoreFishAndChips.States
 {
     public interface IStateManagerListener
     {

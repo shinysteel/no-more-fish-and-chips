@@ -1,23 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FishFlingers.Networking;
-using FishFlingers.Cameras;
-using FishFlingers.States;
-using FishFlingers.UI;
-using FishFlingers.Pools;
-using FishFlingers.UI.Transitions;
-using FishFlingers.Scenes;
-using FishFlingers.Localisation;
-using FishFlingers.Items;
-using FishFlingers.Entities;
-using FishFlingers.Saving;
-using FishFlingers.Instantiating;
-using FishFlingers.Effects;
-using FishFlingers.Hitboxes;
-using FishFlingers.Audio;
-using FishFlingers.Environments;
-using FishFlingers.Rarities;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.UI.Transitions;
+using NoMoreFishAndChips.Scenes;
+using NoMoreFishAndChips.Localisation;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Effects;
+using NoMoreFishAndChips.Hitboxes;
+using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Rarities;
 
 [CreateAssetMenu(fileName = "GameManagerConfig", menuName = "Configs/Managers/GameManagerConfig")]
 public class GameManagerConfig : ScriptableObject

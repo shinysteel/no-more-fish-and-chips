@@ -1,11 +1,11 @@
-using FishFlingers.Environments;
-using FishFlingers.Items;
-using FishFlingers.States;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.States;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [Serializable]
     public class TileBobSettings

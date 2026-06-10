@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public enum ItemId
     {

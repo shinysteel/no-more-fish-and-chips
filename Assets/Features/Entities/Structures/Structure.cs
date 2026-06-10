@@ -1,11 +1,11 @@
-using FishFlingers.Items;
-using FishFlingers.Saving;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Saving;
 using Newtonsoft.Json;
 using System;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class Structure : NetEntity
     {

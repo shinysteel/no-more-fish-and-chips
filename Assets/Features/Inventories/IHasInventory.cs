@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Inventories
+namespace NoMoreFishAndChips.Inventories
 {
     public interface IHasInventory
     {

@@ -1,8 +1,8 @@
-using FishFlingers.Environments;
-using FishFlingers.States;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     // Implemented by NetEntity and Entity
     public interface IEntity

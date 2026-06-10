@@ -1,8 +1,8 @@
-using FishFlingers.Audio;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Pools;
 using UnityEngine;
 
-namespace FishFlingers.Effects
+namespace NoMoreFishAndChips.Effects
 {
     public class VFX : MonoBehaviour, IPoolable
     {

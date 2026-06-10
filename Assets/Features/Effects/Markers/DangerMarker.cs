@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Effects
+namespace NoMoreFishAndChips.Effects
 {
     public class DangerMarker : MonoBehaviour, ITypedPoolable
     {

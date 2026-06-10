@@ -12,13 +12,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Scenes;
 
 #if UNITY_EDITOR
 using ParrelSync;
 #endif
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     // These packets are 1:1 with the base class Lobby & LobbyMember. It's only here to use the LANLobby
     // constructor, which is nice as it initialises TimeCreated and whatever else we add later

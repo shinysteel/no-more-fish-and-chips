@@ -1,8 +1,8 @@
 using Ara;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public class ItemModel : MonoBehaviour, IPoolable
     {

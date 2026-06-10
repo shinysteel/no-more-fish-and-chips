@@ -1,5 +1,5 @@
-using FishFlingers.Networking;
-using FishFlingers.States;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using System;
 using System.Collections;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class MainMenuScreen : ScreenUI
     {

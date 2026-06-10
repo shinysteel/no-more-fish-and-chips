@@ -1,10 +1,10 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class CraftingKitPanel : RecipesPanel<ICraftable>
     {

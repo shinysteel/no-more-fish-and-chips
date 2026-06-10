@@ -1,6 +1,6 @@
-using FishFlingers.Inventories;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using NUnit.Framework;
 using PurrLobby;
 using ShinyOwl.Common;
@@ -11,10 +11,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using FishFlingers.Entities;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Items;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class ItemView : MonoBehaviour 
     {

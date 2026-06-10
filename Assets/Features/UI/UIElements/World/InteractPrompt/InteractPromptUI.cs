@@ -1,9 +1,9 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class InteractPromptUI : WorldUI
     {

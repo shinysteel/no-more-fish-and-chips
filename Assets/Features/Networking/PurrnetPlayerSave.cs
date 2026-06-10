@@ -1,10 +1,10 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
 using Newtonsoft.Json;
 using UnityEngine;
 using System.Threading.Tasks;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public class PurrnetPlayerSave
     {

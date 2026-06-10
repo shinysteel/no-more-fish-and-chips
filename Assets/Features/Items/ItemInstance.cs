@@ -1,9 +1,9 @@
 using UnityEngine;
-using FishFlingers.Inventories;
-using FishFlingers.Networking;
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Entities;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public class ItemInstance : IDeepCloneable<ItemInstance>
     {

@@ -1,12 +1,12 @@
-using FishFlingers.Environments;
-using FishFlingers.States;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class WaveMeter : MonoBehaviour
     {

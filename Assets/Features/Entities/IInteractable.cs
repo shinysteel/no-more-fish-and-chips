@@ -1,7 +1,7 @@
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public interface IInteractable
     {

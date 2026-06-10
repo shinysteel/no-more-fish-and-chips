@@ -1,15 +1,15 @@
-using FishFlingers.Entities;
-using FishFlingers.Instantiating;
-using FishFlingers.Items;
-using FishFlingers.Saving;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.States;
 using Newtonsoft.Json;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class GameplayEnvironment : MonoBehaviour, ISaveable
     {

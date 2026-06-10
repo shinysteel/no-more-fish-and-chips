@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI.Transitions
+namespace NoMoreFishAndChips.UI.Transitions
 {
     public class FadeOverlay : ScreenUI
     {

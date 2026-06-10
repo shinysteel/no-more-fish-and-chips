@@ -1,16 +1,16 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
-using FishFlingers.Networking;
-using FishFlingers.States;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
 using Newtonsoft.Json;
 using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using UnityEngine;
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class ClamChest : Structure<ClamChestDefinitionData>, IInteractable, IHasInventory, INetworkManagerListener
     {

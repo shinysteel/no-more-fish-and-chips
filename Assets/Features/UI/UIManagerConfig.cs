@@ -1,11 +1,11 @@
-using FishFlingers.UI.Transitions;
+using NoMoreFishAndChips.UI.Transitions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     [CreateAssetMenu(fileName = "UIManagerConfig", menuName = "Configs/Managers/UI/UIManagerConfig")]
     public class UIManagerConfig : ScriptableObject

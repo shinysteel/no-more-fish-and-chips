@@ -2,7 +2,7 @@ using PurrNet;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Instantiating
+namespace NoMoreFishAndChips.Instantiating
 {
     public interface IInstantiateManagerListener
     {

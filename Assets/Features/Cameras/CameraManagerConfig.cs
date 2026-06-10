@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Cameras
+namespace NoMoreFishAndChips.Cameras
 {
     [CreateAssetMenu(fileName = "CameraManagerConfig", menuName = "Configs/Managers/CameraManagerConfig")]
     public class CameraManagerConfig : ScriptableObject

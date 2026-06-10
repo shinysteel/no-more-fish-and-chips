@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "CharacterPhysicsSettings", menuName = "Settings/Entities/CharacterPhysicsSettings")]
     public class CharacterPhysicsSettings : EntityPhysicsSettings

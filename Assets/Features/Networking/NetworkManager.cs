@@ -1,9 +1,9 @@
-using FishFlingers.Effects;
-using FishFlingers.Entities;
-using FishFlingers.Environments;
-using FishFlingers.Instantiating;
-using FishFlingers.Inventories;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Effects;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Scenes;
 using PurrLobby;
 using PurrNet;
 using PurrNet.Authentication;
@@ -25,7 +25,7 @@ using UnityEngine;
 
 using Object = UnityEngine.Object;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public enum ETransport
     {

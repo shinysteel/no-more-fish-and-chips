@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class MetalTile : Tile
     {

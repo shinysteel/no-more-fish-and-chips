@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     [Serializable]
     public class SyncDictionaryWrapper<TKey, TValue> : SyncDictionary<TKey, TValue>

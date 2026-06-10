@@ -1,12 +1,12 @@
-using FishFlingers.Networking;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using Steamworks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class LobbyEntry : MonoBehaviour, ITypedPoolable
     {

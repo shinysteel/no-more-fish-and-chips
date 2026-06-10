@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using ShinyOwl.Common;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public enum ELobbyService
     {

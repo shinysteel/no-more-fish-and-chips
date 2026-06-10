@@ -1,8 +1,8 @@
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     [CreateAssetMenu(fileName = "AttackActionData", menuName = "Data/Items/Actions/AttackActionData")]
     public class AttackActionData : ItemActionData

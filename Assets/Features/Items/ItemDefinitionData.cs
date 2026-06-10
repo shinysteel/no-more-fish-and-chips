@@ -1,11 +1,11 @@
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common.Structures;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public enum ItemType
     {

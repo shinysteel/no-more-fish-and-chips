@@ -1,9 +1,9 @@
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.UI.Transitions
+namespace NoMoreFishAndChips.UI.Transitions
 {
     public interface ITransitionManagerListener
     { }

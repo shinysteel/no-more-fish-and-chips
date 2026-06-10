@@ -1,17 +1,17 @@
-using FishFlingers.Environments;
-using FishFlingers.Items;
-using FishFlingers.Saving;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Saving;
 using Newtonsoft.Json;
 using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 using System.Collections;
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class Tile : Entity, IInteractable
     {

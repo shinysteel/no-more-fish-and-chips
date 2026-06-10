@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Framework;
-using FishFlingers.UI.Transitions;
-using FishFlingers.UI;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.UI.Transitions;
+using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.Networking;
 using System;
 using Steamworks;
 using ShinyOwl.Common;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Scenes;
 using System.Threading.Tasks;
 using PurrNet.Transports;
 using PurrNet;
-using FishFlingers.Environments;
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Entities;
 using System.Linq;
-using FishFlingers.Saving;
+using NoMoreFishAndChips.Saving;
 
-using NetworkManager = FishFlingers.Networking.NetworkManager;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using Object = UnityEngine.Object;
-using FishFlingers.Effects;
+using NoMoreFishAndChips.Effects;
 
-namespace FishFlingers.States
+namespace NoMoreFishAndChips.States
 {
     public class GameplayContext
     {

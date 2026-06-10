@@ -1,8 +1,8 @@
-using FishFlingers.UI;
+using NoMoreFishAndChips.UI;
 using UnityEngine;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Items;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class Planter : Structure<PlanterDefinitionData>, IInteractable
     {

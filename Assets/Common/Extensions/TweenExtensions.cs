@@ -1,4 +1,4 @@
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Entities;
 using NUnit.Framework.Internal;
 using PrimeTween;
 using UnityEngine;

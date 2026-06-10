@@ -1,4 +1,4 @@
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using PurrNet;
 using ShinyOwl.Common.Framework;
 using UnityEngine;
@@ -6,11 +6,11 @@ using ShinyOwl.Common.Utils;
 using PrimeTween;
 using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common;
-using FishFlingers.Effects;
-using FishFlingers.Hitboxes;
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Effects;
+using NoMoreFishAndChips.Hitboxes;
+using NoMoreFishAndChips.Audio;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class FlyingFish : Character<FlyingFishDefinitionData>
     {

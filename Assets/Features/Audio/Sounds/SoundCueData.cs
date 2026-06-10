@@ -1,4 +1,4 @@
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SoundCueData", menuName = "Data/Audio/SoundCueData")]

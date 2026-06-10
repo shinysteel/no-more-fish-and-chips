@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Framework;
-using FishFlingers.UI;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.Networking;
 using PurrLobby;
 using ShinyOwl.Common;
-using FishFlingers.Cameras;
-using FishFlingers.UI.Transitions;
-using FishFlingers.Scenes;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.UI.Transitions;
+using NoMoreFishAndChips.Scenes;
 using System.Threading.Tasks;
 using System;
 
-namespace FishFlingers.States
+namespace NoMoreFishAndChips.States
 {
     public enum EMenusState { }
 

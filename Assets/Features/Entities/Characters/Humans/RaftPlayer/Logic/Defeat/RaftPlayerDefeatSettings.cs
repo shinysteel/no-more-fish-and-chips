@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerDefeatSettings", menuName = "Settings/Entities/RaftPlayerDefeatSettings")]
     public class RaftPlayerDefeatSettings : CharacterDefeatSettings

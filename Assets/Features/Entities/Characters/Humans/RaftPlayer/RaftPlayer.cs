@@ -1,11 +1,11 @@
-using FishFlingers.Cameras;
-using FishFlingers.Environments;
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.Saving;
-using FishFlingers.States;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
 using Newtonsoft.Json;
 using PurrNet;
 using ShinyOwl.Common;
@@ -19,7 +19,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayer : Character<RaftPlayerDefinitionData>
     {

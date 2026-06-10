@@ -1,5 +1,5 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System;
@@ -12,7 +12,7 @@ using UnityEngine.Pool;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     /// <summary>
     /// A RaftAxis will be either horizontal or vertical. It contains a collection of RaftLines, and keeps

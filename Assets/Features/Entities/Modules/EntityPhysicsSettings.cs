@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "EntityPhysicsSettings", menuName = "Settings/Entities/EntityPhysicsSettings")]
     public class EntityPhysicsSettings : ScriptableObject

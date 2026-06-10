@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Rarities
+namespace NoMoreFishAndChips.Rarities
 {
     public enum Rarity
     {

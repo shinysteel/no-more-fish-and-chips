@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Debugging
+namespace NoMoreFishAndChips.Debugging
 {
     public interface IDebugManagerListener
     { }

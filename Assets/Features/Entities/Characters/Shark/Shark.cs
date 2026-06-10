@@ -1,4 +1,4 @@
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Extensions;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Hitboxes;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class Shark : Character<SharkDefinitionData>
     {

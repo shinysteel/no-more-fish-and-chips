@@ -1,4 +1,4 @@
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Networking;
 using PurrNet;
 using PurrNet.Modules;
 using PurrNet.Transports;
@@ -10,9 +10,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using NetworkManager = FishFlingers.Networking.NetworkManager;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
-namespace FishFlingers.Scenes
+namespace NoMoreFishAndChips.Scenes
 {
     // Try to keep these 1:1 with scene names for clarity
     // If changing the order, don't forget to update SceneManagerConfig

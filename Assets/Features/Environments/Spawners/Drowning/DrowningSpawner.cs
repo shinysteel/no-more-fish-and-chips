@@ -1,13 +1,13 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
 using System.Collections.Generic;
 using UnityEngine;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 using System.Linq;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class DrowningSpawner : GameplayBehaviour, IEntityManagerListener
     {

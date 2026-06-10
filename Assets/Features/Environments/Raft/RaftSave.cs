@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Inventories;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class RaftSave
     {

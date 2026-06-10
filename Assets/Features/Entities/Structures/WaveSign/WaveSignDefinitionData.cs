@@ -1,7 +1,7 @@
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Hitboxes;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "WaveSignDefinitionData", menuName = "Data/Entities/Structures/WaveSignDefinitionData")]
     public class WaveSignDefinitionData : StructureDefinitionData

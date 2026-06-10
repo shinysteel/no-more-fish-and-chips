@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "EntityDefeatSettings", menuName = "Settings/Entities/EntityDefeatSettings")]
     public class EntityDefeatSettings : ScriptableObject

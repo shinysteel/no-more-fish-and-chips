@@ -1,7 +1,7 @@
-using FishFlingers.Networking;
-using FishFlingers.Pools;
-using FishFlingers.Saving;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
 using System.IO;
 using TMPro;

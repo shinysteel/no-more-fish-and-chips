@@ -1,19 +1,19 @@
-using FishFlingers.Entities;
-using FishFlingers.Items;
-using FishFlingers.Localisation;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Localisation;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using ShinyOwl.Common.Utils;
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 using System.Linq;
 using System;
 using ShinyOwl.Common;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class BlueprintEntry : MonoBehaviour, ITypedPoolable
     {

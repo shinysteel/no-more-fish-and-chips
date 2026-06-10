@@ -1,12 +1,12 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class BlueprintRequirementEntry : MonoBehaviour, ITypedPoolable
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerInteractSettings", menuName = "Settings/Entities/RaftPlayerInteractSettings")]
     public class RaftPlayerInteractSettings : ScriptableObject

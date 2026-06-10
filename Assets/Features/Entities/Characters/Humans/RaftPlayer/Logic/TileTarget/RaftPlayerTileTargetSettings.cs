@@ -1,7 +1,7 @@
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Entities;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerTileTargetSettings", menuName = "Settings/Entities/RaftPlayerTileTargetSettings")]
     public class RaftPlayerTileTargetSettings : ScriptableObject

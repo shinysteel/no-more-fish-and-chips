@@ -1,8 +1,8 @@
-using FishFlingers.Entities;
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
 using UnityEngine;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class Ocean : MonoBehaviour
     {

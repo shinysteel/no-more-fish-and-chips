@@ -1,5 +1,5 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
@@ -7,7 +7,7 @@ using ShinyOwl.Common.Framework;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class Drowning : Character<DrowningDefinitionData>, IEntityManagerListener
     {

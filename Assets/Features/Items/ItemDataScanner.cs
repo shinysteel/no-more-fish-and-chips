@@ -1,8 +1,8 @@
-using FishFlingers.Inventories;
+using NoMoreFishAndChips.Inventories;
 using ShinyOwl.Common.Framework;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     [CreateAssetMenu(fileName = "ItemDataScanner", menuName = "Scanners/ItemDataScanner")]
     public class ItemDataScanner : AssetScanner<ItemDefinitionData>

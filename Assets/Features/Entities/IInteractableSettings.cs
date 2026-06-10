@@ -1,7 +1,7 @@
-using FishFlingers.Environments;
+using NoMoreFishAndChips.Environments;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "IInteractableSettings", menuName = "Settings/Entities/IInteractableSettings")]
     public class IInteractableSettings : ScriptableObject

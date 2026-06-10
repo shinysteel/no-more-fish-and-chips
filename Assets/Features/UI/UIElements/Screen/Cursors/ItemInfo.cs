@@ -1,10 +1,10 @@
-using FishFlingers.Items;
-using FishFlingers.Localisation;
-using FishFlingers.Rarities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Localisation;
+using NoMoreFishAndChips.Rarities;
 using TMPro;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class ItemInfo : MonoBehaviour
     {

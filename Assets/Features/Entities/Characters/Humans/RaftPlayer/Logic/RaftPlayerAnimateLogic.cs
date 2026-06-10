@@ -1,8 +1,8 @@
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerAnimateLogic
     {

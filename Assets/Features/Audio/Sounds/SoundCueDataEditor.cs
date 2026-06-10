@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace FishFlingers.Audio
+namespace NoMoreFishAndChips.Audio
 {
     [CustomEditor(typeof(SoundCueData))]
     public class SoundCueDataEditor : Editor

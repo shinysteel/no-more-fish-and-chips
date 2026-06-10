@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Rarities
+namespace NoMoreFishAndChips.Rarities
 {
     [Serializable]
     public class RarityColorMapping

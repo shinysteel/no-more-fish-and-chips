@@ -1,17 +1,17 @@
-using FishFlingers.Inventories;
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.States;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using NetworkManager = FishFlingers.Networking.NetworkManager;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     /// <summary>
     /// Groups all hotkey outputs together so they can be resolved deterministically

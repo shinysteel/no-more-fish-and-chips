@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public enum PropId
     {

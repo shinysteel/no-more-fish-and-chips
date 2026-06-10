@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Effects
+namespace NoMoreFishAndChips.Effects
 {
     [CreateAssetMenu(fileName = "EffectManagerConfig", menuName = "Configs/Managers/EffectManagerConfig")]
     public class EffectManagerConfig : ScriptableObject

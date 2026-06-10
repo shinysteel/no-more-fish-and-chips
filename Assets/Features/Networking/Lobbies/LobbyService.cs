@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace FishFlingers.Networking
+namespace NoMoreFishAndChips.Networking
 {
     public class LobbyMember
     {

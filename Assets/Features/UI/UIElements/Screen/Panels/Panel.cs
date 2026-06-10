@@ -1,11 +1,11 @@
-using FishFlingers.Networking;
+using NoMoreFishAndChips.Networking;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class PanelInstance<T> where T : Panel
     {

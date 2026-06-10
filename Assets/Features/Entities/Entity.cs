@@ -1,12 +1,12 @@
-using FishFlingers.Environments;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
-using FishFlingers.States;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class Entity : MonoBehaviour, IEntity, ITypedPoolable
     {

@@ -1,13 +1,13 @@
-using FishFlingers.Instantiating;
-using FishFlingers.Inventories;
-using FishFlingers.States;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 using UnityEngine.UI;
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Entities;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class HotbarView : MonoBehaviour
     {

@@ -1,12 +1,12 @@
-using FishFlingers.Entities;
-using FishFlingers.Environments;
-using FishFlingers.Items;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Items;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class GameplayEnvironmentSave
     {

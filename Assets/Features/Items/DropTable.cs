@@ -1,7 +1,7 @@
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     [CreateAssetMenu(fileName = "ItemDropTable", menuName = "Tables/ItemDropTable")]
     public class DropTable : ScriptableObject

@@ -1,7 +1,7 @@
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Hitboxes;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "FlyingFishDefinitionData", menuName = "Data/Entities/Characters/FlyingFishDefinitionData")]
     public class FlyingFishDefinitionData : CharacterDefinitionData

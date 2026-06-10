@@ -1,7 +1,7 @@
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Hitboxes;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "SharkDefinitionData", menuName = "Data/Entities/Characters/SharkDefinitionData")]
     public class SharkDefinitionData : CharacterDefinitionData

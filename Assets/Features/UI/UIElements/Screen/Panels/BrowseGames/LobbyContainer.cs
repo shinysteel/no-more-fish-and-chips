@@ -1,9 +1,9 @@
-using FishFlingers.Localisation;
+using NoMoreFishAndChips.Localisation;
 using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class LobbyContainer : MonoBehaviour
     {

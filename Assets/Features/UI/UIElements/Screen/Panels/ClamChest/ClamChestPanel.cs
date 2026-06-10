@@ -1,11 +1,11 @@
-using FishFlingers.Inventories;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using System;
 using UnityEngine;
 using PurrNet;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class ClamChestPanel : Panel
     {

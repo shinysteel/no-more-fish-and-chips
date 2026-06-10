@@ -1,7 +1,7 @@
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Hitboxes;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftPlayerAttackSettings", menuName = "Settings/Entities/RaftPlayerAttackSettings")]
     public class RaftPlayerAttackSettings : ScriptableObject

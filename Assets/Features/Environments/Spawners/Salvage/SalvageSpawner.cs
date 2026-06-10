@@ -1,17 +1,17 @@
-using FishFlingers.Entities;
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.Scenes;
-using FishFlingers.States;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Scenes;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using PurrNet.Transports;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
-using EntityId = FishFlingers.Entities.EntityId;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
-namespace FishFlingers.Environments
+namespace NoMoreFishAndChips.Environments
 {
     public class SalvageSpawner : GameplayBehaviour, IEntityManagerListener
     {

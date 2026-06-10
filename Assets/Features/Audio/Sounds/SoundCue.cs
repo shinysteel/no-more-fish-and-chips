@@ -1,8 +1,8 @@
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Pools;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace FishFlingers.Audio
+namespace NoMoreFishAndChips.Audio
 {
     public class SoundCue : MonoBehaviour, ITypedPoolable
     {

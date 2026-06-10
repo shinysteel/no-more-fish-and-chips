@@ -1,4 +1,4 @@
-using FishFlingers.States;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
 using System.Threading.Tasks;
@@ -7,9 +7,9 @@ using System.Reflection;
 using TMPro;
 using PrimeTween;
 using ShinyOwl.Common.Extensions;
-using FishFlingers.Audio;
+using NoMoreFishAndChips.Audio;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     public class WaveSign : Structure<WaveSignDefinitionData>
     {

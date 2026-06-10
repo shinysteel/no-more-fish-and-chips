@@ -2,7 +2,7 @@ using ShinyOwl.Common.Framework;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.States
+namespace NoMoreFishAndChips.States
 {
     public interface IMainState
     {

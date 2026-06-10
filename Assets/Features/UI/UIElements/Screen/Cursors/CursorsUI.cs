@@ -1,8 +1,8 @@
-using FishFlingers.Cameras;
-using FishFlingers.Entities;
-using FishFlingers.Networking;
-using FishFlingers.Pools;
-using FishFlingers.States;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using PurrNet.Transports;
 using ShinyOwl.Common;
@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class CursorsUI : ScreenUI, IEntityManagerListener
     {

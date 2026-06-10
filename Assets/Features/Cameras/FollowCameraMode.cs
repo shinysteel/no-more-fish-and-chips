@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Cameras
+namespace NoMoreFishAndChips.Cameras
 {
     public class FollowCameraMode : ICameraMode
     {

@@ -1,8 +1,8 @@
-using FishFlingers.Items;
-using FishFlingers.Networking;
-using FishFlingers.Saving;
-using FishFlingers.States;
-using FishFlingers.UI.Transitions;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI.Transitions;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class GameplayScreen : ScreenUI
     {

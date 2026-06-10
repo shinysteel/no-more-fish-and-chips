@@ -1,11 +1,11 @@
-using FishFlingers.Inventories;
-using FishFlingers.States;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.States;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Entities;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     public class SlotViewOutliner<T> where T : SlotView
     {

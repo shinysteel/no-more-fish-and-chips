@@ -1,8 +1,8 @@
-using FishFlingers.Hitboxes;
+using NoMoreFishAndChips.Hitboxes;
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Entities
+namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "SeagullDefinitionData", menuName = "Data/Entities/Characters/SeagullDefinitionData")]
     public class SeagullDefinitionData : CharacterDefinitionData

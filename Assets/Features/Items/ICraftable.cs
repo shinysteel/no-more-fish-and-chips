@@ -1,9 +1,9 @@
-using FishFlingers;
-using FishFlingers.Items;
-using FishFlingers.States;
+using NoMoreFishAndChips;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace FishFlingers.Items
+namespace NoMoreFishAndChips.Items
 {
     public interface ICraftable : ICreatable
     {

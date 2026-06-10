@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FishFlingers.Hitboxes
+namespace NoMoreFishAndChips.Hitboxes
 {
     [CreateAssetMenu(fileName = "HitboxManagerConfig", menuName = "Configs/Managers/HitboxManagerConfig")]
     public class HitboxManagerConfig : ScriptableObject

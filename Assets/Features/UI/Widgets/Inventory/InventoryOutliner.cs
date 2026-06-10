@@ -1,13 +1,13 @@
-using FishFlingers.Inventories;
-using FishFlingers.States;
-using FishFlingers.UI;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ShinyOwl.Common;
-using FishFlingers.Entities;
+using NoMoreFishAndChips.Entities;
 
-namespace FishFlingers.UI
+namespace NoMoreFishAndChips.UI
 {
     // Keeps slot view outlines up to date in an InventoryWidget
     public class InventoryOutliner : SlotViewOutliner<InventorySlotView>

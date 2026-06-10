@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace FishFlingers.Audio
+namespace NoMoreFishAndChips.Audio
 {
     [CreateAssetMenu(fileName = "AudioManagerConfig", menuName = "Configs/Managers/AudioManagerConfig")]
     public class AudioManagerConfig : ScriptableObject

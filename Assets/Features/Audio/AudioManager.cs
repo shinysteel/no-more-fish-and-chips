@@ -1,11 +1,11 @@
-using FishFlingers.Entities;
-using FishFlingers.Items;
-using FishFlingers.Pools;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
 using PurrNet;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FishFlingers.Audio
+namespace NoMoreFishAndChips.Audio
 {
     public interface IAudioManagerListener
     { }
