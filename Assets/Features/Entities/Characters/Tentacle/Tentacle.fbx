@@ -10,12 +10,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 5
-		Day: 2
-		Hour: 2
-		Minute: 7
-		Second: 34
-		Millisecond: 258
+		Month: 6
+		Day: 10
+		Hour: 14
+		Minute: 18
+		Second: 57
+		Millisecond: 38
 	}
 	Creator: "Blockbench 5.1.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-05-01 16:07:34:258"
+CreationTime: "2026-06-10 04:18:57:038"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1456029946 {
+	Document: 1044054665 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 70753809, "Model::tentacle", "Null" {
+	Model: 72659145, "Model::tentacle", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72703737, "Model::body", "Null" {
+	Model: 71064808, "Model::body", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -296,7 +296,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70416918, "Model::segment2", "Null" {
+	Model: 77694576, "Model::segment2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -310,7 +310,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75548759, "Model::segment3", "Null" {
+	Model: 78084999, "Model::segment3", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -324,7 +324,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79594558, "Model::segment4", "Null" {
+	Model: 71709968, "Model::segment4", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -338,7 +338,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79587983, "Model::segment5", "Null" {
+	Model: 71099363, "Model::segment5", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -352,7 +352,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 77648402, "Model::segment6", "Null" {
+	Model: 72428209, "Model::segment6", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -366,7 +366,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74046322, "Model::segment7", "Null" {
+	Model: 75729770, "Model::segment7", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -380,7 +380,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70777363, "Model::segment", "Null" {
+	Model: 79854178, "Model::segment", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -394,7 +394,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72777789, "Model::segment3_1", "Mesh" {
+	Model: 76199029, "Model::segment3_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -409,7 +409,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77289163, "Geometry::segment3_1", "Mesh" {
+	Geometry: 73555006, "Geometry::segment3_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,31.25,15.625,18.75,31.25,-18.75,18.75,-6.25,15.625,18.75,-6.25,-18.75,-15.625,31.25,-18.75,-15.625,31.25,15.625,-15.625,-6.25,-18.75,-15.625,-6.25,15.625
 		}
@@ -460,7 +460,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73618649, "Model::segment2_1", "Mesh" {
+	Model: 76860766, "Model::segment2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -475,7 +475,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75647373, "Geometry::segment2_1", "Mesh" {
+	Geometry: 75518883, "Geometry::segment2_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,31.25,18.75,18.75,31.25,-18.75,18.75,-6.25,18.75,18.75,-6.25,-18.75,-18.75,31.25,-18.75,-18.75,31.25,18.75,-18.75,-6.25,-18.75,-18.75,-6.25,18.75
 		}
@@ -526,7 +526,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72965685, "Model::segment4_1", "Mesh" {
+	Model: 70429444, "Model::segment4_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -541,7 +541,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79496432, "Geometry::segment4_1", "Mesh" {
+	Geometry: 70308301, "Geometry::segment4_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,31.25,12.5,18.75,31.25,-18.75,18.75,-6.25,12.5,18.75,-6.25,-18.75,-12.5,31.25,-18.75,-12.5,31.25,12.5,-12.5,-6.25,-18.75,-12.5,-6.25,12.5
 		}
@@ -592,7 +592,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75879813, "Model::segment5_1", "Mesh" {
+	Model: 74447003, "Model::segment5_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -607,7 +607,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77239362, "Geometry::segment5_1", "Mesh" {
+	Geometry: 71596992, "Geometry::segment5_1", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,31.25,9.375,15.625,31.25,-15.625,15.625,-6.25,9.375,15.625,-6.25,-15.625,-9.375,31.25,-15.625,-9.375,31.25,9.375,-9.375,-6.25,-15.625,-9.375,-6.25,9.375
 		}
@@ -658,7 +658,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73488932, "Model::segment6_1", "Mesh" {
+	Model: 75636630, "Model::segment6_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -673,7 +673,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75040686, "Geometry::segment6_1", "Mesh" {
+	Geometry: 76879796, "Geometry::segment6_1", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,31.25,6.25,12.5,31.25,-12.5,12.5,-6.25,6.25,12.5,-6.25,-12.5,-6.25,31.25,-12.5,-6.25,31.25,6.25,-6.25,-6.25,-12.5,-6.25,-6.25,6.25
 		}
@@ -724,7 +724,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77976195, "Model::segment7_1", "Mesh" {
+	Model: 72921633, "Model::segment7_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -739,7 +739,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77768299, "Geometry::segment7_1", "Mesh" {
+	Geometry: 74801229, "Geometry::segment7_1", "Mesh" {
 		Vertices: *24 {
 			a: 9.375,37.5,3.125,9.375,37.5,-9.375,9.375,-6.25,3.125,9.375,-6.25,-9.375,-3.125,37.5,-9.375,-3.125,37.5,3.125,-3.125,-6.25,-9.375,-3.125,-6.25,3.125
 		}
@@ -790,7 +790,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74912152, "Model::segment_1", "Mesh" {
+	Model: 77725491, "Model::segment_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -805,7 +805,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79474328, "Geometry::segment_1", "Mesh" {
+	Geometry: 70210264, "Geometry::segment_1", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,6.25,18.75,21.875,6.25,-21.875,21.875,-25,18.75,21.875,-25,-21.875,-18.75,6.25,-21.875,-18.75,6.25,18.75,-18.75,-25,-21.875,-18.75,-25,18.75
 		}
@@ -856,7 +856,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 78179214, "Material::Tentacle.png", "" {
+	Material: 70906145, "Material::Tentacle.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -867,7 +867,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 77911943, "Texture::Tentacle.png", "" {
+	Texture: 78417956, "Texture::Tentacle.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::Tentacle.png"
@@ -879,7 +879,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 77523938, "Video::Tentacle.png", "Clip" {
+	Video: 77854373, "Video::Tentacle.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\Tentacle\Tentacle.png"
@@ -896,100 +896,100 @@ Objects:  {
 Connections:  {
 
 	;Model::tentacle, Model::RootNode
-	C: "OO",70753809,0
+	C: "OO",72659145,0
 
 	;Model::body, Model::tentacle
-	C: "OO",72703737,70753809
+	C: "OO",71064808,72659145
 
 	;Model::segment2, Model::segment
-	C: "OO",70416918,70777363
+	C: "OO",77694576,79854178
 
 	;Model::segment3, Model::segment2
-	C: "OO",75548759,70416918
+	C: "OO",78084999,77694576
 
 	;Model::segment4, Model::segment3
-	C: "OO",79594558,75548759
+	C: "OO",71709968,78084999
 
 	;Model::segment5, Model::segment4
-	C: "OO",79587983,79594558
+	C: "OO",71099363,71709968
 
 	;Model::segment6, Model::segment5
-	C: "OO",77648402,79587983
+	C: "OO",72428209,71099363
 
 	;Model::segment7, Model::segment6
-	C: "OO",74046322,77648402
+	C: "OO",75729770,72428209
 
 	;Model::segment, Model::body
-	C: "OO",70777363,72703737
+	C: "OO",79854178,71064808
 
 	;Model::segment3_1, Model::segment3
-	C: "OO",72777789,75548759
+	C: "OO",76199029,78084999
 
 	;Geometry::segment3_1, Model::segment3_1
-	C: "OO",77289163,72777789
+	C: "OO",73555006,76199029
 
 	;Material::Tentacle.png, Model::segment3_1
-	C: "OO",78179214,72777789
+	C: "OO",70906145,76199029
 
 	;Model::segment2_1, Model::segment2
-	C: "OO",73618649,70416918
+	C: "OO",76860766,77694576
 
 	;Geometry::segment2_1, Model::segment2_1
-	C: "OO",75647373,73618649
+	C: "OO",75518883,76860766
 
 	;Material::Tentacle.png, Model::segment2_1
-	C: "OO",78179214,73618649
+	C: "OO",70906145,76860766
 
 	;Model::segment4_1, Model::segment4
-	C: "OO",72965685,79594558
+	C: "OO",70429444,71709968
 
 	;Geometry::segment4_1, Model::segment4_1
-	C: "OO",79496432,72965685
+	C: "OO",70308301,70429444
 
 	;Material::Tentacle.png, Model::segment4_1
-	C: "OO",78179214,72965685
+	C: "OO",70906145,70429444
 
 	;Model::segment5_1, Model::segment5
-	C: "OO",75879813,79587983
+	C: "OO",74447003,71099363
 
 	;Geometry::segment5_1, Model::segment5_1
-	C: "OO",77239362,75879813
+	C: "OO",71596992,74447003
 
 	;Material::Tentacle.png, Model::segment5_1
-	C: "OO",78179214,75879813
+	C: "OO",70906145,74447003
 
 	;Model::segment6_1, Model::segment6
-	C: "OO",73488932,77648402
+	C: "OO",75636630,72428209
 
 	;Geometry::segment6_1, Model::segment6_1
-	C: "OO",75040686,73488932
+	C: "OO",76879796,75636630
 
 	;Material::Tentacle.png, Model::segment6_1
-	C: "OO",78179214,73488932
+	C: "OO",70906145,75636630
 
 	;Model::segment7_1, Model::segment7
-	C: "OO",77976195,74046322
+	C: "OO",72921633,75729770
 
 	;Geometry::segment7_1, Model::segment7_1
-	C: "OO",77768299,77976195
+	C: "OO",74801229,72921633
 
 	;Material::Tentacle.png, Model::segment7_1
-	C: "OO",78179214,77976195
+	C: "OO",70906145,72921633
 
 	;Model::segment_1, Model::segment
-	C: "OO",74912152,70777363
+	C: "OO",77725491,79854178
 
 	;Geometry::segment_1, Model::segment_1
-	C: "OO",79474328,74912152
+	C: "OO",70210264,77725491
 
 	;Material::Tentacle.png, Model::segment_1
-	C: "OO",78179214,74912152
+	C: "OO",70906145,77725491
 
 	;Texture::Tentacle.png, Material::Tentacle.png
-	C: "OP",77911943,78179214, "DiffuseColor"
+	C: "OP",78417956,70906145, "DiffuseColor"
 
 	;Video::Tentacle.png, Texture::Tentacle.png
-	C: "OO",77523938,77911943
+	C: "OO",77854373,78417956
 }
 
 ; Takes section
