@@ -27,6 +27,7 @@ namespace NoMoreFishAndChips.Entities
         Seagull     = 103 ,
         Drowning    = 104 ,
         Crab        = 105 ,
+        GiantClam   = 106 ,
 
         // Tiles
         GoopTile    = 201 ,

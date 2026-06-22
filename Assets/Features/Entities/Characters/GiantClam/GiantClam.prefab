@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1484933936489339031
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      propertyPath: m_Name
+      value: GiantClam
+      objectReference: {fileID: 0}
+    - target: {fileID: 9147761710190489017, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      propertyPath: m_Mass
+      value: 20
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7262831725804165891}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 7828780398375961313}
+    - targetCorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 982700495022148045}
+  m_SourcePrefab: {fileID: 100100000, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+--- !u!1 &3409715901357037214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+  m_PrefabInstance: {fileID: 1484933936489339031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7828780398375961313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409715901357037214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24171236275979340ad0a4123aa9c3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.GiantClam
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _entityDefinitionData: {fileID: 11400000, guid: 68057e539ec5dc94f90c7b5466ed3d61, type: 2}
+  _entityModel: {fileID: 2947986952717055078}
+  _rigidbody: {fileID: 7667637037763949870}
+  _collider: {fileID: 982700495022148045}
+--- !u!65 &982700495022148045
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409715901357037214}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.3, z: 0.5}
+  m_Center: {x: 0, y: 0.125, z: 0}
+--- !u!4 &4379308814473122035 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+  m_PrefabInstance: {fileID: 1484933936489339031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &7667637037763949870 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 9147761710190489017, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+  m_PrefabInstance: {fileID: 1484933936489339031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5275082916879838379
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4379308814473122035}
+    m_Modifications:
+    - target: {fileID: 2789357246949387538, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+      propertyPath: m_Name
+      value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314113930869356456, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314113930869356456, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314113930869356456, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+--- !u!114 &2947986952717055078 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7051934932963498189, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+  m_PrefabInstance: {fileID: 5275082916879838379}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.CharacterModel
+--- !u!4 &7262831725804165891 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3314113930869356456, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+  m_PrefabInstance: {fileID: 5275082916879838379}
+  m_PrefabAsset: {fileID: 0}

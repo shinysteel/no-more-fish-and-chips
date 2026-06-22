@@ -221,9 +221,9 @@ namespace NoMoreFishAndChips.Entities
             _stateMachine.Tick();
         }
 
-        private void HandleIsDefeatedChanged(bool isDefeated)
+        private void HandleIsDefeatedChanged(bool defeated)
         {
-            if (isDefeated)
+            if (defeated)
             {
                 Cleanup();
             }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.EntityModelScanner
   _folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
   _assets:
+  - {fileID: 7051934932963498189, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
   - {fileID: 5655809492014420853, guid: 1578cefee1f454d428c31ff8ff61ee2b, type: 3}
   - {fileID: 6589124541176741459, guid: 2ebd1a576b1f967439fd42863aaf81d1, type: 3}
   - {fileID: 362016265817290302, guid: 9a70195cce2c95d408f04aba7aa29471, type: 3}

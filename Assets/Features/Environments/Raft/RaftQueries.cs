@@ -287,6 +287,18 @@ namespace NoMoreFishAndChips.Environments
         }
     }
 
+    public class RaftPerimeterCell
+    {
+        private Vector2Int _cell;
+        private List<Direction> _openDirections;
+
+        public RaftPerimeterCell(Vector2Int cell, List<Direction> openDirections)
+        {
+            _cell = cell;
+            _openDirections = openDirections;
+        }
+    }
+
     public class RaftQueries
     {
         private Raft _raft;
@@ -296,12 +308,62 @@ namespace NoMoreFishAndChips.Environments
 
         public IReadOnlyDictionary<Axis, RaftAxis> Axes => _axes;
 
+        private Dictionary<Vector2Int, RaftPerimeterCell> _perimeter = new();
+
         public RaftQueries(Raft raft)
         {
             _raft = raft;
 
             _axes.Add(Axis.Horizontal, new RaftAxis(_raft, Axis.Horizontal));
             _axes.Add(Axis.Vertical, new RaftAxis(_raft, Axis.Vertical));
+
+            foreach (KeyValuePair<Vector2Int, Tile> kvp in _raft.Tiles)
+            {
+                HandleTileChanged(kvp.Key, kvp.Value);
+            }
+
+            _raft.OnTileChanged += HandleTileChanged;
+        }
+
+        ~RaftQueries()
+        {
+            _raft.OnTileChanged -= HandleTileChanged;
+        }
+
+        private void HandleTileChanged(Vector2Int tileCell, Tile tile)
+        {
+            void processCell(Vector2Int offset)
+            {
+                Vector2Int cell = tileCell + offset;
+                bool on = OnPerimeter(cell, out RaftPerimeterCell perimeterCell);
+
+                if (!_perimeter.ContainsKey(cell))
+                {
+                    if (on)
+                    {
+                        _perimeter.Add(cell, perimeterCell);
+                        Log.Info($"added cell {cell} to perimeter");
+                    }
+                }
+                else
+                {
+                    if (!on)
+                    {
+                        _perimeter.Remove(cell);
+                        Log.Info($"removed cell {cell} from perimeter");
+                    }
+                }
+            }
+
+            for (int i = -1; i <= 1; i++)
+            {
+                processCell(new Vector2Int(i, 0));
+            }
+
+            for (int i = -1; i <= 1; i += 2)
+            {
+                processCell(new Vector2Int(0, i));
+            }
         }
 
         // Uses Vector2 to allow for floating-point cells
@@ -455,6 +517,33 @@ namespace NoMoreFishAndChips.Environments
                 .First();
 
             return true;
+        }
+
+        private bool OnPerimeter(Vector2Int cell, out RaftPerimeterCell perimeterCell)
+        {
+            perimeterCell = null;
+
+            if (!_raft.Tiles.ContainsKey(cell))
+            {
+                return false;
+            }
+
+            List<Direction> openDirections = new();
+
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                if (!_raft.Tiles.ContainsKey(cell + Utils.Math.DirectionToVector2Int(direction)))
+                {
+                    openDirections.Add(direction);
+                }
+            }
+
+            if (openDirections.Count > 0)
+            {
+                perimeterCell = new RaftPerimeterCell(cell, openDirections);
+            }
+                
+            return perimeterCell != null;
         }
     }
 }
