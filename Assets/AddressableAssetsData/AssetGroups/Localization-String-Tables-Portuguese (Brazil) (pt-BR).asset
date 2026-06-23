@@ -81,6 +81,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e26f21572a744974c91a0b20c113044b
+    m_Address: GiantClamPanelTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e8fa26388e960ca41944c454aa2f44de
     m_Address: MainMenuScreenTable_pt-BR
     m_ReadOnly: 1

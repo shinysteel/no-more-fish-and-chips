@@ -40,6 +40,7 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private CraftingKitPanel _craftingKitPanelPrefab;
         [SerializeField] private BuildingKitPanel _buildingKitPanelPrefab;
         [SerializeField] private ClamChestPanel _clamChestPanelPrefab;
+        [SerializeField] private GiantClamPanel _giantClamPanelPrefab;
 
         public BrowseGamesPanel BrowseGamesPanelPrefab => _browseGamesPanelPrefab;
         public HostGamePanel HostGamePanelPrefab => _hostGamePanelPrefab;
@@ -49,6 +50,7 @@ namespace NoMoreFishAndChips.UI
         public CraftingKitPanel CraftingKitPanelPrefab => _craftingKitPanelPrefab;
         public BuildingKitPanel BuildingKitPanelPrefab => _buildingKitPanelPrefab;
         public ClamChestPanel ClamChestPanelPrefab => _clamChestPanelPrefab;
+        public GiantClamPanel GiantClamPanelPrefab => _giantClamPanelPrefab;
 
         [Header("ScreenUI - Cursors")]
         [SerializeField] private CursorsUI _cursorsUIPrefab;

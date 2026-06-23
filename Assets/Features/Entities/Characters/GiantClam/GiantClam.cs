@@ -1,11 +1,20 @@
-using UnityEngine;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
+using PrimeTween;
 using ShinyOwl.Common.Framework;
+using ShinyOwl.Common.Utils;
+using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class GiantClam : Character<GiantClamDefinitionData>
+    public class GiantClam : Character<GiantClamDefinitionData>, IInteractable
     {
         private StateMachine<EState> _stateMachine;
+
+        private PanelInstance<GiantClamPanel> _giantClamPanelInstance;
+
+        public IInteractableSettings Settings => DefinitionData.IInteractableSettings;
 
         private enum EState
         {
@@ -37,6 +46,28 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                if (!_clam._context.Raft.Queries.TryGetRandomLine((RaftLine line) => line.Nodes.Count > 0, out RaftLine line))
+                {
+                    _clam._entityManager.Despawn(_clam);
+                    return;
+                }
+
+                RaftEdge edge = Random.value < 0.5f ? line.MinEdge : line.MaxEdge;
+                Vector2Int edgeDirection = Utils.Math.DirectionToVector2Int(edge.Direction);
+
+                Vector3 startPosition = _clam._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell + edgeDirection);
+                Vector3 endPosition = _clam._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell);
+
+                Sequence.Create()
+                    .Group(Tween.PositionY(_clam.transform, startValue: -1f, endValue: 1f, duration: 0.5f))
+                    .Group(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.5f, ease: Ease.OutSine, onValueChange: (float value) =>
+                    {
+                        Vector3 position = Vector3.Lerp(startPosition, endPosition, value);
+                        position.y = _clam.transform.position.y;
+                        _clam.transform.position = position;
+                    }))
+                    .ChainCallback(() => _clam._rigidbody.isKinematic = false);
+                
                 // choose a random perimeter tile
                 // launch onto it from the edge its on
                 // land in the center
@@ -48,7 +79,7 @@ namespace NoMoreFishAndChips.Entities
         {
             public AwaitItemsState(StateMachine<EState> parent) : base(parent)
             { }
-
+            
             public override void Enter()
             {
                 // setup an inventory layout that must be filled
@@ -116,6 +147,8 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
+            _giantClamPanelInstance = new PanelInstance<GiantClamPanel>(_uiManager.Config.GiantClamPanelPrefab);
+
             if (isOwner)
             {
                 _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
@@ -150,6 +183,28 @@ namespace NoMoreFishAndChips.Entities
             {
                 _stateMachine.ChangeState(EState.None);
             }
+        }
+
+        public bool CanPrompt()
+        {
+            return true;
+        }
+
+        public WorldUI CreatePromptUI()
+        {
+            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
+            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey);
+            return ui;
+        }
+
+        public bool CanInteract()
+        {
+            return true;
+        }
+
+        public void Interact()
+        {
+            _giantClamPanelInstance.Toggle(null);
         }
     }
 }

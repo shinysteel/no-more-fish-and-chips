@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ar
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 25e567703a8b5d0489f8751e434de6a4
+    m_Address: GiantClamPanelTable_ar
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ar
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2f341bba2dc31b747b7c13aaea0c3f70
     m_Address: BrowseGamesPanelTable_ar
     m_ReadOnly: 1

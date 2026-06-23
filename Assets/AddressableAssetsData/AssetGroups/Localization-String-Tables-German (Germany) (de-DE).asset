@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-de-DE
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6105c8da39922a24bb93a2a3d7e73179
+    m_Address: GiantClamPanelTable_de-DE
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de-DE
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6bc353691bc4f7b42acc0f6c65c52d01
     m_Address: SettingsPanelTable_de-DE
     m_ReadOnly: 1

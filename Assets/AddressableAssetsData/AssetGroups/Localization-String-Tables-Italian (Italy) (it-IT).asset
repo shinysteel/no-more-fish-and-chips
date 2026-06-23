@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-it-IT
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e0860ea07facdf42a4f1314d9aa8295
+    m_Address: GiantClamPanelTable_it-IT
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-it-IT
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5e5557c96271e6644a72490345306f91
     m_Address: BuildingKitPanelTable_it-IT
     m_ReadOnly: 1

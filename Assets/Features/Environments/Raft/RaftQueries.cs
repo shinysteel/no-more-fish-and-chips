@@ -342,7 +342,6 @@ namespace NoMoreFishAndChips.Environments
                     if (on)
                     {
                         _perimeter.Add(cell, perimeterCell);
-                        Log.Info($"added cell {cell} to perimeter");
                     }
                 }
                 else
@@ -350,7 +349,6 @@ namespace NoMoreFishAndChips.Environments
                     if (!on)
                     {
                         _perimeter.Remove(cell);
-                        Log.Info($"removed cell {cell} from perimeter");
                     }
                 }
             }

@@ -75,6 +75,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1d1dd49085337b44bb413a2be29833e
+    m_Address: GiantClamPanelTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: da28023b4ad0dda4daacf2b33f5b65d2
     m_Address: BrowseGamesPanelTable_ko-KR
     m_ReadOnly: 1
