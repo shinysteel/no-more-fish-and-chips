@@ -51,6 +51,10 @@ PrefabInstance:
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
       value: GUID:4fd3faf286299f9429e6c838ec130c30
       objectReference: {fileID: 0}
+    - target: {fileID: 1249298630066641278, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a0454edc45eea246a03d0b8ee7b31a4, type: 3}
     - target: {fileID: 2782932405702096647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.95
@@ -258,6 +262,8 @@ MonoBehaviour:
   _rectTransform: {fileID: 7435980894179572032}
   _canvasGroup: {fileID: 3631289851964011220}
   _closeButton: {fileID: 3781804873898803472}
+  _playerInventoryWidget: {fileID: 1934505885391347077}
+  _clamInventoryWidget: {fileID: 4277470064895322890}
 --- !u!225 &3631289851964011220 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 2403927208547714065, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
@@ -384,6 +390,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8792826064027350270}
   m_SourcePrefab: {fileID: 100100000, guid: 6e2ad551280a2564193b9a873c1c077c, type: 3}
+--- !u!114 &1934505885391347077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6599794831031522512, guid: 6e2ad551280a2564193b9a873c1c077c, type: 3}
+  m_PrefabInstance: {fileID: 4706139238606866773}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5511534645993348557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae5ea5ca44e42d409e45a6963098694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.InventoryWidget
 --- !u!224 &3072544616671320862 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7776678311703024203, guid: 6e2ad551280a2564193b9a873c1c077c, type: 3}
@@ -531,6 +548,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7776678311703024203, guid: 6e2ad551280a2564193b9a873c1c077c, type: 3}
   m_PrefabInstance: {fileID: 6974824793671745498}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4277470064895322890 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6599794831031522512, guid: 6e2ad551280a2564193b9a873c1c077c, type: 3}
+  m_PrefabInstance: {fileID: 6974824793671745498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924357362421705538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae5ea5ca44e42d409e45a6963098694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.InventoryWidget
 --- !u!1 &7924357362421705538 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 951235042280051864, guid: 6e2ad551280a2564193b9a873c1c077c, type: 3}

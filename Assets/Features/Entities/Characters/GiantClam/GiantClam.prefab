@@ -49,6 +49,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
       insertIndex: -1
       addedObject: {fileID: 982700495022148045}
+    - targetCorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5377937332333098744}
   m_SourcePrefab: {fileID: 100100000, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
 --- !u!1 &3409715901357037214 stripped
 GameObject:
@@ -80,6 +83,7 @@ MonoBehaviour:
   _entityModel: {fileID: 2947986952717055078}
   _rigidbody: {fileID: 7667637037763949870}
   _collider: {fileID: 982700495022148045}
+  _inventory: {fileID: 5377937332333098744}
 --- !u!65 &982700495022148045
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -101,6 +105,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5, y: 0.3, z: 0.5}
   m_Center: {x: 0, y: 0.125, z: 0}
+--- !u!114 &5377937332333098744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409715901357037214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e0c46993dfcd54895147529bf8251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Inventories.Inventory
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
 --- !u!4 &4379308814473122035 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2908733436539095140, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}

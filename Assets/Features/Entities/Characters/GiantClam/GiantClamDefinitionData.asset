@@ -26,3 +26,4 @@ MonoBehaviour:
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
   _iInteractableSettings: {fileID: 11400000, guid: 8a60672d68d681246ba117147f585e0c, type: 2}
+  _inventoryLayout: {fileID: 11400000, guid: 22c1353f09ee52f44bed489a5d85730e, type: 2}

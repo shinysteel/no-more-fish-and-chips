@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using PrimeTween;
@@ -10,6 +11,8 @@ namespace NoMoreFishAndChips.Entities
 {
     public class GiantClam : Character<GiantClamDefinitionData>, IInteractable
     {
+        [SerializeField] private Inventory _inventory;
+
         private StateMachine<EState> _stateMachine;
 
         private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
@@ -153,6 +156,8 @@ namespace NoMoreFishAndChips.Entities
             {
                 _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
+                _inventory.SetLayout(DefinitionData.InventoryLayout);
+
                 _stateMachine.ChangeState(EState.SpawnLaunch);
             }
         }
@@ -204,7 +209,7 @@ namespace NoMoreFishAndChips.Entities
 
         public void Interact()
         {
-            _giantClamPanelInstance.Toggle(null);
+            _giantClamPanelInstance.Toggle((GiantClamsMouthPanel panel) => panel.Setup(_context, _inventory));
         }
     }
 }
