@@ -94,6 +94,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1479742769652532610}
     m_Modifications:
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 483836391424
+      objectReference: {fileID: 0}
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:1380201cb9bb0ba418f4961653fc153b
+      objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_text
       value: Equipment
@@ -108,7 +116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6722119670988573049, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_Name
-      value: HeadingText
+      value: TitleText
       objectReference: {fileID: 0}
     - target: {fileID: 8746915969032943170, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_Pivot.x

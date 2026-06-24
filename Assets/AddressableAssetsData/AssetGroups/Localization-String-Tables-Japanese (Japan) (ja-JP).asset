@@ -75,6 +75,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ja-JP
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66cceab8cce84ed4b9865333c68edb5e
+    m_Address: WidgetsTable_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ee19afbbe8e90248b61a44ec73eda14
     m_Address: BrowseGamesPanelTable_ja-JP
     m_ReadOnly: 1

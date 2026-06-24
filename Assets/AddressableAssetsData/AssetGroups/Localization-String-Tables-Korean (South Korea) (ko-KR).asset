@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a5e3e37221415349a8d3e913cf6df9d
+    m_Address: WidgetsTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 15df1f72d2017cf4893981b8b6827e09
     m_Address: CommonTable_ko-KR
     m_ReadOnly: 1

@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fr-FR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2051a70f9a3e6cf4ebd8da582b0448df
+    m_Address: WidgetsTable_fr-FR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fr-FR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2f69795d4b45d324aa3c4a66323906ff
     m_Address: HostGamePanelTable_fr-FR
     m_ReadOnly: 1

@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-CN
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39d8afdd81cf3714184f110886defe34
+    m_Address: WidgetsTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3fcd4fdcac5272f43b7fda667d670296
     m_Address: WorldPanelTable_zh-CN
     m_ReadOnly: 1

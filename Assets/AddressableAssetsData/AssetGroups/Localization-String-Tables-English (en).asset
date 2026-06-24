@@ -81,6 +81,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fb805d59c3aec7439856ee0aedafc31
+    m_Address: WidgetsTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf7022593563dde46833c10d9cd64b47
     m_Address: GiantClamsMouthPanelTable_en
     m_ReadOnly: 1

@@ -63,6 +63,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92d3d1b6120573c4bb755857231728ef
+    m_Address: WidgetsTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 96190bd7b8a90124b83fd3adf192b76d
     m_Address: BrowseGamesPanelTable_zh-TW
     m_ReadOnly: 1

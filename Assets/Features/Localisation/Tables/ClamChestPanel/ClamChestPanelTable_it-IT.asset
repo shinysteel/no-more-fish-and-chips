@@ -22,6 +22,10 @@ MonoBehaviour:
     m_Localized: Cassapanca
     m_Metadata:
       m_Items: []
+  - m_Id: 30805985524543488
+    m_Localized: Petto
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

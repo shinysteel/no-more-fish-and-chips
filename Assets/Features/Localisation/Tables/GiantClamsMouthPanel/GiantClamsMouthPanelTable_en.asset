@@ -18,6 +18,10 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
+  - m_Id: 183217254920192
+    m_Localized: Clam
+    m_Metadata:
+      m_Items: []
   - m_Id: 176407777210368
     m_Localized: Giant Clam's Mouth
     m_Metadata:

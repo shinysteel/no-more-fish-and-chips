@@ -19,6 +19,10 @@ MonoBehaviour:
     m_Key: giantClamsMouthPanel.title
     m_Metadata:
       m_Items: []
+  - m_Id: 183217254920192
+    m_Key: giantClamsMouthPanel.clam
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

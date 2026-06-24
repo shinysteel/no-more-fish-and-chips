@@ -75,6 +75,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95dd2cf70b9357848b41841fd77fed66
+    m_Address: WidgetsTable_es
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b999b9a1fe489744994beddea4596112
     m_Address: StructuresTable_es
     m_ReadOnly: 1

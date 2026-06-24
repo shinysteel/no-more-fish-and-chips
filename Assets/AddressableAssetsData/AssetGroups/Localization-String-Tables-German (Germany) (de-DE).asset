@@ -69,6 +69,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-de-DE
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e30889d6e120cc43ba3992a620c6c6f
+    m_Address: WidgetsTable_de-DE
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de-DE
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b468e979a33ef044eb6ec6b7324636a3
     m_Address: WorldPanelTable_de-DE
     m_ReadOnly: 1

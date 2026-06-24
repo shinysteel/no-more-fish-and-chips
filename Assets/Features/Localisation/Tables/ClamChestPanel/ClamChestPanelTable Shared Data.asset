@@ -19,6 +19,10 @@ MonoBehaviour:
     m_Key: clamChestPanel.title
     m_Metadata:
       m_Items: []
+  - m_Id: 30805985524543488
+    m_Key: clamChestPanel.chest
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
