@@ -82,7 +82,7 @@ MonoBehaviour:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e26f21572a744974c91a0b20c113044b
-    m_Address: GiantClamPanelTable_pt-BR
+    m_Address: GiantClamsMouthPanelTable_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR

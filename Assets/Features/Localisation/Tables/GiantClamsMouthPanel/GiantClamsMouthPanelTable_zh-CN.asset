@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: GiantClamPanelTable_zh-TW
+  m_Name: GiantClamsMouthPanelTable_zh-CN
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: zh-TW
+    m_Code: zh-CN
   m_SharedData: {fileID: 11400000, guid: 4fd3faf286299f9429e6c838ec130c30, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 1561873182720
-    m_Localized: "\u5DE8\u578B\u7868\u78F2"
+  - m_Id: 176407777210368
+    m_Localized: "\u5DE8\u578B\u86E4\u870A\u7684\u5634"
     m_Metadata:
       m_Items: []
   references:

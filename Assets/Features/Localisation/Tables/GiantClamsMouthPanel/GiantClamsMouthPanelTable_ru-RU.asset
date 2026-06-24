@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: GiantClamPanelTable_it-IT
+  m_Name: GiantClamsMouthPanelTable_ru-RU
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: it-IT
+    m_Code: ru-RU
   m_SharedData: {fileID: 11400000, guid: 4fd3faf286299f9429e6c838ec130c30, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 1561873182720
-    m_Localized: Vongola gigante
+  - m_Id: 176407777210368
+    m_Localized: "\u041F\u0430\u0441\u0442\u044C \u0433\u0438\u0433\u0430\u043D\u0442\u0441\u043A\u043E\u0439
+      \u043C\u043E\u043B\u043B\u044E\u0441\u043A\u0438"
     m_Metadata:
       m_Items: []
   references:

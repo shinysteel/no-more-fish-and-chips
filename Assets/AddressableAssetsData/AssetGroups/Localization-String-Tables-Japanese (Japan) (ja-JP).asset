@@ -28,7 +28,7 @@ MonoBehaviour:
     - Locale-ja-JP
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2971767028b5e17478ff5e76bfde34a6
-    m_Address: GiantClamPanelTable_ja-JP
+    m_Address: GiantClamsMouthPanelTable_ja-JP
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ja-JP

@@ -64,7 +64,7 @@ MonoBehaviour:
     - Locale-zh-CN
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c72a9bbb7f08b9a4db4ad125be31df45
-    m_Address: GiantClamPanelTable_zh-CN
+    m_Address: GiantClamsMouthPanelTable_zh-CN
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-CN

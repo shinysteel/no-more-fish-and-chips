@@ -76,7 +76,7 @@ MonoBehaviour:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1d1dd49085337b44bb413a2be29833e
-    m_Address: GiantClamPanelTable_ko-KR
+    m_Address: GiantClamsMouthPanelTable_ko-KR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko-KR

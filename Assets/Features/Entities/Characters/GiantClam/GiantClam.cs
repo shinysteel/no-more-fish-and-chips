@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<EState> _stateMachine;
 
-        private PanelInstance<GiantClamPanel> _giantClamPanelInstance;
+        private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
 
         public IInteractableSettings Settings => DefinitionData.IInteractableSettings;
 
@@ -147,7 +147,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
-            _giantClamPanelInstance = new PanelInstance<GiantClamPanel>(_uiManager.Config.GiantClamPanelPrefab);
+            _giantClamPanelInstance = new PanelInstance<GiantClamsMouthPanel>(_uiManager.Config.GiantClamsMouthPanelPrefab);
 
             if (isOwner)
             {

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 750988990251542737, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
-      value: 1561873182720
+      value: 176407777210368
       objectReference: {fileID: 0}
     - target: {fileID: 750988990251542737, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
@@ -18,11 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3802163686133970347, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_Name
-      value: GiantClamPanel
+      value: GiantClamsMouthPanel
       objectReference: {fileID: 0}
     - target: {fileID: 4705308164282050647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_text
-      value: Giant Clam
+      value: Giant Clam's Mouth
+      objectReference: {fileID: 0}
+    - target: {fileID: 4705308164282050647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
+      propertyPath: m_fontSize
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_Pivot.x

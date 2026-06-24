@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: GiantClamPanelTable_ko-KR
+  m_Name: GiantClamsMouthPanelTable_pl-PL
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: ko-KR
+    m_Code: pl-PL
   m_SharedData: {fileID: 11400000, guid: 4fd3faf286299f9429e6c838ec130c30, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 1561873182720
-    m_Localized: "\uB300\uD569"
+  - m_Id: 176407777210368
+    m_Localized: "Paszcza olbrzymiej ma\u0142\u017Cy"
     m_Metadata:
       m_Items: []
   references:
