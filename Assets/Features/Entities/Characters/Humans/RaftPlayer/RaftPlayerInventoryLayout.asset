@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShinyOwl.Common.Structures.BoolGrid
   _columns: 6
   _rows: 5
-  _bools: 010101010101010101010101010101010101010101010101010101010101
+  _bools: 000000000000000001010000000101010100000001010000000000000000
