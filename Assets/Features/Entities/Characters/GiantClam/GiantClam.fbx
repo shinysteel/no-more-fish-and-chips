@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2026
 		Month: 6
-		Day: 9
-		Hour: 18
-		Minute: 53
-		Second: 41
-		Millisecond: 200
+		Day: 24
+		Hour: 17
+		Minute: 35
+		Second: 54
+		Millisecond: 159
 	}
 	Creator: "Blockbench 5.1.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-06-09 08:53:41:200"
+CreationTime: "2026-06-24 07:35:54:159"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 650337420 {
+	Document: 1791075689 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -98,7 +98,7 @@ References:
 
 Definitions:  {
 	Version: 100
-	Count: 40
+	Count: 50
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -262,13 +262,52 @@ Definitions:  {
 			}
 		}
 	}
+	ObjectType: "AnimationStack" {
+		Count: 1
+		PropertyTemplate: "FbxAnimStack" {
+			Properties70:  {
+				P: "Description", "KString", "", "", ""
+				P: "LocalStart", "KTime", "Time", "",0
+				P: "LocalStop", "KTime", "Time", "",0
+				P: "ReferenceStart", "KTime", "Time", "",0
+				P: "ReferenceStop", "KTime", "Time", "",0
+			}
+		}
+	}
+	ObjectType: "AnimationLayer" {
+		Count: 1
+		PropertyTemplate: "FbxAnimLayer" {
+			Properties70:  {
+				P: "Weight", "Number", "", "A",100
+				P: "Mute", "bool", "", "",0
+				P: "Solo", "bool", "", "",0
+				P: "Lock", "bool", "", "",0
+				P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
+				P: "BlendMode", "enum", "", "",0
+				P: "RotationAccumulationMode", "enum", "", "",0
+				P: "ScaleAccumulationMode", "enum", "", "",0
+				P: "BlendModeBypass", "ULongLong", "", "",0
+			}
+		}
+	}
+	ObjectType: "AnimationCurveNode" {
+		Count: 2
+		PropertyTemplate: "FbxAnimCurveNode" {
+			Properties70:  {
+				P: "d", "Compound", "", ""
+			}
+		}
+	}
+	ObjectType: "AnimationCurve" {
+		Count: 6
+	}
 }
 
 ; Object properties
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 73328659, "Model::giant_clam", "Null" {
+	Model: 76031854, "Model::giant_clam", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +321,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 73110787, "Model::valve_front", "Null" {
+	Model: 76052349, "Model::valve_front", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -296,7 +335,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75829101, "Model::valve_back", "Null" {
+	Model: 77869171, "Model::valve_back", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -310,7 +349,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74646234, "Model::tongue", "Null" {
+	Model: 74043907, "Model::tongue", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -324,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75409694, "Model::bottom", "Mesh" {
+	Model: 72149655, "Model::bottom", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -339,7 +378,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76529173, "Geometry::bottom", "Mesh" {
+	Geometry: 71259875, "Geometry::bottom", "Mesh" {
 		Vertices: *24 {
 			a: 25,9.375,18.75,25,9.375,-15.625,25,0,18.75,25,0,-15.625,-31.25,9.375,-15.625,-31.25,9.375,18.75,-31.25,0,-15.625,-31.25,0,18.75
 		}
@@ -390,7 +429,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77323545, "Model::valve", "Mesh" {
+	Model: 78761142, "Model::valve", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -405,7 +444,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71243391, "Geometry::valve", "Mesh" {
+	Geometry: 70926584, "Geometry::valve", "Mesh" {
 		Vertices: *24 {
 			a: 28.125,18.75,-15.625,28.125,18.75,-28.125,28.125,-3.125,-15.625,28.125,-3.125,-28.125,-31.25,18.75,-28.125,-31.25,18.75,-15.625,-31.25,-3.125,-28.125,-31.25,-3.125,-15.625
 		}
@@ -456,7 +495,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79541771, "Model::valve_1", "Mesh" {
+	Model: 76751055, "Model::valve_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -471,7 +510,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79500686, "Geometry::valve_1", "Mesh" {
+	Geometry: 70496610, "Geometry::valve_1", "Mesh" {
 		Vertices: *24 {
 			a: 31.25,18.75,12.5,31.25,18.75,0,31.25,-3.125,12.5,31.25,-3.125,0,-28.125,18.75,0,-28.125,18.75,12.5,-28.125,-3.125,0,-28.125,-3.125,12.5
 		}
@@ -522,7 +561,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76214928, "Model::edge", "Mesh" {
+	Model: 79974525, "Model::edge", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -537,9 +576,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76076592, "Geometry::edge", "Mesh" {
+	Geometry: 73432997, "Geometry::edge", "Mesh" {
 		Vertices: *24 {
-			a: 20.3125,18.75,-15.625,20.3125,18.75,-28.125,20.3125,-3.125,-15.625,20.3125,-3.125,-28.125,20.3125,18.75,-28.125,20.3125,18.75,-15.625,20.3125,-3.125,-28.125,20.3125,-3.125,-15.625
+			a: 20.34375,18.75,-15.625,20.34375,18.75,-28.125,20.34375,-3.125,-15.625,20.34375,-3.125,-28.125,20.34375,18.75,-28.125,20.34375,18.75,-15.625,20.34375,-3.125,-28.125,20.34375,-3.125,-15.625
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -588,7 +627,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74787639, "Model::edge_1", "Mesh" {
+	Model: 75102244, "Model::edge_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -603,9 +642,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70973633, "Geometry::edge_1", "Mesh" {
+	Geometry: 78591288, "Geometry::edge_1", "Mesh" {
 		Vertices: *24 {
-			a: 17.1875,18.75,-15.625,17.1875,18.75,-28.125,17.1875,-3.125,-15.625,17.1875,-3.125,-28.125,17.1875,18.75,-28.125,17.1875,18.75,-15.625,17.1875,-3.125,-28.125,17.1875,-3.125,-15.625
+			a: 17.15625,18.75,-15.625,17.15625,18.75,-28.125,17.15625,-3.125,-15.625,17.15625,-3.125,-28.125,17.15625,18.75,-28.125,17.15625,18.75,-15.625,17.15625,-3.125,-28.125,17.15625,-3.125,-15.625
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -654,7 +693,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78901504, "Model::edge_2", "Mesh" {
+	Model: 79396992, "Model::edge_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -669,7 +708,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71729732, "Geometry::edge_2", "Mesh" {
+	Geometry: 76348897, "Geometry::edge_2", "Mesh" {
 		Vertices: *24 {
 			a: -20.3125,18.75,3.125,-20.3125,18.75,-9.375,-20.3125,-3.125,3.125,-20.3125,-3.125,-9.375,-20.3125,18.75,-9.375,-20.3125,18.75,3.125,-20.3125,-3.125,-9.375,-20.3125,-3.125,3.125
 		}
@@ -720,7 +759,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72559855, "Model::edge_3", "Mesh" {
+	Model: 77387404, "Model::edge_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -735,7 +774,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77017937, "Geometry::edge_3", "Mesh" {
+	Geometry: 75706627, "Geometry::edge_3", "Mesh" {
 		Vertices: *24 {
 			a: -17.1875,18.75,3.125,-17.1875,18.75,-9.375,-17.1875,-3.125,3.125,-17.1875,-3.125,-9.375,-17.1875,18.75,-9.375,-17.1875,18.75,3.125,-17.1875,-3.125,-9.375,-17.1875,-3.125,3.125
 		}
@@ -786,7 +825,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71667223, "Model::edge_4", "Mesh" {
+	Model: 73179108, "Model::edge_4", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -801,7 +840,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77926699, "Geometry::edge_4", "Mesh" {
+	Geometry: 73557070, "Geometry::edge_4", "Mesh" {
 		Vertices: *24 {
 			a: 20.3125,0,-12.5,20.3125,0,-25,20.3125,0,-12.5,20.3125,0,-25,17.1875,0,-25,17.1875,0,-12.5,17.1875,0,-25,17.1875,0,-12.5
 		}
@@ -852,7 +891,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75359465, "Model::edge_5", "Mesh" {
+	Model: 70894369, "Model::edge_5", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -867,7 +906,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78214874, "Geometry::edge_5", "Mesh" {
+	Geometry: 74632857, "Geometry::edge_5", "Mesh" {
 		Vertices: *24 {
 			a: 23.4375,0,-15.625,23.4375,0,-28.125,23.4375,0,-15.625,23.4375,0,-28.125,20.3125,0,-28.125,20.3125,0,-15.625,20.3125,0,-28.125,20.3125,0,-15.625
 		}
@@ -918,7 +957,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75811254, "Model::edge_6", "Mesh" {
+	Model: 73436844, "Model::edge_6", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -933,7 +972,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72911253, "Geometry::edge_6", "Mesh" {
+	Geometry: 72026602, "Geometry::edge_6", "Mesh" {
 		Vertices: *24 {
 			a: 23.4375,0,-3.125,23.4375,0,-15.625,23.4375,0,-3.125,23.4375,0,-15.625,20.3125,0,-15.625,20.3125,0,-3.125,20.3125,0,-15.625,20.3125,0,-3.125
 		}
@@ -984,7 +1023,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73136757, "Model::edge_7", "Mesh" {
+	Model: 74503411, "Model::edge_7", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -999,7 +1038,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76936597, "Geometry::edge_7", "Mesh" {
+	Geometry: 77900311, "Geometry::edge_7", "Mesh" {
 		Vertices: *24 {
 			a: 20.3125,0,-6.25,20.3125,0,-18.75,20.3125,0,-6.25,20.3125,0,-18.75,17.1875,0,-18.75,17.1875,0,-6.25,17.1875,0,-18.75,17.1875,0,-6.25
 		}
@@ -1050,7 +1089,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77356575, "Model::edge_8", "Mesh" {
+	Model: 71209945, "Model::edge_8", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1065,7 +1104,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74350321, "Geometry::edge_8", "Mesh" {
+	Geometry: 78924518, "Geometry::edge_8", "Mesh" {
 		Vertices: *24 {
 			a: 20.3125,0,-15.625,20.3125,0,-28.125,20.3125,0,-15.625,20.3125,0,-28.125,-39.0625,0,-28.125,-39.0625,0,-15.625,-39.0625,0,-28.125,-39.0625,0,-15.625
 		}
@@ -1116,7 +1155,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71419124, "Model::edge_9", "Mesh" {
+	Model: 78006473, "Model::edge_9", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1131,7 +1170,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72122693, "Geometry::edge_9", "Mesh" {
+	Geometry: 73002875, "Geometry::edge_9", "Mesh" {
 		Vertices: *24 {
 			a: -17.1875,18.75,3.125,-17.1875,18.75,-9.375,-17.1875,18.75,3.125,-17.1875,18.75,-9.375,-76.5625,18.75,-9.375,-76.5625,18.75,3.125,-76.5625,18.75,-9.375,-76.5625,18.75,3.125
 		}
@@ -1182,7 +1221,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70292581, "Model::valve_2", "Mesh" {
+	Model: 74518647, "Model::valve_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1197,7 +1236,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76144361, "Geometry::valve_2", "Mesh" {
+	Geometry: 70210545, "Geometry::valve_2", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,15.625,-12.5,21.875,15.625,-21.875,21.875,-3.125,-12.5,21.875,-3.125,-21.875,-25,15.625,-21.875,-25,15.625,-12.5,-25,-3.125,-21.875,-25,-3.125,-12.5
 		}
@@ -1248,7 +1287,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73555241, "Model::valve_3", "Mesh" {
+	Model: 79369401, "Model::valve_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1263,7 +1302,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77715686, "Geometry::valve_3", "Mesh" {
+	Geometry: 76742331, "Geometry::valve_3", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,15.625,-15.625,21.875,15.625,-25,21.875,-3.125,-15.625,21.875,-3.125,-25,-25,15.625,-25,-25,15.625,-15.625,-25,-3.125,-25,-25,-3.125,-15.625
 		}
@@ -1314,7 +1353,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75321109, "Model::tongue_1", "Mesh" {
+	Model: 77447575, "Model::tongue_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1329,7 +1368,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78272072, "Geometry::tongue_1", "Mesh" {
+	Geometry: 75016784, "Geometry::tongue_1", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,3.125,3.125,15.625,3.125,-15.625,15.625,0,3.125,15.625,0,-15.625,-15.625,3.125,-15.625,-15.625,3.125,3.125,-15.625,0,-15.625,-15.625,0,3.125
 		}
@@ -1380,7 +1419,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 71151719, "Material::GiantClam.png", "" {
+	Material: 76971456, "Material::GiantClam.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -1391,26 +1430,162 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 74152574, "Texture::GiantClam.png", "" {
+	Texture: 73913743, "Texture::GiantClam.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::GiantClam.png"
 		Media: "Video::GiantClam.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
 		RelativeFilename: "GiantClam.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 79527868, "Video::GiantClam.png", "Clip" {
+	Video: 79219873, "Video::GiantClam.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
 		RelativeFilename: "GiantClam.png"
+	}
+	AnimationStack: 77408528, "AnimStack::GiantClam_Idle", "" {
+		Properties70:  {
+			P: "LocalStop", "KTime", "Time", "",184744632000
+			P: "ReferenceStop", "KTime", "Time", "",184744632000
+		}
+	}
+	AnimationLayer: 79766478, "AnimLayer::GiantClam_Idle", "" {
+	}
+	AnimationCurveNode: 72941623, "AnimCurveNode::GiantClam_Idle.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 77395400, "AnimCurve::GiantClam_Idle.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *64 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,13470962688,15395386368,17319809024,19244232704,21168656384,25017503744,28866349056,32715194368,36564041728,40412889088,44261732352,48110579712,50035007488,51959427072,53883850752,55808274432,57732698112,59657117696,61581545472,63505969152,65430388736,67354816512,69279236096,71203659776,73128083456,75052507136,76976930816,78901354496,80825778176,82750201856,84674625536,86599049216,88523464704,90447896576,92372312064,96221159424,100070014976,103918854144,107767701504,111616548864,115465396224,119314235392,123163090944,127011938304,130860777472,134709633024,138558472192,142407319552,146256166912,150105014272,153953861632,157802708992,161651556352,165500403712,169349251072,173198098432,177046929408,180895793152,184744624128
+		}
+		KeyValueFloat: *64 {
+			a: -20,-20.16350746154785,-20.32631492614746,-20.48772621154785,-20.803598403930664,-21.105722427368164,-21.25,-21.388925552368164,-21.52190399169922,-21.648365020751953,-21.87959861755371,-22.07867431640625,-22.2421817779541,-22.367326736450195,-22.451963424682617,-22.494647979736328,-22.494647979736328,-22.47861099243164,-22.451963424682617,-22.414813995361328,-22.367326736450195,-22.30970001220703,-22.2421817779541,-22.165063858032227,-22.07867431640625,-21.983383178710938,-21.87959861755371,-21.76776695251465,-21.648365020751953,-21.52190399169922,-21.388925552368164,-21.25,-21.105722427368164,-20.956708908081055,-20.803598403930664,-20.64704704284668,-20.48772621154785,-20.32631492614746,-20.16350746154785,-20,-19.673683166503906,-19.352951049804688,-19.043291091918945,-18.75,-18.47809600830078,-18.23223304748535,-18.016616821289062,-17.834936141967773,-17.69029998779297,-17.585186004638672,-17.52138900756836,-17.5,-17.52138900756836,-17.585186004638672,-17.69029998779297,-17.834936141967773,-18.016616821289062,-18.23223304748535,-18.47809600830078,-18.75,-19.043291091918945,-19.352951049804688,-19.673683166503906,-20
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 64
+		}
+	}
+	AnimationCurve: 77358755, "AnimCurve::GiantClam_Idle.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *64 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,13470962688,15395386368,17319809024,19244232704,21168656384,25017503744,28866349056,32715194368,36564041728,40412889088,44261732352,48110579712,50035007488,51959427072,53883850752,55808274432,57732698112,59657117696,61581545472,63505969152,65430388736,67354816512,69279236096,71203659776,73128083456,75052507136,76976930816,78901354496,80825778176,82750201856,84674625536,86599049216,88523464704,90447896576,92372312064,96221159424,100070014976,103918854144,107767701504,111616548864,115465396224,119314235392,123163090944,127011938304,130860777472,134709633024,138558472192,142407319552,146256166912,150105014272,153953861632,157802708992,161651556352,165500403712,169349251072,173198098432,177046929408,180895793152,184744624128
+		}
+		KeyValueFloat: *64 {
+			a: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 64
+		}
+	}
+	AnimationCurve: 71362875, "AnimCurve::GiantClam_Idle.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *64 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,13470962688,15395386368,17319809024,19244232704,21168656384,25017503744,28866349056,32715194368,36564041728,40412889088,44261732352,48110579712,50035007488,51959427072,53883850752,55808274432,57732698112,59657117696,61581545472,63505969152,65430388736,67354816512,69279236096,71203659776,73128083456,75052507136,76976930816,78901354496,80825778176,82750201856,84674625536,86599049216,88523464704,90447896576,92372312064,96221159424,100070014976,103918854144,107767701504,111616548864,115465396224,119314235392,123163090944,127011938304,130860777472,134709633024,138558472192,142407319552,146256166912,150105014272,153953861632,157802708992,161651556352,165500403712,169349251072,173198098432,177046929408,180895793152,184744624128
+		}
+		KeyValueFloat: *64 {
+			a: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 64
+		}
+	}
+	AnimationCurveNode: 78242016, "AnimCurveNode::GiantClam_Idle.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 70425637, "AnimCurve::GiantClam_Idle.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *64 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,13470962688,15395386368,17319809024,19244232704,21168656384,25017503744,28866349056,32715194368,36564041728,40412889088,44261732352,48110579712,50035007488,51959427072,53883850752,55808274432,57732698112,59657117696,61581545472,63505969152,65430388736,67354816512,69279236096,71203659776,73128083456,75052507136,76976930816,78901354496,80825778176,82750201856,84674625536,86599049216,88523464704,90447896576,92372312064,96221159424,100070014976,103918854144,107767701504,111616548864,115465396224,119314235392,123163090944,127011938304,130860777472,134709633024,138558472192,142407319552,146256166912,150105014272,153953861632,157802708992,161651556352,165500403712,169349251072,173198098432,177046929408,180895793152,184744624128
+		}
+		KeyValueFloat: *64 {
+			a: 20,20.16350746154785,20.32631492614746,20.48772621154785,20.803598403930664,21.105722427368164,21.25,21.388925552368164,21.52190399169922,21.648365020751953,21.87959861755371,22.07867431640625,22.2421817779541,22.367326736450195,22.451963424682617,22.494647979736328,22.494647979736328,22.47861099243164,22.451963424682617,22.414813995361328,22.367326736450195,22.30970001220703,22.2421817779541,22.165063858032227,22.07867431640625,21.983383178710938,21.87959861755371,21.76776695251465,21.648365020751953,21.52190399169922,21.388925552368164,21.25,21.105722427368164,20.956708908081055,20.803598403930664,20.64704704284668,20.48772621154785,20.32631492614746,20.16350746154785,20,19.673683166503906,19.352951049804688,19.043291091918945,18.75,18.47809600830078,18.23223304748535,18.016616821289062,17.834936141967773,17.69029998779297,17.585186004638672,17.52138900756836,17.5,17.52138900756836,17.585186004638672,17.69029998779297,17.834936141967773,18.016616821289062,18.23223304748535,18.47809600830078,18.75,19.043291091918945,19.352951049804688,19.673683166503906,20
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 64
+		}
+	}
+	AnimationCurve: 74981176, "AnimCurve::GiantClam_Idle.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *64 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,13470962688,15395386368,17319809024,19244232704,21168656384,25017503744,28866349056,32715194368,36564041728,40412889088,44261732352,48110579712,50035007488,51959427072,53883850752,55808274432,57732698112,59657117696,61581545472,63505969152,65430388736,67354816512,69279236096,71203659776,73128083456,75052507136,76976930816,78901354496,80825778176,82750201856,84674625536,86599049216,88523464704,90447896576,92372312064,96221159424,100070014976,103918854144,107767701504,111616548864,115465396224,119314235392,123163090944,127011938304,130860777472,134709633024,138558472192,142407319552,146256166912,150105014272,153953861632,157802708992,161651556352,165500403712,169349251072,173198098432,177046929408,180895793152,184744624128
+		}
+		KeyValueFloat: *64 {
+			a: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 64
+		}
+	}
+	AnimationCurve: 74358584, "AnimCurve::GiantClam_Idle.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *64 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,13470962688,15395386368,17319809024,19244232704,21168656384,25017503744,28866349056,32715194368,36564041728,40412889088,44261732352,48110579712,50035007488,51959427072,53883850752,55808274432,57732698112,59657117696,61581545472,63505969152,65430388736,67354816512,69279236096,71203659776,73128083456,75052507136,76976930816,78901354496,80825778176,82750201856,84674625536,86599049216,88523464704,90447896576,92372312064,96221159424,100070014976,103918854144,107767701504,111616548864,115465396224,119314235392,123163090944,127011938304,130860777472,134709633024,138558472192,142407319552,146256166912,150105014272,153953861632,157802708992,161651556352,165500403712,169349251072,173198098432,177046929408,180895793152,184744624128
+		}
+		KeyValueFloat: *64 {
+			a: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 64
+		}
 	}
 }
 
@@ -1420,166 +1595,199 @@ Objects:  {
 Connections:  {
 
 	;Model::giant_clam, Model::RootNode
-	C: "OO",73328659,0
+	C: "OO",76031854,0
 
 	;Model::valve_front, Model::giant_clam
-	C: "OO",73110787,73328659
+	C: "OO",76052349,76031854
 
 	;Model::valve_back, Model::giant_clam
-	C: "OO",75829101,73328659
+	C: "OO",77869171,76031854
 
 	;Model::tongue, Model::giant_clam
-	C: "OO",74646234,73328659
+	C: "OO",74043907,76031854
 
 	;Model::bottom, Model::giant_clam
-	C: "OO",75409694,73328659
+	C: "OO",72149655,76031854
 
 	;Geometry::bottom, Model::bottom
-	C: "OO",76529173,75409694
+	C: "OO",71259875,72149655
 
 	;Material::GiantClam.png, Model::bottom
-	C: "OO",71151719,75409694
+	C: "OO",76971456,72149655
 
 	;Model::valve, Model::valve_front
-	C: "OO",77323545,73110787
+	C: "OO",78761142,76052349
 
 	;Geometry::valve, Model::valve
-	C: "OO",71243391,77323545
+	C: "OO",70926584,78761142
 
 	;Material::GiantClam.png, Model::valve
-	C: "OO",71151719,77323545
+	C: "OO",76971456,78761142
 
 	;Model::valve_1, Model::valve_back
-	C: "OO",79541771,75829101
+	C: "OO",76751055,77869171
 
 	;Geometry::valve_1, Model::valve_1
-	C: "OO",79500686,79541771
+	C: "OO",70496610,76751055
 
 	;Material::GiantClam.png, Model::valve_1
-	C: "OO",71151719,79541771
+	C: "OO",76971456,76751055
 
 	;Model::edge, Model::valve_front
-	C: "OO",76214928,73110787
+	C: "OO",79974525,76052349
 
 	;Geometry::edge, Model::edge
-	C: "OO",76076592,76214928
+	C: "OO",73432997,79974525
 
 	;Material::GiantClam.png, Model::edge
-	C: "OO",71151719,76214928
+	C: "OO",76971456,79974525
 
 	;Model::edge_1, Model::valve_front
-	C: "OO",74787639,73110787
+	C: "OO",75102244,76052349
 
 	;Geometry::edge_1, Model::edge_1
-	C: "OO",70973633,74787639
+	C: "OO",78591288,75102244
 
 	;Material::GiantClam.png, Model::edge_1
-	C: "OO",71151719,74787639
+	C: "OO",76971456,75102244
 
 	;Model::edge_2, Model::valve_back
-	C: "OO",78901504,75829101
+	C: "OO",79396992,77869171
 
 	;Geometry::edge_2, Model::edge_2
-	C: "OO",71729732,78901504
+	C: "OO",76348897,79396992
 
 	;Material::GiantClam.png, Model::edge_2
-	C: "OO",71151719,78901504
+	C: "OO",76971456,79396992
 
 	;Model::edge_3, Model::valve_back
-	C: "OO",72559855,75829101
+	C: "OO",77387404,77869171
 
 	;Geometry::edge_3, Model::edge_3
-	C: "OO",77017937,72559855
+	C: "OO",75706627,77387404
 
 	;Material::GiantClam.png, Model::edge_3
-	C: "OO",71151719,72559855
+	C: "OO",76971456,77387404
 
 	;Model::edge_4, Model::valve_front
-	C: "OO",71667223,73110787
+	C: "OO",73179108,76052349
 
 	;Geometry::edge_4, Model::edge_4
-	C: "OO",77926699,71667223
+	C: "OO",73557070,73179108
 
 	;Material::GiantClam.png, Model::edge_4
-	C: "OO",71151719,71667223
+	C: "OO",76971456,73179108
 
 	;Model::edge_5, Model::valve_front
-	C: "OO",75359465,73110787
+	C: "OO",70894369,76052349
 
 	;Geometry::edge_5, Model::edge_5
-	C: "OO",78214874,75359465
+	C: "OO",74632857,70894369
 
 	;Material::GiantClam.png, Model::edge_5
-	C: "OO",71151719,75359465
+	C: "OO",76971456,70894369
 
 	;Model::edge_6, Model::valve_back
-	C: "OO",75811254,75829101
+	C: "OO",73436844,77869171
 
 	;Geometry::edge_6, Model::edge_6
-	C: "OO",72911253,75811254
+	C: "OO",72026602,73436844
 
 	;Material::GiantClam.png, Model::edge_6
-	C: "OO",71151719,75811254
+	C: "OO",76971456,73436844
 
 	;Model::edge_7, Model::valve_back
-	C: "OO",73136757,75829101
+	C: "OO",74503411,77869171
 
 	;Geometry::edge_7, Model::edge_7
-	C: "OO",76936597,73136757
+	C: "OO",77900311,74503411
 
 	;Material::GiantClam.png, Model::edge_7
-	C: "OO",71151719,73136757
+	C: "OO",76971456,74503411
 
 	;Model::edge_8, Model::valve_front
-	C: "OO",77356575,73110787
+	C: "OO",71209945,76052349
 
 	;Geometry::edge_8, Model::edge_8
-	C: "OO",74350321,77356575
+	C: "OO",78924518,71209945
 
 	;Material::GiantClam.png, Model::edge_8
-	C: "OO",71151719,77356575
+	C: "OO",76971456,71209945
 
 	;Model::edge_9, Model::valve_back
-	C: "OO",71419124,75829101
+	C: "OO",78006473,77869171
 
 	;Geometry::edge_9, Model::edge_9
-	C: "OO",72122693,71419124
+	C: "OO",73002875,78006473
 
 	;Material::GiantClam.png, Model::edge_9
-	C: "OO",71151719,71419124
+	C: "OO",76971456,78006473
 
 	;Model::valve_2, Model::valve_back
-	C: "OO",70292581,75829101
+	C: "OO",74518647,77869171
 
 	;Geometry::valve_2, Model::valve_2
-	C: "OO",76144361,70292581
+	C: "OO",70210545,74518647
 
 	;Material::GiantClam.png, Model::valve_2
-	C: "OO",71151719,70292581
+	C: "OO",76971456,74518647
 
 	;Model::valve_3, Model::valve_front
-	C: "OO",73555241,73110787
+	C: "OO",79369401,76052349
 
 	;Geometry::valve_3, Model::valve_3
-	C: "OO",77715686,73555241
+	C: "OO",76742331,79369401
 
 	;Material::GiantClam.png, Model::valve_3
-	C: "OO",71151719,73555241
+	C: "OO",76971456,79369401
 
 	;Model::tongue_1, Model::tongue
-	C: "OO",75321109,74646234
+	C: "OO",77447575,74043907
 
 	;Geometry::tongue_1, Model::tongue_1
-	C: "OO",78272072,75321109
+	C: "OO",75016784,77447575
 
 	;Material::GiantClam.png, Model::tongue_1
-	C: "OO",71151719,75321109
+	C: "OO",76971456,77447575
 
 	;Texture::GiantClam.png, Material::GiantClam.png
-	C: "OP",74152574,71151719, "DiffuseColor"
+	C: "OP",73913743,76971456, "DiffuseColor"
 
 	;Video::GiantClam.png, Texture::GiantClam.png
-	C: "OO",79527868,74152574
+	C: "OO",79219873,73913743
+
+	;AnimLayer::GiantClam_Idle, AnimStack::GiantClam_Idle
+	C: "OO",79766478,77408528
+
+	;AnimCurveNode::GiantClam_Idle.R, Model::valve_front
+	C: "OP",72941623,76052349, "Lcl Rotation"
+
+	;AnimCurveNode::GiantClam_Idle.R, AnimLayer::GiantClam_Idle
+	C: "OO",72941623,79766478
+
+	;AnimCurve::GiantClam_Idle.RX, AnimCurveNode::GiantClam_Idle.R
+	C: "OP",77395400,72941623, "d|X"
+
+	;AnimCurve::GiantClam_Idle.RY, AnimCurveNode::GiantClam_Idle.R
+	C: "OP",77358755,72941623, "d|Y"
+
+	;AnimCurve::GiantClam_Idle.RZ, AnimCurveNode::GiantClam_Idle.R
+	C: "OP",71362875,72941623, "d|Z"
+
+	;AnimCurveNode::GiantClam_Idle.R, Model::valve_back
+	C: "OP",78242016,77869171, "Lcl Rotation"
+
+	;AnimCurveNode::GiantClam_Idle.R, AnimLayer::GiantClam_Idle
+	C: "OO",78242016,79766478
+
+	;AnimCurve::GiantClam_Idle.RX, AnimCurveNode::GiantClam_Idle.R
+	C: "OP",70425637,78242016, "d|X"
+
+	;AnimCurve::GiantClam_Idle.RY, AnimCurveNode::GiantClam_Idle.R
+	C: "OP",74981176,78242016, "d|Y"
+
+	;AnimCurve::GiantClam_Idle.RZ, AnimCurveNode::GiantClam_Idle.R
+	C: "OP",74358584,78242016, "d|Z"
 }
 
 ; Takes section
@@ -1587,4 +1795,9 @@ Connections:  {
 
 Takes:  {
 	Current: ""
+	Take: "GiantClam_Idle" {
+		FileName: "GiantClam_Idle.tak"
+		LocalTime: 0,184744632000
+		ReferenceTime: 0,184744632000
+	}
 }

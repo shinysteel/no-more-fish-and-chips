@@ -657,6 +657,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 7435980894179572032}
   _canvasGroup: {fileID: 3631289851964011220}
   _closeButton: {fileID: 3781804873898803472}
+  _timerFillImage: {fileID: 6084663089286756676}
   _playerInventoryWidget: {fileID: 1934505885391347077}
   _clamInventoryWidget: {fileID: 4277470064895322890}
 --- !u!225 &3631289851964011220 stripped

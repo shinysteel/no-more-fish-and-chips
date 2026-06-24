@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GiantClamModel
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: de046fdc57db1714ba5a698a851ba0ab, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c96c66771096849409fd82f0c788998d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
