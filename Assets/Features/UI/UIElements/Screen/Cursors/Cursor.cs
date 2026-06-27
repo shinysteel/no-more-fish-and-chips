@@ -188,6 +188,11 @@ namespace NoMoreFishAndChips.UI
             {
                 _itemView.Setup(_context, item);
                 _itemView.gameObject.SetActive(true);
+
+                if (!_resizeTween.isAlive)
+                {
+                    Resize(_targetSlotSize);
+                }
             }
             else
             {

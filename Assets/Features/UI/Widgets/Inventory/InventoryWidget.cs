@@ -67,6 +67,9 @@ namespace NoMoreFishAndChips.UI
             }
 
             _inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
+
+            // A manual refresh is required
+            _inventoryOutliner.Refresh();
         }
 
         private void OnDestroy()
