@@ -158,7 +158,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
-                _inventory.SetLayout(DefinitionData.InventoryLayout);
+                _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
 
                 _stateMachine.ChangeState(EState.SpawnLaunch);
             }

@@ -24,7 +24,6 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayer : Character<RaftPlayerDefinitionData>
     {
         [SerializeField] private Inventory _inventory;
-        [SerializeField] private BoolGrid _inventoryLayout;
         [SerializeField] private Hotbar _hotbar;
 
         public Inventory Inventory => _inventory;
@@ -115,7 +114,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _inventory.SetLayout(_inventoryLayout);
+                _inventory.SetLayouts(DefinitionData.UnlockableInventoryLayout, DefinitionData.DefaultUnlockedInventoryLayout);
 
                 _cameraManager.SetMode(new FollowCameraMode(transform, new Vector3(0f, 3f, -5f)));
             }

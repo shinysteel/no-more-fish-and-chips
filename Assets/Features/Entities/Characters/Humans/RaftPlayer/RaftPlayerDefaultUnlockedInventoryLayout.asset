@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80f9c469db7af284f9ebbdc40940d045, type: 3}
-  m_Name: RaftPlayerInventoryLayout
+  m_Name: RaftPlayerDefaultUnlockedInventoryLayout
   m_EditorClassIdentifier: Assembly-CSharp::ShinyOwl.Common.Structures.BoolGrid
   _columns: 6
   _rows: 5

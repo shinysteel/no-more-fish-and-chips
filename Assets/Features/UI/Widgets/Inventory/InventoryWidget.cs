@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
+using PurrLobby;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using ShinyOwl.Common.Utils;
@@ -46,12 +47,19 @@ namespace NoMoreFishAndChips.UI
             _inventory = inventory;
 
             // Setup slot and item views
-            _inventorySlotViews = CreateInventorySlotViews();
+            _inventorySlotViews = new();
             _inventoryItemViews = new();
 
             OnRectTransformDimensionsChange();
 
             _inventoryOutliner = new InventoryOutliner(_context, this);
+            
+            foreach (KeyValuePair<Vector2Int, InventorySlot> kvp in _inventory.InventorySlots)
+            {
+                HandleInventorySlotChanged(kvp.Key, kvp.Value);
+            }
+
+            _inventory.OnInventorySlotChanged += HandleInventorySlotChanged;
 
             foreach (KeyValuePair<string, InventoryItem> kvp in _inventory.InventoryItems)
             {
@@ -85,33 +93,49 @@ namespace NoMoreFishAndChips.UI
 
         private void Update()
         {
-            _inventoryOutliner.Tick();   
+            _inventoryOutliner.Tick();
         }
 
-        // Setup the slot views
-        private Dictionary<Vector2Int, InventorySlotView> CreateInventorySlotViews()
+        // Listen to slot changes
+        private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot slot)
         {
-            Dictionary<Vector2Int, InventorySlotView> views = new();
+            if (slot != null)
+            {
+                SetInventorySlotView(cell, slot);
+            }
+            else
+            {
+                RemoveInventorySlotView(cell);
+            }
+        }
 
-            foreach (KeyValuePair<Vector2Int, NetInventorySlot> kvp in _inventory)
+        private void SetInventorySlotView(Vector2Int cell, InventorySlot slot)
+        {
+            if (!_inventorySlotViews.ContainsKey(cell))
             {
                 InventorySlotView view = _poolManager.GetTypedPoolable<InventorySlotView>(new SpawnParams() { Parent = _inventorySlotViewsContainer });
-
-                Vector2Int cell = kvp.Key;
-
                 view.Setup(_context);
-                view.SetWidgetAndCell(this, new Vector2Int(kvp.Key.x, kvp.Key.y));
-
-                views.Add(cell, view);
+                view.SetWidgetAndCell(this, cell);
+                _inventorySlotViews.Add(cell, view);
             }
 
-            return views;
+            _inventorySlotViews[cell].SetIsUnlocked(slot.IsUnlocked);
+            _inventorySlotViews[cell].SetInventoryItem(slot.InventoryItem);
+        }
+
+        private void RemoveInventorySlotView(Vector2Int cell)
+        {
+            if (_inventorySlotViews.ContainsKey(cell))
+            {
+                _poolManager.ReturnTypedPoolable(_inventorySlotViews[cell]);
+                _inventorySlotViews.Remove(cell);
+            }
         }
 
         // Listen to item changes
         private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
-            SetInventoryItemToSlotViews(oldInventoryItem, newInventoryItem);
+            // SetInventoryItemToSlotViews(oldInventoryItem, newInventoryItem);
 
             if (newInventoryItem != null)
             {
@@ -125,27 +149,27 @@ namespace NoMoreFishAndChips.UI
             _inventoryOutliner.Refresh();
         }
 
-        // Informs slot views on the status of items occupying them
-        private void SetInventoryItemToSlotViews(InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
-        {
-            void set(Vector2Int setCell, BoolGrid shape, InventoryItem item)
-            {
-                shape.ForEachTrue((Vector2Int shapeCell) =>
-                {
-                    _inventorySlotViews[setCell + shapeCell].SetInventoryItem(item);
-                });
-            }
+        //// Informs slot views on the status of items occupying them
+        //private void SetInventoryItemToSlotViews(InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        //{
+        //    void set(Vector2Int setCell, BoolGrid shape, InventoryItem item)
+        //    {
+        //        shape.ForEachTrue((Vector2Int shapeCell) =>
+        //        {
+        //            _inventorySlotViews[setCell + shapeCell].SetInventoryItem(item);
+        //        });
+        //    }
 
-            if (oldInventoryItem != null)
-            {
-                set(oldInventoryItem.Cell, oldInventoryItem.Shape, null);
-            }
+        //    if (oldInventoryItem != null)
+        //    {
+        //        set(oldInventoryItem.Cell, oldInventoryItem.Shape, null);
+        //    }
 
-            if (newInventoryItem != null)
-            {
-                set(newInventoryItem.Cell, newInventoryItem.Shape, newInventoryItem);
-            }
-        }
+        //    if (newInventoryItem != null)
+        //    {
+        //        set(newInventoryItem.Cell, newInventoryItem.Shape, newInventoryItem);
+        //    }
+        //}
 
         // Register an item to be displayed via an item view, and keep it up to date
         private void SetInventoryItemView(string key, InventoryItem inventoryItem)

@@ -101,7 +101,18 @@ namespace NoMoreFishAndChips.Inventories
 
     public class NetInventorySlot
     {
+        public bool IsUnlocked { get; private set; }
         public string ItemInstanceId { get; private set; }
+
+        public NetInventorySlot(bool unlocked)
+        {
+            IsUnlocked = unlocked;
+        }
+
+        public void SetIsUnlocked(bool unlocked)
+        {
+            IsUnlocked = unlocked;
+        }
 
         public void SetItemInstanceId(string id)
         {
@@ -192,7 +203,10 @@ namespace NoMoreFishAndChips.Inventories
     public class InventorySlot
     {
         private Inventory _inventory;
+        private bool _isUnlocked;
         private string _itemInstanceId;
+
+        public bool IsUnlocked => _isUnlocked;
 
         public InventoryItem InventoryItem
         {
@@ -204,10 +218,21 @@ namespace NoMoreFishAndChips.Inventories
             }
         }
 
-        public InventorySlot(Inventory inventory, string itemInstanceId)
+        private InventorySlot(Inventory inventory, bool unlocked, string itemInstanceId)
         {
             _inventory = inventory;
-            _itemInstanceId = itemInstanceId;
+            SetIsUnlocked(unlocked);
+            SetItemInstanceId(itemInstanceId);
+        }
+
+        public static InventorySlot Create(Inventory inventory, NetInventorySlot netInventorySlot)
+        {
+            return new InventorySlot(inventory, netInventorySlot.IsUnlocked, netInventorySlot.ItemInstanceId);
+        }
+
+        public void SetIsUnlocked(bool unlocked)
+        {
+            _isUnlocked = unlocked;
         }
 
         public void SetItemInstanceId(string id)
@@ -292,12 +317,15 @@ namespace NoMoreFishAndChips.Inventories
         public IReadOnlyDictionary<Vector2Int, InventorySlot> InventorySlots => _inventorySlots;
         public IReadOnlyDictionary<string, InventoryItem> InventoryItems => _inventoryItems;
 
-        private BoolGrid _layout;
+        private BoolGrid _unlockableLayout;
+        private BoolGrid _unlockedLayout;
 
-        public int Columns => _layout.Columns;
-        public int Rows => _layout.Rows;
+        public int Columns => _unlockableLayout.Columns;
+        public int Rows => _unlockableLayout.Rows;
 
         public bool IsReady => _netInventorySlots.IsReady && _netInventoryItems.IsReady;
+
+        public event Action<Vector2Int, InventorySlot> OnInventorySlotChanged;
 
         // It was not obvious that the string in Action<string, InventoryItem> represented instanceId. This
         // is a good example of when to use custom delegates. If more parameters could be added in the future,
@@ -347,16 +375,18 @@ namespace NoMoreFishAndChips.Inventories
             _netInventoryItems.onChanged -= HandleNetInventoryItemsChanged;            
         }
 
-        public void SetLayout(BoolGrid layout)
+        public void SetLayouts(BoolGrid unlockableLayout, BoolGrid unlockedLayout)
         {
-            _layout = layout;
+            _unlockableLayout = unlockableLayout;
+            _unlockedLayout = unlockedLayout;
         }
 
         private void PopulateSlots()
         {
-            _layout.ForEachTrue((Vector2Int cell) =>
+            _unlockableLayout.ForEachTrue((Vector2Int cell) =>
             {
-                _netInventorySlots.Add(cell, new());
+                _unlockedLayout.TryGetBool(cell, out bool unlocked);
+                _netInventorySlots.Add(cell, new NetInventorySlot(unlocked));
             });
         }
 
@@ -365,20 +395,28 @@ namespace NoMoreFishAndChips.Inventories
             switch (change.operation)
             {
                 case SyncDictionaryOperation.Added:
-                    InventorySlot slot = new InventorySlot(this, change.value.ItemInstanceId);
-                    _inventorySlots.Add(change.key, slot);
+                    _inventorySlots.Add(change.key, InventorySlot.Create(this, change.value));
+                    OnInventorySlotChanged?.Invoke(change.key, _inventorySlots[change.key]);
                     break;
 
                 case SyncDictionaryOperation.Removed:
                     _inventorySlots.Remove(change.key);
+                    OnInventorySlotChanged?.Invoke(change.key, null);
                     break;
 
                 case SyncDictionaryOperation.Set:
+                    _inventorySlots[change.key].SetIsUnlocked(change.value.IsUnlocked);
                     _inventorySlots[change.key].SetItemInstanceId(change.value.ItemInstanceId);
+                    OnInventorySlotChanged?.Invoke(change.key, _inventorySlots[change.key]);
                     break;
 
                 case SyncDictionaryOperation.Cleared:
+                    Vector2Int[] cells = _inventorySlots.Keys.ToArray();
                     _inventorySlots.Clear();
+                    foreach (Vector2Int cell in cells)
+                    {
+                        OnInventorySlotChanged?.Invoke(cell, null);
+                    }
                     break;
             }
         }
@@ -736,6 +774,12 @@ namespace NoMoreFishAndChips.Inventories
                 return false;
             }
 
+            // Check if the cell is not unlocked
+            if (!netInventorySlot.IsUnlocked)
+            {
+                return false;
+            }
+
             // Check if the cell is occupied. If so, check if we can add to it
             if (netInventorySlot.ItemInstanceId != null && netInventorySlot.ItemInstanceId != parameters.InstanceId)
             {
@@ -768,6 +812,12 @@ namespace NoMoreFishAndChips.Inventories
                     }
                     
                     if (!_netInventorySlots.TryGetValue(parameters.Cell + shapeCell, out NetInventorySlot slot))
+                    {
+                        fits = false;
+                        return;
+                    }
+
+                    if (!slot.IsUnlocked)
                     {
                         fits = false;
                         return;
@@ -917,6 +967,12 @@ namespace NoMoreFishAndChips.Inventories
             _netInventoryItems.Clear();
         }
 
+        public void SetNetSlotIsUnlocked(Vector2Int cell, bool unlocked)
+        {
+            _netInventorySlots[cell].SetIsUnlocked(unlocked);
+            _netInventorySlots.SetDirty(cell);
+        }
+
         public void SetNetSlotItemInstanceId(Vector2Int cell, string instanceId)
         {
             _netInventorySlots[cell].SetItemInstanceId(instanceId);
@@ -929,15 +985,15 @@ namespace NoMoreFishAndChips.Inventories
             _netInventoryItems.SetDirty(instanceId);
         }
 
-        public void SetNetItemIsLocked(string instanceId, bool isLocked)
+        public void SetNetItemIsLocked(string instanceId, bool locked)
         {
-            _netInventoryItems[instanceId].SetIsLocked(isLocked);
+            _netInventoryItems[instanceId].SetIsLocked(locked);
             _netInventoryItems.SetDirty(instanceId);
         }
 
-        public void SetNetItemIsGrabbed(string instanceId, bool isGrabbed)
+        public void SetNetItemIsGrabbed(string instanceId, bool grabbed)
         {
-            _netInventoryItems[instanceId].SetIsGrabbed(isGrabbed);
+            _netInventoryItems[instanceId].SetIsGrabbed(grabbed);
             _netInventoryItems.SetDirty(instanceId);
         }
 

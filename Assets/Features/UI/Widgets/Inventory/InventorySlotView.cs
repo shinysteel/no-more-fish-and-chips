@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.UI
     {
         private InventoryWidget _inventoryWidget;
         private Vector2Int _cell;
-
+        
         public InventoryWidget InventoryWidget => _inventoryWidget;
         public Vector2Int Cell => _cell;
 

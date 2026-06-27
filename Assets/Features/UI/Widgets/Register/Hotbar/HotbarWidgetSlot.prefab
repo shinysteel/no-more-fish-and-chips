@@ -104,6 +104,17 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 1574108845680775214}
   m_SourcePrefab: {fileID: 100100000, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
+--- !u!114 &2622245659144375717 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4549218599009477992, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
+  m_PrefabInstance: {fileID: 1965263502097721549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!114 &7449820507162234289 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8945574900454679932, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
@@ -149,8 +160,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.HotbarSlotView
   _rectTransform: {fileID: 8655296924833522161}
-  _image: {fileID: 7449820507162234289}
   _cellOutline: {fileID: 7830542514490635074}
+  _backgroundImage: {fileID: 7449820507162234289}
+  _lockedImage: {fileID: 2622245659144375717}
+  _defaultColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
+  _lockedColor: {r: 0.6509804, g: 0.5803922, b: 0.5254902, a: 1}
   _assignmentImage: {fileID: 1423921090109437844}
 --- !u!1001 &2354748019860295458
 PrefabInstance:

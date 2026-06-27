@@ -16,9 +16,13 @@ namespace NoMoreFishAndChips.UI
     public class SlotView : MonoBehaviour
     {
         [SerializeField] protected RectTransform _rectTransform;
-        [SerializeField] private Image _image;
         [SerializeField] protected CellOutline _cellOutline;
+        [SerializeField] private Image _backgroundImage;
+        [SerializeField] private Image _lockedImage;
 
+        [SerializeField] protected Color _defaultColor;
+        [SerializeField] private Color _lockedColor;
+        
         protected PoolManager _poolManager;
         protected ItemManager _itemManager;
 
@@ -107,6 +111,12 @@ namespace NoMoreFishAndChips.UI
         {
             _rectTransform.anchoredPosition = position;
             _rectTransform.sizeDelta = size;
+        }
+
+        public void SetIsUnlocked(bool unlocked)
+        {
+            _backgroundImage.color = unlocked ? _defaultColor : _lockedColor;
+            _lockedImage.gameObject.SetActive(!unlocked);
         }
     }
 }

@@ -16,7 +16,6 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private Transform _hingeTransform;
         [SerializeField] private Inventory _inventory;
-        [SerializeField] private BoolGrid _inventoryLayout;
 
         private PanelInstance<ClamChestPanel> _clamChestPanelInstance;
 
@@ -37,7 +36,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Awake();
 
-            _inventory.SetLayout(_inventoryLayout);
+            _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
         }
 
         public override void Initialise(GameplayContext context)

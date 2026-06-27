@@ -101,6 +101,17 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 1742723316717568178}
   m_SourcePrefab: {fileID: 100100000, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
+--- !u!114 &4256899312802588518 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4549218599009477992, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
+  m_PrefabInstance: {fileID: 302191324109242894}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &6920729129121851457 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7222303831755663951, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
@@ -119,8 +130,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.EquipmentSlotView
   _rectTransform: {fileID: 7451864622007847730}
-  _image: {fileID: 8652692042414876530}
   _cellOutline: {fileID: 8348601941225462145}
+  _backgroundImage: {fileID: 8652692042414876530}
+  _lockedImage: {fileID: 4256899312802588518}
+  _defaultColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
+  _lockedColor: {r: 0.6509804, g: 0.5803922, b: 0.5254902, a: 1}
 --- !u!224 &7451864622007847730 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7159542584151935292, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}
