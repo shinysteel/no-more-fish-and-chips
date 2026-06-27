@@ -163,3 +163,4 @@ MonoBehaviour:
   _unlockedColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
   _unlockableColor: {r: 0.64705884, g: 0.5803922, b: 0.54509807, a: 1}
   _lockedColor: {r: 0.7647059, g: 0.61960787, b: 0.4745098, a: 1}
+  _testText: {fileID: 0}

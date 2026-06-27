@@ -87,6 +87,7 @@ namespace NoMoreFishAndChips.UI
 
             if (_inventory != null)
             {
+                _inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;
                 _inventory.OnInventoryItemChanged -= HandleInventoryItemChanged;
             }
         }

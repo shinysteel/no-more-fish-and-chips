@@ -52,7 +52,7 @@ namespace NoMoreFishAndChips.UI
             {
                 if (_targetSlotView.InventoryItem != null)
                 {
-                    // Color the target item white or red
+                    // Color the target item green or red
                     CellOutline.EColor color = _targetSlotView.InventoryItem.IsAvailable 
                         ? CellOutline.EColor.Highlighted 
                         : CellOutline.EColor.Negative;
