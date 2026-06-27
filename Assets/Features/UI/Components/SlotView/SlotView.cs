@@ -20,7 +20,8 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _lockedImage;
 
-        [SerializeField] protected Color _defaultColor;
+        [SerializeField] private Color _unlockedColor;
+        [SerializeField] private Color _unlockableColor; 
         [SerializeField] private Color _lockedColor;
         
         protected PoolManager _poolManager;
@@ -113,10 +114,17 @@ namespace NoMoreFishAndChips.UI
             _rectTransform.sizeDelta = size;
         }
 
-        public void SetIsUnlocked(bool unlocked)
+        public void SetLockState(SlotLockState state)
         {
-            _backgroundImage.color = unlocked ? _defaultColor : _lockedColor;
-            _lockedImage.gameObject.SetActive(!unlocked);
+            _backgroundImage.color = state switch
+            {
+                SlotLockState.Unlocked => _unlockedColor,
+                SlotLockState.Unlockable => _unlockableColor,
+                SlotLockState.Locked => _lockedColor,
+                _ => default
+            };
+
+            _lockedImage.gameObject.SetActive(state == SlotLockState.Unlockable);
         }
     }
 }

@@ -119,7 +119,7 @@ namespace NoMoreFishAndChips.UI
                 _inventorySlotViews.Add(cell, view);
             }
 
-            _inventorySlotViews[cell].SetIsUnlocked(slot.IsUnlocked);
+            _inventorySlotViews[cell].SetLockState(slot.LockState);
             _inventorySlotViews[cell].SetInventoryItem(slot.InventoryItem);
         }
 
@@ -135,8 +135,6 @@ namespace NoMoreFishAndChips.UI
         // Listen to item changes
         private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
-            // SetInventoryItemToSlotViews(oldInventoryItem, newInventoryItem);
-
             if (newInventoryItem != null)
             {
                 SetInventoryItemView(instanceId, newInventoryItem);
@@ -148,28 +146,6 @@ namespace NoMoreFishAndChips.UI
 
             _inventoryOutliner.Refresh();
         }
-
-        //// Informs slot views on the status of items occupying them
-        //private void SetInventoryItemToSlotViews(InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
-        //{
-        //    void set(Vector2Int setCell, BoolGrid shape, InventoryItem item)
-        //    {
-        //        shape.ForEachTrue((Vector2Int shapeCell) =>
-        //        {
-        //            _inventorySlotViews[setCell + shapeCell].SetInventoryItem(item);
-        //        });
-        //    }
-
-        //    if (oldInventoryItem != null)
-        //    {
-        //        set(oldInventoryItem.Cell, oldInventoryItem.Shape, null);
-        //    }
-
-        //    if (newInventoryItem != null)
-        //    {
-        //        set(newInventoryItem.Cell, newInventoryItem.Shape, newInventoryItem);
-        //    }
-        //}
 
         // Register an item to be displayed via an item view, and keep it up to date
         private void SetInventoryItemView(string key, InventoryItem inventoryItem)

@@ -56,8 +56,9 @@ MonoBehaviour:
   _cellOutline: {fileID: 8641748338361621391}
   _backgroundImage: {fileID: 8945574900454679932}
   _lockedImage: {fileID: 4549218599009477992}
-  _defaultColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
-  _lockedColor: {r: 0.6509804, g: 0.5803922, b: 0.5254902, a: 1}
+  _unlockedColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
+  _unlockableColor: {r: 0.64705884, g: 0.5803922, b: 0.54509807, a: 1}
+  _lockedColor: {r: 0.7647059, g: 0.61960787, b: 0.4745098, a: 1}
 --- !u!222 &1891735651211777932
 CanvasRenderer:
   m_ObjectHideFlags: 0

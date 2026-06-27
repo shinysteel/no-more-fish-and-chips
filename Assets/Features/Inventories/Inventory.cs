@@ -101,17 +101,17 @@ namespace NoMoreFishAndChips.Inventories
 
     public class NetInventorySlot
     {
-        public bool IsUnlocked { get; private set; }
+        public bool IsLocked { get; private set; }
         public string ItemInstanceId { get; private set; }
 
-        public NetInventorySlot(bool unlocked)
+        public NetInventorySlot(bool locked)
         {
-            IsUnlocked = unlocked;
+            IsLocked = locked;
         }
 
-        public void SetIsUnlocked(bool unlocked)
+        public void SetIsLocked(bool locked)
         {
-            IsUnlocked = unlocked;
+            IsLocked = locked;
         }
 
         public void SetItemInstanceId(string id)
@@ -200,13 +200,22 @@ namespace NoMoreFishAndChips.Inventories
         }
     }
 
+    public enum SlotLockState
+    {
+        Unlocked,
+        Unlockable,
+        Locked
+    }
+
     public class InventorySlot
     {
         private Inventory _inventory;
-        private bool _isUnlocked;
+        private Vector2Int _cell;
+        private bool _isLocked;
         private string _itemInstanceId;
+        private SlotLockState _lockState;
 
-        public bool IsUnlocked => _isUnlocked;
+        public SlotLockState LockState => _lockState;
 
         public InventoryItem InventoryItem
         {
@@ -218,26 +227,45 @@ namespace NoMoreFishAndChips.Inventories
             }
         }
 
-        private InventorySlot(Inventory inventory, bool unlocked, string itemInstanceId)
+        private InventorySlot(Inventory inventory, Vector2Int cell, bool locked, string itemInstanceId)
         {
             _inventory = inventory;
-            SetIsUnlocked(unlocked);
+            _cell = cell;
+            SetIsLocked(locked);
             SetItemInstanceId(itemInstanceId);
         }
 
-        public static InventorySlot Create(Inventory inventory, NetInventorySlot netInventorySlot)
+        public static InventorySlot Create(Inventory inventory, Vector2Int cell, NetInventorySlot netInventorySlot)
         {
-            return new InventorySlot(inventory, netInventorySlot.IsUnlocked, netInventorySlot.ItemInstanceId);
+            return new InventorySlot(inventory, cell, netInventorySlot.IsLocked, netInventorySlot.ItemInstanceId);
         }
 
-        public void SetIsUnlocked(bool unlocked)
+        public void SetIsLocked(bool locked)
         {
-            _isUnlocked = unlocked;
+            _isLocked = locked;
+
+            RefreshLockState();
         }
 
         public void SetItemInstanceId(string id)
         {
             _itemInstanceId = id;
+        }
+
+        public void RefreshLockState()
+        {
+            if (!_isLocked)
+            {
+                _lockState = SlotLockState.Unlocked;
+            }
+            else if (_inventory.InventorySlots.Any(kvp => kvp.Value._lockState == SlotLockState.Unlocked && Utils.Math.IsAdjacent(_cell, kvp.Key)))
+            {
+                _lockState = SlotLockState.Unlockable;
+            }
+            else
+            {
+                _lockState = SlotLockState.Locked;
+            }
         }
     }
 
@@ -386,7 +414,7 @@ namespace NoMoreFishAndChips.Inventories
             _unlockableLayout.ForEachTrue((Vector2Int cell) =>
             {
                 _unlockedLayout.TryGetBool(cell, out bool unlocked);
-                _netInventorySlots.Add(cell, new NetInventorySlot(unlocked));
+                _netInventorySlots.Add(cell, new NetInventorySlot(!unlocked));
             });
         }
 
@@ -395,7 +423,7 @@ namespace NoMoreFishAndChips.Inventories
             switch (change.operation)
             {
                 case SyncDictionaryOperation.Added:
-                    _inventorySlots.Add(change.key, InventorySlot.Create(this, change.value));
+                    _inventorySlots.Add(change.key, InventorySlot.Create(this, change.key, change.value));
                     OnInventorySlotChanged?.Invoke(change.key, _inventorySlots[change.key]);
                     break;
 
@@ -405,7 +433,7 @@ namespace NoMoreFishAndChips.Inventories
                     break;
 
                 case SyncDictionaryOperation.Set:
-                    _inventorySlots[change.key].SetIsUnlocked(change.value.IsUnlocked);
+                    _inventorySlots[change.key].SetIsLocked(change.value.IsLocked);
                     _inventorySlots[change.key].SetItemInstanceId(change.value.ItemInstanceId);
                     OnInventorySlotChanged?.Invoke(change.key, _inventorySlots[change.key]);
                     break;
@@ -418,6 +446,24 @@ namespace NoMoreFishAndChips.Inventories
                         OnInventorySlotChanged?.Invoke(cell, null);
                     }
                     break;
+            }
+
+            // Refresh the lockState of adjacent cells
+            if (change.operation != SyncDictionaryOperation.Cleared)
+            {
+                void refresh(Vector2Int offset)
+                {
+                    if (_inventorySlots.TryGetValue(change.key + offset, out InventorySlot slot))
+                    {
+                        slot.RefreshLockState();
+                    }
+                }
+
+                for (int i = -1; i <= 1; i++)
+                {
+                    refresh(new Vector2Int(i, 0));
+                    refresh(new Vector2Int(0, i));
+                }
             }
         }
 
@@ -775,7 +821,7 @@ namespace NoMoreFishAndChips.Inventories
             }
 
             // Check if the cell is not unlocked
-            if (!netInventorySlot.IsUnlocked)
+            if (netInventorySlot.IsLocked)
             {
                 return false;
             }
@@ -817,7 +863,7 @@ namespace NoMoreFishAndChips.Inventories
                         return;
                     }
 
-                    if (!slot.IsUnlocked)
+                    if (slot.IsLocked)
                     {
                         fits = false;
                         return;
@@ -967,9 +1013,9 @@ namespace NoMoreFishAndChips.Inventories
             _netInventoryItems.Clear();
         }
 
-        public void SetNetSlotIsUnlocked(Vector2Int cell, bool unlocked)
+        public void SetNetSlotIsLocked(Vector2Int cell, bool locked)
         {
-            _netInventorySlots[cell].SetIsUnlocked(unlocked);
+            _netInventorySlots[cell].SetIsLocked(locked);
             _netInventorySlots.SetDirty(cell);
         }
 

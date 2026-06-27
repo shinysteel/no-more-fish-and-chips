@@ -163,8 +163,9 @@ MonoBehaviour:
   _cellOutline: {fileID: 7830542514490635074}
   _backgroundImage: {fileID: 7449820507162234289}
   _lockedImage: {fileID: 2622245659144375717}
-  _defaultColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
-  _lockedColor: {r: 0.6509804, g: 0.5803922, b: 0.5254902, a: 1}
+  _unlockedColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
+  _unlockableColor: {r: 0.64705884, g: 0.5803922, b: 0.54509807, a: 1}
+  _lockedColor: {r: 0.7647059, g: 0.61960787, b: 0.4745098, a: 1}
   _assignmentImage: {fileID: 1423921090109437844}
 --- !u!1001 &2354748019860295458
 PrefabInstance:

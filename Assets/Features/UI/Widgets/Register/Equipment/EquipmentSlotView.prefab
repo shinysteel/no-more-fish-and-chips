@@ -133,8 +133,9 @@ MonoBehaviour:
   _cellOutline: {fileID: 8348601941225462145}
   _backgroundImage: {fileID: 8652692042414876530}
   _lockedImage: {fileID: 4256899312802588518}
-  _defaultColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
-  _lockedColor: {r: 0.6509804, g: 0.5803922, b: 0.5254902, a: 1}
+  _unlockedColor: {r: 0.72156864, g: 0.54901963, b: 0.42352942, a: 1}
+  _unlockableColor: {r: 0.64705884, g: 0.5803922, b: 0.54509807, a: 1}
+  _lockedColor: {r: 0.7647059, g: 0.61960787, b: 0.4745098, a: 1}
 --- !u!224 &7451864622007847730 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7159542584151935292, guid: 59b99d0a4ffc9fc4f8d0bdb873c4a2db, type: 3}

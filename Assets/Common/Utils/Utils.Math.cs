@@ -115,6 +115,11 @@ namespace ShinyOwl.Common.Utils
             {
                 return (int)(value ^ (value >> 32));
             }
+
+            public static bool IsAdjacent(Vector2Int cellA, Vector2Int cellB)
+            {
+                return Mathf.Abs(cellA.x - cellB.x) + Mathf.Abs(cellA.y - cellB.y) == 1;
+            }
         }
     }
 }
