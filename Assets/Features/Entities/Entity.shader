@@ -7,9 +7,9 @@ Shader "Custom/Entity"
 		[HideInInspector] _Cutoff("Alpha Cutoff", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		_MainTex( "MainTex", 2D ) = "white" {}
+		_Color( "Color", Color ) = ( 1, 1, 1, 0 )
 		_DefeatBlend( "DefeatBlend", Range( 0, 1 ) ) = 0
 		_HurtBlend( "HurtBlend", Range( 0, 1 ) ) = 0
-		_Color( "Color", Color ) = ( 1, 1, 1, 0 )
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -577,22 +577,22 @@ Shader "Custom/Entity"
 				#endif
 
 				float2 uv_MainTex = input.ase_texcoord7.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
-				float4 color4_g3 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g3 = lerp( baseColor11_g3 , float4( color4_g3.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g3 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g3 = ( baseColor11_g3 * float4( color3_g3.rgb , 0.0 ) );
-				float4 lerpResult14_g3 = lerp( lerpResult12_g3 , defeatColor17_g3 , _DefeatBlend);
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 color4_g4 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g4 = lerp( baseColor11_g4 , float4( color4_g4.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g4 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g4 = ( baseColor11_g4 * float4( color3_g4.rgb , 0.0 ) );
+				float4 lerpResult14_g4 = lerp( lerpResult12_g4 , defeatColor17_g4 , _DefeatBlend);
 				
 
-				float3 BaseColor = lerpResult14_g3.rgb;
+				float3 BaseColor = lerpResult14_g4.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
 				float3 Emission = 0;
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 					float AlphaClipThresholdShadow = 0.5;
@@ -1127,10 +1127,10 @@ Shader "Custom/Entity"
 				float4 ScreenPos = ComputeScreenPos( ClipPos );
 
 				float2 uv_MainTex = input.ase_texcoord1.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
 				
 
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 					float AlphaClipThresholdShadow = 0.5;
@@ -1427,10 +1427,10 @@ Shader "Custom/Entity"
 				float4 ScreenPos = ComputeScreenPos( ClipPos );
 
 				float2 uv_MainTex = input.ase_texcoord1.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
 				
 
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				float AlphaClipThreshold = _Cutoff;
 
 				#if defined( ASE_DEPTH_WRITE_ON )
@@ -1718,17 +1718,17 @@ Shader "Custom/Entity"
 				float4 ShadowCoord = shadowCoord;
 
 				float2 uv_MainTex = input.ase_texcoord3.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
-				float4 color4_g3 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g3 = lerp( baseColor11_g3 , float4( color4_g3.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g3 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g3 = ( baseColor11_g3 * float4( color3_g3.rgb , 0.0 ) );
-				float4 lerpResult14_g3 = lerp( lerpResult12_g3 , defeatColor17_g3 , _DefeatBlend);
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 color4_g4 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g4 = lerp( baseColor11_g4 , float4( color4_g4.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g4 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g4 = ( baseColor11_g4 * float4( color3_g4.rgb , 0.0 ) );
+				float4 lerpResult14_g4 = lerp( lerpResult12_g4 , defeatColor17_g4 , _DefeatBlend);
 				
 
-				float3 BaseColor = lerpResult14_g3.rgb;
+				float3 BaseColor = lerpResult14_g4.rgb;
 				float3 Emission = 0;
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 				#endif
@@ -1996,16 +1996,16 @@ Shader "Custom/Entity"
 				float4 ShadowCoord = shadowCoord;
 
 				float2 uv_MainTex = input.ase_texcoord1.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
-				float4 color4_g3 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g3 = lerp( baseColor11_g3 , float4( color4_g3.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g3 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g3 = ( baseColor11_g3 * float4( color3_g3.rgb , 0.0 ) );
-				float4 lerpResult14_g3 = lerp( lerpResult12_g3 , defeatColor17_g3 , _DefeatBlend);
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 color4_g4 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g4 = lerp( baseColor11_g4 , float4( color4_g4.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g4 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g4 = ( baseColor11_g4 * float4( color3_g4.rgb , 0.0 ) );
+				float4 lerpResult14_g4 = lerp( lerpResult12_g4 , defeatColor17_g4 , _DefeatBlend);
 				
 
-				float3 BaseColor = lerpResult14_g3.rgb;
-				float Alpha = baseColor11_g3.a;
+				float3 BaseColor = lerpResult14_g4.rgb;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 				#endif
@@ -2323,11 +2323,11 @@ Shader "Custom/Entity"
 				#endif
 
 				float2 uv_MainTex = input.ase_texcoord3.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
 				
 
 				float3 Normal = float3(0, 0, 1);
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 				#endif
@@ -2764,22 +2764,22 @@ Shader "Custom/Entity"
 				#endif
 
 				float2 uv_MainTex = input.ase_texcoord7.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
-				float4 color4_g3 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g3 = lerp( baseColor11_g3 , float4( color4_g3.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g3 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g3 = ( baseColor11_g3 * float4( color3_g3.rgb , 0.0 ) );
-				float4 lerpResult14_g3 = lerp( lerpResult12_g3 , defeatColor17_g3 , _DefeatBlend);
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 color4_g4 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g4 = lerp( baseColor11_g4 , float4( color4_g4.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g4 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g4 = ( baseColor11_g4 * float4( color3_g4.rgb , 0.0 ) );
+				float4 lerpResult14_g4 = lerp( lerpResult12_g4 , defeatColor17_g4 , _DefeatBlend);
 				
 
-				float3 BaseColor = lerpResult14_g3.rgb;
+				float3 BaseColor = lerpResult14_g4.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Specular = 0.5;
 				float Metallic = 0;
 				float Smoothness = 0.5;
 				float Occlusion = 1;
 				float3 Emission = 0;
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 					float AlphaClipThresholdShadow = 0.5;
@@ -3170,10 +3170,10 @@ Shader "Custom/Entity"
 				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, input.positionCS.z ) * input.positionCS.w;
 
 				float2 uv_MainTex = input.ase_texcoord1.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
 				
 
-				surfaceDescription.Alpha = baseColor11_g3.a;
+				surfaceDescription.Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					surfaceDescription.AlphaClipThreshold = _Cutoff;
 				#endif
@@ -3456,10 +3456,10 @@ Shader "Custom/Entity"
 				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, input.positionCS.z ) * input.positionCS.w;
 
 				float2 uv_MainTex = input.ase_texcoord1.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
 				
 
-				surfaceDescription.Alpha = baseColor11_g3.a;
+				surfaceDescription.Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					surfaceDescription.AlphaClipThreshold = _Cutoff;
 				#endif
@@ -3682,10 +3682,10 @@ Shader "Custom/Entity"
 				float4 ClipPos = ComputeClipSpacePosition( ScreenPosNorm.xy, input.positionCS.z ) * input.positionCS.w;
 
 				float2 uv_MainTex = input.ase_texcoord3.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 baseColor11_g3 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
+				float4 baseColor11_g4 = ( tex2D( _MainTex, uv_MainTex ) * _Color );
 				
 
-				float Alpha = baseColor11_g3.a;
+				float Alpha = baseColor11_g4.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
 				#endif
@@ -3733,9 +3733,9 @@ Shader "Custom/Entity"
 
 /*ASEBEGIN
 Version=19908
-Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;64;-640,304;Inherit;False;Property;_Color;Color;4;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;12;-704,512;Inherit;True;Property;_MainTex;MainTex;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;88;-371.5515,369.1674;Inherit;False;TestFunction;1;;3;bba81a4d50c2d334faf160bd55f4ce44;0;2;2;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;7;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;12;-416,0;Inherit;True;Property;_MainTex;MainTex;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;64;-352,208;Inherit;False;Property;_Color;Color;1;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
+Node;AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;89;-112,0;Inherit;False;EntitySharedFunction;2;;4;bba81a4d50c2d334faf160bd55f4ce44;0;2;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;2;COLOR;0;FLOAT;7
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;0;160,-688;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;6;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;True;True;1;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;1;160,0;Float;False;True;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;Custom/Entity;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=TransparentCutout=RenderType;Queue=AlphaTest=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;51;Category;0;0;  Instanced Terrain Normals;1;0;Lighting Model;0;0;Workflow;1;0;Surface;0;0;  Keep Alpha;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Alpha Clipping;1;639112299198125330;  Use Shadow Threshold;0;639112301575806076;Fragment Normal Space;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;Receive Shadows;2;0;Specular Highlights;2;0;Environment Reflections;2;0;Receive SSAO;1;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;  XR Motion Vectors;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;639112299891822827;  Early Z;0;0;Vertex Position;1;0;Debug Display;1;0;Clear Coat;0;0;0;12;False;True;True;True;True;True;True;True;True;True;True;False;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -3748,9 +3748,9 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Versi
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;9;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;10;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;MotionVectors;0;10;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;False;False;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;11;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;XRMotionVectors;0;11;XRMotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;True;1;False;;255;False;;1;False;;7;False;;3;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;False;True;1;LightMode=XRMotionVectors;False;False;0;;0;0;Standard;0;False;0
-WireConnection;88;2;64;0
-WireConnection;88;1;12;0
-WireConnection;1;0;88;0
-WireConnection;1;6;88;7
+WireConnection;89;1;12;0
+WireConnection;89;2;64;0
+WireConnection;1;0;89;0
+WireConnection;1;6;89;7
 ASEEND*/
-//CHKSM=8220C32820BF8523128B94A3D3CF608D39205AEC
+//CHKSM=A734F8A426A1757277F02ADD126C72531C8847E7
