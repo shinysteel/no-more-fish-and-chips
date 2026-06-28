@@ -10,6 +10,7 @@ using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -107,10 +108,43 @@ namespace NoMoreFishAndChips.Entities
             // When placing an item, it's previous instance can be removed if the place action was a change, or if it is moving to another inventory
             bool canRemove = response.WasChange || _grabbedItemView.InventoryWidget.Inventory != slotView.InventoryWidget.Inventory;
 
-            await _player.SetInventoryItemCountRpc(_grabbedItemView.InventoryWidget.Inventory.owner.Value, _grabbedItemView.InventoryWidget.Inventory, 
+            await _player.SetInventoryItemCountRpc(_grabbedItemView.InventoryWidget.Inventory.owner.Value, _grabbedItemView.InventoryWidget.Inventory,
                 _grabbedInventoryItem.ItemInstance.InstanceId, response.Overflow, canRemove);
 
             if (response.Overflow == 0)
+            {
+                await ReleaseAsync();
+            }
+        }
+
+        /// <summary>
+        /// Deposits 1 count of the grabbed item into an inventory slot
+        /// </summary>
+        public async Task DepositAsync(InventorySlotView slotView)
+        {
+            InventoryPlaceParams placeParams = new InventoryPlaceParams()
+            {
+                Cell = slotView.Cell,
+                Pivot = _netGrabbedInventoryItem.value.Pivot,
+                RotationParams = new InventoryRotationParams() { Rotations = _netGrabbedInventoryItem.value.Rotations },
+                InstanceId = null,
+                ItemId = _grabbedInventoryItem.ItemInstance.Data.ItemId,
+                Count = 1
+            };
+
+            RaftPlayer.PlaceInventoryItemResponse response = await _player.PlaceInventoryItemRpc(slotView.InventoryWidget.Inventory.owner.Value, slotView.InventoryWidget.Inventory, placeParams);
+
+            if (response.Success == false)
+            {
+                return;
+            }
+
+            bool willRelease = _grabbedInventoryItem.ItemInstance.Count - 1 == 0;
+
+            await _player.SetInventoryItemCountRpc(_grabbedItemView.InventoryWidget.Inventory.owner.Value, _grabbedItemView.InventoryWidget.Inventory,
+                _grabbedInventoryItem.ItemInstance.InstanceId, _grabbedInventoryItem.ItemInstance.Count - 1, true);
+
+            if (willRelease)
             {
                 await ReleaseAsync();
             }

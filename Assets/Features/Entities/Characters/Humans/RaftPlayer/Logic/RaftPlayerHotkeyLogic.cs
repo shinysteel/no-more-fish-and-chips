@@ -216,7 +216,24 @@ namespace NoMoreFishAndChips.Entities
 
         private void RightClick()
         {
-            ExecuteItemAction(ActionHotkey.RightClick);
+            if (!_uiManager.IsLayerInUse(UILayer.Panels))
+            {
+                ExecuteItemAction(ActionHotkey.RightClick);
+            }
+            else if (_player.GrabbedInventoryItemLogic.GrabbedInventoryItem != null)
+            {
+                RightClickWithGrabbed();
+            }
+        }
+
+        private void RightClickWithGrabbed()
+        {
+            _inventoryRaycaster.GetViews(out _, out InventorySlotView inventorySlot, out _, out _);
+
+            if (inventorySlot != null)
+            {
+                _ = _player.GrabbedInventoryItemLogic.DepositAsync(inventorySlot);
+            }
         }
 
         private void FKey()
@@ -320,11 +337,6 @@ namespace NoMoreFishAndChips.Entities
 
             _player.DropInventoryItemLogic.DropItem(_player.Hotbar.SelectedSlot.InventoryItem.ItemInstance);
             _player.Inventory.TryRemoveItem(_player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.InstanceId);
-        }
-
-        private void Interact(ActionHotkey hotkey)
-        {
-            _player.InteractLogic.Interact(hotkey);
         }
 
         private void Scroll(float scroll)
