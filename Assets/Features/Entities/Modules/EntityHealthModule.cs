@@ -59,9 +59,12 @@ namespace NoMoreFishAndChips.Entities
 
         public void HandleChanged(int previous, int current)
         {
-            FloatingText text = _poolManager.GetTypedPoolable<FloatingText>(new SpawnParams() { Position = _entity.transform.position + Vector3.up });
-            int difference = Mathf.Abs(current - previous);
-            text.Setup(difference.ToString());
+            if (current < previous)
+            {
+                FloatingText text = _poolManager.GetTypedPoolable<FloatingText>(new SpawnParams() { Position = _entity.transform.position + Vector3.up });
+                int difference = Mathf.Abs(current - previous);
+                text.Setup(difference.ToString());
+            }
             
             OnChanged?.Invoke(previous, current);
         }

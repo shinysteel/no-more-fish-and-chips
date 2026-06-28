@@ -3,8 +3,10 @@ using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using PrimeTween;
+using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
+using System.Linq;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -72,29 +74,67 @@ namespace NoMoreFishAndChips.Entities
                         _clam.transform.position = position;
                     }))
                     .ChainCallback(() => _clam._rigidbody.isKinematic = false);
-                
-                // choose a random perimeter tile
-                // launch onto it from the edge its on
-                // land in the center
+            }
+
+            public override void Tick()
+            {
+                if (_clam._rigidbody.isKinematic)
+                {
+                    return;
+                }
+
+                if (_clam.CharacterPhysicsModule.IsGrounded)
+                {
+                    _parentStateMachine.ChangeState(EState.AwaitItems);
+                }
             }
         }
         
         // Await items to be filled into the clam's inventory. Eventually respond depending on whether this was done or not
         private class AwaitItemsState : State
         {
+            private float _timer;
+
             public AwaitItemsState(StateMachine<EState> parent) : base(parent)
             { }
             
             public override void Enter()
             {
-                // setup an inventory layout that must be filled
+                _timer = 0f;
+                
+                _clam._inventory.OnInventorySlotChanged += HandleInventorySlotChanged;
+            }
+
+            public override void Exit()
+            {
+                _clam._inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;   
+            }
+
+            private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot slot)
+            {
+                CheckIfFull();
+            }
+
+            private void CheckIfFull()
+            {
+                bool full = !_clam._inventory.InventorySlots.Any(slot => slot.Value.InventoryItem == null);
+
+                if (full)
+                {
+                    _parentStateMachine.ChangeState(EState.FullExplode);
+                }
             }
 
             public override void Tick()
             {
-                // await items to fill for x seconds
-                // if full, go to full explode state
-                // if empty after time elapsed, go to rage state
+                _timer += Time.deltaTime;
+
+                if (_timer < _clam.DefinitionData.AwaitItemsSettings.Duration)
+                {
+                    return;
+                }
+
+                _parentStateMachine.ChangeState(EState.EmptyRage);
             }
         }
 
@@ -106,6 +146,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                Log.Info($"full explode");
+
                 // tween an explosion
                 // spawn back all the items
                 // defeat
@@ -120,6 +162,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                Log.Info($"empty rage");
+
                 // tween a rage
                 // jump, then slam down on the tile
                 // deal x damage to the tile. if the tile is destroyed, keep going into the water

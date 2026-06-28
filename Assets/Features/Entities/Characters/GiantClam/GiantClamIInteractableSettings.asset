@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GiantClamIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.IInteractableSettings
   _hotkey: 1
-  _priority: 0
+  _priority: 2
   _maxAngle: 45
   _maxDistance: 0.5
   _previewId: 0
