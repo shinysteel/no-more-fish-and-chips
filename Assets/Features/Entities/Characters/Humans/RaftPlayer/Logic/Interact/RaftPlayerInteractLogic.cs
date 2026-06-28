@@ -108,6 +108,11 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
+            if (!_promptInteractable.CanInteract())
+            {
+                return;
+            }
+
             _promptInteractable.Interact();
         }
 

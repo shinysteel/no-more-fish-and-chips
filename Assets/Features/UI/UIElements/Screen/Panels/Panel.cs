@@ -22,27 +22,40 @@ namespace NoMoreFishAndChips.UI
             _prefab = prefab;
         }
 
-        public void Toggle(Action<T> onCreate)
+        public void Show(Action<T> onShow)
         {
-            if (_panel != null)
+            if (_creating)
             {
-                _panel.SimulateClosePressed();
                 return;
             }
 
-            if (!_creating)
+            _creating = true;
+
+            _uiManager.CreateScreenUIAsync(_prefab, UILayer.Panels).completed += (T panel) =>
             {
-                _creating = true;
+                _panel = panel;
+                _creating = false;
 
-                _uiManager.CreateScreenUIAsync(_prefab, UILayer.Panels).completed += (T panel) =>
-                {
-                    _panel = panel;
-                    _creating = false;
+                onShow?.Invoke(_panel);
+                _panel.Show(null);
+            };            
+        }
 
-                    onCreate?.Invoke(_panel);
-                    _panel.Show(null);
-                };
+        public void Hide()
+        {
+            _panel?.SimulateClosePressed();   
+        }
+
+        public void Toggle(Action<T> onShow)
+        {
+            if (_panel == null)
+            {
+                Show(onShow);
             }
+            else
+            {
+                Hide();
+            } 
         }
     }
 

@@ -3,6 +3,7 @@ using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using PrimeTween;
+using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
@@ -18,6 +19,8 @@ namespace NoMoreFishAndChips.Entities
         private StateMachine<EState> _stateMachine;
 
         private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
+
+        private SyncVar<bool> _netCanOpenInventory = new SyncVar<bool>(ownerAuth: true);
 
         public IInteractableSettings Settings => DefinitionData.IInteractableSettings;
 
@@ -103,11 +106,15 @@ namespace NoMoreFishAndChips.Entities
                 _timer = 0f;
                 
                 _clam._inventory.OnInventorySlotChanged += HandleInventorySlotChanged;
+
+                _clam._netCanOpenInventory.value = true;
             }
 
             public override void Exit()
             {
-                _clam._inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;   
+                _clam._inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;
+
+                _clam._netCanOpenInventory.value = false;
             }
 
             private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot slot)
@@ -174,6 +181,8 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Awake();
 
+            _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
+
             _stateMachine = new();
 
             SpawnLaunchState launchState = new SpawnLaunchState(_stateMachine);
@@ -201,11 +210,11 @@ namespace NoMoreFishAndChips.Entities
             if (isOwner)
             {
                 _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
-
-                _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
-
+                
                 _stateMachine.ChangeState(EState.SpawnLaunch);
             }
+
+            _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
         }
 
         protected override void OnDespawned()
@@ -215,7 +224,17 @@ namespace NoMoreFishAndChips.Entities
                 _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
             }
 
+            _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
+
             base.OnDespawned();
+        }
+
+        private void HandleNetCanOpenInventoryChanged(bool canOpenInventory)
+        {
+            if (!canOpenInventory)
+            {
+                _giantClamPanelInstance.Hide();
+            }
         }
 
         protected override void Update()
@@ -238,7 +257,7 @@ namespace NoMoreFishAndChips.Entities
 
         public bool CanPrompt()
         {
-            return true;
+            return _netCanOpenInventory.value;
         }
 
         public WorldUI CreatePromptUI()
@@ -250,7 +269,7 @@ namespace NoMoreFishAndChips.Entities
 
         public bool CanInteract()
         {
-            return true;
+            return _netCanOpenInventory.value;
         }
 
         public void Interact()
