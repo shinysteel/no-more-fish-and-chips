@@ -105,6 +105,14 @@ MonoBehaviour:
       \uCD5C\uACE0\uAE09 \uC18C\uC7AC"
     m_Metadata:
       m_Items: []
+  - m_Id: 20673045931061248
+    m_Localized: "\uC870\uAC1C\uAECD\uC9C8 \uC870\uAC01"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20673045960421376
+    m_Localized: "\uBD80\uC11C\uC9C4 \uC870\uAC1C\uC758 \uC794\uD574"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

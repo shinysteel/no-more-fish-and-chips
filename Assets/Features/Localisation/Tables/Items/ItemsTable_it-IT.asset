@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1411205394435
-    m_Localized: Un mezzo per lanciare i pesci
+    m_Localized: Un mezzo per lanciare il pesce
     m_Metadata:
       m_Items: []
   - m_Id: 1411205394436
@@ -96,6 +96,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 13071559113928705
     m_Localized: "Materiale di prima qualit\xE0 per squarciare le zattere"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20673045931061248
+    m_Localized: Frammento di conchiglia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20673045960421376
+    m_Localized: I resti di una vongola rotta
     m_Metadata:
       m_Items: []
   references:

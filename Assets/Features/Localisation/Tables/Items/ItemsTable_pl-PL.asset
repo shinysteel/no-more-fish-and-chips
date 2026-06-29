@@ -98,6 +98,14 @@ MonoBehaviour:
     m_Localized: "Materia\u0142 klasy A do rozrywania tratw"
     m_Metadata:
       m_Items: []
+  - m_Id: 20673045931061248
+    m_Localized: Fragment muszli
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20673045960421376
+    m_Localized: "Pozosta\u0142o\u015Bci rozbitej ma\u0142\u017Cy"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: SharkDropTable
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.ItemDropTable
   _entries:
-  - _value: 5
-    _weight: 2
-    _minCount: 1
-    _maxCount: 2
-  - _value: 7
-    _weight: 1
-    _minCount: 1
-    _maxCount: 1
   - _value: 10
     _weight: 1
     _minCount: 1
     _maxCount: 1
+  - _value: 7
+    _weight: 1
+    _minCount: 1
+    _maxCount: 1
+  - _value: 5
+    _weight: 2
+    _minCount: 1
+    _maxCount: 2

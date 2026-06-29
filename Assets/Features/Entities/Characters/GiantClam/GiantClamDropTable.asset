@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: GiantClamDropTable
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Items.DropTable
   _entries:
+  - _value: 11
+    _weight: 2
+    _minCount: 2
+    _maxCount: 5
   - _value: 5
     _weight: 1
     _minCount: 2
-    _maxCount: 3
+    _maxCount: 5

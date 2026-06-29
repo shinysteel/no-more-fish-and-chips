@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: ClamChestDropTable
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.DropTable
   _entries:
+  - _value: 11
+    _weight: 1
+    _minCount: 0
+    _maxCount: 1
   - _value: 1
     _weight: 1
     _minCount: 0

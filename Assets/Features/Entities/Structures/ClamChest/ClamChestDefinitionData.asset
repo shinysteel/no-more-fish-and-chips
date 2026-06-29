@@ -27,7 +27,13 @@ MonoBehaviour:
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
   _buildRecipe:
     _requirements:
-    - _itemId: 1
+    - _itemId: 11
+      _count: 4
+    - _itemId: 5
       _count: 3
+    - _itemId: 4
+      _count: 1
+    - _itemId: 1
+      _count: 2
   _iInteractableSettings: {fileID: 11400000, guid: 3cf75e5664f4059479107804db4833da, type: 2}
   _inventoryLayout: {fileID: 11400000, guid: 28853771c3054d3419707e9d481cf898, type: 2}

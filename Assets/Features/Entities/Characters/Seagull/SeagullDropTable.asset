@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SeagullDropTable
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.DropTable
   _entries:
-  - _value: 5
+  - _value: 6
     _weight: 1
     _minCount: 1
     _maxCount: 1
-  - _value: 6
+  - _value: 5
     _weight: 1
     _minCount: 1
     _maxCount: 1

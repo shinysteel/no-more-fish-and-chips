@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3ecd4fcb2cfaebc4db5d9b06b24ad084
+guid: 6a98f13fa6f82d445b77db013a7af16e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -342,28 +342,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: item_shellFragment
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 384
-        width: 64
-        height: 64
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f7f2c359f90e80a45aed71e41835d2cd
-      internalID: -281940220
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -389,7 +367,6 @@ TextureImporter:
       item_palmSeed: -1237339756
       item_scrap: -2116414943
       item_sharkFin: 1553281493
-      item_shellFragment: -281940220
       item_toothSpear: -129897675
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

@@ -98,6 +98,14 @@ MonoBehaviour:
     m_Localized: "Material der G\xFCteklasse A zum Durchtrennen von Fl\xF6\xDFen"
     m_Metadata:
       m_Items: []
+  - m_Id: 20673045931061248
+    m_Localized: Schalenfragment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20673045960421376
+    m_Localized: "Die \xDCberreste einer zerbrochenen Muschel"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
