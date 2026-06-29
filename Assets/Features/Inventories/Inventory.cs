@@ -216,7 +216,7 @@ namespace NoMoreFishAndChips.Inventories
         private SlotLockState _lockState;
 
         public SlotLockState LockState => _lockState;
-
+        
         public InventoryItem InventoryItem
         {
             get

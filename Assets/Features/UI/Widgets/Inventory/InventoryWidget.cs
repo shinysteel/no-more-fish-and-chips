@@ -102,7 +102,7 @@ namespace NoMoreFishAndChips.UI
 
         // Listen to slot changes
         private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot slot)
-        {
+        {   
             if (slot != null)
             {
                 SetInventorySlotView(cell, slot);
@@ -124,7 +124,8 @@ namespace NoMoreFishAndChips.UI
             }
 
             _inventorySlotViews[cell].SetLockState(slot.LockState);
-            _inventorySlotViews[cell].SetInventoryItem(slot.InventoryItem);
+
+            // We intentionally don't call SetInventoryItem here, since the item may not exist yet. We rather do this in HandleInventoryItemChanged
         }
 
         private void RemoveInventorySlotView(Vector2Int cell)
@@ -139,6 +140,8 @@ namespace NoMoreFishAndChips.UI
         // Listen to item changes
         private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
         {
+            SetInventoryItemToSlotViews(oldInventoryItem, newInventoryItem);
+
             if (newInventoryItem != null)
             {
                 SetInventoryItemView(instanceId, newInventoryItem);
@@ -149,6 +152,28 @@ namespace NoMoreFishAndChips.UI
             }
 
             _inventoryOutliner.Refresh();
+        }
+
+        // Informs slot views on the status of items occupying them
+        private void SetInventoryItemToSlotViews(InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        {
+            void set(Vector2Int setCell, BoolGrid shape, InventoryItem item)
+            {
+                shape.ForEachTrue((Vector2Int shapeCell) =>
+                {
+                    _inventorySlotViews[setCell + shapeCell].SetInventoryItem(item);
+                });
+            }
+
+            if (oldInventoryItem != null)
+            {
+                set(oldInventoryItem.Cell, oldInventoryItem.Shape, null);
+            }
+
+            if (newInventoryItem != null)
+            {
+                set(newInventoryItem.Cell, newInventoryItem.Shape, newInventoryItem);
+            }
         }
 
         // Register an item to be displayed via an item view, and keep it up to date

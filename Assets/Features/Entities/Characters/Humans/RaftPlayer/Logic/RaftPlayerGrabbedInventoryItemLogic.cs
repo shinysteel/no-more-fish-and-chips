@@ -122,12 +122,14 @@ namespace NoMoreFishAndChips.Entities
         /// </summary>
         public async Task DepositAsync(InventorySlotView slotView)
         {
+            bool release = _grabbedInventoryItem.ItemInstance.Count - 1 == 0;
+
             InventoryPlaceParams placeParams = new InventoryPlaceParams()
             {
                 Cell = slotView.Cell,
                 Pivot = _netGrabbedInventoryItem.value.Pivot,
                 RotationParams = new InventoryRotationParams() { Rotations = _netGrabbedInventoryItem.value.Rotations },
-                InstanceId = null,
+                InstanceId = release ? _grabbedInventoryItem.ItemInstance.InstanceId : null,
                 ItemId = _grabbedInventoryItem.ItemInstance.Data.ItemId,
                 Count = 1
             };
@@ -139,12 +141,12 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            bool willRelease = _grabbedInventoryItem.ItemInstance.Count - 1 == 0;
+            bool canRemove = response.WasChange || _grabbedItemView.InventoryWidget.Inventory != slotView.InventoryWidget.Inventory;
 
             await _player.SetInventoryItemCountRpc(_grabbedItemView.InventoryWidget.Inventory.owner.Value, _grabbedItemView.InventoryWidget.Inventory,
-                _grabbedInventoryItem.ItemInstance.InstanceId, _grabbedInventoryItem.ItemInstance.Count - 1, true);
+                _grabbedInventoryItem.ItemInstance.InstanceId, _grabbedInventoryItem.ItemInstance.Count - 1, canRemove);
 
-            if (willRelease)
+            if (release)
             {
                 await ReleaseAsync();
             }
