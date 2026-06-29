@@ -12,9 +12,11 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class GiantClam : Character<GiantClamDefinitionData>, IInteractable
+    public class GiantClam : Character<GiantClamDefinitionData>, IInteractable, IHasInventory
     {
         [SerializeField] private Inventory _inventory;
+
+        public Inventory Inventory => _inventory;
 
         private StateMachine<EState> _stateMachine;
 
