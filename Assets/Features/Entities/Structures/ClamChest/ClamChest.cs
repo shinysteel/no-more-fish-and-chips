@@ -89,9 +89,7 @@ namespace NoMoreFishAndChips.Entities
 
         void IInteractable.Interact()
         {
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(this);
-
-            _clamChestPanelInstance.Toggle((ClamChestPanel panel) => panel.Setup(_context, _inventory));
+            _clamChestPanelInstance.Toggle((ClamChestPanel panel) => panel.Setup(_context, this, _inventory));
         }
 
         void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)
@@ -128,12 +126,14 @@ namespace NoMoreFishAndChips.Entities
                 _openCount++;
             }
 
-            if (_openCount > 0 == _isOpen)
+            bool newIsOpen = _openCount > 0;
+
+            if (_isOpen == newIsOpen)
             {
                 return;
             }
 
-            _isOpen = _openCount > 0;
+            _isOpen = newIsOpen;
 
             if (_isOpen)
             {

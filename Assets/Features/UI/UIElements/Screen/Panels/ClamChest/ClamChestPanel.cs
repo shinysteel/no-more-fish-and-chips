@@ -4,6 +4,7 @@ using ShinyOwl.Common;
 using System;
 using UnityEngine;
 using PurrNet;
+using NoMoreFishAndChips.Entities;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -14,11 +15,22 @@ namespace NoMoreFishAndChips.UI
 
         private GameplayContext _context;
 
-        public void Setup(GameplayContext context, Inventory chestInventory)
+        private ClamChest _chest;
+
+        public void Setup(GameplayContext context, ClamChest chest, Inventory chestInventory)
         {
             _context = context;
+            _chest = chest;
+
             _playerInventoryWidget.Setup(_context, _context.LocalPlayer.Inventory);
             _chestInventoryWidget.Setup(_context, chestInventory);
+        }
+
+        public override void Show(Action onComplete)
+        {
+            base.Show(onComplete);
+
+            _context.LocalPlayer.SetNetOpenObjectNetworkId(_chest);
         }
 
         public override void Hide(Action onComplete)
