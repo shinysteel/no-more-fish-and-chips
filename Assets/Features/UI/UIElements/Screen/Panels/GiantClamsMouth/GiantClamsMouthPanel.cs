@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.States;
+using ShinyOwl.Common;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,8 +42,17 @@ namespace NoMoreFishAndChips.UI
 
         private void Update()
         {
-            // Doesn't work for non-host
-            // _timerFillImage.fillAmount = 1f - _clam.EntityLifecycleModule.TimeAlive / _clam.DefinitionData.AwaitItemsSettings.Duration;
+            if (_context == null)
+            {
+                return;
+            }
+
+            TimerUpdate();
+        }
+
+        private void TimerUpdate()
+        {
+            _timerFillImage.fillAmount = 1f - _clam.EntityLifecycleModule.TimeAlive / _clam.DefinitionData.AwaitItemsSettings.Duration;
         }
     }
 }

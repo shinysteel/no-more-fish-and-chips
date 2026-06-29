@@ -5,6 +5,7 @@ using NoMoreFishAndChips.UI;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
@@ -23,8 +24,11 @@ namespace NoMoreFishAndChips.Entities
         private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
 
         private SyncVar<bool> _netCanOpenInventory = new SyncVar<bool>(ownerAuth: true);
+        private SyncVar<float> _netExplodeBlend = new SyncVar<float>(ownerAuth: true);
 
         public IInteractableSettings Settings => DefinitionData.IInteractableSettings;
+
+        private const string ExplodeBlendName = "_ExplodeBlend";
 
         private enum EState
         {
@@ -155,11 +159,24 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                Log.Info($"full explode");
+                _clam.CharacterPhysicsModule.Rigidbody.isKinematic = true;
 
-                // tween an explosion
-                // spawn back all the items
-                // defeat
+                Vector3 startPosition = _clam.transform.position;
+                Vector3 endPosition = startPosition + Vector3.up * 0.25f;
+                Quaternion startRotation = _clam.transform.rotation;
+                
+                Sequence.Create()
+                    .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.75f, onValueChange: (float value) =>
+                        {
+                            _clam._netExplodeBlend.value = value;
+                            _clam.transform.position = Vector3.Lerp(startPosition, endPosition, value);
+                            _clam.transform.rotation = startRotation * Quaternion.AngleAxis(value * 360f, Vector3.up);
+                        })
+                    .Chain(Tween.Scale(_clam.transform, startValue: _clam.transform.localScale, endValue: Vector3.zero, duration: 0.1f, ease: Ease.InQuad)))
+                    .ChainCallback(() =>
+                    {
+                        _clam._entityManager.Despawn(_clam);
+                    });
             }
         }
 
@@ -217,6 +234,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
+            _netExplodeBlend.onChanged += HandleNetExplodeBlendChanged;
         }
 
         protected override void OnDespawned()
@@ -227,6 +245,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
+            _netExplodeBlend.onChanged -= HandleNetExplodeBlendChanged;
 
             base.OnDespawned();
         }
@@ -237,6 +256,11 @@ namespace NoMoreFishAndChips.Entities
             {
                 _giantClamPanelInstance.Hide();
             }
+        }
+
+        private void HandleNetExplodeBlendChanged(float blend)
+        {
+            CharacterModel.Material.SetFloat(ExplodeBlendName, blend);
         }
 
         protected override void Update()
