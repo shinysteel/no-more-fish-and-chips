@@ -1,10 +1,13 @@
-using NoMoreFishAndChips.Pools;
-using UnityEngine;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
 using PrimeTween;
-using ShinyOwl.Common.Extensions;
 using PurrNet;
+using ShinyOwl.Common.Extensions;
 using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -130,7 +133,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (defeated)
             {
-                _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = defeated;
+                _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = true;
                 TweenExtensions.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: Ease.OutQuad);
             }
 
@@ -174,6 +177,16 @@ namespace NoMoreFishAndChips.Entities
                     _player.CharacterPhysicsModule.ResetTimeInWater();
                 }
             }
+        }
+
+        // Respawn in a barrel in front of the raft
+        public void Respawn()
+        {
+            _player.Inventory.DropAllItems(_player.transform.position);
+
+            _player.SetPositionRpc(_player.owner.Value, new Vector3(Random.Range(-2f, 2f), 0.5f, 5f));
+
+            _player.SetNetInBarrelRpc(_player.owner.Value, true);
         }
     }
 }

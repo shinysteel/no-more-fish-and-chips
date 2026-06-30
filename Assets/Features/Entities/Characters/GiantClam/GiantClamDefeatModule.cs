@@ -44,5 +44,15 @@ namespace NoMoreFishAndChips.Entities
                 .Chain(Tween.Scale(_clam.transform, startValue: _clam.transform.localScale, endValue: Vector3.zero, duration: 0.1f, ease: Ease.InQuad)))
                 .ChainCallback(Despawn);
         }
+
+        protected override void Despawn()
+        {
+            if (_networkManager.IsServer)
+            {
+                _clam.Inventory.DropAllItems(_clam.transform.position);
+            }
+
+            base.Despawn();
+        }
     }
 }

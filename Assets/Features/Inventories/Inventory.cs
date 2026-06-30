@@ -998,7 +998,7 @@ namespace NoMoreFishAndChips.Inventories
         }
 
         [TargetRpc]
-        public void ClearNetInventoryItemsRpc(PlayerID id)
+        private void ClearNetInventoryItemsRpc(PlayerID id)
         {
             ClearNetInventoryItems();
         }
@@ -1043,6 +1043,16 @@ namespace NoMoreFishAndChips.Inventories
             _netInventoryItems.SetDirty(instanceId);
         }
 
+        public void DropAllItems(Vector3 position)
+        {
+            foreach (InventoryItem inventoryItem in _inventoryItems.Values)
+            {
+                _itemManager.SpawnDroppedItem(NetItemInstance.Create(inventoryItem.ItemInstance), DroppedItemType.Default, position);
+            }
+
+            ClearNetInventoryItemsRpc(owner.Value);
+        }
+        
         public IEnumerator<KeyValuePair<Vector2Int, NetInventorySlot>> GetEnumerator()
         {
             return _netInventorySlots.GetEnumerator();
