@@ -73,15 +73,15 @@ namespace NoMoreFishAndChips.Entities
                 bool isAttacking = _player.AttackLogic.AttackState > RaftPlayerAttackState.None;
                 bool inBarrel = _player.RaftPlayerDefeatModule.InBarrel;
 
-                _player.CharacterModel.Animator.SetBool(IsMovingBoolName, isMoving);
-                _player.CharacterModel.Animator.SetBool(InWaterBoolName, inWater);
-                _player.CharacterModel.Animator.SetBool(InAirBoolName, inAir);
-                _player.CharacterModel.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
-                _player.CharacterModel.Animator.SetBool(IsAttackingBoolName, isAttacking);
-                _player.CharacterModel.Animator.SetBool(InBarrelBoolName, inBarrel);
+                _player.EntityModel.Animator.SetBool(IsMovingBoolName, isMoving);
+                _player.EntityModel.Animator.SetBool(InWaterBoolName, inWater);
+                _player.EntityModel.Animator.SetBool(InAirBoolName, inAir);
+                _player.EntityModel.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
+                _player.EntityModel.Animator.SetBool(IsAttackingBoolName, isAttacking);
+                _player.EntityModel.Animator.SetBool(InBarrelBoolName, inBarrel);
             }
 
-            AnimatorStateInfo info = _player.CharacterModel.Animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo info = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(0);
 
             _groundRunStateAnimationEvents.Tick(info);
             _waterSwimStateAnimationEvents.Tick(info);
@@ -90,12 +90,12 @@ namespace NoMoreFishAndChips.Entities
 
         public void Attack()
         {
-            _player.CharacterModel.SetTrigger(AttackTriggerName);
+            _player.EntityModel.SetTrigger(AttackTriggerName);
         }
 
         public void Jump()
         {
-            _player.CharacterModel.SetTrigger(JumpTriggerName);
+            _player.EntityModel.SetTrigger(JumpTriggerName);
         }
     }
 }

@@ -77,7 +77,7 @@ namespace NoMoreFishAndChips.Entities
         public override void HandleIsDefeatedChanged(bool defeated)
         {
             _character.CharacterModel.SetDefeated(defeated);
-            _character.CharacterModel.Animator.Update(0f);
+            _character.EntityModel.Animator.Update(0f);
             _character.RagdollLogic.SetEnabled(defeated);
 
             if (_character.isOwner)
@@ -98,7 +98,7 @@ namespace NoMoreFishAndChips.Entities
             _character.CharacterModel.SetDefeated(false);
 
             // Simulate 1 second to have the character unblink
-            _character.CharacterModel.Animator.Update(1f);
+            _character.EntityModel.Animator.Update(1f);
 
             base.Despawn();
         }

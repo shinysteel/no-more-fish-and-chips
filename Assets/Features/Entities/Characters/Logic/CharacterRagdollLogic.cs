@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
             _character.EntityPhysicsModule.Rigidbody.isKinematic = _isKinematic && !enabled;
             _character.EntityPhysicsModule.Rigidbody.constraints = enabled ? RigidbodyConstraints.None : _rigidbodyConstraints;
 
-            _character.CharacterModel.Animator.enabled = !enabled;
+            _character.EntityModel.Animator.enabled = !enabled;
 
             if (!enabled)
             {

@@ -138,7 +138,7 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                _seagull.CharacterModel.Animator.SetBool(IsFlappingBoolName, true);
+                _seagull._entityModel.Animator.SetBool(IsFlappingBoolName, true);
 
                 _landPosition = tile.transform.position;
                 _landPosition.y = tile.GetSurfaceY();
@@ -175,7 +175,7 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                _seagull.CharacterModel.Animator.SetBool(InAirBoolName, false);
+                _seagull._entityModel.Animator.SetBool(InAirBoolName, false);
             }
 
             public override void FixedTick()
@@ -289,7 +289,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            AnimatorStateInfo info = CharacterModel.Animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
             _attackStateAnimationEvents.Tick(info);
             _airFlapStateAnimationEvents.Tick(info);
 

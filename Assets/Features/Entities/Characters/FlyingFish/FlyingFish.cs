@@ -137,7 +137,7 @@ namespace NoMoreFishAndChips.Entities
                     .OnComplete(() =>
                     {
                         _isAnticipating = false;
-                        _fish.CharacterModel.Animator.SetBool(IsFlyingBoolName, true);
+                        _fish._entityModel.Animator.SetBool(IsFlyingBoolName, true);
                     });
 
                 _landPosition = _fish._targetTile.transform.position;
@@ -239,7 +239,7 @@ namespace NoMoreFishAndChips.Entities
                 _markerId = null;
             }
 
-            CharacterModel.Animator.SetBool(IsFlyingBoolName, false);
+            _entityModel.Animator.SetBool(IsFlyingBoolName, false);
 
             // Cleanup will always happen on Despawn, but can also happen when Defeated
             if (_stateMachine.CurrentEnum != EState.None)

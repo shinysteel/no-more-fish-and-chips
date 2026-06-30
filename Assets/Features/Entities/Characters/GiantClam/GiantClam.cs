@@ -236,7 +236,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetExplodeBlendChanged(float blend)
         {
-            CharacterModel.Material.SetFloat(ExplodeBlendName, blend);
+            _entityModel.Material.SetFloat(ExplodeBlendName, blend);
         }
 
         protected override void Update()

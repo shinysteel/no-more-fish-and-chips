@@ -149,29 +149,29 @@ namespace NoMoreFishAndChips.Entities
             if (_inBarrel)
             {
                 _barrelProp = _environmentManager.GetProp(PropId.Barrel, new SpawnParams() { Parent = _player.transform });
-                _player.CharacterModel.transform.localPosition = Vector3.up * 0.1f;
+                _player.EntityModel.transform.localPosition = Vector3.up * 0.1f;
                 _moveTimer = _settings.MoveInterval;
 
                 if (_player.isOwner)
                 {
-                    _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = false;
-                    _player.RaftPlayerPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.None; 
+                    _player.EntityPhysicsModule.Rigidbody.isKinematic = false;
+                    _player.EntityPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.None; 
                 }
             }
             else
             {
                 _environmentManager.ReturnProp(_barrelProp);
                 _barrelProp = null;
-                _player.CharacterModel.transform.localPosition = Vector3.zero;
+                _player.EntityModel.transform.localPosition = Vector3.zero;
 
                 if (_player.isOwner)
                 {
-                    _player.RaftPlayerPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                    _player.EntityPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
                 }
 
                 if (_networkManager.IsServer)
                 {
-                    _player.RaftPlayerPhysicsModule.ResetTimeInWater();
+                    _player.CharacterPhysicsModule.ResetTimeInWater();
                 }
             }
         }

@@ -202,7 +202,7 @@ namespace NoMoreFishAndChips.Entities
                 Tween.Position(_shark.transform, endValue: bitePosition, duration: _tweenDuration);
                 TweenExtensions.Rotation(_shark.transform, endValue: _shark.transform.rotation * Quaternion.AngleAxis(-30f, Vector3.right), duration: _tweenDuration, ease: Ease.OutQuad);
 
-                _shark.CharacterModel.Animator.SetBool(IsBitingBoolName, true);
+                _shark._entityModel.Animator.SetBool(IsBitingBoolName, true);
 
             }
 
@@ -273,7 +273,7 @@ namespace NoMoreFishAndChips.Entities
 
             private void TransitionToSwim()
             {
-                _shark.CharacterModel.Animator.SetBool(IsBitingBoolName, false);
+                _shark._entityModel.Animator.SetBool(IsBitingBoolName, false);
 
                 _transitionSequence = Sequence.Create();
                 _transitionSequence.Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration));
