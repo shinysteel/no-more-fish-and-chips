@@ -35,7 +35,6 @@ namespace NoMoreFishAndChips.Entities
             None,
             SpawnLaunch,
             AwaitItems,
-            FullExplode,
             EmptyRage
         }
 
@@ -134,7 +133,8 @@ namespace NoMoreFishAndChips.Entities
 
                 if (full)
                 {
-                    _parentStateMachine.ChangeState(EState.FullExplode);
+                    // From becoming full of items, explode. This both returns the items and defeats the enemy
+                    _clam.EntityDefeatModule.SetIsDefeated(true);
                 }
             }
 
@@ -151,35 +151,6 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        // From becoming full of items, explode. This both returns the items and defeats the enemy
-        private class FullExplodeState : State
-        {
-            public FullExplodeState(StateMachine<EState> parent) : base(parent)
-            { }
-
-            public override void Enter()
-            {
-                _clam.CharacterPhysicsModule.Rigidbody.isKinematic = true;
-
-                Vector3 startPosition = _clam.transform.position;
-                Vector3 endPosition = startPosition + Vector3.up * 0.25f;
-                Quaternion startRotation = _clam.transform.rotation;
-                
-                Sequence.Create()
-                    .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.75f, onValueChange: (float value) =>
-                        {
-                            _clam._netExplodeBlend.value = value;
-                            _clam.transform.position = Vector3.Lerp(startPosition, endPosition, value);
-                            _clam.transform.rotation = startRotation * Quaternion.AngleAxis(value * 360f, Vector3.up);
-                        })
-                    .Chain(Tween.Scale(_clam.transform, startValue: _clam.transform.localScale, endValue: Vector3.zero, duration: 0.1f, ease: Ease.InQuad)))
-                    .ChainCallback(() =>
-                    {
-                        _clam._entityManager.Despawn(_clam);
-                    });
-            }
-        }
-
         // From not receiving enough items in time, briefly go into a rage state before slamming down
         private class EmptyRageState : State
         {
@@ -188,8 +159,6 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                Log.Info($"empty rage");
-
                 // tween a rage
                 // jump, then slam down on the tile
                 // deal x damage to the tile. if the tile is destroyed, keep going into the water
@@ -206,18 +175,20 @@ namespace NoMoreFishAndChips.Entities
 
             SpawnLaunchState launchState = new SpawnLaunchState(_stateMachine);
             AwaitItemsState itemsState = new AwaitItemsState(_stateMachine);
-            FullExplodeState explodeState = new FullExplodeState(_stateMachine);
             EmptyRageState rageState = new EmptyRageState(_stateMachine);
 
             launchState.Initialise(this);
             itemsState.Initialise(this);
-            explodeState.Initialise(this);
             rageState.Initialise(this);
 
             _stateMachine.AddState(EState.SpawnLaunch, launchState);
             _stateMachine.AddState(EState.AwaitItems, itemsState);
-            _stateMachine.AddState(EState.FullExplode, explodeState);
             _stateMachine.AddState(EState.EmptyRage, rageState);
+        }
+
+        protected override EntityDefeatModule CreateDefeatModule()
+        {
+            return new GiantClamDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
         }
 
         protected override void OnSpawned()
@@ -256,6 +227,11 @@ namespace NoMoreFishAndChips.Entities
             {
                 _giantClamPanelInstance.Hide();
             }
+        }
+
+        public void SetNetExplodedBlend(float blend)
+        {
+            _netExplodeBlend.value = blend;
         }
 
         private void HandleNetExplodeBlendChanged(float blend)

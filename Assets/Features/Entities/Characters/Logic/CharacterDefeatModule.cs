@@ -2,7 +2,6 @@ using NoMoreFishAndChips.Items;
 using PrimeTween;
 using ShinyOwl.Common;
 using System;
-using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 

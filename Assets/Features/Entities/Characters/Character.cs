@@ -7,7 +7,6 @@ namespace NoMoreFishAndChips.Entities
     public abstract class Character : NetEntity
     {
         public CharacterModel CharacterModel => (CharacterModel)_entityModel;
-        public CharacterDefeatModule CharacterDefeatModule => (CharacterDefeatModule)_entityDefeatModule;
         public CharacterPhysicsModule CharacterPhysicsModule => (CharacterPhysicsModule)_entityPhysicsModule;
 
         private CharacterRagdollLogic _ragdollLogic;
