@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.Entities
         {
             return new EntityHealthModule(this, 
                 healthGetter: HealthModuleGetter, 
-                healthSetter: (int health) => _context.Raft.SetNetTileHealth(_cell, health));
+                healthSetter: (int health) => _context.Raft.SetNetTileHealthRpc(_cell, health));
         }
 
         protected override EntityDefeatModule CreateDefeatModule()

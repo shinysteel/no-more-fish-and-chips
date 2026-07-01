@@ -18,10 +18,7 @@ namespace NoMoreFishAndChips.Entities
             _tile = tile;
             _settings = (TileDefeatSettings)tile.EntityDefinitionData.EntityDefeatSettings;
 
-            if (_networkManager.IsServer)
-            {
-                _tile.EntityHealthModule.OnChanged += HandleHealthChanged;
-            }
+            _tile.EntityHealthModule.OnChanged += HandleHealthChanged;
         }
 
         public void SetContext(GameplayContext context)
@@ -31,7 +28,7 @@ namespace NoMoreFishAndChips.Entities
 
         ~TileDefeatModule()
         {
-            if (_networkManager.IsServer && _tile != null)
+            if (_tile != null)
             {
                 _tile.EntityHealthModule.OnChanged -= HandleHealthChanged;
             }
@@ -57,11 +54,6 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_networkManager.IsServer)
-            {
-                return;
-            }
-
             SinkFixedTick();
         }
         
@@ -72,12 +64,16 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _sinkTimer += Time.fixedDeltaTime;
-
-            if (_sinkTimer >= _settings.Duration)
+            // The server will remove the tile after sinking long enough
+            if (_networkManager.IsServer)
             {
-                _context.Raft.RemoveNetTile(_tile.Cell);
-                return;
+                _sinkTimer += Time.fixedDeltaTime;
+
+                if (_sinkTimer >= _settings.Duration)
+                {
+                    _context.Raft.RemoveNetTile(_tile.Cell);
+                    return;
+                }
             }
 
             _tile.EntityPhysicsModule.Rigidbody.MovePosition(_tile.EntityPhysicsModule.Rigidbody.position + Vector3.down * _settings.Speed * Time.fixedDeltaTime);

@@ -111,13 +111,9 @@ namespace NoMoreFishAndChips.Environments
 
         // No tile param is good here, since it lets callers request to damage a cell without having to worry
         // if it exists anymore
-        public void SetNetTileHealth(Vector2Int cell, int health)
+        [ServerRpc]
+        public void SetNetTileHealthRpc(Vector2Int cell, int health)
         {
-            if (!isOwner)
-            {
-                return;
-            }
-
             if (!_netTiles.TryGetValue(cell, out NetTile netTile))
             {
                 return;
