@@ -27,9 +27,11 @@ namespace NoMoreFishAndChips.UI
         [Header("ScreenUI - Screens")]
         [SerializeField] private MainMenuScreen _mainMenuScreenPrefab;
         [SerializeField] private GameplayScreen _gameplayScreenPrefab;
+        [SerializeField] private ResultsScreen _resultsScreenPrefab;
 
         public MainMenuScreen MainMenuScreenPrefab => _mainMenuScreenPrefab;
         public GameplayScreen GameplayScreenPrefab => _gameplayScreenPrefab;
+        public ResultsScreen ResultsScreenPrefab => _resultsScreenPrefab;
 
         [Header("ScreenUI - Panels")]
         [SerializeField] private BrowseGamesPanel _browseGamesPanelPrefab;

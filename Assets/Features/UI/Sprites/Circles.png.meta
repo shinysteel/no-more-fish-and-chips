@@ -126,7 +126,7 @@ TextureImporter:
       name: Circle16
       rect:
         serializedVersion: 2
-        x: 0
+        x: 32
         y: 112
         width: 16
         height: 16
@@ -148,7 +148,7 @@ TextureImporter:
       name: Circle32
       rect:
         serializedVersion: 2
-        x: 16
+        x: 48
         y: 96
         width: 32
         height: 32
@@ -170,7 +170,7 @@ TextureImporter:
       name: Circle48
       rect:
         serializedVersion: 2
-        x: 48
+        x: 80
         y: 80
         width: 48
         height: 48
@@ -210,6 +210,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Circle8
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 120
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a9b189ba103bc34ea41bcb43d99a152
+      internalID: 1066598245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8a44445a9307bf438d86e18e911afc2
+      internalID: -1617172233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -228,8 +272,10 @@ TextureImporter:
     nameFileIdTable:
       Circle16: -1140996852
       Circle32: -1075840072
+      Circle4: -1617172233
       Circle48: 1581466222
       Circle64: -594950222
+      Circle8: 1066598245
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
