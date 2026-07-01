@@ -130,14 +130,12 @@ namespace NoMoreFishAndChips.Environments
 
             netTile.SetHealth(health);
 
-            if (netTile.Health > 0)
-            {
-                _netTiles.SetDirty(cell);
-            }
-            else
-            {
-                _netTiles.Remove(cell);
-            }
+            _netTiles.SetDirty(cell);
+        }
+
+        public void RemoveNetTile(Vector2Int cell)
+        {
+            _netTiles.Remove(cell);
         }
 
         private void AddStructure(Vector2Int cell, EntityId structureId)
@@ -221,9 +219,9 @@ namespace NoMoreFishAndChips.Environments
                 tile.Structure.EntityDefeatModule.SetIsDefeated(true);
             }
 
-            tile.SetHealth(0);
-
             _tiles.Remove(cell);
+
+            tile.EntityDefeatModule.Despawn();
 
             OnTileChanged?.Invoke(cell, null);
         }

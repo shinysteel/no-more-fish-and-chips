@@ -44,8 +44,8 @@ namespace NoMoreFishAndChips.Entities
             _netIsDefeated.onChanged += HandleNetIsDefeatedChanged;
 
             _entityHealthModule = new EntityHealthModule(this,
-                getter: () => _netCurrentHealth.value,
-                setter: SetNetCurrentHealthRpc);
+                healthGetter: () => _netCurrentHealth.value,
+                healthSetter: SetNetCurrentHealthRpc);
 
             _entityDefeatModule = CreateDefeatModule();
 
@@ -164,13 +164,13 @@ namespace NoMoreFishAndChips.Entities
         [TargetRpc]
         public void AddForceRpc(PlayerID id, Vector3 force)
         {
-            _entityPhysicsModule.Rigidbody.AddForce(force, ForceMode.Impulse);
+            _rigidbody.AddForce(force, ForceMode.Impulse);
         }
 
         [TargetRpc]
         public void AddTorqueRpc(PlayerID id, Vector3 torque)
         {
-            _entityPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Impulse);
+            _rigidbody.AddTorque(torque, ForceMode.Impulse);
         }
     }
 }

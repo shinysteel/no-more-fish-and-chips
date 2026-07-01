@@ -156,13 +156,13 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                _seagull._entityPhysicsModule.Rigidbody.AddForce(Vector3.up * 7f, ForceMode.Acceleration);
+                _seagull._rigidbody.AddForce(Vector3.up * 7f, ForceMode.Acceleration);
 
                 Vector3 direction = (_landPosition - _seagull.transform.position);
                 direction.y = 0f;
                 direction.Normalize();
 
-                _seagull._entityPhysicsModule.Rigidbody.AddForce(direction * 1f, ForceMode.Acceleration);
+                _seagull._rigidbody.AddForce(direction * 1f, ForceMode.Acceleration);
             }
         }
 
@@ -261,7 +261,7 @@ namespace NoMoreFishAndChips.Entities
             if (isOwner)
             {
                 _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _hitboxManager.SpawnHitbox(DefinitionData.AttackSettings.HitboxData, new SpawnParams() { Position = transform.position })));
-                _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _entityPhysicsModule.Rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse)));
+                _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse)));
                 _attackStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _stateMachine.ChangeState(EState.Idle)));
 
                 _stateMachine.ChangeState(EState.Fly);

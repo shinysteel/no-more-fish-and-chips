@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] protected EntityDefinitionData _entityDefinitionData;
         [SerializeField] protected EntityModel _entityModel;
-        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] protected Rigidbody _rigidbody;
         [SerializeField] private Collider _collider;
 
         protected NetworkManager _networkManager;
@@ -50,6 +50,71 @@ namespace NoMoreFishAndChips.Entities
             _uiManager = GameManager.Instance.Get<UIManager>();
         }
 
+        protected virtual EntityHealthModule CreateHealthModule()
+        {
+            return new EntityHealthModule(this, HealthModuleGetter, HealthModuleSetter);
+        }
+
+        protected virtual EntityDefeatModule CreateDefeatModule()
+        {
+            return new EntityDefeatModule(this, DefeatModuleGetter, DefeatModuleSetter);
+        }
+
+        // The convention 'ModuleSetter and ModuleGetter' are just used for Entity, given it's not clear enough they are distinct from normal Setters & Getters
+        // protected abstract void HealthModuleSetter(int health);
+        protected int HealthModuleGetter()
+        {
+            return _currentHealth;
+        }
+
+        protected void HealthModuleSetter(int health)
+        {
+            _currentHealth = health;
+        }
+
+        protected bool DefeatModuleGetter()
+        {
+            return _isDefeated;
+        }
+
+        protected void DefeatModuleSetter(bool defeated)
+        {
+            _isDefeated = defeated;
+            _entityDefeatModule.HandleIsDefeatedChanged(_isDefeated);
+        }
+
+        public virtual void OnTakenFromPool()
+        {
+            _entityHealthModule = CreateHealthModule();
+
+            _entityDefeatModule = CreateDefeatModule();
+
+            _entityLifecycleModule = new EntityLifecycleModule(this);
+
+            _entityEffectsModule = new EntityEffectsModule(this);
+
+            _entityPhysicsModule = new EntityPhysicsModule(this, _rigidbody, _collider);
+
+            _isSpawned = true;
+
+            _entityManager.RaiseNetEntitySpawned(this);
+        }
+
+        public virtual void OnReturnedToPool()
+        {
+            _entityManager?.RaiseNetEntityDespawned(this);
+
+            _isSpawned = false;
+
+            _context = null;
+
+            _entityHealthModule = null;
+            _entityDefeatModule = null;
+            _entityLifecycleModule = null;
+            _entityEffectsModule = null;
+            _entityPhysicsModule = null;
+        }
+
         public virtual void Initialise(GameplayContext context)
         {
             _context = context;
@@ -78,44 +143,10 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _entityDefeatModule.FixedTick();
             _entityPhysicsModule.FixedTick();
-        }
 
-        public virtual void OnTakenFromPool()
-        {
-            _entityHealthModule = new EntityHealthModule(this,
-                getter: () => _currentHealth,
-                setter: HealthModuleSetter);
-
-            _entityDefeatModule ??= new EntityDefeatModule(this,
-                isDefeatedGetter: () => _isDefeated,
-                isDefeatedSetter: DefeatModuleSetter);
-
-            _entityLifecycleModule = new EntityLifecycleModule(this);
-
-            _entityEffectsModule ??= new EntityEffectsModule(this);
-
-            _entityPhysicsModule ??= new EntityPhysicsModule(this, _rigidbody, _collider);
-
-            _isSpawned = true;
-
-            _entityManager.RaiseNetEntitySpawned(this);
-        }
-
-        public virtual void OnReturnedToPool()
-        {
-            _entityManager?.RaiseNetEntityDespawned(this);
-
-            _isSpawned = false;
-
-            _context = null;
-
-            _entityHealthModule = null;
-            _entityDefeatModule = null;
-            _entityLifecycleModule = null;
-            _entityEffectsModule = null;
-            _entityPhysicsModule = null;
+            // Defeat modules are able to despawn the entity, making it important that it executes last
+            _entityDefeatModule.FixedTick();
         }
 
         public void SetHealth(int health)
@@ -128,14 +159,6 @@ namespace NoMoreFishAndChips.Entities
             int previous = _currentHealth;
             _currentHealth = health;
             _entityHealthModule.HandleChanged(previous, _currentHealth);
-        }
-
-        protected abstract void HealthModuleSetter(int health);
-
-        private void DefeatModuleSetter(bool defeated)
-        {
-            _isDefeated = defeated;
-            _entityDefeatModule.HandleIsDefeatedChanged(_isDefeated);
         }
     }
 }

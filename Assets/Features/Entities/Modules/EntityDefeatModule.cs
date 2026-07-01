@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
         protected EnvironmentManager _environmentManager;
 
         private IEntity _entity;
-        private Func<bool> _isDefeatedGetter;
+        protected Func<bool> _isDefeatedGetter;
         protected Action<bool> _isDefeatedSetter;
 
         private EntityDefeatSettings _settings;
@@ -70,7 +70,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (IsDefeated)
+            if (_isDefeatedGetter())
             {
                 return;
             }
@@ -85,7 +85,7 @@ namespace NoMoreFishAndChips.Entities
 
         public void SetIsDefeated(bool defeated)
         {
-            if (IsDefeated == defeated)
+            if (_isDefeatedGetter() == defeated)
             {
                 return;
             }
@@ -100,13 +100,13 @@ namespace NoMoreFishAndChips.Entities
             RaiseIsDefeatedChanged();
 
             // Entities are local, so they need to be 'despawned' on all clients. Immediate despawn when defeated is standard, but can be overridden
-            if (IsDefeated)
+            if (_isDefeatedGetter())
             {
                 Despawn();
             }
         }
 
-        protected virtual void Despawn()
+        public virtual void Despawn()
         {
             if (_networkManager.IsServer)
             {
@@ -118,7 +118,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected void RaiseIsDefeatedChanged()
         {
-            OnIsDefeatedChanged?.Invoke(IsDefeated);
+            OnIsDefeatedChanged?.Invoke(_isDefeatedGetter());
         }
     }
 }

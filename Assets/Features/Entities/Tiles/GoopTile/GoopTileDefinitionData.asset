@@ -15,13 +15,14 @@ MonoBehaviour:
   _nameTerm: -1642263902
   _descriptionTerm: -1596126558
   _sprite: {fileID: 21300000, guid: dea6ff58c8e5b6e4687ca9e6847f76e2, type: 3}
+  _rarity: 0
   _id: 201
   _health: 2
   _isDamageable: 1
   _alliance: 0
   _dropTables:
   - {fileID: 11400000, guid: 06ca322a78055fd499af799dca539358, type: 2}
-  _entityDefeatSettings: {fileID: 11400000, guid: 4d6268f574805274586387a8befa046c, type: 2}
+  _entityDefeatSettings: {fileID: 11400000, guid: 7bd7903a30fdc78478d452d29531609b, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
   _buildRecipe:

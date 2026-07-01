@@ -47,7 +47,7 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
-                if (!_drowning._targetPlayer.RaftPlayerPhysicsModule.InWater)
+                if (!_drowning._targetPlayer.CharacterPhysicsModule.InWater)
                 {
                     _parentStateMachine.ChangeState(EState.Disappear);
                     return;

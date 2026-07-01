@@ -6,7 +6,7 @@ namespace NoMoreFishAndChips.Entities
     public interface IInteractable
     {
         Transform transform { get; }
-        IInteractableSettings Settings { get; }
+        IInteractableSettings IInteractableSettings { get; }
         bool CanPrompt();
         WorldUI CreatePromptUI();
         bool CanInteract();

@@ -38,7 +38,7 @@ namespace NoMoreFishAndChips.Entities
         }
 
         // Don't inherit Despawn or Tick from CharacterDefeatModule
-        protected override void Despawn()
+        public override void Despawn()
         { }
 
         public override void Tick()
@@ -71,7 +71,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_player.RaftPlayerPhysicsModule.InWater)
+            if (!_player.CharacterPhysicsModule.InWater)
             {
                 return;
             }
@@ -85,18 +85,18 @@ namespace NoMoreFishAndChips.Entities
             
             forcedirection = Quaternion.AngleAxis(_settings.MovePitch, Vector3.Cross(forcedirection, Vector3.up)) * forcedirection;
             
-            _player.RaftPlayerPhysicsModule.Rigidbody.AddForce(forcedirection * _settings.MoveLinearStrength, ForceMode.Impulse);
+            _player.EntityPhysicsModule.Rigidbody.AddForce(forcedirection * _settings.MoveLinearStrength, ForceMode.Impulse);
 
             Vector3 torqueDirection = Vector3.Cross(forcedirection, Vector3.up);
 
-            _player.RaftPlayerPhysicsModule.Rigidbody.AddTorque(torqueDirection * _settings.MoveAngularStrength, ForceMode.Impulse);
+            _player.EntityPhysicsModule.Rigidbody.AddTorque(torqueDirection * _settings.MoveAngularStrength, ForceMode.Impulse);
 
             _moveTimer = 0f;
         }
 
         private void StabalisationFixedTick()
         {
-            Quaternion rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.Inverse(_player.RaftPlayerPhysicsModule.Rigidbody.rotation);
+            Quaternion rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.Inverse(_player.EntityPhysicsModule.Rigidbody.rotation);
             
             if (rotation.w < 0f)
             {
@@ -111,14 +111,14 @@ namespace NoMoreFishAndChips.Entities
             }
 
             Vector3 direction = axis.normalized * angle * Mathf.Deg2Rad;
-            Vector3 torque = direction * _settings.StabalisationStrength - _player.RaftPlayerPhysicsModule.Rigidbody.angularVelocity * _settings.StabalisationDamping;
+            Vector3 torque = direction * _settings.StabalisationStrength - _player.EntityPhysicsModule.Rigidbody.angularVelocity * _settings.StabalisationDamping;
 
-            _player.RaftPlayerPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Acceleration);
+            _player.EntityPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Acceleration);
         }
 
         private void ReviveFixedTick()
         {
-            if (Physics.OverlapSphereNonAlloc(_player.RaftPlayerPhysicsModule.Rigidbody.position, _settings.ReviveRadius, _reviveCollidersNonAlloc, _settings.ReviveMask) == 0)
+            if (Physics.OverlapSphereNonAlloc(_player.EntityPhysicsModule.Rigidbody.position, _settings.ReviveRadius, _reviveCollidersNonAlloc, _settings.ReviveMask) == 0)
             {
                 return;
             }
@@ -126,14 +126,14 @@ namespace NoMoreFishAndChips.Entities
             SetIsDefeated(false);
             _player.SetNetInBarrelRpc(_player.owner.Value, false);
 
-            _player.RaftPlayerPhysicsModule.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
+            _player.EntityPhysicsModule.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
         }
 
         public override void HandleIsDefeatedChanged(bool defeated)
         {
             if (defeated)
             {
-                _player.RaftPlayerPhysicsModule.Rigidbody.isKinematic = true;
+                _player.EntityPhysicsModule.Rigidbody.isKinematic = true;
                 TweenExtensions.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: Ease.OutQuad);
             }
 

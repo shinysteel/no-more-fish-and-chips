@@ -34,7 +34,9 @@ namespace NoMoreFishAndChips.Entities
 
         public const float Size = 1f;
 
-        IInteractableSettings IInteractable.Settings => TileDefinitionData.IInteractableSettings;
+        public TileDefeatModule TileDefeatModule => (TileDefeatModule)_entityDefeatModule;
+
+        IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
 
         protected override void Awake()
         {
@@ -42,10 +44,17 @@ namespace NoMoreFishAndChips.Entities
 
             _material = _meshRenderer.material;
         }
-        
-        protected override void HealthModuleSetter(int health)
+
+        protected override EntityHealthModule CreateHealthModule()
         {
-            _context.Raft.SetNetTileHealth(_cell, health);
+            return new EntityHealthModule(this, 
+                healthGetter: HealthModuleGetter, 
+                healthSetter: (int health) => _context.Raft.SetNetTileHealth(_cell, health));
+        }
+
+        protected override EntityDefeatModule CreateDefeatModule()
+        {
+            return new TileDefeatModule(this, DefeatModuleGetter, DefeatModuleSetter);
         }
 
         public override void OnTakenFromPool()
@@ -64,6 +73,13 @@ namespace NoMoreFishAndChips.Entities
             _cell = Vector2Int.one * int.MinValue;
 
             base.OnReturnedToPool();
+        }
+
+        public override void Initialise(GameplayContext context)
+        {
+            base.Initialise(context);
+
+            TileDefeatModule.SetContext(context);
         }
 
         private void HandleHealthChanged(int previous, int current)
@@ -105,16 +121,27 @@ namespace NoMoreFishAndChips.Entities
         {
             base.FixedUpdate();
 
+            if (!_isSpawned)
+            {
+                return;
+            }
+            
             PositionFixedUpdate();
         }
 
         private void PositionFixedUpdate()
         {
-            bool sink = Physics.CheckSphere(_entityPhysicsModule.Rigidbody.position, TileDefinitionData.SinkSettings.Radius, TileDefinitionData.SinkSettings.Mask);
+            // TileDefeatModule takes over when defeated
+            if (_entityDefeatModule.IsDefeated)
+            {
+                return;
+            }
+
+            bool dip = Physics.CheckSphere(_rigidbody.position, TileDefinitionData.DipSettings.Radius, TileDefinitionData.DipSettings.Mask);
 
             float targetY;
 
-            if (sink)
+            if (dip)
             {
                 // Sit just above the water
                 targetY = 0f;
@@ -127,8 +154,8 @@ namespace NoMoreFishAndChips.Entities
                     _cell.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
             }
 
-            Vector3 targetPosition = new Vector3(_entityPhysicsModule.Rigidbody.position.x, targetY, _entityPhysicsModule.Rigidbody.position.z);
-            _entityPhysicsModule.Rigidbody.MovePosition(Vector3.MoveTowards(_entityPhysicsModule.Rigidbody.position, targetPosition, TileDefinitionData.SinkSettings.Speed * Time.fixedDeltaTime));
+            Vector3 targetPosition = new Vector3(_rigidbody.position.x, targetY, _rigidbody.position.z);
+            _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.DipSettings.Speed * Time.fixedDeltaTime));
         }
 
         /// <summary>

@@ -12,9 +12,7 @@ namespace NoMoreFishAndChips.Entities
         private Character _character;
         private CharacterDefeatSettings _settings;
 
-
-        private float _defeatTimer;
-
+        private float _tweenTimer;
         private Tween _defeatTween;
 
         public CharacterDefeatModule(Character character, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(character, isDefeatedGetter, isDefeatedSetter)
@@ -48,7 +46,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void TweenTick()
         {
-            if (!IsDefeated)
+            if (!_isDefeatedGetter())
             {
                 return;
             }
@@ -63,9 +61,9 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _defeatTimer += Time.deltaTime;
+            _tweenTimer += Time.deltaTime;
 
-            if (_defeatTimer < _settings.DefeatDuration)
+            if (_tweenTimer < _settings.DefeatDuration)
             {
                 return;
             }
@@ -84,14 +82,14 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (defeated)
                 {
-                    _defeatTimer = 0f;
+                    _tweenTimer = 0f;
                 }
             }
 
             RaiseIsDefeatedChanged();
         }
 
-        protected override void Despawn()
+        public override void Despawn()
         {
             _character.RagdollLogic.SetEnabled(false);
 

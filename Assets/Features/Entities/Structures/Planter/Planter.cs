@@ -6,7 +6,7 @@ namespace NoMoreFishAndChips.Entities
 {
     public class Planter : Structure<PlanterDefinitionData>, IInteractable
     {
-        IInteractableSettings IInteractable.Settings => DefinitionData.IInteractableSettings;
+        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         bool IInteractable.CanPrompt()
         {

@@ -26,7 +26,7 @@ namespace NoMoreFishAndChips.Entities
         private SyncVar<bool> _netCanOpenInventory = new SyncVar<bool>(ownerAuth: true);
         private SyncVar<float> _netExplodeBlend = new SyncVar<float>(ownerAuth: true);
 
-        public IInteractableSettings Settings => DefinitionData.IInteractableSettings;
+        public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
 
         private const string ExplodeBlendName = "_ExplodeBlend";
 

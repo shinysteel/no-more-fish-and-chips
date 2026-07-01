@@ -45,7 +45,7 @@ namespace NoMoreFishAndChips.Entities
                 .ChainCallback(Despawn);
         }
 
-        protected override void Despawn()
+        public override void Despawn()
         {
             if (_networkManager.IsServer)
             {

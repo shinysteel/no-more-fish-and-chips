@@ -103,7 +103,7 @@ namespace NoMoreFishAndChips.Entities
         
         public void Interact(ActionHotkey hotkey)
         {
-            if (_promptInteractable?.Settings.Hotkey != hotkey)
+            if (_promptInteractable?.IInteractableSettings.Hotkey != hotkey)
             {
                 return;
             }
@@ -178,7 +178,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (CanPrompt(nearbyInteractable.Interactable, out float angle, out float distance))
                 {
-                    nearbyInteractable.Set(nearbyInteractable.Interactable.Settings.Priority, angle, distance);
+                    nearbyInteractable.Set(nearbyInteractable.Interactable.IInteractableSettings.Priority, angle, distance);
                 }
                 else
                 {
@@ -210,9 +210,9 @@ namespace NoMoreFishAndChips.Entities
                     _promptInteractable = _nearbyInteractables[0].Interactable;
                     _promptUI = _promptInteractable.CreatePromptUI();
 
-                    if (_promptInteractable.Settings.PreviewId != PropId.None)
+                    if (_promptInteractable.IInteractableSettings.PreviewId != PropId.None)
                     {
-                        _promptPreview = _environmentManager.GetProp(_promptInteractable.Settings.PreviewId, new SpawnParams() { Parent = _promptInteractable.transform, Position = _promptInteractable.Settings.PreviewPosition });
+                        _promptPreview = _environmentManager.GetProp(_promptInteractable.IInteractableSettings.PreviewId, new SpawnParams() { Parent = _promptInteractable.transform, Position = _promptInteractable.IInteractableSettings.PreviewPosition });
                         RefreshPreviewColor();
                     }
                 }
@@ -270,7 +270,7 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            return angle < interactable.Settings.MaxAngle || distance < interactable.Settings.MaxDistance;
+            return angle < interactable.IInteractableSettings.MaxAngle || distance < interactable.IInteractableSettings.MaxDistance;
         }
     }
 }

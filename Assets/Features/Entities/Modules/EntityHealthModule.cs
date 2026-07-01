@@ -11,24 +11,24 @@ namespace NoMoreFishAndChips.Entities
         private PoolManager _poolManager;
 
         private IEntity _entity;
-        private Func<int> _getter;
-        private Action<int> _setter;
+        private Func<int> _healthGetter;
+        private Action<int> _healthSetter;
 
         private int _max;
         public int Max => _max;
 
-        public int Current => _getter();
+        public int Current => _healthGetter();
 
         public event Action<int, int> OnChanged;
 
-        /// <param name="setter">Does not require clamping - we do that for you</param>
-        public EntityHealthModule(IEntity entity, Func<int> getter, Action<int> setter)
+        /// <param name="healthSetter">Does not require clamping - we do that for you</param>
+        public EntityHealthModule(IEntity entity, Func<int> healthGetter, Action<int> healthSetter)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _entity = entity;
-            _getter = getter;
-            _setter = setter;
+            _healthGetter = healthGetter;
+            _healthSetter = healthSetter;
 
             _max = _entity.EntityDefinitionData.Health;
         }
@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.Entities
 
             int previous = Current;
 
-            _setter(health);
+            _healthSetter(health);
         }
 
         public void ChangeHealth(int change)

@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.Entities
     }
 
     [Serializable]
-    public class TileSinkSettings
+    public class TileDipSettings
     {
         [SerializeField] private LayerMask _mask;
         [SerializeField] private float _radius = 1f;
@@ -36,13 +36,13 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private Recipe _buildRecipe;
         [SerializeField] private TileBobSettings _bobSettings;
-        [SerializeField] private TileSinkSettings _sinkSettings;
+        [SerializeField] private TileDipSettings _dipSettings;
         [SerializeField] private IInteractableSettings _iInteractableSettings;
         [SerializeField] private Recipe _repairRecipe;
 
         public Recipe BuildRecipe => _buildRecipe;
         public TileBobSettings BobSettings => _bobSettings;
-        public TileSinkSettings SinkSettings => _sinkSettings;
+        public TileDipSettings DipSettings => _dipSettings;
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
         public Recipe RepairRecipe => _repairRecipe;
 

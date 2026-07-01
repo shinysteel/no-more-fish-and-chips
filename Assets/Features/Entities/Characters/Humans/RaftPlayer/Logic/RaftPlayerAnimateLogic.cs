@@ -67,8 +67,8 @@ namespace NoMoreFishAndChips.Entities
             if (_player.isOwner)
             {
                 bool isMoving = _player.InputLogic.MoveDirection != Vector3.zero;
-                bool inWater = _player.RaftPlayerPhysicsModule.InWater;
-                bool inAir = _player.RaftPlayerPhysicsModule.InAir;
+                bool inWater = _player.CharacterPhysicsModule.InWater;
+                bool inAir = _player.CharacterPhysicsModule.InAir;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
                 bool isAttacking = _player.AttackLogic.AttackState > RaftPlayerAttackState.None;
                 bool inBarrel = _player.RaftPlayerDefeatModule.InBarrel;
