@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class TileDefeatModule : EntityDefeatModule
+    public class RaftTileDefeatModule : EntityDefeatModule
     {
-        private Tile _tile;
-        private TileDefeatSettings _settings;
+        private RaftTile _tile;
+        private RaftTileDefeatSettings _settings;
 
         private GameplayContext _context;
 
         private float _sinkTimer;
 
-        public TileDefeatModule(Tile tile, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(tile, isDefeatedGetter, isDefeatedSetter)
+        public RaftTileDefeatModule(RaftTile tile, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(tile, isDefeatedGetter, isDefeatedSetter)
         {
             _tile = tile;
-            _settings = (TileDefeatSettings)tile.EntityDefinitionData.EntityDefeatSettings;
+            _settings = (RaftTileDefeatSettings)tile.EntityDefinitionData.EntityDefeatSettings;
 
             _tile.EntityHealthModule.OnChanged += HandleHealthChanged;
         }
@@ -26,7 +26,7 @@ namespace NoMoreFishAndChips.Entities
             _context = context;
         }
 
-        ~TileDefeatModule()
+        ~RaftTileDefeatModule()
         {
             if (_tile != null)
             {

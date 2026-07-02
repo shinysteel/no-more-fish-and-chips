@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class GoopTile : Tile
+    public class GoopRaftTile : RaftTile
     {
         
     }

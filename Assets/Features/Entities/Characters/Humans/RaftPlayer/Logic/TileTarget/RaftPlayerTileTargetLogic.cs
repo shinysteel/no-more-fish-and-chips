@@ -20,10 +20,10 @@ namespace NoMoreFishAndChips.Entities
         private GameplayContext _context;
 
         private Vector2Int _cell;
-        private Tile _tile;
+        private RaftTile _tile;
 
         public Vector2Int Cell => _cell;
-        public Tile Tile => _tile;
+        public RaftTile Tile => _tile;
 
         public event Action OnChanged;
 
@@ -54,11 +54,11 @@ namespace NoMoreFishAndChips.Entities
             _cell = cell;
 
             // Refresh _tile whenever _cell changes
-            _context.Raft.Tiles.TryGetValue(_cell, out Tile tile);
+            _context.Raft.Tiles.TryGetValue(_cell, out RaftTile tile);
             HandleTileChanged(_cell, tile);
         }
 
-        private void HandleTileChanged(Vector2Int cell, Tile tile)
+        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
         {
             if (_cell != cell)
             {
@@ -172,13 +172,13 @@ namespace NoMoreFishAndChips.Entities
             {
                 Vector2Int playerCell = _context.Raft.Queries.WorldPositionToCell(_player.transform.position);
 
-                List<Tile> tiles = ListPool<Tile>.Get();
+                List<RaftTile> tiles = ListPool<RaftTile>.Get();
 
                 for (int i = -1; i <= 1; i++)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        if (_context.Raft.Tiles.TryGetValue(playerCell + new Vector2Int(i, j), out Tile tile))
+                        if (_context.Raft.Tiles.TryGetValue(playerCell + new Vector2Int(i, j), out RaftTile tile))
                         {
                             tiles.Add(tile);
                         }
@@ -186,12 +186,12 @@ namespace NoMoreFishAndChips.Entities
                 }
 
                 // Find the closest tile that can be repaired
-                Tile closestTile = tiles
+                RaftTile closestTile = tiles
                     .Where(tile => tile.EntityHealthModule.Current < tile.EntityHealthModule.Max && Vector3.Distance(tile.transform.position, _player.transform.position) < RepairRange)
                     .OrderBy(tile => Vector3.Distance(tile.transform.position, _player.transform.position))
                     .FirstOrDefault();
 
-                ListPool<Tile>.Release(tiles);
+                ListPool<RaftTile>.Release(tiles);
 
                 newTargetCell = closestTile?.Cell ?? playerCell;                
             }

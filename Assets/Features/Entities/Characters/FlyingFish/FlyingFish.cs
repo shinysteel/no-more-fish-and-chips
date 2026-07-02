@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<EState> _stateMachine;
 
-        private Tile _targetTile;
+        private RaftTile _targetTile;
 
         private int? _markerId;
 

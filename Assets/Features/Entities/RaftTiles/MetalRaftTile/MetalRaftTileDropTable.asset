@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 625fcce9c82db8144a0c6b3b951e43bb, type: 3}
-  m_Name: TileDefeatSettings
-  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.TileDefeatSettings
-  _duration: 1
-  _speed: 0.25
+  m_Script: {fileID: 11500000, guid: bf848d7c76681e84bb99ed4e4fc6d0dd, type: 3}
+  m_Name: MetalRaftTileDropTable
+  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.DropTable
+  _entries:
+  - _value: 4
+    _weight: 1
+    _minCount: 0
+    _maxCount: 1

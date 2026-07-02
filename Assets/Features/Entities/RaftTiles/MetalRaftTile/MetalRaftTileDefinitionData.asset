@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1b5578235882c140a774104bbe000ca, type: 3}
-  m_Name: MetalTileDefinitionData
+  m_Name: MetalRaftTileDefinitionData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftTileData
   _nameTerm: -1596126559
   _descriptionTerm: -1596126554

@@ -51,10 +51,10 @@ namespace NoMoreFishAndChips.Environments
 
         private SyncDictionaryWrapper<Vector2Int, NetTile> _netTiles = new SyncDictionaryWrapper<Vector2Int, NetTile>(ownerAuth: true);
 
-        private Dictionary<Vector2Int, Tile> _tiles = new();
-        public IReadOnlyDictionary<Vector2Int, Tile> Tiles => _tiles;
+        private Dictionary<Vector2Int, RaftTile> _tiles = new();
+        public IReadOnlyDictionary<Vector2Int, RaftTile> Tiles => _tiles;
 
-        public event Action<Vector2Int,  Tile> OnTileChanged;
+        public event Action<Vector2Int,  RaftTile> OnTileChanged;
 
         private RaftQueries _queries;
         public RaftQueries Queries => _queries;
@@ -86,7 +86,7 @@ namespace NoMoreFishAndChips.Environments
         {
             _instantiateManager.RaiseComponentDestroyed(this);
 
-            foreach (Tile tile in _tiles.Values)
+            foreach (RaftTile tile in _tiles.Values)
             {
                 if (tile.Structure != null)
                 {
@@ -156,7 +156,7 @@ namespace NoMoreFishAndChips.Environments
                 return;
             }
 
-            if (!_tiles.TryGetValue(cell, out Tile tile))
+            if (!_tiles.TryGetValue(cell, out RaftTile tile))
             {
                 return;
             }
@@ -188,11 +188,11 @@ namespace NoMoreFishAndChips.Environments
             // Retrieve from pool
             if (!_tiles.ContainsKey(cell))
             {
-                _tiles[cell] = (Tile)_entityManager.Spawn(netTile.TileId, new SpawnParams() { Parent = _tilesContainer });
+                _tiles[cell] = (RaftTile)_entityManager.Spawn(netTile.TileId, new SpawnParams() { Parent = _tilesContainer });
                 _tiles[cell].Initialise(_context);
             }
 
-            Tile tile = _tiles[cell];
+            RaftTile tile = _tiles[cell];
 
             tile.SetHealth(netTile.Health);
             tile.SetCell(cell);
@@ -204,7 +204,7 @@ namespace NoMoreFishAndChips.Environments
 
         private void RemoveTile(Vector2Int cell)
         {
-            if (!_tiles.TryGetValue(cell, out Tile tile))
+            if (!_tiles.TryGetValue(cell, out RaftTile tile))
             {
                 return;
             }

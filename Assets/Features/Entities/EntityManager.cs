@@ -76,7 +76,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             // Type entities map
-            Type[] types = new Type[] { typeof(Tile), typeof(Structure) };
+            Type[] types = new Type[] { typeof(RaftTile), typeof(Structure) };
 
             foreach (Type type in types)
             {

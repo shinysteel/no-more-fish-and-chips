@@ -59,7 +59,7 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                if (!_seagull._context.Raft.Queries.TryGetRandomTile(out Tile tile))
+                if (!_seagull._context.Raft.Queries.TryGetRandomTile(out RaftTile tile))
                 {
                     _seagull._entityManager.Despawn(_seagull);
                     return;
@@ -132,7 +132,7 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                if (!_seagull._context.Raft.Queries.TryGetClosestTile(_seagull.transform.position, out Tile tile))
+                if (!_seagull._context.Raft.Queries.TryGetClosestTile(_seagull.transform.position, out RaftTile tile))
                 {
                     _seagull._entityManager.Despawn(_seagull);
                     return;

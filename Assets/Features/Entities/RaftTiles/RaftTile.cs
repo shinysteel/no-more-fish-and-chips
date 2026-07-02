@@ -13,7 +13,7 @@ using NoMoreFishAndChips.UI;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class Tile : Entity, IInteractable
+    public abstract class RaftTile : Entity, IInteractable
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
@@ -27,14 +27,14 @@ namespace NoMoreFishAndChips.Entities
         private int _rotations;
         public int Rotations => _rotations;
         
-        public TileDefinitionData TileDefinitionData => (TileDefinitionData)_entityDefinitionData;
+        public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
         private Structure _structure;
         public Structure Structure => _structure;
 
         public const float Size = 1f;
 
-        public TileDefeatModule TileDefeatModule => (TileDefeatModule)_entityDefeatModule;
+        public RaftTileDefeatModule TileDefeatModule => (RaftTileDefeatModule)_entityDefeatModule;
 
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
 
@@ -54,7 +54,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected override EntityDefeatModule CreateDefeatModule()
         {
-            return new TileDefeatModule(this, DefeatModuleGetter, DefeatModuleSetter);
+            return new RaftTileDefeatModule(this, DefeatModuleGetter, DefeatModuleSetter);
         }
 
         public override void OnTakenFromPool()

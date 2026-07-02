@@ -9,12 +9,12 @@ namespace NoMoreFishAndChips.Environments
 {
     public class RaftSave
     {
-        [JsonProperty] public List<TileSave> Tiles { get; private set; } = new();
+        [JsonProperty] public List<RaftTileSave> Tiles { get; private set; } = new();
         [JsonProperty] public List<StructureSave> Structures { get; private set; } = new();
 
         public void LoadTo(Raft raft)
         {
-            foreach (TileSave save in Tiles)
+            foreach (RaftTileSave save in Tiles)
             {
                 raft.AddNetTileRpc(save.Cell, save.TileId, save.Health, save.Rotations);
             }
@@ -33,9 +33,9 @@ namespace NoMoreFishAndChips.Environments
             Tiles.Clear();
             Structures.Clear();
 
-            foreach (Tile tile in raft.Tiles.Values)
+            foreach (RaftTile tile in raft.Tiles.Values)
             {
-                Tiles.Add(new TileSave(tile));
+                Tiles.Add(new RaftTileSave(tile));
 
                 if (tile.Structure != null)
                 {
@@ -67,7 +67,7 @@ namespace NoMoreFishAndChips.Environments
 
                     int rotations = Random.Range(0, 4);
 
-                    Tiles.Add(new TileSave(new Vector2Int(x, y), id, health, rotations));
+                    Tiles.Add(new RaftTileSave(new Vector2Int(x, y), id, health, rotations));
                 }
             }
 

@@ -60,7 +60,7 @@ namespace NoMoreFishAndChips.Effects
 
             for (int i = 0; i < _cells.Length; i++)
             {
-                if (_context.Raft.Tiles.TryGetValue(_cells[i], out Tile tile))
+                if (_context.Raft.Tiles.TryGetValue(_cells[i], out RaftTile tile))
                 {
                     y = Mathf.Max(y ?? float.MinValue, tile.GetSurfaceY());
                 }

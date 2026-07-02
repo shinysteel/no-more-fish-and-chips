@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MetalTile
+  m_Name: MetalRaftTile
   m_Shader: {fileID: 4800000, guid: 0f271ca43cadef9408e6b10b154b6c33, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

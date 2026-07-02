@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class TileSave
+    public class RaftTileSave
     {
         [JsonProperty] private SimpleVector2Int _cell = new();
         [JsonProperty] public EntityId TileId { get; private set; }
@@ -18,10 +18,10 @@ namespace NoMoreFishAndChips.Entities
             set => _cell = new SimpleVector2Int(value);
         }
 
-        public TileSave()
+        public RaftTileSave()
         { }
 
-        public TileSave(Vector2Int cell, EntityId tileId, int health, int rotations)
+        public RaftTileSave(Vector2Int cell, EntityId tileId, int health, int rotations)
         {
             Cell = cell;
             TileId = tileId;
@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
             Rotations = rotations;
         }
 
-        public TileSave(Tile tile) : this(tile.Cell, tile.EntityDefinitionData.Id, tile.EntityHealthModule.Current, tile.Rotations)
+        public RaftTileSave(RaftTile tile) : this(tile.Cell, tile.EntityDefinitionData.Id, tile.EntityHealthModule.Current, tile.Rotations)
         { }
     }
 }

@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 namespace NoMoreFishAndChips.Entities
 {
     [Serializable]
-    public class TileBobSettings
+    public class RaftTileBobSettings
     {
         [SerializeField] private float _amplitude = 0.125f;
         [SerializeField] private float _noiseScale = 0.5f;
@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.Entities
     }
 
     [Serializable]
-    public class TileDipSettings
+    public class RaftTileDipSettings
     {
         [SerializeField] private LayerMask _mask;
         [SerializeField] private float _radius = 1f;
@@ -31,18 +31,18 @@ namespace NoMoreFishAndChips.Entities
         public float Speed => _speed;
     }
 
-    [CreateAssetMenu(fileName = "TileDefinitionData", menuName = "Data/Entities/TileDefinitionData")]
-    public class TileDefinitionData : EntityDefinitionData, IBuildable
+    [CreateAssetMenu(fileName = "RaftTileDefinitionData", menuName = "Data/Entities/RaftTileDefinitionData")]
+    public class RaftTileDefinitionData : EntityDefinitionData, IBuildable
     {
         [SerializeField] private Recipe _buildRecipe;
-        [SerializeField] private TileBobSettings _bobSettings;
-        [SerializeField] private TileDipSettings _dipSettings;
+        [SerializeField] private RaftTileBobSettings _bobSettings;
+        [SerializeField] private RaftTileDipSettings _dipSettings;
         [SerializeField] private IInteractableSettings _iInteractableSettings;
         [SerializeField] private Recipe _repairRecipe;
 
         public Recipe BuildRecipe => _buildRecipe;
-        public TileBobSettings BobSettings => _bobSettings;
-        public TileDipSettings DipSettings => _dipSettings;
+        public RaftTileBobSettings BobSettings => _bobSettings;
+        public RaftTileDipSettings DipSettings => _dipSettings;
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
         public Recipe RepairRecipe => _repairRecipe;
 

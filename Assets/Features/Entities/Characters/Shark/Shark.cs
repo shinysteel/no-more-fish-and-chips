@@ -72,7 +72,7 @@ namespace NoMoreFishAndChips.Entities
                 int edgeDirection = Random.value < 0.5f ? -1 : 1;
                 RaftEdge[] edges = new RaftEdge[] { _shark._targetLines[0].GetEdge(edgeDirection), _shark._targetLines[1].GetEdge(edgeDirection) };
                 RaftEdge furthestEdge = edges.OrderByDescending(edge => edge?.Node.AxisIndex ?? int.MinValue).First();
-                _shark.transform.position = _shark._context.Raft.Queries.CellToWorldPosition(furthestEdge.Node.Cell) + Utils.Math.DirectionToVector3(furthestEdge.Direction) * Tile.Size * _surfaceOffset;
+                _shark.transform.position = _shark._context.Raft.Queries.CellToWorldPosition(furthestEdge.Node.Cell) + Utils.Math.DirectionToVector3(furthestEdge.Direction) * RaftTile.Size * _surfaceOffset;
 
                 // Store directions
                 _shark._swimDirectionEnum = Utils.Math.FlipDirection(furthestEdge.Direction);
@@ -80,7 +80,7 @@ namespace NoMoreFishAndChips.Entities
 
                 // Sit in between the two lines
                 _shark._shiftDirection = Utils.Math.DirectionToVector3(_shark._targetLines[0].RaftAxis.GetDirection()) * adjacentDirection;
-                _shark.transform.position += _shark._shiftDirection * Tile.Size * 0.5f;
+                _shark.transform.position += _shark._shiftDirection * RaftTile.Size * 0.5f;
 
                 // Face the raft, and submerge so that only the fin is showing
                 _shark.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(_shark._swimDirectionEnum), Vector3.up);
@@ -221,13 +221,13 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                List<Tile> tiles = ListPool<Tile>.Get();
+                List<RaftTile> tiles = ListPool<RaftTile>.Get();
 
                 try
                 {
                     foreach (RaftLineNode node in _shark._targetNodes)
                     {
-                        if (node != null && _shark._context.Raft.Tiles.TryGetValue(node.Cell, out Tile tile))
+                        if (node != null && _shark._context.Raft.Tiles.TryGetValue(node.Cell, out RaftTile tile))
                         {
                             tiles.Add(tile);
                         }
@@ -260,14 +260,14 @@ namespace NoMoreFishAndChips.Entities
                     _biteTimer -= _biteInterval;
 
                     Vector3 hitboxDirection = Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
-                    Vector3 hitboxPosition = _shark._targetLines[0].AxisIndexToWorldPosition(axisIndex) + _shark._shiftDirection * Tile.Size * 0.5f + hitboxDirection;
+                    Vector3 hitboxPosition = _shark._targetLines[0].AxisIndexToWorldPosition(axisIndex) + _shark._shiftDirection * RaftTile.Size * 0.5f + hitboxDirection;
                     _shark._hitboxManager.SpawnHitbox(_shark.DefinitionData.BiteHitboxData, new SpawnParams() { Position = hitboxPosition, Rotation = Quaternion.LookRotation(hitboxDirection, Vector3.up) });
 
                     RemoveMarker();
                 }
                 finally
                 {
-                    ListPool<Tile>.Release(tiles);
+                    ListPool<RaftTile>.Release(tiles);
                 }
             }
 

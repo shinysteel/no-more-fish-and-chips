@@ -46,7 +46,7 @@ namespace NoMoreFishAndChips.UI
             // We populate the entries with either tiles or structures depending on the target
             if (_context.LocalPlayer.TileTargetLogic.Target.CanBuildTile())
             {
-                buildables = _entityManager.GetPrefabs<Tile>().Select(tile => tile.TileDefinitionData);
+                buildables = _entityManager.GetPrefabs<RaftTile>().Select(tile => tile.TileDefinitionData);
             }
             else if (_context.LocalPlayer.TileTargetLogic.Target.CanBuildStructure())
             {

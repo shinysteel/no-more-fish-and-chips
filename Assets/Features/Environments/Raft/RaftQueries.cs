@@ -60,14 +60,14 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        private void HandleTileChanged(Vector2Int cell, Tile tile)
+        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
         {
             UpdateLines(cell, tile);
             UpdateBounds(cell, tile);
         }
 
         // Maintains positional maps when any Tile is changed
-        private void UpdateLines(Vector2Int cell, Tile tile)
+        private void UpdateLines(Vector2Int cell, RaftTile tile)
         {
             int lineIndex = CellToLineIndex(cell);
             int axisIndex = CellToAxisIndex(cell);
@@ -89,7 +89,7 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // Recalculates boundaries when any Tile is changed
-        private void UpdateBounds(Vector2Int cell, Tile tile)
+        private void UpdateBounds(Vector2Int cell, RaftTile tile)
         {
             int lineIndex = CellToLineIndex(cell);
 
@@ -317,7 +317,7 @@ namespace NoMoreFishAndChips.Environments
             _axes.Add(Axis.Horizontal, new RaftAxis(_raft, Axis.Horizontal));
             _axes.Add(Axis.Vertical, new RaftAxis(_raft, Axis.Vertical));
 
-            foreach (KeyValuePair<Vector2Int, Tile> kvp in _raft.Tiles)
+            foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _raft.Tiles)
             {
                 HandleTileChanged(kvp.Key, kvp.Value);
             }
@@ -330,7 +330,7 @@ namespace NoMoreFishAndChips.Environments
             _raft.OnTileChanged -= HandleTileChanged;
         }
 
-        private void HandleTileChanged(Vector2Int tileCell, Tile tile)
+        private void HandleTileChanged(Vector2Int tileCell, RaftTile tile)
         {
             void processCell(Vector2Int offset)
             {
@@ -378,7 +378,7 @@ namespace NoMoreFishAndChips.Environments
         /// <summary>
         /// Retrieves a random tile
         /// </summary>
-        public bool TryGetRandomTile(out Tile tile)
+        public bool TryGetRandomTile(out RaftTile tile)
         {
             tile = null;
 
@@ -392,7 +392,7 @@ namespace NoMoreFishAndChips.Environments
             return true;
         }
 
-        public bool TryGetClosestTile(Vector3 position, out Tile tile)
+        public bool TryGetClosestTile(Vector3 position, out RaftTile tile)
         {
             tile = null;
 
