@@ -42,7 +42,7 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
-            // _cameraManager.SetMode(new OrbitCameraMode(Vector3.zero, 5f, 3f, 0.1f));
+            _cameraManager.SetMode(new OrbitCameraMode(Vector3.zero, 5f, 3f, 0.1f));
         }
 
         public override async Task EnterAsync()
@@ -55,8 +55,6 @@ namespace NoMoreFishAndChips.States
                 _mainMenuScreen.Show(null);
 
                 _transitionManager.UncoverScreen(null);
-
-                _cameraManager.SetMode(new FollowCameraMode(GameObject.Find("Human").transform, new Vector3(0f, 3f, -5f)));
             }
             catch (Exception ex)
             {

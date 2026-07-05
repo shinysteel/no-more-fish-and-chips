@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: fbc6e845fdb670244a233ffb40b43d77, type: 2}
+    - target: {fileID: 5427249188858298997, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fbc6e845fdb670244a233ffb40b43d77, type: 2}
     - target: {fileID: 5842515307852990877, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -62,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8420347017716335235, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
       propertyPath: m_Name
-      value: GoopTile
+      value: GoopRaftTile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -72,11 +76,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2298525168326564}
   m_SourcePrefab: {fileID: 100100000, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
---- !u!23 &2400998617261748978 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3541544350305941869, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
-  m_PrefabInstance: {fileID: 1185599367677070239}
-  m_PrefabAsset: {fileID: 0}
 --- !u!54 &2420220123898849964 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 3594507156527767859, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
@@ -85,6 +84,11 @@ Rigidbody:
 --- !u!65 &3856270332900495492 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 2733721499595217691, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+  m_PrefabInstance: {fileID: 1185599367677070239}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6567776810019113450 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5427249188858298997, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
   m_PrefabInstance: {fileID: 1185599367677070239}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7255031440559130908 stripped
@@ -108,5 +112,5 @@ MonoBehaviour:
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 2420220123898849964}
   _collider: {fileID: 3856270332900495492}
-  _meshRenderer: {fileID: 2400998617261748978}
+  _meshRenderer: {fileID: 6567776810019113450}
   _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}

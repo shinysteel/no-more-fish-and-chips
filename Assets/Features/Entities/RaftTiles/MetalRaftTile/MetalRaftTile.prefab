@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: cc7a9e19de62f8348aa6b0ec5772f198, type: 2}
+    - target: {fileID: 5427249188858298997, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cc7a9e19de62f8348aa6b0ec5772f198, type: 2}
     - target: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -54,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8420347017716335235, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
       propertyPath: m_Name
-      value: MetalTile
+      value: MetalRaftTile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64,11 +68,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3375244540226938909}
   m_SourcePrefab: {fileID: 100100000, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
---- !u!23 &449122836709410669 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3541544350305941869, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
-  m_PrefabInstance: {fileID: 3971485502159355392}
-  m_PrefabAsset: {fileID: 0}
 --- !u!54 &504346204411109171 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 3594507156527767859, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
@@ -100,5 +99,10 @@ MonoBehaviour:
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 504346204411109171}
   _collider: {fileID: 1363935644063819035}
-  _meshRenderer: {fileID: 449122836709410669}
+  _meshRenderer: {fileID: 8956810167253433461}
   _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
+--- !u!23 &8956810167253433461 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5427249188858298997, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+  m_PrefabInstance: {fileID: 3971485502159355392}
+  m_PrefabAsset: {fileID: 0}

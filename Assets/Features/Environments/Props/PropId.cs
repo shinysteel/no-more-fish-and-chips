@@ -9,6 +9,8 @@ namespace NoMoreFishAndChips.Environments
         RepairPreview,
         PlantPreview,
         TileScaffold,
-        StructureScaffold
+        StructureScaffold,
+        SandTile,
+        GrassTile,
     }
 }
