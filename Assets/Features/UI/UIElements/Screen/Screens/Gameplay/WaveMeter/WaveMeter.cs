@@ -22,13 +22,13 @@ namespace NoMoreFishAndChips.UI
 
         public void Setup(GameplayContext context)
         {
-            _waveSpawner = context.WaveSpawner;
+            //_waveSpawner = context.WaveSpawner;
 
-            _rectTransform.sizeDelta = new Vector2(BaseWidth + IndexWidth * _waveSpawner.StageData.Waves.Length, _rectTransform.sizeDelta.y);
+            //_rectTransform.sizeDelta = new Vector2(BaseWidth + IndexWidth * _waveSpawner.StageData.Waves.Length, _rectTransform.sizeDelta.y);
 
-            HandleWaveIndexChanged(_waveSpawner.WaveIndex);
+            //HandleWaveIndexChanged(_waveSpawner.WaveIndex);
 
-            _waveSpawner.OnWaveIndexChanged += HandleWaveIndexChanged;
+            //_waveSpawner.OnWaveIndexChanged += HandleWaveIndexChanged;
         }
 
         private void OnDestroy()
@@ -41,9 +41,9 @@ namespace NoMoreFishAndChips.UI
 
         private void HandleWaveIndexChanged(int index)
         {
-            _fillTween.Stop();
+            //_fillTween.Stop();
 
-            _fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _waveSpawner.StageData.Waves.Length, duration: 0.5f);
+            //_fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _waveSpawner.StageData.Waves.Length, duration: 0.5f);
         }
     }
 }

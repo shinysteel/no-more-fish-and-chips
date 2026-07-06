@@ -12,5 +12,6 @@ namespace NoMoreFishAndChips.Environments
         StructureScaffold,
         SandTile,
         GrassTile,
+        FishAndChipsShop
     }
 }

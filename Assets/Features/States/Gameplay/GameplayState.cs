@@ -247,7 +247,7 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
-            _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Gameplay));
+            _transitionManager.CoverScreen(() => _stateManager.ChangeMainState(EMainState.Gameplay));
 
             // Currently we have no lobby flow, and just start the lobby as soon as we create it
             //if (_lobbyManager.IsLobbyOwner(lobby))
@@ -289,7 +289,7 @@ namespace NoMoreFishAndChips.States
 
             if (!_transitionManager.IsShowing)
             {
-                _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Menus));
+                _transitionManager.CoverScreen(() => _stateManager.ChangeMainState(EMainState.Menus));
             }
         }
 

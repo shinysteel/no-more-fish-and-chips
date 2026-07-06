@@ -33,7 +33,7 @@ MonoBehaviour:
     _amplitude: 0.125
     _noiseScale: 0.5
     _timeScale: 0.25
-  _sinkSettings:
+  _dipSettings:
     _mask:
       serializedVersion: 2
       m_Bits: 64

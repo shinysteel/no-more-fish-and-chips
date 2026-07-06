@@ -79,6 +79,8 @@ namespace ShinyOwl.Common.Framework
 
         public IState CurrentState => _enumStateMap[_currentEnum];
 
+        public event Action<TStateEnum, TStateEnum> OnStateChanged;
+
         public StateMachine()
         {
             // Start off every enum with null. Allows us to skip assigning null to Enum.None
@@ -107,6 +109,8 @@ namespace ShinyOwl.Common.Framework
                 return;
             }
 
+            TStateEnum previous = _currentEnum;
+
             // CurrentState will return the new state once we assign the enum, so we can't just cache the output
             CurrentState?.Exit();
             _ = CurrentState?.ExitAsync();
@@ -115,6 +119,8 @@ namespace ShinyOwl.Common.Framework
 
             CurrentState?.Enter();
             _ = CurrentState?.EnterAsync();
+
+            OnStateChanged?.Invoke(previous, _currentEnum);
         }
 
         public void Enter()

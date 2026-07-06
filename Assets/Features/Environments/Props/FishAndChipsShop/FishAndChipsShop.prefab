@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6647695905793576335
+--- !u!1001 &8549428456778830212
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,58 +8,58 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
+    - target: {fileID: -8679921383154817045, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
+    - target: {fileID: -8679921383154817045, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
+    - target: {fileID: -8679921383154817045, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
+    - target: {fileID: 919132149155446097, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
       propertyPath: m_Name
-      value: GrassTile
+      value: FishAndChipsShop
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1610976447357745826}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
+      addedObject: {fileID: 5853510306075516227}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5228799975542584731}
-  m_SourcePrefab: {fileID: 100100000, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
---- !u!1 &5800695579523166430 stripped
+      addedObject: {fileID: 2133643454276345321}
+  m_SourcePrefab: {fileID: 100100000, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
+--- !u!1 &8819387497061952725 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d5d9e97d443751f4a93cfcc621c4fd72, type: 3}
-  m_PrefabInstance: {fileID: 6647695905793576335}
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ed0136afdbce55443b6359e88f603d74, type: 3}
+  m_PrefabInstance: {fileID: 8549428456778830212}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1610976447357745826
+--- !u!114 &5853510306075516227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5800695579523166430}
+  m_GameObject: {fileID: 8819387497061952725}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a03fbf6b21d70f14ab34f7a4444e5844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Prop
-  _id: 7
---- !u!65 &5228799975542584731
+  _id: 8
+--- !u!65 &2133643454276345321
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5800695579523166430}
+  m_GameObject: {fileID: 8819387497061952725}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -72,5 +72,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.25, z: 1}
-  m_Center: {x: 0, y: 0.125, z: 0}
+  m_Size: {x: 4, y: 2, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}

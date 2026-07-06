@@ -35,8 +35,7 @@ namespace NoMoreFishAndChips.Environments
 
     public class WaveSpawner : GameplayBehaviour
     {
-        [SerializeField] private StageData _stageData;
-        public StageData StageData => _stageData;
+        private StageData _stageData;
 
         private SyncVar<int> _netWaveIndex = new SyncVar<int>(ownerAuth: true);
         private int _waveIndex;
@@ -61,11 +60,16 @@ namespace NoMoreFishAndChips.Environments
 
             base.OnDespawned();
         }
-
+        
         private void HandleNetWaveIndexChanged(int netWaveIndex)
         {
             _waveIndex = netWaveIndex;
             OnWaveIndexChanged?.Invoke(_waveIndex);
+        }
+
+        public void SetStageData(StageData data)
+        {
+            _stageData = data;
         }
 
         private void Update()

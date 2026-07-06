@@ -34,6 +34,9 @@ namespace NoMoreFishAndChips.Environments
 
         public IReadOnlyDictionary<int, RaftLine> Lines => _lines;
 
+        public RaftLine MinLine => _lines[_minLineIndex];
+        public RaftLine MaxLine => _lines[_maxLineIndex];
+
         // An arbitrary value for how many lines we setup on each axix
         public const int DefaultLines = 20;
 

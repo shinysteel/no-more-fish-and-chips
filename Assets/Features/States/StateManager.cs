@@ -60,11 +60,15 @@ namespace NoMoreFishAndChips.States
             _stateMachine.AddState(EMainState.Menus, menusState);
             _stateMachine.AddState(EMainState.Gameplay, gameplayState);
 
+            _stateMachine.OnStateChanged += HandleMainStateChanged;
+
             base.Initialise(config);
         }
 
         public override void Shutdown()
         {
+            _stateMachine.OnStateChanged -= HandleMainStateChanged;
+
             _sceneManager?.RemoveListener(this);
 
             base.Shutdown();
@@ -75,14 +79,15 @@ namespace NoMoreFishAndChips.States
             _stateMachine.Tick();
         }
 
-        public void ChangeState(EMainState state)
+        public void ChangeMainState(EMainState state)
         {
-            EMainState previous = _stateMachine.CurrentEnum;
             _stateMachine.ChangeState(state);
-            NotifyMainStateChanged(previous, state);
         }
 
-        private void NotifyMainStateChanged(EMainState previous, EMainState current) => Listeners.Dispatch(listener => listener.OnMainStateChanged(previous, current));
+        private void HandleMainStateChanged(EMainState previous, EMainState current)
+        {
+            Listeners.Dispatch(listener => listener.OnMainStateChanged(previous, current));
+        }
 
         void ISceneManagerListener.OnSceneUnloaded(EScene scene)
         { 
