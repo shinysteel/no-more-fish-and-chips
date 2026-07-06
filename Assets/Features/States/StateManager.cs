@@ -11,16 +11,26 @@ namespace NoMoreFishAndChips.States
 {
     public interface IStateManagerListener
     {
-        void OnStateChanged(EMainState previous, EMainState current) { }
+        void OnMainStateChanged(EMainState previous, EMainState current) { }
     }
 
     public enum EMainState
     {
         // While the game is initialising, a none state is useful
         None     , 
-
         Menus    ,
         Gameplay ,
+    }
+
+    public abstract class MainState<TParentStateEnum, TSubStateEnum> : State<TParentStateEnum, TSubStateEnum>
+        where TParentStateEnum : Enum
+        where TSubStateEnum : Enum
+    {
+        public MainState(StateMachine<TParentStateEnum> parent) : base(parent)
+        { }
+
+        public virtual void Initialise(StateManagerConfig config)
+        { }
     }
 
     public class StateManager : GameSystem<IStateManagerListener>, ISceneManagerListener
@@ -40,14 +50,12 @@ namespace NoMoreFishAndChips.States
             _config = config.StateManagerConfig;
 
             _stateMachine = new();
+
             MenusState menusState = new MenusState(_stateMachine);
             GameplayState gameplayState = new GameplayState(_stateMachine);
 
-            IMainState[] states = new IMainState[] { menusState, gameplayState };
-            foreach (IMainState state in states)
-            {
-                state.Initialise(_config);
-            }
+            menusState.Initialise(_config);
+            gameplayState.Initialise(_config);
 
             _stateMachine.AddState(EMainState.Menus, menusState);
             _stateMachine.AddState(EMainState.Gameplay, gameplayState);
@@ -71,10 +79,10 @@ namespace NoMoreFishAndChips.States
         {
             EMainState previous = _stateMachine.CurrentEnum;
             _stateMachine.ChangeState(state);
-            NotifyStateChanged(previous, state);
+            NotifyMainStateChanged(previous, state);
         }
 
-        private void NotifyStateChanged(EMainState previous, EMainState current) => Listeners.Dispatch(listener => listener.OnStateChanged(previous, current));
+        private void NotifyMainStateChanged(EMainState previous, EMainState current) => Listeners.Dispatch(listener => listener.OnMainStateChanged(previous, current));
 
         void ISceneManagerListener.OnSceneUnloaded(EScene scene)
         { 

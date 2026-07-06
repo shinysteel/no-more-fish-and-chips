@@ -68,7 +68,7 @@ namespace ShinyOwl.Common.Framework
         }
     }
 
-    public class StateMachine<TStateEnum> 
+    public class StateMachine<TStateEnum> : IEnumerable<IState>
         where TStateEnum : Enum
     {
         private Dictionary<TStateEnum, IState> _enumStateMap = new();
@@ -145,6 +145,25 @@ namespace ShinyOwl.Common.Framework
         public async Task ExitAsync()
         {
             await (CurrentState?.ExitAsync() ?? Task.CompletedTask);
+        }
+
+        public IEnumerator<IState> GetEnumerator()
+        {
+            foreach (IState state in _enumStateMap.Values)
+            {
+                // It's common to have a .None -> null value
+                if (state == null)
+                {
+                    continue;
+                }
+
+                yield return state;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

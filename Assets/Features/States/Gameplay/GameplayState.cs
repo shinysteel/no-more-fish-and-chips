@@ -43,7 +43,31 @@ namespace NoMoreFishAndChips.States
         }
     }
 
-    public class GameplayState : MainState<EMainState, ENone>, ILobbyManagerListener, INetworkManagerListener
+    public enum EGameplayState
+    {
+        None,
+        Lobby,
+        Stage,
+        Intermission
+    }
+
+    public abstract class GameplaySubState : State<EGameplayState, ENone>
+    {
+        protected GameplayContext _context;
+
+        public GameplaySubState(StateMachine<EGameplayState> parent) : base(parent)
+        { }
+
+        public virtual void Initialise(StateManagerConfig config)
+        { }
+
+        public void SetContext(GameplayContext context)
+        {
+            _context = context;
+        }
+    }
+
+    public class GameplayState : MainState<EMainState, EGameplayState>, ILobbyManagerListener, INetworkManagerListener
     {
         private TransitionManager _transitionManager;
         private UIManager _uiManager;
@@ -84,6 +108,20 @@ namespace NoMoreFishAndChips.States
         public override void Initialise(StateManagerConfig config)
         {
             _config = config.GameplayStateConfig;
+
+            _subStateMachine = new();
+
+            LobbyState lobbyState = new LobbyState(_subStateMachine);
+            StageState stageState = new StageState(_subStateMachine);
+            IntermissionState intermissionState = new IntermissionState(_subStateMachine);
+
+            lobbyState.Initialise(config);
+            stageState.Initialise(config);
+            intermissionState.Initialise(config);
+
+            _subStateMachine.AddState(EGameplayState.Lobby, lobbyState);
+            _subStateMachine.AddState(EGameplayState.Stage, stageState);
+            _subStateMachine.AddState(EGameplayState.Intermission, intermissionState);
         }
         
         public override async Task EnterAsync()
@@ -138,6 +176,11 @@ namespace NoMoreFishAndChips.States
 
                 _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, environmentMarker, _cursorsUI);
 
+                foreach (GameplaySubState state in _subStateMachine)
+                {
+                    state.SetContext(_context);
+                }
+
                 // The server will setup an environment object
                 if (_networkManager.IsServer)
                 {
@@ -168,6 +211,8 @@ namespace NoMoreFishAndChips.States
                     await ((ISaveable)_networkManager.LocalPurrnetPlayer).LoadAsync();
                 }
 
+                _subStateMachine.ChangeState(EGameplayState.Lobby);
+                
                 _transitionManager.UncoverScreen(null);
             }
             catch (Exception ex)
@@ -186,6 +231,8 @@ namespace NoMoreFishAndChips.States
             _uiManager.DestroyScreenUI(_gameplayScreen, UILayer.Screens);
             _gameplayScreen = null;
 
+            _subStateMachine.ChangeState(EGameplayState.None);
+
             _lobbyManager.LeaveLobby();
 
             _sceneManager.LoadSceneAsync(EScene.Default, LoadSceneMode.Single, LoadSceneContext.Local);
@@ -200,21 +247,23 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
+            _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Gameplay));
+
             // Currently we have no lobby flow, and just start the lobby as soon as we create it
-            if (_lobbyManager.IsLobbyOwner(lobby))
-            {
-                _lobbyManager.StartLobby();
-            }
+            //if (_lobbyManager.IsLobbyOwner(lobby))
+            //{
+            //    _lobbyManager.StartLobby();
+            //}
         }
 
         void ILobbyManagerListener.OnLobbyStart(Lobby lobby) 
         {
-            if (_parentStateMachine.CurrentState == this)
-            {
-                return;
-            }
+            //if (_parentStateMachine.CurrentState == this)
+            //{
+            //    return;
+            //}
 
-            _transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Gameplay));
+            //_transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Gameplay));
         }
 
         void INetworkManagerListener.OnClientConnectionState(ConnectionState state)
