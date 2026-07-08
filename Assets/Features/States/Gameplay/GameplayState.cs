@@ -49,8 +49,7 @@ namespace NoMoreFishAndChips.States
     {
         None,
         Lobby,
-        Stage,
-        Intermission
+        Stage
     }
 
     public interface IGameplaySubState
@@ -121,15 +120,12 @@ namespace NoMoreFishAndChips.States
 
             LobbyState lobbyState = new LobbyState(_subStateMachine);
             StageState stageState = new StageState(_subStateMachine);
-            IntermissionState intermissionState = new IntermissionState(_subStateMachine);
 
             lobbyState.InitialiseConfig(_config);
             stageState.InitialiseConfig(_config);
-            intermissionState.InitialiseConfig(_config);
 
             _subStateMachine.AddState(EGameplayState.Lobby, lobbyState);
             _subStateMachine.AddState(EGameplayState.Stage, stageState);
-            _subStateMachine.AddState(EGameplayState.Intermission, intermissionState);
         }
         
         public override async Task EnterAsync()

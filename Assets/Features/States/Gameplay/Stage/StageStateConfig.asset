@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de3c512ab7efd8449075b7aa78cf4a9, type: 3}
   m_Name: StageStateConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.StageStateConfig
-  _defaultStageData: {fileID: 11400000, guid: e64fd89f36529ed44a47b99989d28a24, type: 2}
+  _clamClusterStageData: {fileID: 11400000, guid: e64fd89f36529ed44a47b99989d28a24, type: 2}
+  _sharkDenStageData: {fileID: 11400000, guid: 1de0e79943f31a641ad8c9552825ea52, type: 2}
+  _squidStrongholdStageData: {fileID: 11400000, guid: 3736a109e9a284e469e012a50f02de1b, type: 2}

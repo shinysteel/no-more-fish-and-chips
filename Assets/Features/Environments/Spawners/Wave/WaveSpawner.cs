@@ -46,6 +46,7 @@ namespace NoMoreFishAndChips.Environments
         private float _stepTimer;
 
         public event Action<int> OnWaveIndexChanged;
+        public event Action OnStageComplete;
 
         protected override void OnSpawned()
         {
@@ -85,6 +86,7 @@ namespace NoMoreFishAndChips.Environments
             }
 
             WaveUpdate();
+            CompleteUpdate();
         }
 
         private void WaveUpdate()
@@ -165,6 +167,18 @@ namespace NoMoreFishAndChips.Environments
         {
             _netWaveIndex.value++;
             _stepIndex = 0;
+        }
+
+        private void CompleteUpdate()
+        {
+            if (_netWaveIndex.value < _stageData.Waves.Length)
+            {
+                return;
+            }
+
+            OnStageComplete?.Invoke();
+
+            _stageData = null;
         }
     }
 }

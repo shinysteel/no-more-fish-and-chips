@@ -1,3 +1,4 @@
+using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using UnityEngine;
 
@@ -16,9 +17,29 @@ namespace NoMoreFishAndChips.States
             _config = config.StageStateConfig;
         }
 
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _context.WaveSpawner.OnStageComplete += HandleStageComplete;
+        }
+
+        ~StageState()
+        {
+            if (_context.WaveSpawner != null)
+            {
+                _context.WaveSpawner.OnStageComplete -= HandleStageComplete;
+            }
+        }
+
         public override void Enter()
         {
-            _context.WaveSpawner.SetStageData(_config.DefaultStageData);
+            _context.WaveSpawner.SetStageData(_config.ClamClusterStageData);
+        }
+
+        private void HandleStageComplete()
+        {
+            Log.Info("change back to lobby state");
         }
     }
 }

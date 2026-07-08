@@ -6,8 +6,12 @@ namespace NoMoreFishAndChips.States
     [CreateAssetMenu(fileName = "StageStateConfig", menuName = "Configs/Managers/State/Gameplay/StageStateConfig")]
     public class StageStateConfig : ScriptableObject
     {
-        [SerializeField] private StageData _defaultStageData;
+        [SerializeField] private StageData _clamClusterStageData;
+        [SerializeField] private StageData _sharkDenStageData;
+        [SerializeField] private StageData _squidStrongholdStageData;
 
-        public StageData DefaultStageData => _defaultStageData;
+        public StageData ClamClusterStageData => _clamClusterStageData;
+        public StageData SharkDenStageData => _sharkDenStageData;
+        public StageData SquidStrongholdStageData => _squidStrongholdStageData;
     }
 }
