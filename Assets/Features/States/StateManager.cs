@@ -33,7 +33,7 @@ namespace NoMoreFishAndChips.States
         { }
     }
 
-    public class StatePath
+    public class StatePath : IEquatable<StatePath>
     {
         private List<Enum> _path;
 
@@ -45,6 +45,43 @@ namespace NoMoreFishAndChips.States
         public bool Contains(Enum stateEnum)
         {
             return _path.Contains(stateEnum);
+        }
+
+        // We want equality to reflect having the same path
+        public bool Equals(StatePath other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (_path.Count != other._path.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < _path.Count; i++)
+            {
+                if (!_path[i].Equals(other._path[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // It's best practice to override GetHashCode when implementing IEquatable
+        public override int GetHashCode()
+        {
+            HashCode code = new();
+
+            foreach (Enum stateEnum in _path)
+            {
+                code.Add(stateEnum);
+            }
+
+            return code.ToHashCode();
         }
     }
 
@@ -80,6 +117,7 @@ namespace NoMoreFishAndChips.States
 
             _stateMachine.OnStateChanged += HandleMainStateChanged;
             gameplayState.SubStateMachine.OnStateChanged += HandleGameplayStateChanged;
+            ((IntermissionState)gameplayState.SubStateMachine[EGameplayState.Intermission]).SubStateMachine.OnStateChanged += HandleIntermissionStateChanged;
 
             base.InitialiseConfig(config);
         }
@@ -88,6 +126,7 @@ namespace NoMoreFishAndChips.States
         {
             _stateMachine.OnStateChanged -= HandleMainStateChanged;
             ((GameplayState)_stateMachine[EMainState.Gameplay]).SubStateMachine.OnStateChanged -= HandleGameplayStateChanged;
+            ((IntermissionState)((GameplayState)_stateMachine[EMainState.Gameplay]).SubStateMachine[EGameplayState.Intermission]).SubStateMachine.OnStateChanged -= HandleIntermissionStateChanged;
 
             _sceneManager?.RemoveListener(this);
 
@@ -114,21 +153,36 @@ namespace NoMoreFishAndChips.States
             HandleStateChanged();
         }
 
+        private void HandleIntermissionStateChanged(EIntermissionState previous, EIntermissionState current)
+        {
+            HandleStateChanged();
+        }
+
         private void HandleStateChanged()
         {
             StatePath previous = _currentStatePath;
 
-            List<Enum> path = new();
-
-            path.Add(_stateMachine.CurrentEnum);
+            List<Enum> path = new List<Enum> { _stateMachine.CurrentEnum };
 
             if (_stateMachine.CurrentState is GameplayState gameplayState)
             {
                 path.Add(gameplayState.SubStateMachine.CurrentEnum);
+                
+                if (gameplayState.SubStateMachine.CurrentState is IntermissionState intermissionState)
+                {
+                    path.Add(intermissionState.SubStateMachine.CurrentEnum);
+                }
             }
 
-            _currentStatePath = new StatePath(path);
+            StatePath current = new StatePath(path);
 
+            if (current.Equals(previous))
+            {
+                return;
+            }
+
+            _currentStatePath = current;
+            
             Listeners.Dispatch(listener => listener.OnStatePathChanged(previous, _currentStatePath));
         }
 

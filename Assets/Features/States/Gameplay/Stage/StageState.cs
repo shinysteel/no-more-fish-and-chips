@@ -39,7 +39,7 @@ namespace NoMoreFishAndChips.States
 
         private void HandleStageComplete()
         {
-            Log.Info("change back to lobby state");
+
         }
     }
 }
