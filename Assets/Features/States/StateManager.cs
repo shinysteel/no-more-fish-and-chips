@@ -11,7 +11,7 @@ namespace NoMoreFishAndChips.States
 {
     public interface IStateManagerListener
     {
-        void OnMainStateChanged(EMainState previous, EMainState current) { }
+        void OnStatePathChanged(StatePath previous, StatePath current) { }
     }
 
     public enum EMainState
@@ -33,6 +33,21 @@ namespace NoMoreFishAndChips.States
         { }
     }
 
+    public class StatePath
+    {
+        private List<Enum> _path;
+
+        public StatePath(List<Enum> path)
+        {
+            _path = path;
+        }
+
+        public bool Contains(Enum stateEnum)
+        {
+            return _path.Contains(stateEnum);
+        }
+    }
+
     public class StateManager : GameSystem<IStateManagerListener>, ISceneManagerListener
     {
         private StateManagerConfig _config;
@@ -40,6 +55,9 @@ namespace NoMoreFishAndChips.States
         private SceneManager _sceneManager;
 
         private StateMachine<EMainState> _stateMachine;
+
+        private StatePath _currentStatePath;
+        public StatePath CurrentStatePath => _currentStatePath;
 
         public override void Initialise(GameManagerConfig config)
         {
@@ -61,6 +79,7 @@ namespace NoMoreFishAndChips.States
             _stateMachine.AddState(EMainState.Gameplay, gameplayState);
 
             _stateMachine.OnStateChanged += HandleMainStateChanged;
+            gameplayState.SubStateMachine.OnStateChanged += HandleGameplayStateChanged;
 
             base.Initialise(config);
         }
@@ -68,6 +87,7 @@ namespace NoMoreFishAndChips.States
         public override void Shutdown()
         {
             _stateMachine.OnStateChanged -= HandleMainStateChanged;
+            ((GameplayState)_stateMachine[EMainState.Gameplay]).SubStateMachine.OnStateChanged -= HandleGameplayStateChanged;
 
             _sceneManager?.RemoveListener(this);
 
@@ -86,7 +106,30 @@ namespace NoMoreFishAndChips.States
 
         private void HandleMainStateChanged(EMainState previous, EMainState current)
         {
-            Listeners.Dispatch(listener => listener.OnMainStateChanged(previous, current));
+            HandleStateChanged();
+        }
+
+        private void HandleGameplayStateChanged(EGameplayState previous, EGameplayState current)
+        {
+            HandleStateChanged();
+        }
+
+        private void HandleStateChanged()
+        {
+            StatePath previous = _currentStatePath;
+
+            List<Enum> path = new();
+
+            path.Add(_stateMachine.CurrentEnum);
+
+            if (_stateMachine.CurrentState is GameplayState gameplayState)
+            {
+                path.Add(gameplayState.SubStateMachine.CurrentEnum);
+            }
+
+            _currentStatePath = new StatePath(path);
+
+            Listeners.Dispatch(listener => listener.OnStatePathChanged(previous, _currentStatePath));
         }
 
         void ISceneManagerListener.OnSceneUnloaded(EScene scene)

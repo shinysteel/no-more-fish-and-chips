@@ -1,45 +1,122 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
+using PrimeTween;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class Ocean : MonoBehaviour
+    public class Ocean : MonoBehaviour, IStateManagerListener
     {
-        private NetworkManager _networkManager;
+        private StateManager _stateManager;
 
+        [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private BoxCollider _boxCollider;
 
         [SerializeField, Range(0f, 1f)] private float _submergePercent = 0.5f;
         [SerializeField] private Vector3 _linearDrag = new Vector3(5f, 1f, 5f);
         [SerializeField] private float _angularDrag = 2.5f;
-        [SerializeField] private float _currentSpeed = 0.25f;
+        [SerializeField] private float _currentSpeed = 0.5f;
+        
+        private Material _material;
+
+        private float _defaultCurrentSpeed;
+
+        private Tween _speedTween;
+
+        private const string FoamTileTimeName = "_FoamTileTime";
 
         private void Awake()
         {
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _stateManager = GameManager.Instance.Get<StateManager>();
+
+            _stateManager.AddListener(this);
+
+            _material = _meshRenderer.material;
+
+            _defaultCurrentSpeed = _currentSpeed;
+
+            RefreshCurrentSpeed(0f);
+        }
+
+        private void OnDestroy()
+        {
+            _stateManager?.RemoveListener(this);
+        }
+        
+        private void Update()
+        {
+            FoamTileTimeUpdate();
+        }
+
+        private void FoamTileTimeUpdate()
+        {
+            // Current speed influences how fast 'time' increases
+            float time = _material.GetFloat(FoamTileTimeName);
+            time += _currentSpeed * 2f * Time.deltaTime;
+            _material.SetFloat(FoamTileTimeName, time);
+        }
+
+        void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
+        {
+            float duration = 2.5f;
+            RefreshCurrentSpeed(duration);
+        }
+
+        // Adjusts current speed to what it should be over a duration
+        private void RefreshCurrentSpeed(float duration)        
+        {
+            bool contains = _stateManager.CurrentStatePath.Contains(EGameplayState.Stage);
+
+            float startCurrentSpeed = _currentSpeed;
+            float endCurrentSpeed = contains ? _defaultCurrentSpeed : 0f;
+
+            if (startCurrentSpeed == endCurrentSpeed)
+            {
+                return;
+            }
+
+            if (_speedTween.isAlive)
+            {
+                _speedTween.Stop();
+            }
+
+            _speedTween = Tween.Custom(startValue: startCurrentSpeed, endValue: endCurrentSpeed, duration: duration, ease: Ease.Linear, onValueChange: (float value) => _currentSpeed = value);
         }
 
         private void OnTriggerStay(Collider collider)
         {
-            if (!collider.gameObject.TryGetComponent(out IEntity entity))
+            if (collider.gameObject.TryGetComponent(out IEntity entity))
             {
-                return;
-            }
+                if (!entity.isSpawned)
+                {
+                    return;
+                }
 
-            if (!entity.isSpawned)
+                if (!entity.isOwner)
+                {
+                    return;
+                }
+
+                BuoyancyOnTriggerStay(collider, entity);
+                CurrentOnTriggerStay(entity.EntityPhysicsModule.Rigidbody, false);
+                DragOnTriggerStay(collider, entity);
+            }
+            else if (collider.gameObject.TryGetComponent(out Island island))
             {
-                return;
-            }
+                if (!island.isSpawned)
+                {
+                    return;
+                }
 
-            if (!entity.isOwner)
-            {
-                return;
+                if (!island.isOwner)
+                {
+                    return;
+                }
+                
+                CurrentOnTriggerStay(island.Rigidbody, true);
             }
-
-            BuoyancyOnTriggerStay(collider, entity);
-            CurrentOnTriggerStay(entity);
-            DragOnTriggerStay(collider, entity);
         }
 
         private float GetBuoyancyFactor(Collider collider)
@@ -61,18 +138,24 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // Current is referring to motion in water
-        private void CurrentOnTriggerStay(IEntity entity)
+        private void CurrentOnTriggerStay(Rigidbody rigidbody, bool allowKinematic)
         {
-            if (!entity.EntityPhysicsModule.Rigidbody.isKinematic)
+            if (_currentSpeed == 0f)
             {
-                entity.EntityPhysicsModule.Rigidbody.MovePosition(entity.EntityPhysicsModule.Rigidbody.position + Vector3.back * _currentSpeed * Time.fixedDeltaTime);
+                return;
             }
+
+            if (!allowKinematic && rigidbody.isKinematic)
+            {
+                return;
+            }
+
+            rigidbody.MovePosition(rigidbody.position + Vector3.back * _currentSpeed * Time.fixedDeltaTime);
         }
 
         private void DragOnTriggerStay(Collider collider, IEntity entity)
         {
-            // Drag stops the entity being 'launched' from buoyancy, and
-            // slows it down on the XZ plane
+            // Drag stops the entity being 'launched' from buoyancy, and slows it down on the XZ plane
             entity.EntityPhysicsModule.Rigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsModule.Rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
             entity.EntityPhysicsModule.Rigidbody.AddTorque(-entity.EntityPhysicsModule.Rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
         }

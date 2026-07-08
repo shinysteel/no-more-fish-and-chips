@@ -27,6 +27,8 @@ namespace ShinyOwl.Common.Framework
         protected StateMachine<TParentStateEnum> _parentStateMachine;
         protected StateMachine<TSubStateEnum> _subStateMachine;
 
+        public StateMachine<TSubStateEnum> SubStateMachine => _subStateMachine;
+
         public State(StateMachine<TParentStateEnum> parent)
         {
             _parentStateMachine = parent;
@@ -88,6 +90,11 @@ namespace ShinyOwl.Common.Framework
             {
                 _enumStateMap.Add(stateEnum, null);
             }
+        }
+
+        public IState this[TStateEnum stateEnum]
+        {
+            get => _enumStateMap[stateEnum];
         }
 
         public void AddState(TStateEnum stateEnum, IState state)

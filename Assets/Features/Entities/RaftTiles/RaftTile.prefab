@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2393181450438531784, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
       propertyPath: m_Name
-      value: Tile
+      value: RaftTile
       objectReference: {fileID: 0}
     - target: {fileID: 2393181450438531784, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
       propertyPath: m_Layer
@@ -153,6 +153,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a2ed8ca52c04eca4c90b72ab787b6802, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6882182316062843994, guid: a2ed8ca52c04eca4c90b72ab787b6802, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -396676919102585181, guid: a2ed8ca52c04eca4c90b72ab787b6802, type: 3}
       propertyPath: m_Layer

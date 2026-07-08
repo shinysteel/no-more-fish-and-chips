@@ -297,7 +297,7 @@ namespace NoMoreFishAndChips.UI
 
         private void NotifyLayerChanged(UILayer uiLayer) => Listeners.Dispatch(listener => listener.OnLayerChanged(uiLayer, _layers[(int)uiLayer].RectTransform.childCount));
 
-        void IStateManagerListener.OnMainStateChanged(EMainState previous, EMainState current)
+        void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
         {
             ClearLayer(UILayer.Panels);
         }

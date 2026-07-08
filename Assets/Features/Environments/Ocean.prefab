@@ -177,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a022eab67d57d654a9a968989e532dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ocean
+  _meshRenderer: {fileID: 7988067459534705046}
   _boxCollider: {fileID: 6793918336966280118}
   _submergePercent: 0.5
   _linearDrag: {x: 6, y: 4, z: 6}

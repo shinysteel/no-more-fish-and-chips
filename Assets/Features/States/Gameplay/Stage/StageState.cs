@@ -15,5 +15,10 @@ namespace NoMoreFishAndChips.States
         {
             _config = config.GameplayStateConfig.StageStateConfig;
         }
+
+        public override void Enter()
+        {
+            _context.WaveSpawner.SetStageData(_config.DefaultStageData);
+        }
     }
 }

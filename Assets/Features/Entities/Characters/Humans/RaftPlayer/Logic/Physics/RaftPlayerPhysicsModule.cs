@@ -5,6 +5,7 @@ using ShinyOwl.Common;
 using System;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -16,9 +17,13 @@ namespace NoMoreFishAndChips.Entities
 
         private float _jumpTimer;
         private bool _jumpRequest;
-
+        
         private bool _isSwimClimbing;
         private RaycastHit[] _swimClimbHitsNonAlloc = new RaycastHit[5];
+
+        private bool _onRaft;
+        private RaycastHit[] _onRaftHitsNonAlloc = new RaycastHit[1];
+        public bool OnRaft => _onRaft;
 
         public RaftPlayerPhysicsModule(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
         {
@@ -35,21 +40,6 @@ namespace NoMoreFishAndChips.Entities
             }
 
             JumpTick();
-        }
-
-        public override void FixedTick()
-        {
-            base.FixedTick();
-
-            if (!_player.isOwner)
-            {
-                return;
-            }
-
-            MoveFixedTick();
-            LookFixedTick();
-            JumpFixedTick();
-            SwimClimbFixedTick();
         }
 
         private void JumpTick()
@@ -73,6 +63,37 @@ namespace NoMoreFishAndChips.Entities
 
             // Jump on the next physics step
             _jumpRequest = true;
+        }
+
+        public override void FixedTick()
+        {
+            base.FixedTick();
+
+            OnRaftFixedTick();
+
+            if (!_player.isOwner)
+            {
+                return;
+            }
+
+            MoveFixedTick();
+            LookFixedTick();
+            JumpFixedTick();
+            SwimClimbFixedTick();
+        }
+
+        private void OnRaftFixedTick()
+        {
+            // Move these into a settings asset
+            float radius = 0.125f;
+            float distance = 1f;
+            int mask = LayerMask.GetMask("RaftTile");
+
+            Vector3 origin = _collider.bounds.center;
+            origin.y = _collider.bounds.min.y;
+            origin += Vector3.up * radius;
+
+            _onRaft = Physics.SphereCastNonAlloc(origin, radius, Vector3.down, _onRaftHitsNonAlloc, distance, mask) > 0;
         }
 
         private void MoveFixedTick()
