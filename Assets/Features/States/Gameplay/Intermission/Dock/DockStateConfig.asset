@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66d2d055d6009448b9260b73194ece3, type: 3}
   m_Name: DockStateConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.DockStateConfig
+  _startDuration: 3

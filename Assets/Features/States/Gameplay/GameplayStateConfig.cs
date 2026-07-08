@@ -7,7 +7,7 @@ using NoMoreFishAndChips.States;
 [CreateAssetMenu(fileName = "GameplayStateConfig", menuName = "Configs/Managers/State/Gameplay/GameplayStateConfig")]
 public class GameplayStateConfig : ScriptableObject
 {
-    [SerializeField] private LobbyStateConfig _lobbyStateConfig;
+    [SerializeField] private IntermissionStateConfig _intermissionStateConfig;
     [SerializeField] private StageStateConfig _stageStateConfig;
     [SerializeField] private Raft _raftPrefab;
     [SerializeField] private WaveSpawner _waveSpawnerPrefab;
@@ -16,7 +16,7 @@ public class GameplayStateConfig : ScriptableObject
     [SerializeField] private EnvironmentMarker _environmentMarkerPrefab;
     [SerializeField] private GameplayEnvironment _gameplayEnvironmentPrefab;
 
-    public LobbyStateConfig LobbyStateConfig => _lobbyStateConfig;
+    public IntermissionStateConfig IntermissionStageConfig => _intermissionStateConfig;
     public StageStateConfig StageStateConfig => _stageStateConfig;
     public Raft RaftPrefab => _raftPrefab;
     public WaveSpawner WaveSpawnerPrefab => _waveSpawnerPrefab;

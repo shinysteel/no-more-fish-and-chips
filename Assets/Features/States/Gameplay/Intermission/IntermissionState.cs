@@ -9,26 +9,26 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.States
 {
-    public enum ELobbyState
+    public enum EIntermissionState
     {
         None,
         Dock,
         Depart
     }
 
-    public interface ILobbySubState
+    public interface IIntermissionSubState
     {
         void InitialiseContext(GameplayContext context);
     }
 
-    public class LobbySubState : State<ELobbyState, ENone>, ILobbySubState
+    public class IntermissionSubState : State<EIntermissionState, ENone>, IIntermissionSubState
     {
         protected GameplayContext _context;
 
-        public LobbySubState(StateMachine<ELobbyState> parent) : base(parent)
+        public IntermissionSubState(StateMachine<EIntermissionState> parent) : base(parent)
         { }
 
-        public virtual void InitialiseConfig(LobbyStateConfig config)
+        public virtual void InitialiseConfig(IntermissionStateConfig config)
         { }
 
         public virtual void InitialiseContext(GameplayContext context)
@@ -37,17 +37,16 @@ namespace NoMoreFishAndChips.States
         }
     }
 
-    public class DockState : LobbySubState
+    public class DockState : IntermissionSubState
     {
         private DockStateConfig _config;
 
         private float _startTimer;
-        private float _startDuration = 3f;
 
-        public DockState(StateMachine<ELobbyState> parent) : base(parent)
+        public DockState(StateMachine<EIntermissionState> parent) : base(parent)
         { }
 
-        public override void InitialiseConfig(LobbyStateConfig config)
+        public override void InitialiseConfig(IntermissionStateConfig config)
         {
             _config = config.DockStateConfig;
         }
@@ -84,21 +83,21 @@ namespace NoMoreFishAndChips.States
 
             _startTimer += Time.deltaTime;
 
-            if (_startTimer >= _startDuration)
+            if (_startTimer >= _config.StartDuration)
             {
-                _parentStateMachine.ChangeState(ELobbyState.Depart);
+                _parentStateMachine.ChangeState(EIntermissionState.Depart);
             }
         }
     }
 
-    public class DepartState : LobbySubState
+    public class DepartState : IntermissionSubState
     {
         private DepartStateConfig _config;
 
-        public DepartState(StateMachine<ELobbyState> parent) : base(parent)
+        public DepartState(StateMachine<EIntermissionState> parent) : base(parent)
         { }
 
-        public override void InitialiseConfig(LobbyStateConfig config)
+        public override void InitialiseConfig(IntermissionStateConfig config)
         {
             _config = config.DepartStateConfig;
         }
@@ -107,27 +106,26 @@ namespace NoMoreFishAndChips.States
         {
             _context.References.Ocean.SetCurrent(true, false);
 
-            float delay = 5f;
-            Tween.Delay(delay, onComplete: () => _parentStateMachine.ChangeState(ELobbyState.None));
+            Tween.Delay(_config.DepartDelay, onComplete: () => _parentStateMachine.ChangeState(EIntermissionState.None));
         }
     }
 
-    public class LobbyState : GameplaySubState<ELobbyState>
+    public class IntermissionState : GameplaySubState<EIntermissionState>
     {
         private NetworkManager _networkManager;
 
-        private LobbyStateConfig _config;
+        private IntermissionStateConfig _config;
 
         private Island _island;
 
-        public LobbyState(StateMachine<EGameplayState> parent) : base(parent)
+        public IntermissionState(StateMachine<EGameplayState> parent) : base(parent)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>(); 
         }
 
         public override void InitialiseConfig(GameplayStateConfig config)
         {
-            _config = config.LobbyStateConfig;
+            _config = config.IntermissionStageConfig;
 
             _subStateMachine = new();
 
@@ -137,8 +135,8 @@ namespace NoMoreFishAndChips.States
             dockState.InitialiseConfig(_config);
             departState.InitialiseConfig(_config);
 
-            _subStateMachine.AddState(ELobbyState.Dock, dockState);
-            _subStateMachine.AddState(ELobbyState.Depart, departState);
+            _subStateMachine.AddState(EIntermissionState.Dock, dockState);
+            _subStateMachine.AddState(EIntermissionState.Depart, departState);
 
             _subStateMachine.OnStateChanged += HandleSubStateChanged;
         }
@@ -147,13 +145,13 @@ namespace NoMoreFishAndChips.States
         {
             base.InitialiseContext(context);
 
-            foreach (ILobbySubState state in _subStateMachine)
+            foreach (IIntermissionSubState state in _subStateMachine)
             {
                 state.InitialiseContext(_context);
             }
         }
 
-        ~LobbyState()
+        ~IntermissionState()
         {
             _subStateMachine.OnStateChanged -= HandleSubStateChanged;
         }
@@ -166,20 +164,20 @@ namespace NoMoreFishAndChips.States
             }
 
             Vector2Int cell = _context.Raft.Queries.Axes[Axis.Vertical].MinLine.MinEdge.Node.Cell;
-            Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell) + Vector3.left * 6f;
+            Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;
             _island = _networkManager.Spawn(_config.IslandPrefab, new SpawnParams() { Position = position });
 
-            _subStateMachine.ChangeState(ELobbyState.Dock);
+            _subStateMachine.ChangeState(EIntermissionState.Dock);
         }
 
-        private void HandleSubStateChanged(ELobbyState previous, ELobbyState current)
+        private void HandleSubStateChanged(EIntermissionState previous, EIntermissionState current)
         {
             if (!_networkManager.IsServer)
             {
                 return;
             }
 
-            if (current == ELobbyState.None)
+            if (current == EIntermissionState.None)
             {
                 float delay = 5f;
                 Tween.Delay(delay, onComplete: () =>

@@ -48,7 +48,7 @@ namespace NoMoreFishAndChips.States
     public enum EGameplayState
     {
         None,
-        Lobby,
+        Intermission,
         Stage
     }
 
@@ -118,13 +118,13 @@ namespace NoMoreFishAndChips.States
 
             _subStateMachine = new();
 
-            LobbyState lobbyState = new LobbyState(_subStateMachine);
+            IntermissionState lobbyState = new IntermissionState(_subStateMachine);
             StageState stageState = new StageState(_subStateMachine);
 
             lobbyState.InitialiseConfig(_config);
             stageState.InitialiseConfig(_config);
 
-            _subStateMachine.AddState(EGameplayState.Lobby, lobbyState);
+            _subStateMachine.AddState(EGameplayState.Intermission, lobbyState);
             _subStateMachine.AddState(EGameplayState.Stage, stageState);
         }
         
@@ -217,7 +217,7 @@ namespace NoMoreFishAndChips.States
                     await ((ISaveable)_networkManager.LocalPurrnetPlayer).LoadAsync();
                 }
 
-                _subStateMachine.ChangeState(EGameplayState.Lobby);
+                _subStateMachine.ChangeState(EGameplayState.Intermission);
                 
                 _transitionManager.UncoverScreen(null);
             }

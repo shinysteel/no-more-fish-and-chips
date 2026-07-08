@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9c118f911519184893332b6c177c35e, type: 3}
-  m_Name: LobbyStateConfig
+  m_Name: IntermissionStateConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.LobbyStateConfig
   _dockStateConfig: {fileID: 11400000, guid: 34f85108eebcaeb41b26ee05dc1ce9e8, type: 2}
   _departStateConfig: {fileID: 11400000, guid: 982c2db0a663fa640b5a31ab641e5afd, type: 2}
