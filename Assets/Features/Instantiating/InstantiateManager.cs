@@ -15,11 +15,11 @@ namespace NoMoreFishAndChips.Instantiating
     {
         private InstantiateManagerConfig _config;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.InstantiateManagerConfig;
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public void RaiseComponentInstantiated(Component component) => NotifyComponentInstantiated(component);

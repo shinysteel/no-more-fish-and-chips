@@ -128,7 +128,7 @@ namespace NoMoreFishAndChips.Saving
 
         private List<ISaveable> _saveables = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _gameObjectManager = GameManager.Instance.Get<InstantiateManager>();
 
@@ -147,7 +147,7 @@ namespace NoMoreFishAndChips.Saving
 
             LoadUser();
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

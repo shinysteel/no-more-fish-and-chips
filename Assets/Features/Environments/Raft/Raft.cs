@@ -59,9 +59,9 @@ namespace NoMoreFishAndChips.Environments
         private RaftQueries _queries;
         public RaftQueries Queries => _queries;
 
-        public override void Initialise(GameplayContext context)
+        public override void InitialiseContext(GameplayContext context)
         {
-            base.Initialise(context);
+            base.InitialiseContext(context);
 
             _instantiateManager.RaiseComponentInstantiated(this);
 
@@ -189,7 +189,7 @@ namespace NoMoreFishAndChips.Environments
             if (!_tiles.ContainsKey(cell))
             {
                 _tiles[cell] = (RaftTile)_entityManager.Spawn(netTile.TileId, new SpawnParams() { Parent = _tilesContainer });
-                _tiles[cell].Initialise(_context);
+                _tiles[cell].InitialiseContext(_context);
             }
 
             RaftTile tile = _tiles[cell];

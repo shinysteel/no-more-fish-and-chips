@@ -25,7 +25,7 @@ namespace NoMoreFishAndChips.Items
         private Dictionary<ItemId, ItemDefinitionData> _idDataMap = new();
         private Dictionary<ItemId, Pool<ItemModel>> _modelPools = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _poolManager = GameManager.Instance.Get<PoolManager>();
@@ -37,7 +37,7 @@ namespace NoMoreFishAndChips.Items
                 _idDataMap.Add(data.ItemId, data);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public ItemDefinitionData GetItemDefinitionData(ItemId id)

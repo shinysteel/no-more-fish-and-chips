@@ -123,9 +123,9 @@ namespace NoMoreFishAndChips.Entities
             base.OnSpawned();
         }
 
-        public override void Initialise(GameplayContext context)
+        public override void InitialiseContext(GameplayContext context)
         {
-            base.Initialise(context);
+            base.InitialiseContext(context);
 
             _hotkeyLogic = new RaftPlayerHotkeyLogic(this, context, _netGrabbedInventoryItem);
             _tileTargetLogic = new RaftPlayerTileTargetLogic(this, context);

@@ -47,7 +47,7 @@ namespace Steam
             Debug.LogWarning(pchDebugText);
         }
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             if (!Packsize.Test())
             {
@@ -108,7 +108,7 @@ namespace Steam
                 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         // OnApplicationQuit gets called too early to shutdown the SteamAPI.

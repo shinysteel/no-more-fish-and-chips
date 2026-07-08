@@ -16,13 +16,13 @@ namespace NoMoreFishAndChips.Hitboxes
 
         public HitboxManagerConfig Config => _config;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
             _config = config.HitboxManagerConfig;
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public void SpawnHitbox(HitboxData data, SpawnParams parameters)

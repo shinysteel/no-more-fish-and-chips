@@ -4,7 +4,7 @@ using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.States;
 
-[CreateAssetMenu(fileName = "GameplayStateConfig", menuName = "Configs/Managers/State/GameplayStateConfig")]
+[CreateAssetMenu(fileName = "GameplayStateConfig", menuName = "Configs/Managers/State/Gameplay/GameplayStateConfig")]
 public class GameplayStateConfig : ScriptableObject
 {
     [SerializeField] private LobbyStateConfig _lobbyStateConfig;

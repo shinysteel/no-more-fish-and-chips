@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class Ocean : MonoBehaviour, IStateManagerListener
+    public class Ocean : MonoBehaviour
     {
         private StateManager _stateManager;
 
@@ -31,18 +31,9 @@ namespace NoMoreFishAndChips.Environments
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
 
-            _stateManager.AddListener(this);
-
             _material = _meshRenderer.material;
 
             _defaultCurrentSpeed = _currentSpeed;
-
-            RefreshCurrentSpeed(0f);
-        }
-
-        private void OnDestroy()
-        {
-            _stateManager?.RemoveListener(this);
         }
         
         private void Update()
@@ -58,19 +49,11 @@ namespace NoMoreFishAndChips.Environments
             _material.SetFloat(FoamTileTimeName, time);
         }
 
-        void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
-        {
-            float duration = 2.5f;
-            RefreshCurrentSpeed(duration);
-        }
-
         // Adjusts current speed to what it should be over a duration
-        private void RefreshCurrentSpeed(float duration)        
+        public void SetCurrent(bool on, bool instant)        
         {
-            bool contains = _stateManager.CurrentStatePath.Contains(EGameplayState.Stage);
-
             float startCurrentSpeed = _currentSpeed;
-            float endCurrentSpeed = contains ? _defaultCurrentSpeed : 0f;
+            float endCurrentSpeed = on ? _defaultCurrentSpeed : 0f;
 
             if (startCurrentSpeed == endCurrentSpeed)
             {
@@ -82,6 +65,7 @@ namespace NoMoreFishAndChips.Environments
                 _speedTween.Stop();
             }
 
+            float duration = instant ? 0f : 2.5f;
             _speedTween = Tween.Custom(startValue: startCurrentSpeed, endValue: endCurrentSpeed, duration: duration, ease: Ease.Linear, onValueChange: (float value) => _currentSpeed = value);
         }
 

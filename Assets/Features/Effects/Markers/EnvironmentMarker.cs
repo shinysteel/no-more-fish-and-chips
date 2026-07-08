@@ -15,9 +15,9 @@ namespace NoMoreFishAndChips.Effects
 
         private int _idCounter;
 
-        public override void Initialise(GameplayContext context)
+        public override void InitialiseContext(GameplayContext context)
         {
-            base.Initialise(context);
+            base.InitialiseContext(context);
 
             foreach (KeyValuePair<int, Vector2Int[]> kvp in _netMarkedCells)
             {

@@ -75,9 +75,9 @@ namespace NoMoreFishAndChips.Entities
             base.OnReturnedToPool();
         }
 
-        public override void Initialise(GameplayContext context)
+        public override void InitialiseContext(GameplayContext context)
         {
-            base.Initialise(context);
+            base.InitialiseContext(context);
 
             TileDefeatModule.SetContext(context);
         }

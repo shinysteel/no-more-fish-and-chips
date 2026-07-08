@@ -115,7 +115,7 @@ namespace NoMoreFishAndChips.Entities
             _entityPhysicsModule = null;
         }
 
-        public virtual void Initialise(GameplayContext context)
+        public virtual void InitialiseContext(GameplayContext context)
         {
             _context = context;
 

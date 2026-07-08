@@ -18,7 +18,7 @@ namespace NoMoreFishAndChips.UI.Transitions
 
         public bool IsShowing => _fadeOverlay.IsShowing;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 
@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.UI.Transitions
                 _fadeOverlay = overlay;
             };
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

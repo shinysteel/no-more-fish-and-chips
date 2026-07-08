@@ -24,7 +24,7 @@ namespace NoMoreFishAndChips.Cameras
 
         private ICameraMode _mode;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.CameraManagerConfig;
 
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Cameras
 
             Object.DontDestroyOnLoad(_mainCamera.gameObject);
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void LateTick()

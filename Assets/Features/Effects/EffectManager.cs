@@ -24,7 +24,7 @@ namespace NoMoreFishAndChips.Effects
         private Dictionary<VfxId, VFX> _idPrefabMap = new();
         private Dictionary<VfxId, Pool<VFX>> _vfxPools = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
@@ -35,7 +35,7 @@ namespace NoMoreFishAndChips.Effects
                 _idPrefabMap.Add(vfx.VfxId, vfx);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         [ObserversRpc]

@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (IGameSystem manager in _managers)
             {
-                manager.Initialise(_config);
+                manager.InitialiseConfig(_config);
             }
         }
         catch (Exception ex)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.States
 {
-    public class StageState : GameplaySubState
+    public class StageState : GameplaySubState<ENone>
     {
         private StageStateConfig _config;
 
@@ -11,9 +11,9 @@ namespace NoMoreFishAndChips.States
         {
         }
 
-        public override void Initialise(StateManagerConfig config)
+        public override void InitialiseConfig(GameplayStateConfig config)
         {
-            _config = config.GameplayStateConfig.StageStateConfig;
+            _config = config.StageStateConfig;
         }
 
         public override void Enter()

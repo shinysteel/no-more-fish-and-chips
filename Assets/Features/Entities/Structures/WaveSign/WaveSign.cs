@@ -19,9 +19,9 @@ namespace NoMoreFishAndChips.Entities
 
         private Sequence _sequence;
 
-        public override void Initialise(GameplayContext context)
+        public override void InitialiseContext(GameplayContext context)
         {
-            base.Initialise(context);
+            base.InitialiseContext(context);
 
             _index = _context.WaveSpawner.WaveIndex;
             RefreshWaveText();

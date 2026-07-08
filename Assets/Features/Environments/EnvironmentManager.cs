@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Environments
         private Dictionary<PropId, Prop> _idPrefabMap = new();
         private Dictionary<PropId, Pool<Prop>> _propPools = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Environments
                 _idPrefabMap.Add(prop.Id, prop);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public Prop GetProp(PropId id, SpawnParams parameters)

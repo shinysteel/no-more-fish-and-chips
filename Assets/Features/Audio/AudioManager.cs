@@ -36,7 +36,7 @@ namespace NoMoreFishAndChips.Audio
 
         private Dictionary<SoundId, SoundCueData> _idDataMap = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
@@ -47,7 +47,7 @@ namespace NoMoreFishAndChips.Audio
                 _idDataMap.Add(data.Id, data);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public void PlaySound(SoundId id)

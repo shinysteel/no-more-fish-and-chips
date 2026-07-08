@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Rarities
 
         private Dictionary<Rarity, Color> _rarityColorMap = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.RarityManagerConfig;
 
@@ -30,7 +30,7 @@ namespace NoMoreFishAndChips.Rarities
                 _rarityColorMap.Add(mapping.Rarity, mapping.Color);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public Color GetColor(Rarity rarity)

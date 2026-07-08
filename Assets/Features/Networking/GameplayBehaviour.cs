@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.Networking
         protected bool _isInitialised;
         public bool IsInitialised => _isInitialised;
 
-        public virtual void Initialise(GameplayContext context)
+        public virtual void InitialiseContext(GameplayContext context)
         {
             _context = context;
 

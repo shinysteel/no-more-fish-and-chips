@@ -34,7 +34,7 @@ namespace NoMoreFishAndChips.Networking
 
         public Lobby CurrentLobby => _currentLobbyService.CurrentLobby;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.LobbyManagerConfig;
 
@@ -45,7 +45,7 @@ namespace NoMoreFishAndChips.Networking
             _lobbyServices.Add(ELobbyService.LAN, _lanLobbyService);
             _lobbyServices.Add(ELobbyService.Steam, _steamLobbyService);
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.States
 {
-    public class IntermissionState : GameplaySubState
+    public class IntermissionState : GameplaySubState<ENone>
     {
         private IntermissionStateConfig _config;
 
@@ -11,9 +11,9 @@ namespace NoMoreFishAndChips.States
         {
         }
 
-        public override void Initialise(StateManagerConfig config)
+        public override void InitialiseConfig(GameplayStateConfig config)
         {
-            _config = config.GameplayStateConfig.IntermissionStateConfig;
+            _config = config.IntermissionStateConfig;
         }
     }
 }

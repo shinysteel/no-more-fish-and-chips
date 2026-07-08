@@ -59,7 +59,7 @@ namespace NoMoreFishAndChips.States
         private StatePath _currentStatePath;
         public StatePath CurrentStatePath => _currentStatePath;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _sceneManager = GameManager.Instance.Get<SceneManager>();
 
@@ -81,7 +81,7 @@ namespace NoMoreFishAndChips.States
             _stateMachine.OnStateChanged += HandleMainStateChanged;
             gameplayState.SubStateMachine.OnStateChanged += HandleGameplayStateChanged;
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.Networking
 
         public static readonly Vector3 HiddenSpawnPosition = new Vector3(0f, -15f, 0f);
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _sceneManager = GameManager.Instance.Get<SceneManager>();
 
@@ -98,7 +98,7 @@ namespace NoMoreFishAndChips.Networking
             PackCollections.RegisterDictionary<Vector2Int, Structure>();
             PackCollections.RegisterDictionary<int, Vector2Int[]>();
             
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

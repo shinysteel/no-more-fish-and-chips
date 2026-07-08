@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.UI
         private GraphicRaycaster _screenGraphicRaycaster;
         public GraphicRaycaster ScreenGraphicRaycaster => _screenGraphicRaycaster;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _stateManager = GameManager.Instance.Get<StateManager>();
@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.UI
             CreateCanvases();
             CreateLayers();            
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

@@ -31,8 +31,9 @@ namespace NoMoreFishAndChips.States
         public WaveSpawner WaveSpawner { get; private set; }
         public EnvironmentMarker EnvironmentMarker { get; private set; }
         public CursorsUI CursorsUI { get; private set; }
+        public EnvironmentGameplayReferences References { get; private set; }
 
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner, EnvironmentMarker environmentMarker, CursorsUI cursorsUI)
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner, EnvironmentMarker environmentMarker, CursorsUI cursorsUI, EnvironmentGameplayReferences references)
         {
             Players = players;
             LocalPlayer = localPlayer;
@@ -40,6 +41,7 @@ namespace NoMoreFishAndChips.States
             WaveSpawner = waveSpawner;
             EnvironmentMarker = environmentMarker;
             CursorsUI = cursorsUI;
+            References = references;
         }
     }
 
@@ -51,17 +53,23 @@ namespace NoMoreFishAndChips.States
         Intermission
     }
 
-    public abstract class GameplaySubState : State<EGameplayState, ENone>
+    public interface IGameplaySubState
+    {
+        void InitialiseContext(GameplayContext context);
+    }
+
+    public abstract class GameplaySubState<TSubStateEnum> : State<EGameplayState, TSubStateEnum>, IGameplaySubState
+        where TSubStateEnum : Enum
     {
         protected GameplayContext _context;
 
         public GameplaySubState(StateMachine<EGameplayState> parent) : base(parent)
         { }
 
-        public virtual void Initialise(StateManagerConfig config)
+        public virtual void InitialiseConfig(GameplayStateConfig config)
         { }
 
-        public void SetContext(GameplayContext context)
+        public virtual void InitialiseContext(GameplayContext context)
         {
             _context = context;
         }
@@ -115,9 +123,9 @@ namespace NoMoreFishAndChips.States
             StageState stageState = new StageState(_subStateMachine);
             IntermissionState intermissionState = new IntermissionState(_subStateMachine);
 
-            lobbyState.Initialise(config);
-            stageState.Initialise(config);
-            intermissionState.Initialise(config);
+            lobbyState.InitialiseConfig(_config);
+            stageState.InitialiseConfig(_config);
+            intermissionState.InitialiseConfig(_config);
 
             _subStateMachine.AddState(EGameplayState.Lobby, lobbyState);
             _subStateMachine.AddState(EGameplayState.Stage, stageState);
@@ -143,6 +151,8 @@ namespace NoMoreFishAndChips.States
                 }
 
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentGameplay, LoadSceneMode.Additive, LoadSceneContext.Local);
+
+                EnvironmentGameplayReferences references = Object.FindFirstObjectByType<EnvironmentGameplayReferences>();
 
                 // All clients need to build a local GameplayContext class
                 Raft raft = null;
@@ -174,11 +184,11 @@ namespace NoMoreFishAndChips.States
 
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
-                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, environmentMarker, _cursorsUI);
+                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, environmentMarker, _cursorsUI, references);
 
-                foreach (GameplaySubState state in _subStateMachine)
+                foreach (IGameplaySubState state in _subStateMachine)
                 {
-                    state.SetContext(_context);
+                    state.InitialiseContext(_context);
                 }
 
                 // The server will setup an environment object
@@ -312,7 +322,7 @@ namespace NoMoreFishAndChips.States
 
             if (behaviour is GameplayBehaviour gameplayBehaviour)
             {
-                gameplayBehaviour.Initialise(_context);
+                gameplayBehaviour.InitialiseContext(_context);
             }
         }
 

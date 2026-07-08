@@ -98,7 +98,7 @@ namespace NoMoreFishAndChips.Scenes
 
         private Dictionary<EScene, string> _sceneNameMap;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
 
@@ -116,7 +116,7 @@ namespace NoMoreFishAndChips.Scenes
                 _sceneNameMap.Add(mapping.Enum, mapping.Name);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Shutdown()

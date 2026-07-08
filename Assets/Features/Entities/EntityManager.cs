@@ -62,7 +62,7 @@ namespace NoMoreFishAndChips.Entities
         private List<IEntity> _entities = new();
         public IReadOnlyList<IEntity> Entities => _entities;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _poolManager = GameManager.Instance.Get<PoolManager>();
@@ -100,7 +100,7 @@ namespace NoMoreFishAndChips.Entities
                 _idModelMap.Add(model.Id, model);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         /// <summary>

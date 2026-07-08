@@ -7,7 +7,7 @@ namespace NoMoreFishAndChips.Entities
     // Implemented by NetEntity and Entity
     public interface IEntity
     {
-        void Initialise(GameplayContext context);
+        void InitialiseContext(GameplayContext context);
 
         EntityDefinitionData EntityDefinitionData { get; }
         EntityModel EntityModel { get; }

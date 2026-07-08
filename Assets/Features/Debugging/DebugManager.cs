@@ -9,11 +9,11 @@ namespace NoMoreFishAndChips.Debugging
     {
         private DebugManagerConfig _config;
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.DebugManagerConfig;
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         public override void Tick()

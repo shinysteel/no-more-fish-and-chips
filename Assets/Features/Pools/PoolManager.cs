@@ -114,7 +114,7 @@ namespace NoMoreFishAndChips.Pools
         private Transform _container;
 
         private const string ContainerName = "Pools";
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.PoolManagerConfig;
 
@@ -126,7 +126,7 @@ namespace NoMoreFishAndChips.Pools
                 CreateTypedPool(typedPoolable);
             }
 
-            base.Initialise(config);
+            base.InitialiseConfig(config);
         }
 
         private void CreateTypedPool<T>(T prefab) where T : ITypedPoolable

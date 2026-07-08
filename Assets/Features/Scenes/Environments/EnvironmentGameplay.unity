@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &22020984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 22020985}
+  - component: {fileID: 22020986}
+  m_Layer: 0
+  m_Name: References
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &22020985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22020984}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &22020986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 22020984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e055d3165f2aac418613db7b6a905e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.EnvironmentGameplayReferences
+  _ocean: {fileID: 3147885421210234398}
 --- !u!1 &383852721
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,10 +502,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+--- !u!114 &3147885421210234398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 947135079996998337, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+  m_PrefabInstance: {fileID: 3147885421210234397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a022eab67d57d654a9a968989e532dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ocean
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 22020985}
   - {fileID: 2093559757}
   - {fileID: 3147885421210234397}
   - {fileID: 2622508643222990039}

@@ -39,9 +39,9 @@ namespace NoMoreFishAndChips.Entities
             _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
         }
 
-        public override void Initialise(GameplayContext context)
+        public override void InitialiseContext(GameplayContext context)
         {
-            base.Initialise(context);
+            base.InitialiseContext(context);
 
             _clamChestPanelInstance = new PanelInstance<ClamChestPanel>(_uiManager.Config.ClamChestPanelPrefab);
 

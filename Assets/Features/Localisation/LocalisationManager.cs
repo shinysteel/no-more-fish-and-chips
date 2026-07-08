@@ -35,7 +35,7 @@ namespace NoMoreFishAndChips.Localisation
 
         private Dictionary<LocalisationTerm, LocalisedStringLookup> _termLookupMap = new();
 
-        public override void Initialise(GameManagerConfig config)
+        public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.LocalisationManagerConfig;
 
