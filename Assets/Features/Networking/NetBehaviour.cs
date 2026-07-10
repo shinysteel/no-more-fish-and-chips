@@ -29,6 +29,7 @@ namespace NoMoreFishAndChips.Networking
         protected AudioManager _audioManager;
         protected HitboxManager _hitboxManager;
         protected EffectManager _effectManager;
+        protected StateManager _stateManager;
 
         protected virtual void Awake()
         {
@@ -44,6 +45,7 @@ namespace NoMoreFishAndChips.Networking
             _audioManager = GameManager.Instance.Get<AudioManager>();
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
             _effectManager = GameManager.Instance.Get<EffectManager>();
+            _stateManager = GameManager.Instance.Get<StateManager>();
         }
 
         protected override void OnSpawned()

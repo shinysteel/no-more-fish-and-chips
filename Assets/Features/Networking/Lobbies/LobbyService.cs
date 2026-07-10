@@ -44,6 +44,8 @@ namespace NoMoreFishAndChips.Networking
         public Dictionary<string, string> Properties { get; private set; }
         public ELobbyService Service { get; private set; }
 
+        public const string StartedKey = "started";
+
         public Lobby(LobbyParams parameters)
         {
             Name = parameters.Name;
@@ -62,6 +64,21 @@ namespace NoMoreFishAndChips.Networking
         {
             Properties = properties;
         }
+
+        public bool GetBool(string key)
+        {
+            if (!Properties.TryGetValue(key, out string value))
+            {
+                return false;
+            }
+
+            if (!bool.TryParse(value, out bool result))
+            {
+                return false;
+            }
+
+            return result;
+        }
     }
 
     public abstract class LobbyService
@@ -69,8 +86,6 @@ namespace NoMoreFishAndChips.Networking
         public Lobby CurrentLobby { get; protected set; }
 
         public const int DefaultMemberLimit = 4;
-
-        public const string StartedKey = "started";
 
         public event Action<Lobby> OnLobbyCreated;
         public event Action<Lobby> OnLobbyEnter;
@@ -110,30 +125,10 @@ namespace NoMoreFishAndChips.Networking
             }
 
             // Detects when the 'started' property goes from false to true and relays it
-            if (GetBool(previous, StartedKey) == false && GetBool(current, StartedKey) == true)
+            if (previous.GetBool(Lobby.StartedKey) == false && current.GetBool(Lobby.StartedKey) == true)
             {
                 RaiseLobbyStart(current);
             }
-        }
-
-        private bool GetBool(Lobby lobby, string key)
-        {
-            if (lobby == null)
-            {
-                return false;
-            }
-
-            if (!lobby.Properties.TryGetValue(key, out string value))
-            {
-                return false;
-            }
-
-            if (!bool.TryParse(value, out bool result))
-            {
-                return false;
-            }
-
-            return result;
         }
     }
 }

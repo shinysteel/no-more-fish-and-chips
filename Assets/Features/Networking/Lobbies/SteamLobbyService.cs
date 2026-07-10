@@ -215,7 +215,7 @@ namespace NoMoreFishAndChips.Networking
             CSteamID cLobbyId = GetCLobbyId();
 
             SteamMatchmaking.SetLobbyGameServer(cLobbyId, 0, 0, SteamUser.GetSteamID());
-            SteamMatchmaking.SetLobbyData(cLobbyId, StartedKey, true.ToString());
+            SteamMatchmaking.SetLobbyData(cLobbyId, Lobby.StartedKey, true.ToString());
 
             RaiseLobbyStart(CurrentLobby);
         }

@@ -9,15 +9,15 @@ using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
-using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class SalvageSpawner : GameplayBehaviour, IEntityManagerListener
+    public class SalvageSpawner : GameplayBehaviour, IEntityManagerListener, IStateManagerListener
     {
         [SerializeField] private float _spawnInterval = 5f;
         [SerializeField] private DropTable _dropTable;
 
+        private bool _isSpawning;
         private float _spawnTimer;
         private WeightedPicker<ItemId> _weightedPicker = new();
 
@@ -34,9 +34,12 @@ namespace NoMoreFishAndChips.Environments
 
         protected override void OnSpawned()
         {
-            base.OnSpawned();
+            ((IStateManagerListener)this).OnStatePathChanged(null, _stateManager.CurrentStatePath);
 
             _entityManager.AddListener(this);
+            _stateManager.AddListener(this);
+
+            base.OnSpawned();
         }
 
         protected override void OnDespawned()
@@ -44,6 +47,7 @@ namespace NoMoreFishAndChips.Environments
             base.OnDespawned();
 
             _entityManager?.RemoveListener(this);
+            _stateManager?.RemoveListener(this);
         }
 
         private void Update()
@@ -54,6 +58,11 @@ namespace NoMoreFishAndChips.Environments
         private void SpawnUpdate()
         {
             if (!isServer)
+            {
+                return;
+            }
+
+            if (!_isSpawning)
             {
                 return;
             }
@@ -119,6 +128,16 @@ namespace NoMoreFishAndChips.Environments
             }
 
             _salvages.Remove(item);
+        }
+
+        void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
+        {
+            _isSpawning = current.Contains(EGameplayState.Stage);
+
+            if (!_isSpawning)
+            {
+                _spawnTimer = 0f;
+            }
         }
     }
 }

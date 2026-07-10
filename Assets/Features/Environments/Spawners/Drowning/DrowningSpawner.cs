@@ -6,16 +6,22 @@ using EntityId = NoMoreFishAndChips.Entities.EntityId;
 using System.Linq;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
+using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class DrowningSpawner : GameplayBehaviour, IEntityManagerListener
+    public class DrowningSpawner : GameplayBehaviour, IEntityManagerListener, IStateManagerListener
     {
         private Dictionary<RaftPlayer, Drowning> _playerDrowningMap = new();
+
+        private bool _isSpawning;
 
         protected override void OnSpawned()
         {
             _entityManager.AddListener(this);
+            _stateManager.AddListener(this);
+
+            ((IStateManagerListener)this).OnStatePathChanged(null, _stateManager.CurrentStatePath);
 
             base.OnSpawned();
         }
@@ -25,6 +31,7 @@ namespace NoMoreFishAndChips.Environments
             base.OnDespawned();
 
             _entityManager?.RemoveListener(this);
+            _stateManager?.RemoveListener(this);
         }
 
         private void Update()
@@ -35,6 +42,11 @@ namespace NoMoreFishAndChips.Environments
             }
 
             if (!_isInitialised)
+            {
+                return;
+            }
+
+            if (!_isSpawning)
             {
                 return;
             }
@@ -79,6 +91,11 @@ namespace NoMoreFishAndChips.Environments
             {
                 Utils.Collections.RemoveDictionaryKeys(_playerDrowningMap, (KeyValuePair<RaftPlayer, Drowning> kvp) => kvp.Value == drowning);
             }
+        }
+
+        void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
+        {
+            _isSpawning = current.Contains(EGameplayState.Stage);
         }
     }
 }

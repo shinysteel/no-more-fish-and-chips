@@ -177,7 +177,7 @@ namespace NoMoreFishAndChips.Networking
                 OwnerId = ownerId,
                 MemberLimit = DefaultMemberLimit,
                 Members = new List<LobbyMember>() { new LobbyMember(ownerId, ownerId) },
-                Properties = new Dictionary<string, string>() { { AddressKey, address }, { StartedKey, false.ToString() } },
+                Properties = new Dictionary<string, string>() { { AddressKey, address }, { Lobby.StartedKey, false.ToString() } },
                 Service = ELobbyService.LAN
             });
 
@@ -230,7 +230,7 @@ namespace NoMoreFishAndChips.Networking
                 return;
             }
 
-            CurrentLobby.Properties[StartedKey] = true.ToString();
+            CurrentLobby.Properties[Lobby.StartedKey] = true.ToString();
 
             RaiseLobbyStart(CurrentLobby);
         }

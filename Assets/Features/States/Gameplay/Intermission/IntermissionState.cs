@@ -12,6 +12,7 @@ namespace NoMoreFishAndChips.States
     public enum EIntermissionState
     {
         None,
+        Arrive,
         Dock,
         Depart
     }
@@ -34,6 +35,19 @@ namespace NoMoreFishAndChips.States
         public virtual void InitialiseContext(GameplayContext context)
         {
             _context = context;
+        }
+    }
+
+    public class ArriveState : IntermissionSubState
+    {
+        private ArriveStateConfig _config;
+
+        public ArriveState(StateMachine<EIntermissionState> parent) : base(parent)
+        { }
+
+        public override void InitialiseConfig(IntermissionStateConfig config)
+        {
+            _config = config.ArriveStateConfig;
         }
     }
 
@@ -113,6 +127,7 @@ namespace NoMoreFishAndChips.States
     public class IntermissionState : GameplaySubState<EIntermissionState>
     {
         private NetworkManager _networkManager;
+        private LobbyManager _lobbyManager;
 
         private IntermissionStateConfig _config;
 
@@ -120,7 +135,8 @@ namespace NoMoreFishAndChips.States
 
         public IntermissionState(StateMachine<EGameplayState> parent) : base(parent)
         {
-            _networkManager = GameManager.Instance.Get<NetworkManager>(); 
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _lobbyManager = GameManager.Instance.Get<LobbyManager>();
         }
 
         public override void InitialiseConfig(GameplayStateConfig config)
@@ -129,12 +145,15 @@ namespace NoMoreFishAndChips.States
 
             _subStateMachine = new();
 
+            ArriveState arriveState = new ArriveState(_subStateMachine);
             DockState dockState = new DockState(_subStateMachine);
             DepartState departState = new DepartState(_subStateMachine);
 
+            arriveState.InitialiseConfig(_config);
             dockState.InitialiseConfig(_config);
             departState.InitialiseConfig(_config);
 
+            _subStateMachine.AddState(EIntermissionState.Arrive, arriveState);
             _subStateMachine.AddState(EIntermissionState.Dock, dockState);
             _subStateMachine.AddState(EIntermissionState.Depart, departState);
 
@@ -167,7 +186,14 @@ namespace NoMoreFishAndChips.States
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;
             _island = _networkManager.Spawn(_config.IslandPrefab, new SpawnParams() { Position = position });
 
-            _subStateMachine.ChangeState(EIntermissionState.Dock);
+            if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
+            {
+                _subStateMachine.ChangeState(EIntermissionState.Dock);
+            }
+            else
+            {
+                _subStateMachine.ChangeState(EIntermissionState.Arrive);
+            }
         }
 
         private void HandleSubStateChanged(EIntermissionState previous, EIntermissionState current)
