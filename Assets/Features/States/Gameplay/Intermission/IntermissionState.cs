@@ -52,6 +52,11 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
+            Tween.Delay(_config.ArriveDelay, Arrive);
+        }
+
+        private void Arrive()
+        {
             _context.References.Ocean.SetCurrent(false, Ocean.DefaultSetCurrentDuration);
 
             Tween.Delay(Ocean.DefaultSetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
@@ -201,7 +206,7 @@ namespace NoMoreFishAndChips.States
             }
             else
             {
-                _island.transform.position += Vector3.forward * Ocean.DefaultSetCurrentDuration * 0.5f;
+                _island.transform.position += Vector3.forward * (5f + Ocean.DefaultSetCurrentDuration * 0.5f);
 
                 _subStateMachine.ChangeState(EIntermissionState.Arrive);
             }
