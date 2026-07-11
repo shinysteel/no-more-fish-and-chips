@@ -39,7 +39,7 @@ namespace NoMoreFishAndChips.States
 
         private void HandleStageComplete()
         {
-
+            _parentStateMachine.ChangeState(EGameplayState.Intermission);
         }
     }
 }

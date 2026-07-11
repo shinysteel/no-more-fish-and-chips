@@ -49,6 +49,13 @@ namespace NoMoreFishAndChips.States
         {
             _config = config.ArriveStateConfig;
         }
+
+        public override void Enter()
+        {
+            _context.References.Ocean.SetCurrent(false, Ocean.DefaultSetCurrentDuration);
+
+            Tween.Delay(Ocean.DefaultSetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
+        }
     }
 
     public class DockState : IntermissionSubState
@@ -67,9 +74,9 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
-            _context.References.Ocean.SetCurrent(false, true);
+            _startTimer = 0f;
         }
-
+        
         public override void Tick()
         {
             StartTick();
@@ -118,9 +125,9 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
-            _context.References.Ocean.SetCurrent(true, false);
+            _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
 
-            Tween.Delay(_config.DepartDelay, onComplete: () => _parentStateMachine.ChangeState(EIntermissionState.None));
+            Tween.Delay(_config.DepartDelay, () => _parentStateMachine.ChangeState(EIntermissionState.None));
         }
     }
 
@@ -181,17 +188,21 @@ namespace NoMoreFishAndChips.States
             {
                 return;
             }
-
+            
             Vector2Int cell = _context.Raft.Queries.Axes[Axis.Vertical].MinLine.MinEdge.Node.Cell;
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;
             _island = _networkManager.Spawn(_config.IslandPrefab, new SpawnParams() { Position = position });
 
             if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
             {
+                _context.References.Ocean.SetCurrent(false, 0f);
+
                 _subStateMachine.ChangeState(EIntermissionState.Dock);
             }
             else
             {
+                _island.transform.position += Vector3.forward * Ocean.DefaultSetCurrentDuration * 0.5f;
+
                 _subStateMachine.ChangeState(EIntermissionState.Arrive);
             }
         }
@@ -205,12 +216,10 @@ namespace NoMoreFishAndChips.States
 
             if (current == EIntermissionState.None)
             {
-                float delay = 5f;
-                Tween.Delay(delay, onComplete: () =>
-                {
-                    _networkManager.Despawn(_island);
-                    _island = null;
-                });
+                _networkManager.Despawn(_island);
+                _island = null;   
+
+                _lobbyManager.StartLobby();
 
                 _parentStateMachine.ChangeState(EGameplayState.Stage);
             }

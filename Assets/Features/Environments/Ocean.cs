@@ -27,6 +27,8 @@ namespace NoMoreFishAndChips.Environments
 
         private const string FoamTileTimeName = "_FoamTileTime";
 
+        public const float DefaultSetCurrentDuration = 2.5f;
+
         private void Awake()
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
@@ -50,7 +52,7 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // Adjusts current speed to what it should be over a duration
-        public void SetCurrent(bool on, bool instant)        
+        public void SetCurrent(bool on, float duration)        
         {
             float startCurrentSpeed = _currentSpeed;
             float endCurrentSpeed = on ? _defaultCurrentSpeed : 0f;
@@ -65,7 +67,6 @@ namespace NoMoreFishAndChips.Environments
                 _speedTween.Stop();
             }
 
-            float duration = instant ? 0f : 2.5f;
             _speedTween = Tween.Custom(startValue: startCurrentSpeed, endValue: endCurrentSpeed, duration: duration, ease: Ease.Linear, onValueChange: (float value) => _currentSpeed = value);
         }
 

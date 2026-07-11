@@ -70,6 +70,11 @@ namespace NoMoreFishAndChips.Environments
 
         public void SetStageData(StageData data)
         {
+            _netWaveIndex.value = 0;
+            _stepIndex = 0;
+            _spawnCounter = 0;
+            _stepTimer = 0f;
+
             _stageData = data;
         }
 
