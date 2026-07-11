@@ -21,20 +21,20 @@ namespace NoMoreFishAndChips.States
         {
             base.InitialiseContext(context);
 
-            _context.WaveSpawner.OnStageComplete += HandleStageComplete;
+            _context.WaveRunner.OnStageComplete += HandleStageComplete;
         }
 
         ~StageState()
         {
-            if (_context.WaveSpawner != null)
+            if (_context.WaveRunner != null)
             {
-                _context.WaveSpawner.OnStageComplete -= HandleStageComplete;
+                _context.WaveRunner.OnStageComplete -= HandleStageComplete;
             }
         }
 
         public override void Enter()
         {
-            _context.WaveSpawner.SetStageData(_config.ClamClusterStageData);
+            _context.WaveRunner.SetStageData(_config.ClamClusterStageData);
         }
 
         private void HandleStageComplete()

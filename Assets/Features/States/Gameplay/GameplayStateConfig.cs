@@ -10,7 +10,8 @@ public class GameplayStateConfig : ScriptableObject
     [SerializeField] private IntermissionStateConfig _intermissionStateConfig;
     [SerializeField] private StageStateConfig _stageStateConfig;
     [SerializeField] private Raft _raftPrefab;
-    [SerializeField] private WaveSpawner _waveSpawnerPrefab;
+    [SerializeField] private StageRunner _stageRunnerPrefab;
+    [SerializeField] private WaveRunner _waveRunnerPrefab;
     [SerializeField] private DrowningSpawner _drowningSpawnerPrefab;
     [SerializeField] private SalvageSpawner _salvageSpawnerPrefab;
     [SerializeField] private EnvironmentMarker _environmentMarkerPrefab;
@@ -19,7 +20,8 @@ public class GameplayStateConfig : ScriptableObject
     public IntermissionStateConfig IntermissionStageConfig => _intermissionStateConfig;
     public StageStateConfig StageStateConfig => _stageStateConfig;
     public Raft RaftPrefab => _raftPrefab;
-    public WaveSpawner WaveSpawnerPrefab => _waveSpawnerPrefab;
+    public StageRunner StageRunnerPrefab => _stageRunnerPrefab;
+    public WaveRunner WaveRunnerPrefab => _waveRunnerPrefab;
     public DrowningSpawner DrowningSpawnerPrefab => _drowningSpawnerPrefab;
     public SalvageSpawner SalvageSpawnerPrefab => _salvageSpawnerPrefab;
     public EnvironmentMarker EnvironmentMarkerPrefab => _environmentMarkerPrefab;

@@ -28,17 +28,19 @@ namespace NoMoreFishAndChips.States
         public IReadOnlyList<RaftPlayer> Players { get; private set; }
         public RaftPlayer LocalPlayer { get; private set; }
         public Raft Raft { get; private set; }
-        public WaveSpawner WaveSpawner { get; private set; }
+        public StageRunner StageRunner { get; private set; }
+        public WaveRunner WaveRunner { get; private set; }
         public EnvironmentMarker EnvironmentMarker { get; private set; }
         public CursorsUI CursorsUI { get; private set; }
         public EnvironmentGameplayReferences References { get; private set; }
 
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, WaveSpawner waveSpawner, EnvironmentMarker environmentMarker, CursorsUI cursorsUI, EnvironmentGameplayReferences references)
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, StageRunner stageRunner, WaveRunner waveRunner, EnvironmentMarker environmentMarker, CursorsUI cursorsUI, EnvironmentGameplayReferences references)
         {
             Players = players;
             LocalPlayer = localPlayer;
             Raft = raft;
-            WaveSpawner = waveSpawner;
+            StageRunner = stageRunner;
+            WaveRunner = waveRunner;
             EnvironmentMarker = environmentMarker;
             CursorsUI = cursorsUI;
             References = references;
@@ -152,13 +154,15 @@ namespace NoMoreFishAndChips.States
 
                 // All clients need to build a local GameplayContext class
                 Raft raft = null;
-                WaveSpawner waveSpawner = null;
+                StageRunner stageRunner = null;
+                WaveRunner waveRunner = null;
                 EnvironmentMarker environmentMarker = null;
 
                 if (_networkManager.IsServer)
                 {
                     raft = _networkManager.Spawn(_config.RaftPrefab);
-                    waveSpawner = _networkManager.Spawn(_config.WaveSpawnerPrefab);
+                    stageRunner = _networkManager.Spawn(_config.StageRunnerPrefab);
+                    waveRunner = _networkManager.Spawn(_config.WaveRunnerPrefab);
                     environmentMarker = _networkManager.Spawn(_config.EnvironmentMarkerPrefab);
 
                     _networkManager.Spawn(_config.DrowningSpawnerPrefab);
@@ -167,10 +171,11 @@ namespace NoMoreFishAndChips.States
                 else
                 {
                     // Clients will need to retrieve these objects
-                    while (raft == null || waveSpawner == null || environmentMarker == null)
+                    while (raft == null || waveRunner == null || environmentMarker == null)
                     {
                         raft ??= Object.FindFirstObjectByType<Raft>();
-                        waveSpawner ??= Object.FindFirstObjectByType<WaveSpawner>();
+                        stageRunner ??= Object.FindFirstObjectByType<StageRunner>();
+                        waveRunner ??= Object.FindFirstObjectByType<WaveRunner>();
                         environmentMarker ??= Object.FindFirstObjectByType<EnvironmentMarker>();
                         await Task.Yield();
                     }
@@ -180,7 +185,7 @@ namespace NoMoreFishAndChips.States
 
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
-                _context = new GameplayContext(_players, localPlayer, raft, waveSpawner, environmentMarker, _cursorsUI, references);
+                _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, _cursorsUI, references);
 
                 foreach (IGameplaySubState state in _subStateMachine)
                 {

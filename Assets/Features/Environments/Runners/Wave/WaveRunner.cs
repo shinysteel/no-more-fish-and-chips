@@ -33,7 +33,7 @@ namespace NoMoreFishAndChips.Environments
         public WaveStep[] Steps => _steps;
     }
 
-    public class WaveSpawner : GameplayBehaviour
+    public class WaveRunner : GameplayBehaviour
     {
         private StageData _stageData;
 

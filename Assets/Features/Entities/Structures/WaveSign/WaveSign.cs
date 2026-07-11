@@ -23,15 +23,15 @@ namespace NoMoreFishAndChips.Entities
         {
             base.InitialiseContext(context);
 
-            _index = _context.WaveSpawner.WaveIndex;
+            _index = _context.WaveRunner.WaveIndex;
             RefreshWaveText();
 
-            _context.WaveSpawner.OnWaveIndexChanged += HandleWaveIndexChanged;
+            _context.WaveRunner.OnWaveIndexChanged += HandleWaveIndexChanged;
         }
 
         protected override void OnDespawned()
         {
-            _context.WaveSpawner.OnWaveIndexChanged -= HandleWaveIndexChanged;
+            _context.WaveRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
 
             base.OnDespawned();
         }
