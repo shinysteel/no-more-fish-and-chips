@@ -9,8 +9,7 @@ namespace NoMoreFishAndChips.States
         private StageStateConfig _config;
 
         public StageState(StateMachine<EGameplayState> parent) : base(parent)
-        {
-        }
+        { }
 
         public override void InitialiseConfig(GameplayStateConfig config)
         {

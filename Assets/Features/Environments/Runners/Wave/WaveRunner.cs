@@ -1,8 +1,10 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
 using System;
+using System.Linq;
 using UnityEngine;
 
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
@@ -17,12 +19,10 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private EntityId _entityId;
         [SerializeField] private int _count;
         [SerializeField] private float _interval;
-        [SerializeField] private float _endDelay;
 
         public EntityId EntityId => _entityId;
         public int Count => _count;
         public float Interval => _interval;
-        public float EndDelay => _endDelay;
     }
 
     [Serializable]
@@ -33,8 +33,10 @@ namespace NoMoreFishAndChips.Environments
         public WaveStep[] Steps => _steps;
     }
 
-    public class WaveRunner : GameplayBehaviour
+    public class WaveRunner : GameplayBehaviour, IEntityManagerListener
     {
+        [SerializeField] private float _stepEndDelay = 3f;
+        
         private StageData _stageData;
 
         private SyncVar<int> _netWaveIndex = new SyncVar<int>(ownerAuth: true);
@@ -45,11 +47,15 @@ namespace NoMoreFishAndChips.Environments
         private int _spawnCounter;
         private float _stepTimer;
 
+        private bool _isWaveDefeated;
+
         public event Action<int> OnWaveIndexChanged;
         public event Action OnStageComplete;
 
         protected override void OnSpawned()
         {
+            _entityManager.AddListener(this);
+
             _netWaveIndex.onChanged += HandleNetWaveIndexChanged;
 
             base.OnSpawned();
@@ -57,6 +63,8 @@ namespace NoMoreFishAndChips.Environments
 
         protected override void OnDespawned()
         {
+            _entityManager?.RemoveListener(this);
+
             _netWaveIndex.onChanged -= HandleNetWaveIndexChanged;
 
             base.OnDespawned();
@@ -74,8 +82,10 @@ namespace NoMoreFishAndChips.Environments
             _stepIndex = 0;
             _spawnCounter = 0;
             _stepTimer = 0f;
-
             _stageData = data;
+
+            // Assume the wave is defeated until an enemy has actually spawned
+            _isWaveDefeated = true;
         }
 
         private void Update()
@@ -96,11 +106,6 @@ namespace NoMoreFishAndChips.Environments
 
         private void WaveUpdate()
         {
-            if (_netWaveIndex.value == _stageData.Waves.Length)
-            {
-                return;
-            }
-
             _stepTimer += Time.deltaTime;
 
             while (true)
@@ -141,7 +146,9 @@ namespace NoMoreFishAndChips.Environments
 
             while (_spawnCounter < step.Count && _stepTimer >= step.Interval)
             {
+                _isWaveDefeated = false;
                 _entityManager.Spawn(step.EntityId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+
                 _spawnCounter++;
                 _stepTimer -= step.Interval;
             }
@@ -151,15 +158,19 @@ namespace NoMoreFishAndChips.Environments
 
         private bool DelayUpdate(WaveStep step)
         {
-            if (_stepTimer >= step.EndDelay)
-            {
-                _stepTimer -= step.EndDelay;
-                return true;
-            }
-            else
+            if (_stepTimer < _stepEndDelay)
             {
                 return false;
             }
+
+            if (!_isWaveDefeated)
+            {
+                _stepTimer = Mathf.Min(_stepTimer, _stepEndDelay);
+                return false;
+            }
+
+            _stepTimer -= _stepEndDelay;
+            return true;
         }
 
         private void NextStep()
@@ -172,6 +183,36 @@ namespace NoMoreFishAndChips.Environments
         {
             _netWaveIndex.value++;
             _stepIndex = 0;
+        }
+
+        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        {
+            if (!isOwner)
+            {
+                return;
+            }
+
+            RefreshIsWaveComplete();
+        }
+
+        private void RefreshIsWaveComplete()
+        {
+            if (_stageData == null)
+            {
+                return;
+            }
+
+            if (_spawnCounter < _stageData.Waves[_netWaveIndex.value].Steps[_stepIndex].Count)
+            {
+                return;
+            }
+
+            if (_entityManager.Entities.Any(entity => entity is Character character && character.EntityDefinitionData.Alliance == EntityAlliance.Enemy))
+            {
+                return;
+            }
+
+            _isWaveDefeated = true;
         }
 
         private void CompleteUpdate()
