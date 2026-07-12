@@ -23,14 +23,10 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private float _speed = 2f;
         [SerializeField] private float _acceleration = 10f;
         [SerializeField] private float _deceleration = 7.5f;
-        [SerializeField] private float _attackWindupMultiplier = 0.25f;
-        [SerializeField] private float _attackImpactMultiplier = 0.1f;
 
         public float Speed => _speed;
         public float Acceleration => _acceleration;
         public float Deceleration => _deceleration;
-        public float AttackWindupMultiplier => _attackWindupMultiplier;
-        public float AttackImpactMultiplier => _attackImpactMultiplier;
     }
 
     [Serializable]

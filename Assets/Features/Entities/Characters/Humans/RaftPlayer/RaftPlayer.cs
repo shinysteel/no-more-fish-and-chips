@@ -152,6 +152,7 @@ namespace NoMoreFishAndChips.Entities
             _animateLogic.Tick();
             _hotkeyLogic.Tick();
             _tileTargetLogic.Tick();
+            _attackLogic.Tick();
 
             if (isOwner)
             {

@@ -12,23 +12,24 @@ namespace NoMoreFishAndChips.Entities
 
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
-        private StateAnimationEvents _attackStateAnimationEvents;
+        private StateAnimationEvents _paddleAttackReleaseStateAnimationEvents;
 
-        public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
+        public StateAnimationEvents PaddleAttackReleaseStateAnimationEvents => _paddleAttackReleaseStateAnimationEvents;
 
         private const string IsMovingBoolName = "IsMoving";
         private const string InWaterBoolName = "InWater";
         private const string InAirBoolName = "InAir";
         private const string IsHoldingItemBoolName = "IsHoldingItem";
-        private const string IsAttackingBoolName = "IsAttacking";
         private const string InBarrelBoolName = "InBarrel";
-        
-        private const string AttackTriggerName = "Attack";
+
+        public const string AttackWeaponTypeIntName = "AttackWeaponType";
+        public const string AttackStateIntName = "AttackState";
+
         private const string JumpTriggerName = "Jump";
 
         private const string GroundRunStateName = "Base Layer.Ground.Run";
         private const string WaterSwimStateName = "Base Layer.Water.Swim";
-        private const string AttackStateName = "Attack";
+        private const string PaddleSwingStateName = "Attack Layer.PaddleSwing";
 
         public RaftPlayerAnimateLogic(RaftPlayer player)
         {
@@ -54,12 +55,7 @@ namespace NoMoreFishAndChips.Entities
                 new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim)),
             };
 
-            _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName, false)
-            {
-                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.PaddleAttack)),
-                new StateAnimationEvent(0.3f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
-                new StateAnimationEvent(0.7f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false)),
-            };
+            _paddleAttackReleaseStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false);
         }
 
         public void Tick()
@@ -70,27 +66,21 @@ namespace NoMoreFishAndChips.Entities
                 bool inWater = _player.CharacterPhysicsModule.InWater;
                 bool inAir = _player.CharacterPhysicsModule.InAir;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
-                bool isAttacking = _player.AttackLogic.AttackState > RaftPlayerAttackState.None;
                 bool inBarrel = _player.RaftPlayerDefeatModule.InBarrel;
 
                 _player.EntityModel.Animator.SetBool(IsMovingBoolName, isMoving);
                 _player.EntityModel.Animator.SetBool(InWaterBoolName, inWater);
                 _player.EntityModel.Animator.SetBool(InAirBoolName, inAir);
                 _player.EntityModel.Animator.SetBool(IsHoldingItemBoolName, isHoldingItem);
-                _player.EntityModel.Animator.SetBool(IsAttackingBoolName, isAttacking);
                 _player.EntityModel.Animator.SetBool(InBarrelBoolName, inBarrel);
             }
 
-            AnimatorStateInfo info = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo baseLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorStateInfo attackLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(2);
 
-            _groundRunStateAnimationEvents.Tick(info);
-            _waterSwimStateAnimationEvents.Tick(info);
-            _attackStateAnimationEvents.Tick(info);
-        }
-
-        public void Attack()
-        {
-            _player.EntityModel.SetTrigger(AttackTriggerName);
+            _groundRunStateAnimationEvents.Tick(baseLayerInfo);
+            _waterSwimStateAnimationEvents.Tick(baseLayerInfo);
+            _paddleAttackReleaseStateAnimationEvents.Tick(attackLayerInfo);
         }
 
         public void Jump()

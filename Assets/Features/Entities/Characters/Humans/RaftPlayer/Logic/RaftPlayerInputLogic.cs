@@ -10,14 +10,15 @@ namespace NoMoreFishAndChips.Entities
         // Vars always active
         private Vector2 _mouse;
         private float _scroll;
-        private bool _shift;
-        private bool _leftClick;
-        private bool _rightClick;
-        private bool _one;
-        private bool _two;
-        private bool _three;
-        private bool _four;
-        private bool _five;
+        private bool _shiftHeld;
+        private bool _leftClickPressed;
+        private bool _leftClickHeld;
+        private bool _rightClickPressed;
+        private bool _onePressed;
+        private bool _twoPressed;
+        private bool _threePressed;
+        private bool _fourPressed;
+        private bool _fivePressed;
         private bool _rotateItem;
         private bool _dropItem;
         private bool _toggleSettings;
@@ -26,14 +27,15 @@ namespace NoMoreFishAndChips.Entities
 
         public Vector2 Mouse => _mouse;
         public float Scroll => _scroll;
-        public bool Shift => _shift;
-        public bool LeftClick => _leftClick;
-        public bool RightClick => _rightClick;
-        public bool One => _one;
-        public bool Two => _two;
-        public bool Three => _three;
-        public bool Four => _four;
-        public bool Five => _five;
+        public bool ShiftHeld => _shiftHeld;
+        public bool LeftClickPressed => _leftClickPressed;
+        public bool LeftClickHeld => _leftClickHeld;
+        public bool RightClickPressed => _rightClickPressed;
+        public bool OnePressed => _onePressed;
+        public bool TwoPressed => _twoPressed;
+        public bool ThreePressed => _threePressed;
+        public bool FourPressed => _fourPressed;
+        public bool FivePressed => _fivePressed;
         public bool RotateItem => _rotateItem;
         public bool DropItem => _dropItem;
         public bool ToggleSettings => _toggleSettings;
@@ -69,14 +71,15 @@ namespace NoMoreFishAndChips.Entities
 
             _mouse = Input.mousePosition;
             _scroll = Input.GetAxis(MouseScrollWheelAxis);
-            _shift = Input.GetKey(KeyCode.LeftShift);
-            _leftClick = Input.GetMouseButtonDown(0);
-            _rightClick = Input.GetMouseButtonDown(1);
-            _one = Input.GetKeyDown(KeyCode.Alpha1);
-            _two = Input.GetKeyDown(KeyCode.Alpha2);
-            _three = Input.GetKeyDown(KeyCode.Alpha3);
-            _four = Input.GetKeyDown(KeyCode.Alpha4);
-            _five = Input.GetKeyDown(KeyCode.Alpha5);
+            _shiftHeld = Input.GetKey(KeyCode.LeftShift);
+            _leftClickPressed = Input.GetMouseButtonDown(0);
+            _leftClickHeld = Input.GetMouseButton(0);
+            _rightClickPressed = Input.GetMouseButtonDown(1);
+            _onePressed = Input.GetKeyDown(KeyCode.Alpha1);
+            _twoPressed = Input.GetKeyDown(KeyCode.Alpha2);
+            _threePressed = Input.GetKeyDown(KeyCode.Alpha3);
+            _fourPressed = Input.GetKeyDown(KeyCode.Alpha4);
+            _fivePressed = Input.GetKeyDown(KeyCode.Alpha5);
             _rotateItem = Input.GetKeyDown(KeyCode.R);
             _dropItem = Input.GetKeyDown(KeyCode.Q);
             _toggleSettings = Input.GetKeyDown(KeyCode.Escape);
@@ -108,23 +111,23 @@ namespace NoMoreFishAndChips.Entities
         {
             number = -1;
 
-            if (_one)
+            if (_onePressed)
             {
                 number = 1;
             }
-            else if (_two)
+            else if (_twoPressed)
             {
                 number = 2;
             }
-            else if (_three)
+            else if (_threePressed)
             {
                 number = 3;
             }
-            else if (_four)
+            else if (_fourPressed)
             {
                 number = 4;
             }
-            else if (_five)
+            else if (_fivePressed)
             {
                 number = 5;
             }

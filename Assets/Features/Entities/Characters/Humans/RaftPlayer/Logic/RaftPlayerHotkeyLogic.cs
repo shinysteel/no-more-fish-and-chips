@@ -56,12 +56,12 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (_player.InputLogic.LeftClick)
+            if (_player.InputLogic.LeftClickPressed)
             {
                 LeftClick();
             }
 
-            if (_player.InputLogic.RightClick)
+            if (_player.InputLogic.RightClickPressed)
             {
                 RightClick();
             }
@@ -131,7 +131,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _inventoryRaycaster.GetViews(out InventoryItemView itemView, out InventorySlotView inventorySlot, out HotbarWidgetSlot hotbarSlot, out _);
 
-            if (_player.InputLogic.Shift)
+            if (_player.InputLogic.ShiftHeld)
             {
                 MoveItem(itemView);
             }

@@ -98,22 +98,8 @@ namespace NoMoreFishAndChips.Entities
 
         private void MoveFixedTick()
         {
-            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Impact)
-            {
-                return;
-            }
-
             Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
             Vector3 targetVelocity = direction * _settings.Move.Speed;
-
-            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Windup)
-            {
-                targetVelocity *= _settings.Move.AttackWindupMultiplier;
-            }
-            else if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Impact)
-            {
-                targetVelocity *= _settings.Move.AttackImpactMultiplier;
-            }
 
             targetVelocity.y = _rigidbody.linearVelocity.y;
 
@@ -134,11 +120,6 @@ namespace NoMoreFishAndChips.Entities
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 
             float speed = _settings.Look.Speed;
-
-            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.Impact)
-            {
-                speed *= _settings.Look.AttackImpactMultiplier;
-            }
 
             _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
         }
@@ -168,11 +149,8 @@ namespace NoMoreFishAndChips.Entities
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
             _rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
 
-            if (_player.AttackLogic.AttackState == RaftPlayerAttackState.None)
-            {
-                _player.AnimateLogic.Jump();
-            }
-
+            _player.AnimateLogic.Jump();
+            
             // Since the jump animation won't always interrupt the animator, the sound needs to be separate
             AudioManager.PlaySoundRpc(SoundId.HumanJump);
         }

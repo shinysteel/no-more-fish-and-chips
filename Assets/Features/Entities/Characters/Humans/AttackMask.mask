@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AttackMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: body
+    m_Weight: 1
+  - m_Path: body/leg_left
+    m_Weight: 0
+  - m_Path: body/leg_left/knee_left
+    m_Weight: 0
+  - m_Path: body/leg_left/knee_left/foot_left
+    m_Weight: 0
+  - m_Path: body/leg_left/knee_left/foot_left/foot_left_1
+    m_Weight: 0
+  - m_Path: body/leg_left/knee_left/knee_left_1
+    m_Weight: 0
+  - m_Path: body/leg_left/leg_left_1
+    m_Weight: 0
+  - m_Path: body/leg_right
+    m_Weight: 0
+  - m_Path: body/leg_right/knee_right
+    m_Weight: 0
+  - m_Path: body/leg_right/knee_right/foot_right
+    m_Weight: 0
+  - m_Path: body/leg_right/knee_right/foot_right/foot_right_1
+    m_Weight: 0
+  - m_Path: body/leg_right/knee_right/knee_right_1
+    m_Weight: 0
+  - m_Path: body/leg_right/leg_right_1
+    m_Weight: 0
+  - m_Path: body/torso
+    m_Weight: 1
+  - m_Path: body/torso/neck
+    m_Weight: 1
+  - m_Path: body/torso/neck/head
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/ear_left
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/ear_left/ear_left_1
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/ear_right
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/ear_right/ear_right_1
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/eyelid_left
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/eyelid_left/eyelid_left_1
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/eyelid_right
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/eyelid_right/eyelid_right_1
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/hair_back
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/hair_left
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/hair_right
+    m_Weight: 1
+  - m_Path: body/torso/neck/head/head_1
+    m_Weight: 1
+  - m_Path: body/torso/neck/neck_1
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left/arm_left_2
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left/forearm_left
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left/forearm_left/forearm_left_1
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left/forearm_left/hand_left
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left/forearm_left/hand_left/hand_left_1
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_left/arm_left_1
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right/arm_right_2
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right/forearm_right
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right/forearm_right/forearm_right_1
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right/forearm_right/hand_right
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right/forearm_right/hand_right/hand_right_1
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right/forearm_right/item
+    m_Weight: 1
+  - m_Path: body/torso/shoulder_right/arm_right_1
+    m_Weight: 1
+  - m_Path: body/torso/skirt
+    m_Weight: 1
+  - m_Path: body/torso/torso_1
+    m_Weight: 1

@@ -9,24 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b87a32c41585134fa7bda360bec58d1, type: 3}
-  m_Name: ToothSpearDefinitionData
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Items.ItemDefinitionData
-  _nameTerm: 470489249
-  _descriptionTerm: 474683553
-  _sprite: {fileID: 21300000, guid: f7b16d2e0cf76ae4bac68d13b0efd835, type: 3}
+  m_Script: {fileID: 11500000, guid: 74069de1999cde248b2fd54ab590e0c3, type: 3}
+  m_Name: PaddleDefinitionData
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Items.WeaponDefinitionData
+  _nameTerm: -1838845622
+  _descriptionTerm: -1838845621
+  _sprite: {fileID: 21300000, guid: 32804148b627b9344b6700fd8613e69d, type: 3}
   _rarity: 0
-  _itemId: 9
+  _itemId: 2
   _itemType: 2
-  _spriteAssetName: item_toothSpear
+  _spriteAssetName: item_paddle
   _maxStack: 1
   _recipe:
     _requirements:
     - _itemId: 1
       _count: 2
-    - _itemId: 10
-      _count: 1
   _shape: {fileID: 11400000, guid: 7b783547d3dcf654dbc1f3049e96379e, type: 2}
-  _model: {fileID: 50956096487483239, guid: 97895cff5436e3641bcb59b0faf9ce21, type: 3}
+  _model: {fileID: 6265077713852142882, guid: 38164e4f096eda0438b78b4f48846e57, type: 3}
   _actionDatas:
   - {fileID: 11400000, guid: 434b0bef9dcae244f8afccaa3c0ddebc, type: 2}
+  _weaponType: 1

@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Items
         Clothing
     }
 
-    [CreateAssetMenu(fileName = "ItemDefinitionData", menuName = "Data/Items/ItemDefinitionnData")]
+    [CreateAssetMenu(fileName = "ItemDefinitionData", menuName = "Data/Items/ItemDefinitionData")]
     public class ItemDefinitionData : DefinitionData, ICraftable
     {
         [SerializeField] private ItemId _itemId;

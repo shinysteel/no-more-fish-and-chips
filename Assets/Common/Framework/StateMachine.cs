@@ -70,7 +70,12 @@ namespace ShinyOwl.Common.Framework
         }
     }
 
-    public class StateMachine<TStateEnum> : IEnumerable<IState>
+    public interface IStateMachine
+    {
+        void Tick();
+    }
+
+    public class StateMachine<TStateEnum> : IStateMachine, IEnumerable<IState>
         where TStateEnum : Enum
     {
         private Dictionary<TStateEnum, IState> _enumStateMap = new();
