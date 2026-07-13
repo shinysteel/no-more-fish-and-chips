@@ -10,62 +10,6 @@ using ShinyOwl.Common.Framework;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public enum EPaddleAttackState
-    {
-        None,
-        Hold,
-        Release
-    }
-
-    public class PaddleAttackState : State<EPaddleAttackState, ENone>
-    {
-        protected RaftPlayerAttackLogic _logic;
-        protected RaftPlayer _player;
-
-        public PaddleAttackState(StateMachine<EPaddleAttackState> parent) : base(parent)
-        { }
-
-        public virtual void Initialise(RaftPlayerAttackLogic logic, RaftPlayer player)
-        {
-            _logic = logic;
-            _player = player;
-        }
-    }
-
-    public class PaddleAttackHoldState : PaddleAttackState
-    {
-        public PaddleAttackHoldState(StateMachine<EPaddleAttackState> parent) : base(parent)
-        { }
-
-        public override void Tick()
-        {
-            if (_player.InputLogic.LeftClickHeld)
-            {
-                return;
-            }
-
-            _parentStateMachine.ChangeState(EPaddleAttackState.Release);
-        }
-    }
-
-    public class PaddleAttackReleaseState : PaddleAttackState
-    {
-        public PaddleAttackReleaseState(StateMachine<EPaddleAttackState> parent) : base(parent)
-        { }
-
-        public override void Initialise(RaftPlayerAttackLogic logic, RaftPlayer player)
-        {
-            base.Initialise(logic, player);
-
-            _player.AnimateLogic.PaddleAttackReleaseStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(EPaddleAttackState.None)));
-        }
-
-        public override void Enter()
-        {
-            _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackStateIntName, 1);
-        }
-    }
-
     public class RaftPlayerAttackLogic
     {
         private HitboxManager _hitboxManager;
@@ -75,7 +19,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayerAttackSettings _settings;
 
         private IStateMachine _currentStateMachine;
-        private StateMachine<EPaddleAttackState> _paddleAttackStateMachine;
+        private StateMachine<EPaddleState> _paddleStateMachine;
 
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
@@ -85,23 +29,23 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _player.DefinitionData.AttackSettings;
 
-            _paddleAttackStateMachine = new();
+            _paddleStateMachine = new();
 
-            PaddleAttackHoldState holdState = new PaddleAttackHoldState(_paddleAttackStateMachine);
-            PaddleAttackReleaseState releaseState = new PaddleAttackReleaseState(_paddleAttackStateMachine);
+            PaddleHoldState paddleHoldState = new PaddleHoldState(_paddleStateMachine);
+            PaddleReleaseState paddleReleaseState = new PaddleReleaseState(_paddleStateMachine);
 
-            holdState.Initialise(this, _player);
-            releaseState.Initialise(this, _player);
+            paddleHoldState.Initialise(_player);
+            paddleReleaseState.Initialise(_player);
 
-            _paddleAttackStateMachine.AddState(EPaddleAttackState.Hold, holdState);
-            _paddleAttackStateMachine.AddState(EPaddleAttackState.Release, releaseState);
+            _paddleStateMachine.AddState(EPaddleState.Hold, paddleHoldState);
+            _paddleStateMachine.AddState(EPaddleState.Release, paddleReleaseState);
 
-            _paddleAttackStateMachine.OnStateChanged += HandlePaddleAttackStateChanged;
+            _paddleStateMachine.OnStateChanged += HandlePaddleStateChanged;
         }
 
         ~RaftPlayerAttackLogic()
         {
-            _paddleAttackStateMachine.OnStateChanged -= HandlePaddleAttackStateChanged;
+            _paddleStateMachine.OnStateChanged -= HandlePaddleStateChanged;
         }
 
         public void Attack()
@@ -128,8 +72,8 @@ namespace NoMoreFishAndChips.Entities
 
             if (type == WeaponType.Paddle)
             {
-                _currentStateMachine = _paddleAttackStateMachine;
-                _paddleAttackStateMachine.ChangeState(EPaddleAttackState.Hold);
+                _currentStateMachine = _paddleStateMachine;
+                _paddleStateMachine.ChangeState(EPaddleState.Hold);
             }
             else if (type == WeaponType.Spear)
             {
@@ -146,9 +90,9 @@ namespace NoMoreFishAndChips.Entities
             _currentStateMachine?.Tick();
         }
 
-        private void HandlePaddleAttackStateChanged(EPaddleAttackState previous, EPaddleAttackState current)
+        private void HandlePaddleStateChanged(EPaddleState previous, EPaddleState current)
         {
-            if (current == EPaddleAttackState.None)
+            if (current == EPaddleState.None)
             {
                 _currentStateMachine = null;
                 _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackWeaponTypeIntName, 0);

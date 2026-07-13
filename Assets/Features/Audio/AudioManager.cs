@@ -15,7 +15,7 @@ namespace NoMoreFishAndChips.Audio
         None,
         HumanJump,
         HumanFootstep,
-        PaddleAttack,
+        PaddleSwing,
         SeagullAttack,
         HumanSwim,
         WaterSplash,

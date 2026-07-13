@@ -6,10 +6,10 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "RaftPlayerAttackSettings", menuName = "Settings/Entities/RaftPlayerAttackSettings")]
     public class RaftPlayerAttackSettings : ScriptableObject
     {
-        [SerializeField] private HitboxData _paddleAttackHitboxData;
+        [SerializeField] private HitboxData _paddleSwingHitboxData;
         [SerializeField] private float _paddleLungeStrength;
 
-        public HitboxData PaddleAttackHitboxData => _paddleAttackHitboxData;
+        public HitboxData PaddleSwingHitboxData => _paddleSwingHitboxData;
         public float PaddleLungeStrength => _paddleLungeStrength;
     }
 }

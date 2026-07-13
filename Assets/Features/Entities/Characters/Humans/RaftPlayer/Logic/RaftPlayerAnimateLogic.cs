@@ -12,9 +12,9 @@ namespace NoMoreFishAndChips.Entities
 
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
-        private StateAnimationEvents _paddleAttackReleaseStateAnimationEvents;
+        private StateAnimationEvents _paddleReleaseStateAnimationEvents;
 
-        public StateAnimationEvents PaddleAttackReleaseStateAnimationEvents => _paddleAttackReleaseStateAnimationEvents;
+        public StateAnimationEvents PaddleReleaseStateAnimationEvents => _paddleReleaseStateAnimationEvents;
 
         private const string IsMovingBoolName = "IsMoving";
         private const string InWaterBoolName = "InWater";
@@ -55,7 +55,12 @@ namespace NoMoreFishAndChips.Entities
                 new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim)),
             };
 
-            _paddleAttackReleaseStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false);
+            _paddleReleaseStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false)
+            {
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.PaddleSwing)),
+                new StateAnimationEvent(0f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
+                new StateAnimationEvent(0.66f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
+            };
         }
 
         public void Tick()
@@ -80,7 +85,7 @@ namespace NoMoreFishAndChips.Entities
 
             _groundRunStateAnimationEvents.Tick(baseLayerInfo);
             _waterSwimStateAnimationEvents.Tick(baseLayerInfo);
-            _paddleAttackReleaseStateAnimationEvents.Tick(attackLayerInfo);
+            _paddleReleaseStateAnimationEvents.Tick(attackLayerInfo);
         }
 
         public void Jump()
