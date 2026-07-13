@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
 
         private const string GroundRunStateName = "Base Layer.Ground.Run";
         private const string WaterSwimStateName = "Base Layer.Water.Swim";
-        private const string PaddleSwingStateName = "Attack Layer.PaddleSwing";
+        private const string PaddleSwingStateName = "Attack Layer.Paddle.Swing";
 
         public RaftPlayerAnimateLogic(RaftPlayer player)
         {
