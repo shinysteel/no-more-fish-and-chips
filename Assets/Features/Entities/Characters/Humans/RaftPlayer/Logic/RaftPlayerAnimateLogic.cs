@@ -70,9 +70,9 @@ namespace NoMoreFishAndChips.Entities
 
             _spearJabStateAnimationEvents = new StateAnimationEvents(SpearJabStateName, false)
             {
-                new StateAnimationEvent(0.25f, () => _audioManager.PlaySound(SoundId.SpearJab)),
-                new StateAnimationEvent(0.25f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
-                new StateAnimationEvent(0.66f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
+                new StateAnimationEvent(0.2f, () => _audioManager.PlaySound(SoundId.SpearJab)),
+                new StateAnimationEvent(0.2f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
+                new StateAnimationEvent(0.4f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
             };
         }
 

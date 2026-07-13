@@ -25,8 +25,6 @@ MonoBehaviour:
     _speed: 2
     _acceleration: 10
     _deceleration: 7.5
-    _attackWindupMultiplier: 0.3
-    _attackImpactMultiplier: 0.1
   _look:
     _speed: 7.5
     _attackImpactMultiplier: 0.25
@@ -36,6 +34,10 @@ MonoBehaviour:
   _swimClimb:
     _climbSpeed: 30
     _launchStrength: 3
+    _mask:
+      serializedVersion: 2
+      m_Bits: 768
+  _onRaft:
     _mask:
       serializedVersion: 2
       m_Bits: 256

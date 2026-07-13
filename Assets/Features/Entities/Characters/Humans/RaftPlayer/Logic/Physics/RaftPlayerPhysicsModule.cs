@@ -87,13 +87,12 @@ namespace NoMoreFishAndChips.Entities
             // Move these into a settings asset
             float radius = 0.125f;
             float distance = 1f;
-            int mask = LayerMask.GetMask("RaftTile");
 
             Vector3 origin = _collider.bounds.center;
             origin.y = _collider.bounds.min.y;
             origin += Vector3.up * radius;
 
-            _onRaft = Physics.SphereCastNonAlloc(origin, radius, Vector3.down, _onRaftHitsNonAlloc, distance, mask) > 0;
+            _onRaft = Physics.SphereCastNonAlloc(origin, radius, Vector3.down, _onRaftHitsNonAlloc, distance, _settings.OnRaft.Mask) > 0;
         }
 
         private void MoveFixedTick()

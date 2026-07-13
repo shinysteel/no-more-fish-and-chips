@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerAttackSettings
   _paddleSwingHitboxData: {fileID: 11400000, guid: b5504cab220717048bb35d4b28c08231, type: 2}
   _paddleLungeStrength: 20
+  _spearJabHitboxData: {fileID: 11400000, guid: a1e9e17d26ff115458969ea7dc0c48f7, type: 2}
+  _spearLungeStrength: 15

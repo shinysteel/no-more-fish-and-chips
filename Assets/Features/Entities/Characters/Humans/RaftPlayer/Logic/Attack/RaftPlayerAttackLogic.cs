@@ -23,7 +23,6 @@ namespace NoMoreFishAndChips.Entities
         private StateMachine<EPaddleState> _paddleStateMachine;
         private StateMachine<ESpearState> _spearStateMachine;
 
-
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
@@ -39,7 +38,10 @@ namespace NoMoreFishAndChips.Entities
                 new StateAnimationEvent(0f, () => _hitboxManager.SpawnHitbox(_settings.PaddleSwingHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _player.AnimateLogic.SpearJabStateAnimationEvents.Add(
-                new StateAnimationEvent(0.3f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
+
+            _player.AnimateLogic.SpearJabStateAnimationEvents.Add(
+                new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.SpearJabHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _paddleStateMachine = new();
 

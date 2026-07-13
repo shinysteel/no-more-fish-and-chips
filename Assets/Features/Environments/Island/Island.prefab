@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 6499460989179924525}
   - component: {fileID: 8489900200429661507}
   - component: {fileID: 8509343842118480052}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
