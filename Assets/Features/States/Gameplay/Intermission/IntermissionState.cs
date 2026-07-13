@@ -52,6 +52,8 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
+            base.Enter();
+
             Tween.Delay(_config.ArriveDelay, Arrive);
         }
 
@@ -79,11 +81,15 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
+            base.Enter();
+
             _startTimer = 0f;
         }
         
         public override void Tick()
         {
+            base.Tick();
+
             StartTick();
         }
 
@@ -130,9 +136,19 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
-            _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
+            base.Enter();
 
-            Tween.Delay(_config.DepartDelay, () => _parentStateMachine.ChangeState(EIntermissionState.None));
+            _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+
+            if (_stateTimer >= _config.DepartDelay)
+            {
+                _parentStateMachine.ChangeState(EIntermissionState.None);
+            }
         }
     }
 
@@ -189,6 +205,8 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
+            base.Enter();
+
             if (!_networkManager.IsServer)
             {
                 return;

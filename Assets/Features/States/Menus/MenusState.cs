@@ -42,6 +42,8 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
+            base.Enter();
+
             _cameraManager.SetMode(new OrbitCameraMode(Vector3.zero, 5f, 3f, 0.1f));
         }
 
@@ -49,6 +51,8 @@ namespace NoMoreFishAndChips.States
         {
             try
             {
+                await base.EnterAsync();
+
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneMode.Additive, LoadSceneContext.Local);
 
                 _mainMenuScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.MainMenuScreenPrefab, UILayer.Screens);
@@ -64,6 +68,8 @@ namespace NoMoreFishAndChips.States
 
         public override void Exit()
         {
+            base.Exit();
+
             _uiManager.DestroyScreenUI(_mainMenuScreen, UILayer.Screens);
             _mainMenuScreen = null;
 

@@ -134,6 +134,8 @@ namespace NoMoreFishAndChips.States
         {
             try
             {
+                await base.EnterAsync();
+
                 if (_networkManager.IsServer)
                 {
                     // Network the game scene
@@ -234,6 +236,8 @@ namespace NoMoreFishAndChips.States
 
         public override void Exit()
         {
+            base.Exit();
+
             _context = null;
 
             _uiManager.DestroyScreenUI(_cursorsUI, UILayer.Cursors);

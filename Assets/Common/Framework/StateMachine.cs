@@ -29,6 +29,8 @@ namespace ShinyOwl.Common.Framework
 
         public StateMachine<TSubStateEnum> SubStateMachine => _subStateMachine;
 
+        protected float _stateTimer;
+
         public State(StateMachine<TParentStateEnum> parent)
         {
             _parentStateMachine = parent;
@@ -37,6 +39,8 @@ namespace ShinyOwl.Common.Framework
         public virtual void Enter()
         {
             _subStateMachine?.Enter();
+
+            _stateTimer = 0f;
         }
 
         public virtual async Task EnterAsync()
@@ -47,6 +51,8 @@ namespace ShinyOwl.Common.Framework
         public virtual void Tick()
         {
             _subStateMachine?.Tick();
+
+            _stateTimer += Time.deltaTime;
         }
 
         public virtual void FixedTick()

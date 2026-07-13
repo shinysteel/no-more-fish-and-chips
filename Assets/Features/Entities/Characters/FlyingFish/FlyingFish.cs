@@ -51,14 +51,12 @@ namespace NoMoreFishAndChips.Entities
             private float _surfaceDuration = 0.5f;
             private float _surfaceDistance = 0.5f;
 
-            private float _scoutTimer;
-            
             public ScoutState(StateMachine<EState> parent) : base(parent)
             { }
 
             public override void Enter()
             {
-                _scoutTimer = 0f;
+                base.Enter();
 
                 // Choose a tile to target and a position to scout from
                 if (!_fish._context.Raft.Queries.TryGetRandomTile(out _fish._targetTile) 
@@ -90,10 +88,10 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
-                _scoutTimer += Time.deltaTime;
+                base.Tick();
 
                 // Scout for some time before attacking
-                if (_scoutTimer < _fish.DefinitionData.ScoutDuration)
+                if (_stateTimer < _fish.DefinitionData.ScoutDuration)
                 {
                     return;
                 }
@@ -119,6 +117,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                base.Enter();
+
                 _flyTimer = 0f;
                 
                 _isAnticipating = true;
@@ -148,6 +148,8 @@ namespace NoMoreFishAndChips.Entities
             
             public override void Tick()
             {
+                base.Tick();
+
                 if (_isAnticipating)
                 {
                     return;

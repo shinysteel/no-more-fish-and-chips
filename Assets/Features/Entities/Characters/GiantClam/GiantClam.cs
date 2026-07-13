@@ -59,6 +59,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                base.Enter();
+
                 if (!_clam._context.Raft.Queries.TryGetRandomLine((RaftLine line) => line.Nodes.Count > 0, out RaftLine line))
                 {
                     _clam._entityManager.Despawn(_clam);
@@ -86,6 +88,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
+                base.Tick();
+
                 if (_clam._rigidbody.isKinematic)
                 {
                     return;
@@ -101,15 +105,13 @@ namespace NoMoreFishAndChips.Entities
         // Await items to be filled into the clam's inventory. Eventually respond depending on whether this was done or not
         private class AwaitItemsState : State
         {
-            private float _timer;
-
             public AwaitItemsState(StateMachine<EState> parent) : base(parent)
             { }
             
             public override void Enter()
             {
-                _timer = 0f;
-                
+                base.Enter();
+
                 _clam._inventory.OnInventorySlotChanged += HandleInventorySlotChanged;
 
                 _clam._netCanOpenInventory.value = true;
@@ -117,6 +119,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Exit()
             {
+                base.Exit();
+
                 _clam._inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;
 
                 _clam._netCanOpenInventory.value = false;
@@ -140,9 +144,9 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
-                _timer += Time.deltaTime;
+                base.Tick();
 
-                if (_timer < _clam.DefinitionData.AwaitItemsSettings.Duration)
+                if (_stateTimer < _clam.DefinitionData.AwaitItemsSettings.Duration)
                 {
                     return;
                 }

@@ -33,6 +33,8 @@ namespace NoMoreFishAndChips.States
 
         public override void Enter()
         {
+            base.Enter();
+
             _context.WaveRunner.SetStageData(_config.ClamClusterStageData);
         }
 

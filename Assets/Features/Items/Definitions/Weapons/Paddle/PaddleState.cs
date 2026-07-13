@@ -34,7 +34,8 @@ namespace NoMoreFishAndChips.Items
 
         private float _chargeTimer;
 
-        private const float ChargeDuration = 0.5f;
+        private const float ChargeDelay = 0.1f;
+        private const float ChargeDuration = 0.4f;
 
         public PaddleHoldState(StateMachine<EPaddleState> parent) : base(parent)
         {
@@ -43,25 +44,42 @@ namespace NoMoreFishAndChips.Items
 
         public override void Enter()
         {
-            _chargeTimer = 0f;
+            base.Enter();
 
-            _progressBarUI = _uiManager.CreateWorldUI(_uiManager.Config.ProgressBarUIPrefab, Vector3.zero);
+            _chargeTimer = 0f;
         }
 
         public override void Tick() 
         {
-            if (!_player.InputLogic.LeftClickHeld)
+            base.Tick();
+
+            if (_player.InputLogic.LeftClickHeld)
+            {
+                ProgressTick();
+            }
+            else
             {
                 _parentStateMachine.ChangeState(EPaddleState.Release);
-                return;
             }
-
-            ProgressTick();
         }
 
         private void ProgressTick()
         {
-            _chargeTimer += Time.deltaTime;
+            if (_stateTimer < ChargeDelay)
+            {
+                return;
+            }
+
+            if (_progressBarUI == null)
+            {
+                _progressBarUI = _uiManager.CreateWorldUI(_uiManager.Config.ProgressBarUIPrefab, Vector3.zero);
+
+                _chargeTimer = _stateTimer - ChargeDelay;
+            }
+            else
+            {
+                _chargeTimer += Time.deltaTime;
+            }
 
             float amount = Mathf.Min(_chargeTimer / ChargeDuration, 1f);
             _progressBarUI.SetFillAmount(amount);
@@ -71,8 +89,13 @@ namespace NoMoreFishAndChips.Items
 
         public override void Exit()
         {
-            _uiManager.DestroyWorldUI(_progressBarUI);
-            _progressBarUI = null;
+            base.Exit();
+
+            if (_progressBarUI != null)
+            {
+                _uiManager.DestroyWorldUI(_progressBarUI);
+                _progressBarUI = null;
+            }
         }
     }
 
@@ -90,6 +113,8 @@ namespace NoMoreFishAndChips.Items
 
         public override void Enter()
         {
+            base.Enter();
+
             _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackStateIntName, 1);
         }
     }

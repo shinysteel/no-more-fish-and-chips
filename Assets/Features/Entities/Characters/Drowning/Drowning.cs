@@ -47,6 +47,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
+                base.Tick();
+
                 if (!_drowning._targetPlayer.CharacterPhysicsModule.InWater)
                 {
                     _parentStateMachine.ChangeState(EState.Disappear);
@@ -90,14 +92,16 @@ namespace NoMoreFishAndChips.Entities
 
         private class FinisherState : State
         {
-            private float _timer;
-            
+            private const float Duration = 0.83f;
+
             public FinisherState(StateMachine<EState> parent) : base(parent)
             { }
 
             public override void Enter()
             {
-                _timer = 0f;
+                base.Enter();
+
+                _stateTimer = 0f;
 
                 Vector3 position = _drowning._targetPlayer.transform.position;
                 position.y = _drowning.transform.position.y;
@@ -110,10 +114,12 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
-                _timer += Time.deltaTime;
+                base.Tick();
+
+                _stateTimer += Time.deltaTime;
                 
                 // This is how long the Crab finisher is, and hopefully that is standardised
-                if (_timer >= 0.83f)
+                if (_stateTimer >= Duration)
                 {
                     _drowning._targetPlayer.RaftPlayerDefeatModule.Respawn();
 
@@ -124,21 +130,25 @@ namespace NoMoreFishAndChips.Entities
 
         private class DisappearState : State
         {
-            private float _timer;
+            private const float Duration = 0.33f;
 
             public DisappearState(StateMachine<EState> parent) : base(parent)
             { }
 
             public override void Enter()
             {
+                base.Enter();
+
                 _drowning.DisappearRpc();
             }
 
             public override void Tick()
             {
-                _timer += Time.deltaTime;
+                base.Tick();
 
-                if (_timer >= 0.33f)
+                _stateTimer += Time.deltaTime;
+
+                if (_stateTimer >= Duration)
                 {
                     Despawn();
                 }

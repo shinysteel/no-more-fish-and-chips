@@ -59,6 +59,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                base.Enter();
+
                 if (!_seagull._context.Raft.Queries.TryGetRandomTile(out RaftTile tile))
                 {
                     _seagull._entityManager.Despawn(_seagull);
@@ -104,6 +106,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
+                base.Tick();
+
                 if (!_targetPosition.HasValue)
                 {
                     return;
@@ -132,6 +136,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                base.Enter();
+
                 if (!_seagull._context.Raft.Queries.TryGetClosestTile(_seagull.transform.position, out RaftTile tile))
                 {
                     _seagull._entityManager.Despawn(_seagull);
@@ -150,6 +156,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void FixedTick()
             {
+                base.FixedTick();
+
                 if (_seagull.CharacterPhysicsModule.IsGrounded)
                 {
                     _parentStateMachine.ChangeState(EState.Idle);
@@ -175,11 +183,15 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                base.Enter();
+
                 _seagull._entityModel.Animator.SetBool(InAirBoolName, false);
             }
 
             public override void FixedTick()
             {
+                base.FixedTick();
+
                 if (Physics.OverlapSphereNonAlloc(_seagull.transform.position, _seagull.DefinitionData.AttackSettings.Range, _collidersNonAlloc, _seagull.DefinitionData.AttackSettings.Mask) > 0)
                 {
                     Vector3 direction = (_collidersNonAlloc[0].transform.position - _seagull.transform.position);
@@ -206,6 +218,8 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
+                base.Enter();
+
                 _seagull.CharacterModel.SetTrigger(AttackTriggerName);
             }
         }
