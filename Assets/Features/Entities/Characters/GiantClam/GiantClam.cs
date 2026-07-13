@@ -38,7 +38,7 @@ namespace NoMoreFishAndChips.Entities
             EmptyRage
         }
 
-        private class State : State<EState, ENone>
+        private abstract class State : State<EState, ENone>
         {
             protected GiantClam _clam;
 

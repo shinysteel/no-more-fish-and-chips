@@ -34,7 +34,7 @@ namespace NoMoreFishAndChips.Entities
             Takeoff
         }
 
-        private class State : State<EState, ENone>
+        private abstract class State : State<EState, ENone>
         {
             protected Seagull _seagull;
 

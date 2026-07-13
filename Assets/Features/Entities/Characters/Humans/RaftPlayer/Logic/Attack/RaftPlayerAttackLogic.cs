@@ -19,7 +19,10 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayerAttackSettings _settings;
 
         private IStateMachine _currentStateMachine;
+
         private StateMachine<EPaddleState> _paddleStateMachine;
+        private StateMachine<ESpearState> _spearStateMachine;
+
 
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
@@ -29,11 +32,14 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _player.DefinitionData.AttackSettings;
 
-            _player.AnimateLogic.PaddleReleaseStateAnimationEvents.Add(
+            _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
                 new StateAnimationEvent(0f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
 
-            _player.AnimateLogic.PaddleReleaseStateAnimationEvents.Add(
+            _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
                 new StateAnimationEvent(0f, () => _hitboxManager.SpawnHitbox(_settings.PaddleSwingHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
+
+            _player.AnimateLogic.SpearJabStateAnimationEvents.Add(
+                new StateAnimationEvent(0.3f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
 
             _paddleStateMachine = new();
 
@@ -46,12 +52,22 @@ namespace NoMoreFishAndChips.Entities
             _paddleStateMachine.AddState(EPaddleState.Hold, paddleHoldState);
             _paddleStateMachine.AddState(EPaddleState.Release, paddleReleaseState);
 
+            _spearStateMachine = new();
+
+            SpearJabState spearJabState = new SpearJabState(_spearStateMachine);
+
+            spearJabState.Initialise(_player);
+
+            _spearStateMachine.AddState(ESpearState.Jab, spearJabState);
+
             _paddleStateMachine.OnStateChanged += HandlePaddleStateChanged;
+            _spearStateMachine.OnStateChanged += HandleSpearStateChanged;
         }
 
         ~RaftPlayerAttackLogic()
         {
             _paddleStateMachine.OnStateChanged -= HandlePaddleStateChanged;
+            _spearStateMachine.OnStateChanged -= HandleSpearStateChanged;
         }
 
         public void Attack()
@@ -83,7 +99,8 @@ namespace NoMoreFishAndChips.Entities
             }
             else if (type == WeaponType.Spear)
             {
-
+                _currentStateMachine = _spearStateMachine;
+                _spearStateMachine.ChangeState(ESpearState.Jab);
             }
             else if (type == WeaponType.Slingshot)
             {
@@ -100,10 +117,24 @@ namespace NoMoreFishAndChips.Entities
         {
             if (current == EPaddleState.None)
             {
-                _currentStateMachine = null;
-                _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackWeaponTypeIntName, 0);
-                _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackStateIntName, 0);
+                Reset();
             }
+        }
+
+        private void HandleSpearStateChanged(ESpearState previous, ESpearState current)
+        {
+            if (current == ESpearState.None)
+            {
+                Reset();
+            }
+        }
+
+        private void Reset()
+        {
+            _currentStateMachine = null;
+
+            _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackWeaponTypeIntName, 0);
+            _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackStateIntName, 0);
         }
     }
 }

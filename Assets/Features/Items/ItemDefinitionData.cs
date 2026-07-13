@@ -27,6 +27,7 @@ namespace NoMoreFishAndChips.Items
         [SerializeField] private BoolGrid _shape;
         [SerializeField] private ItemModel _model;
         [SerializeField] private ItemActionData[] _actionDatas = new ItemActionData[0];
+        [SerializeField] private Vector3 _holdOffset;
 
         // To differentiate from InstanceId, we use ItemId
         public ItemId ItemId => _itemId;
@@ -39,6 +40,7 @@ namespace NoMoreFishAndChips.Items
         public BoolGrid Shape => _shape;
         public ItemModel Model => _model;
         public ItemActionData[] ActionDatas => _actionDatas;
+        public Vector3 HoldOffset => _holdOffset;
 
         bool ICraftable.TryCraft(GameplayContext context)
         {

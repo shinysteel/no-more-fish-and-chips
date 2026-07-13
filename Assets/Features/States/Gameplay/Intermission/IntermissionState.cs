@@ -22,7 +22,7 @@ namespace NoMoreFishAndChips.States
         void InitialiseContext(GameplayContext context);
     }
 
-    public class IntermissionSubState : State<EIntermissionState, ENone>, IIntermissionSubState
+    public abstract class IntermissionSubState : State<EIntermissionState, ENone>, IIntermissionSubState
     {
         protected GameplayContext _context;
 

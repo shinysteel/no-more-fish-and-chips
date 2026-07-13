@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Entities
             Bite
         }
 
-        private class State : State<EState, ENone>
+        private abstract class State : State<EState, ENone>
         {
             protected Shark _shark;
 

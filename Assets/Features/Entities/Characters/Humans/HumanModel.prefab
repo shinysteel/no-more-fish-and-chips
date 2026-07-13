@@ -56,14 +56,14 @@ MonoBehaviour:
   _id: 100
   _animator: {fileID: 6088012795851938176}
   _networkAnimator: {fileID: 0}
-  _itemLocator: {fileID: 8306009083520735444}
+  _itemLocator: {fileID: 866946709996858372}
+--- !u!4 &866946709996858372 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 657070041489426453, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}
+  m_PrefabInstance: {fileID: 366589031599383569}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &6088012795851938176 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}
-  m_PrefabInstance: {fileID: 366589031599383569}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8306009083520735444 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8526085441536064709, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}
   m_PrefabInstance: {fileID: 366589031599383569}
   m_PrefabAsset: {fileID: 0}

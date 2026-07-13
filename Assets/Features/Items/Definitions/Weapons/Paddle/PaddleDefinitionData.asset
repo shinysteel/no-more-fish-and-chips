@@ -28,4 +28,5 @@ MonoBehaviour:
   _model: {fileID: 6265077713852142882, guid: 38164e4f096eda0438b78b4f48846e57, type: 3}
   _actionDatas:
   - {fileID: 11400000, guid: 434b0bef9dcae244f8afccaa3c0ddebc, type: 2}
+  _holdOffset: {x: 0, y: -0.1, z: 0}
   _weaponType: 1

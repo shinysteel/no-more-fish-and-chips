@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.Items
         Release
     }
 
-    public class PaddleState : State<EPaddleState, ENone>
+    public abstract class PaddleState : State<EPaddleState, ENone>
     {
         protected RaftPlayer _player;
 
@@ -108,7 +108,7 @@ namespace NoMoreFishAndChips.Items
         {
             base.Initialise(player);
 
-            _player.AnimateLogic.PaddleReleaseStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(EPaddleState.None)));
+            _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(EPaddleState.None)));
         }
 
         public override void Enter()

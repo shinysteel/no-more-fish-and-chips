@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
             Fly
         }
 
-        private class State : State<EState, ENone>
+        private abstract class State : State<EState, ENone>
         {
             protected FlyingFish _fish;
 

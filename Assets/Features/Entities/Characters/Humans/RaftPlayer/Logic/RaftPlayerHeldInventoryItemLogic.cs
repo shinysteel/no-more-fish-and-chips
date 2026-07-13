@@ -46,8 +46,9 @@ namespace NoMoreFishAndChips.Entities
             if (_heldModel == null && slot.InventoryItem != null)
             {
                 // Items need to be corrected by 90 degrees on the y-axis when held
-                _heldModel = _itemManager.GetModel(slot.InventoryItem.ItemInstance.Data.ItemId, new SpawnParams() 
-                { 
+                _heldModel = _itemManager.GetModel(slot.InventoryItem.ItemInstance.Data.ItemId, new SpawnParams()
+                {
+                    Position = slot.InventoryItem.ItemInstance.Data.HoldOffset,
                     Rotation = Quaternion.AngleAxis(90f, Vector3.up),
                     Parent = _player.CharacterModel.ItemLocator
                 });

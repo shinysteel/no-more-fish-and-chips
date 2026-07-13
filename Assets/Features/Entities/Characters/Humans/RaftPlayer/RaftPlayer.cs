@@ -147,6 +147,11 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.ToothSpear, Count = 1 }, false, out _, out _, out _);
+            }
+
             _inputLogic.Tick();
             _interactLogic.Tick();
             _animateLogic.Tick();
