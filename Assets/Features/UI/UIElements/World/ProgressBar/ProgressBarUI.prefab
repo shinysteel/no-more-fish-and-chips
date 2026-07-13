@@ -57,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 63ef3867228c6f84abcbce5b087d9cb2, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 63ef3867228c6f84abcbce5b087d9cb2, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -282,6 +282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360873e277c0e3b429a8b027e1eb3567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgressBarUI
+  _uiAnimation: {fileID: 7501330300332617796}
+  _rectTransform: {fileID: 4439430658742495521}
+  _canvasGroup: {fileID: 7427231007135982023}
+  _fillImage: {fileID: 116867054942344968}
 --- !u!114 &7501330300332617796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,3 +298,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefc8acff722413449cd2b93b91bed7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.InstantUIAnimation
+--- !u!225 &7427231007135982023 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 8570802759322780598, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
+  m_PrefabInstance: {fileID: 1288953688253276785}
+  m_PrefabAsset: {fileID: 0}

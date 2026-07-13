@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using UnityEngine;
@@ -27,17 +28,51 @@ namespace NoMoreFishAndChips.Items
 
     public class PaddleHoldState : PaddleState
     {
-        public PaddleHoldState(StateMachine<EPaddleState> parent) : base(parent)
-        { }
+        private UIManager _uiManager;
 
-        public override void Tick()
+        private ProgressBarUI _progressBarUI;
+
+        private float _chargeTimer;
+
+        private const float ChargeDuration = 0.5f;
+
+        public PaddleHoldState(StateMachine<EPaddleState> parent) : base(parent)
         {
-            if (_player.InputLogic.LeftClickHeld)
+            _uiManager = GameManager.Instance.Get<UIManager>();
+        }
+
+        public override void Enter()
+        {
+            _chargeTimer = 0f;
+
+            _progressBarUI = _uiManager.CreateWorldUI(_uiManager.Config.ProgressBarUIPrefab, Vector3.zero);
+        }
+
+        public override void Tick() 
+        {
+            if (!_player.InputLogic.LeftClickHeld)
             {
+                _parentStateMachine.ChangeState(EPaddleState.Release);
                 return;
             }
 
-            _parentStateMachine.ChangeState(EPaddleState.Release);
+            ProgressTick();
+        }
+
+        private void ProgressTick()
+        {
+            _chargeTimer += Time.deltaTime;
+
+            float amount = Mathf.Min(_chargeTimer / ChargeDuration, 1f);
+            _progressBarUI.SetFillAmount(amount);
+
+            _progressBarUI.transform.position = _player.transform.position + Vector3.up * 0.75f;
+        }
+
+        public override void Exit()
+        {
+            _uiManager.DestroyWorldUI(_progressBarUI);
+            _progressBarUI = null;
         }
     }
 

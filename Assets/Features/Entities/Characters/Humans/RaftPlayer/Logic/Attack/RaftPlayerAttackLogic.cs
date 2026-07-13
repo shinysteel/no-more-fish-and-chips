@@ -29,6 +29,12 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _player.DefinitionData.AttackSettings;
 
+            _player.AnimateLogic.PaddleReleaseStateAnimationEvents.Add(
+                new StateAnimationEvent(0f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
+
+            _player.AnimateLogic.PaddleReleaseStateAnimationEvents.Add(
+                new StateAnimationEvent(0f, () => _hitboxManager.SpawnHitbox(_settings.PaddleSwingHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
+
             _paddleStateMachine = new();
 
             PaddleHoldState paddleHoldState = new PaddleHoldState(_paddleStateMachine);
@@ -99,17 +105,5 @@ namespace NoMoreFishAndChips.Entities
                 _player.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.AttackStateIntName, 0);
             }
         }
-
-        // attack state integer value
-
-        // play hold animation 
-        // add speed modifier
-        // show progress bar filling up
-        // player looks towards cursor
-        // attack key is released
-        // play release animation
-
-        //_player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.LungeStrength, ForceMode.Impulse);
-        //_hitboxManager.SpawnHitbox(_settings.HitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation });
     }
 }

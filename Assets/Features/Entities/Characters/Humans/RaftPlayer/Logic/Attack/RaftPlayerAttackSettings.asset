@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RaftPlayerAttackSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerAttackSettings
   _paddleSwingHitboxData: {fileID: 11400000, guid: b5504cab220717048bb35d4b28c08231, type: 2}
-  _paddleLungeStrength: 2.5
+  _paddleLungeStrength: 20

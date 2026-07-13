@@ -7,7 +7,7 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayerAttackSettings : ScriptableObject
     {
         [SerializeField] private HitboxData _paddleSwingHitboxData;
-        [SerializeField] private float _paddleLungeStrength;
+        [SerializeField] private float _paddleLungeStrength = 20f;
 
         public HitboxData PaddleSwingHitboxData => _paddleSwingHitboxData;
         public float PaddleLungeStrength => _paddleLungeStrength;

@@ -1,16 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ProgressBarUI : MonoBehaviour
+namespace NoMoreFishAndChips.UI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class ProgressBarUI : WorldUI
     {
-        
-    }
+        [SerializeField] private Image _fillImage;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void SetFillAmount(float amount)
+        {
+            _fillImage.fillAmount = amount;
+        }
     }
 }

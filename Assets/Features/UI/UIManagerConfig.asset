@@ -32,3 +32,4 @@ MonoBehaviour:
   _fadeOverlayPrefab: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}
   _interactPromptUIPrefab: {fileID: 4809291724522747272, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
   _requirementPromptUIPrefab: {fileID: 4361571962402563503, guid: 6c8be37aac96c9942a22adc77a709a9d, type: 3}
+  _progressBarUIPrefab: {fileID: 5449527504232588373, guid: 95f73c6e792a5e140a4a3b503d275dc5, type: 3}
