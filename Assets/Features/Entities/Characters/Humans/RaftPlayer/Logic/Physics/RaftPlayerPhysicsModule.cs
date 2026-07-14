@@ -111,7 +111,28 @@ namespace NoMoreFishAndChips.Entities
 
         private void LookFixedTick()
         {
-            Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
+            Vector3 direction;
+
+            if (!_player.CanAct)
+            {
+                direction = Vector3.zero;
+            }
+            else if (!_player.AttackLogic.IsAttacking)
+            {
+                direction = _player.InputLogic.MoveDirection;
+            }
+            else
+            {
+                Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_player.InputLogic.GameplayMouse);
+
+                // Have the plane sit at the player's origin so that y does not influence the target
+                Plane plane = new Plane(Vector3.up, _player.transform.position);
+
+                // Face the cursor
+                plane.Raycast(ray, out float distance);
+
+                direction = (ray.GetPoint(distance) - _player.transform.position).normalized;
+            }
 
             if (direction == Vector3.zero)
             {

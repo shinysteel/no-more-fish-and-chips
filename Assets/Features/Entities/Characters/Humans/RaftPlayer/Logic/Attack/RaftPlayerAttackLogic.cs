@@ -25,6 +25,8 @@ namespace NoMoreFishAndChips.Entities
         private StateMachine<EPaddleState> _paddleStateMachine;
         private StateMachine<ESpearState> _spearStateMachine;
 
+        public bool IsAttacking => _currentStateMachine != null;
+
         public RaftPlayerAttackLogic(RaftPlayer player)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
