@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Cameras;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using System;
 using System.Globalization;
 using UnityEngine;
@@ -17,12 +18,13 @@ namespace NoMoreFishAndChips.Entities
 
         private float _jumpTimer;
         private bool _jumpRequest;
-        
-        private bool _isSwimClimbing;
-        private RaycastHit[] _swimClimbHitsNonAlloc = new RaycastHit[5];
 
         private bool _onRaft;
+        private bool _isClimbing;
+
         private RaycastHit[] _onRaftHitsNonAlloc = new RaycastHit[1];
+        private RaycastHit[] _climbHitsNonAlloc = new RaycastHit[5];
+
         public bool OnRaft => _onRaft;
 
         public RaftPlayerPhysicsModule(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
@@ -79,7 +81,7 @@ namespace NoMoreFishAndChips.Entities
             MoveFixedTick();
             LookFixedTick();
             JumpFixedTick();
-            SwimClimbFixedTick();
+            ClimbFixedTick();
         }
 
         private void OnRaftFixedTick()
@@ -154,46 +156,38 @@ namespace NoMoreFishAndChips.Entities
             AudioManager.PlaySoundRpc(SoundId.HumanJump);
         }
 
-        private void SwimClimbFixedTick()
+        private void ClimbFixedTick()
         {
             Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
 
             if (direction == Vector3.zero)
             {
-                _isSwimClimbing = false;
+                _isClimbing = false;
                 return;
             }
 
             if (!InWater)
             {
                 // A minimum launch force guarentees the player can climb back up even if they haven't built up much acceleration
-                if (_isSwimClimbing && _rigidbody.linearVelocity.y < _settings.SwimClimb.LaunchStrength)
+                if (_isClimbing && _rigidbody.linearVelocity.y < _settings.Climb.LaunchStrength)
                 {
                     Vector3 velocity = _rigidbody.linearVelocity;
-                    velocity.y = _settings.SwimClimb.LaunchStrength;
+                    velocity.y = _settings.Climb.LaunchStrength;
                     _rigidbody.linearVelocity = velocity;
                 }
 
-                _isSwimClimbing = false;
+                _isClimbing = false;
                 return;
             }
 
-            Vector3 center = _rigidbody.position + _capsuleCollider.transform.TransformVector(_capsuleCollider.center);
-            float radius = _capsuleCollider.radius * Mathf.Max(_player.transform.lossyScale.x, _player.transform.lossyScale.z);
-            float height = Mathf.Max(_capsuleCollider.height * _capsuleCollider.transform.lossyScale.y, radius * 2f);
-            float offset = height * 0.5f - radius;
-            
-            Vector3 point1 = center - Vector3.up * offset;
-            Vector3 point2 = center + Vector3.up * offset;
+            _isClimbing = Utils.Physics.CapsuleCastNonAlloc(_capsuleCollider, Vector3.zero, direction, _climbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.Climb.Mask) > 0;
 
-            _isSwimClimbing = Physics.CapsuleCastNonAlloc(point1, point2, radius, direction, _swimClimbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.SwimClimb.Mask) > 0;
-            
-            if (!_isSwimClimbing)
+            if (!_isClimbing)
             {
                 return;
             }
 
-            _rigidbody.AddForce(Vector3.up * _settings.SwimClimb.ClimbSpeed, ForceMode.Acceleration);
+            _rigidbody.AddForce(Vector3.up * _settings.Climb.ClimbSpeed, ForceMode.Acceleration);
         }
     }
 }

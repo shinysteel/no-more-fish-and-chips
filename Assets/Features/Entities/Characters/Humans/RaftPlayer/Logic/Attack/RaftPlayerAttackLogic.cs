@@ -7,6 +7,8 @@ using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using ShinyOwl.Common.Framework;
+using ShinyOwl.Common.Utils;
+using System.Linq;
 
 namespace NoMoreFishAndChips.Entities
 {

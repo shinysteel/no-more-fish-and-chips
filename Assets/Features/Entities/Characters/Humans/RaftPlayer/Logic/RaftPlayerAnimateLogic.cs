@@ -72,7 +72,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 new StateAnimationEvent(0.2f, () => _audioManager.PlaySound(SoundId.SpearJab)),
                 new StateAnimationEvent(0.2f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
-                new StateAnimationEvent(0.4f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
+                new StateAnimationEvent(0.8f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
             };
         }
 

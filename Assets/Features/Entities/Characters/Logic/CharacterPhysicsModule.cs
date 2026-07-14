@@ -48,7 +48,7 @@ namespace NoMoreFishAndChips.Entities
             for (int i = 0; i < hits; i++)
             {
                 // Since we include the player layer to jump on other player's heads, we need to ignore our own collider here
-                if (_isGroundedHitsNonAlloc[i].collider.gameObject != _character.gameObject)
+                if (_isGroundedHitsNonAlloc[i].collider != _collider)
                 {
                     isGrounded = true;
                     break;

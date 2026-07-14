@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3173655309412006421}
   - component: {fileID: 6797095063698752868}
   - component: {fileID: 8269529240247815768}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb37443a9c795e6448eeefcfdb04fcc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
-  _sphereCollider: {fileID: 8269529240247815768}
 --- !u!135 &8269529240247815768
 SphereCollider:
   m_ObjectHideFlags: 0

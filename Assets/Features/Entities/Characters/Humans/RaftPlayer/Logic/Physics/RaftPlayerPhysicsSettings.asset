@@ -31,7 +31,7 @@ MonoBehaviour:
   _jump:
     _strength: 35
     _cooldown: 0.1
-  _swimClimb:
+  _climb:
     _climbSpeed: 30
     _launchStrength: 3
     _mask:

@@ -28,8 +28,8 @@ MonoBehaviour:
     _startTime: 0
     _duration: 0.1
   - _shape: 0
-    _offset: {x: 0, y: -0.125, z: 0.5}
-    _size: {x: 0.25, y: 0.5, z: 0.75}
+    _offset: {x: 0.15, y: 0, z: 0.5}
+    _size: {x: 0.33, y: 0.5, z: 1}
     _radius: 0
     _startTime: 0
     _duration: 0.1
