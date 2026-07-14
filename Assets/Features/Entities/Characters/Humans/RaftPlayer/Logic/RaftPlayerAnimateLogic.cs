@@ -13,10 +13,12 @@ namespace NoMoreFishAndChips.Entities
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
         private StateAnimationEvents _paddleSwingStateAnimationEvents;
-        private StateAnimationEvents _spearJabStateAnimationEvents;
+        private StateAnimationEvents _spearJab1StateAnimationEvents;
+        private StateAnimationEvents _spearJab2StateAnimationEvents;
 
         public StateAnimationEvents PaddleSwingStateAnimationEvents => _paddleSwingStateAnimationEvents;
-        public StateAnimationEvents SpearJabStateAnimationEvents => _spearJabStateAnimationEvents;
+        public StateAnimationEvents SpearJab1StateAnimationEvents => _spearJab1StateAnimationEvents;
+        public StateAnimationEvents SpearJab2StateAnimationEvents => _spearJab2StateAnimationEvents;
 
         private const string BaseLayerName = "Base Layer";
         private const string AttackLayerName = "Attack Layer";
@@ -35,7 +37,8 @@ namespace NoMoreFishAndChips.Entities
         private const string GroundRunStateName = BaseLayerName + ".Ground.Run";
         private const string WaterSwimStateName = BaseLayerName + ".Water.Swim";
         private const string PaddleSwingStateName = AttackLayerName + ".Paddle.Swing";
-        private const string SpearJabStateName = AttackLayerName + ".SpearJab";
+        private const string SpearJab1StateName = AttackLayerName + ".Spear.Jab1";
+        private const string SpearJab2StateName = AttackLayerName + ".Spear.Jab2";
 
         public RaftPlayerAnimateLogic(RaftPlayer player)
         {
@@ -68,7 +71,14 @@ namespace NoMoreFishAndChips.Entities
                 new StateAnimationEvent(0.66f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
             };
 
-            _spearJabStateAnimationEvents = new StateAnimationEvents(SpearJabStateName, false)
+            _spearJab1StateAnimationEvents = new StateAnimationEvents(SpearJab1StateName, false)
+            {
+                new StateAnimationEvent(0.2f, () => _audioManager.PlaySound(SoundId.SpearJab)),
+                new StateAnimationEvent(0.2f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
+                new StateAnimationEvent(0.8f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
+            };
+
+            _spearJab2StateAnimationEvents = new StateAnimationEvents(SpearJab2StateName, false)
             {
                 new StateAnimationEvent(0.2f, () => _audioManager.PlaySound(SoundId.SpearJab)),
                 new StateAnimationEvent(0.2f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
@@ -94,12 +104,15 @@ namespace NoMoreFishAndChips.Entities
             }
 
             AnimatorStateInfo baseLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorStateInfo attackLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(2);
 
             _groundRunStateAnimationEvents.Tick(baseLayerInfo);
             _waterSwimStateAnimationEvents.Tick(baseLayerInfo);
+
+            AnimatorStateInfo attackLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(2);
+
             _paddleSwingStateAnimationEvents.Tick(attackLayerInfo);
-            _spearJabStateAnimationEvents.Tick(attackLayerInfo);
+            _spearJab1StateAnimationEvents.Tick(attackLayerInfo);
+            _spearJab2StateAnimationEvents.Tick(attackLayerInfo);
         }
 
         public void Jump()
