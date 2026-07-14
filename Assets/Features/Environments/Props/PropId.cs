@@ -13,6 +13,8 @@ namespace NoMoreFishAndChips.Environments
         SandTile,
         GrassTile,
         FishAndChipsShop,
-        SeaChartBoard
+        SeaChartBoard,
+        PicnicTable,
+        PicnicBench
     }
 }
