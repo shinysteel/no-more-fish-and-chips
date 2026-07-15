@@ -3,7 +3,12 @@ guid: ff28dde66a688e44c9e5fd74985ae351
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dock.png
+    second: {fileID: 2100000, guid: 65be98f5d1abe324f97a2b9b5d69f060, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
