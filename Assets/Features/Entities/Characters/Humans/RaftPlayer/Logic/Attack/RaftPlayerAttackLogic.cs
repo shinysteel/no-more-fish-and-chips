@@ -35,6 +35,11 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _player.DefinitionData.AttackSettings;
 
+            if (!_player.isOwner)
+            {
+                return;
+            }
+
             _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
                 new StateAnimationEvent(0f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
 
@@ -84,6 +89,11 @@ namespace NoMoreFishAndChips.Entities
 
         public void Attack()
         {
+            if (!_player.isOwner)
+            {
+                return;
+            }
+
             if (_currentStateMachine != null)
             {
                 return;

@@ -34,6 +34,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4723ddb60c1556346850091debef39d0, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2684282953661805333}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4723ddb60c1556346850091debef39d0, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 5295817868618671465}
   m_SourcePrefab: {fileID: 100100000, guid: 4723ddb60c1556346850091debef39d0, type: 3}
 --- !u!1 &5662755703241014806 stripped
@@ -41,6 +44,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4723ddb60c1556346850091debef39d0, type: 3}
   m_PrefabInstance: {fileID: 4780377073148642119}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2684282953661805333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662755703241014806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03fbf6b21d70f14ab34f7a4444e5844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Prop
+  _id: 10
 --- !u!65 &5295817868618671465
 BoxCollider:
   m_ObjectHideFlags: 0

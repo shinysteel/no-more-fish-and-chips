@@ -15,6 +15,7 @@ namespace NoMoreFishAndChips.Environments
         FishAndChipsShop,
         SeaChartBoard,
         PicnicTable,
-        PicnicBench
+        PicnicBench,
+        Dock
     }
 }

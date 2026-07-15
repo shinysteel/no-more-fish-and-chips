@@ -111,7 +111,7 @@ namespace NoMoreFishAndChips.Entities
             _heldInventoryItemLogic = new RaftPlayerHeldInventoryItemLogic(this);
             _openNetBehaviourLogic = new RaftPlayerOpenNetBehaviourLogic(_netOpenNetworkId);
             _attackLogic = new RaftPlayerAttackLogic(this);
-
+            
             if (isOwner)
             {
                 _inventory.SetLayouts(DefinitionData.UnlockableInventoryLayout, DefinitionData.DefaultUnlockedInventoryLayout);
