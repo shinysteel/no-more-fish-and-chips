@@ -26,7 +26,9 @@ namespace NoMoreFishAndChips.Audio
         UINegativeClick,
         WaveSignJump,
         WaveSignSlam,
-        SpearJab
+        SpearJab,
+        GiantClamOpen,
+        GiantClamClose
     }
 
     public class AudioManager : GameSystem<IAudioManagerListener>

@@ -1,5 +1,7 @@
+using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using PrimeTween;
@@ -10,10 +12,11 @@ using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class GiantClam : Character<GiantClamDefinitionData>, IInteractable, IHasInventory
+    public class GiantClam : Character<GiantClamDefinitionData>, IInteractable, IHasInventory, INetworkManagerListener
     {
         [SerializeField] private Inventory _inventory;
 
@@ -21,14 +24,26 @@ namespace NoMoreFishAndChips.Entities
 
         private StateMachine<EState> _stateMachine;
 
+        private int _openCount;
+
         private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
 
         private SyncVar<bool> _netCanOpenInventory = new SyncVar<bool>(ownerAuth: true);
         private SyncVar<float> _netExplodeBlend = new SyncVar<float>(ownerAuth: true);
 
+        private StateAnimationEvents _closedStateAnimationEvents;
+        private StateAnimationEvents _openedStateAnimationEvents;
+
         public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
 
         private const string ExplodeBlendName = "_ExplodeBlend";
+
+        private const string BaseLayerName = "Base Layer";
+
+        private const string ClosedStateName = BaseLayerName + ".Closed";
+        private const string OpenedStateName = BaseLayerName + ".Opened";
+
+        private const string IsOpenBoolName = "IsOpen";
 
         private enum EState
         {
@@ -173,6 +188,18 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Awake();
 
+            _closedStateAnimationEvents = new StateAnimationEvents(ClosedStateName, false)
+            {
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamClose))
+            };
+
+            _openedStateAnimationEvents = new StateAnimationEvents(OpenedStateName, false)
+            {
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamOpen))
+            };
+
+            _closedStateAnimationEvents.Skip();
+
             _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
 
             _stateMachine = new();
@@ -199,28 +226,39 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
+            _networkManager.AddListener(this);
+
             _giantClamPanelInstance = new PanelInstance<GiantClamsMouthPanel>(_uiManager.Config.GiantClamsMouthPanelPrefab);
 
             if (isOwner)
             {
-                _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
-                
                 _stateMachine.ChangeState(EState.SpawnLaunch);
             }
+
+            _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
             _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged += HandleNetExplodeBlendChanged;
         }
 
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            foreach (RaftPlayer player in _context.Players)
+            {
+                ((INetworkManagerListener)this).OnNetBehaviourSpawned(player);
+            }
+        }
+        
         protected override void OnDespawned()
         {
-            if (isOwner)
-            {
-                _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
-            }
+            _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
 
             _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged -= HandleNetExplodeBlendChanged;
+
+            _networkManager?.RemoveListener(this);
 
             base.OnDespawned();
         }
@@ -247,6 +285,10 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Update();
 
+            AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
+            _closedStateAnimationEvents.Tick(info);
+            _openedStateAnimationEvents.Tick(info);
+
             if (isOwner)
             {
                 _stateMachine.Tick();
@@ -255,6 +297,11 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleIsDefeatedChanged(bool defeated)
         {
+            if (!isOwner)
+            {
+                return;
+            }
+            
             if (_stateMachine.CurrentEnum != EState.None)
             {
                 _stateMachine.ChangeState(EState.None);
@@ -281,6 +328,46 @@ namespace NoMoreFishAndChips.Entities
         public void Interact()
         {
             _giantClamPanelInstance.Toggle((GiantClamsMouthPanel panel) => panel.Setup(_context, this, _inventory));
+        }
+
+        void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)
+        {
+            if (behaviour is not RaftPlayer player)
+            {
+                return;
+            }
+
+            player.OpenNetBehaviourLogic.OnChanged += HandleOpenNetBehaviourChanged;
+        }
+
+        void INetworkManagerListener.OnNetBehaviourDespawned(NetBehaviour behaviour)
+        {
+            if (behaviour is not RaftPlayer player)
+            {
+                return;
+            }
+
+            player.OpenNetBehaviourLogic.OnChanged -= HandleOpenNetBehaviourChanged;
+        }
+
+        private void HandleOpenNetBehaviourChanged(NetBehaviour previous, NetBehaviour current)
+        {
+            if (!isOwner)
+            {
+                return;
+            }
+
+            if (previous == this)
+            {
+                _openCount--;
+            }
+
+            if (current == this)
+            {
+                _openCount++;
+            }
+
+            _entityModel.Animator.SetBool(IsOpenBoolName, _openCount > 0);
         }
     }
 }

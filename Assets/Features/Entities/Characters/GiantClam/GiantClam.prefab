@@ -163,21 +163,59 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2789357246949387538, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 156299602621915813}
   m_SourcePrefab: {fileID: 100100000, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
 --- !u!114 &2947986952717055078 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7051934932963498189, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
   m_PrefabInstance: {fileID: 5275082916879838379}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8034723370468557241}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.CharacterModel
+--- !u!95 &3614963532027871609 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8871587531483377106, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+  m_PrefabInstance: {fileID: 5275082916879838379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7262831725804165891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3314113930869356456, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
   m_PrefabInstance: {fileID: 5275082916879838379}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8034723370468557241 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2789357246949387538, guid: 1298c27c3ec605e4aa1c6b81d6c594ae, type: 3}
+  m_PrefabInstance: {fileID: 5275082916879838379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &156299602621915813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8034723370468557241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b598b9d8509d64abb9fdaf07fa3f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkAnimator
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _animator: {fileID: 3614963532027871609}
+  _ownerAuth: 1
+  _autoSyncParameters: 1
+  _dontSyncParameters: []

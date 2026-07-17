@@ -89,7 +89,7 @@ namespace NoMoreFishAndChips.UI
 
             HandleOpenNetBehaviourChanged(null, player.OpenNetBehaviourLogic.Behaviour);
 
-            player.OpenNetBehaviourLogic.OnBehaviourChanged += HandleOpenNetBehaviourChanged;
+            player.OpenNetBehaviourLogic.OnChanged += HandleOpenNetBehaviourChanged;
         }
 
         void IEntityManagerListener.OnEntityDespawned(IEntity entity)
@@ -101,7 +101,7 @@ namespace NoMoreFishAndChips.UI
 
             SyncCursors();
 
-            player.OpenNetBehaviourLogic.OnBehaviourChanged -= HandleOpenNetBehaviourChanged;
+            player.OpenNetBehaviourLogic.OnChanged -= HandleOpenNetBehaviourChanged;
         }
 
         private void HandleOpenNetBehaviourChanged(NetBehaviour oldBehaviour, NetBehaviour newBehaviour)

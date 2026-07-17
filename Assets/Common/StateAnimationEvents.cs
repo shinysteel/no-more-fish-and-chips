@@ -41,6 +41,8 @@ namespace ShinyOwl.Common
         private int _loops;
         private int _index;
 
+        private bool _isSkipped;
+
         public StateAnimationEvents(string stateName, bool canLoop)
         {
             _stateName = stateName;
@@ -72,6 +74,12 @@ namespace ShinyOwl.Common
             {
                 _loops = 0;
                 _index = 0;
+                _isSkipped = false;
+                return;
+            }
+
+            if (_isSkipped)
+            {
                 return;
             }
 
@@ -109,6 +117,12 @@ namespace ShinyOwl.Common
                     _index++;
                 }
             }
+        }
+
+        // Skips invoking any events until the next time we are in this state
+        public void Skip()
+        {
+            _isSkipped = true;
         }
     }
 }

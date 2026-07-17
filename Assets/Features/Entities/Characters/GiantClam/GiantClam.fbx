@@ -10,12 +10,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 6
-		Day: 24
-		Hour: 17
-		Minute: 35
-		Second: 54
-		Millisecond: 159
+		Month: 7
+		Day: 18
+		Hour: 1
+		Minute: 19
+		Second: 44
+		Millisecond: 554
 	}
 	Creator: "Blockbench 5.1.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-06-24 07:35:54:159"
+CreationTime: "2026-07-17 15:19:44:554"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1791075689 {
+	Document: 1502149610 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -98,7 +98,7 @@ References:
 
 Definitions:  {
 	Version: 100
-	Count: 50
+	Count: 70
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -263,7 +263,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationStack" {
-		Count: 1
+		Count: 3
 		PropertyTemplate: "FbxAnimStack" {
 			Properties70:  {
 				P: "Description", "KString", "", "", ""
@@ -275,7 +275,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationLayer" {
-		Count: 1
+		Count: 3
 		PropertyTemplate: "FbxAnimLayer" {
 			Properties70:  {
 				P: "Weight", "Number", "", "A",100
@@ -291,7 +291,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationCurveNode" {
-		Count: 2
+		Count: 6
 		PropertyTemplate: "FbxAnimCurveNode" {
 			Properties70:  {
 				P: "d", "Compound", "", ""
@@ -299,7 +299,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationCurve" {
-		Count: 6
+		Count: 18
 	}
 }
 
@@ -307,7 +307,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 76031854, "Model::giant_clam", "Null" {
+	Model: 78383500, "Model::giant_clam", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -321,7 +321,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76052349, "Model::valve_front", "Null" {
+	Model: 76015212, "Model::valve_front", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -335,7 +335,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 77869171, "Model::valve_back", "Null" {
+	Model: 76381900, "Model::valve_back", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -349,7 +349,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74043907, "Model::tongue", "Null" {
+	Model: 71166692, "Model::tongue", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72149655, "Model::bottom", "Mesh" {
+	Model: 71697714, "Model::bottom", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -378,7 +378,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71259875, "Geometry::bottom", "Mesh" {
+	Geometry: 73550584, "Geometry::bottom", "Mesh" {
 		Vertices: *24 {
 			a: 25,9.375,18.75,25,9.375,-15.625,25,0,18.75,25,0,-15.625,-31.25,9.375,-15.625,-31.25,9.375,18.75,-31.25,0,-15.625,-31.25,0,18.75
 		}
@@ -429,7 +429,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78761142, "Model::valve", "Mesh" {
+	Model: 76902112, "Model::valve", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -444,7 +444,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70926584, "Geometry::valve", "Mesh" {
+	Geometry: 72230007, "Geometry::valve", "Mesh" {
 		Vertices: *24 {
 			a: 28.125,18.75,-15.625,28.125,18.75,-28.125,28.125,-3.125,-15.625,28.125,-3.125,-28.125,-31.25,18.75,-28.125,-31.25,18.75,-15.625,-31.25,-3.125,-28.125,-31.25,-3.125,-15.625
 		}
@@ -495,7 +495,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76751055, "Model::valve_1", "Mesh" {
+	Model: 71293965, "Model::valve_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -510,7 +510,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70496610, "Geometry::valve_1", "Mesh" {
+	Geometry: 75356909, "Geometry::valve_1", "Mesh" {
 		Vertices: *24 {
 			a: 31.25,18.75,12.5,31.25,18.75,0,31.25,-3.125,12.5,31.25,-3.125,0,-28.125,18.75,0,-28.125,18.75,12.5,-28.125,-3.125,0,-28.125,-3.125,12.5
 		}
@@ -561,7 +561,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79974525, "Model::edge", "Mesh" {
+	Model: 77803365, "Model::edge", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -576,7 +576,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73432997, "Geometry::edge", "Mesh" {
+	Geometry: 74496611, "Geometry::edge", "Mesh" {
 		Vertices: *24 {
 			a: 20.34375,18.75,-15.625,20.34375,18.75,-28.125,20.34375,-3.125,-15.625,20.34375,-3.125,-28.125,20.34375,18.75,-28.125,20.34375,18.75,-15.625,20.34375,-3.125,-28.125,20.34375,-3.125,-15.625
 		}
@@ -627,7 +627,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75102244, "Model::edge_1", "Mesh" {
+	Model: 76329317, "Model::edge_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -642,7 +642,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78591288, "Geometry::edge_1", "Mesh" {
+	Geometry: 72283862, "Geometry::edge_1", "Mesh" {
 		Vertices: *24 {
 			a: 17.15625,18.75,-15.625,17.15625,18.75,-28.125,17.15625,-3.125,-15.625,17.15625,-3.125,-28.125,17.15625,18.75,-28.125,17.15625,18.75,-15.625,17.15625,-3.125,-28.125,17.15625,-3.125,-15.625
 		}
@@ -693,7 +693,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79396992, "Model::edge_2", "Mesh" {
+	Model: 77221288, "Model::edge_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -708,7 +708,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76348897, "Geometry::edge_2", "Mesh" {
+	Geometry: 70935095, "Geometry::edge_2", "Mesh" {
 		Vertices: *24 {
 			a: -20.3125,18.75,3.125,-20.3125,18.75,-9.375,-20.3125,-3.125,3.125,-20.3125,-3.125,-9.375,-20.3125,18.75,-9.375,-20.3125,18.75,3.125,-20.3125,-3.125,-9.375,-20.3125,-3.125,3.125
 		}
@@ -759,7 +759,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77387404, "Model::edge_3", "Mesh" {
+	Model: 79133468, "Model::edge_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -774,7 +774,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75706627, "Geometry::edge_3", "Mesh" {
+	Geometry: 72154001, "Geometry::edge_3", "Mesh" {
 		Vertices: *24 {
 			a: -17.1875,18.75,3.125,-17.1875,18.75,-9.375,-17.1875,-3.125,3.125,-17.1875,-3.125,-9.375,-17.1875,18.75,-9.375,-17.1875,18.75,3.125,-17.1875,-3.125,-9.375,-17.1875,-3.125,3.125
 		}
@@ -825,7 +825,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73179108, "Model::edge_4", "Mesh" {
+	Model: 76885102, "Model::edge_4", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -840,7 +840,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73557070, "Geometry::edge_4", "Mesh" {
+	Geometry: 70464273, "Geometry::edge_4", "Mesh" {
 		Vertices: *24 {
 			a: 20.3125,0,-12.5,20.3125,0,-25,20.3125,0,-12.5,20.3125,0,-25,17.1875,0,-25,17.1875,0,-12.5,17.1875,0,-25,17.1875,0,-12.5
 		}
@@ -891,7 +891,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70894369, "Model::edge_5", "Mesh" {
+	Model: 74279589, "Model::edge_5", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -906,7 +906,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74632857, "Geometry::edge_5", "Mesh" {
+	Geometry: 76907041, "Geometry::edge_5", "Mesh" {
 		Vertices: *24 {
 			a: 23.4375,0,-15.625,23.4375,0,-28.125,23.4375,0,-15.625,23.4375,0,-28.125,20.3125,0,-28.125,20.3125,0,-15.625,20.3125,0,-28.125,20.3125,0,-15.625
 		}
@@ -957,7 +957,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73436844, "Model::edge_6", "Mesh" {
+	Model: 73156696, "Model::edge_6", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -972,7 +972,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72026602, "Geometry::edge_6", "Mesh" {
+	Geometry: 73003855, "Geometry::edge_6", "Mesh" {
 		Vertices: *24 {
 			a: 23.4375,0,-3.125,23.4375,0,-15.625,23.4375,0,-3.125,23.4375,0,-15.625,20.3125,0,-15.625,20.3125,0,-3.125,20.3125,0,-15.625,20.3125,0,-3.125
 		}
@@ -1023,7 +1023,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74503411, "Model::edge_7", "Mesh" {
+	Model: 73007519, "Model::edge_7", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1038,7 +1038,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77900311, "Geometry::edge_7", "Mesh" {
+	Geometry: 76595836, "Geometry::edge_7", "Mesh" {
 		Vertices: *24 {
 			a: 20.3125,0,-6.25,20.3125,0,-18.75,20.3125,0,-6.25,20.3125,0,-18.75,17.1875,0,-18.75,17.1875,0,-6.25,17.1875,0,-18.75,17.1875,0,-6.25
 		}
@@ -1089,7 +1089,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71209945, "Model::edge_8", "Mesh" {
+	Model: 71097624, "Model::edge_8", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1104,7 +1104,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78924518, "Geometry::edge_8", "Mesh" {
+	Geometry: 78996881, "Geometry::edge_8", "Mesh" {
 		Vertices: *24 {
 			a: 20.3125,0,-15.625,20.3125,0,-28.125,20.3125,0,-15.625,20.3125,0,-28.125,-39.0625,0,-28.125,-39.0625,0,-15.625,-39.0625,0,-28.125,-39.0625,0,-15.625
 		}
@@ -1155,7 +1155,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78006473, "Model::edge_9", "Mesh" {
+	Model: 74329219, "Model::edge_9", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1170,7 +1170,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73002875, "Geometry::edge_9", "Mesh" {
+	Geometry: 78677463, "Geometry::edge_9", "Mesh" {
 		Vertices: *24 {
 			a: -17.1875,18.75,3.125,-17.1875,18.75,-9.375,-17.1875,18.75,3.125,-17.1875,18.75,-9.375,-76.5625,18.75,-9.375,-76.5625,18.75,3.125,-76.5625,18.75,-9.375,-76.5625,18.75,3.125
 		}
@@ -1221,7 +1221,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74518647, "Model::valve_2", "Mesh" {
+	Model: 74725228, "Model::valve_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1236,7 +1236,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70210545, "Geometry::valve_2", "Mesh" {
+	Geometry: 78926807, "Geometry::valve_2", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,15.625,-12.5,21.875,15.625,-21.875,21.875,-3.125,-12.5,21.875,-3.125,-21.875,-25,15.625,-21.875,-25,15.625,-12.5,-25,-3.125,-21.875,-25,-3.125,-12.5
 		}
@@ -1287,7 +1287,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79369401, "Model::valve_3", "Mesh" {
+	Model: 74077323, "Model::valve_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1302,7 +1302,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76742331, "Geometry::valve_3", "Mesh" {
+	Geometry: 74180660, "Geometry::valve_3", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,15.625,-15.625,21.875,15.625,-25,21.875,-3.125,-15.625,21.875,-3.125,-25,-25,15.625,-25,-25,15.625,-15.625,-25,-3.125,-25,-25,-3.125,-15.625
 		}
@@ -1353,7 +1353,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77447575, "Model::tongue_1", "Mesh" {
+	Model: 75406888, "Model::tongue_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1368,7 +1368,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75016784, "Geometry::tongue_1", "Mesh" {
+	Geometry: 72868772, "Geometry::tongue_1", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,3.125,3.125,15.625,3.125,-15.625,15.625,0,3.125,15.625,0,-15.625,-15.625,3.125,-15.625,-15.625,3.125,3.125,-15.625,0,-15.625,-15.625,0,3.125
 		}
@@ -1419,7 +1419,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 76971456, "Material::GiantClam.png", "" {
+	Material: 75525212, "Material::GiantClam.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -1430,7 +1430,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 73913743, "Texture::GiantClam.png", "" {
+	Texture: 72903702, "Texture::GiantClam.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::GiantClam.png"
@@ -1442,7 +1442,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 79219873, "Video::GiantClam.png", "Clip" {
+	Video: 78687962, "Video::GiantClam.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
@@ -1451,22 +1451,294 @@ Objects:  {
 		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\GiantClam\GiantClam.png"
 		RelativeFilename: "GiantClam.png"
 	}
-	AnimationStack: 77408528, "AnimStack::GiantClam_Idle", "" {
+	AnimationStack: 72252527, "AnimStack::GiantClam_Closed", "" {
 		Properties70:  {
-			P: "LocalStop", "KTime", "Time", "",184744632000
-			P: "ReferenceStop", "KTime", "Time", "",184744632000
+			P: "LocalStop", "KTime", "Time", "",1924423250
+			P: "ReferenceStop", "KTime", "Time", "",1924423250
 		}
 	}
-	AnimationLayer: 79766478, "AnimLayer::GiantClam_Idle", "" {
+	AnimationLayer: 71785729, "AnimLayer::GiantClam_Closed", "" {
 	}
-	AnimationCurveNode: 72941623, "AnimCurveNode::GiantClam_Idle.R", "" {
+	AnimationCurveNode: 72002226, "AnimCurveNode::GiantClam_Closed.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77395400, "AnimCurve::GiantClam_Idle.RX", "" {
+	AnimationCurve: 74696723, "AnimCurve::GiantClam_Closed.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: -15,-15
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 74519282, "AnimCurve::GiantClam_Closed.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 79455848, "AnimCurve::GiantClam_Closed.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurveNode: 74508801, "AnimCurveNode::GiantClam_Closed.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 76672084, "AnimCurve::GiantClam_Closed.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 15,15
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 73712169, "AnimCurve::GiantClam_Closed.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 72020195, "AnimCurve::GiantClam_Closed.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationStack: 78537757, "AnimStack::GiantClam_Opened", "" {
+		Properties70:  {
+			P: "LocalStop", "KTime", "Time", "",1924423250
+			P: "ReferenceStop", "KTime", "Time", "",1924423250
+		}
+	}
+	AnimationLayer: 78055074, "AnimLayer::GiantClam_Opened", "" {
+	}
+	AnimationCurveNode: 78587753, "AnimCurveNode::GiantClam_Opened.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 74489685, "AnimCurve::GiantClam_Opened.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: -45,-45
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 77604868, "AnimCurve::GiantClam_Opened.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 70590620, "AnimCurve::GiantClam_Opened.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurveNode: 74489418, "AnimCurveNode::GiantClam_Opened.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 70467349, "AnimCurve::GiantClam_Opened.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 45,45
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 72545673, "AnimCurve::GiantClam_Opened.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationCurve: 76228621, "AnimCurve::GiantClam_Opened.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *2 {
+			a: 0,1924423296
+		}
+		KeyValueFloat: *2 {
+			a: 0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 2
+		}
+	}
+	AnimationStack: 75445919, "AnimStack::GiantClam_Breathe", "" {
+		Properties70:  {
+			P: "LocalStop", "KTime", "Time", "",184744632000
+			P: "ReferenceStop", "KTime", "Time", "",184744632000
+		}
+	}
+	AnimationLayer: 77926261, "AnimLayer::GiantClam_Breathe", "" {
+	}
+	AnimationCurveNode: 78259247, "AnimCurveNode::GiantClam_Breathe.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 75651655, "AnimCurve::GiantClam_Breathe.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *64 {
@@ -1485,7 +1757,7 @@ Objects:  {
 			a: 64
 		}
 	}
-	AnimationCurve: 77358755, "AnimCurve::GiantClam_Idle.RY", "" {
+	AnimationCurve: 73660475, "AnimCurve::GiantClam_Breathe.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *64 {
@@ -1504,7 +1776,7 @@ Objects:  {
 			a: 64
 		}
 	}
-	AnimationCurve: 71362875, "AnimCurve::GiantClam_Idle.RZ", "" {
+	AnimationCurve: 75535760, "AnimCurve::GiantClam_Breathe.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *64 {
@@ -1523,14 +1795,14 @@ Objects:  {
 			a: 64
 		}
 	}
-	AnimationCurveNode: 78242016, "AnimCurveNode::GiantClam_Idle.R", "" {
+	AnimationCurveNode: 71747578, "AnimCurveNode::GiantClam_Breathe.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70425637, "AnimCurve::GiantClam_Idle.RX", "" {
+	AnimationCurve: 71422162, "AnimCurve::GiantClam_Breathe.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *64 {
@@ -1549,7 +1821,7 @@ Objects:  {
 			a: 64
 		}
 	}
-	AnimationCurve: 74981176, "AnimCurve::GiantClam_Idle.RY", "" {
+	AnimationCurve: 75985822, "AnimCurve::GiantClam_Breathe.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *64 {
@@ -1568,7 +1840,7 @@ Objects:  {
 			a: 64
 		}
 	}
-	AnimationCurve: 74358584, "AnimCurve::GiantClam_Idle.RZ", "" {
+	AnimationCurve: 78569726, "AnimCurve::GiantClam_Breathe.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *64 {
@@ -1595,199 +1867,265 @@ Objects:  {
 Connections:  {
 
 	;Model::giant_clam, Model::RootNode
-	C: "OO",76031854,0
+	C: "OO",78383500,0
 
 	;Model::valve_front, Model::giant_clam
-	C: "OO",76052349,76031854
+	C: "OO",76015212,78383500
 
 	;Model::valve_back, Model::giant_clam
-	C: "OO",77869171,76031854
+	C: "OO",76381900,78383500
 
 	;Model::tongue, Model::giant_clam
-	C: "OO",74043907,76031854
+	C: "OO",71166692,78383500
 
 	;Model::bottom, Model::giant_clam
-	C: "OO",72149655,76031854
+	C: "OO",71697714,78383500
 
 	;Geometry::bottom, Model::bottom
-	C: "OO",71259875,72149655
+	C: "OO",73550584,71697714
 
 	;Material::GiantClam.png, Model::bottom
-	C: "OO",76971456,72149655
+	C: "OO",75525212,71697714
 
 	;Model::valve, Model::valve_front
-	C: "OO",78761142,76052349
+	C: "OO",76902112,76015212
 
 	;Geometry::valve, Model::valve
-	C: "OO",70926584,78761142
+	C: "OO",72230007,76902112
 
 	;Material::GiantClam.png, Model::valve
-	C: "OO",76971456,78761142
+	C: "OO",75525212,76902112
 
 	;Model::valve_1, Model::valve_back
-	C: "OO",76751055,77869171
+	C: "OO",71293965,76381900
 
 	;Geometry::valve_1, Model::valve_1
-	C: "OO",70496610,76751055
+	C: "OO",75356909,71293965
 
 	;Material::GiantClam.png, Model::valve_1
-	C: "OO",76971456,76751055
+	C: "OO",75525212,71293965
 
 	;Model::edge, Model::valve_front
-	C: "OO",79974525,76052349
+	C: "OO",77803365,76015212
 
 	;Geometry::edge, Model::edge
-	C: "OO",73432997,79974525
+	C: "OO",74496611,77803365
 
 	;Material::GiantClam.png, Model::edge
-	C: "OO",76971456,79974525
+	C: "OO",75525212,77803365
 
 	;Model::edge_1, Model::valve_front
-	C: "OO",75102244,76052349
+	C: "OO",76329317,76015212
 
 	;Geometry::edge_1, Model::edge_1
-	C: "OO",78591288,75102244
+	C: "OO",72283862,76329317
 
 	;Material::GiantClam.png, Model::edge_1
-	C: "OO",76971456,75102244
+	C: "OO",75525212,76329317
 
 	;Model::edge_2, Model::valve_back
-	C: "OO",79396992,77869171
+	C: "OO",77221288,76381900
 
 	;Geometry::edge_2, Model::edge_2
-	C: "OO",76348897,79396992
+	C: "OO",70935095,77221288
 
 	;Material::GiantClam.png, Model::edge_2
-	C: "OO",76971456,79396992
+	C: "OO",75525212,77221288
 
 	;Model::edge_3, Model::valve_back
-	C: "OO",77387404,77869171
+	C: "OO",79133468,76381900
 
 	;Geometry::edge_3, Model::edge_3
-	C: "OO",75706627,77387404
+	C: "OO",72154001,79133468
 
 	;Material::GiantClam.png, Model::edge_3
-	C: "OO",76971456,77387404
+	C: "OO",75525212,79133468
 
 	;Model::edge_4, Model::valve_front
-	C: "OO",73179108,76052349
+	C: "OO",76885102,76015212
 
 	;Geometry::edge_4, Model::edge_4
-	C: "OO",73557070,73179108
+	C: "OO",70464273,76885102
 
 	;Material::GiantClam.png, Model::edge_4
-	C: "OO",76971456,73179108
+	C: "OO",75525212,76885102
 
 	;Model::edge_5, Model::valve_front
-	C: "OO",70894369,76052349
+	C: "OO",74279589,76015212
 
 	;Geometry::edge_5, Model::edge_5
-	C: "OO",74632857,70894369
+	C: "OO",76907041,74279589
 
 	;Material::GiantClam.png, Model::edge_5
-	C: "OO",76971456,70894369
+	C: "OO",75525212,74279589
 
 	;Model::edge_6, Model::valve_back
-	C: "OO",73436844,77869171
+	C: "OO",73156696,76381900
 
 	;Geometry::edge_6, Model::edge_6
-	C: "OO",72026602,73436844
+	C: "OO",73003855,73156696
 
 	;Material::GiantClam.png, Model::edge_6
-	C: "OO",76971456,73436844
+	C: "OO",75525212,73156696
 
 	;Model::edge_7, Model::valve_back
-	C: "OO",74503411,77869171
+	C: "OO",73007519,76381900
 
 	;Geometry::edge_7, Model::edge_7
-	C: "OO",77900311,74503411
+	C: "OO",76595836,73007519
 
 	;Material::GiantClam.png, Model::edge_7
-	C: "OO",76971456,74503411
+	C: "OO",75525212,73007519
 
 	;Model::edge_8, Model::valve_front
-	C: "OO",71209945,76052349
+	C: "OO",71097624,76015212
 
 	;Geometry::edge_8, Model::edge_8
-	C: "OO",78924518,71209945
+	C: "OO",78996881,71097624
 
 	;Material::GiantClam.png, Model::edge_8
-	C: "OO",76971456,71209945
+	C: "OO",75525212,71097624
 
 	;Model::edge_9, Model::valve_back
-	C: "OO",78006473,77869171
+	C: "OO",74329219,76381900
 
 	;Geometry::edge_9, Model::edge_9
-	C: "OO",73002875,78006473
+	C: "OO",78677463,74329219
 
 	;Material::GiantClam.png, Model::edge_9
-	C: "OO",76971456,78006473
+	C: "OO",75525212,74329219
 
 	;Model::valve_2, Model::valve_back
-	C: "OO",74518647,77869171
+	C: "OO",74725228,76381900
 
 	;Geometry::valve_2, Model::valve_2
-	C: "OO",70210545,74518647
+	C: "OO",78926807,74725228
 
 	;Material::GiantClam.png, Model::valve_2
-	C: "OO",76971456,74518647
+	C: "OO",75525212,74725228
 
 	;Model::valve_3, Model::valve_front
-	C: "OO",79369401,76052349
+	C: "OO",74077323,76015212
 
 	;Geometry::valve_3, Model::valve_3
-	C: "OO",76742331,79369401
+	C: "OO",74180660,74077323
 
 	;Material::GiantClam.png, Model::valve_3
-	C: "OO",76971456,79369401
+	C: "OO",75525212,74077323
 
 	;Model::tongue_1, Model::tongue
-	C: "OO",77447575,74043907
+	C: "OO",75406888,71166692
 
 	;Geometry::tongue_1, Model::tongue_1
-	C: "OO",75016784,77447575
+	C: "OO",72868772,75406888
 
 	;Material::GiantClam.png, Model::tongue_1
-	C: "OO",76971456,77447575
+	C: "OO",75525212,75406888
 
 	;Texture::GiantClam.png, Material::GiantClam.png
-	C: "OP",73913743,76971456, "DiffuseColor"
+	C: "OP",72903702,75525212, "DiffuseColor"
 
 	;Video::GiantClam.png, Texture::GiantClam.png
-	C: "OO",79219873,73913743
+	C: "OO",78687962,72903702
 
-	;AnimLayer::GiantClam_Idle, AnimStack::GiantClam_Idle
-	C: "OO",79766478,77408528
+	;AnimLayer::GiantClam_Closed, AnimStack::GiantClam_Closed
+	C: "OO",71785729,72252527
 
-	;AnimCurveNode::GiantClam_Idle.R, Model::valve_front
-	C: "OP",72941623,76052349, "Lcl Rotation"
+	;AnimCurveNode::GiantClam_Closed.R, Model::valve_front
+	C: "OP",72002226,76015212, "Lcl Rotation"
 
-	;AnimCurveNode::GiantClam_Idle.R, AnimLayer::GiantClam_Idle
-	C: "OO",72941623,79766478
+	;AnimCurveNode::GiantClam_Closed.R, AnimLayer::GiantClam_Closed
+	C: "OO",72002226,71785729
 
-	;AnimCurve::GiantClam_Idle.RX, AnimCurveNode::GiantClam_Idle.R
-	C: "OP",77395400,72941623, "d|X"
+	;AnimCurve::GiantClam_Closed.RX, AnimCurveNode::GiantClam_Closed.R
+	C: "OP",74696723,72002226, "d|X"
 
-	;AnimCurve::GiantClam_Idle.RY, AnimCurveNode::GiantClam_Idle.R
-	C: "OP",77358755,72941623, "d|Y"
+	;AnimCurve::GiantClam_Closed.RY, AnimCurveNode::GiantClam_Closed.R
+	C: "OP",74519282,72002226, "d|Y"
 
-	;AnimCurve::GiantClam_Idle.RZ, AnimCurveNode::GiantClam_Idle.R
-	C: "OP",71362875,72941623, "d|Z"
+	;AnimCurve::GiantClam_Closed.RZ, AnimCurveNode::GiantClam_Closed.R
+	C: "OP",79455848,72002226, "d|Z"
 
-	;AnimCurveNode::GiantClam_Idle.R, Model::valve_back
-	C: "OP",78242016,77869171, "Lcl Rotation"
+	;AnimCurveNode::GiantClam_Closed.R, Model::valve_back
+	C: "OP",74508801,76381900, "Lcl Rotation"
 
-	;AnimCurveNode::GiantClam_Idle.R, AnimLayer::GiantClam_Idle
-	C: "OO",78242016,79766478
+	;AnimCurveNode::GiantClam_Closed.R, AnimLayer::GiantClam_Closed
+	C: "OO",74508801,71785729
 
-	;AnimCurve::GiantClam_Idle.RX, AnimCurveNode::GiantClam_Idle.R
-	C: "OP",70425637,78242016, "d|X"
+	;AnimCurve::GiantClam_Closed.RX, AnimCurveNode::GiantClam_Closed.R
+	C: "OP",76672084,74508801, "d|X"
 
-	;AnimCurve::GiantClam_Idle.RY, AnimCurveNode::GiantClam_Idle.R
-	C: "OP",74981176,78242016, "d|Y"
+	;AnimCurve::GiantClam_Closed.RY, AnimCurveNode::GiantClam_Closed.R
+	C: "OP",73712169,74508801, "d|Y"
 
-	;AnimCurve::GiantClam_Idle.RZ, AnimCurveNode::GiantClam_Idle.R
-	C: "OP",74358584,78242016, "d|Z"
+	;AnimCurve::GiantClam_Closed.RZ, AnimCurveNode::GiantClam_Closed.R
+	C: "OP",72020195,74508801, "d|Z"
+
+	;AnimLayer::GiantClam_Opened, AnimStack::GiantClam_Opened
+	C: "OO",78055074,78537757
+
+	;AnimCurveNode::GiantClam_Opened.R, Model::valve_front
+	C: "OP",78587753,76015212, "Lcl Rotation"
+
+	;AnimCurveNode::GiantClam_Opened.R, AnimLayer::GiantClam_Opened
+	C: "OO",78587753,78055074
+
+	;AnimCurve::GiantClam_Opened.RX, AnimCurveNode::GiantClam_Opened.R
+	C: "OP",74489685,78587753, "d|X"
+
+	;AnimCurve::GiantClam_Opened.RY, AnimCurveNode::GiantClam_Opened.R
+	C: "OP",77604868,78587753, "d|Y"
+
+	;AnimCurve::GiantClam_Opened.RZ, AnimCurveNode::GiantClam_Opened.R
+	C: "OP",70590620,78587753, "d|Z"
+
+	;AnimCurveNode::GiantClam_Opened.R, Model::valve_back
+	C: "OP",74489418,76381900, "Lcl Rotation"
+
+	;AnimCurveNode::GiantClam_Opened.R, AnimLayer::GiantClam_Opened
+	C: "OO",74489418,78055074
+
+	;AnimCurve::GiantClam_Opened.RX, AnimCurveNode::GiantClam_Opened.R
+	C: "OP",70467349,74489418, "d|X"
+
+	;AnimCurve::GiantClam_Opened.RY, AnimCurveNode::GiantClam_Opened.R
+	C: "OP",72545673,74489418, "d|Y"
+
+	;AnimCurve::GiantClam_Opened.RZ, AnimCurveNode::GiantClam_Opened.R
+	C: "OP",76228621,74489418, "d|Z"
+
+	;AnimLayer::GiantClam_Breathe, AnimStack::GiantClam_Breathe
+	C: "OO",77926261,75445919
+
+	;AnimCurveNode::GiantClam_Breathe.R, Model::valve_front
+	C: "OP",78259247,76015212, "Lcl Rotation"
+
+	;AnimCurveNode::GiantClam_Breathe.R, AnimLayer::GiantClam_Breathe
+	C: "OO",78259247,77926261
+
+	;AnimCurve::GiantClam_Breathe.RX, AnimCurveNode::GiantClam_Breathe.R
+	C: "OP",75651655,78259247, "d|X"
+
+	;AnimCurve::GiantClam_Breathe.RY, AnimCurveNode::GiantClam_Breathe.R
+	C: "OP",73660475,78259247, "d|Y"
+
+	;AnimCurve::GiantClam_Breathe.RZ, AnimCurveNode::GiantClam_Breathe.R
+	C: "OP",75535760,78259247, "d|Z"
+
+	;AnimCurveNode::GiantClam_Breathe.R, Model::valve_back
+	C: "OP",71747578,76381900, "Lcl Rotation"
+
+	;AnimCurveNode::GiantClam_Breathe.R, AnimLayer::GiantClam_Breathe
+	C: "OO",71747578,77926261
+
+	;AnimCurve::GiantClam_Breathe.RX, AnimCurveNode::GiantClam_Breathe.R
+	C: "OP",71422162,71747578, "d|X"
+
+	;AnimCurve::GiantClam_Breathe.RY, AnimCurveNode::GiantClam_Breathe.R
+	C: "OP",75985822,71747578, "d|Y"
+
+	;AnimCurve::GiantClam_Breathe.RZ, AnimCurveNode::GiantClam_Breathe.R
+	C: "OP",78569726,71747578, "d|Z"
 }
 
 ; Takes section
@@ -1795,8 +2133,18 @@ Connections:  {
 
 Takes:  {
 	Current: ""
-	Take: "GiantClam_Idle" {
-		FileName: "GiantClam_Idle.tak"
+	Take: "GiantClam_Closed" {
+		FileName: "GiantClam_Closed.tak"
+		LocalTime: 0,1924423250
+		ReferenceTime: 0,1924423250
+	}
+	Take: "GiantClam_Opened" {
+		FileName: "GiantClam_Opened.tak"
+		LocalTime: 0,1924423250
+		ReferenceTime: 0,1924423250
+	}
+	Take: "GiantClam_Breathe" {
+		FileName: "GiantClam_Breathe.tak"
 		LocalTime: 0,184744632000
 		ReferenceTime: 0,184744632000
 	}

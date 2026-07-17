@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
         private NetBehaviour _behaviour;
         public NetBehaviour Behaviour => _behaviour;
 
-        public event Action<NetBehaviour, NetBehaviour> OnBehaviourChanged;
+        public event Action<NetBehaviour, NetBehaviour> OnChanged;
         
         public RaftPlayerOpenNetBehaviourLogic(SyncVar<NetBehaviour> netBehaviour)
         {
@@ -29,10 +29,10 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetBehaviourChanged(NetBehaviour behaviour)
         {
-            NetBehaviour oldBehaviour = _behaviour;
+            NetBehaviour old = _behaviour;
             _behaviour = behaviour;
 
-            OnBehaviourChanged?.Invoke(oldBehaviour, _behaviour);
+            OnChanged?.Invoke(old, _behaviour);
         }
     }
 }

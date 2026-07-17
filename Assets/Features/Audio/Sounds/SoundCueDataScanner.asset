@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Audio.SoundCueDataScanner
   _folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
   _assets:
+  - {fileID: 11400000, guid: 009754636affd1948a14a47a5c006be2, type: 2}
   - {fileID: 11400000, guid: 1e767ce3678f4d24ba5229eaa6dae636, type: 2}
   - {fileID: 11400000, guid: 5185926ea1869c6408e300f18315659c, type: 2}
   - {fileID: 11400000, guid: 5dccb4b4f8cd2b049b602102059b2921, type: 2}
@@ -26,5 +27,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b207fd04df644c148be48ff822adf5d2, type: 2}
   - {fileID: 11400000, guid: bf26fa0a49566fd4c97805557d4f190b, type: 2}
   - {fileID: 11400000, guid: c1f377d277e048d4cb6cd0819643ff84, type: 2}
+  - {fileID: 11400000, guid: c3738519fee1c6e4b8fa8d6c862fdf87, type: 2}
   - {fileID: 11400000, guid: e6000579c94336644b9ac50b1be48029, type: 2}
   - {fileID: 11400000, guid: f0ae5128bb2d85a4d8e40dc7216766f9, type: 2}

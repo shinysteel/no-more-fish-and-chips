@@ -101,7 +101,7 @@ namespace NoMoreFishAndChips.Entities
 
             HandleOpenNetBehaviourChanged(null, player.OpenNetBehaviourLogic.Behaviour);
 
-            player.OpenNetBehaviourLogic.OnBehaviourChanged += HandleOpenNetBehaviourChanged;
+            player.OpenNetBehaviourLogic.OnChanged += HandleOpenNetBehaviourChanged;
         }
 
         void INetworkManagerListener.OnNetBehaviourDespawned(NetBehaviour behaviour)
@@ -111,17 +111,17 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            player.OpenNetBehaviourLogic.OnBehaviourChanged -= HandleOpenNetBehaviourChanged;
+            player.OpenNetBehaviourLogic.OnChanged -= HandleOpenNetBehaviourChanged;
         }
 
-        private void HandleOpenNetBehaviourChanged(NetBehaviour oldBehaviour, NetBehaviour newBehaviour)
+        private void HandleOpenNetBehaviourChanged(NetBehaviour previous, NetBehaviour current)
         {
-            if (oldBehaviour == this)
+            if (previous == this)
             {
                 _openCount--;
             }
 
-            if (newBehaviour == this)
+            if (current == this)
             {
                 _openCount++;
             }

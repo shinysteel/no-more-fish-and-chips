@@ -10,20 +10,12 @@ namespace ShinyOwl.Common.Framework
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
+            
             AssetScanner scanner = (AssetScanner)target;   
 
-            EditorGUILayout.LabelField("Assets", EditorStyles.boldLabel);
-
-            using (new EditorGUI.IndentLevelScope())
+            if (GUILayout.Button("Manual Scan"))
             {
-                foreach (object asset in scanner.GetAssets())
-                {
-                    if (asset is Object obj)
-                    {
-                        EditorGUILayout.ObjectField(obj.name, obj, typeof(Object), false);
-                    }
-                }
+                scanner.Scan();
             }
         }
     }
