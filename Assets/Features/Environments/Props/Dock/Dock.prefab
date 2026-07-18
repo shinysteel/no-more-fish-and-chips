@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03fbf6b21d70f14ab34f7a4444e5844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Prop
-  _id: 12
+  _id: 11
 --- !u!65 &2374971823757634532
 BoxCollider:
   m_ObjectHideFlags: 0

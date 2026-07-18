@@ -30,7 +30,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f34eba3a3a8899b43875ef4f1be467e5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3557067120502326772}
+      addedObject: {fileID: 1260733187969092057}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f34eba3a3a8899b43875ef4f1be467e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6754397462386881303}
@@ -40,7 +40,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f34eba3a3a8899b43875ef4f1be467e5, type: 3}
   m_PrefabInstance: {fileID: 5642232904771221147}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3557067120502326772
+--- !u!114 &1260733187969092057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,10 +49,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4795301433268603850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a03fbf6b21d70f14ab34f7a4444e5844, type: 3}
+  m_Script: {fileID: 11500000, guid: 48ca53d65e40bfe4b8518fd0294ab323, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Prop
-  _id: 9
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.SeaChartBoard
+  _iInteractableSettings: {fileID: 11400000, guid: 67f3ca2453eb1e642864968cc8bb0728, type: 2}
 --- !u!65 &6754397462386881303
 BoxCollider:
   m_ObjectHideFlags: 0
