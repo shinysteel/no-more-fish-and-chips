@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerInteractSettings
   _mask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 1408
   _radius: 1
   _validColor: {r: 0.5411765, g: 1, b: 0.5921569, a: 0.5019608}
   _invalidColor: {r: 1, g: 0.5411765, b: 0.5411765, a: 0.5019608}

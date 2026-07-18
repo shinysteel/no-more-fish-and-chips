@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DroppedItem
       objectReference: {fileID: 0}
+    - target: {fileID: 2393181450438531784, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3648365916128418981, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -62,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7210012384824277368, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 64
+      value: 1088
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
