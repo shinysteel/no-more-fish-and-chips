@@ -172,9 +172,6 @@ namespace NoMoreFishAndChips.Entities
             _rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
 
             _player.AnimateLogic.Jump();
-            
-            // Since the jump animation won't always interrupt the animator, the sound needs to be separate
-            AudioManager.PlaySoundRpc(SoundId.HumanJump);
         }
 
         private void ClimbFixedTick()

@@ -12,6 +12,7 @@ namespace NoMoreFishAndChips.Entities
 
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
+        private StateAnimationEvents _jumpStateAnimationEvents;
         private StateAnimationEvents _paddleSwingStateAnimationEvents;
         private StateAnimationEvents _spearJab1StateAnimationEvents;
         private StateAnimationEvents _spearJab2StateAnimationEvents;
@@ -36,6 +37,7 @@ namespace NoMoreFishAndChips.Entities
 
         private const string GroundRunStateName = BaseLayerName + ".Ground.Run";
         private const string WaterSwimStateName = BaseLayerName + ".Water.Swim";
+        private const string JumpStateName = BaseLayerName + ".Jump";
         private const string PaddleSwingStateName = AttackLayerName + ".Paddle.Swing";
         private const string SpearJab1StateName = AttackLayerName + ".Spear.Jab1";
         private const string SpearJab2StateName = AttackLayerName + ".Spear.Jab2";
@@ -62,6 +64,11 @@ namespace NoMoreFishAndChips.Entities
                     }
                 }),
                 new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim)),
+            };
+
+            _jumpStateAnimationEvents = new StateAnimationEvents(JumpStateName, false)
+            {
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanJump))
             };
 
             _paddleSwingStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false)
@@ -107,6 +114,7 @@ namespace NoMoreFishAndChips.Entities
 
             _groundRunStateAnimationEvents.Tick(baseLayerInfo);
             _waterSwimStateAnimationEvents.Tick(baseLayerInfo);
+            _jumpStateAnimationEvents.Tick(baseLayerInfo);
 
             AnimatorStateInfo attackLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(2);
 
