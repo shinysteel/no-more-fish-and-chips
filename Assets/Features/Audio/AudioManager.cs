@@ -13,8 +13,8 @@ namespace NoMoreFishAndChips.Audio
     public enum SoundId
     {
         None,
-        HumanJump,
-        HumanFootstep,
+        HumanJumpWood,
+        HumanFootstepWood,
         PaddleSwing,
         SeagullAttack,
         HumanSwim,
@@ -28,7 +28,11 @@ namespace NoMoreFishAndChips.Audio
         WaveSignSlam,
         SpearJab,
         GiantClamOpen,
-        GiantClamClose
+        GiantClamClose,
+        HumanJumpSand,
+        HumanJumpGrass,
+        HumanFootstepSand,
+        HumanFootstepGrass
     }
 
     public class AudioManager : GameSystem<IAudioManagerListener>

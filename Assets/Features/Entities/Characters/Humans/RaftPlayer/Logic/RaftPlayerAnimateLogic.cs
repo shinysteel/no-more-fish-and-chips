@@ -50,8 +50,8 @@ namespace NoMoreFishAndChips.Entities
 
             _groundRunStateAnimationEvents = new StateAnimationEvents(GroundRunStateName, true)
             {
-                new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.HumanFootstep)),
-                new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.HumanFootstep))
+                new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.HumanFootstepWood)),
+                new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.HumanFootstepWood))
             };
 
             _waterSwimStateAnimationEvents = new StateAnimationEvents(WaterSwimStateName, true)
@@ -68,7 +68,7 @@ namespace NoMoreFishAndChips.Entities
 
             _jumpStateAnimationEvents = new StateAnimationEvents(JumpStateName, false)
             {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanJump))
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanJumpWood))
             };
 
             _paddleSwingStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false)

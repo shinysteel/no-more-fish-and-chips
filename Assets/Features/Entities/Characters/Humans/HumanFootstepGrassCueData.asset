@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
-  m_Name: HumanFootstepCueData
+  m_Name: HumanFootstepGrassCueData
   m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
-  _id: 2
-  _volume: 0.25
+  _id: 20
+  _volume: 1
   _minPitch: 0.95
   _maxPitch: 1.05
   _audioClips:
-  - {fileID: 8300000, guid: 0335e97ba7b87da43ac0f01c186f10d0, type: 3}
-  - {fileID: 8300000, guid: 48f853f8681908f439b01459a8f8b7e0, type: 3}
-  - {fileID: 8300000, guid: 1510b55d9235dcb4e9bc04fdb4adc7f6, type: 3}
+  - {fileID: 8300000, guid: 024fec61cd1bb70498737b8051dbdc13, type: 3}
+  - {fileID: 8300000, guid: f3b28d825b43f31488896713d3148822, type: 3}
+  - {fileID: 8300000, guid: 7c648eb827910684492f3212d3b7e798, type: 3}
