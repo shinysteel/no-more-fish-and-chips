@@ -373,7 +373,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void Cleanup()
         {
-            if (_stateMachine.CurrentEnum != EState.None)
+            if (_stateMachine.CurrentStateEnum != EState.None)
             {
                 _stateMachine.ChangeState(EState.None);
             }

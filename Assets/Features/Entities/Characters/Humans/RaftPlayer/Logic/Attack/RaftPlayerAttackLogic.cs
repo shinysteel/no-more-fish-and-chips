@@ -77,14 +77,14 @@ namespace NoMoreFishAndChips.Entities
 
             _spearStateMachine.AddState(ESpearState.Jab, spearJabState);
 
-            _paddleStateMachine.OnStateChanged += HandlePaddleStateChanged;
-            _spearStateMachine.OnStateChanged += HandleSpearStateChanged;
+            _paddleStateMachine.OnStateEnumChanged += HandlePaddleStateEnumChanged;
+            _spearStateMachine.OnStateEnumChanged += HandleSpearStateEnumChanged;
         }
 
         ~RaftPlayerAttackLogic()
         {
-            _paddleStateMachine.OnStateChanged -= HandlePaddleStateChanged;
-            _spearStateMachine.OnStateChanged -= HandleSpearStateChanged;
+            _paddleStateMachine.OnStateEnumChanged -= HandlePaddleStateEnumChanged;
+            _spearStateMachine.OnStateEnumChanged -= HandleSpearStateEnumChanged;
         }
 
         public void Attack()
@@ -135,7 +135,7 @@ namespace NoMoreFishAndChips.Entities
             _currentStateMachine?.Tick();
         }
 
-        private void HandlePaddleStateChanged(EPaddleState previous, EPaddleState current)
+        private void HandlePaddleStateEnumChanged(EPaddleState previous, EPaddleState current)
         {
             if (current == EPaddleState.None)
             {
@@ -143,7 +143,7 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void HandleSpearStateChanged(ESpearState previous, ESpearState current)
+        private void HandleSpearStateEnumChanged(ESpearState previous, ESpearState current)
         {
             if (current == ESpearState.None)
             {

@@ -257,7 +257,7 @@ namespace NoMoreFishAndChips.Entities
 
         void IEntityManagerListener.OnEntityDespawned(IEntity entity)
         {
-            if (_stateMachine.CurrentEnum == EState.Disappear)
+            if (_stateMachine.CurrentStateEnum == EState.Disappear)
             {
                 return;
             }

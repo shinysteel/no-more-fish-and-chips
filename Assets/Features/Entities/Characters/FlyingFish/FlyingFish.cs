@@ -244,7 +244,7 @@ namespace NoMoreFishAndChips.Entities
             _entityModel.Animator.SetBool(IsFlyingBoolName, false);
 
             // Cleanup will always happen on Despawn, but can also happen when Defeated
-            if (_stateMachine.CurrentEnum != EState.None)
+            if (_stateMachine.CurrentStateEnum != EState.None)
             {
                 _stateMachine.ChangeState(EState.None);
             }

@@ -12,6 +12,8 @@ namespace ShinyOwl.Common.Framework
 
     public interface IState
     {
+        IStateMachine SubStateMachine { get; }
+
         void Enter();
         Task EnterAsync();
         void Tick();
@@ -27,7 +29,7 @@ namespace ShinyOwl.Common.Framework
         protected StateMachine<TParentStateEnum> _parentStateMachine;
         protected StateMachine<TSubStateEnum> _subStateMachine;
 
-        public StateMachine<TSubStateEnum> SubStateMachine => _subStateMachine;
+        public IStateMachine SubStateMachine => _subStateMachine;
 
         protected float _stateTimer;
 
@@ -76,9 +78,14 @@ namespace ShinyOwl.Common.Framework
         }
     }
 
-    public interface IStateMachine
+    public interface IStateMachine : IEnumerable<IState>
     {
-        void Tick();
+        Enum CurrentEnum { get; }
+        IState CurrentState { get; }
+
+        event Action<Enum, Enum> OnStateChanged;
+
+        void Tick(); 
     }
 
     public class StateMachine<TStateEnum> : IStateMachine, IEnumerable<IState>
@@ -86,13 +93,15 @@ namespace ShinyOwl.Common.Framework
     {
         private Dictionary<TStateEnum, IState> _enumStateMap = new();
 
-        private TStateEnum _currentEnum;
+        private TStateEnum _currentStateEnum;
 
-        public TStateEnum CurrentEnum => _currentEnum;
+        public TStateEnum CurrentStateEnum => _currentStateEnum;
+        public Enum CurrentEnum => _currentStateEnum;
 
-        public IState CurrentState => _enumStateMap[_currentEnum];
+        public IState CurrentState => _enumStateMap[_currentStateEnum];
 
-        public event Action<TStateEnum, TStateEnum> OnStateChanged;
+        public event Action<TStateEnum, TStateEnum> OnStateEnumChanged;
+        public event Action<Enum, Enum> OnStateChanged;
 
         public StateMachine()
         {
@@ -121,24 +130,25 @@ namespace ShinyOwl.Common.Framework
                 return;
             }
 
-            if (Equals(_currentEnum, stateEnum))
+            if (Equals(_currentStateEnum, stateEnum))
             {
                 Log.Error("Tried to change to a state we are already in");
                 return;
             }
 
-            TStateEnum previous = _currentEnum;
+            TStateEnum previous = _currentStateEnum;
 
             // CurrentState will return the new state once we assign the enum, so we can't just cache the output
             CurrentState?.Exit();
             _ = CurrentState?.ExitAsync();
 
-            _currentEnum = stateEnum;
+            _currentStateEnum = stateEnum;
 
             CurrentState?.Enter();
             _ = CurrentState?.EnterAsync();
 
-            OnStateChanged?.Invoke(previous, _currentEnum);
+            OnStateEnumChanged?.Invoke(previous, _currentStateEnum);
+            OnStateChanged?.Invoke(previous, _currentStateEnum);
         }
 
         public void Enter()

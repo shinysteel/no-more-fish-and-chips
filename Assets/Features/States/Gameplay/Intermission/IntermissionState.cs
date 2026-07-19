@@ -185,7 +185,7 @@ namespace NoMoreFishAndChips.States
             _subStateMachine.AddState(EIntermissionState.Dock, dockState);
             _subStateMachine.AddState(EIntermissionState.Depart, departState);
 
-            _subStateMachine.OnStateChanged += HandleSubStateChanged;
+            _subStateMachine.OnStateEnumChanged += HandleSubStateEnumChanged;
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -200,7 +200,7 @@ namespace NoMoreFishAndChips.States
 
         ~IntermissionState()
         {
-            _subStateMachine.OnStateChanged -= HandleSubStateChanged;
+            _subStateMachine.OnStateEnumChanged -= HandleSubStateEnumChanged;
         }
 
         public override void Enter()
@@ -230,7 +230,7 @@ namespace NoMoreFishAndChips.States
             }
         }
 
-        private void HandleSubStateChanged(EIntermissionState previous, EIntermissionState current)
+        private void HandleSubStateEnumChanged(EIntermissionState previous, EIntermissionState current)
         {
             if (!_networkManager.IsServer)
             {

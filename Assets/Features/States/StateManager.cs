@@ -115,22 +115,36 @@ namespace NoMoreFishAndChips.States
             _stateMachine.AddState(EMainState.Menus, menusState);
             _stateMachine.AddState(EMainState.Gameplay, gameplayState);
 
-            _stateMachine.OnStateChanged += HandleMainStateChanged;
-            gameplayState.SubStateMachine.OnStateChanged += HandleGameplayStateChanged;
-            ((IntermissionState)gameplayState.SubStateMachine[EGameplayState.Intermission]).SubStateMachine.OnStateChanged += HandleIntermissionStateChanged;
+            TraverseStateMachines((IStateMachine machine) => machine.OnStateChanged += HandleStateChanged);
 
             base.InitialiseConfig(config);
         }
 
         public override void Shutdown()
         {
-            _stateMachine.OnStateChanged -= HandleMainStateChanged;
-            ((GameplayState)_stateMachine[EMainState.Gameplay]).SubStateMachine.OnStateChanged -= HandleGameplayStateChanged;
-            ((IntermissionState)((GameplayState)_stateMachine[EMainState.Gameplay]).SubStateMachine[EGameplayState.Intermission]).SubStateMachine.OnStateChanged -= HandleIntermissionStateChanged;
+            TraverseStateMachines((IStateMachine machine) => machine.OnStateChanged -= HandleStateChanged);
 
             _sceneManager?.RemoveListener(this);
 
             base.Shutdown();
+        }
+
+        private void TraverseStateMachines(Action<IStateMachine> action)
+        {
+            void recurse(IStateMachine machine)
+            {
+                action(machine);
+
+                foreach (IState state in machine)
+                {
+                    if (state.SubStateMachine != null)
+                    {
+                        recurse(state.SubStateMachine);
+                    }
+                }
+            }
+
+            recurse(_stateMachine);
         }
 
         public override void Tick()
@@ -143,35 +157,22 @@ namespace NoMoreFishAndChips.States
             _stateMachine.ChangeState(state);
         }
 
-        private void HandleMainStateChanged(EMainState previous, EMainState current)
+        private void HandleStateChanged(Enum previous, Enum current)
         {
-            HandleStateChanged();
+            RefreshCurrentStatePath();
         }
 
-        private void HandleGameplayStateChanged(EGameplayState previous, EGameplayState current)
-        {
-            HandleStateChanged();
-        }
-
-        private void HandleIntermissionStateChanged(EIntermissionState previous, EIntermissionState current)
-        {
-            HandleStateChanged();
-        }
-
-        private void HandleStateChanged()
+        private void RefreshCurrentStatePath()
         {
             StatePath previous = _currentStatePath;
 
-            List<Enum> path = new List<Enum> { _stateMachine.CurrentEnum };
+            List<Enum> path = new();
+            IStateMachine machine = _stateMachine;
 
-            if (_stateMachine.CurrentState is GameplayState gameplayState)
+            while (machine != null)
             {
-                path.Add(gameplayState.SubStateMachine.CurrentEnum);
-                
-                if (gameplayState.SubStateMachine.CurrentState is IntermissionState intermissionState)
-                {
-                    path.Add(intermissionState.SubStateMachine.CurrentEnum);
-                }
+                path.Add(machine.CurrentEnum);
+                machine = machine.CurrentState?.SubStateMachine;
             }
 
             StatePath current = new StatePath(path);
@@ -182,7 +183,7 @@ namespace NoMoreFishAndChips.States
             }
 
             _currentStatePath = current;
-            
+
             Listeners.Dispatch(listener => listener.OnStatePathChanged(previous, _currentStatePath));
         }
 
