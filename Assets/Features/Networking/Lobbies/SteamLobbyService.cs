@@ -220,6 +220,22 @@ namespace NoMoreFishAndChips.Networking
             RaiseLobbyStart(CurrentLobby);
         }
 
+        public override void StopLobby()
+        {
+            if (!IsAvailable())
+            {
+                return;
+            }
+
+            if (CurrentLobby == null)
+            {
+                return;
+            }
+
+            CSteamID cLobbyId = GetCLobbyId();
+            SteamMatchmaking.SetLobbyData(cLobbyId, Lobby.StartedKey, false.ToString());
+        }
+
         public override void LeaveLobby()
         {
             if (!IsAvailable())

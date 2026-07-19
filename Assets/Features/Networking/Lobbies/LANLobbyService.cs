@@ -235,6 +235,17 @@ namespace NoMoreFishAndChips.Networking
             RaiseLobbyStart(CurrentLobby);
         }
 
+        public override void StopLobby()
+        {
+            if (CurrentLobby.OwnerId != _lanId)
+            {
+                Log.Error("You need to be the host to stop the lobby");
+                return;
+            }
+
+            CurrentLobby.Properties[Lobby.StartedKey] = false.ToString();
+        }
+
         public override void LeaveLobby()
         {
             CurrentLobby = null;

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Environments.StageData
   _waves:
   - _steps:
-    - _entityId: 106
+    - _entityId: 101
       _count: 1
       _interval: 0

@@ -121,6 +121,11 @@ namespace NoMoreFishAndChips.Networking
             _currentLobbyService.StartLobby();
         }
 
+        public void StopLobby()
+        {
+            _currentLobbyService.StopLobby();
+        }
+
         public void LeaveLobby()
         {
             _currentLobbyService.LeaveLobby();

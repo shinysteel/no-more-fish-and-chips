@@ -97,6 +97,7 @@ namespace NoMoreFishAndChips.Networking
         public abstract Task<Lobby> CreateLobbyAsync();
         public abstract Task<Lobby> JoinLobbyAsync(string lobbyId);
         public abstract void StartLobby();
+        public abstract void StopLobby();
         public abstract void LeaveLobby();
         public abstract bool IsLobbyOwner(Lobby lobby);
 

@@ -129,7 +129,7 @@ namespace NoMoreFishAndChips.States
             _subStateMachine.AddState(EGameplayState.Intermission, lobbyState);
             _subStateMachine.AddState(EGameplayState.Stage, stageState);
         }
-        
+
         public override async Task EnterAsync()
         {
             try
