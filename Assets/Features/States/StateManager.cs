@@ -6,6 +6,8 @@ using ShinyOwl.Common.Framework;
 using ShinyOwl.Common;
 using NoMoreFishAndChips.Scenes;
 using PurrNet;
+using NoMoreFishAndChips.Networking;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.States
 {
@@ -33,18 +35,18 @@ namespace NoMoreFishAndChips.States
         { }
     }
 
-    public class StatePath : IEquatable<StatePath>
+    public class StatePath : IEquatable<StatePath>, IEnumerable<Enum>
     {
-        private List<Enum> _path;
+        private List<Enum> _enums;
 
-        public StatePath(List<Enum> path)
+        public StatePath(List<Enum> enums)
         {
-            _path = path;
+            _enums = enums;
         }
 
-        public bool Contains(Enum stateEnum)
+        public bool Contains(Enum enumValue)
         {
-            return _path.Contains(stateEnum);
+            return _enums.Contains(enumValue);
         }
 
         // We want equality to reflect having the same path
@@ -55,14 +57,14 @@ namespace NoMoreFishAndChips.States
                 return false;
             }
 
-            if (_path.Count != other._path.Count)
+            if (_enums.Count != other._enums.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < _path.Count; i++)
+            for (int i = 0; i < _enums.Count; i++)
             {
-                if (!_path[i].Equals(other._path[i]))
+                if (!_enums[i].Equals(other._enums[i]))
                 {
                     return false;
                 }
@@ -76,12 +78,22 @@ namespace NoMoreFishAndChips.States
         {
             HashCode code = new();
 
-            foreach (Enum stateEnum in _path)
+            foreach (Enum stateEnum in _enums)
             {
                 code.Add(stateEnum);
             }
 
             return code.ToHashCode();
+        }
+
+        public IEnumerator<Enum> GetEnumerator()
+        {
+            return _enums.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
@@ -90,15 +102,19 @@ namespace NoMoreFishAndChips.States
         private StateManagerConfig _config;
 
         private SceneManager _sceneManager;
+        private NetworkManager _networkManager;
 
         private StateMachine<EMainState> _stateMachine;
 
         private StatePath _currentStatePath;
         public StatePath CurrentStatePath => _currentStatePath;
 
+        private StateSynchroniser _stateSynchroniser;
+
         public override void InitialiseConfig(GameManagerConfig config)
         {
             _sceneManager = GameManager.Instance.Get<SceneManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
 
             _sceneManager.AddListener(this);
 
@@ -153,7 +169,7 @@ namespace NoMoreFishAndChips.States
         }
 
         public void ChangeMainState(EMainState state)
-        {
+        {   
             _stateMachine.ChangeState(state);
         }
 
@@ -166,16 +182,16 @@ namespace NoMoreFishAndChips.States
         {
             StatePath previous = _currentStatePath;
 
-            List<Enum> path = new();
+            List<Enum> enums = new();
             IStateMachine machine = _stateMachine;
 
             while (machine != null)
             {
-                path.Add(machine.CurrentEnum);
+                enums.Add(machine.CurrentEnum);
                 machine = machine.CurrentState?.SubStateMachine;
             }
 
-            StatePath current = new StatePath(path);
+            StatePath current = new StatePath(enums);
 
             if (current.Equals(previous))
             {
@@ -188,12 +204,34 @@ namespace NoMoreFishAndChips.States
         }
 
         void ISceneManagerListener.OnSceneUnloaded(EScene scene)
-        { 
+        {
             // Only once do we listen for the startup scene to unload before starting the state machine
             if (scene == EScene.Startup)
             {
-                _sceneManager.RemoveListener(this);
                 _stateMachine.ChangeState(EMainState.Menus);
+            }   
+        }
+
+        void ISceneManagerListener.OnNetworkedSceneLoaded(EScene scene, bool asServer)
+        {
+            if (asServer && scene == EScene.Game)
+            {
+                 _stateSynchroniser = _networkManager.Spawn(_config.StateSynchroniserPrefab);
+            }
+        }
+
+        public void ReadStatePathEnumValues(List<int> enumValues)
+        {
+            IStateMachine machine = _stateMachine;
+
+            for (int i = 0; i < enumValues.Count; i++)
+            {
+                if (Convert.ToInt32(machine.CurrentEnum) != enumValues[i])
+                {
+                    machine.ChangeState(enumValues[i]);
+                }
+                
+                machine = machine.CurrentState?.SubStateMachine;
             }
         }
     }

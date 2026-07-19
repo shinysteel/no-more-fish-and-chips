@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menusStateConfig: {fileID: 11400000, guid: f72a7babe37a5b84fb71253314e2412a, type: 2}
   _gameplayStateConfig: {fileID: 11400000, guid: 7758fdcff096a9b4c903d4f90d78d14b, type: 2}
+  _stateSynchroniserPrefab: {fileID: 2981082780298144234, guid: 677fe7bba8f058b4e993334d9dbee322, type: 3}

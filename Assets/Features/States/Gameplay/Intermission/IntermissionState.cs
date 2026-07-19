@@ -27,7 +27,8 @@ namespace NoMoreFishAndChips.States
         protected GameplayContext _context;
 
         public IntermissionSubState(StateMachine<EIntermissionState> parent) : base(parent)
-        { }
+        {
+        }
 
         public virtual void InitialiseConfig(IntermissionStateConfig config)
         { }
@@ -40,10 +41,14 @@ namespace NoMoreFishAndChips.States
 
     public class ArriveState : IntermissionSubState
     {
+        private NetworkManager _networkManager;
+
         private ArriveStateConfig _config;
 
         public ArriveState(StateMachine<EIntermissionState> parent) : base(parent)
-        { }
+        {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+        }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
         {
@@ -54,7 +59,10 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            Tween.Delay(_config.ArriveDelay, Arrive);
+            if (_networkManager.IsServer)
+            {
+                Tween.Delay(_config.ArriveDelay, Arrive);
+            }
         }
 
         private void Arrive()
@@ -67,12 +75,16 @@ namespace NoMoreFishAndChips.States
 
     public class DockState : IntermissionSubState
     {
+        private NetworkManager _networkManager;
+
         private DockStateConfig _config;
 
         private float _startTimer;
 
         public DockState(StateMachine<EIntermissionState> parent) : base(parent)
-        { }
+        {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+        }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
         {
@@ -90,7 +102,10 @@ namespace NoMoreFishAndChips.States
         {
             base.Tick();
 
-            StartTick();
+            if (_networkManager.IsServer)
+            {
+                StartTick();
+            }
         }
 
         // Start counting down once all players are on the raft
@@ -124,10 +139,18 @@ namespace NoMoreFishAndChips.States
 
     public class DepartState : IntermissionSubState
     {
+        private NetworkManager _networkManager;
+
+        private IntermissionState _intermissionState;
+
         private DepartStateConfig _config;
 
-        public DepartState(StateMachine<EIntermissionState> parent) : base(parent)
-        { }
+        public DepartState(StateMachine<EIntermissionState> parent, IntermissionState state) : base(parent)
+        {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+
+            _intermissionState = state;
+        }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
         {
@@ -138,16 +161,24 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
+            if (_networkManager.IsServer)
+            {
+                _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
+            }
         }
 
         public override void Tick()
         {
             base.Tick();
 
+            if (!_networkManager.IsServer)
+            {
+                return;
+            }
+
             if (_stateTimer >= _config.DepartDelay)
             {
-                _parentStateMachine.ChangeState(EIntermissionState.None);
+                _intermissionState.GoToStageState();
             }
         }
     }
@@ -175,7 +206,7 @@ namespace NoMoreFishAndChips.States
 
             ArriveState arriveState = new ArriveState(_subStateMachine);
             DockState dockState = new DockState(_subStateMachine);
-            DepartState departState = new DepartState(_subStateMachine);
+            DepartState departState = new DepartState(_subStateMachine, this);
 
             arriveState.InitialiseConfig(_config);
             dockState.InitialiseConfig(_config);
@@ -184,8 +215,6 @@ namespace NoMoreFishAndChips.States
             _subStateMachine.AddState(EIntermissionState.Arrive, arriveState);
             _subStateMachine.AddState(EIntermissionState.Dock, dockState);
             _subStateMachine.AddState(EIntermissionState.Depart, departState);
-
-            _subStateMachine.OnStateEnumChanged += HandleSubStateEnumChanged;
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -196,11 +225,6 @@ namespace NoMoreFishAndChips.States
             {
                 state.InitialiseContext(_context);
             }
-        }
-
-        ~IntermissionState()
-        {
-            _subStateMachine.OnStateEnumChanged -= HandleSubStateEnumChanged;
         }
 
         public override void Enter()
@@ -230,22 +254,23 @@ namespace NoMoreFishAndChips.States
             }
         }
 
-        private void HandleSubStateEnumChanged(EIntermissionState previous, EIntermissionState current)
+        public override void Exit()
         {
-            if (!_networkManager.IsServer)
+            // Only needs to be called on the server due to StateSynchroniser
+            if (_networkManager.IsServer)
             {
-                return;
+                _subStateMachine.ChangeState(EIntermissionState.None);
             }
+        }
+        
+        public void GoToStageState()
+        {
+            _networkManager.Despawn(_island);
+            _island = null;
 
-            if (current == EIntermissionState.None)
-            {
-                _networkManager.Despawn(_island);
-                _island = null;   
+            _lobbyManager.StartLobby();
 
-                _lobbyManager.StartLobby();
-
-                _parentStateMachine.ChangeState(EGameplayState.Stage);
-            }
+            _parentStateMachine.ChangeState(EGameplayState.Stage);
         }
     }
 }

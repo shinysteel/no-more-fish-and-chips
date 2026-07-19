@@ -85,7 +85,8 @@ namespace ShinyOwl.Common.Framework
 
         event Action<Enum, Enum> OnStateChanged;
 
-        void Tick(); 
+        void Tick();
+        void ChangeState(int enumValue);
     }
 
     public class StateMachine<TStateEnum> : IStateMachine, IEnumerable<IState>
@@ -120,6 +121,11 @@ namespace ShinyOwl.Common.Framework
         public void AddState(TStateEnum stateEnum, IState state)
         {
             _enumStateMap[stateEnum] = state;
+        }
+
+        public void ChangeState(int enumValue)
+        {
+            ChangeState((TStateEnum)(object)enumValue);
         }
 
         public void ChangeState(TStateEnum stateEnum)

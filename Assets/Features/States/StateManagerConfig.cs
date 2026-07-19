@@ -9,8 +9,10 @@ namespace NoMoreFishAndChips.States
     {
         [SerializeField] private MenusStateConfig _menusStateConfig;
         [SerializeField] private GameplayStateConfig _gameplayStateConfig;
+        [SerializeField] private StateSynchroniser _stateSynchroniserPrefab;
 
         public MenusStateConfig MenusStateConfig => _menusStateConfig;
         public GameplayStateConfig GameplayStateConfig => _gameplayStateConfig;
+        public StateSynchroniser StateSynchroniserPrefab => _stateSynchroniserPrefab;
     }
 }

@@ -9,10 +9,14 @@ namespace NoMoreFishAndChips.States
 {
     public class StageState : GameplaySubState<ENone>
     {
+        private NetworkManager _networkManager;
+
         private StageStateConfig _config;
 
         public StageState(StateMachine<EGameplayState> parent) : base(parent)
-        { }
+        {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+        }
 
         public override void InitialiseConfig(GameplayStateConfig config)
         {
@@ -38,12 +42,18 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _context.WaveRunner.SetStageData(_config.ClamClusterStageData);
+            if (_networkManager.IsServer)
+            {
+                _context.WaveRunner.SetStageData(_config.ClamClusterStageData);
+            }
         }
 
         private void HandleStageComplete()
         {
-            _parentStateMachine.ChangeState(EGameplayState.Intermission);
+            if (_networkManager.IsServer)
+            {
+                _parentStateMachine.ChangeState(EGameplayState.Intermission);
+            }
         }
     }
 }

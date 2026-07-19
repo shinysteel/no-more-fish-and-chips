@@ -224,7 +224,10 @@ namespace NoMoreFishAndChips.States
                     await ((ISaveable)_networkManager.LocalPurrnetPlayer).LoadAsync();
                 }
 
-                _subStateMachine.ChangeState(EGameplayState.Intermission);
+                if (_networkManager.IsServer)
+                {
+                    _subStateMachine.ChangeState(EGameplayState.Intermission);
+                }
                 
                 _transitionManager.UncoverScreen(null);
             }
@@ -263,22 +266,6 @@ namespace NoMoreFishAndChips.States
             }
 
             _transitionManager.CoverScreen(() => _stateManager.ChangeMainState(EMainState.Gameplay));
-
-            // Currently we have no lobby flow, and just start the lobby as soon as we create it
-            //if (_lobbyManager.IsLobbyOwner(lobby))
-            //{
-            //    _lobbyManager.StartLobby();
-            //}
-        }
-
-        void ILobbyManagerListener.OnLobbyStart(Lobby lobby) 
-        {
-            //if (_parentStateMachine.CurrentState == this)
-            //{
-            //    return;
-            //}
-
-            //_transitionManager.CoverScreen(() => _stateManager.ChangeState(EMainState.Gameplay));
         }
 
         void INetworkManagerListener.OnClientConnectionState(ConnectionState state)
