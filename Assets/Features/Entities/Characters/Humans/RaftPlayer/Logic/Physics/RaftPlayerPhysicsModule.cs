@@ -162,7 +162,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_isGrounded)
+            if (_groundSurface == null)
             {
                 return;
             }

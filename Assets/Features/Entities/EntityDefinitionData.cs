@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Localisation;
 using ShinyOwl.Common;
@@ -11,6 +12,7 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] protected int _health = 1;
         [SerializeField] private bool _isDamageable = true;
         [SerializeField] private EntityAlliance _alliance;
+        [SerializeField] private SurfaceType _surfaceType;
         [SerializeField] private DropTable[] _dropTables;
         [SerializeField] private EntityDefeatSettings _entityDefeatSettings;
         [SerializeField] private EntityLifecycleSettings _entityLifecycleSettings;
@@ -20,6 +22,7 @@ namespace NoMoreFishAndChips.Entities
         public int Health => _health;
         public bool IsDamageable => _isDamageable;
         public EntityAlliance Alliance => _alliance;
+        public SurfaceType SurfaceType => _surfaceType;
         public DropTable[] DropTables => _dropTables;
         public EntityDefeatSettings EntityDefeatSettings => _entityDefeatSettings;
         public EntityLifecycleSettings EntityLifecycleSettings => _entityLifecycleSettings;

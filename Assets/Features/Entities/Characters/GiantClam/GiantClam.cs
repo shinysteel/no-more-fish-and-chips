@@ -110,7 +110,7 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                if (_clam.CharacterPhysicsModule.IsGrounded)
+                if (_clam.CharacterPhysicsModule.GroundSurface != null)
                 {
                     _parentStateMachine.ChangeState(EState.AwaitItems);
                 }

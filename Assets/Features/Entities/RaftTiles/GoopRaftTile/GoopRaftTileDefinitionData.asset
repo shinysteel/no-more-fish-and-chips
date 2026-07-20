@@ -44,3 +44,4 @@ MonoBehaviour:
     _requirements:
     - _itemId: 5
       _count: 1
+  _surfaceType: 0

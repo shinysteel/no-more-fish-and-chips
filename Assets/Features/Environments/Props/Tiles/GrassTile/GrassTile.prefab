@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Prop
   _id: 7
+  _surfaceType: 3
 --- !u!65 &5228799975542584731
 BoxCollider:
   m_ObjectHideFlags: 0

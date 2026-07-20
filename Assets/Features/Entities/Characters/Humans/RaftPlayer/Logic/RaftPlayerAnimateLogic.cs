@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.Audio;
 using ShinyOwl.Common;
 using UnityEngine;
+using NoMoreFishAndChips.Environments;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -50,8 +51,8 @@ namespace NoMoreFishAndChips.Entities
 
             _groundRunStateAnimationEvents = new StateAnimationEvents(GroundRunStateName, true)
             {
-                new StateAnimationEvent(0.1f, () => _audioManager.PlaySound(SoundId.HumanFootstepWood)),
-                new StateAnimationEvent(0.6f, () => _audioManager.PlaySound(SoundId.HumanFootstepWood))
+                new StateAnimationEvent(0.1f, PlayFootstepSound),
+                new StateAnimationEvent(0.6f, PlayFootstepSound)
             };
 
             _waterSwimStateAnimationEvents = new StateAnimationEvents(WaterSwimStateName, true)
@@ -68,7 +69,7 @@ namespace NoMoreFishAndChips.Entities
 
             _jumpStateAnimationEvents = new StateAnimationEvents(JumpStateName, false)
             {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanJumpWood))
+                new StateAnimationEvent(0f, PlayJumpSound)
             };
 
             _paddleSwingStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false)
@@ -91,6 +92,50 @@ namespace NoMoreFishAndChips.Entities
                 new StateAnimationEvent(0.2f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(true)),
                 new StateAnimationEvent(0.8f, () => _player.HeldInventoryItemLogic.HeldModel?.SetTrailEmitting(false))
             };
+        }
+
+        private void PlayJumpSound()
+        {
+            if (_player.CharacterPhysicsModule.LastGroundSurface == null)
+            {
+                return;
+            }
+
+            SoundId id = _player.CharacterPhysicsModule.LastGroundSurface.SurfaceType switch
+            {
+                SurfaceType.None => SoundId.None,
+                SurfaceType.Wood => SoundId.HumanJumpWood,
+                SurfaceType.Sand => SoundId.HumanJumpSand,
+                SurfaceType.Grass => SoundId.HumanJumpGrass,
+                _ => SoundId.None
+            };
+
+            if (id != SoundId.None)
+            {
+                _audioManager.PlaySound(id);
+            }
+        }
+
+        private void PlayFootstepSound()
+        {
+            if (_player.CharacterPhysicsModule.LastGroundSurface == null)
+            {
+                return;
+            }
+
+            SoundId id = _player.CharacterPhysicsModule.LastGroundSurface.SurfaceType switch
+            {
+                SurfaceType.None => SoundId.None,
+                SurfaceType.Wood => SoundId.HumanFootstepWood,
+                SurfaceType.Grass => SoundId.HumanFootstepGrass,
+                SurfaceType.Sand => SoundId.HumanFootstepSand,
+                _ => SoundId.None
+            };
+
+            if (id != SoundId.None)
+            {
+                _audioManager.PlaySound(id);
+            }
         }
 
         public void Tick()

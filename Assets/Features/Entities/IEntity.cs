@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NoMoreFishAndChips.Entities
 {
     // Implemented by NetEntity and Entity
-    public interface IEntity
+    public interface IEntity : ISurface
     {
         void InitialiseContext(GameplayContext context);
 
@@ -16,6 +16,8 @@ namespace NoMoreFishAndChips.Entities
         bool isSpawned { get; }
         bool isOwner { get; }
         Transform transform { get; }
+
+        SurfaceType ISurface.SurfaceType => EntityDefinitionData.SurfaceType;
 
         EntityHealthModule EntityHealthModule { get; }
         EntityDefeatModule EntityDefeatModule { get; }

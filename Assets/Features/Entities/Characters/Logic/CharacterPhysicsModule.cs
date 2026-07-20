@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Environments;
 using ShinyOwl.Common;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,15 +11,19 @@ namespace NoMoreFishAndChips.Entities
         private Character _character;
         private CharacterPhysicsSettings _settings;
 
-        protected bool _isGrounded;
-        public bool IsGrounded => _isGrounded;
+        protected ISurface _groundSurface;
+        public ISurface GroundSurface => _groundSurface;
+
+        // Last non-null value
+        private ISurface _lastGroundSurface;
+        public ISurface LastGroundSurface => _lastGroundSurface;
 
         private float _timeInWater;
         public float TimeInWater => _timeInWater;
 
         public bool InWater => _timeInWater > 0f;
-
-        public bool InAir => !_isGrounded && !InWater;
+        
+        public bool InAir => _groundSurface == null && !InWater;
 
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
@@ -43,19 +48,20 @@ namespace NoMoreFishAndChips.Entities
 
             int hits = Physics.SphereCastNonAlloc(origin, _settings.ContactDetection.GroundCastRadius, Vector3.down, _isGroundedHitsNonAlloc, _settings.ContactDetection.GroundCastDistance, _settings.ContactDetection.GroundMask);
 
-            bool isGrounded = false;
-
+            _groundSurface = null;
+            
             for (int i = 0; i < hits; i++)
             {
                 // Since we include the player layer to jump on other player's heads, we need to ignore our own collider here
-                if (_isGroundedHitsNonAlloc[i].collider != _collider)
+                if (_isGroundedHitsNonAlloc[i].collider == _collider)
                 {
-                    isGrounded = true;
-                    break;
+                    continue;
                 }
-            }
 
-            _isGrounded = isGrounded;
+                // Anything hit on this layer mask needs to implement ISurface
+                _groundSurface = _isGroundedHitsNonAlloc[i].collider.GetComponent<ISurface>();
+                _lastGroundSurface = _groundSurface;
+            }
         }
         
         private void InWaterFixedTick()

@@ -56,7 +56,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_character.CharacterPhysicsModule.IsGrounded && !_character.CharacterPhysicsModule.InWater)
+            if (_character.CharacterPhysicsModule.GroundSurface == null && !_character.CharacterPhysicsModule.InWater)
             {
                 return;
             }

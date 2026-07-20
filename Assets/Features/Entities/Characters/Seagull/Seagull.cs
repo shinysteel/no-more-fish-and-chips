@@ -158,7 +158,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.FixedTick();
 
-                if (_seagull.CharacterPhysicsModule.IsGrounded)
+                if (_seagull.CharacterPhysicsModule.GroundSurface != null)
                 {
                     _parentStateMachine.ChangeState(EState.Idle);
                     return;

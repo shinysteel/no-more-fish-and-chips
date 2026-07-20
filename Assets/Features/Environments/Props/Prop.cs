@@ -3,10 +3,13 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class Prop : MonoBehaviour, IPoolable
+    public class Prop : MonoBehaviour, IPoolable, ISurface
     {
         [SerializeField] private PropId _id;
+        [SerializeField] private SurfaceType _surfaceType;
+
         public PropId Id => _id;
+        SurfaceType ISurface.SurfaceType => _surfaceType;
 
         private Material _material;
         private Color _defaultColor;
