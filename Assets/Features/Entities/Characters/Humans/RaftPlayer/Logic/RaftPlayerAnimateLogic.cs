@@ -12,6 +12,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayer _player;
 
         private StateAnimationEvents _groundRunStateAnimationEvents;
+        private StateAnimationEvents _waterIdleStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
         private StateAnimationEvents _jumpStateAnimationEvents;
         private StateAnimationEvents _paddleSwingStateAnimationEvents;
@@ -37,6 +38,7 @@ namespace NoMoreFishAndChips.Entities
         private const string JumpTriggerName = "Jump";
 
         private const string GroundRunStateName = BaseLayerName + ".Ground.Run";
+        private const string WaterIdleStateName = BaseLayerName + ".Water.Idle";
         private const string WaterSwimStateName = BaseLayerName + ".Water.Swim";
         private const string JumpStateName = BaseLayerName + ".Jump";
         private const string PaddleSwingStateName = AttackLayerName + ".Paddle.Swing";
@@ -53,6 +55,11 @@ namespace NoMoreFishAndChips.Entities
             {
                 new StateAnimationEvent(0.1f, PlayFootstepSound),
                 new StateAnimationEvent(0.6f, PlayFootstepSound)
+            };
+
+            _waterIdleStateAnimationEvents = new StateAnimationEvents(WaterIdleStateName, true)
+            {
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanSwim))
             };
 
             _waterSwimStateAnimationEvents = new StateAnimationEvents(WaterSwimStateName, true)
@@ -158,6 +165,7 @@ namespace NoMoreFishAndChips.Entities
             AnimatorStateInfo baseLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(0);
 
             _groundRunStateAnimationEvents.Tick(baseLayerInfo);
+            _waterIdleStateAnimationEvents.Tick(baseLayerInfo);
             _waterSwimStateAnimationEvents.Tick(baseLayerInfo);
             _jumpStateAnimationEvents.Tick(baseLayerInfo);
 
