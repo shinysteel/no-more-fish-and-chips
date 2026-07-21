@@ -15,11 +15,9 @@ namespace ShinyOwl.Common.Framework
         IStateMachine SubStateMachine { get; }
 
         void Enter();
-        Task EnterAsync();
         void Tick();
         void FixedTick();
         void Exit();
-        Task ExitAsync();
     }
 
     public abstract class State<TParentStateEnum, TSubStateEnum> : IState
@@ -45,11 +43,6 @@ namespace ShinyOwl.Common.Framework
             _stateTimer = 0f;
         }
 
-        public virtual async Task EnterAsync()
-        {
-            await (_subStateMachine?.EnterAsync() ?? Task.CompletedTask);
-        }
-
         public virtual void Tick()
         {
             _subStateMachine?.Tick();
@@ -65,11 +58,6 @@ namespace ShinyOwl.Common.Framework
         public virtual void Exit()
         {
             _subStateMachine?.Exit();
-        }
-
-        public virtual async Task ExitAsync()
-        {
-            await (_subStateMachine?.ExitAsync() ?? Task.CompletedTask);
         }
 
         protected void ChangeState(TSubStateEnum stateEnum)
@@ -146,12 +134,10 @@ namespace ShinyOwl.Common.Framework
 
             // CurrentState will return the new state once we assign the enum, so we can't just cache the output
             CurrentState?.Exit();
-            _ = CurrentState?.ExitAsync();
 
             _currentStateEnum = stateEnum;
 
             CurrentState?.Enter();
-            _ = CurrentState?.EnterAsync();
 
             OnStateEnumChanged?.Invoke(previous, _currentStateEnum);
             OnStateChanged?.Invoke(previous, _currentStateEnum);
@@ -160,11 +146,6 @@ namespace ShinyOwl.Common.Framework
         public void Enter()
         {
             CurrentState?.Enter();
-        }
-
-        public async Task EnterAsync()
-        {
-            await (CurrentState?.EnterAsync() ?? Task.CompletedTask);
         }
 
         public void Tick()
@@ -180,11 +161,6 @@ namespace ShinyOwl.Common.Framework
         public void Exit()
         {
             CurrentState?.Exit();
-        }
-
-        public async Task ExitAsync()
-        {
-            await (CurrentState?.ExitAsync() ?? Task.CompletedTask);
         }
 
         public IEnumerator<IState> GetEnumerator()

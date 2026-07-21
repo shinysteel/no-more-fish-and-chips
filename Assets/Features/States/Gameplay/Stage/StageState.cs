@@ -10,12 +10,14 @@ namespace NoMoreFishAndChips.States
     public class StageState : GameplaySubState<ENone>
     {
         private NetworkManager _networkManager;
+        private LobbyManager _lobbyManager;
 
         private StageStateConfig _config;
 
         public StageState(StateMachine<EGameplayState> parent) : base(parent)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _lobbyManager = GameManager.Instance.Get<LobbyManager>();
         }
 
         public override void InitialiseConfig(GameplayStateConfig config)
@@ -52,6 +54,7 @@ namespace NoMoreFishAndChips.States
         {
             if (_networkManager.IsServer)
             {
+                _lobbyManager.StopLobby();
                 _parentStateMachine.ChangeState(EGameplayState.Intermission);
             }
         }

@@ -1,10 +1,12 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.UI;
 using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.States
@@ -76,6 +78,7 @@ namespace NoMoreFishAndChips.States
     public class DockState : IntermissionSubState
     {
         private NetworkManager _networkManager;
+        private UIManager _uiManager;
 
         private DockStateConfig _config;
 
@@ -84,6 +87,7 @@ namespace NoMoreFishAndChips.States
         public DockState(StateMachine<EIntermissionState> parent) : base(parent)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
         }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
@@ -99,6 +103,9 @@ namespace NoMoreFishAndChips.States
             _context.References.Ocean.SetCurrent(false, 0f);
 
             _startTimer = 0f;
+
+            AsyncOperationBridge<VoyageResultsScreen> operation = _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
+            operation.completed += (VoyageResultsScreen screen) => screen.Show(null);
         }
         
         public override void Tick()

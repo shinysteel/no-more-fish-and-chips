@@ -18,7 +18,7 @@ MonoBehaviour:
   _layerPrefab: {fileID: 6324883857503925224, guid: af71315c19c26e84bac0a17f88e762ce, type: 3}
   _mainMenuScreenPrefab: {fileID: 7405705974341425097, guid: c883b20faf188be41b180dff0fc5ed37, type: 3}
   _gameplayScreenPrefab: {fileID: 5343249973355746534, guid: c12e3262ac9ddfb4c877d5ab0645d33f, type: 3}
-  _resultsScreenPrefab: {fileID: 4627369564514005281, guid: 10132206c2f78164da710a9de380188b, type: 3}
+  _voyageResultsScreenPrefab: {fileID: 4627369564514005281, guid: 10132206c2f78164da710a9de380188b, type: 3}
   _browseGamesPanelPrefab: {fileID: 6530453185160498948, guid: 8c64bae2a57806b459e4abb61cba563f, type: 3}
   _hostGamePanelPrefab: {fileID: 8187131346093847541, guid: adbd3bc624a9e334faa37f36a5a0dc21, type: 3}
   _worldPanelPrefab: {fileID: 3778087263474575270, guid: d9b4137c53c36dc469a5060d1d3c513d, type: 3}

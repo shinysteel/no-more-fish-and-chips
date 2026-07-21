@@ -130,12 +130,17 @@ namespace NoMoreFishAndChips.States
             _subStateMachine.AddState(EGameplayState.Stage, stageState);
         }
 
-        public override async Task EnterAsync()
+        public override void Enter()
+        {
+            base.Enter();
+
+            _ = EnterAsync();
+        }
+
+        private async Task EnterAsync()
         {
             try
             {
-                await base.EnterAsync();
-
                 if (_networkManager.IsServer)
                 {
                     // Network the game scene
@@ -228,7 +233,7 @@ namespace NoMoreFishAndChips.States
                 {
                     _subStateMachine.ChangeState(EGameplayState.Intermission);
                 }
-                
+
                 _transitionManager.UncoverScreen(null);
             }
             catch (Exception ex)
