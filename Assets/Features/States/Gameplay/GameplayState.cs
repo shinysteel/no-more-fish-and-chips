@@ -202,7 +202,7 @@ namespace NoMoreFishAndChips.States
                 }
 
                 // Avoid timing issues by making sure the localPlayer is initialised before continuing
-                while (!localPlayer.IsInitialised)
+                while (!localPlayer.IsContextInitialised)
                 {
                     await Task.Yield();
                 }

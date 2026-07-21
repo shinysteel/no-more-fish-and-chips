@@ -10,14 +10,14 @@ namespace NoMoreFishAndChips.Networking
     {
         protected GameplayContext _context;
 
-        protected bool _isInitialised;
-        public bool IsInitialised => _isInitialised;
+        protected bool _isContextInitialised;
+        public bool IsContextInitialised => _isContextInitialised;
 
         public virtual void InitialiseContext(GameplayContext context)
         {
             _context = context;
 
-            _isInitialised = true;
+            _isContextInitialised = true;
 
             if (!isServer && TryGetComponent<NetworkTransform>(out _))
             {
@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Networking
         // parented to those tiles. This is also only relevant to GameplayBehaviours that implement NetworkTransform
         private async Task RequestForceSyncAsync()
         {
-            while (!_context.Raft.IsInitialised)
+            while (!_context.Raft.IsContextInitialised)
             {
                 await Task.Yield();
             }

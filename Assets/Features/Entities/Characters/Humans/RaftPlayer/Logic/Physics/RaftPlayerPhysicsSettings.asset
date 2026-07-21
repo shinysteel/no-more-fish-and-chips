@@ -36,7 +36,7 @@ MonoBehaviour:
     _launchStrength: 3
     _mask:
       serializedVersion: 2
-      m_Bits: 768
+      m_Bits: 2816
   _onRaft:
     _mask:
       serializedVersion: 2

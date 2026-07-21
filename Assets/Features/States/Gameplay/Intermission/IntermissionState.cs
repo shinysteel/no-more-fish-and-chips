@@ -59,17 +59,17 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            if (_networkManager.IsServer)
-            {
-                Tween.Delay(_config.ArriveDelay, Arrive);
-            }
+            Tween.Delay(_config.ArriveDelay, Arrive);
         }
 
         private void Arrive()
         {
             _context.References.Ocean.SetCurrent(false, Ocean.DefaultSetCurrentDuration);
 
-            Tween.Delay(Ocean.DefaultSetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
+            if (_networkManager.IsServer)
+            {
+                Tween.Delay(Ocean.DefaultSetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
+            }
         }
     }
 
@@ -94,6 +94,9 @@ namespace NoMoreFishAndChips.States
         public override void Enter()
         {
             base.Enter();
+
+            // Understand that clients can join at any point
+            _context.References.Ocean.SetCurrent(false, 0f);
 
             _startTimer = 0f;
         }
@@ -161,10 +164,7 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            if (_networkManager.IsServer)
-            {
-                _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
-            }
+            _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
         }
 
         public override void Tick()

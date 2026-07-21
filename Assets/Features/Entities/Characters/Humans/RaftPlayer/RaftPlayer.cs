@@ -142,7 +142,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Update();
             
-            if (!_isInitialised)
+            if (!_isContextInitialised)
             {
                 return;
             }

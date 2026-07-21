@@ -3,18 +3,22 @@ using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 namespace NoMoreFishAndChips.States
 {
-    public class StateSynchroniser : NetBehaviour, IStateManagerListener
+    public class StateSynchroniser : GameplayBehaviour, IStateManagerListener
     {
         private SyncList<int> _netStatePathEnumValues = new SyncList<int>(ownerAuth: true);
         
-        protected override void OnSpawned()
+        public override void InitialiseContext(GameplayContext context)
         {
-            _stateManager.AddListener(this);
+            base.InitialiseContext(context);
 
+            // It's only safe to start syncing once context is ready
             HandleNetStatePathChanged(default);
+
+            _stateManager.AddListener(this);
 
             _netStatePathEnumValues.onChanged += HandleNetStatePathChanged;
         }
