@@ -116,7 +116,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 _inventory.SetLayouts(DefinitionData.UnlockableInventoryLayout, DefinitionData.DefaultUnlockedInventoryLayout);
 
-                _cameraManager.SetMode(new FollowCameraMode(transform, new Vector3(0f, 3f, -5f)));
+                _ = _cameraManager.SwitchModeAsync(new FollowCameraMode(_cameraManager.Config.RaftPlayerFollowCameraModeSettings, transform));
             }
 
             // Invoke OnNetworkSpawn after logic components are created

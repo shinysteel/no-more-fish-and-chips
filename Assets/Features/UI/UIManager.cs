@@ -86,7 +86,7 @@ namespace NoMoreFishAndChips.UI
             _worldCanvas = Object.Instantiate(_config.WorldCanvasPrefab);
             _eventSystem = Object.Instantiate(_config.EventSystemPrefab);
 
-            _worldCanvas.worldCamera = _cameraManager.MainCamera;
+            _worldCanvas.worldCamera = _cameraManager.CinemachineBrain.OutputCamera;
 
             Object.DontDestroyOnLoad(_screenCanvas.gameObject);
             Object.DontDestroyOnLoad(_worldCanvas.gameObject);

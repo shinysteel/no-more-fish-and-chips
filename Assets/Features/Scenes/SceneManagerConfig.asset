@@ -20,6 +20,6 @@ MonoBehaviour:
   - _enum: 2
     _name: Game
   - _enum: 3
-    _name: EnvironmentMainMenu
+    _name: EnvironmentMenus
   - _enum: 4
     _name: EnvironmentGameplay

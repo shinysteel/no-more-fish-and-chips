@@ -123,7 +123,7 @@ namespace NoMoreFishAndChips.Entities
             }
             else
             {
-                Ray ray = _cameraManager.MainCamera.ScreenPointToRay(_player.InputLogic.GameplayMouse);
+                Ray ray = _cameraManager.CinemachineBrain.OutputCamera.ScreenPointToRay(_player.InputLogic.GameplayMouse);
 
                 // Have the plane sit at the player's origin so that y does not influence the target
                 Plane plane = new Plane(Vector3.up, _player.transform.position);

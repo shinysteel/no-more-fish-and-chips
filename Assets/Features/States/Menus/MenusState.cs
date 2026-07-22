@@ -1,16 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ShinyOwl.Common.Framework;
-using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Scenes;
+using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.UI.Transitions;
 using PurrLobby;
 using ShinyOwl.Common;
-using NoMoreFishAndChips.Cameras;
-using NoMoreFishAndChips.UI.Transitions;
-using NoMoreFishAndChips.Scenes;
-using System.Threading.Tasks;
+using ShinyOwl.Common.Framework;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+
+using Object = UnityEngine.Object;
 
 namespace NoMoreFishAndChips.States
 {
@@ -44,8 +47,6 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _cameraManager.SetMode(new OrbitCameraMode(Vector3.zero, 5f, 3f, 0.1f));
-
             _ = EnterAsync();
         }
 
@@ -53,7 +54,11 @@ namespace NoMoreFishAndChips.States
         {
             try
             {
-                await _sceneManager.LoadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneMode.Additive, LoadSceneContext.Local);
+                await _sceneManager.LoadSceneAsync(EScene.EnvironmentMenus, LoadSceneMode.Additive, LoadSceneContext.Local);
+
+                EnvironmentMenusReferences references = Object.FindFirstObjectByType<EnvironmentMenusReferences>();
+
+                _ = _cameraManager.SwitchModeAsync(new OrbitCameraMode(_cameraManager.Config.EnvironmentMenusOrbitCameraModeSettings, references.RaftTransform));
 
                 _mainMenuScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.MainMenuScreenPrefab, UILayer.Screens);
                 _mainMenuScreen.Show(null);
@@ -76,9 +81,9 @@ namespace NoMoreFishAndChips.States
             // Purrnet is unloading all the scenes as soon as we connect since Game
             // scene was loaded as single. This is just a dirty fix. The real solution is
             // covering the screen, unloading the environment, and only then connecting
-            if (_sceneManager.IsSceneLoaded(EScene.EnvironmentMainMenu))
+            if (_sceneManager.IsSceneLoaded(EScene.EnvironmentMenus))
             {
-                _sceneManager.UnloadSceneAsync(EScene.EnvironmentMainMenu, LoadSceneContext.Local);
+                _sceneManager.UnloadSceneAsync(EScene.EnvironmentMenus, LoadSceneContext.Local);
             }
         }
     }

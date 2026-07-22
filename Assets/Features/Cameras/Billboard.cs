@@ -24,7 +24,7 @@ namespace NoMoreFishAndChips.Cameras
         /// </summary>
         private void RotateUpdate()
         {
-            Vector3 direction = (_cameraManager.MainCamera.transform.position - transform.position).normalized;
+            Vector3 direction = (_cameraManager.CinemachineBrain.transform.position - transform.position).normalized;
 
             if (_flip)
             {

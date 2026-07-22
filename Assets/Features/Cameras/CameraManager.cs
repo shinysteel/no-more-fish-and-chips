@@ -1,50 +1,65 @@
 using NoMoreFishAndChips.Instantiating;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
+using System.Threading.Tasks;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.Cameras
 {
-    public interface ICameraMode
-    {
-        void Enter(Camera camera);
-        void LateTick(Camera camera);
-        void Exit(Camera camera);
-    }
-
     public interface ICameraManagerListener
     { }
 
     public class CameraManager : GameSystem<ICameraManagerListener>
     {
         private CameraManagerConfig _config;
+        public CameraManagerConfig Config => _config;
 
-        private Camera _mainCamera;
-        public Camera MainCamera => _mainCamera;
+        private CinemachineBrain _cinemachineBrain;
+        public CinemachineBrain CinemachineBrain => _cinemachineBrain;
 
-        private ICameraMode _mode;
+        private ICameraMode _blendingMode;
+        private ICameraMode _currentMode;
 
         public override void InitialiseConfig(GameManagerConfig config)
         {
             _config = config.CameraManagerConfig;
 
-            _mainCamera = Object.Instantiate(_config.MainCameraPrefab);
+            _cinemachineBrain = Object.Instantiate(_config.CinemachineBrainPrefab);
 
-            Object.DontDestroyOnLoad(_mainCamera.gameObject);
+            Object.DontDestroyOnLoad(_cinemachineBrain.gameObject);
 
             base.InitialiseConfig(config);
         }
 
-        public override void LateTick()
+        public override void Tick()
         {
-            _mode?.LateTick(_mainCamera);
+            _blendingMode?.Tick();
+            _currentMode?.Tick();
         }
 
-        public void SetMode(ICameraMode mode)
+        public async Task SwitchModeAsync(ICameraMode mode)
         {
-            _mode?.Exit(_mainCamera);
-            _mode = mode;
-            _mode?.Enter(_mainCamera);
+            ICinemachineCamera previous = _cinemachineBrain.ActiveVirtualCamera;
+
+            _blendingMode = _currentMode;
+
+            _currentMode = mode;
+            _currentMode.Enter();
+
+            while (_cinemachineBrain.ActiveVirtualCamera == previous)
+            {
+                await Task.Yield();
+            }
+
+            while (_cinemachineBrain.IsBlending) 
+            {
+                await Task.Yield();
+            }
+
+            _blendingMode?.Exit();
+            _blendingMode = null;
         }
     }
 }

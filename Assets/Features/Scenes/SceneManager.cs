@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Scenes
         Startup             ,
         Default             ,
         Game                ,
-        EnvironmentMainMenu ,
+        EnvironmentMenus    ,
         EnvironmentGameplay ,
     }
 
