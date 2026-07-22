@@ -1,25 +1,27 @@
+using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Effects;
+using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Saving;
+using NoMoreFishAndChips.Scenes;
+using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.UI.Transitions;
+using PurrNet;
+using PurrNet.Transports;
+using ShinyOwl.Common;
+using ShinyOwl.Common.Framework;
+using ShinyOwl.Common.Utils;
+using Steamworks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using ShinyOwl.Common.Framework;
-using NoMoreFishAndChips.UI.Transitions;
-using NoMoreFishAndChips.UI;
-using NoMoreFishAndChips.Networking;
-using System;
-using Steamworks;
-using ShinyOwl.Common;
-using NoMoreFishAndChips.Scenes;
-using System.Threading.Tasks;
-using PurrNet.Transports;
-using PurrNet;
-using NoMoreFishAndChips.Environments;
-using NoMoreFishAndChips.Entities;
 using System.Linq;
-using NoMoreFishAndChips.Saving;
-
+using System.Threading.Tasks;
+using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using Object = UnityEngine.Object;
-using NoMoreFishAndChips.Effects;
 
 namespace NoMoreFishAndChips.States
 {
@@ -85,6 +87,7 @@ namespace NoMoreFishAndChips.States
         private SceneManager _sceneManager;
         private LobbyManager _lobbyManager;
         private SaveManager _saveManager;
+        private CameraManager _cameraManager;
 
         private GameplayStateConfig _config;
 
@@ -103,6 +106,7 @@ namespace NoMoreFishAndChips.States
             _sceneManager = GameManager.Instance.Get<SceneManager>();
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
             _saveManager = GameManager.Instance.Get<SaveManager>();
+            _cameraManager = GameManager.Instance.Get<CameraManager>();
 
             _networkManager.AddListener(this);
             _lobbyManager.AddListener(this);
@@ -228,6 +232,10 @@ namespace NoMoreFishAndChips.States
                 {
                     await ((ISaveable)_networkManager.LocalPurrnetPlayer).LoadAsync();
                 }
+
+                await Utils.Tasks.WaitForFixedUpdateAsync();
+
+                await _cameraManager.SwitchModeAsync(new FollowCameraMode(_cameraManager.Config.RaftPlayerFollowCameraModeSettings, _context.LocalPlayer.transform));
 
                 if (_networkManager.IsServer)
                 {

@@ -104,8 +104,8 @@ namespace NoMoreFishAndChips.States
 
             _startTimer = 0f;
 
-            AsyncOperationBridge<VoyageResultsScreen> operation = _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
-            operation.completed += (VoyageResultsScreen screen) => screen.Show(null);
+            // AsyncOperationBridge<VoyageResultsScreen> operation = _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
+            // operation.completed += (VoyageResultsScreen screen) => screen.Show(null);
         }
         
         public override void Tick()

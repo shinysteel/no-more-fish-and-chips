@@ -1,3 +1,4 @@
+using ShinyOwl.Common;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ namespace NoMoreFishAndChips.Cameras
             Object.DontDestroyOnLoad(_camera.gameObject);
 
             _camera.Target.TrackingTarget = _targetTransform;
+
+            _camera.CancelDamping();
         }
 
         public virtual void Tick()

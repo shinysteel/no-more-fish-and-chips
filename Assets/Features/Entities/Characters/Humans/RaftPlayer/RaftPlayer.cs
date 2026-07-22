@@ -115,8 +115,6 @@ namespace NoMoreFishAndChips.Entities
             if (isOwner)
             {
                 _inventory.SetLayouts(DefinitionData.UnlockableInventoryLayout, DefinitionData.DefaultUnlockedInventoryLayout);
-
-                _ = _cameraManager.SwitchModeAsync(new FollowCameraMode(_cameraManager.Config.RaftPlayerFollowCameraModeSettings, transform));
             }
 
             // Invoke OnNetworkSpawn after logic components are created
