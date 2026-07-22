@@ -15,3 +15,4 @@ MonoBehaviour:
   _cinemachineBrainPrefab: {fileID: 1464065574352385388, guid: c0f9d6ce97d73844d85570c6912fd842, type: 3}
   _environmentMenusOrbitCameraModeSettings: {fileID: 11400000, guid: 9a7f919016290e042a0c0c9ad2d6854e, type: 2}
   _raftPlayerFollowCameraModeSettings: {fileID: 11400000, guid: ca99049a68ab7be43b6908901056ca2d, type: 2}
+  _voyageResultsFixedCameraModeSettings: {fileID: 11400000, guid: 6f14d38da75ba6b499578f846641d020, type: 2}

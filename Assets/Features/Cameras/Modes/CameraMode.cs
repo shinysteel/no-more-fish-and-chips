@@ -14,24 +14,17 @@ namespace NoMoreFishAndChips.Cameras
     public abstract class CameraMode<T> : ICameraMode where T : CameraModeSettings
     {
         protected T _settings;
-        private Transform _targetTransform;
-
         protected CinemachineCamera _camera;
 
-        public CameraMode(T settings, Transform targetTransform)
+        public CameraMode(T settings)
         {
             _settings = settings;
-            _targetTransform = targetTransform;
         }
 
         public virtual void Enter()
         {
             _camera = Object.Instantiate(_settings.CinemachineCameraPrefab);
             Object.DontDestroyOnLoad(_camera.gameObject);
-
-            _camera.Target.TrackingTarget = _targetTransform;
-
-            _camera.CancelDamping();
         }
 
         public virtual void Tick()

@@ -15,8 +15,10 @@ namespace NoMoreFishAndChips.Cameras
         // Modes
         [SerializeField] private OrbitCameraModeSettings _environmentMenusOrbitCameraModeSettings;
         [SerializeField] private FollowCameraModeSettings _raftPlayerFollowCameraModeSettings;
-
+        [SerializeField] private FixedCameraModeSettings _voyageResultsFixedCameraModeSettings;
+        
         public OrbitCameraModeSettings EnvironmentMenusOrbitCameraModeSettings => _environmentMenusOrbitCameraModeSettings;
         public FollowCameraModeSettings RaftPlayerFollowCameraModeSettings => _raftPlayerFollowCameraModeSettings;
+        public FixedCameraModeSettings VoyageResultsFixedCameraModeSettings => _voyageResultsFixedCameraModeSettings;
     }
 }

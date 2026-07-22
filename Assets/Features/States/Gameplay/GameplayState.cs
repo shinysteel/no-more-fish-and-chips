@@ -97,6 +97,8 @@ namespace NoMoreFishAndChips.States
         private GameplayScreen _gameplayScreen;
         private CursorsUI _cursorsUI;
 
+        private FollowCameraMode _followCameraMode;
+
         public GameplayState(StateMachine<EMainState> parent) : base(parent)
         {
             _transitionManager = GameManager.Instance.Get<TransitionManager>();
@@ -232,10 +234,12 @@ namespace NoMoreFishAndChips.States
                 {
                     await ((ISaveable)_networkManager.LocalPurrnetPlayer).LoadAsync();
                 }
-
+                
+                // Before switching the camera, we need to wait a physics step for the player to be positioned correctly
                 await Utils.Tasks.WaitForFixedUpdateAsync();
 
-                await _cameraManager.SwitchModeAsync(new FollowCameraMode(_cameraManager.Config.RaftPlayerFollowCameraModeSettings, _context.LocalPlayer.transform));
+                _followCameraMode = new FollowCameraMode(_cameraManager.Config.RaftPlayerFollowCameraModeSettings, _context.LocalPlayer.transform);
+                _cameraManager.AddMode(_followCameraMode);
 
                 if (_networkManager.IsServer)
                 {
@@ -267,6 +271,9 @@ namespace NoMoreFishAndChips.States
             _lobbyManager.LeaveLobby();
 
             _sceneManager.LoadSceneAsync(EScene.Default, LoadSceneMode.Single, LoadSceneContext.Local);
+
+            _cameraManager.RemoveMode(_followCameraMode);
+            _followCameraMode = null;
         }
 
         void ILobbyManagerListener.OnLobbyEnter(Lobby lobby)

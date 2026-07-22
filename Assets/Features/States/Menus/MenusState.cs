@@ -30,6 +30,8 @@ namespace NoMoreFishAndChips.States
 
         private MainMenuScreen _mainMenuScreen;
 
+        private OrbitCameraMode _orbitCameraMode;
+
         public MenusState(StateMachine<EMainState> parent) : base(parent)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
@@ -58,7 +60,8 @@ namespace NoMoreFishAndChips.States
 
                 EnvironmentMenusReferences references = Object.FindFirstObjectByType<EnvironmentMenusReferences>();
 
-                _ = _cameraManager.SwitchModeAsync(new OrbitCameraMode(_cameraManager.Config.EnvironmentMenusOrbitCameraModeSettings, references.RaftTransform));
+                _orbitCameraMode = new OrbitCameraMode(_cameraManager.Config.EnvironmentMenusOrbitCameraModeSettings, references.RaftTransform);
+                _cameraManager.AddMode(_orbitCameraMode);
 
                 _mainMenuScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.MainMenuScreenPrefab, UILayer.Screens);
                 _mainMenuScreen.Show(null);
@@ -85,6 +88,9 @@ namespace NoMoreFishAndChips.States
             {
                 _sceneManager.UnloadSceneAsync(EScene.EnvironmentMenus, LoadSceneContext.Local);
             }
+
+            _cameraManager.RemoveMode(_orbitCameraMode);
+            _orbitCameraMode = null;
         }
     }
 }

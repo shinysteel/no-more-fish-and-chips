@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Cameras
 {
-    public class OrbitCameraMode : CameraMode<OrbitCameraModeSettings>
+    public class OrbitCameraMode : TargetCameraMode<OrbitCameraModeSettings>
     {
         private CinemachineOrbitalFollow _orbitalFollow;
 
-        public OrbitCameraMode(OrbitCameraModeSettings settings, Transform targetTransform) : base(settings, targetTransform)
+        public OrbitCameraMode(OrbitCameraModeSettings settings, Transform target) : base(settings, target)
         { }
 
         public override void Enter()

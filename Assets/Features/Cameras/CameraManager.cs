@@ -5,6 +5,9 @@ using Unity.Cinemachine;
 using UnityEngine;
 using System.Threading.Tasks;
 using ShinyOwl.Common;
+using System;
+
+using Object = UnityEngine.Object;
 
 namespace NoMoreFishAndChips.Cameras
 {
@@ -19,8 +22,7 @@ namespace NoMoreFishAndChips.Cameras
         private CinemachineBrain _cinemachineBrain;
         public CinemachineBrain CinemachineBrain => _cinemachineBrain;
 
-        private ICameraMode _blendingMode;
-        private ICameraMode _currentMode;
+        private List<ICameraMode> _modes = new();
 
         public override void InitialiseConfig(GameManagerConfig config)
         {
@@ -35,31 +37,34 @@ namespace NoMoreFishAndChips.Cameras
 
         public override void Tick()
         {
-            _blendingMode?.Tick();
-            _currentMode?.Tick();
+            foreach (ICameraMode mode in _modes)
+            {
+                mode.Tick();
+            }
         }
 
-        public async Task SwitchModeAsync(ICameraMode mode)
+        public void AddMode(ICameraMode mode)
         {
-            ICinemachineCamera previous = _cinemachineBrain.ActiveVirtualCamera;
-
-            _blendingMode = _currentMode;
-
-            _currentMode = mode;
-            _currentMode.Enter();
-
-            while (_cinemachineBrain.ActiveVirtualCamera == previous)
+            if (_modes.Contains(mode))
             {
-                await Task.Yield();
+                return;
             }
 
-            while (_cinemachineBrain.IsBlending) 
+            _modes.Add(mode);
+
+            mode.Enter();
+        }
+
+        public void RemoveMode(ICameraMode mode)
+        {
+            if (!_modes.Contains(mode))
             {
-                await Task.Yield();
+                return;
             }
 
-            _blendingMode?.Exit();
-            _blendingMode = null;
+            mode.Exit();
+
+            _modes.Remove(mode);
         }
     }
 }

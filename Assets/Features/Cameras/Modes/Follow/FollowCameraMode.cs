@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Cameras
 {
-    public class FollowCameraMode : CameraMode<FollowCameraModeSettings>
+    public class FollowCameraMode : TargetCameraMode<FollowCameraModeSettings>
     {
-        public FollowCameraMode(FollowCameraModeSettings settings, Transform targetTransform) : base(settings, targetTransform)
+        public FollowCameraMode(FollowCameraModeSettings settings, Transform target) : base(settings, target)
         { }
     }
 }

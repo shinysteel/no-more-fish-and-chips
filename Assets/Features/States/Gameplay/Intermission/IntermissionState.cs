@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
@@ -79,15 +80,19 @@ namespace NoMoreFishAndChips.States
     {
         private NetworkManager _networkManager;
         private UIManager _uiManager;
+        private CameraManager _cameraManager;
 
         private DockStateConfig _config;
 
         private float _startTimer;
 
+        private FixedCameraMode _fixedCameraMode;
+
         public DockState(StateMachine<EIntermissionState> parent) : base(parent)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _uiManager = GameManager.Instance.Get<UIManager>();
+            _cameraManager = GameManager.Instance.Get<CameraManager>();
         }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
@@ -104,8 +109,19 @@ namespace NoMoreFishAndChips.States
 
             _startTimer = 0f;
 
-            // AsyncOperationBridge<VoyageResultsScreen> operation = _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
-            // operation.completed += (VoyageResultsScreen screen) => screen.Show(null);
+            AsyncOperationBridge<VoyageResultsScreen> operation = _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
+            operation.completed += (VoyageResultsScreen screen) => screen.Show(null);
+
+            _fixedCameraMode = new FixedCameraMode(_cameraManager.Config.VoyageResultsFixedCameraModeSettings);
+            _cameraManager.AddMode(_fixedCameraMode);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _cameraManager.RemoveMode(_fixedCameraMode);
+            _fixedCameraMode = null;
         }
         
         public override void Tick()
