@@ -47,6 +47,11 @@ namespace NoMoreFishAndChips.UI
 
         private void Update()
         {
+            if (_context == null)
+            {
+                return;
+            }
+
             CursorsUpdate();
         }
 

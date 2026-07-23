@@ -41,7 +41,6 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayerTileTargetLogic _tileTargetLogic;
 
         public RaftPlayerDefeatModule RaftPlayerDefeatModule => (RaftPlayerDefeatModule)_entityDefeatModule;
-        public RaftPlayerPhysicsModule RaftPlayerPhysicsModule => (RaftPlayerPhysicsModule)_entityPhysicsModule;
 
         public RaftPlayerInputLogic InputLogic => _inputLogic;
         public RaftPlayerInteractLogic InteractLogic => _interactLogic;

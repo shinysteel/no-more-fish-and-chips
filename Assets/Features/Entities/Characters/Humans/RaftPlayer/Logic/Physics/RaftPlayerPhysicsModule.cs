@@ -19,13 +19,9 @@ namespace NoMoreFishAndChips.Entities
         private float _jumpTimer;
         private bool _jumpRequest;
 
-        private bool _onRaft;
         private bool _isClimbing;
 
-        private RaycastHit[] _onRaftHitsNonAlloc = new RaycastHit[1];
         private RaycastHit[] _climbHitsNonAlloc = new RaycastHit[5];
-
-        public bool OnRaft => _onRaft;
 
         public RaftPlayerPhysicsModule(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
         {
@@ -71,8 +67,6 @@ namespace NoMoreFishAndChips.Entities
         {
             base.FixedTick();
 
-            OnRaftFixedTick();
-
             if (!_player.isOwner)
             {
                 return;
@@ -82,19 +76,6 @@ namespace NoMoreFishAndChips.Entities
             LookFixedTick();
             JumpFixedTick();
             ClimbFixedTick();
-        }
-
-        private void OnRaftFixedTick()
-        {
-            // Move these into a settings asset
-            float radius = 0.125f;
-            float distance = 1f;
-
-            Vector3 origin = _collider.bounds.center;
-            origin.y = _collider.bounds.min.y;
-            origin += Vector3.up * radius;
-
-            _onRaft = Physics.SphereCastNonAlloc(origin, radius, Vector3.down, _onRaftHitsNonAlloc, distance, _settings.OnRaft.Mask) > 0;
         }
 
         private void MoveFixedTick()

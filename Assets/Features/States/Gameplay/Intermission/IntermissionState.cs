@@ -165,31 +165,29 @@ namespace NoMoreFishAndChips.States
         // Start counting down once all players are on the raft
         private void StartTick()
         {
-            return;
-            
-            bool canStart = true;
+            //bool canStart = true;
 
-            foreach (RaftPlayer player in _context.Players)
-            {
-                if (!player.RaftPlayerPhysicsModule.OnRaft)
-                {
-                    canStart = false;
-                    break;
-                }
-            }
+            //foreach (RaftPlayer player in _context.Players)
+            //{
+            //    if (!player.RaftPlayerPhysicsModule.OnRaft)
+            //    {
+            //        canStart = false;
+            //        break;
+            //    }
+            //}
 
-            if (!canStart)
-            {
-                _startTimer = 0f;
-                return;
-            }
+            //if (!canStart)
+            //{
+            //    _startTimer = 0f;
+            //    return;
+            //}
 
-            _startTimer += Time.deltaTime;
+            //_startTimer += Time.deltaTime;
 
-            if (_startTimer >= _config.StartDuration)
-            {
-                _parentStateMachine.ChangeState(EIntermissionState.Depart);
-            }
+            //if (_startTimer >= _config.StartDuration)
+            //{
+            //    _parentStateMachine.ChangeState(EIntermissionState.Depart);
+            //}
         }
     }
 

@@ -10,13 +10,11 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private RaftPlayerLookSettings _look;
         [SerializeField] private RaftPlayerJumpSettings _jump;
         [SerializeField] private RaftPlayerClimbSettings _climb;
-        [SerializeField] private RaftPlayerOnRaftSettings _onRaft;
 
         public RaftPlayerMoveSettings Move => _move;
         public RaftPlayerLookSettings Look => _look;
         public RaftPlayerJumpSettings Jump => _jump;
         public RaftPlayerClimbSettings Climb => _climb;
-        public RaftPlayerOnRaftSettings OnRaft => _onRaft;
     }
 
     [Serializable]
@@ -60,14 +58,6 @@ namespace NoMoreFishAndChips.Entities
 
         public float ClimbSpeed => _climbSpeed;
         public float LaunchStrength => _launchStrength;
-        public LayerMask Mask => _mask;
-    }
-
-    [Serializable]
-    public class RaftPlayerOnRaftSettings
-    {
-        [SerializeField] private LayerMask _mask;
-
         public LayerMask Mask => _mask;
     }
 }

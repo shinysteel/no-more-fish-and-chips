@@ -53,6 +53,11 @@ namespace NoMoreFishAndChips.UI
 
         private void Update()
         {
+            if (_context == null)
+            {
+                return;
+            }
+            
             if (_context.LocalPlayer.InputLogic.ToggleSettings)
             {
                 Utils.UI.SimulatePressed(_settingsButton);
