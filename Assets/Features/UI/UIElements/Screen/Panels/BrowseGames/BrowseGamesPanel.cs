@@ -55,9 +55,9 @@ namespace NoMoreFishAndChips.UI
             }
         }
 
-        public override void Load(Canvas canvas)
+        protected override void Awake()
         {
-            base.Load(canvas);
+            base.Awake();
 
             _poolManager = GameManager.Instance.Get<PoolManager>();
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
@@ -81,7 +81,7 @@ namespace NoMoreFishAndChips.UI
             _ = SearchAsync();
         }
 
-        public override void Unload()
+        private void OnDestroy()
         {
             foreach (LobbyContainerModel model in _lobbyContainerModels)
             {

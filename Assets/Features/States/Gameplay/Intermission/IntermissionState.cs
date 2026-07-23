@@ -2,12 +2,14 @@ using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Scenes;
 using NoMoreFishAndChips.UI;
 using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.States
@@ -81,6 +83,7 @@ namespace NoMoreFishAndChips.States
         private NetworkManager _networkManager;
         private UIManager _uiManager;
         private CameraManager _cameraManager;
+        private SceneManager _sceneManager;
 
         private DockStateConfig _config;
 
@@ -88,11 +91,14 @@ namespace NoMoreFishAndChips.States
 
         private FixedCameraMode _fixedCameraMode;
 
+        private VoyageResultsScreen _voyageResultsScreen;
+
         public DockState(StateMachine<EIntermissionState> parent) : base(parent)
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _uiManager = GameManager.Instance.Get<UIManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();
+            _sceneManager = GameManager.Instance.Get<SceneManager>();
         }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
@@ -109,19 +115,41 @@ namespace NoMoreFishAndChips.States
 
             _startTimer = 0f;
 
-            AsyncOperationBridge<VoyageResultsScreen> operation = _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
-            operation.completed += (VoyageResultsScreen screen) => screen.Show(null);
+            _ = EnterVoyageResultsAsync();
+        }
+
+        private async Task EnterVoyageResultsAsync()
+        {
+            await _sceneManager.LoadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneMode.Additive, LoadSceneContext.Local);
+
+            _context.LocalPlayer.EntityPhysicsModule.Rigidbody.position = new Vector3(0f, 0.125f, 0f);
+            _context.LocalPlayer.EntityPhysicsModule.Rigidbody.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
 
             _fixedCameraMode = new FixedCameraMode(_cameraManager.Config.VoyageResultsFixedCameraModeSettings);
             _cameraManager.AddMode(_fixedCameraMode);
+
+            _cameraManager.CinemachineBrain.OutputCamera.cullingMask = _config.VoyageResultsMask;
+
+            _voyageResultsScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
+            _voyageResultsScreen.Setup(() => _ = ExitVoyageResultsAsync());
+
+            _voyageResultsScreen.Show(null);
+            _context.GameplayScreen.Hide(null);
         }
 
-        public override void Exit()
+        private async Task ExitVoyageResultsAsync()
         {
-            base.Exit();
+            await _sceneManager.UnloadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneContext.Local);
 
             _cameraManager.RemoveMode(_fixedCameraMode);
             _fixedCameraMode = null;
+
+            _cameraManager.CinemachineBrain.OutputCamera.cullingMask = ~0;
+
+            _uiManager.DestroyScreenUI(_voyageResultsScreen, UILayer.Screens);
+            _context.GameplayScreen.Show(null);
+
+            _voyageResultsScreen = null;
         }
         
         public override void Tick()
@@ -137,6 +165,8 @@ namespace NoMoreFishAndChips.States
         // Start counting down once all players are on the raft
         private void StartTick()
         {
+            return;
+            
             bool canStart = true;
 
             foreach (RaftPlayer player in _context.Players)

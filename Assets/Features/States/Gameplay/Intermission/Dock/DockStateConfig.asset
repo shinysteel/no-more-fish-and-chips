@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66d2d055d6009448b9260b73194ece3, type: 3}
   m_Name: DockStateConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.DockStateConfig
+  _voyageResultsMask:
+    serializedVersion: 2
+    m_Bits: 2112
   _startDuration: 3

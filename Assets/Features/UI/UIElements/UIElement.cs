@@ -22,7 +22,7 @@ namespace NoMoreFishAndChips.UI
         public bool IsShowing => _isShowing;
         public bool IsVisible => gameObject.activeSelf;
 
-        public virtual void Load(Canvas canvas)
+        public void SetCanvas(Canvas canvas)
         {
             _canvas = canvas;
         }
@@ -44,8 +44,5 @@ namespace NoMoreFishAndChips.UI
             _isShowing = false;
             _uiAnimation.Hide(new UIAnimationParams(onComplete, gameObject, _canvasGroup));
         }
-
-        public virtual void Unload()
-        { }
     }
 }

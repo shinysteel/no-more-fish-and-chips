@@ -23,3 +23,5 @@ MonoBehaviour:
     _name: EnvironmentMenus
   - _enum: 4
     _name: EnvironmentGameplay
+  - _enum: 5
+    _name: EnvironmentVoyageResults

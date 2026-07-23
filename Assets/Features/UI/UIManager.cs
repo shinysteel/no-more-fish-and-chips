@@ -174,7 +174,7 @@ namespace NoMoreFishAndChips.UI
                         ui.transform.SetAsFirstSibling();
                     }
 
-                    ui.Load(_screenCanvas);
+                    ui.SetCanvas(_screenCanvas);
                     ui.gameObject.SetActive(false);
 
                     NotifyLayerChanged(uiLayer);
@@ -207,7 +207,6 @@ namespace NoMoreFishAndChips.UI
                 return;
             }
 
-            ui.Unload();
             Object.Destroy(ui.gameObject);
 
             _ = notifyAsync();
@@ -270,7 +269,7 @@ namespace NoMoreFishAndChips.UI
             }
 
             T ui = Object.Instantiate(prefab, _worldCanvas.transform);
-            ui.Load(_worldCanvas);
+            ui.SetCanvas(_worldCanvas);
             return ui;
         }
         
@@ -291,7 +290,6 @@ namespace NoMoreFishAndChips.UI
                 return;
             }
 
-            ui.Unload();
             Object.Destroy(ui.gameObject);
         }
 
@@ -299,7 +297,10 @@ namespace NoMoreFishAndChips.UI
 
         void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
         {
-            ClearLayer(UILayer.Panels);
+            if (previous?.Contains(EMainState.Menus) ?? false && !current.Contains(EMainState.Menus))
+            {
+                ClearLayer(UILayer.Panels);
+            }
         }
     }
 }

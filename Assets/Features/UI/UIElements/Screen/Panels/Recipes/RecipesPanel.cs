@@ -25,9 +25,9 @@ namespace NoMoreFishAndChips.UI
 
         private List<BlueprintEntry> _blueprintEntries = new();
 
-        public override void Load(Canvas canvas)
+        protected override void Awake()
         {
-            base.Load(canvas);
+            base.Awake();
 
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _poolManager = GameManager.Instance.Get<PoolManager>();
@@ -41,7 +41,7 @@ namespace NoMoreFishAndChips.UI
             RefreshEntries();
         }
 
-        public override void Unload()
+        private void OnDestroy()
         {
             foreach (BlueprintEntry entry in _blueprintEntries)
             {

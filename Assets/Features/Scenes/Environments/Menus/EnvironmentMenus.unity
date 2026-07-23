@@ -165,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (6)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -355,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (4)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -404,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (2)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -515,7 +515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (5)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -597,7 +597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (7)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -779,7 +779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (3)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -876,7 +876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (1)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
@@ -966,7 +966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8440922441693139872, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
       propertyPath: m_Name
-      value: WoodenTile (8)
+      value: WoodenTile
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6056385187022425606, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}

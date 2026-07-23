@@ -1533,6 +1533,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+--- !u!114 &1564118579928331605 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1114104877503737930, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+  m_PrefabInstance: {fileID: 1928321242450134303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!224 &8062903286082982159 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8441973474860913680, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
@@ -1674,7 +1685,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5529892504447911294, guid: 55546b0b0191b2646974781ac294f8ad, type: 3}
       propertyPath: m_Name
-      value: ResultsScreen
+      value: VoyageResultsScreen
       objectReference: {fileID: 0}
     - target: {fileID: 8422470239177610040, guid: 55546b0b0191b2646974781ac294f8ad, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1754,6 +1765,7 @@ MonoBehaviour:
   _uiAnimation: {fileID: 2206527657225296016}
   _rectTransform: {fileID: 6301778686773612169}
   _canvasGroup: {fileID: 7967115965822732165}
+  _returnToLobbyButton: {fileID: 1564118579928331605}
 --- !u!1001 &3128521664331692753
 PrefabInstance:
   m_ObjectHideFlags: 0

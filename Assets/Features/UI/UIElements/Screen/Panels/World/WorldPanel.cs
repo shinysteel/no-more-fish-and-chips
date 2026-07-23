@@ -19,8 +19,10 @@ namespace NoMoreFishAndChips.UI
 
         private SaveFile _saveFile;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _saveManager = GameManager.Instance.Get<SaveManager>();
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
             _localisationManager = GameManager.Instance.Get<LocalisationManager>();

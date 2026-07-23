@@ -21,10 +21,8 @@ namespace NoMoreFishAndChips.UI
         private PanelInstance<BrowseGamesPanel> _browseGamesPanelInstance;
         private PanelInstance<HostGamePanel> _hostGamesPanelInstance;
 
-        public override void Load(Canvas canvas)
+        private void Awake()
         {
-            base.Load(canvas);
-
             _uiManager = GameManager.Instance.Get<UIManager>();
 
             _browseGamesPanelInstance = new PanelInstance<BrowseGamesPanel>(_uiManager.Config.BrowseGamesPanelPrefab);

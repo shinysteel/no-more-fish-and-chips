@@ -17,7 +17,7 @@ MonoBehaviour:
     _groundCastDistance: 0.05
     _groundMask:
       serializedVersion: 2
-      m_Bits: 3008
+      m_Bits: 960
     _waterMask:
       serializedVersion: 2
       m_Bits: 16
@@ -36,7 +36,7 @@ MonoBehaviour:
     _launchStrength: 3
     _mask:
       serializedVersion: 2
-      m_Bits: 2816
+      m_Bits: 768
   _onRaft:
     _mask:
       serializedVersion: 2

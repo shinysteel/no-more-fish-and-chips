@@ -63,10 +63,8 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] protected Button _closeButton;
 
-        public override void Load(Canvas canvas)
+        protected virtual void Awake()
         {
-            base.Load(canvas);
-
             _closeButton.onClick.AddListener(ClosePressed);
         }
 

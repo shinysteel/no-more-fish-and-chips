@@ -19,9 +19,9 @@ namespace NoMoreFishAndChips.UI
 
         private List<SaveEntry> _saveEntries = new();
 
-        public override void Load(Canvas canvas)
+        protected override void Awake()
         {
-            base.Load(canvas);
+            base.Awake();
 
             _saveManager = GameManager.Instance.Get<SaveManager>();
             _poolManager = GameManager.Instance.Get<PoolManager>();

@@ -27,10 +27,8 @@ namespace NoMoreFishAndChips.UI
             _context.LocalPlayer.TileTargetLogic.SetIsBuilding(false);
         }
 
-        public override void Unload()
+        private void OnDestroy()
         {
-            base.Unload();
-
             if (_context.LocalPlayer != null)
             {
                 _context.LocalPlayer.TileTargetLogic.OnTargetChanged -= HandleRaftPlayerTileTargetChanged;

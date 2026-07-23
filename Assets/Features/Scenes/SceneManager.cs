@@ -18,25 +18,26 @@ namespace NoMoreFishAndChips.Scenes
     // If changing the order, don't forget to update SceneManagerConfig
     public enum EScene
     {
-        Startup             ,
-        Default             ,
-        Game                ,
-        EnvironmentMenus    ,
-        EnvironmentGameplay ,
+        Startup,
+        Default,
+        Game,
+        EnvironmentMenus,
+        EnvironmentGameplay,
+        EnvironmentVoyageResults, 
     }
 
     // A duplicate of UnityEngine.SceneManagement.LoadSceneMode to stop the namespace being added
     // and causing conflicts when using our custom SceneManager
     public enum LoadSceneMode
     {
-        Single   ,
-        Additive , 
+        Single,
+        Additive, 
     }
 
     public enum LoadSceneContext
     {
-        Local     ,
-        Networked ,
+        Local,
+        Networked,
     }
 
     // EScene.DontDestroyOnLoad existing doesn't make sense, given it wouldn't interact

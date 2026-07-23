@@ -14,9 +14,9 @@ TagManager:
   - Player
   - Entity
   - RaftTile
-  - Tile
-  - DroppedItem
   - Surface
+  - DroppedItem
+  - VoyageResults
   - 
   - 
   - 

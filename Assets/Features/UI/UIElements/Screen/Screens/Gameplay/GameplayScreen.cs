@@ -21,9 +21,7 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private Button _craftingKitButton;
         [SerializeField] private WaveMeter _waveMeter;
         
-        private NetworkManager _networkManager;
         private UIManager _uiManager;
-        private SaveManager _saveManager;
 
         private GameplayContext _context;
 
@@ -31,13 +29,9 @@ namespace NoMoreFishAndChips.UI
         private PanelInstance<FishingBagPanel> _fishingBagPanelInstance;
         private PanelInstance<CraftingKitPanel> _craftingKitPanelInstance;
 
-        public override void Load(Canvas canvas)
+        private void Awake()
         {
-            base.Load(canvas);
-
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
             _uiManager = GameManager.Instance.Get<UIManager>();
-            _saveManager = GameManager.Instance.Get<SaveManager>();
 
             _settingsPanelInstance = new PanelInstance<SettingsPanel>(_uiManager.Config.SettingsPanelPrefab);
             _fishingBagPanelInstance = new PanelInstance<FishingBagPanel>(_uiManager.Config.FishingBagPanelPrefab);

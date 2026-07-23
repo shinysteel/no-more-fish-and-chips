@@ -33,10 +33,10 @@ namespace NoMoreFishAndChips.States
         public StageRunner StageRunner { get; private set; }
         public WaveRunner WaveRunner { get; private set; }
         public EnvironmentMarker EnvironmentMarker { get; private set; }
-        public CursorsUI CursorsUI { get; private set; }
         public EnvironmentGameplayReferences References { get; private set; }
-
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, StageRunner stageRunner, WaveRunner waveRunner, EnvironmentMarker environmentMarker, CursorsUI cursorsUI, EnvironmentGameplayReferences references)
+        public GameplayScreen GameplayScreen { get; private set; }
+        
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, StageRunner stageRunner, WaveRunner waveRunner, EnvironmentMarker environmentMarker, EnvironmentGameplayReferences references, GameplayScreen gameplayScreen)
         {
             Players = players;
             LocalPlayer = localPlayer;
@@ -44,8 +44,8 @@ namespace NoMoreFishAndChips.States
             StageRunner = stageRunner;
             WaveRunner = waveRunner;
             EnvironmentMarker = environmentMarker;
-            CursorsUI = cursorsUI;
             References = references;
+            GameplayScreen = gameplayScreen;
         }
     }
 
@@ -194,11 +194,20 @@ namespace NoMoreFishAndChips.States
                     }
                 }
 
+                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
+                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
+
                 _players = new();
 
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
-                _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, _cursorsUI, references);
+                _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
+
+                _gameplayScreen.Setup(_context);
+                _gameplayScreen.Show(null);
+
+                _cursorsUI.Setup(_context);
+                _cursorsUI.Show(null);
 
                 foreach (IGameplaySubState state in _subStateMachine)
                 {
@@ -217,14 +226,6 @@ namespace NoMoreFishAndChips.States
                 {
                     await Task.Yield();
                 }
-
-                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
-                _gameplayScreen.Setup(_context);
-                _gameplayScreen.Show(null);
-
-                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
-                _cursorsUI.Show(null);
-                _cursorsUI.Setup(_context);
 
                 if (_networkManager.IsServer)
                 {
