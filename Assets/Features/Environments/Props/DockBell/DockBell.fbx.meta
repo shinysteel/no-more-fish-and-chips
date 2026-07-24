@@ -3,7 +3,12 @@ guid: 4a9a5b033ea7967488ab01a9c8411724
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DockBell.png
+    second: {fileID: 2100000, guid: b847df90f8f68194b88c10eb9ea08455, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

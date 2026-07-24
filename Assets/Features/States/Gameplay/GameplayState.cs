@@ -194,14 +194,19 @@ namespace NoMoreFishAndChips.States
                     }
                 }
 
-                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
-                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
-
                 _players = new();
-
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
                 _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
+
+                _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
+                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
+
+                // Avoid timing issues by making sure the localPlayer is initialised before continuing
+                while (!localPlayer.IsContextInitialised)
+                {
+                    await Task.Yield();
+                }
 
                 _gameplayScreen.Setup(_context);
                 _gameplayScreen.Show(null);
@@ -219,12 +224,6 @@ namespace NoMoreFishAndChips.States
                 {
                     GameplayEnvironment environment = Object.Instantiate(_config.GameplayEnvironmentPrefab);
                     environment.Initialise(_context);
-                }
-
-                // Avoid timing issues by making sure the localPlayer is initialised before continuing
-                while (!localPlayer.IsContextInitialised)
-                {
-                    await Task.Yield();
                 }
 
                 if (_networkManager.IsServer)

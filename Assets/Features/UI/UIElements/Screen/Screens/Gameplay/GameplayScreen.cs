@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.UI
             {
                 return;
             }
-            
+
             if (_context.LocalPlayer.InputLogic.ToggleSettings)
             {
                 Utils.UI.SimulatePressed(_settingsButton);
