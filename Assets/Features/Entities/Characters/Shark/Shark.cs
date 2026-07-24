@@ -110,7 +110,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.Tick();
 
-                if (_shark._stunLogic.IsStunned)
+                if (!_shark._characterActLogic.CanAct)
                 {
                     return;
                 }
@@ -187,7 +187,7 @@ namespace NoMoreFishAndChips.Entities
 
             private Vector3 _startPosition;
             private Quaternion _startRotation;
-            private Sequence _transitionSequence;
+            private Sequence _goToSwimStateSequence;
 
             private int? _markerId;
 
@@ -216,12 +216,12 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.Tick();
 
-                if (_transitionSequence.isAlive)
+                if (_goToSwimStateSequence.isAlive)
                 {
                     return;
                 }
 
-                if (_shark._stunLogic.IsStunned)
+                if (!_shark._characterActLogic.CanAct)
                 {
                     RemoveMarker();
                     _cooldownTimer = 0f;
@@ -244,7 +244,7 @@ namespace NoMoreFishAndChips.Entities
                     if (tiles.Count == 0)
                     {
                         RemoveMarker();
-                        TransitionToSwim();
+                        GoToSwimState();
                         return;
                     }
 
@@ -279,14 +279,14 @@ namespace NoMoreFishAndChips.Entities
                 }
             }
 
-            private void TransitionToSwim()
+            private void GoToSwimState()
             {
                 _shark._entityModel.Animator.SetBool(IsBitingBoolName, false);
 
-                _transitionSequence = Sequence.Create();
-                _transitionSequence.Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration));
-                _transitionSequence.Group(TweenExtensions.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: Ease.OutQuad));
-                _transitionSequence.OnComplete(() => _parentStateMachine.ChangeState(EState.Swim));
+                _goToSwimStateSequence = Sequence.Create();
+                _goToSwimStateSequence.Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration));
+                _goToSwimStateSequence.Group(TweenExtensions.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: Ease.OutQuad));
+                _goToSwimStateSequence.OnComplete(() => _parentStateMachine.ChangeState(EState.Swim));
             }
 
             private void RemoveMarker()

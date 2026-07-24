@@ -41,6 +41,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayerTileTargetLogic _tileTargetLogic;
 
         public RaftPlayerDefeatModule RaftPlayerDefeatModule => (RaftPlayerDefeatModule)_entityDefeatModule;
+        public RaftPlayerActLogic RaftPlayerActLogic => (RaftPlayerActLogic)_characterActLogic;
 
         public RaftPlayerInputLogic InputLogic => _inputLogic;
         public RaftPlayerInteractLogic InteractLogic => _interactLogic;
@@ -51,8 +52,6 @@ namespace NoMoreFishAndChips.Entities
         public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => _openNetBehaviourLogic;
         public RaftPlayerAttackLogic AttackLogic => _attackLogic;
         public RaftPlayerTileTargetLogic TileTargetLogic => _tileTargetLogic;
-
-        public bool CanAct => !_stunLogic.IsStunned && !_entityDefeatModule.IsDefeated;
 
         // SyncVars
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem = new SyncVar<NetInventoryItem>(ownerAuth: true);
@@ -98,6 +97,11 @@ namespace NoMoreFishAndChips.Entities
         protected override EntityPhysicsModule CreatePhysicsModule()
         {
             return new RaftPlayerPhysicsModule(this, _rigidbody, (CapsuleCollider)_collider);
+        }
+
+        protected override CharacterActLogic CreateActLogic()
+        {
+            return new RaftPlayerActLogic(this);
         }
 
         protected override void OnSpawned()

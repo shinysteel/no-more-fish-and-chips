@@ -44,7 +44,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _jumpTimer += Time.deltaTime;
 
-            if (!_player.CanAct)
+            if (!_player.CharacterActLogic.CanAct)
             {
                 return;
             }
@@ -80,7 +80,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void MoveFixedTick()
         {
-            Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
+            Vector3 direction = _player.CharacterActLogic.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
             Vector3 targetVelocity = direction * _settings.Move.Speed;
 
             targetVelocity.y = _rigidbody.linearVelocity.y;
@@ -94,7 +94,7 @@ namespace NoMoreFishAndChips.Entities
         {
             Vector3 direction;
 
-            if (!_player.CanAct)
+            if (!_player.CharacterActLogic.CanAct)
             {
                 direction = Vector3.zero;
             }
@@ -104,7 +104,7 @@ namespace NoMoreFishAndChips.Entities
             }
             else
             {
-                Ray ray = _cameraManager.CinemachineBrain.OutputCamera.ScreenPointToRay(_player.InputLogic.GameplayMouse);
+                Ray ray = _cameraManager.CinemachineBrain.OutputCamera.ScreenPointToRay(_player.InputLogic.Mouse);
 
                 // Have the plane sit at the player's origin so that y does not influence the target
                 Plane plane = new Plane(Vector3.up, _player.transform.position);
@@ -138,7 +138,7 @@ namespace NoMoreFishAndChips.Entities
             _jumpTimer = 0f;
             _jumpRequest = false;
 
-            if (!_player.CanAct)
+            if (!_player.CharacterActLogic.CanAct)
             {
                 return;
             }
@@ -157,7 +157,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void ClimbFixedTick()
         {
-            Vector3 direction = _player.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
+            Vector3 direction = _player.CharacterActLogic.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
 
             if (direction == Vector3.zero)
             {

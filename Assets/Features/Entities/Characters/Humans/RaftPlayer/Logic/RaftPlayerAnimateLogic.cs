@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Audio;
 using ShinyOwl.Common;
 using UnityEngine;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Items;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -149,7 +150,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_player.isOwner)
             {
-                bool isMoving = _player.InputLogic.MoveDirection != Vector3.zero;
+                bool isMoving = _player.RaftPlayerActLogic.CanAct && _player.InputLogic.MoveDirection != Vector3.zero;
                 bool inWater = _player.CharacterPhysicsModule.InWater;
                 bool inAir = _player.CharacterPhysicsModule.InAir;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;

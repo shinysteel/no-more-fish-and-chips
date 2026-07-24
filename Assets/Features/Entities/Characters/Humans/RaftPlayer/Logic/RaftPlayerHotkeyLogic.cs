@@ -51,7 +51,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_player.CanAct)
+            if (!_player.CharacterActLogic.CanAct)
             {
                 return;
             }
@@ -74,6 +74,11 @@ namespace NoMoreFishAndChips.Entities
             if (_player.InputLogic.RotateItem)
             {
                 RotateInventoryItem();
+            }
+
+            if (_player.AttackLogic.IsAttacking)
+            {
+                return;
             }
 
             if (_player.InputLogic.DropItem)

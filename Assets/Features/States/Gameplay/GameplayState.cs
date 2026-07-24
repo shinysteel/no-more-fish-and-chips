@@ -197,10 +197,10 @@ namespace NoMoreFishAndChips.States
                 _players = new();
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
-                _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
-
                 _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
                 _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
+
+                _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
 
                 // Avoid timing issues by making sure the localPlayer is initialised before continuing
                 while (!localPlayer.IsContextInitialised)
@@ -210,7 +210,7 @@ namespace NoMoreFishAndChips.States
 
                 _gameplayScreen.Setup(_context);
                 _gameplayScreen.Show(null);
-
+                
                 _cursorsUI.Setup(_context);
                 _cursorsUI.Show(null);
 

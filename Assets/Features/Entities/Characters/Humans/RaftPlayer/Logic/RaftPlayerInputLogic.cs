@@ -9,11 +9,14 @@ namespace NoMoreFishAndChips.Entities
 
         // Vars always active
         private Vector2 _mouse;
+        private Vector3 _moveDirection;
+        private bool _jump;
         private float _scroll;
         private bool _shiftHeld;
         private bool _leftClickPressed;
         private bool _leftClickHeld;
         private bool _rightClickPressed;
+        private bool _fKey;
         private bool _onePressed;
         private bool _twoPressed;
         private bool _threePressed;
@@ -26,11 +29,14 @@ namespace NoMoreFishAndChips.Entities
         private bool _toggleCraftingKit;
 
         public Vector2 Mouse => _mouse;
+        public Vector3 MoveDirection => _moveDirection;
+        public bool Jump => _jump;
         public float Scroll => _scroll;
         public bool ShiftHeld => _shiftHeld;
         public bool LeftClickPressed => _leftClickPressed;
         public bool LeftClickHeld => _leftClickHeld;
         public bool RightClickPressed => _rightClickPressed;
+        public bool FKey => _fKey;
         public bool OnePressed => _onePressed;
         public bool TwoPressed => _twoPressed;
         public bool ThreePressed => _threePressed;
@@ -41,21 +47,6 @@ namespace NoMoreFishAndChips.Entities
         public bool ToggleSettings => _toggleSettings;
         public bool ToggleFishingBag => _toggleFishingBag;
         public bool ToggleCraftingKit => _toggleCraftingKit;
-        
-        // Vars dependent on RaftPlayer.CanAct
-        private Vector2 _gameplayMouse;
-        private Vector3 _moveDirection;
-        private bool _jump;
-        private bool _fKey;
-
-        public Vector2 GameplayMouse => _gameplayMouse;
-        public Vector3 MoveDirection => _moveDirection;
-        public bool Jump => _jump;
-        public bool FKey => _fKey;
-
-        private const string MouseScrollWheelAxis = "Mouse ScrollWheel";
-        private const string HorizontalAxis = "Horizontal";
-        private const string VerticalAxis = "Vertical";
 
         public RaftPlayerInputLogic(RaftPlayer player)
         {
@@ -69,12 +60,19 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _mouse = Input.mousePosition;
-            _scroll = Input.GetAxis(MouseScrollWheelAxis);
+            if (Application.isFocused)
+            {
+                _mouse = Input.mousePosition;
+            }
+
+            _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")), 1f);
+            _jump = Input.GetKeyDown(KeyCode.Space);
+            _scroll = Input.GetAxis("Mouse ScrollWheel");
             _shiftHeld = Input.GetKey(KeyCode.LeftShift);
             _leftClickPressed = Input.GetMouseButtonDown(0);
             _leftClickHeld = Input.GetMouseButton(0);
             _rightClickPressed = Input.GetMouseButtonDown(1);
+            _fKey = Input.GetKeyDown(KeyCode.F);
             _onePressed = Input.GetKeyDown(KeyCode.Alpha1);
             _twoPressed = Input.GetKeyDown(KeyCode.Alpha2);
             _threePressed = Input.GetKeyDown(KeyCode.Alpha3);
@@ -85,20 +83,6 @@ namespace NoMoreFishAndChips.Entities
             _toggleSettings = Input.GetKeyDown(KeyCode.Escape);
             _toggleFishingBag = Input.GetKeyDown(KeyCode.E);
             _toggleCraftingKit = Input.GetKeyDown(KeyCode.C);
-
-            if (Application.isFocused)
-            {
-                _gameplayMouse = _mouse;
-                _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw(HorizontalAxis), 0f, Input.GetAxisRaw(VerticalAxis)), 1f);
-                _jump = Input.GetKeyDown(KeyCode.Space);
-                _fKey = Input.GetKeyDown(KeyCode.F);
-            }
-            else
-            {
-                _moveDirection = Vector3.zero;
-                _jump = false;
-                _fKey = false;
-            }
         }
 
         public bool TryGetScroll(out float scroll)

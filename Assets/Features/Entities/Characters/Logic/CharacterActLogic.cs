@@ -2,16 +2,16 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class CharacterStunLogic
+    public class CharacterActLogic
     {
         private Character _character;
 
         private bool _isStunned;
-        public bool IsStunned => _isStunned;
-
         private float _stunTimer;
 
-        public CharacterStunLogic(Character character)
+        public virtual bool CanAct => !_character.EntityDefeatModule.IsDefeated && !_isStunned;
+
+        public CharacterActLogic(Character character)
         {
             _character = character;
         }
@@ -23,6 +23,11 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
+            StunTick();
+        }
+
+        private void StunTick()
+        {
             _stunTimer -= Time.deltaTime;
             _stunTimer = Mathf.Max(_stunTimer, 0f);
 

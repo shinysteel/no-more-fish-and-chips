@@ -10,9 +10,10 @@ namespace NoMoreFishAndChips.Entities
         public CharacterPhysicsModule CharacterPhysicsModule => (CharacterPhysicsModule)_entityPhysicsModule;
 
         private CharacterRagdollLogic _ragdollLogic;
-        protected CharacterStunLogic _stunLogic;
+        protected CharacterActLogic _characterActLogic;
 
         public CharacterRagdollLogic RagdollLogic => _ragdollLogic;
+        public CharacterActLogic CharacterActLogic => _characterActLogic;
 
         protected override EntityDefeatModule CreateDefeatModule()
         {
@@ -33,9 +34,14 @@ namespace NoMoreFishAndChips.Entities
         {
             _ragdollLogic = new CharacterRagdollLogic(this);
 
-            _stunLogic = new CharacterStunLogic(this);
+            _characterActLogic = CreateActLogic();
 
             base.OnSpawned();
+        }
+
+        protected virtual CharacterActLogic CreateActLogic()
+        {
+            return new CharacterActLogic(this);
         }
 
         protected override void Update()
@@ -47,13 +53,13 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
             
-            _stunLogic.Tick();
+            _characterActLogic.Tick();
         }
 
         [ServerRpc]
         public void StunRpc(float duration)
         {
-            _stunLogic.Stun(duration);
+            _characterActLogic.Stun(duration);
         }
     }
 

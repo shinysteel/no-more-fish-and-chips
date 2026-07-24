@@ -9,8 +9,8 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 namespace NoMoreFishAndChips.States
 {
@@ -120,36 +120,51 @@ namespace NoMoreFishAndChips.States
 
         private async Task EnterVoyageResultsAsync()
         {
-            await _sceneManager.LoadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneMode.Additive, LoadSceneContext.Local);
+            try
+            {
+                _context.LocalPlayer.RaftPlayerActLogic.SetInCutscene(true);
 
-            _context.LocalPlayer.EntityPhysicsModule.Rigidbody.position = new Vector3(0f, 0.125f, 0f);
-            _context.LocalPlayer.EntityPhysicsModule.Rigidbody.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
+                await _sceneManager.LoadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneMode.Additive, LoadSceneContext.Local);
 
-            _fixedCameraMode = new FixedCameraMode(_cameraManager.Config.VoyageResultsFixedCameraModeSettings);
-            _cameraManager.AddMode(_fixedCameraMode);
+                _fixedCameraMode = new FixedCameraMode(_cameraManager.Config.VoyageResultsFixedCameraModeSettings);
+                _cameraManager.AddMode(_fixedCameraMode);
 
-            _cameraManager.CinemachineBrain.OutputCamera.cullingMask = _config.VoyageResultsMask;
+                _cameraManager.CinemachineBrain.OutputCamera.cullingMask = _config.VoyageResultsMask;
 
-            _voyageResultsScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
-            _voyageResultsScreen.Setup(() => _ = ExitVoyageResultsAsync());
+                _voyageResultsScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
+                _voyageResultsScreen.Setup(() => _ = ExitVoyageResultsAsync());
 
-            _voyageResultsScreen.Show(null);
-            _context.GameplayScreen.Hide(null);
+                _voyageResultsScreen.Show(null);
+                _context.GameplayScreen.Hide(null);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
         }
 
         private async Task ExitVoyageResultsAsync()
         {
-            await _sceneManager.UnloadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneContext.Local);
+            try
+            {
+                await _sceneManager.UnloadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneContext.Local);
 
-            _cameraManager.RemoveMode(_fixedCameraMode);
-            _fixedCameraMode = null;
+                _cameraManager.RemoveMode(_fixedCameraMode);
+                _fixedCameraMode = null;
 
-            _cameraManager.CinemachineBrain.OutputCamera.cullingMask = ~0;
+                _cameraManager.CinemachineBrain.OutputCamera.cullingMask = ~0;
 
-            _uiManager.DestroyScreenUI(_voyageResultsScreen, UILayer.Screens);
-            _context.GameplayScreen.Show(null);
+                _uiManager.DestroyScreenUI(_voyageResultsScreen, UILayer.Screens);
+                _context.GameplayScreen.Show(null);
 
-            _voyageResultsScreen = null;
+                _voyageResultsScreen = null;
+
+                _context.LocalPlayer.RaftPlayerActLogic.SetInCutscene(false);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
         }
         
         public override void Tick()
