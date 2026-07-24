@@ -34,8 +34,6 @@ namespace NoMoreFishAndChips.Entities
 
         public override void OnReturnedToPool()
         {
-            base.OnReturnedToPool();
-
             HoldItem(ItemId.None);
         }
     }

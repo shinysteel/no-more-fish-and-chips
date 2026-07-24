@@ -22,8 +22,6 @@ namespace NoMoreFishAndChips.Items
 
         public void OnReturnedToPool()
         {
-            Utils.GameObjects.TraverseHierarchy(gameObject, (GameObject obj) => obj.layer = (int)ELayer.Default);
-
             SetTrailEmitting(false);
         }
 

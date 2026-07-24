@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
+using ShinyOwl.Common.Utils;
 
 namespace NoMoreFishAndChips.Pools
 {
@@ -26,7 +27,7 @@ namespace NoMoreFishAndChips.Pools
 
     public interface IPoolManagerListener
     { }
-
+    
     public interface IPool
     {
         IPoolable Get(SpawnParams parameters);
@@ -40,6 +41,7 @@ namespace NoMoreFishAndChips.Pools
         private T _prefab;
         private Transform _container;
         private Vector3 _prefabScale;
+        private int _prefabLayer;
 
         private Stack<T> _available = new();
         private HashSet<T> _inUse = new();
@@ -51,6 +53,7 @@ namespace NoMoreFishAndChips.Pools
             _prefab = prefab;
             _container = container;
             _prefabScale = prefab.transform.localScale;
+            _prefabLayer = prefab.gameObject.layer;
         }
 
         public IPoolable Get(SpawnParams parameters)
@@ -101,6 +104,8 @@ namespace NoMoreFishAndChips.Pools
 
             obj.transform.SetParent(_container);
             obj.gameObject.SetActive(false);
+            Utils.GameObjects.TraverseHierarchy(obj.gameObject, (GameObject obj) => obj.layer = _prefabLayer);
+
             obj.OnReturnedToPool();
         }
     }
