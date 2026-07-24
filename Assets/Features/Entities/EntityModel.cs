@@ -1,7 +1,9 @@
+using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -12,6 +14,8 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] protected Animator _animator;
         [SerializeField] private NetworkAnimator _networkAnimator;
 
+        protected ItemManager _itemManager;
+
         protected Material _material;
 
         public EntityId Id => _id;
@@ -20,6 +24,8 @@ namespace NoMoreFishAndChips.Entities
 
         private void Awake()
         {
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+
             foreach (MeshRenderer renderer in transform.GetComponentsInChildren<MeshRenderer>())
             {
                 if (_material == null)
@@ -45,10 +51,12 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void OnTakenFromPool()
-        { }
+        public virtual void OnReturnedToPool()
+        {
+            Utils.GameObjects.TraverseHierarchy(gameObject, (GameObject obj) => obj.layer = (int)ELayer.Default);
+        }
 
-        public void OnReturnedToPool()
+        public virtual void OnTakenFromPool()
         { }
     }
 }

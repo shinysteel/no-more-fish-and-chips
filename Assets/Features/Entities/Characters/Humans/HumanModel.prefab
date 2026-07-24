@@ -34,14 +34,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 7478642453757943071}
+      addedObject: {fileID: 2715133373919568070}
   m_SourcePrefab: {fileID: 100100000, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}
 --- !u!1 &709047671742273856 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}
   m_PrefabInstance: {fileID: 366589031599383569}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7478642453757943071
+--- !u!114 &2715133373919568070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,13 +50,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 709047671742273856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
+  m_Script: {fileID: 11500000, guid: ea21cf8d6bbd87c42a0c225b3cfe9704, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.CharacterModel
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.HumanModel
   _id: 100
   _animator: {fileID: 6088012795851938176}
   _networkAnimator: {fileID: 0}
-  _itemLocator: {fileID: 866946709996858372}
+  _rightArmItemLocator: {fileID: 866946709996858372}
 --- !u!4 &866946709996858372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 657070041489426453, guid: dcce5f66836872c419c02ddb8ee00a64, type: 3}

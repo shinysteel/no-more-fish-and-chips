@@ -16,28 +16,28 @@ namespace NoMoreFishAndChips.Entities
 {
     public enum EntityId
     {
-        None        = 0   ,
+        None = 0,
         
-        DroppedItem = 1   ,
+        DroppedItem = 1,
         
         // Characters
-        RaftPlayer  = 100 ,
-        FlyingFish  = 101 ,
-        Shark       = 102 ,
-        Seagull     = 103 ,
-        Drowning    = 104 ,
-        Crab        = 105 ,
-        GiantClam   = 106 ,
+        RaftPlayer = 100,
+        FlyingFish = 101,
+        Shark = 102,
+        Seagull = 103,
+        Drowning = 104,
+        Crab = 105,
+        GiantClam = 106,
 
         // Tiles
-        GoopTile    = 201 ,
-        WoodenTile  = 202 ,
-        MetalTile   = 203 ,
+        GoopTile = 201,
+        WoodenTile = 202,
+        MetalTile = 203,
 
         // Structures
-        WaveSign    = 300 ,
-        ClamChest   = 301 ,
-        Planter     = 302 ,
+        WaveSign = 300,
+        ClamChest = 301,
+        Planter = 302,
     }
 
     public interface IEntityManagerListener

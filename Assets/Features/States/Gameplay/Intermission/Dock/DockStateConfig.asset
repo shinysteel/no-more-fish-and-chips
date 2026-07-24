@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.DockStateConfig
   _voyageResultsMask:
     serializedVersion: 2
-    m_Bits: 2112
+    m_Bits: 2048
   _startDuration: 3

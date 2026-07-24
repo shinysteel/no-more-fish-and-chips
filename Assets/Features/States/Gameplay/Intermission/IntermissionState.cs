@@ -11,6 +11,10 @@ using ShinyOwl.Common.Utils;
 using System.Threading.Tasks;
 using UnityEngine;
 using System;
+using NoMoreFishAndChips.Items;
+
+using Object = UnityEngine.Object;
+using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
 namespace NoMoreFishAndChips.States
 {
@@ -84,6 +88,7 @@ namespace NoMoreFishAndChips.States
         private UIManager _uiManager;
         private CameraManager _cameraManager;
         private SceneManager _sceneManager;
+        private EntityManager _entityManager;
 
         private DockStateConfig _config;
 
@@ -92,6 +97,7 @@ namespace NoMoreFishAndChips.States
         private FixedCameraMode _fixedCameraMode;
 
         private VoyageResultsScreen _voyageResultsScreen;
+        private HumanModel _voyageResultsHumanModel;
 
         public DockState(StateMachine<EIntermissionState> parent) : base(parent)
         {
@@ -99,6 +105,7 @@ namespace NoMoreFishAndChips.States
             _uiManager = GameManager.Instance.Get<UIManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _sceneManager = GameManager.Instance.Get<SceneManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
         }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
@@ -126,6 +133,15 @@ namespace NoMoreFishAndChips.States
 
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneMode.Additive, LoadSceneContext.Local);
 
+                _voyageResultsHumanModel = (HumanModel)_entityManager.GetModel(EntityId.RaftPlayer, new SpawnParams() { Position = new Vector3(0f, 0.125f, 0f), Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), SpawnScene = SpawnScene.Scene(EScene.EnvironmentVoyageResults)});
+
+                if (_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem != null)
+                {
+                    _voyageResultsHumanModel.HoldItem(_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.ItemId);
+                }
+
+                Utils.GameObjects.TraverseHierarchy(_voyageResultsHumanModel.gameObject, (GameObject obj) => obj.layer = (int)ELayer.VoyageResults);
+
                 _fixedCameraMode = new FixedCameraMode(_cameraManager.Config.VoyageResultsFixedCameraModeSettings);
                 _cameraManager.AddMode(_fixedCameraMode);
 
@@ -147,6 +163,9 @@ namespace NoMoreFishAndChips.States
         {
             try
             {
+                _entityManager.ReturnModel(_voyageResultsHumanModel);
+                _voyageResultsHumanModel = null;
+
                 await _sceneManager.UnloadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneContext.Local);
 
                 _cameraManager.RemoveMode(_fixedCameraMode);

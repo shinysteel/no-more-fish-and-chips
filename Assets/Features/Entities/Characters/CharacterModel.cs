@@ -8,15 +8,11 @@ namespace NoMoreFishAndChips.Entities
 {
     public class CharacterModel : EntityModel
     {
-        [SerializeField] private Transform _itemLocator;
-
         private float _blinkTimer = 0f;
         private float _minBlinkInterval = 2.5f;
         private float _maxBlinkInterval = 7.5f;
 
         private Tween _hurtTween;
-
-        public Transform ItemLocator => _itemLocator;
 
         // Animator
         private const string BlinkAnimatorTriggerName = "Blink";

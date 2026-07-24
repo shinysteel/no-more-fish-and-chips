@@ -26,6 +26,8 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private Inventory _inventory;
         [SerializeField] private Hotbar _hotbar;
 
+        public HumanModel HumanModel => (HumanModel)_entityModel;
+
         public Inventory Inventory => _inventory;
         public Hotbar Hotbar => _hotbar;
 
@@ -34,7 +36,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayerGrabbedInventoryItemLogic _grabbedInventoryItemLogic;
         private RaftPlayerDropInventoryItemLogic _dropInventoryItemLogic;
         private RaftPlayerAnimateLogic _animateLogic;
-        private RaftPlayerHeldInventoryItemLogic _heldInventoryItemLogic;
+        private RaftPlayerEquippedInventoryItemsLogic _equippedInventoryItemsLogic;
         private RaftPlayerOpenNetBehaviourLogic _openNetBehaviourLogic;
         private RaftPlayerAttackLogic _attackLogic;
         private RaftPlayerHotkeyLogic _hotkeyLogic;
@@ -48,7 +50,6 @@ namespace NoMoreFishAndChips.Entities
         public RaftPlayerGrabbedInventoryItemLogic GrabbedInventoryItemLogic => _grabbedInventoryItemLogic;
         public RaftPlayerDropInventoryItemLogic DropInventoryItemLogic => _dropInventoryItemLogic;
         public RaftPlayerAnimateLogic AnimateLogic => _animateLogic;
-        public RaftPlayerHeldInventoryItemLogic HeldInventoryItemLogic => _heldInventoryItemLogic;
         public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => _openNetBehaviourLogic;
         public RaftPlayerAttackLogic AttackLogic => _attackLogic;
         public RaftPlayerTileTargetLogic TileTargetLogic => _tileTargetLogic;
@@ -111,7 +112,7 @@ namespace NoMoreFishAndChips.Entities
             _grabbedInventoryItemLogic = new RaftPlayerGrabbedInventoryItemLogic(this, _netGrabbedInventoryItem);
             _dropInventoryItemLogic = new RaftPlayerDropInventoryItemLogic(this);
             _animateLogic = new RaftPlayerAnimateLogic(this);
-            _heldInventoryItemLogic = new RaftPlayerHeldInventoryItemLogic(this);
+            _equippedInventoryItemsLogic = new RaftPlayerEquippedInventoryItemsLogic(this);
             _openNetBehaviourLogic = new RaftPlayerOpenNetBehaviourLogic(_netOpenNetworkId);
             _attackLogic = new RaftPlayerAttackLogic(this);
             
