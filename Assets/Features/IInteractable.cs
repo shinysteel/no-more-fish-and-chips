@@ -1,7 +1,7 @@
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Entities
+namespace NoMoreFishAndChips
 {
     public interface IInteractable
     {

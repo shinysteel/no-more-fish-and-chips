@@ -15,7 +15,6 @@ namespace NoMoreFishAndChips.Environments
         FishAndChipsShop,
         PicnicTable,
         PicnicBench,
-        Dock,
-        DockBell
+        Dock
     }
 }

@@ -76,6 +76,7 @@ namespace NoMoreFishAndChips.Audio
             AudioClip clip = data.AudioClips[Random.Range(0, data.AudioClips.Length)];
             source.clip = clip;
             source.volume = data.Volume;
+            source.pitch = Random.Range(data.MinPitch, data.MaxPitch);
             source.Play();
 
             try

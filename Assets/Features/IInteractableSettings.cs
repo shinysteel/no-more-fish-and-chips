@@ -1,9 +1,9 @@
 using NoMoreFishAndChips.Environments;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Entities
+namespace NoMoreFishAndChips
 {
-    [CreateAssetMenu(fileName = "IInteractableSettings", menuName = "Settings/Entities/IInteractableSettings")]
+    [CreateAssetMenu(fileName = "IInteractableSettings", menuName = "Settings/IInteractableSettings")]
     public class IInteractableSettings : ScriptableObject
     {
         [SerializeField] private ActionHotkey _hotkey;

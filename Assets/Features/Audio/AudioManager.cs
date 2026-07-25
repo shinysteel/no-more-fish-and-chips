@@ -32,9 +32,10 @@ namespace NoMoreFishAndChips.Audio
         HumanJumpSand,
         HumanJumpGrass,
         HumanFootstepSand,
-        HumanFootstepGrass
+        HumanFootstepGrass,
+        DockBellRing
     }
-
+    
     public class AudioManager : GameSystem<IAudioManagerListener>
     {
         private PoolManager _poolManager;

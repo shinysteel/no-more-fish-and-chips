@@ -123,11 +123,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Circle16
+      name: Circle16White
       rect:
         serializedVersion: 2
         x: 32
-        y: 112
+        y: 240
         width: 16
         height: 16
       alignment: 0
@@ -145,11 +145,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Circle32
+      name: Circle32White
       rect:
         serializedVersion: 2
         x: 48
-        y: 96
+        y: 224
         width: 32
         height: 32
       alignment: 0
@@ -167,11 +167,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Circle48
+      name: Circle48White
       rect:
         serializedVersion: 2
         x: 80
-        y: 80
+        y: 208
         width: 48
         height: 48
       alignment: 0
@@ -189,11 +189,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Circle64
+      name: Circle64White
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 128
+        y: 192
         width: 64
         height: 64
       alignment: 0
@@ -211,11 +211,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Circle8
+      name: Circle8White
       rect:
         serializedVersion: 2
         x: 16
-        y: 120
+        y: 248
         width: 8
         height: 8
       alignment: 0
@@ -233,11 +233,209 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Circle4
+      name: Circle4White
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 252
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8a44445a9307bf438d86e18e911afc2
+      internalID: -1617172233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle4Blue
       rect:
         serializedVersion: 2
         x: 0
         y: 124
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7307eb23d8eb04344af641c64f78da90
+      internalID: -1811560618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle8Blue
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 120
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9550c554d28b1a145a0dd84f99604505
+      internalID: 517573584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle16Blue
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 112
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59962a01c172e0a4186ba4caa5f1f350
+      internalID: -905667886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle32Blue
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84473425a2381b349920bc61cac938f1
+      internalID: 1558232843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle48Blue
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5cfd82f299027146a5e8af7e46ce02a
+      internalID: -669686988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle64Blue
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb7a74b2ecf174d46b556909c08df0d7
+      internalID: -1579799574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle8Outline
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 184
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7baabcba0397604fa67ed91b980afe4
+      internalID: 1675140637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle16Outline
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d7432fc64b794c499982985615a540d
+      internalID: -1215579977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle4Outline
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 188
         width: 4
         height: 4
       alignment: 0
@@ -248,8 +446,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c8a44445a9307bf438d86e18e911afc2
-      internalID: -1617172233
+      spriteID: 50f08fab6b524d14faec13bb5e4cde64
+      internalID: 1381960753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle32Outline
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8514916a3f2b167438f5ca29736513d6
+      internalID: -1124586069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle48Outline
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c40eeedc99f69f145886a6e29d893ce6
+      internalID: 1875961197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Circle64Outline
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29c4060078cf42e41869b79ba95226d2
+      internalID: -449348878
       vertices: []
       indices: 
       edges: []
@@ -270,12 +534,24 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Circle16: -1140996852
-      Circle32: -1075840072
-      Circle4: -1617172233
-      Circle48: 1581466222
-      Circle64: -594950222
-      Circle8: 1066598245
+      Circle16Blue: -905667886
+      Circle16Outline: -1215579977
+      Circle16White: -1140996852
+      Circle32Blue: 1558232843
+      Circle32Outline: -1124586069
+      Circle32White: -1075840072
+      Circle48Blue: -669686988
+      Circle48Outline: 1875961197
+      Circle48White: 1581466222
+      Circle4Blue: -1811560618
+      Circle4Outline: 1381960753
+      Circle4White: -1617172233
+      Circle64Blue: -1579799574
+      Circle64Outline: -449348878
+      Circle64White: -594950222
+      Circle8Blue: 517573584
+      Circle8Outline: 1675140637
+      Circle8White: 1066598245
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
