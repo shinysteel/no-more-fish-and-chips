@@ -1,19 +1,10 @@
-using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Saving;
-using NoMoreFishAndChips.Scenes;
-using Newtonsoft.Json;
-using PurrLobby;
 using PurrNet;
-using PurrNet.Transports;
-using ShinyOwl.Common;
+using Steamworks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor;
-using UnityEngine;
+
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
 namespace NoMoreFishAndChips.Networking
@@ -24,6 +15,12 @@ namespace NoMoreFishAndChips.Networking
         private SyncVar<int> _netSaveId = new SyncVar<int>(ownerAuth: true);
         private SyncVar<int> _netItemInstanceIdCounter = new SyncVar<int>(ownerAuth: true);
         private SyncVar<RaftPlayer> _netRaftPlayer = new SyncVar<RaftPlayer>(ownerAuth: true);
+        private SyncVar<string> _netUsername = new SyncVar<string>(ownerAuth: true);
+
+        public int SaveId => _netSaveId.value;  
+        public int ItemInstanceIdCounter => _netItemInstanceIdCounter.value;
+        public RaftPlayer RaftPlayer => _netRaftPlayer.value;
+        public string Username => _netUsername.value;
 
         protected override void OnSpawned()
         {
@@ -31,10 +28,19 @@ namespace NoMoreFishAndChips.Networking
 
             _instantiateManager.RaiseComponentInstantiated(this);
 
-            if (isOwner)
+            if (!isOwner)
             {
-                _netGuid.value = _saveManager.UserSave.Guid;
+                return;
             }
+
+            _netGuid.value = _saveManager.UserSave.Guid;
+
+            _netUsername.value = _lobbyManager.CurrentLobby.Service switch
+            {
+                ELobbyService.Steam => SteamFriends.GetPersonaName(),
+                ELobbyService.LAN => $"Player {_netSaveId.value}",
+                _ => "Player"
+            };
         }
 
         protected override void OnDespawned()
@@ -62,24 +68,9 @@ namespace NoMoreFishAndChips.Networking
             return _netRaftPlayer;
         }
 
-        public RaftPlayer GetNetRaftPlayer()
-        {
-            return _netRaftPlayer.value;
-        }
-
-        public int GetNetSaveId()
-        {
-            return _netSaveId.value;
-        }
-
         public void SetNetSaveId(int id)
         {
             _netSaveId.value = id;
-        }
-
-        public int GetNetItemInstanceIdCounter()
-        {
-            return _netItemInstanceIdCounter.value;
         }
 
         public void SetNetItemInstanceIdCounter(int counter)

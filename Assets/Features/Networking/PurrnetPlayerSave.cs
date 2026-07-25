@@ -25,7 +25,7 @@ namespace NoMoreFishAndChips.Networking
         public async Task LoadToAsync(PurrnetPlayer purrnetPlayer)
         {
             // The raft player may not be created yet
-            while (purrnetPlayer.GetNetRaftPlayer() == null)
+            while (purrnetPlayer.RaftPlayer == null)
             {
                 await Task.Yield();
             }
@@ -33,14 +33,14 @@ namespace NoMoreFishAndChips.Networking
             purrnetPlayer.SetNetSaveId(SaveId);
             purrnetPlayer.SetNetItemInstanceIdCounter(ItemInstanceIdCounter);
 
-            await RaftPlayer.LoadToAsync(purrnetPlayer.GetNetRaftPlayer());
+            await RaftPlayer.LoadToAsync(purrnetPlayer.RaftPlayer);
         }
 
         public void SaveFrom(PurrnetPlayer purrnetPlayer)
         {
-            SaveId = purrnetPlayer.GetNetSaveId();
-            ItemInstanceIdCounter = purrnetPlayer.GetNetItemInstanceIdCounter();
-            RaftPlayer.SaveFrom(purrnetPlayer.GetNetRaftPlayer());
+            SaveId = purrnetPlayer.SaveId;
+            ItemInstanceIdCounter = purrnetPlayer.ItemInstanceIdCounter;
+            RaftPlayer.SaveFrom(purrnetPlayer.RaftPlayer);
         }
 
         public void ApplyDefaults()

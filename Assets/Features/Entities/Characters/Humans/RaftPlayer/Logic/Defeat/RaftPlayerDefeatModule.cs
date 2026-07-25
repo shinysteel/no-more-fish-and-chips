@@ -18,8 +18,7 @@ namespace NoMoreFishAndChips.Entities
 
         private RaftPlayerDefeatSettings _settings;
 
-        private bool _inBarrel;
-        public bool InBarrel => _inBarrel;
+        public bool InBarrel => _netInBarrel.value;
 
         private Prop _barrelProp;
 
@@ -51,7 +50,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_inBarrel)
+            if (!_netInBarrel.value)
             {
                 return;
             }
@@ -142,14 +141,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetInBarrelChanged(bool barrel)
         {
-            if (_inBarrel == barrel)
-            {
-                return;
-            }
-
-            _inBarrel = barrel;
-
-            if (_inBarrel)
+            if (barrel)
             {
                 _barrelProp = _environmentManager.GetProp(PropId.Barrel, new SpawnParams() { Parent = _player.transform });
                 _player.EntityModel.transform.localPosition = Vector3.up * 0.1f;

@@ -95,7 +95,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 _entityHealthModule.SetHealth(_entityDefinitionData.Health);
             }
-            
+
             _entityManager.RaiseNetEntitySpawned(this);
         }
 

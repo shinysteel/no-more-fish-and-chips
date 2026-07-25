@@ -59,7 +59,7 @@ namespace NoMoreFishAndChips.UI
         /// Positions a cursor per player
         /// </summary>
         private void CursorsUpdate()
-        {
+        {   
             for (int i = 0; i < _context.Players.Count; i++)
             {
                 Vector2 normalisedPos = _context.Players[i].MousePositionNormalised;

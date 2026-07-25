@@ -93,6 +93,7 @@ namespace NoMoreFishAndChips.States
 
         private GameplayContext _context;
         private List<RaftPlayer> _players;
+        private bool _isContextReady;
 
         private GameplayScreen _gameplayScreen;
         private CursorsUI _cursorsUI;
@@ -198,26 +199,32 @@ namespace NoMoreFishAndChips.States
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
                 _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
-                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
 
                 _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
 
-                // Avoid timing issues by making sure the localPlayer is initialised before continuing
-                while (!localPlayer.IsContextInitialised)
-                {
-                    await Task.Yield();
-                }
+                // Manually initialise context components to dictate order
+                InitialiseBehaviour(raft);
+                InitialiseBehaviour(stageRunner);
+                InitialiseBehaviour(waveRunner);
+                InitialiseBehaviour(environmentMarker);
+
+                InitialiseBehaviour(localPlayer);
 
                 _gameplayScreen.Setup(_context);
                 _gameplayScreen.Show(null);
-                
-                _cursorsUI.Setup(_context);
-                _cursorsUI.Show(null);
 
                 foreach (IGameplaySubState state in _subStateMachine)
                 {
                     state.InitialiseContext(_context);
                 }
+
+                // Initialising the states is the final step before context can be marked as ready, since StateSynchroniser exists
+                _isContextReady = true;
+
+                // CursorsUI listens for OnEntitySpawned, which is not simultaneous with RaftPlayers being initialised and added to the players list 
+                _cursorsUI = await _uiManager.CreateScreenUIAsync(_uiManager.Config.CursorsUIPrefab, UILayer.Cursors);
+                _cursorsUI.Setup(_context);
+                _cursorsUI.Show(null);
 
                 // The server will setup an environment object
                 if (_networkManager.IsServer)
@@ -259,6 +266,7 @@ namespace NoMoreFishAndChips.States
             base.Exit();
 
             _context = null;
+            _isContextReady = false;
 
             _uiManager.DestroyScreenUI(_cursorsUI, UILayer.Cursors);
             _cursorsUI = null;
@@ -322,17 +330,31 @@ namespace NoMoreFishAndChips.States
 
         private async Task InitialiseBehaviourAsync(NetBehaviour behaviour)
         {
-            while (_context == null)
+            try
             {
-                await Task.Yield();
-            }
+                while (!_isContextReady)
+                {
+                    await Task.Yield();
+                }
 
-            if (behaviour is RaftPlayer player)
+                InitialiseBehaviour(behaviour);
+                
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
+        }
+
+        private void InitialiseBehaviour(NetBehaviour netBehaviour)
+        {
+            // Anything in context will go through this twice, since they are manually initialised
+            if (netBehaviour is RaftPlayer player && !_players.Contains(player))
             {
                 _players.Add(player);
             }
 
-            if (behaviour is GameplayBehaviour gameplayBehaviour)
+            if (netBehaviour is GameplayBehaviour gameplayBehaviour && !gameplayBehaviour.IsContextInitialised)
             {
                 gameplayBehaviour.InitialiseContext(_context);
             }

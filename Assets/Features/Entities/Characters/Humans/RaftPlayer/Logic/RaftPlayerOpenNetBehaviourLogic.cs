@@ -9,8 +9,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private SyncVar<NetBehaviour> _netBehaviour;
 
-        private NetBehaviour _behaviour;
-        public NetBehaviour Behaviour => _behaviour;
+        public NetBehaviour Behaviour => _netBehaviour.value;
 
         public event Action<NetBehaviour, NetBehaviour> OnChanged;
         
@@ -18,21 +17,18 @@ namespace NoMoreFishAndChips.Entities
         {
             _netBehaviour = netBehaviour;
 
-            HandleNetBehaviourChanged(_netBehaviour);
+            HandleNetBehaviourChanged(null, _netBehaviour.value);
 
-            _netBehaviour.onChanged += HandleNetBehaviourChanged;
+            _netBehaviour.onChangedWithOld += HandleNetBehaviourChanged;
         }
         ~RaftPlayerOpenNetBehaviourLogic()
         {
-            _netBehaviour.onChanged -= HandleNetBehaviourChanged;
+            _netBehaviour.onChangedWithOld -= HandleNetBehaviourChanged;
         }
 
-        private void HandleNetBehaviourChanged(NetBehaviour behaviour)
+        private void HandleNetBehaviourChanged(NetBehaviour previous, NetBehaviour current)
         {
-            NetBehaviour old = _behaviour;
-            _behaviour = behaviour;
-
-            OnChanged?.Invoke(old, _behaviour);
+            OnChanged?.Invoke(previous, current);
         }
     }
 }

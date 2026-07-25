@@ -40,8 +40,7 @@ namespace NoMoreFishAndChips.Environments
         private StageData _stageData;
 
         private SyncVar<int> _netWaveIndex = new SyncVar<int>(ownerAuth: true);
-        private int _waveIndex;
-        public int WaveIndex => _waveIndex;
+        public int WaveIndex => _netWaveIndex.value;
 
         private int _stepIndex;
         private int _spawnCounter;
@@ -70,10 +69,9 @@ namespace NoMoreFishAndChips.Environments
             base.OnDespawned();
         }
         
-        private void HandleNetWaveIndexChanged(int netWaveIndex)
+        private void HandleNetWaveIndexChanged(int index)
         {
-            _waveIndex = netWaveIndex;
-            OnWaveIndexChanged?.Invoke(_waveIndex);
+            OnWaveIndexChanged?.Invoke(index);
         }
 
         public void SetStageData(StageData data)

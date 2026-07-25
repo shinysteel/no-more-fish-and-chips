@@ -10,7 +10,6 @@ using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
