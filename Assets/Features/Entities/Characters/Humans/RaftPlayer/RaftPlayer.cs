@@ -26,6 +26,8 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private Inventory _inventory;
         [SerializeField] private Hotbar _hotbar;
 
+        public bool IsLocalPlayer => this == _context.LocalPlayer;
+
         public HumanModel HumanModel => (HumanModel)_entityModel;
 
         public Inventory Inventory => _inventory;
@@ -41,6 +43,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftPlayerEquippedInventoryItemsLogic _equippedInventoryItemsLogic;
         private RaftPlayerOpenNetBehaviourLogic _openNetBehaviourLogic;
         private RaftPlayerAttackLogic _attackLogic;
+        private RaftPlayerReadyLogic _readyLogic;
         private RaftPlayerHotkeyLogic _hotkeyLogic;
         private RaftPlayerTileTargetLogic _tileTargetLogic;
 
@@ -54,6 +57,7 @@ namespace NoMoreFishAndChips.Entities
         public RaftPlayerAnimateLogic AnimateLogic => _animateLogic;
         public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => _openNetBehaviourLogic;
         public RaftPlayerAttackLogic AttackLogic => _attackLogic;
+        public RaftPlayerReadyLogic ReadyLogic => _readyLogic;
         public RaftPlayerTileTargetLogic TileTargetLogic => _tileTargetLogic;
 
         // SyncVars
@@ -61,10 +65,7 @@ namespace NoMoreFishAndChips.Entities
         private SyncVar<Vector2> _netMousePositionNormalised = new SyncVar<Vector2>(ownerAuth: true);
         private SyncVar<NetBehaviour> _netOpenNetworkId = new SyncVar<NetBehaviour>(ownerAuth: true);
         private SyncVar<bool> _netInBarrel = new SyncVar<bool>(ownerAuth: true);
-
-        public Vector2 MousePositionNormalised => _netMousePositionNormalised.value;
-
-        public bool IsLocalPlayer => this == _context.LocalPlayer;
+        private SyncVar<bool> _netIsReady = new SyncVar<bool>(ownerAuth: true);
 
         public class PlaceInventoryItemResponse
         {
@@ -109,7 +110,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected override void OnSpawned()
         {
-            _inputLogic = new RaftPlayerInputLogic(this);
+            _inputLogic = new RaftPlayerInputLogic(this, _netMousePositionNormalised);
             _interactLogic = new RaftPlayerInteractLogic(this);
             _grabbedInventoryItemLogic = new RaftPlayerGrabbedInventoryItemLogic(this, _netGrabbedInventoryItem);
             _dropInventoryItemLogic = new RaftPlayerDropInventoryItemLogic(this);
@@ -117,6 +118,7 @@ namespace NoMoreFishAndChips.Entities
             _equippedInventoryItemsLogic = new RaftPlayerEquippedInventoryItemsLogic(this);
             _openNetBehaviourLogic = new RaftPlayerOpenNetBehaviourLogic(_netOpenNetworkId);
             _attackLogic = new RaftPlayerAttackLogic(this);
+            _readyLogic = new RaftPlayerReadyLogic(_netIsReady);
 
             if (isOwner)
             {
@@ -157,7 +159,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Update();
             
-            if (!isFullySpawned || !_isContextInitialised)
+            if (!isFullySpawned || _context == null)
             {
                 return;
             }
@@ -168,16 +170,6 @@ namespace NoMoreFishAndChips.Entities
             _hotkeyLogic.Tick();
             _tileTargetLogic.Tick();
             _attackLogic.Tick();
-
-            if (isOwner)
-            {
-                SyncVarsUpdate();
-            }
-        }
-
-        private void SyncVarsUpdate()
-        {   
-            _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(_inputLogic.Mouse.x / Screen.width), Mathf.Clamp01(_inputLogic.Mouse.y / Screen.height));
         }
 
         public void SetNetOpenObjectNetworkId(NetBehaviour behaviour)

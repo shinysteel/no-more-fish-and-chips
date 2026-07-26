@@ -1,6 +1,10 @@
 using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Instantiating;
+using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
@@ -10,33 +14,42 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private IInteractableSettings _iInteractableSettings;
 
         private UIManager _uiManager;
+        private NetworkManager _networkManager;
 
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
 
         private void Awake()
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
         }
 
-        public bool CanInteract()
+        bool IInteractable.CanInteract()
         {
             return true;
         }
 
-        public bool CanPrompt()
+        bool IInteractable.CanPrompt()
         {
             return true;
         }
 
-        public WorldUI CreatePromptUI()
+        WorldUI IInteractable.CreatePromptUI()
         {
             InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
             ui.SetupInteract(_iInteractableSettings.Hotkey);
             return ui;
         }
 
-        public void Interact()
+        void IInteractable.Interact()
         {
+            if (_networkManager.LocalPurrnetPlayer.RaftPlayer.ReadyLogic.IsReady)
+            {
+                return;
+            }
+
+            _networkManager.LocalPurrnetPlayer.RaftPlayer.ReadyLogic.SetNetIsReady(true);
+
             AudioManager.PlaySoundRpc(SoundId.DockBellRing);
         }
     }

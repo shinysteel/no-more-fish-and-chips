@@ -62,7 +62,7 @@ namespace NoMoreFishAndChips.UI
         {   
             for (int i = 0; i < _context.Players.Count; i++)
             {
-                Vector2 normalisedPos = _context.Players[i].MousePositionNormalised;
+                Vector2 normalisedPos = _context.Players[i].InputLogic.MousePositionNormalised;
                 Vector2 screenPos = new Vector2(Screen.width * normalisedPos.x, Screen.height * normalisedPos.y);
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, screenPos, null, out Vector2 localPos);
 

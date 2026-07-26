@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Instantiating;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.Saving;
 using NoMoreFishAndChips.Scenes;
@@ -78,7 +79,7 @@ namespace NoMoreFishAndChips.States
         }
     }
 
-    public class GameplayState : MainState<EMainState, EGameplayState>, ILobbyManagerListener, INetworkManagerListener
+    public class GameplayState : MainState<EMainState, EGameplayState>, ILobbyManagerListener, INetworkManagerListener, IInstantiateManagerListener
     {
         private TransitionManager _transitionManager;
         private UIManager _uiManager;
@@ -88,6 +89,7 @@ namespace NoMoreFishAndChips.States
         private LobbyManager _lobbyManager;
         private SaveManager _saveManager;
         private CameraManager _cameraManager;
+        private InstantiateManager _instantiateManager;
 
         private GameplayStateConfig _config;
 
@@ -110,15 +112,18 @@ namespace NoMoreFishAndChips.States
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
             _saveManager = GameManager.Instance.Get<SaveManager>();
             _cameraManager = GameManager.Instance.Get<CameraManager>();
+            _instantiateManager = GameManager.Instance.Get<InstantiateManager>();
 
             _networkManager.AddListener(this);
             _lobbyManager.AddListener(this);
+            _instantiateManager.AddListener(this);
         }
 
         ~GameplayState()
         {
             _networkManager?.RemoveListener(this);
             _lobbyManager?.RemoveListener(this);
+            _instantiateManager?.RemoveListener(this);
         }
 
         public override void Initialise(StateManagerConfig config)
@@ -203,12 +208,12 @@ namespace NoMoreFishAndChips.States
                 _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
 
                 // Manually initialise context components to dictate order
-                InitialiseBehaviour(raft);
-                InitialiseBehaviour(stageRunner);
-                InitialiseBehaviour(waveRunner);
-                InitialiseBehaviour(environmentMarker);
+                InitialiseComponent(raft);
+                InitialiseComponent(stageRunner);
+                InitialiseComponent(waveRunner);
+                InitialiseComponent(environmentMarker);
 
-                InitialiseBehaviour(localPlayer);
+                InitialiseComponent(localPlayer);
 
                 _gameplayScreen.Setup(_context);
                 _gameplayScreen.Show(null);
@@ -325,10 +330,15 @@ namespace NoMoreFishAndChips.States
 
         void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour) 
         {
-            _ = InitialiseBehaviourAsync(behaviour);
+            _ = InitialiseComponentAsync(behaviour);
         }
 
-        private async Task InitialiseBehaviourAsync(NetBehaviour behaviour)
+        void IInstantiateManagerListener.OnComponentInstantiated(Component component)
+        {
+            _ = InitialiseComponentAsync(component);
+        }
+
+        private async Task InitialiseComponentAsync(Component component)
         {
             try
             {
@@ -337,7 +347,7 @@ namespace NoMoreFishAndChips.States
                     await Task.Yield();
                 }
 
-                InitialiseBehaviour(behaviour);
+                InitialiseComponent(component);
                 
             }
             catch (Exception ex)
@@ -346,17 +356,17 @@ namespace NoMoreFishAndChips.States
             }
         }
 
-        private void InitialiseBehaviour(NetBehaviour netBehaviour)
+        private void InitialiseComponent(Component component)
         {
             // Anything in context will go through this twice, since they are manually initialised
-            if (netBehaviour is RaftPlayer player && !_players.Contains(player))
+            if (component is RaftPlayer player && !_players.Contains(player))
             {
                 _players.Add(player);
             }
 
-            if (netBehaviour is GameplayBehaviour gameplayBehaviour && !gameplayBehaviour.IsContextInitialised)
+            if (component is IRequiresGameplayContext requires && !requires.IsContextInitialised)
             {
-                gameplayBehaviour.InitialiseContext(_context);
+                requires.InitialiseContext(_context);
             }
         }
 

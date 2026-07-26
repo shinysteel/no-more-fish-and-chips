@@ -1,3 +1,4 @@
+using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayerInputLogic
     {
         private RaftPlayer _player;
+
+        private SyncVar<Vector2> _netMousePositionNormalised;
+        public Vector2 MousePositionNormalised => _netMousePositionNormalised.value;
 
         // Vars always active
         private Vector2 _mouse;
@@ -48,9 +52,10 @@ namespace NoMoreFishAndChips.Entities
         public bool ToggleFishingBag => _toggleFishingBag;
         public bool ToggleCraftingKit => _toggleCraftingKit;
 
-        public RaftPlayerInputLogic(RaftPlayer player)
+        public RaftPlayerInputLogic(RaftPlayer player, SyncVar<Vector2> netMousePositionNormalised)
         {
             _player = player;
+            _netMousePositionNormalised = netMousePositionNormalised;
         }
 
         public void Tick()
@@ -63,6 +68,7 @@ namespace NoMoreFishAndChips.Entities
             if (Application.isFocused)
             {
                 _mouse = Input.mousePosition;
+                _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(_mouse.x / Screen.width), Mathf.Clamp01(_mouse.y / Screen.height));
             }
 
             _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")), 1f);

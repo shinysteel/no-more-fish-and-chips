@@ -21,24 +21,24 @@ namespace NoMoreFishAndChips.Environments
             _seaChartPanelInstance = new PanelInstance<SeaChartPanel>(_uiManager.Config.SeaChartPanelPrefab);
         }
 
-        public bool CanInteract()
+        bool IInteractable.CanInteract()
         {
             return true;
         }
 
-        public bool CanPrompt()
+        bool IInteractable.CanPrompt()
         {
             return true;
         }
 
-        public WorldUI CreatePromptUI()
+        WorldUI IInteractable.CreatePromptUI()
         {
             InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
             ui.SetupInteract(_iInteractableSettings.Hotkey);
             return ui;
         }
 
-        public void Interact()
+        void IInteractable.Interact()
         {
             _seaChartPanelInstance.Toggle(null);
         }

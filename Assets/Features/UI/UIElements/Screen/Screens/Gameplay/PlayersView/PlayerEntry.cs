@@ -28,15 +28,18 @@ namespace NoMoreFishAndChips.UI
             if (_player != null)
             {
                 _player.OnUsernameChanged -= HandleUsernameChanged;
+                // _player.RaftPlayer.ReadyLogic.OnIsReadyChanged -= HandleIsReadyChanged;
             }
 
             _player = player;
 
             HandleUsernameChanged(_player?.Username);
+            // HandleIsReadyChanged(_player?.RaftPlayer.ReadyLogic.IsReady ?? false);
 
             if (_player != null)
             {
                 _player.OnUsernameChanged += HandleUsernameChanged;
+                // _player.RaftPlayer.ReadyLogic.OnIsReadyChanged += HandleIsReadyChanged;
             }
         }
 
@@ -57,6 +60,11 @@ namespace NoMoreFishAndChips.UI
             {
                 _isDirty = true;
             }
+        }
+
+        private void HandleIsReadyChanged(bool ready)
+        {
+            _readyImage.sprite = ready ? _tickSprite : _crossSprite;
         }
 
         private void OnEnable()

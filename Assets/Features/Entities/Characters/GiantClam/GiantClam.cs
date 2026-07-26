@@ -308,24 +308,24 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public bool CanPrompt()
+        bool IInteractable.CanPrompt()
         {
             return _netCanOpenInventory.value;
         }
 
-        public WorldUI CreatePromptUI()
+        WorldUI IInteractable.CreatePromptUI()
         {
             InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
             ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey);
             return ui;
         }
 
-        public bool CanInteract()
+        bool IInteractable.CanInteract()
         {
             return _netCanOpenInventory.value;
         }
 
-        public void Interact()
+        void IInteractable.Interact()
         {
             _giantClamPanelInstance.Toggle((GiantClamsMouthPanel panel) => panel.Setup(_context, this, _inventory));
         }

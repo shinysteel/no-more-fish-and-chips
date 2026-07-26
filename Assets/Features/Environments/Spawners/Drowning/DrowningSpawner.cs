@@ -41,7 +41,7 @@ namespace NoMoreFishAndChips.Environments
                 return;
             }
 
-            if (!_isContextInitialised)
+            if (_context == null)
             {
                 return;
             }

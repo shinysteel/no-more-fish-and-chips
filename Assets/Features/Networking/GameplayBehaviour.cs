@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace NoMoreFishAndChips.Networking
 {
-    public abstract class GameplayBehaviour : NetBehaviour
+    public abstract class GameplayBehaviour : NetBehaviour, IRequiresGameplayContext
     {
         protected GameplayContext _context;
 
-        protected bool _isContextInitialised;
-        public bool IsContextInitialised => _isContextInitialised;
+        public bool IsContextInitialised => _context != null;
 
         public virtual void InitialiseContext(GameplayContext context)
         {
             _context = context;
-
-            _isContextInitialised = true;
 
             if (!isServer && TryGetComponent<NetworkTransform>(out _))
             {
