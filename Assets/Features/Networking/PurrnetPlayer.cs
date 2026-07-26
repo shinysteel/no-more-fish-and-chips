@@ -5,12 +5,12 @@ using ShinyOwl.Common;
 using Steamworks;
 using System;
 using System.Threading.Tasks;
-
+using UnityEngine;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
 namespace NoMoreFishAndChips.Networking
 {
-    public class PurrnetPlayer : NetBehaviour, ISaveable
+    public class PurrnetPlayer : NetBehaviour, ISaveable, INetworkManagerListener
     {
         private SyncVar<string> _netGuid = new SyncVar<string>(ownerAuth: true);
         private SyncVar<int> _netSaveId = new SyncVar<int>(ownerAuth: true);
@@ -42,6 +42,8 @@ namespace NoMoreFishAndChips.Networking
                     _netUsername.value = SteamFriends.GetPersonaName();
                 }
             }
+
+            _networkManager.AddListener(this);
         }
 
         protected override void OnDespawned()
@@ -55,6 +57,16 @@ namespace NoMoreFishAndChips.Networking
             if (_networkManager.IsServer)
             {
                 ((ISaveable)this).Save();
+            }
+
+            _networkManager?.RemoveListener(this);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                _netRaftPlayer.SetDirty();
             }
         }
 
@@ -132,6 +144,21 @@ namespace NoMoreFishAndChips.Networking
         void ISaveable.Save()
         {
             _saveManager.GameSave.Players[_netGuid.value].SaveFrom(this);
+        }
+
+        void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)
+        {
+            // Soft fix for _netRaftPlayer being out of sync
+
+            if (!isOwner)
+            {
+                return;
+            }
+
+            if (behaviour != _netRaftPlayer.value)
+            {
+                _netRaftPlayer.SetDirty();
+            }
         }
     }
 }

@@ -34,3 +34,4 @@ MonoBehaviour:
   _interactPromptUIPrefab: {fileID: 4809291724522747272, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
   _requirementPromptUIPrefab: {fileID: 4361571962402563503, guid: 6c8be37aac96c9942a22adc77a709a9d, type: 3}
   _progressBarUIPrefab: {fileID: 5449527504232588373, guid: 95f73c6e792a5e140a4a3b503d275dc5, type: 3}
+  _usernameUIPrefab: {fileID: 3503339305074441582, guid: 0872c66262e07f7419f4e17513aaa39a, type: 3}

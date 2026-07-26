@@ -15,28 +15,29 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private TextMeshProUGUI _usernameText;
+        [SerializeField] private Image _readyImage;
+        [SerializeField] private Sprite _tickSprite;
+        [SerializeField] private Sprite _crossSprite;
 
-        private PurrnetPlayer _purrnetPlayer;
+        private PurrnetPlayer _player;
 
         private bool _isDirty;
 
-        public void Setup(PurrnetPlayer purrnetPlayer)
+        public void Setup(PurrnetPlayer player)
         {
-            if (_purrnetPlayer != null)
+            if (_player != null)
             {
-                _purrnetPlayer.OnUsernameChanged -= HandleUsernameChanged;
+                _player.OnUsernameChanged -= HandleUsernameChanged;
             }
 
-            _purrnetPlayer = purrnetPlayer;
+            _player = player;
 
-            HandleUsernameChanged(_purrnetPlayer?.Username);
+            HandleUsernameChanged(_player?.Username);
 
-            if (_purrnetPlayer == null)
+            if (_player != null)
             {
-                return;
+                _player.OnUsernameChanged += HandleUsernameChanged;
             }
-
-            _purrnetPlayer.OnUsernameChanged += HandleUsernameChanged;
         }
 
         private void HandleUsernameChanged(string username)
@@ -45,7 +46,7 @@ namespace NoMoreFishAndChips.UI
             {
                 return;
             }
-
+            
             _usernameText.text = username;
 
             if (gameObject.activeInHierarchy)

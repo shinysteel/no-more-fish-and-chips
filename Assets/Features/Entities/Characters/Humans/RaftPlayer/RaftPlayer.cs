@@ -31,6 +31,8 @@ namespace NoMoreFishAndChips.Entities
         public Inventory Inventory => _inventory;
         public Hotbar Hotbar => _hotbar;
 
+        private UsernameUI _usernameUI;
+
         private RaftPlayerInputLogic _inputLogic;
         private RaftPlayerInteractLogic _interactLogic;
         private RaftPlayerGrabbedInventoryItemLogic _grabbedInventoryItemLogic;
@@ -115,10 +117,15 @@ namespace NoMoreFishAndChips.Entities
             _equippedInventoryItemsLogic = new RaftPlayerEquippedInventoryItemsLogic(this);
             _openNetBehaviourLogic = new RaftPlayerOpenNetBehaviourLogic(_netOpenNetworkId);
             _attackLogic = new RaftPlayerAttackLogic(this);
-            
+
             if (isOwner)
             {
                 _inventory.SetLayouts(DefinitionData.UnlockableInventoryLayout, DefinitionData.DefaultUnlockedInventoryLayout);
+            }
+            else
+            {
+                _usernameUI = _uiManager.CreateWorldUI(_uiManager.Config.UsernameUIPrefab, Vector3.zero);
+                _usernameUI.Setup(_networkManager.GetPurrnetPlayer(owner.Value));
             }
 
             // Invoke OnNetworkSpawn after logic components are created
@@ -136,6 +143,12 @@ namespace NoMoreFishAndChips.Entities
         protected override void OnDespawned()
         {
             base.OnDespawned();
+
+            if (_usernameUI != null)
+            {
+                _uiManager.DestroyWorldUI(_usernameUI);
+                _usernameUI = null;
+            }
 
             _interactLogic.Cleanup();
         }

@@ -70,9 +70,11 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private InteractPromptUI _interactPromptUIPrefab;
         [SerializeField] private RequirementPromptUI _requirementPromptUIPrefab;
         [SerializeField] private ProgressBarUI _progressBarUIPrefab;
+        [SerializeField] private UsernameUI _usernameUIPrefab;
 
         public InteractPromptUI InteractPromptUIPrefab => _interactPromptUIPrefab;
         public RequirementPromptUI RequirementPromptUIPrefab => _requirementPromptUIPrefab;
         public ProgressBarUI ProgressBarUIPrefab => _progressBarUIPrefab;
+        public UsernameUI UsernameUIPrefab => _usernameUIPrefab;
     }
 }

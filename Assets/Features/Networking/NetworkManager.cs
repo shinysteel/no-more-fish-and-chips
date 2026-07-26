@@ -116,6 +116,11 @@ namespace NoMoreFishAndChips.Networking
             base.Shutdown();
         }
 
+        public PurrnetPlayer GetPurrnetPlayer(PlayerID id)
+        {
+            return _playerIdPurrnetPlayerMap[id];
+        }
+
         // SyncVar 'onChanged' events aren't fired for the host even when using SetDirty or FlushImmediately. Using reflection
         // we can emulate this
         public void ChangeSyncVar<T>(SyncVar<T> syncVar, Action change) where T : IDeepCloneable<T>
