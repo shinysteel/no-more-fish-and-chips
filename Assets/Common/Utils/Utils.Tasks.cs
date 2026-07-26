@@ -9,6 +9,21 @@ namespace ShinyOwl.Common.Utils
     {
         public static class Tasks
         {
+            public static Task WaitForEndOfFrameAsync()
+            {
+                TaskCompletionSource<bool> tcs = new();
+
+                CoroutineRunner.instance.StartCoroutine(coroutine());
+
+                IEnumerator coroutine()
+                {
+                    yield return new WaitForEndOfFrame();
+                    tcs.SetResult(true);
+                }
+
+                return tcs.Task;
+            }
+
             public static Task WaitForFixedUpdateAsync()
             {
                 TaskCompletionSource<bool> tcs = new();

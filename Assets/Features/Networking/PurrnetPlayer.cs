@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Saving;
 using PurrNet;
+using ShinyOwl.Common;
 using Steamworks;
 using System;
 using System.Threading.Tasks;
@@ -14,13 +15,15 @@ namespace NoMoreFishAndChips.Networking
         private SyncVar<string> _netGuid = new SyncVar<string>(ownerAuth: true);
         private SyncVar<int> _netSaveId = new SyncVar<int>(ownerAuth: true);
         private SyncVar<int> _netItemInstanceIdCounter = new SyncVar<int>(ownerAuth: true);
-        private SyncVar<RaftPlayer> _netRaftPlayer = new SyncVar<RaftPlayer>(ownerAuth: true);
         private SyncVar<string> _netUsername = new SyncVar<string>(ownerAuth: true);
+        private SyncVar<RaftPlayer> _netRaftPlayer = new SyncVar<RaftPlayer>(ownerAuth: true);
 
         public int SaveId => _netSaveId.value;  
         public int ItemInstanceIdCounter => _netItemInstanceIdCounter.value;
         public RaftPlayer RaftPlayer => _netRaftPlayer.value;
         public string Username => _netUsername.value;
+
+        public event Action<string> OnUsernameChanged;
 
         protected override void OnSpawned()
         {
@@ -28,19 +31,17 @@ namespace NoMoreFishAndChips.Networking
 
             _instantiateManager.RaiseComponentInstantiated(this);
 
-            if (!isOwner)
+            _netUsername.onChanged += HandleNetUsernameChanged;
+
+            if (isOwner)
             {
-                return;
+                _netGuid.value = _saveManager.UserSave.Guid;
+
+                if (_lobbyManager.CurrentLobby.Service == ELobbyService.Steam)
+                {
+                    _netUsername.value = SteamFriends.GetPersonaName();
+                }
             }
-
-            _netGuid.value = _saveManager.UserSave.Guid;
-
-            _netUsername.value = _lobbyManager.CurrentLobby.Service switch
-            {
-                ELobbyService.Steam => SteamFriends.GetPersonaName(),
-                ELobbyService.LAN => $"Player {_netSaveId.value}",
-                _ => "Player"
-            };
         }
 
         protected override void OnDespawned()
@@ -49,10 +50,17 @@ namespace NoMoreFishAndChips.Networking
 
             _instantiateManager.RaiseComponentDestroyed(this);
 
+            _netUsername.onChanged -= HandleNetUsernameChanged;
+
             if (_networkManager.IsServer)
             {
                 ((ISaveable)this).Save();
             }
+        }
+
+        private void HandleNetUsernameChanged(string username)
+        {
+            OnUsernameChanged?.Invoke(username);
         }
 
         // Every instance of an inventory item needs a unique id, and we can guarantee this by combining the
@@ -76,6 +84,11 @@ namespace NoMoreFishAndChips.Networking
         public void SetNetItemInstanceIdCounter(int counter)
         {
             _netItemInstanceIdCounter.value = counter;
+        }
+
+        public void SetNetUsername(string username)
+        {
+            _netUsername.value = username;
         }
 
         [ServerRpc]
@@ -109,6 +122,11 @@ namespace NoMoreFishAndChips.Networking
             PurrnetPlayerSave save = await GetSaveRpc();
 
             await save.LoadToAsync(this);
+
+            if (_lobbyManager.CurrentLobby.Service == ELobbyService.LAN)
+            {
+                _netUsername.value = $"Player {_netSaveId.value + 1}";
+            }
         }
 
         void ISaveable.Save()

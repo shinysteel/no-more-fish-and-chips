@@ -432,6 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b8527144a06fc40a4c9b4602f18330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.PlayerEntry
+  _rectTransform: {fileID: 3352098039809107448}
   _usernameText: {fileID: 6625902518058363258}
 --- !u!114 &613944226947771889
 MonoBehaviour:

@@ -58,9 +58,11 @@ namespace NoMoreFishAndChips.Networking
         public PlayerID LocalPlayerId => _purrnetNetworkManager.localPlayer;
         public PlayerID ServerPlayerId => PlayerID.Server;
 
-        private Dictionary<PlayerID, PurrnetPlayer> _purrnetPlayers = new();
-        public IReadOnlyDictionary<PlayerID, PurrnetPlayer> PurrnetPlayers => _purrnetPlayers;
-        public PurrnetPlayer LocalPurrnetPlayer => _purrnetPlayers[LocalPlayerId];
+        private List<PurrnetPlayer> _purrnetPlayers = new();
+        public IReadOnlyList<PurrnetPlayer> PurrnetPlayers => _purrnetPlayers;
+
+        private Dictionary<PlayerID, PurrnetPlayer> _playerIdPurrnetPlayerMap = new();
+        public PurrnetPlayer LocalPurrnetPlayer => _playerIdPurrnetPlayerMap[LocalPlayerId];
 
         private const string IsSubscribedClientName = "_isSubscribedClient";
         public bool IsSubscribedClient => (bool)typeof(PurrNet.NetworkManager).GetField(IsSubscribedClientName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_purrnetNetworkManager);
@@ -148,7 +150,8 @@ namespace NoMoreFishAndChips.Networking
         {
             if (behaviour is PurrnetPlayer player)
             {
-                _purrnetPlayers.Add(behaviour.owner.Value, player);
+                _purrnetPlayers.Add(player);
+                _playerIdPurrnetPlayerMap.Add(behaviour.owner.Value, player);
             }
 
             NotifyNetBehaviourSpawned(behaviour);
@@ -158,7 +161,8 @@ namespace NoMoreFishAndChips.Networking
         {
             if (behaviour is PurrnetPlayer player)
             {
-                _purrnetPlayers.Remove(behaviour.owner.Value);
+                _purrnetPlayers.Remove(player);
+                _playerIdPurrnetPlayerMap.Remove(behaviour.owner.Value);
             }
 
             NotifyNetBehaviourDespawned(behaviour);
@@ -250,7 +254,7 @@ namespace NoMoreFishAndChips.Networking
             async Task cleanup()
             {
                 await Task.Yield();
-                _purrnetPlayers.Clear();
+                _playerIdPurrnetPlayerMap.Clear();
             }
 
             _ = cleanup();
