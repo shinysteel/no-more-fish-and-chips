@@ -100,7 +100,7 @@ namespace NoMoreFishAndChips.Environments
             _itemManager.SpawnDrops(position, DroppedItemType.Salvage, _dropTable);
         }
 
-        void IEntityManagerListener.OnEntitySpawned(IEntity entity)
+        void IEntityManagerListener.OnEntitySpawned(Entity entity)
         {
             if (entity is not DroppedItem item)
             {
@@ -115,7 +115,7 @@ namespace NoMoreFishAndChips.Environments
             _salvages.Add(item);
         }
 
-        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        void IEntityManagerListener.OnEntityDespawned(Entity entity)
         {
             if (entity is not DroppedItem item)
             {

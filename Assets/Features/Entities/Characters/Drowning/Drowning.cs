@@ -255,7 +255,7 @@ namespace NoMoreFishAndChips.Entities
             Tween.Alpha(_spriteRenderer, endValue: 0f, duration: 0.33f);
         }
 
-        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        void IEntityManagerListener.OnEntityDespawned(Entity entity)
         {
             if (_stateMachine.CurrentStateEnum == EState.Disappear)
             {

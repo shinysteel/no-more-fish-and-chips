@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
         protected CameraManager _cameraManager;
         protected AudioManager _audioManager;
 
-        private IEntity _entity;
+        private Entity _entity;
         protected Rigidbody _rigidbody;
         protected Collider _collider;
 
@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Entities
         public Rigidbody Rigidbody => _rigidbody;
         public Collider Collider => _collider;
 
-        public EntityPhysicsModule(IEntity entity, Rigidbody rigidbody, Collider collider)
+        public EntityPhysicsModule(Entity entity, Rigidbody rigidbody, Collider collider)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _audioManager = GameManager.Instance.Get<AudioManager>();

@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class RaftTile : NetEntity, IInteractable
+    public abstract class RaftTile : Entity, IInteractable
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 

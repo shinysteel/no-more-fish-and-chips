@@ -83,7 +83,7 @@ namespace NoMoreFishAndChips.UI
                 });
         }
 
-        void IEntityManagerListener.OnEntitySpawned(IEntity entity)
+        void IEntityManagerListener.OnEntitySpawned(Entity entity)
         {
             if (entity is not RaftPlayer player)
             {
@@ -97,7 +97,7 @@ namespace NoMoreFishAndChips.UI
             player.OpenNetBehaviourLogic.OnChanged += HandleOpenNetBehaviourChanged;
         }
 
-        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        void IEntityManagerListener.OnEntityDespawned(Entity entity)
         { 
             if (entity is not RaftPlayer player)
             {

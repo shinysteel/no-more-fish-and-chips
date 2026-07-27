@@ -16,8 +16,8 @@ namespace NoMoreFishAndChips.Entities
 {
     public interface IEntityManagerListener
     {
-        void OnEntitySpawned(IEntity entity) { }
-        void OnEntityDespawned(IEntity entity) { }
+        void OnEntitySpawned(Entity entity) { }
+        void OnEntityDespawned(Entity entity) { }
     }
 
     public class EntityManager : GameSystem<IEntityManagerListener>
@@ -27,14 +27,14 @@ namespace NoMoreFishAndChips.Entities
 
         private EntityManagerConfig _config;
 
-        private Dictionary<EntityId, IEntity> _idPrefabMap = new();
-        private Dictionary<Type, HashSet<IEntity>> _typePrefabsMap = new();
+        private Dictionary<EntityId, Entity> _idPrefabMap = new();
+        private Dictionary<Type, HashSet<Entity>> _typePrefabsMap = new();
 
         private Dictionary<EntityId, EntityModel> _idModelMap = new();
         private Dictionary<EntityId, Pool<EntityModel>> _modelPools = new();
 
-        private List<IEntity> _entities = new();
-        public IReadOnlyList<IEntity> Entities => _entities;
+        private List<Entity> _entities = new();
+        public IReadOnlyList<Entity> Entities => _entities;
 
         public override void InitialiseConfig(GameManagerConfig config)
         {
@@ -44,7 +44,7 @@ namespace NoMoreFishAndChips.Entities
             _config = config.EntityManagerConfig;
 
             // Entity prefab map
-            foreach (IEntity prefab in _config.IEntityScanner.GetAssets())
+            foreach (Entity prefab in _config.EntityScanner.GetAssets())
             {
                 _idPrefabMap.Add(prefab.EntityDefinitionData.Id, prefab);
             }
@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.Entities
                 _typePrefabsMap.Add(type, new());
             }
 
-            foreach (IEntity entity in _idPrefabMap.Values)
+            foreach (Entity entity in _idPrefabMap.Values)
             {
                 foreach (Type type in types)
                 {
@@ -80,7 +80,7 @@ namespace NoMoreFishAndChips.Entities
         /// <summary>
         /// Retrieves a single entity mapped to the type
         /// </summary>
-        public IEntity GetPrefab(EntityId id)
+        public Entity GetPrefab(EntityId id)
         {
             return _idPrefabMap[id];
         }
@@ -88,9 +88,9 @@ namespace NoMoreFishAndChips.Entities
         /// <summary>
         /// Retrieves a registered collection of entities
         /// </summary>
-        public IEnumerable<T> GetPrefabs<T>() where T : IEntity
+        public IEnumerable<T> GetPrefabs<T>() where T : Entity
         {
-            if (!_typePrefabsMap.TryGetValue(typeof(T), out HashSet<IEntity> entities))
+            if (!_typePrefabsMap.TryGetValue(typeof(T), out HashSet<Entity> entities))
             {
                 return Enumerable.Empty<T>();
             }
@@ -101,64 +101,20 @@ namespace NoMoreFishAndChips.Entities
         /// <summary>
         /// Centralised spawn method for entities, handling NetEntity, Entity + Poolable and Entity all in one
         /// </summary>
-        public IEntity Spawn(EntityId id, SpawnParams parameters)
+        public Entity Spawn(EntityId id, SpawnParams parameters)
         {
-            if (!_idPrefabMap.TryGetValue(id, out IEntity prefab))
+            if (!_idPrefabMap.TryGetValue(id, out Entity prefab))
             {
                 Log.Error($"The entity {id} has not been mapped to a prefab");
                 return default;
             }
 
-            // NetEntity
-            if (prefab is NetEntity netEntity)
-            {
-                return _networkManager.Spawn(netEntity, parameters);
-            }
-
-            Entity entity = prefab as Entity;
-
-            // Entity + Poolable
-            if (entity is ITypedPoolable)
-            {
-                return (IEntity)_poolManager.GetTypedPoolable(entity.GetType(), parameters);
-            }
-
-            // Entity
-            if (entity != null)
-            {
-                return parameters.Spawn(entity);
-            }
-
-            Log.Error($"Failed to cast {prefab} into a known entity class");
-            return default;
+            return _networkManager.Spawn(prefab, parameters);
         }
 
-        public void Despawn(IEntity entity)
+        public void Despawn(Entity entity)
         {
-            // NetEntity
-            if (entity is NetEntity netEntity)
-            {
-                _networkManager.Despawn(netEntity);
-                return;
-            }
-
-            Entity obj = entity as Entity;
-
-            // Entity + Poolable
-            if (obj is ITypedPoolable)
-            {
-                _poolManager.ReturnTypedPoolable(obj);
-                return;
-            }
-
-            // Entity
-            if (obj != null)
-            {
-                Object.Destroy(obj.gameObject);
-                return;
-            }
-
-            Log.Error($"The top-level class of {entity} is unknown, and so it couldn't be despawned");
+            _networkManager.Despawn(entity);
         }
 
         public EntityModel GetModel(EntityId id, SpawnParams parameters)
@@ -172,17 +128,17 @@ namespace NoMoreFishAndChips.Entities
         }
 
         // Since NetEntity lifecycle is controlled by Purrnet, we need to manually raise these events
-        public void RaiseNetEntitySpawned(IEntity entity) => NotifyNetEntitySpawned(entity);
-        public void RaiseNetEntityDespawned(IEntity entity) => NotifyNetEntityDespawned(entity);
+        public void RaiseNetEntitySpawned(Entity entity) => NotifyNetEntitySpawned(entity);
+        public void RaiseNetEntityDespawned(Entity entity) => NotifyNetEntityDespawned(entity);
 
-        private void NotifyNetEntitySpawned(IEntity entity)
+        private void NotifyNetEntitySpawned(Entity entity)
         {
             _entities.Add(entity);
 
             Listeners.Dispatch(listener => listener.OnEntitySpawned(entity));
         }
 
-        private void NotifyNetEntityDespawned(IEntity entity)
+        private void NotifyNetEntityDespawned(Entity entity)
         {
             _entities.Remove(entity);
 

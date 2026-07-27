@@ -14,7 +14,7 @@ namespace NoMoreFishAndChips.Entities
 
         public bool InGracePeriod => TimeAlive < _settings.GracePeriod;
 
-        public EntityLifecycleModule(IEntity entity)
+        public EntityLifecycleModule(Entity entity)
         {
             _settings = entity.EntityDefinitionData.EntityLifecycleSettings;
 

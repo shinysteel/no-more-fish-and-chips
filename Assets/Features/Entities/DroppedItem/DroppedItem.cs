@@ -18,7 +18,7 @@ namespace NoMoreFishAndChips.Entities
         Salvage,
     }
 
-    public class DroppedItem : NetEntity, IInteractable
+    public class DroppedItem : Entity, IInteractable
     {
         private List<ItemModel> _itemModels = new();
 

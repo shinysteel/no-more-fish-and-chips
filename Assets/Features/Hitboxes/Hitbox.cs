@@ -26,7 +26,7 @@ namespace NoMoreFishAndChips.Hitboxes
         private Collider[] _collidersNonAlloc = new Collider[MaxOverlaps];
         private const int MaxOverlaps = 10;
 
-        private List<IEntity> _hitEntities = new();
+        private List<Entity> _hitEntities = new();
 
         private void Awake()
         {
@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.Hitboxes
 
                 for (int i = 0; i < overlaps; i++)
                 {
-                    if (!_collidersNonAlloc[i].TryGetComponent(out IEntity entity))
+                    if (!_collidersNonAlloc[i].TryGetComponent(out Entity entity))
                     {
                         continue;
                     }
@@ -109,7 +109,7 @@ namespace NoMoreFishAndChips.Hitboxes
                         torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
                         Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
 
-                        if (entity is NetEntity netEntity)
+                        if (entity is Entity netEntity)
                         {
                             netEntity.AddForceRpc(netEntity.owner.Value, force);
                             netEntity.AddTorqueRpc(netEntity.owner.Value, torque);

@@ -79,7 +79,7 @@ namespace NoMoreFishAndChips.Environments
             _playerDrowningMap.Add(player, drowning);
         }
 
-        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        void IEntityManagerListener.OnEntityDespawned(Entity entity)
         {
             if (!isOwner)
             {

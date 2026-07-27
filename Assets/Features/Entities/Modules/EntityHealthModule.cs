@@ -10,7 +10,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private PoolManager _poolManager;
 
-        private IEntity _entity;
+        private Entity _entity;
         private Func<int> _healthGetter;
         private Action<int> _healthSetter;
 
@@ -22,7 +22,7 @@ namespace NoMoreFishAndChips.Entities
         public event Action<int, int> OnChanged;
 
         /// <param name="healthSetter">Does not require clamping - we do that for you</param>
-        public EntityHealthModule(IEntity entity, Func<int> healthGetter, Action<int> healthSetter)
+        public EntityHealthModule(Entity entity, Func<int> healthGetter, Action<int> healthSetter)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 

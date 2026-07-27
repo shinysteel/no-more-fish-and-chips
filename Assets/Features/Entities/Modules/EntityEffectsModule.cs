@@ -5,9 +5,9 @@ namespace NoMoreFishAndChips.Entities
 {
     public class EntityEffectsModule
     {
-        protected IEntity _entity;
+        protected Entity _entity;
 
-        public EntityEffectsModule(IEntity entity)
+        public EntityEffectsModule(Entity entity)
         {
             _entity = entity;
 

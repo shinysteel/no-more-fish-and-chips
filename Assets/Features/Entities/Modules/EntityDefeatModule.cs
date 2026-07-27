@@ -22,7 +22,7 @@ namespace NoMoreFishAndChips.Entities
         protected PoolManager _poolManager;
         protected EnvironmentManager _environmentManager;
 
-        private IEntity _entity;
+        private Entity _entity;
         protected Func<bool> _isDefeatedGetter;
         protected Action<bool> _isDefeatedSetter;
 
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Entities
 
         public event Action<bool> OnIsDefeatedChanged;
 
-        public EntityDefeatModule(IEntity entity, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter)
+        public EntityDefeatModule(Entity entity, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();

@@ -34,7 +34,7 @@ namespace NoMoreFishAndChips.Environments
 
             DroppedItems.Clear();
 
-            foreach (IEntity entity in entityManager.Entities)
+            foreach (Entity entity in entityManager.Entities)
             {
                 if (entity is not DroppedItem droppedItem)
                 {

@@ -1,29 +1,23 @@
+using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
-using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
-using NoMoreFishAndChips.UI;
+using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class Entity : MonoBehaviour, IEntity, ITypedPoolable
+    // Maybe it's not so obvious that Entity is linked to the GameplayState, but for now they aren't used in any other state
+    public abstract class Entity : GameplayBehaviour, ISurface
     {
         [SerializeField] protected EntityDefinitionData _entityDefinitionData;
         [SerializeField] protected EntityModel _entityModel;
         [SerializeField] protected Rigidbody _rigidbody;
-        [SerializeField] private Collider _collider;
+        [SerializeField] protected Collider _collider;
 
-        protected NetworkManager _networkManager;
-        protected EntityManager _entityManager;
-        protected UIManager _uiManager;
-
-        protected GameplayContext _context;
-
-        protected bool _isSpawned;
-        protected int _currentHealth;
-        protected bool _isDefeated;
+        private SyncVar<int> _netCurrentHealth;
+        private SyncVar<bool> _netIsDefeated;
 
         protected EntityHealthModule _entityHealthModule;
         protected EntityDefeatModule _entityDefeatModule;
@@ -34,77 +28,92 @@ namespace NoMoreFishAndChips.Entities
         public EntityDefinitionData EntityDefinitionData => _entityDefinitionData;
         public EntityModel EntityModel => _entityModel;
 
-        public bool isSpawned => _isSpawned;
-        public bool isOwner => true;
-
         public EntityHealthModule EntityHealthModule => _entityHealthModule;
         public EntityDefeatModule EntityDefeatModule => _entityDefeatModule;
         public EntityLifecycleModule EntityLifecycleModule => _entityLifecycleModule;
         public EntityEffectsModule EntityEffectsModule => _entityEffectsModule;
         public EntityPhysicsModule EntityPhysicsModule => _entityPhysicsModule;
 
-        protected virtual void Awake()
-        {
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
-            _entityManager = GameManager.Instance.Get<EntityManager>();
-            _uiManager = GameManager.Instance.Get<UIManager>();
-        }
+        SurfaceType ISurface.SurfaceType => _entityDefinitionData.SurfaceType;
 
-        protected virtual EntityHealthModule CreateHealthModule()
+        protected override void OnInitializeModules()
         {
-            return new EntityHealthModule(this, HealthModuleGetter, HealthModuleSetter);
-        }
+            _netCurrentHealth = new SyncVar<int>(_entityDefinitionData.Health, ownerAuth: true);
+            _netIsDefeated = new SyncVar<bool>(ownerAuth: true);
 
-        protected virtual EntityDefeatModule CreateDefeatModule()
-        {
-            return new EntityDefeatModule(this, DefeatModuleGetter, DefeatModuleSetter);
-        }
+            _netCurrentHealth.onChangedWithOld += HandleNetCurrentHealthChanged;
+            _netIsDefeated.onChanged += HandleNetIsDefeatedChanged;
 
-        // The convention 'ModuleSetter and ModuleGetter' are just used for Entity, given it's not clear enough they are distinct from normal Setters & Getters
-        // protected abstract void HealthModuleSetter(int health);
-        protected int HealthModuleGetter()
-        {
-            return _currentHealth;
-        }
-
-        protected void HealthModuleSetter(int health)
-        {
-            _currentHealth = health;
-        }
-
-        protected bool DefeatModuleGetter()
-        {
-            return _isDefeated;
-        }
-
-        protected void DefeatModuleSetter(bool defeated)
-        {
-            _isDefeated = defeated;
-            _entityDefeatModule.HandleIsDefeatedChanged(_isDefeated);
-        }
-
-        public virtual void OnTakenFromPool()
-        {
-            _entityHealthModule = CreateHealthModule();
+            _entityHealthModule = new EntityHealthModule(this,
+                healthGetter: () => _netCurrentHealth.value,
+                healthSetter: SetNetCurrentHealthRpc);
 
             _entityDefeatModule = CreateDefeatModule();
 
             _entityLifecycleModule = new EntityLifecycleModule(this);
 
-            _entityEffectsModule = new EntityEffectsModule(this);
+            _entityEffectsModule = CreateEffectsModule();
 
-            _entityPhysicsModule = new EntityPhysicsModule(this, _rigidbody, _collider);
+            _entityPhysicsModule = CreatePhysicsModule();
+        }
 
-            _isSpawned = true;
+        protected virtual EntityDefeatModule CreateDefeatModule()
+        {
+            return new EntityDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
+        }
+
+        protected virtual EntityEffectsModule CreateEffectsModule()
+        {
+            return new EntityEffectsModule(this);
+        }
+
+        protected virtual EntityPhysicsModule CreatePhysicsModule()
+        {
+            return new EntityPhysicsModule(this, _rigidbody, _collider);
+        }
+
+        protected bool GetNetIsDefeated()
+        {
+            return _netIsDefeated.value;
+        }
+
+        protected void SetNetIsDefeated(bool defeated)
+        {
+            SetNetIsDefeatedRpc(owner.Value, defeated);
+        }
+
+        [TargetRpc]
+        protected void SetNetIsDefeatedRpc(PlayerID id, bool defeated)
+        {
+            _netIsDefeated.value = defeated;
+        }
+
+        protected override void OnSpawned()
+        {
+            base.OnSpawned();
+
+            if (isServer)
+            {
+                _entityHealthModule.SetHealth(_entityDefinitionData.Health);
+            }
+
+            // Temporary
+            if (!isOwner)
+            {
+                _rigidbody.isKinematic = true;
+            }
 
             _entityManager.RaiseNetEntitySpawned(this);
         }
 
-        public virtual void OnReturnedToPool()
+        protected override void OnDespawned()
         {
+            base.OnDespawned();
+
             _entityManager?.RaiseNetEntityDespawned(this);
 
-            _isSpawned = false;
+            _netCurrentHealth.onChangedWithOld -= HandleNetCurrentHealthChanged;
+            _netIsDefeated.onChanged -= HandleNetIsDefeatedChanged;
 
             _context = null;
 
@@ -115,19 +124,9 @@ namespace NoMoreFishAndChips.Entities
             _entityPhysicsModule = null;
         }
 
-        public virtual void InitialiseContext(GameplayContext context)
-        {
-            _context = context;
-
-            if (_networkManager.IsServer)
-            {
-                _entityHealthModule.SetHealth(_entityDefinitionData.Health);
-            }
-        }
-
         protected virtual void Update()
         {
-            if (!_isSpawned)
+            if (!isFullySpawned)
             {
                 return;
             }
@@ -138,27 +137,47 @@ namespace NoMoreFishAndChips.Entities
 
         protected virtual void FixedUpdate()
         {
-            if (!_isSpawned)
+            if (!isFullySpawned)
             {
                 return;
             }
 
-            _entityPhysicsModule.FixedTick();
-
-            // Defeat modules are able to despawn the entity, making it important that it executes last
             _entityDefeatModule.FixedTick();
+            _entityPhysicsModule.FixedTick();
         }
 
-        public void SetHealth(int health)
+        private void HandleNetCurrentHealthChanged(int previous, int current)
         {
-            if (_currentHealth == health)
-            {
-                return;
-            }
+            _entityHealthModule.HandleChanged(previous, current);
+        }
 
-            int previous = _currentHealth;
-            _currentHealth = health;
-            _entityHealthModule.HandleChanged(previous, _currentHealth);
+        private void HandleNetIsDefeatedChanged(bool defeated)
+        {
+            _entityDefeatModule.HandleIsDefeatedChanged(defeated);
+        }
+
+        [ServerRpc]
+        private void SetNetCurrentHealthRpc(int health)
+        {
+            _netCurrentHealth.value = health;
+        }
+
+        [ObserversRpc]
+        public void AnimateHurtRpc()
+        {
+            _entityEffectsModule.AnimateHurt();
+        }
+
+        [TargetRpc]
+        public void AddForceRpc(PlayerID id, Vector3 force)
+        {
+            _rigidbody.AddForce(force, ForceMode.Impulse);
+        }
+
+        [TargetRpc]
+        public void AddTorqueRpc(PlayerID id, Vector3 torque)
+        {
+            _rigidbody.AddTorque(torque, ForceMode.Impulse);
         }
     }
 }

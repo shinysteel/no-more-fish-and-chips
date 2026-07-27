@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class Character : NetEntity
+    public abstract class Character : Entity
     {
         public CharacterModel CharacterModel => (CharacterModel)_entityModel;
         public CharacterPhysicsModule CharacterPhysicsModule => (CharacterPhysicsModule)_entityPhysicsModule;

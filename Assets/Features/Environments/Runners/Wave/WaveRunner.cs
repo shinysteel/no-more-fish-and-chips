@@ -183,7 +183,7 @@ namespace NoMoreFishAndChips.Environments
             _stepIndex = 0;
         }
 
-        void IEntityManagerListener.OnEntityDespawned(IEntity entity)
+        void IEntityManagerListener.OnEntityDespawned(Entity entity)
         {
             if (!isOwner)
             {

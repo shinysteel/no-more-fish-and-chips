@@ -7,7 +7,7 @@ using ShinyOwl.Common.Utils;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class Structure : NetEntity
+    public abstract class Structure : Entity
     {
         private Vector2Int _cell;
         public Vector2Int Cell => _cell;

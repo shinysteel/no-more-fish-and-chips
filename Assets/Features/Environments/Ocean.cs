@@ -72,7 +72,7 @@ namespace NoMoreFishAndChips.Environments
 
         private void OnTriggerStay(Collider collider)
         {
-            if (collider.gameObject.TryGetComponent(out IEntity entity))
+            if (collider.gameObject.TryGetComponent(out Entity entity))
             {
                 if (!entity.isSpawned)
                 {
@@ -111,7 +111,7 @@ namespace NoMoreFishAndChips.Environments
             return Mathf.Clamp01(depth / collider.bounds.size.y);
         }
 
-        private void BuoyancyOnTriggerStay(Collider collider, IEntity entity)
+        private void BuoyancyOnTriggerStay(Collider collider, Entity entity)
         { 
             // More mass = more force
             float strength = entity.EntityPhysicsModule.Rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
@@ -138,7 +138,7 @@ namespace NoMoreFishAndChips.Environments
             rigidbody.MovePosition(rigidbody.position + Vector3.back * _currentSpeed * Time.fixedDeltaTime);
         }
 
-        private void DragOnTriggerStay(Collider collider, IEntity entity)
+        private void DragOnTriggerStay(Collider collider, Entity entity)
         {
             // Drag stops the entity being 'launched' from buoyancy, and slows it down on the XZ plane
             entity.EntityPhysicsModule.Rigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsModule.Rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);

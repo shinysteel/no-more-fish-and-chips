@@ -142,6 +142,8 @@ namespace NoMoreFishAndChips.States
             //    }
             //}
 
+            canStart = false;
+
             if (!canStart)
             {
                 _startTimer = 0f;
