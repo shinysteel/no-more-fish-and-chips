@@ -10,13 +10,13 @@ using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
 namespace NoMoreFishAndChips.Networking
 {
-    public class PurrnetPlayer : NetBehaviour, ISaveable, INetworkManagerListener
+    public class PurrnetPlayer : NetBehaviour, ISaveable
     {
         private SyncVar<string> _netGuid = new SyncVar<string>(ownerAuth: true);
         private SyncVar<int> _netSaveId = new SyncVar<int>(ownerAuth: true);
         private SyncVar<int> _netItemInstanceIdCounter = new SyncVar<int>(ownerAuth: true);
         private SyncVar<string> _netUsername = new SyncVar<string>(ownerAuth: true);
-        private SyncVar<RaftPlayer> _netRaftPlayer = new SyncVar<RaftPlayer>(ownerAuth: true);
+        private SyncLazyRef<RaftPlayer> _netRaftPlayer = new SyncLazyRef<RaftPlayer>(ownerAuth: true);
 
         public int SaveId => _netSaveId.value;  
         public int ItemInstanceIdCounter => _netItemInstanceIdCounter.value;
@@ -42,8 +42,6 @@ namespace NoMoreFishAndChips.Networking
                     _netUsername.value = SteamFriends.GetPersonaName();
                 }
             }
-
-            _networkManager.AddListener(this);
         }
 
         protected override void OnDespawned()
@@ -57,16 +55,6 @@ namespace NoMoreFishAndChips.Networking
             if (_networkManager.IsServer)
             {
                 ((ISaveable)this).Save();
-            }
-
-            _networkManager?.RemoveListener(this);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                _netRaftPlayer.SetDirty();
             }
         }
 
@@ -85,7 +73,7 @@ namespace NoMoreFishAndChips.Networking
         public RaftPlayer CreateRaftPlayer()
         {
             _netRaftPlayer.value = (RaftPlayer)_entityManager.Spawn(EntityId.RaftPlayer, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
-            return _netRaftPlayer;
+            return _netRaftPlayer.value;
         }
 
         public void SetNetSaveId(int id)
@@ -144,21 +132,6 @@ namespace NoMoreFishAndChips.Networking
         void ISaveable.Save()
         {
             _saveManager.GameSave.Players[_netGuid.value].SaveFrom(this);
-        }
-
-        void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)
-        {
-            // Soft fix for _netRaftPlayer being out of sync
-
-            if (!isOwner)
-            {
-                return;
-            }
-
-            if (behaviour != _netRaftPlayer.value)
-            {
-                _netRaftPlayer.SetDirty();
-            }
         }
     }
 }

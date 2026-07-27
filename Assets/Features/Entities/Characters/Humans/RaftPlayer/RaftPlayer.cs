@@ -124,13 +124,15 @@ namespace NoMoreFishAndChips.Entities
             {
                 _inventory.SetLayouts(DefinitionData.UnlockableInventoryLayout, DefinitionData.DefaultUnlockedInventoryLayout);
             }
-            else
-            {
+            
+            if (!isOwner)
+            { 
                 _usernameUI = _uiManager.CreateWorldUI(_uiManager.Config.UsernameUIPrefab, Vector3.zero);
                 _usernameUI.Setup(_networkManager.GetPurrnetPlayer(owner.Value));
             }
 
             // Invoke OnNetworkSpawn after logic components are created
+
             base.OnSpawned();
         }
 

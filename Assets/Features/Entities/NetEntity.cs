@@ -96,6 +96,12 @@ namespace NoMoreFishAndChips.Entities
                 _entityHealthModule.SetHealth(_entityDefinitionData.Health);
             }
 
+            // Temporary
+            if (!isOwner)
+            {
+                _rigidbody.isKinematic = true;
+            }
+
             _entityManager.RaiseNetEntitySpawned(this);
         }
 
