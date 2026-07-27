@@ -1,36 +1,39 @@
+using LiteNetLib;
+using Newtonsoft.Json;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Saving;
-using Newtonsoft.Json;
+using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.UI;
+using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ShinyOwl.Common.Utils;
-using NoMoreFishAndChips.States;
-using System.Collections;
-using NoMoreFishAndChips.UI;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class RaftTile : Entity, IInteractable
+    public abstract class RaftTile : NetEntity, IInteractable
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
         [SerializeField] private Color _damagedColor;
 
+        private SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
+        private SyncVar<int> _netRotations = new SyncVar<int>(ownerAuth: true);
+        private SyncVar<Structure> _netStructure = new SyncVar<Structure>(ownerAuth: true);
+
+        public Vector2Int Cell => _netCell.value;
+        public int Rotations => _netRotations.value;
+        public Structure Structure => _netStructure.value;
+
+
         private Material _material;
 
-        private Vector2Int _cell = Vector2Int.one * int.MinValue;
-        public Vector2Int Cell => _cell;
-
-        private int _rotations;
-        public int Rotations => _rotations;
-        
         public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
-        private Structure _structure;
-        public Structure Structure => _structure;
 
         public const float Size = 1f;
 
@@ -45,34 +48,23 @@ namespace NoMoreFishAndChips.Entities
             _material = _meshRenderer.material;
         }
 
-        protected override EntityHealthModule CreateHealthModule()
+        protected override void OnSpawned()
         {
-            return new EntityHealthModule(this, 
-                healthGetter: HealthModuleGetter, 
-                healthSetter: (int health) => _context.Raft.SetNetTileHealthRpc(_cell, health));
-        }
-
-        protected override EntityDefeatModule CreateDefeatModule()
-        {
-            return new RaftTileDefeatModule(this, DefeatModuleGetter, DefeatModuleSetter);
-        }
-
-        public override void OnTakenFromPool()
-        {
-            base.OnTakenFromPool();
-
-            HandleHealthChanged(0, _entityHealthModule.Current);
+            base.OnSpawned();
 
             _entityHealthModule.OnChanged += HandleHealthChanged;
         }
 
-        public override void OnReturnedToPool()
+        protected override void OnDespawned()
         {
             _entityHealthModule.OnChanged -= HandleHealthChanged;
 
-            _cell = Vector2Int.one * int.MinValue;
+            base.OnDespawned();
+        }
 
-            base.OnReturnedToPool();
+        protected override EntityDefeatModule CreateDefeatModule()
+        {
+            return new RaftTileDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -85,7 +77,7 @@ namespace NoMoreFishAndChips.Entities
         private void HandleHealthChanged(int previous, int current)
         {
             // Since this event can also trigger a despawn, we need to account for that
-            if (!_isSpawned)
+            if (!isSpawned)
             {
                 return;
             }
@@ -93,35 +85,52 @@ namespace NoMoreFishAndChips.Entities
             _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)_entityHealthModule.Current / _entityHealthModule.Max));
         }
 
-        public void SetCell(Vector2Int cell)
+        [ServerRpc(requireOwnership: false)]
+        public void AddStructureRpc(EntityId structureId)
         {
-            if (_cell == cell)
+            //if (_entityManager.GetPrefab(structureId) is not Structure)
+            //{
+            //    return;
+            //}
+
+            if (_netStructure.value != null)
             {
                 return;
             }
 
-            _cell = cell;
-
-            transform.position = _context.Raft.Queries.CellToWorldPosition(_cell);
+            _netStructure.value = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform, Position = new Vector3(transform.position.x, GetSurfaceY(), transform.position.z) });
+            _netStructure.value.SetCell(_netCell.value);
         }
 
-        public void SetRotations(int rotations)
+        public void SetNetCell(Vector2Int cell)
         {
-            _rotations = rotations;
+            if (_netCell.value == cell)
+            {
+                return;
+            }
 
-            transform.rotation = Quaternion.AngleAxis(_rotations * 90f, Vector3.up);
+            _netCell.value = cell;
+
+            transform.position = _context.Raft.Queries.CellToWorldPosition(_netCell.value);
         }
 
-        public void SetStructure(Structure structure)
+        public void SetNetRotations(int rotations)
         {
-            _structure = structure;
+            _netRotations.value = rotations;
+
+            transform.rotation = Quaternion.AngleAxis(_netRotations.value * 90f, Vector3.up);
+        }
+
+        public void SetNetStructure(Structure structure)
+        {
+            _netStructure.value = structure;
         }
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
 
-            if (!_isSpawned)
+            if (!isSpawned)
             {
                 return;
             }
@@ -150,8 +159,8 @@ namespace NoMoreFishAndChips.Entities
             {
                 // Bob up and down
                 targetY = TileDefinitionData.BobSettings.Amplitude * Mathf.PerlinNoise(
-                    _cell.x * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale,
-                    _cell.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
+                    _netCell.value.x * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale,
+                    _netCell.value.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
             }
 
             Vector3 targetPosition = new Vector3(_rigidbody.position.x, targetY, _rigidbody.position.z);
@@ -169,7 +178,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return _isSpawned && _currentHealth < _entityHealthModule.Max && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && _entityHealthModule.Current < _entityHealthModule.Max && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         WorldUI IInteractable.CreatePromptUI()

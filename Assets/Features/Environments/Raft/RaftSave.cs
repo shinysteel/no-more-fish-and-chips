@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Environments
 
             foreach (StructureSave save in Structures)
             {
-                raft.AddStructureRpc(save.Cell, save.StructureId);
+                raft.Tiles[save.Cell].AddStructureRpc(save.StructureId);
 
                 // Since we are the server, we can assume it exists straight away
                 raft.Tiles[save.Cell].Structure.LoadJsonData(save.JsonData);

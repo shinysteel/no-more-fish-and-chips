@@ -54,7 +54,7 @@ namespace NoMoreFishAndChips.States
 
             _startTimer = 0f;
 
-            _ = EnterVoyageResultsAsync();
+            // _ = EnterVoyageResultsAsync();
         }
 
         private async Task EnterVoyageResultsAsync()
@@ -131,7 +131,7 @@ namespace NoMoreFishAndChips.States
         // Start counting down once all players are on the raft
         private void StartTick()
         {
-            //bool canStart = true;
+            bool canStart = true;
 
             //foreach (RaftPlayer player in _context.Players)
             //{
@@ -142,18 +142,18 @@ namespace NoMoreFishAndChips.States
             //    }
             //}
 
-            //if (!canStart)
-            //{
-            //    _startTimer = 0f;
-            //    return;
-            //}
+            if (!canStart)
+            {
+                _startTimer = 0f;
+                return;
+            }
 
-            //_startTimer += Time.deltaTime;
+            _startTimer += Time.deltaTime;
 
-            //if (_startTimer >= _config.StartDuration)
-            //{
-            //    _parentStateMachine.ChangeState(EIntermissionState.Depart);
-            //}
+            if (_startTimer >= _config.StartDuration)
+            {
+                _parentStateMachine.ChangeState(EIntermissionState.Depart);
+            }
         }
     }
 }

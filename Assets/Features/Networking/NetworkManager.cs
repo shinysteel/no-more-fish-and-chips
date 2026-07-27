@@ -94,7 +94,7 @@ namespace NoMoreFishAndChips.Networking
 
             // Haven't figured out how to auto-register custom classes that inherit from
             // any SyncCollection class, so at least for now we just have to do that here manually
-            PackCollections.RegisterDictionary<Vector2Int, NetTile>();
+            PackCollections.RegisterDictionary<Vector2Int, RaftTile>();
             PackCollections.RegisterDictionary<Vector2Int, NetInventorySlot>();
             PackCollections.RegisterDictionary<string, NetInventoryItem>();
             PackCollections.RegisterDictionary<Vector2Int, Structure>();

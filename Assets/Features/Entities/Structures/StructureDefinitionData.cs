@@ -19,7 +19,7 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            context.Raft.AddStructureRpc(target.Cell, _id);
+            context.Raft.Tiles[target.Cell].AddStructureRpc(_id);
 
             return true;
         }
