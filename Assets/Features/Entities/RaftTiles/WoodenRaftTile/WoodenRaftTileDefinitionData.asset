@@ -20,6 +20,7 @@ MonoBehaviour:
   _health: 3
   _isDamageable: 1
   _alliance: 0
+  _surfaceType: 1
   _dropTables:
   - {fileID: 11400000, guid: 211835d87f316ae438114afb1aaae833, type: 2}
   _entityDefeatSettings: {fileID: 11400000, guid: 7bd7903a30fdc78478d452d29531609b, type: 2}
@@ -44,4 +45,3 @@ MonoBehaviour:
     _requirements:
     - _itemId: 1
       _count: 1
-  _surfaceType: 1

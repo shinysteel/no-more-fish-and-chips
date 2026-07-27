@@ -115,6 +115,7 @@ namespace NoMoreFishAndChips.Entities
                 SurfaceType.Wood => SoundId.HumanJumpWood,
                 SurfaceType.Sand => SoundId.HumanJumpSand,
                 SurfaceType.Grass => SoundId.HumanJumpGrass,
+                SurfaceType.Goop => SoundId.HumanJumpGoop,
                 _ => SoundId.None
             };
 
@@ -137,6 +138,7 @@ namespace NoMoreFishAndChips.Entities
                 SurfaceType.Wood => SoundId.HumanFootstepWood,
                 SurfaceType.Grass => SoundId.HumanFootstepGrass,
                 SurfaceType.Sand => SoundId.HumanFootstepSand,
+                SurfaceType.Goop => SoundId.HumanFootstepGoop,
                 _ => SoundId.None
             };
 
