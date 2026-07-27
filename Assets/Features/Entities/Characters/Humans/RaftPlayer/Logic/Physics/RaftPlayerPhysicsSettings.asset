@@ -37,7 +37,3 @@ MonoBehaviour:
     _mask:
       serializedVersion: 2
       m_Bits: 768
-  _onRaft:
-    _mask:
-      serializedVersion: 2
-      m_Bits: 256

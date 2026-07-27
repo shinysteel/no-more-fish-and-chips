@@ -82,8 +82,11 @@ namespace NoMoreFishAndChips.Entities
 
         public override void OnDespawned()
         {
-            _paddleStateMachine.OnStateEnumChanged -= HandlePaddleStateEnumChanged;
-            _spearStateMachine.OnStateEnumChanged -= HandleSpearStateEnumChanged;
+            if (_player.isOwner)
+            {
+                _paddleStateMachine.OnStateEnumChanged -= HandlePaddleStateEnumChanged;
+                _spearStateMachine.OnStateEnumChanged -= HandleSpearStateEnumChanged;
+            }
         }
 
         public void Attack()

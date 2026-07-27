@@ -89,14 +89,10 @@ namespace NoMoreFishAndChips.Entities
 
             _entityManager?.RaiseNetEntityDespawned(this);
 
-            _context = null;
-
             foreach (EntityLogic logic in _typeLogicMap.Values)
             {
                 logic.OnDespawned();
             }
-
-            _typeLogicMap.Clear();
         }
 
         protected virtual void Update()
