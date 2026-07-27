@@ -30,12 +30,12 @@ namespace NoMoreFishAndChips.UI
         {
             base.Show(onComplete);
 
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(_clam);
+            _context.LocalPlayer.OpenNetBehaviourLogic.SetNetBehaviour(_clam);
         }
 
         public override void Hide(Action onComplete)
         {
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(null);
+            _context.LocalPlayer.OpenNetBehaviourLogic.SetNetBehaviour(null);
 
             base.Hide(onComplete);
         }
@@ -52,7 +52,7 @@ namespace NoMoreFishAndChips.UI
 
         private void TimerUpdate()
         {
-            _timerFillImage.fillAmount = 1f - _clam.EntityLifecycleModule.TimeAlive / _clam.DefinitionData.AwaitItemsSettings.Duration;
+            _timerFillImage.fillAmount = 1f - _clam.EntityLifecycleLogic.TimeAlive / _clam.DefinitionData.AwaitItemsSettings.Duration;
         }
     }
 }

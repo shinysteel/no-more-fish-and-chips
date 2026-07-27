@@ -85,7 +85,7 @@ namespace NoMoreFishAndChips.Environments
                 }
 
                 BuoyancyOnTriggerStay(collider, entity);
-                CurrentOnTriggerStay(entity.EntityPhysicsModule.Rigidbody, false);
+                CurrentOnTriggerStay(entity.EntityPhysicsLogic.Rigidbody, false);
                 DragOnTriggerStay(collider, entity);
             }
             else if (collider.gameObject.TryGetComponent(out Island island))
@@ -114,12 +114,12 @@ namespace NoMoreFishAndChips.Environments
         private void BuoyancyOnTriggerStay(Collider collider, Entity entity)
         { 
             // More mass = more force
-            float strength = entity.EntityPhysicsModule.Rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
+            float strength = entity.EntityPhysicsLogic.Rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
             float factor = GetBuoyancyFactor(collider);
             Vector3 force = Vector3.up * strength * factor;
 
             // Push the entity upwards to simulate floating
-            entity.EntityPhysicsModule.Rigidbody.AddForce(force, ForceMode.Force);
+            entity.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Force);
         }
 
         // Current is referring to motion in water
@@ -141,8 +141,8 @@ namespace NoMoreFishAndChips.Environments
         private void DragOnTriggerStay(Collider collider, Entity entity)
         {
             // Drag stops the entity being 'launched' from buoyancy, and slows it down on the XZ plane
-            entity.EntityPhysicsModule.Rigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsModule.Rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
-            entity.EntityPhysicsModule.Rigidbody.AddTorque(-entity.EntityPhysicsModule.Rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
+            entity.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsLogic.Rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
+            entity.EntityPhysicsLogic.Rigidbody.AddTorque(-entity.EntityPhysicsLogic.Rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
         }
     }
 }

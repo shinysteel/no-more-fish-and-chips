@@ -4,6 +4,8 @@ using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -16,94 +18,69 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] protected Rigidbody _rigidbody;
         [SerializeField] protected Collider _collider;
 
-        private SyncVar<int> _netCurrentHealth;
-        private SyncVar<bool> _netIsDefeated;
-
-        protected EntityHealthModule _entityHealthModule;
-        protected EntityDefeatModule _entityDefeatModule;
-        protected EntityLifecycleModule _entityLifecycleModule;
-        protected EntityEffectsModule _entityEffectsModule;
-        protected EntityPhysicsModule _entityPhysicsModule;
+        private SyncVar<int> _netHealth = new SyncVar<int>(ownerAuth: true);
+        private SyncVar<bool> _netIsDefeated = new SyncVar<bool>(ownerAuth: true);
 
         public EntityDefinitionData EntityDefinitionData => _entityDefinitionData;
         public EntityModel EntityModel => _entityModel;
 
-        public EntityHealthModule EntityHealthModule => _entityHealthModule;
-        public EntityDefeatModule EntityDefeatModule => _entityDefeatModule;
-        public EntityLifecycleModule EntityLifecycleModule => _entityLifecycleModule;
-        public EntityEffectsModule EntityEffectsModule => _entityEffectsModule;
-        public EntityPhysicsModule EntityPhysicsModule => _entityPhysicsModule;
+        protected EntityLogicFactory _logicFactory;
+        private Dictionary<Type, EntityLogic> _typeLogicMap = new();
+
+        public EntityHealthLogic EntityHealthLogic => GetLogic<EntityHealthLogic>();
+        public EntityDefeatLogic EntityDefeatLogic => GetLogic<EntityDefeatLogic>();
+        public EntityLifecycleLogic EntityLifecycleLogic => GetLogic<EntityLifecycleLogic>();
+        public EntityEffectsLogic EntityEffectsLogic => GetLogic<EntityEffectsLogic>();
+        public EntityPhysicsLogic EntityPhysicsLogic => GetLogic<EntityPhysicsLogic>();
 
         SurfaceType ISurface.SurfaceType => _entityDefinitionData.SurfaceType;
 
         protected override void OnInitializeModules()
         {
-            _netCurrentHealth = new SyncVar<int>(_entityDefinitionData.Health, ownerAuth: true);
-            _netIsDefeated = new SyncVar<bool>(ownerAuth: true);
+            _logicFactory = CreateLogicFactory();
 
-            _netCurrentHealth.onChangedWithOld += HandleNetCurrentHealthChanged;
-            _netIsDefeated.onChanged += HandleNetIsDefeatedChanged;
-
-            _entityHealthModule = new EntityHealthModule(this,
-                healthGetter: () => _netCurrentHealth.value,
-                healthSetter: SetNetCurrentHealthRpc);
-
-            _entityDefeatModule = CreateDefeatModule();
-
-            _entityLifecycleModule = new EntityLifecycleModule(this);
-
-            _entityEffectsModule = CreateEffectsModule();
-
-            _entityPhysicsModule = CreatePhysicsModule();
+            AddLogic(typeof(EntityHealthLogic), _logicFactory.CreateHealthLogic(this, _netHealth));
+            AddLogic(typeof(EntityDefeatLogic), _logicFactory.CreateDefeatLogic(this, _netIsDefeated));
+            AddLogic(typeof(EntityLifecycleLogic), _logicFactory.CreateLifecycleLogic(this));
+            AddLogic(typeof(EntityEffectsLogic), _logicFactory.CreateEffectsLogic(this));
+            AddLogic(typeof(EntityPhysicsLogic), _logicFactory.CreatePhysicsLogic(this, _rigidbody, _collider));
         }
 
-        protected virtual EntityDefeatModule CreateDefeatModule()
+        protected virtual EntityLogicFactory CreateLogicFactory()
         {
-            return new EntityDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
+            return new EntityLogicFactory();
         }
 
-        protected virtual EntityEffectsModule CreateEffectsModule()
+        protected void AddLogic<T>(Type type, T logic) where T : EntityLogic
         {
-            return new EntityEffectsModule(this);
+            _typeLogicMap.Add(type, logic);
         }
 
-        protected virtual EntityPhysicsModule CreatePhysicsModule()
+        protected T GetLogic<T>() where T : EntityLogic
         {
-            return new EntityPhysicsModule(this, _rigidbody, _collider);
-        }
-
-        protected bool GetNetIsDefeated()
-        {
-            return _netIsDefeated.value;
-        }
-
-        protected void SetNetIsDefeated(bool defeated)
-        {
-            SetNetIsDefeatedRpc(owner.Value, defeated);
-        }
-
-        [TargetRpc]
-        protected void SetNetIsDefeatedRpc(PlayerID id, bool defeated)
-        {
-            _netIsDefeated.value = defeated;
+            return (T)_typeLogicMap[typeof(T)];
         }
 
         protected override void OnSpawned()
         {
             base.OnSpawned();
 
-            if (isServer)
+            foreach (EntityLogic logic in _typeLogicMap.Values)
             {
-                _entityHealthModule.SetHealth(_entityDefinitionData.Health);
-            }
-
-            // Temporary
-            if (!isOwner)
-            {
-                _rigidbody.isKinematic = true;
+                logic.OnSpawned();
             }
 
             _entityManager.RaiseNetEntitySpawned(this);
+        }
+
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            foreach (EntityLogic logic in _typeLogicMap.Values)
+            {
+                logic.InitialiseContext(context);
+            }
         }
 
         protected override void OnDespawned()
@@ -112,60 +89,46 @@ namespace NoMoreFishAndChips.Entities
 
             _entityManager?.RaiseNetEntityDespawned(this);
 
-            _netCurrentHealth.onChangedWithOld -= HandleNetCurrentHealthChanged;
-            _netIsDefeated.onChanged -= HandleNetIsDefeatedChanged;
-
             _context = null;
 
-            _entityHealthModule = null;
-            _entityDefeatModule = null;
-            _entityLifecycleModule = null;
-            _entityEffectsModule = null;
-            _entityPhysicsModule = null;
+            foreach (EntityLogic logic in _typeLogicMap.Values)
+            {
+                logic.OnDespawned();
+            }
+
+            _typeLogicMap.Clear();
         }
 
         protected virtual void Update()
         {
-            if (!isFullySpawned)
+            if (!isFullySpawned || _context == null)
             {
                 return;
             }
 
-            _entityDefeatModule.Tick();
-            _entityPhysicsModule.Tick();
+            foreach (EntityLogic logic in _typeLogicMap.Values)
+            {
+                logic.Tick();
+            }
         }
 
         protected virtual void FixedUpdate()
         {
-            if (!isFullySpawned)
+            if (!isFullySpawned || _context == null)
             {
                 return;
             }
 
-            _entityDefeatModule.FixedTick();
-            _entityPhysicsModule.FixedTick();
-        }
-
-        private void HandleNetCurrentHealthChanged(int previous, int current)
-        {
-            _entityHealthModule.HandleChanged(previous, current);
-        }
-
-        private void HandleNetIsDefeatedChanged(bool defeated)
-        {
-            _entityDefeatModule.HandleIsDefeatedChanged(defeated);
-        }
-
-        [ServerRpc]
-        private void SetNetCurrentHealthRpc(int health)
-        {
-            _netCurrentHealth.value = health;
+            foreach (EntityLogic logic in _typeLogicMap.Values)
+            {
+                logic.FixedTick();
+            }
         }
 
         [ObserversRpc]
         public void AnimateHurtRpc()
         {
-            _entityEffectsModule.AnimateHurt();
+            EntityEffectsLogic.AnimateHurt();
         }
 
         [TargetRpc]

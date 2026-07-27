@@ -1,11 +1,12 @@
 using NoMoreFishAndChips.Networking;
 using PurrNet;
 using System;
+using System.Globalization;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerOpenNetBehaviourLogic
+    public class RaftPlayerOpenNetBehaviourLogic : RaftPlayerLogic
     {
         private SyncVar<NetBehaviour> _netBehaviour;
 
@@ -13,7 +14,7 @@ namespace NoMoreFishAndChips.Entities
 
         public event Action<NetBehaviour, NetBehaviour> OnChanged;
         
-        public RaftPlayerOpenNetBehaviourLogic(SyncVar<NetBehaviour> netBehaviour)
+        public RaftPlayerOpenNetBehaviourLogic(RaftPlayer player, SyncVar<NetBehaviour> netBehaviour) : base(player)
         {
             _netBehaviour = netBehaviour;
 
@@ -21,7 +22,8 @@ namespace NoMoreFishAndChips.Entities
 
             _netBehaviour.onChangedWithOld += HandleNetBehaviourChanged;
         }
-        ~RaftPlayerOpenNetBehaviourLogic()
+
+        public override void OnDespawned()
         {
             _netBehaviour.onChangedWithOld -= HandleNetBehaviourChanged;
         }
@@ -29,6 +31,16 @@ namespace NoMoreFishAndChips.Entities
         private void HandleNetBehaviourChanged(NetBehaviour previous, NetBehaviour current)
         {
             OnChanged?.Invoke(previous, current);
+        }
+
+        public void SetNetBehaviour(NetBehaviour behaviour)
+        {
+            if (!_player.isOwner)
+            {
+                return;
+            }
+
+            _netBehaviour.value = behaviour;
         }
     }
 }

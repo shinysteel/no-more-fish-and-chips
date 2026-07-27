@@ -6,11 +6,9 @@ using NoMoreFishAndChips.Items;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerAnimateLogic
+    public class RaftPlayerAnimateLogic : RaftPlayerLogic
     {
         private AudioManager _audioManager;
-
-        private RaftPlayer _player;
 
         private StateAnimationEvents _groundRunStateAnimationEvents;
         private StateAnimationEvents _waterIdleStateAnimationEvents;
@@ -46,11 +44,9 @@ namespace NoMoreFishAndChips.Entities
         private const string SpearJab1StateName = AttackLayerName + ".Spear.Jab1";
         private const string SpearJab2StateName = AttackLayerName + ".Spear.Jab2";
 
-        public RaftPlayerAnimateLogic(RaftPlayer player)
+        public RaftPlayerAnimateLogic(RaftPlayer player) : base(player)
         {
             _audioManager = GameManager.Instance.Get<AudioManager>();
-
-            _player = player;
 
             _groundRunStateAnimationEvents = new StateAnimationEvents(GroundRunStateName, true)
             {
@@ -148,7 +144,7 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void Tick()
+        public override void Tick()
         {
             if (_player.isOwner)
             {
@@ -156,7 +152,7 @@ namespace NoMoreFishAndChips.Entities
                 bool inWater = _player.CharacterPhysicsModule.InWater;
                 bool inAir = _player.CharacterPhysicsModule.InAir;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
-                bool inBarrel = _player.RaftPlayerDefeatModule.InBarrel;
+                bool inBarrel = _player.RaftPlayerDefeatLogic.InBarrel;
 
                 _player.EntityModel.Animator.SetBool(IsMovingBoolName, isMoving);
                 _player.EntityModel.Animator.SetBool(InWaterBoolName, inWater);

@@ -62,8 +62,8 @@ namespace NoMoreFishAndChips.Entities
 
             private void ScaleTick()
             {
-                float speed = Mathf.Pow(1.1f, _drowning._entityLifecycleModule.TimeAlive);
-                float time = _drowning._entityLifecycleModule.TimeAlive * speed % 1f;
+                float speed = Mathf.Pow(1.1f, _drowning.EntityLifecycleLogic.TimeAlive);
+                float time = _drowning.EntityLifecycleLogic.TimeAlive * speed % 1f;
                 float scale = 1f + 0.15f * _drowning._scaleCurve.Evaluate(time);
 
                 _drowning.transform.localScale = Vector3.one * scale;
@@ -75,7 +75,7 @@ namespace NoMoreFishAndChips.Entities
                 direction.y = 0f;
                 direction.Normalize();
 
-                float speed = -1f + Mathf.Pow(1.4f, _drowning._entityLifecycleModule.TimeAlive);
+                float speed = -1f + Mathf.Pow(1.4f, _drowning.EntityLifecycleLogic.TimeAlive);
 
                 _drowning.transform.position += direction * speed * Time.deltaTime;
             }
@@ -84,7 +84,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (Vector3.Distance(_drowning.transform.position, _drowning._targetPlayer.transform.position) < 0.5f)
                 {
-                    _drowning._targetPlayer.EntityDefeatModule.SetIsDefeated(true);
+                    _drowning._targetPlayer.EntityDefeatLogic.SetIsDefeated(true);
                     _parentStateMachine.ChangeState(EState.Finisher);
                 }
             }
@@ -121,7 +121,7 @@ namespace NoMoreFishAndChips.Entities
                 // This is how long the Crab finisher is, and hopefully that is standardised
                 if (_stateTimer >= Duration)
                 {
-                    _drowning._targetPlayer.RaftPlayerDefeatModule.Respawn();
+                    _drowning._targetPlayer.RaftPlayerDefeatLogic.Respawn();
 
                     _parentStateMachine.ChangeState(EState.Disappear);
                 }

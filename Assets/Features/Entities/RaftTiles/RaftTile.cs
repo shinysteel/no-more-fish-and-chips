@@ -37,7 +37,7 @@ namespace NoMoreFishAndChips.Entities
 
         public const float Size = 1f;
 
-        public RaftTileDefeatModule TileDefeatModule => (RaftTileDefeatModule)_entityDefeatModule;
+        public RaftTileDefeatLogic TileDefeatModule => (RaftTileDefeatLogic)EntityDefeatLogic;
 
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
 
@@ -52,26 +52,14 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
-            _entityHealthModule.OnChanged += HandleHealthChanged;
+            EntityHealthLogic.OnChanged += HandleHealthChanged;
         }
 
         protected override void OnDespawned()
         {
-            _entityHealthModule.OnChanged -= HandleHealthChanged;
+            EntityHealthLogic.OnChanged -= HandleHealthChanged;
 
             base.OnDespawned();
-        }
-
-        protected override EntityDefeatModule CreateDefeatModule()
-        {
-            return new RaftTileDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
-        }
-
-        public override void InitialiseContext(GameplayContext context)
-        {
-            base.InitialiseContext(context);
-
-            TileDefeatModule.SetContext(context);
         }
 
         private void HandleHealthChanged(int previous, int current)
@@ -82,17 +70,12 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)_entityHealthModule.Current / _entityHealthModule.Max));
+            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)current / EntityHealthLogic.Max));
         }
 
         [ServerRpc(requireOwnership: false)]
         public void AddStructureRpc(EntityId structureId)
         {
-            //if (_entityManager.GetPrefab(structureId) is not Structure)
-            //{
-            //    return;
-            //}
-
             if (_netStructure.value != null)
             {
                 return;
@@ -141,7 +124,7 @@ namespace NoMoreFishAndChips.Entities
         private void PositionFixedUpdate()
         {
             // TileDefeatModule takes over when defeated
-            if (_entityDefeatModule.IsDefeated)
+            if (EntityDefeatLogic.IsDefeated)
             {
                 return;
             }
@@ -178,7 +161,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return isSpawned && _entityHealthModule.Current < _entityHealthModule.Max && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && EntityHealthLogic.Current < EntityHealthLogic.Max && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         WorldUI IInteractable.CreatePromptUI()
@@ -198,7 +181,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_context.LocalPlayer.Inventory.TryRemoveItems(TileDefinitionData.RepairRecipe.ToChangeParams()))
             {
-                _entityHealthModule.ChangeHealth(1);
+                EntityHealthLogic.ChangeHealth(1);
             }
         }
     }

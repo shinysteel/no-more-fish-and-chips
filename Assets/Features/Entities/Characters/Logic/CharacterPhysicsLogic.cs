@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class CharacterPhysicsModule : EntityPhysicsModule
+    public class CharacterPhysicsLogic : EntityPhysicsLogic
     {
         private Character _character;
         private CharacterPhysicsSettings _settings;
@@ -28,7 +28,7 @@ namespace NoMoreFishAndChips.Entities
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
 
-        public CharacterPhysicsModule(Character character, Rigidbody rigidbody, Collider collider) : base(character, rigidbody, collider)
+        public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, Collider collider) : base(character, rigidbody, collider)
         {
             _character = character;
             _settings = (CharacterPhysicsSettings)_character.EntityDefinitionData.EntityPhysicsSettings;

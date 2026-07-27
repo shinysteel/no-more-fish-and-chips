@@ -12,11 +12,9 @@ using System.Linq;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerAttackLogic
+    public class RaftPlayerAttackLogic : RaftPlayerLogic
     {
         private HitboxManager _hitboxManager;
-
-        private RaftPlayer _player;
 
         private RaftPlayerAttackSettings _settings;
 
@@ -27,33 +25,34 @@ namespace NoMoreFishAndChips.Entities
 
         public bool IsAttacking => _currentStateMachine != null;
 
-        public RaftPlayerAttackLogic(RaftPlayer player)
+        public RaftPlayerAttackLogic(RaftPlayer player) : base(player)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
 
-            _player = player;
-
             _settings = _player.DefinitionData.AttackSettings;
+        }
 
+        public override void OnSpawned()
+        {
             if (!_player.isOwner)
             {
                 return;
             }
 
             _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
-                new StateAnimationEvent(0f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
 
             _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
                 new StateAnimationEvent(0f, () => _hitboxManager.SpawnHitbox(_settings.PaddleSwingHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(
-                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
 
             _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(
                 new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.SpearJabHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(
-                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsModule.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
 
             _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(
                 new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.SpearJabHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
@@ -81,7 +80,7 @@ namespace NoMoreFishAndChips.Entities
             _spearStateMachine.OnStateEnumChanged += HandleSpearStateEnumChanged;
         }
 
-        ~RaftPlayerAttackLogic()
+        public override void OnDespawned()
         {
             _paddleStateMachine.OnStateEnumChanged -= HandlePaddleStateEnumChanged;
             _spearStateMachine.OnStateEnumChanged -= HandleSpearStateEnumChanged;
@@ -130,7 +129,7 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void Tick()
+        public override void Tick()
         {
             _currentStateMachine?.Tick();
         }

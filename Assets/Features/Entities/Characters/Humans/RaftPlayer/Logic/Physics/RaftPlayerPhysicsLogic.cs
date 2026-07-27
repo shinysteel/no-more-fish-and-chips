@@ -10,7 +10,7 @@ using UnityEngine.TextCore.Text;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerPhysicsModule : CharacterPhysicsModule
+    public class RaftPlayerPhysicsLogic : CharacterPhysicsLogic
     {
         private RaftPlayer _player;
         private CapsuleCollider _capsuleCollider;
@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
 
         private RaycastHit[] _climbHitsNonAlloc = new RaycastHit[5];
 
-        public RaftPlayerPhysicsModule(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
+        public RaftPlayerPhysicsLogic(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
         {
             _player = player;
             _capsuleCollider = capsuleCollider;

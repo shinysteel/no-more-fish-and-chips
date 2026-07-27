@@ -14,11 +14,9 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerGrabbedInventoryItemLogic : IUIManagerListener
+    public class RaftPlayerGrabbedInventoryItemLogic : RaftPlayerLogic, IUIManagerListener
     {
         private UIManager _uiManager;
-
-        private RaftPlayer _player;
 
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem;
 
@@ -29,23 +27,21 @@ namespace NoMoreFishAndChips.Entities
 
         public event Action<InventoryItem> OnGrabbedInventoryItemChanged;
 
-        public RaftPlayerGrabbedInventoryItemLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
+        public RaftPlayerGrabbedInventoryItemLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem) : base(player)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 
             _uiManager.AddListener(this);
 
-            _player = player;
-
             _netGrabbedInventoryItem = netGrabbedInventoryItem;
             _netGrabbedInventoryItem.onChanged += HandleNetGrabbedInventoryItemChanged;
         }
 
-        ~RaftPlayerGrabbedInventoryItemLogic()
+        public override void OnDespawned()
         {
             _uiManager?.RemoveListener(this);
 
-            _netGrabbedInventoryItem.onChanged -= HandleNetGrabbedInventoryItemChanged;   
+            _netGrabbedInventoryItem.onChanged -= HandleNetGrabbedInventoryItemChanged;
         }
 
         /// <summary>

@@ -30,12 +30,12 @@ namespace NoMoreFishAndChips.UI
         {
             base.Show(onComplete);
 
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(_chest);
+            _context.LocalPlayer.OpenNetBehaviourLogic.SetNetBehaviour(_chest);
         }
 
         public override void Hide(Action onComplete)
         {
-            _context.LocalPlayer.SetNetOpenObjectNetworkId(null);
+            _context.LocalPlayer.OpenNetBehaviourLogic.SetNetBehaviour(null);
 
             _context = null;
 

@@ -15,122 +15,45 @@ using Object = UnityEngine.Object;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerTileTarget
-    {
-        private GameplayContext _context;
-
-        private Vector2Int _cell;
-        private RaftTile _tile;
-
-        public Vector2Int Cell => _cell;
-        public RaftTile Tile => _tile;
-
-        public event Action OnChanged;
-
-        public RaftPlayerTileTarget(GameplayContext context)
-        {
-            _context = context;
-
-            _cell = Vector2Int.one * int.MinValue;
-
-            _context.Raft.OnTileChanged += HandleTileChanged;
-        }
-
-        ~RaftPlayerTileTarget()
-        {
-            if (_context.Raft != null)
-            {
-                _context.Raft.OnTileChanged -= HandleTileChanged;
-            }
-        }
-
-        public void SetCell(Vector2Int cell)
-        {
-            if (_cell == cell)
-            {
-                return;
-            }
-
-            _cell = cell;
-
-            // Refresh _tile whenever _cell changes
-            _context.Raft.Tiles.TryGetValue(_cell, out RaftTile tile);
-            HandleTileChanged(_cell, tile);
-        }
-
-        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
-        {
-            if (_cell != cell)
-            {
-                return;
-            }
-
-            _tile = tile;
-
-            OnChanged?.Invoke();
-        }
-
-        public bool CanBuild()
-        {
-            return CanBuildTile() || CanBuildStructure();
-        }
-
-        public bool CanBuildTile()
-        {
-            return _tile == null;
-        }
-
-        public bool CanBuildStructure()
-        {
-            return _tile != null && _tile.Structure == null;
-        }
-
-        public bool CanRepair()
-        {
-            return _tile?.EntityHealthModule.Current < _tile?.EntityHealthModule.Max;
-        }
-    }
-
-    public class RaftPlayerTileTargetLogic
+    public class RaftPlayerTileTargetLogic : RaftPlayerLogic
     {
         private CameraManager _cameraManager;
         private EnvironmentManager _environmentManager;
-
-        private RaftPlayer _player;
-        private GameplayContext _context;
 
         private RaftPlayerTileTargetSettings _settings;
 
         private Prop _targetProp;
 
-        private RaftPlayerTileTarget _target;
-        public RaftPlayerTileTarget Target => _target;
+        private RaftTileTarget _target;
+        public RaftTileTarget Target => _target;
 
-        public event Action<RaftPlayerTileTarget> OnTargetChanged;
+        public event Action<RaftTileTarget> OnTargetChanged;
 
         private bool _isBuilding;
         public bool IsBuilding => _isBuilding;
 
         private const float RepairRange = 1f;
 
-        public RaftPlayerTileTargetLogic(RaftPlayer player, GameplayContext context)
+        public RaftPlayerTileTargetLogic(RaftPlayer player) : base(player)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
-            _player = player;
-            _context = context;
-
             _settings = _player.DefinitionData.TileTargetSettings;
+        }
 
-            _target = new RaftPlayerTileTarget(context);
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _target = new RaftTileTarget(_context);
             _target.OnChanged += HandleTargetChanged;
 
             HandleHotbarSelectedSlotChanged(_player.Hotbar.SelectedSlot);
             _player.Hotbar.OnSelectedChanged += HandleHotbarSelectedSlotChanged;
         }
 
-        ~RaftPlayerTileTargetLogic()
+        public override void OnDespawned()
         {
             _target.OnChanged -= HandleTargetChanged;
 
@@ -153,7 +76,7 @@ namespace NoMoreFishAndChips.Entities
             RefreshProp();
         }
 
-        public void Tick()
+        public override void Tick()
         {
             if (!_player.isOwner)
             {
@@ -187,7 +110,7 @@ namespace NoMoreFishAndChips.Entities
 
                 // Find the closest tile that can be repaired
                 RaftTile closestTile = tiles
-                    .Where(tile => tile.EntityHealthModule.Current < tile.EntityHealthModule.Max && Vector3.Distance(tile.transform.position, _player.transform.position) < RepairRange)
+                    .Where(tile => tile.EntityHealthLogic.Current < tile.EntityHealthLogic.Max && Vector3.Distance(tile.transform.position, _player.transform.position) < RepairRange)
                     .OrderBy(tile => Vector3.Distance(tile.transform.position, _player.transform.position))
                     .FirstOrDefault();
 

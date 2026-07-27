@@ -7,16 +7,17 @@ using PurrNet;
 using ShinyOwl.Common.Extensions;
 using System;
 using UnityEngine;
+
 using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerDefeatModule : CharacterDefeatModule
+    public class RaftPlayerDefeatLogic : CharacterDefeatLogic
     {
+        private RaftPlayerDefeatSettings _settings;
+
         private RaftPlayer _player;
         private SyncVar<bool> _netInBarrel;
-
-        private RaftPlayerDefeatSettings _settings;
 
         public bool InBarrel => _netInBarrel.value;
 
@@ -26,8 +27,8 @@ namespace NoMoreFishAndChips.Entities
 
         private Collider[] _reviveCollidersNonAlloc = new Collider[1];
         
-        public RaftPlayerDefeatModule(RaftPlayer player, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter, SyncVar<bool> netInBarrel) : base(player, isDefeatedGetter, isDefeatedSetter)
-        {
+        public RaftPlayerDefeatLogic(RaftPlayer player, SyncVar<bool> netIsDefeated, SyncVar<bool> netInBarrel) : base(player, netIsDefeated)
+        {   
             _player = player;
             _netInBarrel = netInBarrel;
 
@@ -84,18 +85,18 @@ namespace NoMoreFishAndChips.Entities
             
             forcedirection = Quaternion.AngleAxis(_settings.MovePitch, Vector3.Cross(forcedirection, Vector3.up)) * forcedirection;
             
-            _player.EntityPhysicsModule.Rigidbody.AddForce(forcedirection * _settings.MoveLinearStrength, ForceMode.Impulse);
+            _player.EntityPhysicsLogic.Rigidbody.AddForce(forcedirection * _settings.MoveLinearStrength, ForceMode.Impulse);
 
             Vector3 torqueDirection = Vector3.Cross(forcedirection, Vector3.up);
 
-            _player.EntityPhysicsModule.Rigidbody.AddTorque(torqueDirection * _settings.MoveAngularStrength, ForceMode.Impulse);
+            _player.EntityPhysicsLogic.Rigidbody.AddTorque(torqueDirection * _settings.MoveAngularStrength, ForceMode.Impulse);
 
             _moveTimer = 0f;
         }
 
         private void StabalisationFixedTick()
         {
-            Quaternion rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.Inverse(_player.EntityPhysicsModule.Rigidbody.rotation);
+            Quaternion rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.Inverse(_player.EntityPhysicsLogic.Rigidbody.rotation);
             
             if (rotation.w < 0f)
             {
@@ -110,14 +111,14 @@ namespace NoMoreFishAndChips.Entities
             }
 
             Vector3 direction = axis.normalized * angle * Mathf.Deg2Rad;
-            Vector3 torque = direction * _settings.StabalisationStrength - _player.EntityPhysicsModule.Rigidbody.angularVelocity * _settings.StabalisationDamping;
+            Vector3 torque = direction * _settings.StabalisationStrength - _player.EntityPhysicsLogic.Rigidbody.angularVelocity * _settings.StabalisationDamping;
 
-            _player.EntityPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Acceleration);
+            _player.EntityPhysicsLogic.Rigidbody.AddTorque(torque, ForceMode.Acceleration);
         }
 
         private void ReviveFixedTick()
         {
-            if (Physics.OverlapSphereNonAlloc(_player.EntityPhysicsModule.Rigidbody.position, _settings.ReviveRadius, _reviveCollidersNonAlloc, _settings.ReviveMask) == 0)
+            if (Physics.OverlapSphereNonAlloc(_player.EntityPhysicsLogic.Rigidbody.position, _settings.ReviveRadius, _reviveCollidersNonAlloc, _settings.ReviveMask) == 0)
             {
                 return;
             }
@@ -125,14 +126,14 @@ namespace NoMoreFishAndChips.Entities
             SetIsDefeated(false);
             _player.SetNetInBarrelRpc(_player.owner.Value, false);
 
-            _player.EntityPhysicsModule.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
+            _player.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
         }
 
-        public override void HandleIsDefeatedChanged(bool defeated)
+        protected override void HandleNetIsDefeatedChanged(bool defeated)
         {
             if (defeated)
             {
-                _player.EntityPhysicsModule.Rigidbody.isKinematic = true;
+                _player.EntityPhysicsLogic.Rigidbody.isKinematic = true;
                 TweenExtensions.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: Ease.OutQuad);
             }
 
@@ -149,8 +150,8 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_player.isOwner)
                 {
-                    _player.EntityPhysicsModule.Rigidbody.isKinematic = false;
-                    _player.EntityPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.None; 
+                    _player.EntityPhysicsLogic.Rigidbody.isKinematic = false;
+                    _player.EntityPhysicsLogic.Rigidbody.constraints = RigidbodyConstraints.None; 
                 }
             }
             else
@@ -161,7 +162,7 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_player.isOwner)
                 {
-                    _player.EntityPhysicsModule.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                    _player.EntityPhysicsLogic.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
                 }
 
                 if (_networkManager.IsServer)

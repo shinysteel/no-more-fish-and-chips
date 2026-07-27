@@ -48,7 +48,7 @@ namespace NoMoreFishAndChips.Entities
 
         DefinitionData ICreatable.DefinitionData => this;
 
-        public bool TryBuild(GameplayContext context, RaftPlayerTileTarget target)
+        public bool TryBuild(GameplayContext context, RaftTileTarget target)
         {
             if (target.Tile != null)
             {

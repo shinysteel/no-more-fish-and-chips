@@ -6,6 +6,6 @@ namespace NoMoreFishAndChips.Entities
 {
     public interface IBuildable : ICreatable
     {
-        bool TryBuild(GameplayContext context, RaftPlayerTileTarget target);
+        bool TryBuild(GameplayContext context, RaftTileTarget target);
     }
 }

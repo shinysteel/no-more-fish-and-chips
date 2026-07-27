@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Items;
 using PrimeTween;
+using PurrNet;
 using ShinyOwl.Common;
 using System;
 using UnityEngine;
@@ -7,17 +8,19 @@ using UnityEngine.TextCore.Text;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class CharacterDefeatModule : EntityDefeatModule
+    public class CharacterDefeatLogic : EntityDefeatLogic
     {
-        private Character _character;
         private CharacterDefeatSettings _settings;
+
+        private Character _character;
 
         private float _tweenTimer;
         private Tween _defeatTween;
 
-        public CharacterDefeatModule(Character character, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(character, isDefeatedGetter, isDefeatedSetter)
+        public CharacterDefeatLogic(Character character, SyncVar<bool> netIsDefeated) : base(character, netIsDefeated)
         {
             _character = character;
+
             _settings = (CharacterDefeatSettings)_character.EntityDefinitionData.EntityDefeatSettings;
         }
 
@@ -46,7 +49,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void TweenTick()
         {
-            if (!_isDefeatedGetter())
+            if (!_netIsDefeated.value)
             {
                 return;
             }
@@ -72,11 +75,11 @@ namespace NoMoreFishAndChips.Entities
                 .OnComplete(Despawn);
         }
 
-        public override void HandleIsDefeatedChanged(bool defeated)
+        protected override void HandleNetIsDefeatedChanged(bool defeated)
         {
             _character.CharacterModel.SetDefeated(defeated);
             _character.EntityModel.Animator.Update(0f);
-            _character.RagdollLogic.SetEnabled(defeated);
+            _character.CharacterRagdollLogic.SetEnabled(defeated);
 
             if (_character.isOwner)
             {
@@ -91,7 +94,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override void Despawn()
         {
-            _character.RagdollLogic.SetEnabled(false);
+            _character.CharacterRagdollLogic.SetEnabled(false);
 
             _character.CharacterModel.SetDefeated(false);
 

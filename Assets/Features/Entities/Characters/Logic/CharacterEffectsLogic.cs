@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class CharacterEffectsModule : EntityEffectsModule
+    public class CharacterEffectsLogic : EntityEffectsLogic
     {
         private Character _character;
 
-        public CharacterEffectsModule(Character character) : base(character)
+        public CharacterEffectsLogic(Character character) : base(character)
         {
             _character = character;
         }

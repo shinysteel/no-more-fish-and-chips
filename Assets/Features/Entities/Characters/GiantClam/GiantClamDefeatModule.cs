@@ -1,14 +1,15 @@
 using PrimeTween;
+using PurrNet;
 using System;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class GiantClamDefeatModule : CharacterDefeatModule
+    public class GiantClamDefeatLogic : CharacterDefeatLogic
     {
         private GiantClam _clam;
 
-        public GiantClamDefeatModule(GiantClam clam, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(clam, isDefeatedGetter, isDefeatedSetter)
+        public GiantClamDefeatLogic(GiantClam clam, SyncVar<bool> netIsDefeated) : base(clam, netIsDefeated)
         {
             _clam = clam;
         }
@@ -16,9 +17,9 @@ namespace NoMoreFishAndChips.Entities
         public override void Tick()
         { }
 
-        public override void HandleIsDefeatedChanged(bool defeated)
+        protected override void HandleNetIsDefeatedChanged(bool defeated)
         {
-            base.HandleIsDefeatedChanged(defeated);
+            base.HandleNetIsDefeatedChanged(defeated);
 
             if (_clam.isOwner && defeated)
             {
@@ -28,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void AnimateAsync()
         {
-            _clam.EntityPhysicsModule.Rigidbody.isKinematic = true;
+            _clam.EntityPhysicsLogic.Rigidbody.isKinematic = true;
 
             Vector3 startPosition = _clam.transform.position;
             Vector3 endPosition = startPosition + Vector3.up * 0.25f;

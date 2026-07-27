@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
         public DefinitionData DefinitionData => this;
         public Recipe BuildRecipe => _buildRecipe;
 
-        public bool TryBuild(GameplayContext context, RaftPlayerTileTarget target)
+        public bool TryBuild(GameplayContext context, RaftTileTarget target)
         {
             if (!target.CanBuildStructure())
             {

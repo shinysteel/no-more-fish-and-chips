@@ -14,12 +14,10 @@ using Object = UnityEngine.Object;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerInteractLogic
+    public class RaftPlayerInteractLogic : RaftPlayerLogic
     {
         private UIManager _uiManager;
         private EnvironmentManager _environmentManager;
-
-        private RaftPlayer _player;
 
         private RaftPlayerInteractSettings _settings;
 
@@ -74,17 +72,15 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public RaftPlayerInteractLogic(RaftPlayer player)
+        public RaftPlayerInteractLogic(RaftPlayer player) : base(player)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
-            _player = player;
-
             _settings = _player.DefinitionData.InteractSettings;
         }
 
-        public void Cleanup()
+        public override void OnDespawned()
         {
             if (_promptUI != null)
             {
@@ -116,7 +112,7 @@ namespace NoMoreFishAndChips.Entities
             _promptInteractable.Interact();
         }
 
-        public void Tick()
+        public override void Tick()
         {
             if (!_player.isOwner)
             {
@@ -200,7 +196,7 @@ namespace NoMoreFishAndChips.Entities
             // Reevaluate what UI we are showing and animate it
             if (_nearbyInteractables.Count == 0 || _promptInteractable != _nearbyInteractables[0].Interactable)
             {
-                Cleanup();
+                OnDespawned();
             }
 
             if (_nearbyInteractables.Count > 0)

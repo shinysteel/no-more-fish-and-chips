@@ -3,27 +3,16 @@ using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using PurrNet;
-using System.Security.Cryptography;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 { 
-    public class RaftPlayerDropInventoryItemLogic
+    public class RaftPlayerDropInventoryItemLogic : RaftPlayerLogic
     {
-        private EntityManager _entityManager;
-        private CameraManager _cameraManager;
-
-        private RaftPlayer _player;
-
         private RaftPlayerDropInventoryItemSettings _settings;
 
-        public RaftPlayerDropInventoryItemLogic(RaftPlayer player)
+        public RaftPlayerDropInventoryItemLogic(RaftPlayer player) : base(player)
         {
-            _entityManager = GameManager.Instance.Get<EntityManager>();
-            _cameraManager = GameManager.Instance.Get<CameraManager>();
-
-            _player = player;
-
             _settings = _player.DefinitionData.DropInventoryItemSettings;
         }
 
@@ -49,7 +38,7 @@ namespace NoMoreFishAndChips.Entities
             DroppedItem droppedItem = itemManager.SpawnDroppedItem(netItemInstance, DroppedItemType.Default, position);
 
             // Launch the item
-            droppedItem.EntityPhysicsModule.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
+            droppedItem.EntityPhysicsLogic.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
         }
     }
 }

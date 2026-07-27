@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
 using UnityEngine;
@@ -7,59 +8,30 @@ namespace NoMoreFishAndChips.Entities
     public abstract class Character : Entity
     {
         public CharacterModel CharacterModel => (CharacterModel)_entityModel;
-        public CharacterPhysicsModule CharacterPhysicsModule => (CharacterPhysicsModule)_entityPhysicsModule;
 
-        private CharacterRagdollLogic _ragdollLogic;
-        protected CharacterActLogic _characterActLogic;
+        public CharacterPhysicsLogic CharacterPhysicsModule => (CharacterPhysicsLogic)EntityPhysicsLogic;
+        public CharacterRagdollLogic CharacterRagdollLogic => GetLogic<CharacterRagdollLogic>();
+        public CharacterActLogic CharacterActLogic => GetLogic<CharacterActLogic>();
 
-        public CharacterRagdollLogic RagdollLogic => _ragdollLogic;
-        public CharacterActLogic CharacterActLogic => _characterActLogic;
-
-        protected override EntityDefeatModule CreateDefeatModule()
+        protected override EntityLogicFactory CreateLogicFactory()
         {
-            return new CharacterDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
+            return new CharacterLogicFactory();
         }
 
-        protected override EntityEffectsModule CreateEffectsModule()
+        protected override void OnInitializeModules()
         {
-            return new CharacterEffectsModule(this);
-        }
+            base.OnInitializeModules();
 
-        protected override EntityPhysicsModule CreatePhysicsModule()
-        {
-            return new CharacterPhysicsModule(this, _rigidbody, _collider);
-        }
+            CharacterLogicFactory factory = (CharacterLogicFactory)_logicFactory;
 
-        protected override void OnSpawned()
-        {
-            _ragdollLogic = new CharacterRagdollLogic(this);
-
-            _characterActLogic = CreateActLogic();
-
-            base.OnSpawned();
-        }
-
-        protected virtual CharacterActLogic CreateActLogic()
-        {
-            return new CharacterActLogic(this);
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if (!isFullySpawned)
-            {
-                return;
-            }
-            
-            _characterActLogic.Tick();
+            AddLogic(typeof(CharacterRagdollLogic), factory.CreateRagdollLogic(this));
+            AddLogic(typeof(CharacterActLogic), factory.CreateActLogic(this));
         }
 
         [ServerRpc]
         public void StunRpc(float duration)
         {
-            _characterActLogic.Stun(duration);
+            CharacterActLogic.Stun(duration);
         }
     }
 

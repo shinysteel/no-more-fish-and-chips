@@ -4,7 +4,7 @@ using System;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerReadyLogic
+    public class RaftPlayerReadyLogic : RaftPlayerLogic
     {
         private SyncVar<bool> _netIsReady;
 
@@ -12,14 +12,14 @@ namespace NoMoreFishAndChips.Entities
 
         public event Action<bool> OnIsReadyChanged;
 
-        public RaftPlayerReadyLogic(SyncVar<bool> netIsReady)
+        public RaftPlayerReadyLogic(RaftPlayer player, SyncVar<bool> netIsReady) : base(player)
         {
             _netIsReady = netIsReady;
 
             _netIsReady.onChanged += HandleNetIsReadyChanged;
         }
 
-        ~RaftPlayerReadyLogic()
+        public override void OnDespawned()
         {
             _netIsReady.onChanged -= HandleNetIsReadyChanged;
         }

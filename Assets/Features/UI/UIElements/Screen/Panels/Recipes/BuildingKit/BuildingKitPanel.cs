@@ -71,7 +71,7 @@ namespace NoMoreFishAndChips.UI
             _context.LocalPlayer.Inventory.TryRemoveItems(parameters);
         }
 
-        private void HandleRaftPlayerTileTargetChanged(RaftPlayerTileTarget target)
+        private void HandleRaftPlayerTileTargetChanged(RaftTileTarget target)
         {
             if (_isShowing)
             {

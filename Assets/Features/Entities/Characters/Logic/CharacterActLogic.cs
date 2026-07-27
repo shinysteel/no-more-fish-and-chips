@@ -2,21 +2,17 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class CharacterActLogic
+    public class CharacterActLogic : CharacterLogic
     {
-        private Character _character;
-
         private bool _isStunned;
         private float _stunTimer;
 
-        public virtual bool CanAct => !_character.EntityDefeatModule.IsDefeated && !_isStunned;
+        public virtual bool CanAct => !_character.EntityDefeatLogic.IsDefeated && !_isStunned;
 
-        public CharacterActLogic(Character character)
-        {
-            _character = character;
-        }
+        public CharacterActLogic(Character character) : base(character)
+        { }
 
-        public void Tick()
+        public override void Tick()
         {
             if (!_character.isOwner)
             {

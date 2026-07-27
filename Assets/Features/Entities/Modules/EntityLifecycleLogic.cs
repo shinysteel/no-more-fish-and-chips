@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class EntityLifecycleModule
+    public class EntityLifecycleLogic : EntityLogic
     {
         private EntityLifecycleSettings _settings;
 
@@ -14,7 +14,7 @@ namespace NoMoreFishAndChips.Entities
 
         public bool InGracePeriod => TimeAlive < _settings.GracePeriod;
 
-        public EntityLifecycleModule(Entity entity)
+        public EntityLifecycleLogic(Entity entity) : base(entity)
         {
             _settings = entity.EntityDefinitionData.EntityLifecycleSettings;
 

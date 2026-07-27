@@ -193,7 +193,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isServer)
             {
-                _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
+                EntityDefeatLogic.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
                 _stateMachine.ChangeState(EState.Scout);
             }
@@ -205,7 +205,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 Cleanup();
 
-                _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
+                EntityDefeatLogic.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
             }
 
             base.OnDespawned();

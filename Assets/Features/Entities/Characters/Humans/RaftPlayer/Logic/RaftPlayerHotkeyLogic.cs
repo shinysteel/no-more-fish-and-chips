@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Instantiating;
 using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Networking;
@@ -16,25 +17,21 @@ namespace NoMoreFishAndChips.Entities
     /// <summary>
     /// Groups all hotkey outputs together so they can be resolved deterministically
     /// </summary>
-    public class RaftPlayerHotkeyLogic
+    public class RaftPlayerHotkeyLogic : RaftPlayerLogic, IRequiresGameplayContext
     {
         private UIManager _uiManager;
         private NetworkManager _networkManager;
-
-        private RaftPlayer _player;
-        private GameplayContext _context;
 
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem;
 
         private InventoryRaycaster _inventoryRaycaster;
 
-        public RaftPlayerHotkeyLogic(RaftPlayer player, GameplayContext context, SyncVar<NetInventoryItem> netGrabbedInventoryItem)
+        public bool IsContextInitialised => throw new System.NotImplementedException();
+
+        public RaftPlayerHotkeyLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem) : base(player)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();
-
-            _player = player;
-            _context = context;
 
             _netGrabbedInventoryItem = netGrabbedInventoryItem;
 
@@ -44,7 +41,7 @@ namespace NoMoreFishAndChips.Entities
         /// <summary>
         /// Resolves all hotkeys
         /// </summary>
-        public void Tick()
+        public override void Tick()
         {
             if (!_player.isOwner)
             {
@@ -401,6 +398,11 @@ namespace NoMoreFishAndChips.Entities
             }
 
             _player.Hotbar.SetSlot(number - 1, itemView.InventoryItem.ItemInstance.InstanceId);
+        }
+
+        public void InitialiseContext(GameplayContext context)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

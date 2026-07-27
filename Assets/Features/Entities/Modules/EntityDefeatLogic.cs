@@ -6,6 +6,9 @@ using ShinyOwl.Common;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.Environments;
+using PurrNet;
+
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -14,7 +17,7 @@ namespace NoMoreFishAndChips.Entities
     /// In this case, a defeat module should be used to set the defeat status of an entity, as well as retrieve that
     /// for all clients
     /// </summary>
-    public class EntityDefeatModule
+    public class EntityDefeatLogic : EntityLogic
     {
         protected EntityManager _entityManager;
         protected ItemManager _itemManager;
@@ -22,17 +25,15 @@ namespace NoMoreFishAndChips.Entities
         protected PoolManager _poolManager;
         protected EnvironmentManager _environmentManager;
 
-        private Entity _entity;
-        protected Func<bool> _isDefeatedGetter;
-        protected Action<bool> _isDefeatedSetter;
-
         private EntityDefeatSettings _settings;
 
-        public bool IsDefeated => _isDefeatedGetter();
+        protected SyncVar<bool> _netIsDefeated;
+
+        public bool IsDefeated => _netIsDefeated.value;
 
         public event Action<bool> OnIsDefeatedChanged;
 
-        public EntityDefeatModule(Entity entity, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter)
+        public EntityDefeatLogic(Entity entity, SyncVar<bool> netIsDefeated) : base(entity)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();
@@ -41,27 +42,36 @@ namespace NoMoreFishAndChips.Entities
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
             _entity = entity;
-            _isDefeatedGetter = isDefeatedGetter;
-            _isDefeatedSetter = isDefeatedSetter;
+            _netIsDefeated = netIsDefeated;
 
             _settings = _entity.EntityDefinitionData.EntityDefeatSettings;
 
-            _entity.EntityHealthModule.OnChanged += HandleHealthChanged;
+            _netIsDefeated.onChanged += HandleNetIsDefeatedChanged;
+            _entity.EntityHealthLogic.OnChanged += HandleHealthChanged;
         }
 
-        ~EntityDefeatModule()
+        public override void OnDespawned()
         {
+            _netIsDefeated.onChanged -= HandleNetIsDefeatedChanged;
+
             if (_entity != null)
             {
-                _entity.EntityHealthModule.OnChanged -= HandleHealthChanged;
+                _entity.EntityHealthLogic.OnChanged -= HandleHealthChanged;
             }
         }
 
-        public virtual void Tick()
-        { }
+        // 'Handle' can be misleading, but really this is just listening to the output of the setter, which CAN be async. This then needs to be
+        // broadcasted to other listeners
+        protected virtual void HandleNetIsDefeatedChanged(bool defeated)
+        {
+            RaiseIsDefeatedChanged();
 
-        public virtual void FixedTick()
-        { }
+            // Entities are local, so they need to be 'despawned' on all clients. Immediate despawn when defeated is standard, but can be overridden
+            if (_netIsDefeated.value)
+            {
+                Despawn();
+            }
+        }
 
         private void HandleHealthChanged(int previous, int current)
         {
@@ -70,7 +80,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (_isDefeatedGetter())
+            if (_netIsDefeated.value)
             {
                 return;
             }
@@ -83,27 +93,19 @@ namespace NoMoreFishAndChips.Entities
             SetIsDefeated(true);
         }
 
+        protected void RaiseIsDefeatedChanged()
+        {
+            OnIsDefeatedChanged?.Invoke(_netIsDefeated.value);
+        }
+
         public void SetIsDefeated(bool defeated)
         {
-            if (_isDefeatedGetter() == defeated)
+            if (_netIsDefeated.value == defeated)
             {
                 return;
             }
-            
-            _isDefeatedSetter(defeated);
-        }
 
-        // 'Handle' can be misleading, but really this is just listening to the output of the setter, which CAN be async. This then needs to be
-        // broadcasted to other listeners
-        public virtual void HandleIsDefeatedChanged(bool defeated)
-        {
-            RaiseIsDefeatedChanged();
-
-            // Entities are local, so they need to be 'despawned' on all clients. Immediate despawn when defeated is standard, but can be overridden
-            if (_isDefeatedGetter())
-            {
-                Despawn();
-            }
+            _netIsDefeated.value = defeated;
         }
 
         public virtual void Despawn()
@@ -114,11 +116,6 @@ namespace NoMoreFishAndChips.Entities
             }
 
             _entityManager.Despawn(_entity);
-        }
-
-        protected void RaiseIsDefeatedChanged()
-        {
-            OnIsDefeatedChanged?.Invoke(_isDefeatedGetter());
         }
     }
 }

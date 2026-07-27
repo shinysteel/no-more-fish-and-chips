@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
             Rotations = rotations;
         }
 
-        public RaftTileSave(RaftTile tile) : this(tile.Cell, tile.EntityDefinitionData.Id, tile.EntityHealthModule.Current, tile.Rotations)
+        public RaftTileSave(RaftTile tile) : this(tile.Cell, tile.EntityDefinitionData.Id, tile.EntityHealthLogic.Current, tile.Rotations)
         { }
     }
 }

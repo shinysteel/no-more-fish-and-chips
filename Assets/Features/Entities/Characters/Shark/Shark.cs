@@ -110,7 +110,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.Tick();
 
-                if (!_shark._characterActLogic.CanAct)
+                if (!_shark.CharacterActLogic.CanAct)
                 {
                     return;
                 }
@@ -221,7 +221,7 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                if (!_shark._characterActLogic.CanAct)
+                if (!_shark.CharacterActLogic.CanAct)
                 {
                     RemoveMarker();
                     _cooldownTimer = 0f;
@@ -333,7 +333,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
+                EntityDefeatLogic.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
                 _stateMachine.ChangeState(EState.Surface);
             }
@@ -345,7 +345,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 Cleanup();
 
-                _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
+                EntityDefeatLogic.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
             }
 
             base.OnDespawned();

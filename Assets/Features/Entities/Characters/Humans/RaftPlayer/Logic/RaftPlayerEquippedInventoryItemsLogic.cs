@@ -6,14 +6,10 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerEquippedInventoryItemsLogic
+    public class RaftPlayerEquippedInventoryItemsLogic : RaftPlayerLogic
     {
-        private RaftPlayer _player;
-
-        public RaftPlayerEquippedInventoryItemsLogic(RaftPlayer player)
+        public RaftPlayerEquippedInventoryItemsLogic(RaftPlayer player) : base(player)
         {
-            _player = player;
-
             HandleHotbarSelectedChanged(_player.Hotbar.SelectedSlot);
 
             _player.Hotbar.OnSelectedChanged += HandleHotbarSelectedChanged;

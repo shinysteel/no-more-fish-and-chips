@@ -89,13 +89,13 @@ namespace NoMoreFishAndChips.Hitboxes
                         continue;
                     }
 
-                    if (entity.EntityLifecycleModule.InGracePeriod)
+                    if (entity.EntityLifecycleLogic.InGracePeriod)
                     {
                         continue;
                     }
 
                     // Hit the entity
-                    entity.EntityHealthModule.ChangeHealth(-_data.Damage);
+                    entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
 
                     // Damaging an entity can cause it to despawn, which nulls all modules
                     if (entity.isSpawned)
@@ -116,8 +116,8 @@ namespace NoMoreFishAndChips.Hitboxes
                         }
                         else
                         {
-                            entity.EntityPhysicsModule.Rigidbody.AddForce(force, ForceMode.Impulse);
-                            entity.EntityPhysicsModule.Rigidbody.AddTorque(torque, ForceMode.Impulse);
+                            entity.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Impulse);
+                            entity.EntityPhysicsLogic.Rigidbody.AddTorque(torque, ForceMode.Impulse);
                         }
 
                         if (entity is Character character)

@@ -83,7 +83,7 @@ namespace NoMoreFishAndChips.Environments
             RaftTile tile = (RaftTile)_entityManager.Spawn(tileId, new SpawnParams() { Parent = transform });
 
             tile.InitialiseContext(_context);
-            tile.EntityHealthModule.SetHealth(health);
+            tile.EntityHealthLogic.SetHealth(health);
             tile.SetNetCell(cell);
             tile.SetNetRotations(rotations);
 

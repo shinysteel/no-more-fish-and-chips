@@ -280,7 +280,7 @@ namespace NoMoreFishAndChips.Entities
 
                 _stateMachine.ChangeState(EState.Fly);
                 
-                _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
+                EntityDefeatLogic.OnIsDefeatedChanged += HandleIsDefeatedChanged;
             }
         }
 
@@ -288,7 +288,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (isOwner)
             {
-                _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
+                EntityDefeatLogic.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
             }
 
             base.OnDespawned();

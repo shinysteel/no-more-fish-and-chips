@@ -1,42 +1,37 @@
 using NoMoreFishAndChips.States;
+using PurrNet;
 using System;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftTileDefeatModule : EntityDefeatModule
+    public class RaftTileDefeatLogic : EntityDefeatLogic
     {
         private RaftTile _tile;
         private RaftTileDefeatSettings _settings;
 
-        private GameplayContext _context;
-
         private float _sinkTimer;
 
-        public RaftTileDefeatModule(RaftTile tile, Func<bool> isDefeatedGetter, Action<bool> isDefeatedSetter) : base(tile, isDefeatedGetter, isDefeatedSetter)
+        public RaftTileDefeatLogic(RaftTile tile, SyncVar<bool> netIsDefeated) : base(tile, netIsDefeated)
         {
             _tile = tile;
-            _settings = (RaftTileDefeatSettings)tile.EntityDefinitionData.EntityDefeatSettings;
 
-            _tile.EntityHealthModule.OnChanged += HandleHealthChanged;
+            _settings = (RaftTileDefeatSettings)_tile.EntityDefinitionData.EntityDefeatSettings;
+            
+            _tile.EntityHealthLogic.OnChanged += HandleHealthChanged;
         }
 
-        public void SetContext(GameplayContext context)
-        {
-            _context = context;
-        }
-
-        ~RaftTileDefeatModule()
+        ~RaftTileDefeatLogic()
         {
             if (_tile != null)
             {
-                _tile.EntityHealthModule.OnChanged -= HandleHealthChanged;
+                _tile.EntityHealthLogic.OnChanged -= HandleHealthChanged;
             }
         }
 
         private void HandleHealthChanged(int previous, int current)
         {
-            if (!_isDefeatedGetter())
+            if (!_netIsDefeated.value)
             {
                 return;
             }
@@ -49,17 +44,12 @@ namespace NoMoreFishAndChips.Entities
 
         public override void FixedTick()
         {
-            if (_context == null)
-            {
-                return;
-            }
-
             SinkFixedTick();
         }
         
         private void SinkFixedTick()
         {
-            if (!_isDefeatedGetter())
+            if (!_netIsDefeated.value)
             {
                 return;
             }
@@ -76,10 +66,10 @@ namespace NoMoreFishAndChips.Entities
                 }
             }
 
-            _tile.EntityPhysicsModule.Rigidbody.MovePosition(_tile.EntityPhysicsModule.Rigidbody.position + Vector3.down * _settings.Speed * Time.fixedDeltaTime);
+            _tile.EntityPhysicsLogic.Rigidbody.MovePosition(_tile.EntityPhysicsLogic.Rigidbody.position + Vector3.down * _settings.Speed * Time.fixedDeltaTime);
         }
 
-        public override void HandleIsDefeatedChanged(bool defeated)
+        protected override void HandleNetIsDefeatedChanged(bool defeated)
         {
             RaiseIsDefeatedChanged();
 

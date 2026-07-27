@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Inventories;
@@ -6,7 +7,6 @@ using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.Saving;
 using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
-using Newtonsoft.Json;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
@@ -26,6 +26,15 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private Inventory _inventory;
         [SerializeField] private Hotbar _hotbar;
 
+        // SyncVars
+        private SyncVar<NetInventoryItem> _netGrabbedInventoryItem = new SyncVar<NetInventoryItem>(ownerAuth: true);
+        private SyncVar<Vector2> _netMousePositionNormalised = new SyncVar<Vector2>(ownerAuth: true);
+        private SyncVar<NetBehaviour> _netOpenNetBehaviour = new SyncVar<NetBehaviour>(ownerAuth: true);
+        private SyncVar<bool> _netInBarrel = new SyncVar<bool>(ownerAuth: true);
+        private SyncVar<bool> _netIsReady = new SyncVar<bool>(ownerAuth: true);
+
+        private UsernameUI _usernameUI;
+
         public bool IsLocalPlayer => this == _context.LocalPlayer;
 
         public HumanModel HumanModel => (HumanModel)_entityModel;
@@ -33,39 +42,18 @@ namespace NoMoreFishAndChips.Entities
         public Inventory Inventory => _inventory;
         public Hotbar Hotbar => _hotbar;
 
-        private UsernameUI _usernameUI;
+        public RaftPlayerDefeatLogic RaftPlayerDefeatLogic => (RaftPlayerDefeatLogic)EntityDefeatLogic;
+        public RaftPlayerActLogic RaftPlayerActLogic => (RaftPlayerActLogic)CharacterActLogic;
 
-        private RaftPlayerInputLogic _inputLogic;
-        private RaftPlayerInteractLogic _interactLogic;
-        private RaftPlayerGrabbedInventoryItemLogic _grabbedInventoryItemLogic;
-        private RaftPlayerDropInventoryItemLogic _dropInventoryItemLogic;
-        private RaftPlayerAnimateLogic _animateLogic;
-        private RaftPlayerEquippedInventoryItemsLogic _equippedInventoryItemsLogic;
-        private RaftPlayerOpenNetBehaviourLogic _openNetBehaviourLogic;
-        private RaftPlayerAttackLogic _attackLogic;
-        private RaftPlayerReadyLogic _readyLogic;
-        private RaftPlayerHotkeyLogic _hotkeyLogic;
-        private RaftPlayerTileTargetLogic _tileTargetLogic;
-
-        public RaftPlayerDefeatModule RaftPlayerDefeatModule => (RaftPlayerDefeatModule)_entityDefeatModule;
-        public RaftPlayerActLogic RaftPlayerActLogic => (RaftPlayerActLogic)_characterActLogic;
-
-        public RaftPlayerInputLogic InputLogic => _inputLogic;
-        public RaftPlayerInteractLogic InteractLogic => _interactLogic;
-        public RaftPlayerGrabbedInventoryItemLogic GrabbedInventoryItemLogic => _grabbedInventoryItemLogic;
-        public RaftPlayerDropInventoryItemLogic DropInventoryItemLogic => _dropInventoryItemLogic;
-        public RaftPlayerAnimateLogic AnimateLogic => _animateLogic;
-        public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => _openNetBehaviourLogic;
-        public RaftPlayerAttackLogic AttackLogic => _attackLogic;
-        public RaftPlayerReadyLogic ReadyLogic => _readyLogic;
-        public RaftPlayerTileTargetLogic TileTargetLogic => _tileTargetLogic;
-
-        // SyncVars
-        private SyncVar<NetInventoryItem> _netGrabbedInventoryItem = new SyncVar<NetInventoryItem>(ownerAuth: true);
-        private SyncVar<Vector2> _netMousePositionNormalised = new SyncVar<Vector2>(ownerAuth: true);
-        private SyncVar<NetBehaviour> _netOpenNetworkId = new SyncVar<NetBehaviour>(ownerAuth: true);
-        private SyncVar<bool> _netInBarrel = new SyncVar<bool>(ownerAuth: true);
-        private SyncVar<bool> _netIsReady = new SyncVar<bool>(ownerAuth: true);
+        public RaftPlayerInputLogic InputLogic => GetLogic<RaftPlayerInputLogic>();
+        public RaftPlayerInteractLogic InteractLogic => GetLogic<RaftPlayerInteractLogic>();
+        public RaftPlayerGrabbedInventoryItemLogic GrabbedInventoryItemLogic => GetLogic<RaftPlayerGrabbedInventoryItemLogic>();
+        public RaftPlayerDropInventoryItemLogic DropInventoryItemLogic => GetLogic<RaftPlayerDropInventoryItemLogic>();
+        public RaftPlayerAnimateLogic AnimateLogic => GetLogic<RaftPlayerAnimateLogic>();
+        public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => GetLogic<RaftPlayerOpenNetBehaviourLogic>();
+        public RaftPlayerAttackLogic AttackLogic => GetLogic<RaftPlayerAttackLogic>();
+        public RaftPlayerReadyLogic ReadyLogic => GetLogic<RaftPlayerReadyLogic>();
+        public RaftPlayerTileTargetLogic TileTargetLogic => GetLogic<RaftPlayerTileTargetLogic>();
 
         public class PlaceInventoryItemResponse
         {
@@ -93,32 +81,31 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        protected override EntityDefeatModule CreateDefeatModule()
+        protected override EntityLogicFactory CreateLogicFactory()
         {
-            return new RaftPlayerDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated, _netInBarrel);
+            return new RaftPlayerLogicFactory(_netInBarrel);
         }
 
-        protected override EntityPhysicsModule CreatePhysicsModule()
+        protected override void OnInitializeModules()
         {
-            return new RaftPlayerPhysicsModule(this, _rigidbody, (CapsuleCollider)_collider);
-        }
+            base.OnInitializeModules();
 
-        protected override CharacterActLogic CreateActLogic()
-        {
-            return new RaftPlayerActLogic(this);
+            AddLogic(typeof(RaftPlayerInputLogic), new RaftPlayerInputLogic(this, _netMousePositionNormalised));
+            AddLogic(typeof(RaftPlayerInteractLogic), new RaftPlayerInteractLogic(this));
+            AddLogic(typeof(RaftPlayerGrabbedInventoryItemLogic), new RaftPlayerGrabbedInventoryItemLogic(this, _netGrabbedInventoryItem));
+            AddLogic(typeof(RaftPlayerDropInventoryItemLogic), new RaftPlayerDropInventoryItemLogic(this));
+            AddLogic(typeof(RaftPlayerAnimateLogic), new RaftPlayerAnimateLogic(this));
+            AddLogic(typeof(RaftPlayerEquippedInventoryItemsLogic), new RaftPlayerEquippedInventoryItemsLogic(this));
+            AddLogic(typeof(RaftPlayerOpenNetBehaviourLogic), new RaftPlayerOpenNetBehaviourLogic(this, _netOpenNetBehaviour));
+            AddLogic(typeof(RaftPlayerAttackLogic), new RaftPlayerAttackLogic(this));
+            AddLogic(typeof(RaftPlayerReadyLogic), new RaftPlayerReadyLogic(this, _netIsReady));
+            AddLogic(typeof(RaftPlayerHotkeyLogic), new RaftPlayerHotkeyLogic(this, _netGrabbedInventoryItem));
+            AddLogic(typeof(RaftPlayerTileTargetLogic), new RaftPlayerTileTargetLogic(this));
         }
 
         protected override void OnSpawned()
         {
-            _inputLogic = new RaftPlayerInputLogic(this, _netMousePositionNormalised);
-            _interactLogic = new RaftPlayerInteractLogic(this);
-            _grabbedInventoryItemLogic = new RaftPlayerGrabbedInventoryItemLogic(this, _netGrabbedInventoryItem);
-            _dropInventoryItemLogic = new RaftPlayerDropInventoryItemLogic(this);
-            _animateLogic = new RaftPlayerAnimateLogic(this);
-            _equippedInventoryItemsLogic = new RaftPlayerEquippedInventoryItemsLogic(this);
-            _openNetBehaviourLogic = new RaftPlayerOpenNetBehaviourLogic(_netOpenNetworkId);
-            _attackLogic = new RaftPlayerAttackLogic(this);
-            _readyLogic = new RaftPlayerReadyLogic(_netIsReady);
+            base.OnSpawned();
 
             if (isOwner)
             {
@@ -130,18 +117,6 @@ namespace NoMoreFishAndChips.Entities
                 _usernameUI = _uiManager.CreateWorldUI(_uiManager.Config.UsernameUIPrefab, Vector3.zero);
                 _usernameUI.Setup(_networkManager.GetPurrnetPlayer(owner.Value));
             }
-
-            // Invoke OnNetworkSpawn after logic components are created
-
-            base.OnSpawned();
-        }
-
-        public override void InitialiseContext(GameplayContext context)
-        {
-            base.InitialiseContext(context);
-
-            _hotkeyLogic = new RaftPlayerHotkeyLogic(this, context, _netGrabbedInventoryItem);
-            _tileTargetLogic = new RaftPlayerTileTargetLogic(this, context);
         }
 
         protected override void OnDespawned()
@@ -153,35 +128,6 @@ namespace NoMoreFishAndChips.Entities
                 _uiManager.DestroyWorldUI(_usernameUI);
                 _usernameUI = null;
             }
-
-            _interactLogic.Cleanup();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-            
-            if (!isFullySpawned || _context == null)
-            {
-                return;
-            }
-
-            _inputLogic.Tick();
-            _interactLogic.Tick();
-            _animateLogic.Tick();
-            _hotkeyLogic.Tick();
-            _tileTargetLogic.Tick();
-            _attackLogic.Tick();
-        }
-
-        public void SetNetOpenObjectNetworkId(NetBehaviour behaviour)
-        {
-            if (!isOwner)
-            {
-                return;
-            }
-
-            _netOpenNetworkId.value = behaviour;
         }
 
         [TargetRpc]

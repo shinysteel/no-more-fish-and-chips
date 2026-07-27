@@ -12,10 +12,17 @@ using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace NoMoreFishAndChips.Entities
 {
+    public class GiantClamLogicFactory : CharacterLogicFactory
+    {
+        public override EntityDefeatLogic CreateDefeatLogic(Entity entity, SyncVar<bool> netIsDefeated)
+        {
+            return new GiantClamDefeatLogic((GiantClam)entity, netIsDefeated);
+        }
+    }
+
     public class GiantClam : Character<GiantClamDefinitionData>, IInteractable, IHasInventory, INetworkManagerListener
     {
         [SerializeField] private Inventory _inventory;
@@ -153,7 +160,7 @@ namespace NoMoreFishAndChips.Entities
                 if (full)
                 {
                     // From becoming full of items, explode. This both returns the items and defeats the enemy
-                    _clam.EntityDefeatModule.SetIsDefeated(true);
+                    _clam.EntityDefeatLogic.SetIsDefeated(true);
                 }
             }
 
@@ -217,11 +224,6 @@ namespace NoMoreFishAndChips.Entities
             _stateMachine.AddState(EState.EmptyRage, rageState);
         }
 
-        protected override EntityDefeatModule CreateDefeatModule()
-        {
-            return new GiantClamDefeatModule(this, GetNetIsDefeated, SetNetIsDefeated);
-        }
-
         protected override void OnSpawned()
         {
             base.OnSpawned();
@@ -235,7 +237,7 @@ namespace NoMoreFishAndChips.Entities
                 _stateMachine.ChangeState(EState.SpawnLaunch);
             }
 
-            _entityDefeatModule.OnIsDefeatedChanged += HandleIsDefeatedChanged;
+            EntityDefeatLogic.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
             _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged += HandleNetExplodeBlendChanged;
@@ -253,7 +255,7 @@ namespace NoMoreFishAndChips.Entities
         
         protected override void OnDespawned()
         {
-            _entityDefeatModule.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
+            EntityDefeatLogic.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
 
             _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged -= HandleNetExplodeBlendChanged;

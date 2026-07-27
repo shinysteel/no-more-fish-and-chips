@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerInputLogic
+    public class RaftPlayerInputLogic : RaftPlayerLogic
     {
-        private RaftPlayer _player;
-
         private SyncVar<Vector2> _netMousePositionNormalised;
         public Vector2 MousePositionNormalised => _netMousePositionNormalised.value;
 
@@ -52,13 +50,12 @@ namespace NoMoreFishAndChips.Entities
         public bool ToggleFishingBag => _toggleFishingBag;
         public bool ToggleCraftingKit => _toggleCraftingKit;
 
-        public RaftPlayerInputLogic(RaftPlayer player, SyncVar<Vector2> netMousePositionNormalised)
+        public RaftPlayerInputLogic(RaftPlayer player, SyncVar<Vector2> netMousePositionNormalised) : base(player)
         {
-            _player = player;
             _netMousePositionNormalised = netMousePositionNormalised;
         }
 
-        public void Tick()
+        public override void Tick()
         {
             if (!_player.isOwner)
             {

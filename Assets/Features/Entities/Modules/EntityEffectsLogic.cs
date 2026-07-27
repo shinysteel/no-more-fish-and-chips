@@ -3,22 +3,18 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class EntityEffectsModule
+    public class EntityEffectsLogic : EntityLogic
     {
-        protected Entity _entity;
-
-        public EntityEffectsModule(Entity entity)
+        public EntityEffectsLogic(Entity entity) : base(entity)
         {
-            _entity = entity;
-
-            _entity.EntityHealthModule.OnChanged += HandleHealthChanged;
+            _entity.EntityHealthLogic.OnChanged += HandleHealthChanged;
         }
 
-        ~EntityEffectsModule()
+        public override void OnDespawned()
         {
             if (_entity != null)
             {
-                _entity.EntityHealthModule.OnChanged -= HandleHealthChanged;
+                _entity.EntityHealthLogic.OnChanged -= HandleHealthChanged;
             }
         }
 
