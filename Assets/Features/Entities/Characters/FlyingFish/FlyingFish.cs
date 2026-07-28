@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<EState> _stateMachine;
 
-        private RaftTile _targetTile;
+        private Vector3 _landPosition;
 
         private int? _markerId;
 
@@ -59,12 +59,14 @@ namespace NoMoreFishAndChips.Entities
                 base.Enter();
 
                 // Choose a tile to target and a position to scout from
-                if (!_fish._context.Raft.Queries.TryGetRandomTile(out _fish._targetTile) 
-                    || !_fish._context.Raft.Queries.TryGetClosestEdge(_fish._targetTile.Cell, out RaftEdge edge))
+                if (!_fish._context.Raft.Queries.TryGetRandomTile(out RaftTile tile) 
+                    || !_fish._context.Raft.Queries.TryGetClosestEdge(tile.Cell, out RaftEdge edge))
                 {
                     _fish._entityManager.Despawn(_fish);
                     return;
                 }
+
+                _fish._landPosition = _fish._context.Raft.Queries.CellToWorldPosition(tile.Cell);
 
                 _fish.transform.position = _fish._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell + Utils.Math.DirectionToVector2Int(edge.Direction) * _scoutOffset);
 
@@ -83,7 +85,7 @@ namespace NoMoreFishAndChips.Entities
                 EffectManager.SpawnVfxRpc(VfxId.WaterSplash, new Vector3(surfacePosition.x, 0f, surfacePosition.z));
 
                 // Place a marker
-                _fish._markerId = _fish._context.EnvironmentMarker.AddNetMarkedCells(_fish._targetTile.Cell);
+                _fish._markerId = _fish._context.EnvironmentMarker.AddNetMarkedCells(tile.Cell);
             }
 
             public override void Tick()
@@ -106,7 +108,6 @@ namespace NoMoreFishAndChips.Entities
             private Vector3 _anticipatePosition;
             private Quaternion _anticipateRotation;
 
-            private Vector3 _landPosition;
             private Quaternion _landRotation;
 
             private bool _isAnticipating;
@@ -140,8 +141,6 @@ namespace NoMoreFishAndChips.Entities
                         _fish._entityModel.Animator.SetBool(IsFlyingBoolName, true);
                     });
 
-                _landPosition = _fish._targetTile.transform.position;
-
                 // Straight down
                 _landRotation = Quaternion.AngleAxis(90f, _fish.transform.right) * _fish.transform.rotation;
             }
@@ -159,12 +158,12 @@ namespace NoMoreFishAndChips.Entities
 
                 // Interpolate from start to end
                 float time = _flyTimer / _fish.DefinitionData.FlyDuration;
-                _fish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, Physics.gravity.magnitude * 0.5f, _fish.DefinitionData.LaunchAngle, time);
+                _fish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _fish._landPosition, Physics.gravity.magnitude * 0.5f, _fish.DefinitionData.LaunchAngle, time);
                 _fish.transform.rotation = Quaternion.Slerp(_anticipateRotation, _landRotation, time);
 
                 if (_flyTimer > _fish.DefinitionData.FlyDuration)
                 {
-                    _fish._hitboxManager.SpawnHitbox(_fish.DefinitionData.ImpactHitboxData, new SpawnParams() { Position = _fish._targetTile.transform.position });
+                    _fish._hitboxManager.SpawnHitbox(_fish.DefinitionData.ImpactHitboxData, new SpawnParams() { Position = _fish._landPosition });
 
                     _fish._entityManager.Despawn(_fish);
                 }
@@ -233,7 +232,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void Cleanup()
         {
-            _targetTile = null;
+            _landPosition = Vector3.zero;
 
             if (_markerId.HasValue)
             {

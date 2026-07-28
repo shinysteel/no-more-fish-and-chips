@@ -210,6 +210,11 @@ namespace NoMoreFishAndChips.Environments
                 return;
             }
 
+            if (_entityManager.Entities.Any(entity => entity is RaftTile tile && tile.TileDefeatModule.IsSinking))
+            {
+                return;
+            }
+
             _isWaveDefeated = true;
         }
 

@@ -48,6 +48,11 @@ namespace NoMoreFishAndChips.Entities
             _material = _meshRenderer.material;
         }
 
+        protected override EntityLogicFactory CreateLogicFactory()
+        {
+            return new RaftTileLogicFactory();
+        }
+
         protected override void OnSpawned()
         {
             base.OnSpawned();

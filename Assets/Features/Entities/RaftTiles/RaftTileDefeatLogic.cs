@@ -12,6 +12,8 @@ namespace NoMoreFishAndChips.Entities
 
         private float _sinkTimer;
 
+        public bool IsSinking => _sinkTimer > 0f;
+
         public RaftTileDefeatLogic(RaftTile tile, SyncVar<bool> netIsDefeated) : base(tile, netIsDefeated)
         {
             _tile = tile;
