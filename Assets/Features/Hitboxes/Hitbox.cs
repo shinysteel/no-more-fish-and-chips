@@ -116,8 +116,8 @@ namespace NoMoreFishAndChips.Hitboxes
                         }
                         else
                         {
-                            entity.EntityPhysicsLogic.NetworkRigidbody.AddForce(force, ForceMode.Impulse);
-                            entity.EntityPhysicsLogic.NetworkRigidbody.AddTorque(torque, ForceMode.Impulse);
+                            entity.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Impulse);
+                            entity.EntityPhysicsLogic.Rigidbody.AddTorque(torque, ForceMode.Impulse);
                         }
 
                         if (entity is Character character)

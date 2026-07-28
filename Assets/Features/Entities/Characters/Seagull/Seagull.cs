@@ -120,7 +120,7 @@ namespace NoMoreFishAndChips.Entities
                 _velocity += change * _seagull.DefinitionData.FlySettings.Acceleration * Time.deltaTime;
                 _seagull.transform.position += _velocity * Time.deltaTime;
 
-                if (Vector3.Distance(_seagull._networkRigidbody.position, _targetPosition.Value) < 0.1f)
+                if (Vector3.Distance(_seagull._rigidbody.position, _targetPosition.Value) < 0.1f)
                 {
                     NextTarget();
                 }
@@ -149,7 +149,7 @@ namespace NoMoreFishAndChips.Entities
                 _landPosition = tile.transform.position;
                 _landPosition.y = tile.GetSurfaceY();
 
-                _seagull._networkRigidbody.isKinematic = false;
+                _seagull._rigidbody.isKinematic = false;
 
                 TweenExtensions.Rotation(_seagull.transform, endValue: Quaternion.LookRotation(Vector3.forward, Vector3.up), duration: 1f, ease: Ease.OutQuad);
             }
@@ -164,13 +164,13 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                _seagull._networkRigidbody.AddForce(Vector3.up * 7f, ForceMode.Acceleration);
+                _seagull._rigidbody.AddForce(Vector3.up * 7f, ForceMode.Acceleration);
 
                 Vector3 direction = (_landPosition - _seagull.transform.position);
                 direction.y = 0f;
                 direction.Normalize();
 
-                _seagull._networkRigidbody.AddForce(direction * 1f, ForceMode.Acceleration);
+                _seagull._rigidbody.AddForce(direction * 1f, ForceMode.Acceleration);
             }
         }
 
@@ -275,7 +275,7 @@ namespace NoMoreFishAndChips.Entities
             if (isOwner)
             {
                 _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _hitboxManager.SpawnHitbox(DefinitionData.AttackSettings.HitboxData, new SpawnParams() { Position = transform.position })));
-                _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _networkRigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse)));
+                _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse)));
                 _attackStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _stateMachine.ChangeState(EState.Idle)));
 
                 _stateMachine.ChangeState(EState.Fly);

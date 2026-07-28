@@ -14,22 +14,19 @@ namespace NoMoreFishAndChips.Entities
         protected AudioManager _audioManager;
 
         protected Rigidbody _rigidbody;
-        protected NetworkRigidbody _networkRigidbody;
         protected Collider _collider;
 
         private EntityPhysicsSettings _settings;
 
         public Rigidbody Rigidbody => _rigidbody;
-        public NetworkRigidbody NetworkRigidbody => _networkRigidbody;
         public Collider Collider => _collider;
 
-        public EntityPhysicsLogic(Entity entity, Rigidbody rigidbody, NetworkRigidbody networkRigidbody, Collider collider) : base(entity)
+        public EntityPhysicsLogic(Entity entity, Rigidbody rigidbody, Collider collider) : base(entity)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _audioManager = GameManager.Instance.Get<AudioManager>();
 
             _rigidbody = rigidbody;
-            _networkRigidbody = networkRigidbody;
             _collider = collider;
 
             _settings = _entity.EntityDefinitionData.EntityPhysicsSettings;
@@ -39,7 +36,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (!_entity.isOwner)
             {
-                _networkRigidbody.isKinematic = true;
+                _rigidbody.isKinematic = true;
             }
         }
     }

@@ -66,7 +66,7 @@ namespace NoMoreFishAndChips.Entities
                 }
             }
 
-            _tile.EntityPhysicsLogic.NetworkRigidbody.MovePosition(_tile.EntityPhysicsLogic.NetworkRigidbody.position + Vector3.down * _settings.Speed * Time.fixedDeltaTime);
+            _tile.EntityPhysicsLogic.Rigidbody.MovePosition(_tile.EntityPhysicsLogic.Rigidbody.position + Vector3.down * _settings.Speed * Time.fixedDeltaTime);
         }
 
         protected override void HandleNetIsDefeatedChanged(bool defeated)

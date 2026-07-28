@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void AnimateAsync()
         {
-            _clam.EntityPhysicsLogic.NetworkRigidbody.isKinematic = true;
+            _clam.EntityPhysicsLogic.Rigidbody.isKinematic = true;
 
             Vector3 startPosition = _clam.transform.position;
             Vector3 endPosition = startPosition + Vector3.up * 0.25f;

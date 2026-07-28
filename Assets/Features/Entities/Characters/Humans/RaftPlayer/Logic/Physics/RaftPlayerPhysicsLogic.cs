@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
 
         private RaycastHit[] _climbHitsNonAlloc = new RaycastHit[5];
 
-        public RaftPlayerPhysicsLogic(RaftPlayer player, Rigidbody rigidbody, NetworkRigidbody networkRigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, networkRigidbody, capsuleCollider)
+        public RaftPlayerPhysicsLogic(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
         {
             _player = player;
             _capsuleCollider = capsuleCollider;
@@ -83,11 +83,11 @@ namespace NoMoreFishAndChips.Entities
             Vector3 direction = _player.CharacterActLogic.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
             Vector3 targetVelocity = direction * _settings.Move.Speed;
 
-            targetVelocity.y = _networkRigidbody.linearVelocity.y;
+            targetVelocity.y = _rigidbody.linearVelocity.y;
 
             float speed = direction != Vector3.zero ? _settings.Move.Acceleration : _settings.Move.Deceleration;
 
-            _networkRigidbody.linearVelocity = Vector3.MoveTowards(_networkRigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
+            _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
         }
 
         private void LookFixedTick()
@@ -124,7 +124,7 @@ namespace NoMoreFishAndChips.Entities
 
             float speed = _settings.Look.Speed;
 
-            _networkRigidbody.MoveRotation(Quaternion.Slerp(_networkRigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
+            _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
         }
 
         private void JumpFixedTick()
@@ -149,8 +149,8 @@ namespace NoMoreFishAndChips.Entities
             }
 
             // Cancel out gravity
-            _networkRigidbody.linearVelocity = new Vector3(_networkRigidbody.linearVelocity.x, 0f, _networkRigidbody.linearVelocity.z);
-            _networkRigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
+            _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
+            _rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
 
             _player.AnimateLogic.Jump();
         }
@@ -168,11 +168,11 @@ namespace NoMoreFishAndChips.Entities
             if (!InWater)
             {
                 // A minimum launch force guarentees the player can climb back up even if they haven't built up much acceleration
-                if (_isClimbing && _networkRigidbody.linearVelocity.y < _settings.Climb.LaunchStrength)
+                if (_isClimbing && _rigidbody.linearVelocity.y < _settings.Climb.LaunchStrength)
                 {
-                    Vector3 velocity = _networkRigidbody.linearVelocity;
+                    Vector3 velocity = _rigidbody.linearVelocity;
                     velocity.y = _settings.Climb.LaunchStrength;
-                    _networkRigidbody.linearVelocity = velocity;
+                    _rigidbody.linearVelocity = velocity;
                 }
 
                 _isClimbing = false;
@@ -186,7 +186,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _networkRigidbody.AddForce(Vector3.up * _settings.Climb.ClimbSpeed, ForceMode.Acceleration);
+            _rigidbody.AddForce(Vector3.up * _settings.Climb.ClimbSpeed, ForceMode.Acceleration);
         }
     }
 }

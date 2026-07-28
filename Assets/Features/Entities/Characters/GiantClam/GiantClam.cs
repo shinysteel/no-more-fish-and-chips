@@ -105,14 +105,14 @@ namespace NoMoreFishAndChips.Entities
                         position.y = _clam.transform.position.y;
                         _clam.transform.position = position;
                     }))
-                    .ChainCallback(() => _clam._networkRigidbody.isKinematic = false);
+                    .ChainCallback(() => _clam._rigidbody.isKinematic = false);
             }
 
             public override void Tick()
             {
                 base.Tick();
 
-                if (_clam._networkRigidbody.isKinematic)
+                if (_clam._rigidbody.isKinematic)
                 {
                     return;
                 }

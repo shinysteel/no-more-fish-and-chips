@@ -129,7 +129,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            bool dip = Physics.CheckSphere(_networkRigidbody.position, TileDefinitionData.DipSettings.Radius, TileDefinitionData.DipSettings.Mask);
+            bool dip = Physics.CheckSphere(_rigidbody.position, TileDefinitionData.DipSettings.Radius, TileDefinitionData.DipSettings.Mask);
 
             float targetY;
 
@@ -146,8 +146,8 @@ namespace NoMoreFishAndChips.Entities
                     _netCell.value.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
             }
 
-            Vector3 targetPosition = new Vector3(_networkRigidbody.position.x, targetY, _networkRigidbody.position.z);
-            _networkRigidbody.MovePosition(Vector3.MoveTowards(_networkRigidbody.position, targetPosition, TileDefinitionData.DipSettings.Speed * Time.fixedDeltaTime));
+            Vector3 targetPosition = new Vector3(_rigidbody.position.x, targetY, _rigidbody.position.z);
+            _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.DipSettings.Speed * Time.fixedDeltaTime));
         }
 
         /// <summary>

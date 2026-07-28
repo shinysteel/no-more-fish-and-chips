@@ -134,7 +134,7 @@ namespace NoMoreFishAndChips.Entities
         public void SetPositionRpc(PlayerID id, Vector3 position)
         {
             // Since interpolation is enabled, we need to teleport via rigidbody.position
-            _networkRigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5f);
+            _rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5f);
         }
 
         [TargetRpc]

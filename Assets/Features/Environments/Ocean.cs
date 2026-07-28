@@ -86,7 +86,7 @@ namespace NoMoreFishAndChips.Environments
                 }
 
                 BuoyancyOnTriggerStay(collider, entity);
-                CurrentOnTriggerStay(entity.EntityPhysicsLogic.NetworkRigidbody, false);
+                CurrentOnTriggerStay(entity.EntityPhysicsLogic.Rigidbody, false);
                 DragOnTriggerStay(collider, entity);
             }
             else if (collider.gameObject.TryGetComponent(out Island island))
@@ -101,7 +101,7 @@ namespace NoMoreFishAndChips.Environments
                     return;
                 }
                 
-                CurrentOnTriggerStay(island.NetworkRigidbody, true);
+                CurrentOnTriggerStay(island.Rigidbody, true);
             }
         }
 
@@ -115,16 +115,16 @@ namespace NoMoreFishAndChips.Environments
         private void BuoyancyOnTriggerStay(Collider collider, Entity entity)
         { 
             // More mass = more force
-            float strength = entity.EntityPhysicsLogic.NetworkRigidbody.mass * Physics.gravity.magnitude / _submergePercent;
+            float strength = entity.EntityPhysicsLogic.Rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
             float factor = GetBuoyancyFactor(collider);
             Vector3 force = Vector3.up * strength * factor;
 
             // Push the entity upwards to simulate floating
-            entity.EntityPhysicsLogic.NetworkRigidbody.AddForce(force, ForceMode.Force);
+            entity.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Force);
         }
 
         // Current is referring to motion in water
-        private void CurrentOnTriggerStay(NetworkRigidbody rigidbody, bool allowKinematic)
+        private void CurrentOnTriggerStay(Rigidbody rigidbody, bool allowKinematic)
         {
             if (_currentSpeed == 0f)
             {
@@ -142,8 +142,8 @@ namespace NoMoreFishAndChips.Environments
         private void DragOnTriggerStay(Collider collider, Entity entity)
         {
             // Drag stops the entity being 'launched' from buoyancy, and slows it down on the XZ plane
-            entity.EntityPhysicsLogic.NetworkRigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsLogic.NetworkRigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
-            entity.EntityPhysicsLogic.NetworkRigidbody.AddTorque(-entity.EntityPhysicsLogic.NetworkRigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
+            entity.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsLogic.Rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
+            entity.EntityPhysicsLogic.Rigidbody.AddTorque(-entity.EntityPhysicsLogic.Rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace NoMoreFishAndChips.Entities
             DroppedItem droppedItem = itemManager.SpawnDroppedItem(netItemInstance, DroppedItemType.Default, position);
 
             // Launch the item
-            droppedItem.EntityPhysicsLogic.NetworkRigidbody.AddForce(direction * strength, ForceMode.Impulse);
+            droppedItem.EntityPhysicsLogic.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
         }
     }
 }

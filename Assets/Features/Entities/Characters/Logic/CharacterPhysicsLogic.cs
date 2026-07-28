@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
 
-        public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, NetworkRigidbody networkRigidbody, Collider collider) : base(character, rigidbody, networkRigidbody, collider)
+        public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, Collider collider) : base(character, rigidbody, collider)
         {
             _character = character;
             _settings = (CharacterPhysicsSettings)_character.EntityDefinitionData.EntityPhysicsSettings;

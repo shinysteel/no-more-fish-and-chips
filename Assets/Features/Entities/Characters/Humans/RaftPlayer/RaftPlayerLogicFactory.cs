@@ -17,9 +17,9 @@ namespace NoMoreFishAndChips.Entities
             return new RaftPlayerDefeatLogic((RaftPlayer)entity, netIsDefeated, _netInBarrel);
         }
 
-        public override EntityPhysicsLogic CreatePhysicsLogic(Entity entity, Rigidbody rigidbody, NetworkRigidbody networkRigidbody, Collider collider)
+        public override EntityPhysicsLogic CreatePhysicsLogic(Entity entity, Rigidbody rigidbody, Collider collider)
         {
-            return new RaftPlayerPhysicsLogic((RaftPlayer)entity, rigidbody, networkRigidbody, (CapsuleCollider)collider);
+            return new RaftPlayerPhysicsLogic((RaftPlayer)entity, rigidbody, (CapsuleCollider)collider);
         }
 
         public override CharacterActLogic CreateActLogic(Character character)

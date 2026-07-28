@@ -38,11 +38,11 @@ namespace NoMoreFishAndChips.Entities
 
         public async Task LoadToAsync(RaftPlayer player)
         {
-            player.EntityPhysicsLogic.NetworkRigidbody.position = Position;
-            player.EntityPhysicsLogic.NetworkRigidbody.rotation = Rotation.normalized;
+            player.EntityPhysicsLogic.Rigidbody.position = Position;
+            player.EntityPhysicsLogic.Rigidbody.rotation = Rotation.normalized;
 
-            player.EntityPhysicsLogic.NetworkRigidbody.linearVelocity = Vector3.zero;
-            player.EntityPhysicsLogic.NetworkRigidbody.angularVelocity = Vector3.zero;
+            player.EntityPhysicsLogic.Rigidbody.linearVelocity = Vector3.zero;
+            player.EntityPhysicsLogic.Rigidbody.angularVelocity = Vector3.zero;
 
             await Inventory.LoadToAsync(player.Inventory);
 
@@ -51,8 +51,8 @@ namespace NoMoreFishAndChips.Entities
 
         public void SaveFrom(RaftPlayer player)
         {
-            Position = Utils.Math.RoundVector3(player.EntityPhysicsLogic.NetworkRigidbody.position, Precision);
-            Rotation = Utils.Math.RoundQuaternion(player.EntityPhysicsLogic.NetworkRigidbody.rotation, Precision);
+            Position = Utils.Math.RoundVector3(player.EntityPhysicsLogic.Rigidbody.position, Precision);
+            Rotation = Utils.Math.RoundQuaternion(player.EntityPhysicsLogic.Rigidbody.rotation, Precision);
 
             Inventory.SaveFrom(player.Inventory);
 
