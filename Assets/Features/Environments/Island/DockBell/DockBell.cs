@@ -26,12 +26,12 @@ namespace NoMoreFishAndChips.Environments
 
         bool IInteractable.CanInteract()
         {
-            return true;
+            return !_networkManager.LocalPurrnetPlayer.RaftPlayer.ReadyLogic.IsReady;
         }
 
         bool IInteractable.CanPrompt()
         {
-            return true;
+            return ((IInteractable)(this)).CanInteract();
         }
 
         WorldUI IInteractable.CreatePromptUI()

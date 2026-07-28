@@ -65,6 +65,10 @@ PrefabInstance:
       value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 7210012384824277368, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210012384824277368, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 1088
       objectReference: {fileID: 0}
@@ -111,7 +115,6 @@ MonoBehaviour:
   _entityDefinitionData: {fileID: 11400000, guid: 1a9ed0623542a76478eeabfe1fcb2609, type: 2}
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 4853443629506766343}
-  _networkRigidbody: {fileID: 874503269507095501}
   _collider: {fileID: 6496388388488766554}
 --- !u!114 &1596470918788293711
 MonoBehaviour:
@@ -168,17 +171,6 @@ CapsuleCollider:
   m_Height: 0.3
   m_Direction: 1
   m_Center: {x: 0, y: 0.15, z: 0}
---- !u!114 &874503269507095501 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3132013037169362098, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}
-  m_PrefabInstance: {fileID: 2834445681781645183}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460405706589029815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
 --- !u!54 &4853443629506766343 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 7210012384824277368, guid: 7e94ee0314840e64ca6dd1e0a45ae1d9, type: 3}

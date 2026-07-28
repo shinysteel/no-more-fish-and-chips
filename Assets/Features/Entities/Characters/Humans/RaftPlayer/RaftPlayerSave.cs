@@ -64,8 +64,8 @@ namespace NoMoreFishAndChips.Entities
             // Start the game facing the camera
             Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
 
-            Inventory.Items.Add(new InventoryItemSave(new Vector2Int(2, 1), Vector2Int.zero, 0, null, ItemId.Paddle, 1));
-            Inventory.Items.Add(new InventoryItemSave(new Vector2Int(1, 2), Vector2Int.zero, 0, null, ItemId.Hammer, 1));
+            Inventory.Items.Add(new InventoryItemSave(new Vector2Int(0, 0), Vector2Int.zero, 0, null, ItemId.Paddle, 1));
+            Inventory.Items.Add(new InventoryItemSave(new Vector2Int(2, 0), Vector2Int.zero, 0, null, ItemId.Hammer, 1));
         }
     }
 }
