@@ -53,6 +53,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5377937332333098744}
   m_SourcePrefab: {fileID: 100100000, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+--- !u!114 &2670865553266903268 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3570045664057593971, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+  m_PrefabInstance: {fileID: 1484933936489339031}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409715901357037214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
 --- !u!1 &3409715901357037214 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
@@ -82,6 +93,7 @@ MonoBehaviour:
   _entityDefinitionData: {fileID: 11400000, guid: 68057e539ec5dc94f90c7b5466ed3d61, type: 2}
   _entityModel: {fileID: 2947986952717055078}
   _rigidbody: {fileID: 7667637037763949870}
+  _networkRigidbody: {fileID: 2670865553266903268}
   _collider: {fileID: 982700495022148045}
   _inventory: {fileID: 5377937332333098744}
 --- !u!65 &982700495022148045

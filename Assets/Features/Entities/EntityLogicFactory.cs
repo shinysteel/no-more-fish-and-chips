@@ -25,9 +25,9 @@ namespace NoMoreFishAndChips.Entities
             return new EntityEffectsLogic(entity);
         }
 
-        public virtual EntityPhysicsLogic CreatePhysicsLogic(Entity entity, Rigidbody rigidbody, Collider collider)
+        public virtual EntityPhysicsLogic CreatePhysicsLogic(Entity entity, Rigidbody rigidbody, NetworkRigidbody networkRigidbody, Collider collider)
         {
-            return new EntityPhysicsLogic(entity, rigidbody, collider);
+            return new EntityPhysicsLogic(entity, rigidbody, networkRigidbody, collider);
         }
     }
 }

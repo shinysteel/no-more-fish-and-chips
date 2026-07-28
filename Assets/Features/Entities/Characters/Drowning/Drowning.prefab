@@ -172,6 +172,7 @@ MonoBehaviour:
   _entityDefinitionData: {fileID: 11400000, guid: c9ab5d7fa25aec941a4ffacbebd2a915, type: 2}
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 3543654061985757809}
+  _networkRigidbody: {fileID: 9103375508418496443}
   _collider: {fileID: 4807039884850981880}
   _spriteRenderer: {fileID: 4733467646641177941}
   _scaleCurve:
@@ -228,3 +229,14 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.33
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9103375508418496443 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3570045664057593971, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+  m_PrefabInstance: {fileID: 5755308226716702664}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8364525160868911553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody

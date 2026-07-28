@@ -16,6 +16,7 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] protected EntityDefinitionData _entityDefinitionData;
         [SerializeField] protected EntityModel _entityModel;
         [SerializeField] protected Rigidbody _rigidbody;
+        [SerializeField] protected NetworkRigidbody _networkRigidbody;
         [SerializeField] protected Collider _collider;
 
         private SyncVar<int> _netHealth = new SyncVar<int>(ownerAuth: true);
@@ -43,7 +44,7 @@ namespace NoMoreFishAndChips.Entities
             AddLogic(typeof(EntityDefeatLogic), _logicFactory.CreateDefeatLogic(this, _netIsDefeated));
             AddLogic(typeof(EntityLifecycleLogic), _logicFactory.CreateLifecycleLogic(this));
             AddLogic(typeof(EntityEffectsLogic), _logicFactory.CreateEffectsLogic(this));
-            AddLogic(typeof(EntityPhysicsLogic), _logicFactory.CreatePhysicsLogic(this, _rigidbody, _collider));
+            AddLogic(typeof(EntityPhysicsLogic), _logicFactory.CreatePhysicsLogic(this, _rigidbody, _networkRigidbody, _collider));
         }
 
         protected virtual EntityLogicFactory CreateLogicFactory()
@@ -136,13 +137,13 @@ namespace NoMoreFishAndChips.Entities
         [TargetRpc]
         public void AddForceRpc(PlayerID id, Vector3 force)
         {
-            _rigidbody.AddForce(force, ForceMode.Impulse);
+            _networkRigidbody.AddForce(force, ForceMode.Impulse);
         }
 
         [TargetRpc]
         public void AddTorqueRpc(PlayerID id, Vector3 torque)
         {
-            _rigidbody.AddTorque(torque, ForceMode.Impulse);
+            _networkRigidbody.AddTorque(torque, ForceMode.Impulse);
         }
     }
 }

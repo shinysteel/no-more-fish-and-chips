@@ -73,7 +73,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8420347017716335235, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 2298525168326564}
   m_SourcePrefab: {fileID: 100100000, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
 --- !u!54 &2420220123898849964 stripped
@@ -108,9 +108,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390a4e782fc5a2d4fab5744e835d0c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.GoopTile
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
   _entityDefinitionData: {fileID: 11400000, guid: 7318843b90710764f97d46d8bc15de07, type: 2}
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 2420220123898849964}
+  _networkRigidbody: {fileID: 7993432156846118758}
   _collider: {fileID: 3856270332900495492}
   _meshRenderer: {fileID: 6567776810019113450}
   _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
+--- !u!114 &7993432156846118758 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9122736374417366265, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+  m_PrefabInstance: {fileID: 1185599367677070239}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7255031440559130908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody

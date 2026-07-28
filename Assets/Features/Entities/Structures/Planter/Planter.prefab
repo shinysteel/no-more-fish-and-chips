@@ -110,6 +110,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
   m_PrefabInstance: {fileID: 6303910751046622800}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8406065237091066365 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2581594641563713453, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+  m_PrefabInstance: {fileID: 6303910751046622800}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144905740177948551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
 --- !u!1 &9144905740177948551 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
@@ -139,6 +150,7 @@ MonoBehaviour:
   _entityDefinitionData: {fileID: 11400000, guid: f505c3bd59a593e4baf99dc75face998, type: 2}
   _entityModel: {fileID: 0}
   _rigidbody: {fileID: 4310066444929063991}
+  _networkRigidbody: {fileID: 8406065237091066365}
   _collider: {fileID: 5953562315909881630}
 --- !u!65 &5953562315909881630
 BoxCollider:

@@ -40,19 +40,19 @@ namespace NoMoreFishAndChips.Entities
             }
 
             _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
-                new StateAnimationEvent(0f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0f, () => _player.EntityPhysicsLogic.NetworkRigidbody.AddForce(_player.transform.forward * _settings.PaddleLungeStrength, ForceMode.Impulse)));
 
             _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
                 new StateAnimationEvent(0f, () => _hitboxManager.SpawnHitbox(_settings.PaddleSwingHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(
-                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.NetworkRigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
 
             _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(
                 new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.SpearJabHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(
-                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
+                new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.NetworkRigidbody.AddForce(_player.transform.forward * _settings.SpearLungeStrength, ForceMode.Impulse)));
 
             _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(
                 new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.SpearJabHitboxData, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));

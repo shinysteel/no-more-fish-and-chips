@@ -11,13 +11,13 @@ namespace NoMoreFishAndChips.Entities
 
         public CharacterRagdollLogic(Character character) : base(character)
         {
-            _isKinematic = _character.  EntityPhysicsLogic.Rigidbody.isKinematic;
+            _isKinematic = _character.  EntityPhysicsLogic.NetworkRigidbody.isKinematic;
             _rigidbodyConstraints = _character.EntityPhysicsLogic.Rigidbody.constraints;
         }
 
         public void SetEnabled(bool enabled)
         {
-            _character.EntityPhysicsLogic.Rigidbody.isKinematic = _isKinematic && !enabled;
+            _character.EntityPhysicsLogic.NetworkRigidbody.isKinematic = _isKinematic && !enabled;
             _character.EntityPhysicsLogic.Rigidbody.constraints = enabled ? RigidbodyConstraints.None : _rigidbodyConstraints;
 
             _character.EntityModel.Animator.enabled = !enabled;
