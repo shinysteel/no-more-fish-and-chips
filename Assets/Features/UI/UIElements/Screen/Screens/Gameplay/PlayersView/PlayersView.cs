@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using NoMoreFishAndChips.Pools;
 using UnityEngine.UI;
 using ShinyOwl.Common;
+using NoMoreFishAndChips.Entities;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 

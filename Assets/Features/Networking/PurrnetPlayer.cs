@@ -20,10 +20,11 @@ namespace NoMoreFishAndChips.Networking
 
         public int SaveId => _netSaveId.value;  
         public int ItemInstanceIdCounter => _netItemInstanceIdCounter.value;
-        public RaftPlayer RaftPlayer => _netRaftPlayer.value;
         public string Username => _netUsername.value;
+        public RaftPlayer RaftPlayer => _netRaftPlayer.value;
 
         public event Action<string> OnUsernameChanged;
+        public event Action<RaftPlayer, RaftPlayer> OnRaftPlayerChanged;
 
         protected override void OnSpawned()
         {
@@ -32,6 +33,7 @@ namespace NoMoreFishAndChips.Networking
             _instantiateManager.RaiseComponentInstantiated(this);
 
             _netUsername.onChanged += HandleNetUsernameChanged;
+            _netRaftPlayer.onChanged += HandleNetRaftPlayerChanged;
 
             if (isOwner)
             {
@@ -61,6 +63,11 @@ namespace NoMoreFishAndChips.Networking
         private void HandleNetUsernameChanged(string username)
         {
             OnUsernameChanged?.Invoke(username);
+        }
+
+        private void HandleNetRaftPlayerChanged(RaftPlayer previous, RaftPlayer current)
+        {
+            OnRaftPlayerChanged?.Invoke(previous, current);
         }
 
         // Every instance of an inventory item needs a unique id, and we can guarantee this by combining the

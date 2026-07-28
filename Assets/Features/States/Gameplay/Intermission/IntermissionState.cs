@@ -95,6 +95,8 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
+            _context.LocalPlayer.ReadyLogic.SetNetIsReady(false);
+            
             if (!_networkManager.IsServer)
             {
                 return;

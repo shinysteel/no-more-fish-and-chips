@@ -54,7 +54,7 @@ namespace NoMoreFishAndChips.States
 
             _startTimer = 0f;
 
-            // _ = EnterVoyageResultsAsync();
+            _ = EnterVoyageResultsAsync();
         }
 
         private async Task EnterVoyageResultsAsync()
@@ -133,16 +133,14 @@ namespace NoMoreFishAndChips.States
         {
             bool canStart = true;
 
-            //foreach (RaftPlayer player in _context.Players)
-            //{
-            //    if (!player.RaftPlayerPhysicsModule.OnRaft)
-            //    {
-            //        canStart = false;
-            //        break;
-            //    }
-            //}
-
-            canStart = false;
+            foreach (RaftPlayer player in _context.Players)
+            {
+                if (!player.ReadyLogic.IsReady)
+                {
+                    canStart = false;
+                    break;
+                }
+            }
 
             if (!canStart)
             {

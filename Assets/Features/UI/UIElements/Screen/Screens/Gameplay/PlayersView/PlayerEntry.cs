@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.Saving;
@@ -19,27 +20,28 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private Sprite _tickSprite;
         [SerializeField] private Sprite _crossSprite;
 
-        private PurrnetPlayer _player;
+        private PurrnetPlayer _purrnetPlayer;
+        private RaftPlayer _raftPlayer;
 
         private bool _isDirty;
 
         public void Setup(PurrnetPlayer player)
         {
-            if (_player != null)
+            if (_purrnetPlayer != null)
             {
-                _player.OnUsernameChanged -= HandleUsernameChanged;
-                // _player.RaftPlayer.ReadyLogic.OnIsReadyChanged -= HandleIsReadyChanged;
+                _purrnetPlayer.OnUsernameChanged -= HandleUsernameChanged;
+                _purrnetPlayer.OnRaftPlayerChanged -= HandleRaftPlayerChanged;
             }
 
-            _player = player;
+            _purrnetPlayer = player;
 
-            HandleUsernameChanged(_player?.Username);
-            // HandleIsReadyChanged(_player?.RaftPlayer.ReadyLogic.IsReady ?? false);
+            HandleUsernameChanged(_purrnetPlayer?.Username);
+            HandleRaftPlayerChanged(_raftPlayer, _purrnetPlayer?.RaftPlayer);
 
-            if (_player != null)
+            if (_purrnetPlayer != null)
             {
-                _player.OnUsernameChanged += HandleUsernameChanged;
-                // _player.RaftPlayer.ReadyLogic.OnIsReadyChanged += HandleIsReadyChanged;
+                _purrnetPlayer.OnUsernameChanged += HandleUsernameChanged;
+                _purrnetPlayer.OnRaftPlayerChanged += HandleRaftPlayerChanged;
             }
         }
 
@@ -59,6 +61,23 @@ namespace NoMoreFishAndChips.UI
             else
             {
                 _isDirty = true;
+            }
+        }
+
+        private void HandleRaftPlayerChanged(RaftPlayer previous, RaftPlayer current)
+        {
+            if (previous != null)
+            {
+                previous.ReadyLogic.OnIsReadyChanged -= HandleIsReadyChanged;
+            }
+
+            _raftPlayer = current;
+
+            HandleIsReadyChanged(_raftPlayer?.ReadyLogic.IsReady ?? false);
+
+            if (_raftPlayer != null)
+            {
+                current.ReadyLogic.OnIsReadyChanged += HandleIsReadyChanged;
             }
         }
 
