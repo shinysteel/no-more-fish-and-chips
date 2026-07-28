@@ -1,14 +1,13 @@
-using NoMoreFishAndChips.Pools;
 using TMPro;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.UI
 {
-    public class FloatingText : MonoBehaviour, ITypedPoolable
+    public class FloatingTextUI : WorldUI
     {
-        [SerializeField] private TextMeshPro _text;
+        [SerializeField] private TextMeshProUGUI _text;
 
-        private PoolManager _poolManager;
+        private UIManager _uiManager;
 
         private float _speed = 0.25f;
         private float _duration = 0.5f;
@@ -16,12 +15,7 @@ namespace NoMoreFishAndChips.UI
 
         private void Awake()
         {
-            _poolManager = GameManager.Instance.Get<PoolManager>();
-        }
-
-        public void OnTakenFromPool()
-        {
-            _timer = 0f;
+            _uiManager = GameManager.Instance.Get<UIManager>();
         }
 
         public void Setup(string text)
@@ -40,10 +34,7 @@ namespace NoMoreFishAndChips.UI
                 return;
             }
 
-            _poolManager.ReturnTypedPoolable(this);
+            _uiManager.DestroyWorldUI(this);
         }
-
-        public void OnReturnedToPool()
-        { }
     }
 }

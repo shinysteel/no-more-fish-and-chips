@@ -268,7 +268,7 @@ namespace NoMoreFishAndChips.UI
                 return null;
             }
 
-            T ui = Object.Instantiate(prefab, _worldCanvas.transform);
+            T ui = Object.Instantiate(prefab, position, Quaternion.identity, _worldCanvas.transform);
             ui.SetCanvas(_worldCanvas);
             return ui;
         }

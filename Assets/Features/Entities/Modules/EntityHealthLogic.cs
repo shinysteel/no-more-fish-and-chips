@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.UI;
 using PurrNet;
+using ShinyOwl.Common;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +10,7 @@ namespace NoMoreFishAndChips.Entities
 {
     public class EntityHealthLogic : EntityLogic
     {
-        private PoolManager _poolManager;
+        private UIManager _uiManager;
 
         private SyncVar<int> _netHealth;
 
@@ -22,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
 
         public EntityHealthLogic(Entity entity, SyncVar<int> netHealth) : base(entity)
         {
-            _poolManager = GameManager.Instance.Get<PoolManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
 
             _netHealth = netHealth;
            
@@ -48,9 +49,9 @@ namespace NoMoreFishAndChips.Entities
         {
             if (current < previous)
             {
-                FloatingText text = _poolManager.GetTypedPoolable<FloatingText>(new SpawnParams() { Position = _entity.transform.position + Vector3.up });
+                FloatingTextUI ui = _uiManager.CreateWorldUI(_uiManager.Config.FloatingTextUIPrefab, _entity.transform.position + Vector3.up * 0.5f);
                 int difference = Mathf.Abs(current - previous);
-                text.Setup(difference.ToString());
+                ui.Setup(difference.ToString());
             }
 
             OnChanged?.Invoke(previous, current);

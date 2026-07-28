@@ -6,9 +6,9 @@ namespace NoMoreFishAndChips.States
     public class DockStateConfig : ScriptableObject
     {
         [SerializeField] private LayerMask _voyageResultsMask;
-        [SerializeField] private float _startDuration = 3f;
+        [SerializeField] private float _startDelay = 1f;
 
         public LayerMask VoyageResultsMask => _voyageResultsMask;
-        public float StartDuration => _startDuration;
+        public float StartDelay => _startDelay;
     }
 }

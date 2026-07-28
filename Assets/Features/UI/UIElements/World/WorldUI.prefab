@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3206367382060075856}
-  - component: {fileID: 132160939576911845}
+  - component: {fileID: 4929566381804087409}
   - component: {fileID: 1504544054993097478}
   - component: {fileID: 8570802759322780598}
   m_Layer: 5
@@ -38,7 +38,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &132160939576911845
+--- !u!114 &4929566381804087409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,10 +47,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6818615869069319518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f5533f75ddf46c46a435768440ac0a9, type: 3}
+  m_Script: {fileID: 11500000, guid: cefc8acff722413449cd2b93b91bed7d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.FadeUIAnimation
-  _settings: {fileID: 11400000, guid: 1d9a4941d6996014881d32996b8a579f, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.InstantUIAnimation
 --- !u!114 &1504544054993097478
 MonoBehaviour:
   m_ObjectHideFlags: 0

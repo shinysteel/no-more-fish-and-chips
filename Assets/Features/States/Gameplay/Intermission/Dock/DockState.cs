@@ -150,7 +150,7 @@ namespace NoMoreFishAndChips.States
 
             _startTimer += Time.deltaTime;
 
-            if (_startTimer >= _config.StartDuration)
+            if (_startTimer >= _config.StartDelay)
             {
                 _parentStateMachine.ChangeState(EIntermissionState.Depart);
             }
