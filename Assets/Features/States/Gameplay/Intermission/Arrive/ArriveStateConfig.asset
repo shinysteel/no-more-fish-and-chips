@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0341dece9817cc24fa04b671d67aaa04, type: 3}
   m_Name: ArriveStateConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.ArriveStateConfig
+  _arriveDelay: 3

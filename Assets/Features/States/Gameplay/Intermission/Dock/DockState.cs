@@ -21,6 +21,7 @@ namespace NoMoreFishAndChips.States
         private CameraManager _cameraManager;
         private SceneManager _sceneManager;
         private EntityManager _entityManager;
+        private LobbyManager _lobbyManager;
 
         private DockStateConfig _config;
 
@@ -38,6 +39,7 @@ namespace NoMoreFishAndChips.States
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _sceneManager = GameManager.Instance.Get<SceneManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
+            _lobbyManager = GameManager.Instance.Get<LobbyManager>();
         }
 
         public override void InitialiseConfig(IntermissionStateConfig config)
@@ -152,6 +154,7 @@ namespace NoMoreFishAndChips.States
 
             if (_startTimer >= _config.StartDelay)
             {
+                _lobbyManager.StartLobby();
                 _parentStateMachine.ChangeState(EIntermissionState.Depart);
             }
         }

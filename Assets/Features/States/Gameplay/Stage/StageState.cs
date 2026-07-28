@@ -54,7 +54,6 @@ namespace NoMoreFishAndChips.States
         {
             if (_networkManager.IsServer)
             {
-                _lobbyManager.StopLobby();
                 _parentStateMachine.ChangeState(EGameplayState.Intermission);
             }
         }

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006f4f174d74e7640b9529226bf91227, type: 3}
   m_Name: DepartStateConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.States.DepartStateConfig
+  _departDelay: 3

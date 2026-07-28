@@ -134,8 +134,6 @@ namespace NoMoreFishAndChips.States
             _networkManager.Despawn(_island);
             _island = null;
 
-            _lobbyManager.StartLobby();
-
             _parentStateMachine.ChangeState(EGameplayState.Stage);
         }
     }
