@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.States
                 _context.WaveRunner.SetStageData(_config.ClamClusterStageData);
             }
         }
-
+        
         private void HandleStageComplete()
         {
             if (_networkManager.IsServer)

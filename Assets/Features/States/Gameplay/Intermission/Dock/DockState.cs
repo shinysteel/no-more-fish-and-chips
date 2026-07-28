@@ -53,8 +53,8 @@ namespace NoMoreFishAndChips.States
             _context.References.Ocean.SetCurrent(false, 0f);
 
             _startTimer = 0f;
-
-            _ = EnterVoyageResultsAsync();
+            
+            // _ = EnterVoyageResultsAsync();
         }
 
         private async Task EnterVoyageResultsAsync()

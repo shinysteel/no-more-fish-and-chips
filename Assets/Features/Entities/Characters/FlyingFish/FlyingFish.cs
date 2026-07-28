@@ -159,7 +159,7 @@ namespace NoMoreFishAndChips.Entities
 
                 // Interpolate from start to end
                 float time = _flyTimer / _fish.DefinitionData.FlyDuration;
-                _fish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, Physics.gravity.magnitude, _fish.DefinitionData.LaunchAngle, time);
+                _fish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _landPosition, Physics.gravity.magnitude * 0.5f, _fish.DefinitionData.LaunchAngle, time);
                 _fish.transform.rotation = Quaternion.Slerp(_anticipateRotation, _landRotation, time);
 
                 if (_flyTimer > _fish.DefinitionData.FlyDuration)
