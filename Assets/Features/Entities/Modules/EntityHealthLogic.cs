@@ -24,7 +24,6 @@ namespace NoMoreFishAndChips.Entities
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
 
-            _entity = entity;
             _netHealth = netHealth;
            
             _netHealth.onChangedWithOld += HandleNetHealthChanged;
@@ -73,7 +72,7 @@ namespace NoMoreFishAndChips.Entities
 
             int previous = Current;
 
-            _netHealth.value = health;
+            _entity.SetNetHealthRpc(health);
         }
 
         public void ChangeHealth(int change)

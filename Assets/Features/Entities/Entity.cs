@@ -121,6 +121,12 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        [ServerRpc]
+        public void SetNetHealthRpc(int health)
+        {
+            _netHealth.value = health;
+        }
+
         [ObserversRpc]
         public void AnimateHurtRpc()
         {
