@@ -47,14 +47,15 @@ namespace NoMoreFishAndChips.States
 
         private StateMachine<EState> _stateMachine;
 
-        public bool IsComplete => _netWaveIndex.value >= _data.Waves.Length - 1 && _areWavesDefeated;
+        private bool IsLastWaveStep => _waveStepIndex >= _data.Waves[_netWaveIndex.value].Steps.Length - 1;
+        private bool IsLastWave => _netWaveIndex.value >= _data.Waves.Length - 1;
+        public bool IsComplete => IsLastWave && _areWavesDefeated;
 
         public event Action OnWaveComplete;
 
         private enum EState
         {
             None,
-            Select,
             Spawn,
             Wait
         }
@@ -66,27 +67,6 @@ namespace NoMoreFishAndChips.States
             protected State(StateMachine<EState> parent, Stage stage) : base(parent)
             {
                 _stage = stage;
-            }
-        }
-
-        private class SelectState : State
-        {
-            public SelectState(StateMachine<EState> parent, Stage stage) : base(parent, stage)
-            { }
-
-            public override void Enter()
-            {
-                base.Enter();
-
-                if (_stage._waveStep != null)
-                {
-                    _stage._netWaveIndex.value++;
-                }
-
-                _stage._waveStep = _stage._data.Waves[_stage._netWaveIndex.value].Steps[_stage._waveStepIndex];
-                _stage._waveStepIndex = 0;
-
-                _parentStateMachine.ChangeState(EState.Spawn);
             }
         }
 
@@ -138,7 +118,7 @@ namespace NoMoreFishAndChips.States
             {
                 base.Enter();
 
-                if (IsLastWave())
+                if (_stage.IsLastWaveStep && _stage.IsLastWave)
                 {
                     Tween.Delay(_duration, _stage.RefreshAreWavesDefeated);
                 } 
@@ -153,9 +133,15 @@ namespace NoMoreFishAndChips.States
                     return;
                 }
 
-                if (!IsLastWave())
+                if (!_stage.IsLastWaveStep)
                 {
-                    _parentStateMachine.ChangeState(EState.Select);
+                    _stage.NextWaveStep();
+                    _parentStateMachine.ChangeState(EState.Spawn);
+                }
+                else if (!_stage.IsLastWave)
+                {
+                    _stage.NextWave();
+                    _parentStateMachine.ChangeState(EState.Spawn);
                 }
                 else if (_stage._areWavesDefeated)
                 {
@@ -168,11 +154,6 @@ namespace NoMoreFishAndChips.States
                 base.Exit();
 
                 _stage.OnWaveComplete?.Invoke();
-            }
-
-            private bool IsLastWave()
-            {
-                return _stage._netWaveIndex.value >= _stage._data.Waves.Length - 1;
             }
         }
 
@@ -187,15 +168,14 @@ namespace NoMoreFishAndChips.States
 
             _stateMachine = new();
 
-            SelectState selectState = new SelectState(_stateMachine, this);
             SpawnState spawnState = new SpawnState(_stateMachine, this);
             WaitState waitState = new WaitState(_stateMachine, this);
 
-            _stateMachine.AddState(EState.Select, selectState);
             _stateMachine.AddState(EState.Spawn, spawnState);
             _stateMachine.AddState(EState.Wait, waitState);
 
-            _stateMachine.ChangeState(EState.Select);
+            NextWave();
+            _stateMachine.ChangeState(EState.Spawn);
         }
 
         ~Stage()
@@ -206,6 +186,23 @@ namespace NoMoreFishAndChips.States
         public void Tick()
         {
             _stateMachine.Tick();
+        }
+
+        public void NextWaveStep()
+        {
+            _waveStepIndex++;
+            _waveStep = _data.Waves[_netWaveIndex.value].Steps[_waveStepIndex];
+        }
+
+        public void NextWave()
+        {
+            if (_waveStep != null)
+            {
+                _netWaveIndex.value++;
+            }
+
+            _waveStepIndex = -1;
+            NextWaveStep();
         }
 
         void IEntityManagerListener.OnEntityDespawned(Entity entity)
@@ -248,8 +245,6 @@ namespace NoMoreFishAndChips.States
         {
             _data = data;
             _netWaveIndex = netWaveIndex;
-
-            Continue();
         }
 
         public void Continue()
@@ -317,15 +312,13 @@ namespace NoMoreFishAndChips.States
 
         public void ContinueVoyage()
         {
-            if (_voyage == null)
+            if (_voyage?.IsComplete != false)
             {
                 _voyage = new Voyage(_temperateSeaVoyageData, _netWaveIndex);
                 _voyage.OnStageComplete += HandleStageComplete;
             }
-            else
-            {
-                _voyage.Continue();
-            }
+
+            _voyage.Continue();
         }
 
         private void HandleStageComplete()
