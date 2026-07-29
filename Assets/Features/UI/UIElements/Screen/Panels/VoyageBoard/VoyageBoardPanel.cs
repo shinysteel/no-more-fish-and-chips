@@ -2,6 +2,6 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.UI
 {
-    public class SeaChartPanel : Panel
+    public class VoyageBoardPanel : Panel
     { }
 }

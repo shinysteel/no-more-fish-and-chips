@@ -5227,7 +5227,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4795301433268603850, guid: f2ab1a4a69200a04e87fa7b0838f3e17, type: 3}
       propertyPath: m_Name
-      value: SeaChartBoard
+      value: VoyageBoard
       objectReference: {fileID: 0}
     - target: {fileID: 5316364754264379760, guid: f2ab1a4a69200a04e87fa7b0838f3e17, type: 3}
       propertyPath: m_LocalPosition.x

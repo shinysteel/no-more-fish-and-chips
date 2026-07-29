@@ -1710,7 +1710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4705308164282050647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_text
-      value: Sea Chart
+      value: Voyage Board
       objectReference: {fileID: 0}
     - target: {fileID: 8361338252170596229, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_AnchorMax.x

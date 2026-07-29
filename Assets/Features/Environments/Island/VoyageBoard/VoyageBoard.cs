@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class SeaChartBoard : MonoBehaviour, IInteractable
+    public class VoyageBoard : MonoBehaviour, IInteractable
     {
         [SerializeField] private IInteractableSettings _iInteractableSettings;
 
         private UIManager _uiManager;
 
-        private PanelInstance<SeaChartPanel> _seaChartPanelInstance;
+        private PanelInstance<VoyageBoardPanel> _voyageBoardPanelInstance;
 
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
 
@@ -18,7 +18,7 @@ namespace NoMoreFishAndChips.Environments
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 
-            _seaChartPanelInstance = new PanelInstance<SeaChartPanel>(_uiManager.Config.SeaChartPanelPrefab);
+            _voyageBoardPanelInstance = new PanelInstance<VoyageBoardPanel>(_uiManager.Config.VoyageBoardPanelPrefab);
         }
 
         bool IInteractable.CanInteract()
@@ -40,7 +40,7 @@ namespace NoMoreFishAndChips.Environments
 
         void IInteractable.Interact()
         {
-            _seaChartPanelInstance.Toggle(null);
+            _voyageBoardPanelInstance.Toggle(null);
         }
     }
 }
