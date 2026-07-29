@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Environments
+namespace NoMoreFishAndChips.States
 {
-    [CreateAssetMenu(fileName = "StageData", menuName = "Data/Environments/StageData")]
+    [CreateAssetMenu(fileName = "StageData", menuName = "Data/States/Gameplay/StageData")]
     public class StageData : ScriptableObject
     {
         [SerializeField] private Wave[] _waves;

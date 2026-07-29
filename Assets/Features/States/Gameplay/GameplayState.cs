@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using Object = UnityEngine.Object;
 
@@ -31,19 +31,17 @@ namespace NoMoreFishAndChips.States
         public IReadOnlyList<RaftPlayer> Players { get; private set; }
         public RaftPlayer LocalPlayer { get; private set; }
         public Raft Raft { get; private set; }
-        public StageRunner StageRunner { get; private set; }
-        public WaveRunner WaveRunner { get; private set; }
+        public VoyageRunner VoyageRunner { get; private set; }
         public EnvironmentMarker EnvironmentMarker { get; private set; }
         public EnvironmentGameplayReferences References { get; private set; }
         public GameplayScreen GameplayScreen { get; private set; }
         
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, StageRunner stageRunner, WaveRunner waveRunner, EnvironmentMarker environmentMarker, EnvironmentGameplayReferences references, GameplayScreen gameplayScreen)
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, VoyageRunner voyageRunner, EnvironmentMarker environmentMarker, EnvironmentGameplayReferences references, GameplayScreen gameplayScreen)
         {
             Players = players;
             LocalPlayer = localPlayer;
             Raft = raft;
-            StageRunner = stageRunner;
-            WaveRunner = waveRunner;
+            VoyageRunner = voyageRunner;
             EnvironmentMarker = environmentMarker;
             References = references;
             GameplayScreen = gameplayScreen;
@@ -173,15 +171,13 @@ namespace NoMoreFishAndChips.States
 
                 // All clients need to build a local GameplayContext class
                 Raft raft = null;
-                StageRunner stageRunner = null;
-                WaveRunner waveRunner = null;
+                VoyageRunner voyageRunner = null;
                 EnvironmentMarker environmentMarker = null;
 
                 if (_networkManager.IsServer)
                 {
                     raft = _networkManager.Spawn(_config.RaftPrefab);
-                    stageRunner = _networkManager.Spawn(_config.StageRunnerPrefab);
-                    waveRunner = _networkManager.Spawn(_config.WaveRunnerPrefab);
+                    voyageRunner = _networkManager.Spawn(_config.VoyageRunnerPrefab);
                     environmentMarker = _networkManager.Spawn(_config.EnvironmentMarkerPrefab);
 
                     _networkManager.Spawn(_config.DrowningSpawnerPrefab);
@@ -190,11 +186,10 @@ namespace NoMoreFishAndChips.States
                 else
                 {
                     // Clients will need to retrieve these objects
-                    while (raft == null || waveRunner == null || environmentMarker == null)
+                    while (raft == null || voyageRunner == null || environmentMarker == null)
                     {
                         raft ??= Object.FindFirstObjectByType<Raft>();
-                        stageRunner ??= Object.FindFirstObjectByType<StageRunner>();
-                        waveRunner ??= Object.FindFirstObjectByType<WaveRunner>();
+                        voyageRunner ??= Object.FindFirstObjectByType<VoyageRunner>();
                         environmentMarker ??= Object.FindFirstObjectByType<EnvironmentMarker>();
                         await Task.Yield();
                     }
@@ -205,12 +200,11 @@ namespace NoMoreFishAndChips.States
 
                 _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
 
-                _context = new GameplayContext(_players, localPlayer, raft, stageRunner, waveRunner, environmentMarker, references, _gameplayScreen);
+                _context = new GameplayContext(_players, localPlayer, raft, voyageRunner, environmentMarker, references, _gameplayScreen);
 
                 // Manually initialise context components to dictate order
                 InitialiseComponent(raft);
-                InitialiseComponent(stageRunner);
-                InitialiseComponent(waveRunner);
+                InitialiseComponent(voyageRunner);
                 InitialiseComponent(environmentMarker);
 
                 InitialiseComponent(localPlayer);

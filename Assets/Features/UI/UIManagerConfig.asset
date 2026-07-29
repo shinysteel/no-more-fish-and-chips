@@ -28,7 +28,7 @@ MonoBehaviour:
   _buildingKitPanelPrefab: {fileID: 1958129456515683056, guid: d8822682c6e6b5b4f91dc71db5c0e4ce, type: 3}
   _clamChestPanelPrefab: {fileID: 754690044418743351, guid: 3d89d24df53db4f42a4a59d1c2a9bf27, type: 3}
   _giantClamsMouthPanelPrefab: {fileID: 3675017633937883557, guid: ec540dc40ef3f4041a62bd7ac554abb3, type: 3}
-  _seaChartPanelPrefab: {fileID: 7883409537600940444, guid: fb5251541f123564099a9a0cf5e12970, type: 3}
+  _voyageBoardPanelPrefab: {fileID: 7883409537600940444, guid: fb5251541f123564099a9a0cf5e12970, type: 3}
   _cursorsUIPrefab: {fileID: 3344945000103229724, guid: e558a1cf45d47a047b893283dd78e7a1, type: 3}
   _fadeOverlayPrefab: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}
   _interactPromptUIPrefab: {fileID: 4809291724522747272, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}

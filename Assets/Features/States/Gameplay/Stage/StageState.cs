@@ -29,14 +29,14 @@ namespace NoMoreFishAndChips.States
         {
             base.InitialiseContext(context);
 
-            _context.WaveRunner.OnStageComplete += HandleStageComplete;
+            _context.VoyageRunner.OnStageComplete += HandleStageComplete;
         }
 
         ~StageState()
         {
-            if (_context.WaveRunner != null)
+            if (_context.VoyageRunner != null)
             {
-                _context.WaveRunner.OnStageComplete -= HandleStageComplete;
+                _context.VoyageRunner.OnStageComplete -= HandleStageComplete;
             }
         }
 
@@ -44,10 +44,7 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            if (_networkManager.IsServer)
-            {
-                _context.WaveRunner.SetStageData(_config.ClamClusterStageData);
-            }
+            _context.VoyageRunner.ContinueVoyage();
         }
         
         private void HandleStageComplete()

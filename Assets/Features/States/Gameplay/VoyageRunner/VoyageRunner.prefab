@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1930812546613015645}
   - component: {fileID: 4261188027514847317}
   m_Layer: 0
-  m_Name: StageRunner
+  m_Name: VoyageRunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,3 +53,5 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
+  _temperateSeaVoyageData: {fileID: 11400000, guid: 0b63abba17985584693b05d9b148dd4e, type: 2}
+  _stageRunner: {fileID: 0}

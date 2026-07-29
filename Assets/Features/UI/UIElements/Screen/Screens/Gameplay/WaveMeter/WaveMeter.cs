@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private Image _fillImage;
 
-        private WaveRunner _waveRunner;
+        private GameplayContext _context;
 
         private Tween _fillTween;
 
@@ -22,9 +22,9 @@ namespace NoMoreFishAndChips.UI
 
         public void Setup(GameplayContext context)
         {
-            //_waveRunner = context.WaveRunner;
+            _context = context;
 
-            //_rectTransform.sizeDelta = new Vector2(BaseWidth + IndexWidth * _waveRunner.StageData.Waves.Length, _rectTransform.sizeDelta.y);
+            // _rectTransform.sizeDelta = new Vector2(BaseWidth + IndexWidth * _waveRunner.StageData.Waves.Length, _rectTransform.sizeDelta.y);
 
             //HandleWaveIndexChanged(_waveRunner.WaveIndex);
 
