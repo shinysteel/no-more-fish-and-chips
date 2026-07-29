@@ -21,11 +21,8 @@ MonoBehaviour:
   _spriteAssetName: item_finBack
   _maxStack: 1
   _recipe:
-    _requirements:
-    - _itemId: 7
-      _count: 1
-    - _itemId: 5
-      _count: 2
+    _requirements: []
   _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
   _model: {fileID: 7463656648325019366, guid: d4da32a1c6c2ac64aa7ed7cfd2d0b77d, type: 3}
   _actionDatas: []
+  _holdOffset: {x: 0, y: 0, z: 0}
