@@ -5,6 +5,7 @@ using ShinyOwl.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NoMoreFishAndChips.Voyages;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -24,26 +25,39 @@ namespace NoMoreFishAndChips.UI
         {
             _context = context;
 
-            // _rectTransform.sizeDelta = new Vector2(BaseWidth + IndexWidth * _waveRunner.StageData.Waves.Length, _rectTransform.sizeDelta.y);
+            HandleStageChanged(_context.VoyageRunner.Voyage?.Stage);
+            
+            _context.VoyageRunner.OnStageChanged += HandleStageChanged;
+                
+            HandleWaveIndexChanged(_context.VoyageRunner.WaveIndex);
 
-            //HandleWaveIndexChanged(_waveRunner.WaveIndex);
-
-            //_waveRunner.OnWaveIndexChanged += HandleWaveIndexChanged;
+            _context.VoyageRunner.OnWaveIndexChanged += HandleWaveIndexChanged;
         }
 
         private void OnDestroy()
         {
-            //if (_waveRunner != null)
-            //{
-            //    _waveRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
-            //}
+            if (_context.VoyageRunner != null)
+            {
+                _context.VoyageRunner.OnStageChanged -= HandleStageChanged;
+                _context.VoyageRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
+            }
+        }
+
+        private void HandleStageChanged(IStage stage)
+        {
+            _rectTransform.sizeDelta = new Vector2(stage != null ? BaseWidth + IndexWidth * stage.Data.Waves.Length : 0f, _rectTransform.sizeDelta.y);
         }
 
         private void HandleWaveIndexChanged(int index)
         {
-            //_fillTween.Stop();
+            if (_context.VoyageRunner.Voyage == null)
+            {
+                return;
+            }
 
-            //_fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _waveRunner.StageData.Waves.Length, duration: 0.5f);
+            _fillTween.Stop();
+
+            _fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _context.VoyageRunner.Voyage.Stage.Data.Waves.Length, duration: 0.5f);
         }
     }
 }

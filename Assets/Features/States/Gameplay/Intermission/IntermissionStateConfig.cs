@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.States
 {
-    [CreateAssetMenu(fileName = "IntermissionStateConfig", menuName = "Configs/Managers/State/Gameplay/Intermission/IntermissionStateConfig")]
+    [CreateAssetMenu(fileName = "IntermissionStateConfig", menuName = "Configs/Managers/States/Gameplay/Intermission/IntermissionStateConfig")]
     public class IntermissionStateConfig : ScriptableObject
     {
         [SerializeField] private ArriveStateConfig _arriveStateConfig;

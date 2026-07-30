@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
         AudioManager        ,
         EnvironmentManager  ,
         RarityManager       ,
+        VoyageManager       ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem

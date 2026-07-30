@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.States
 {
-    [CreateAssetMenu(fileName = "StateManagerConfig", menuName = "Configs/Managers/State/StateManagerConfig")]
+    [CreateAssetMenu(fileName = "StateManagerConfig", menuName = "Configs/Managers/States/StateManagerConfig")]
     public class StateManagerConfig : ScriptableObject
     {
         [SerializeField] private MenusStateConfig _menusStateConfig;

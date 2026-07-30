@@ -18,6 +18,7 @@ using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Rarities;
+using NoMoreFishAndChips.Voyages;
 
 [CreateAssetMenu(fileName = "GameManagerConfig", menuName = "Configs/Managers/GameManagerConfig")]
 public class GameManagerConfig : ScriptableObject
@@ -42,6 +43,7 @@ public class GameManagerConfig : ScriptableObject
     [SerializeField] private AudioManagerConfig _audioManagerConfig;
     [SerializeField] private EnvironmentManagerConfig _environmentManagerConfig;
     [SerializeField] private RarityManagerConfig _rarityManagerConfig;
+    [SerializeField] private VoyageManagerConfig _voyageManagerConfig;
 
     public SaveManagerConfig SaveManagerConfig => _saveManagerConfig;
     public InstantiateManagerConfig InstantiateManagerConfig => _instantiateManagerConfig;
@@ -63,4 +65,5 @@ public class GameManagerConfig : ScriptableObject
     public AudioManagerConfig AudioManagerConfig => _audioManagerConfig;
     public EnvironmentManagerConfig EnvironmentManagerConfig => _environmentManagerConfig;
     public RarityManagerConfig RarityManagerConfig => _rarityManagerConfig;
+    public VoyageManagerConfig VoyageManagerConfig => _voyageManagerConfig;
 }

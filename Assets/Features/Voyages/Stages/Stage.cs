@@ -1,40 +1,22 @@
 using NoMoreFishAndChips.Entities;
-using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
-using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
+using UnityEngine;
 using System;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.Rendering;
 
-using EntityId = NoMoreFishAndChips.Entities.EntityId;
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
-namespace NoMoreFishAndChips.States
+namespace NoMoreFishAndChips.Voyages
 {
-    [Serializable]
-    public class WaveStep
+    public interface IStage
     {
-        [SerializeField] private EntityId _entityId;
-        [SerializeField] private int _count;
-        [SerializeField] private float _interval;
-
-        public EntityId EntityId => _entityId;
-        public int Count => _count;
-        public float Interval => _interval;
+        StageData Data { get; }
     }
 
-    [Serializable]
-    public class Wave
-    {
-        [SerializeField] private WaveStep[] _steps;
-
-        public WaveStep[] Steps => _steps;
-    }
-
-    public class Stage : IEntityManagerListener
+    public class Stage : IStage, IEntityManagerListener
     {
         private EntityManager _entityManager;
 
@@ -50,6 +32,8 @@ namespace NoMoreFishAndChips.States
         private bool IsLastWaveStep => _waveStepIndex >= _data.Waves[_netWaveIndex.value].Steps.Length - 1;
         private bool IsLastWave => _netWaveIndex.value >= _data.Waves.Length - 1;
         public bool IsComplete => IsLastWave && _areWavesDefeated;
+
+        StageData IStage.Data => _data;
 
         public event Action OnWaveComplete;
 
@@ -121,7 +105,7 @@ namespace NoMoreFishAndChips.States
                 if (_stage.IsLastWaveStep && _stage.IsLastWave)
                 {
                     Tween.Delay(_duration, _stage.RefreshAreWavesDefeated);
-                } 
+                }
             }
 
             public override void Tick()
@@ -145,7 +129,7 @@ namespace NoMoreFishAndChips.States
                 }
                 else if (_stage._areWavesDefeated)
                 {
-                    _parentStateMachine.ChangeState(EState.None);   
+                    _parentStateMachine.ChangeState(EState.None);
                 }
             }
 
@@ -224,116 +208,6 @@ namespace NoMoreFishAndChips.States
             //}
 
             _areWavesDefeated = true;
-        }
-    }
-
-    public class Voyage
-    {
-        private VoyageData _data;
-        private SyncVar<int> _netWaveIndex;
-
-        private Stage _stage;
-        private int _stageIndex;
-
-        public bool IsComplete => _stageIndex >= _data.StageDatas.Length - 1 && _stage.IsComplete;
-
-        public Stage Stage => _stage;
-
-        public event Action OnStageComplete;
-
-        public Voyage(VoyageData data, SyncVar<int> netWaveIndex)
-        {
-            _data = data;
-            _netWaveIndex = netWaveIndex;
-        }
-
-        public void Continue()
-        {
-            if (_stage != null)
-            {
-                _stage.OnWaveComplete -= HandleWaveComplete;
-                _stage = null;
-                _stageIndex++;
-            }
-
-            if (_stageIndex >= _data.StageDatas.Length)
-            {
-                return;
-            }
-
-            _stage = new Stage(_data.StageDatas[_stageIndex], _netWaveIndex);
-            _stage.OnWaveComplete += HandleWaveComplete;
-        }
-
-        public void Tick()
-        {
-            _stage.Tick();
-        }
-
-        private void HandleWaveComplete()
-        {
-            if (_stage.IsComplete)
-            {
-                OnStageComplete?.Invoke();
-            }
-        }
-    }
-
-    public class VoyageRunner : GameplayBehaviour
-    {
-        [SerializeField] private VoyageData _temperateSeaVoyageData;
-
-        private Voyage _voyage;
-        private SyncVar<int> _netWaveIndex = new SyncVar<int>(ownerAuth: true);
-
-        public int WaveIndex => _netWaveIndex.value;
-
-        public event Action<int> OnWaveIndexChanged;
-        public event Action OnStageComplete;
-
-        protected override void OnSpawned()
-        {
-            base.OnSpawned();
-
-            _netWaveIndex.onChanged += HandleNetWaveIndexChanged;
-        }
-
-        protected override void OnDespawned()
-        {
-            base.OnDespawned();
-
-            _netWaveIndex.onChanged -= HandleNetWaveIndexChanged;
-        }
-
-        private void HandleNetWaveIndexChanged(int index)
-        {
-            OnWaveIndexChanged?.Invoke(index);
-        }
-
-        public void ContinueVoyage()
-        {
-            if (_voyage?.IsComplete != false)
-            {
-                _voyage = new Voyage(_temperateSeaVoyageData, _netWaveIndex);
-                _voyage.OnStageComplete += HandleStageComplete;
-            }
-
-            _voyage.Continue();
-        }
-
-        private void HandleStageComplete()
-        {
-            OnStageComplete?.Invoke();
-        }
-
-        private void Update()
-        {
-            if (!isOwner)
-            {
-                return;
-            }
-
-            _voyage?.Tick();
         }
     }
 }

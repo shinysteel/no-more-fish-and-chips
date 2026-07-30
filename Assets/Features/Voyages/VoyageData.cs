@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace NoMoreFishAndChips.States
+namespace NoMoreFishAndChips.Voyages
 {
-    [CreateAssetMenu(fileName = "VoyageData", menuName = "Data/States/Gameplay/VoyageData")]
+    [CreateAssetMenu(fileName = "VoyageData", menuName = "Data/Voyage/VoyageData")]
     public class VoyageData : ScriptableObject
     {
         [SerializeField] private StageData[] _stageDatas;
