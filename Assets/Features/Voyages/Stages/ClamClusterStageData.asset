@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c5907fe8b72144993332615d256c52, type: 3}
   m_Name: ClamClusterStageData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Environments.StageData
+  _id: 0
   _waves:
   - _steps:
     - _entityId: 101
       _count: 1
       _interval: 0
+  - _steps:
     - _entityId: 101
       _count: 1
       _interval: 0
+  - _steps:
     - _entityId: 101
       _count: 1
       _interval: 0

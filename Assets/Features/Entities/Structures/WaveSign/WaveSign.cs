@@ -1,21 +1,22 @@
+using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.States;
+using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
-using System.Threading.Tasks;
-using UnityEngine;
-using System.Reflection;
-using TMPro;
-using PrimeTween;
 using ShinyOwl.Common.Extensions;
-using NoMoreFishAndChips.Audio;
+using System;
+using System.Reflection;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
     public class WaveSign : Structure<WaveSignDefinitionData>
     {
-        [SerializeField] private TextMeshPro _waveText;
+        [SerializeField] private TextMeshPro _countText;
 
-        private int _index;
+        private SyncVar<int> _netCount = new SyncVar<int>(ownerAuth: true);
 
         private Sequence _sequence;
 
@@ -23,34 +24,57 @@ namespace NoMoreFishAndChips.Entities
         {
             base.InitialiseContext(context);
 
-            _index = _context.VoyageRunner.WaveIndex;
-            RefreshWaveText();
+            HandleNetCountChanged(_netCount.value);
+            _netCount.onChanged += HandleNetCountChanged;
 
             _context.VoyageRunner.OnWaveIndexChanged += HandleWaveIndexChanged;
+            _context.VoyageRunner.OnStageComplete += HandleStageComplete;
         }
 
         protected override void OnDespawned()
         {
+            _netCount.onChanged -= HandleNetCountChanged;
+
             _context.VoyageRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
+            _context.VoyageRunner.OnStageComplete -= HandleStageComplete;
 
             base.OnDespawned();
         }
 
+        private void HandleNetCountChanged(int count)
+        {
+            string text = count.ToString();
+
+            if (_countText.text == text)
+            {
+                return;
+            }
+
+            _countText.text = text;
+
+            Tween.CompleteAll(_countText.transform);
+            Tween.PunchScale(_countText.transform, strength: Vector3.one * 0.5f, duration: 0.1f, frequency: 1);
+        }
+
         private void HandleWaveIndexChanged(int index)
         {
-            if (_index == index)
+            if (isOwner)
             {
-                return;
+                Jump();
             }
+        }
 
-            _index = index;
-
-            _audioManager.PlaySound(SoundId.WaveSignJump);
-
-            if (!isOwner)
+        private void HandleStageComplete()
+        {
+            if (isOwner)
             {
-                return;
+                Jump();
             }
+        }
+
+        private void Jump()
+        {
+            AudioManager.PlaySoundRpc(SoundId.WaveSignJump);
 
             _sequence.Complete();
 
@@ -64,33 +88,12 @@ namespace NoMoreFishAndChips.Entities
                     transform.rotation = rotation * Quaternion.AngleAxis(value * 360f, Vector3.up);
                 }))
                 .Chain(Tween.LocalPositionY(transform, endValue: y, duration: 0.1f, ease: Ease.InQuad))
-                .ChainCallback(RefreshWaveTextRpc)
+                .ChainCallback(() => _netCount.value++)
                 .ChainCallback(Slam);
         }
 
-        [ObserversRpc]
-        private void RefreshWaveTextRpc()
-        {
-            RefreshWaveText();
-        }
-
-        private void RefreshWaveText()
-        {
-            string text = _index.ToString();
-            
-            if (_waveText.text == text)
-            {
-                return;
-            }
-
-            _waveText.text = text;
-
-            Tween.CompleteAll(_waveText.transform);
-            Tween.PunchScale(_waveText.transform, strength: Vector3.one * 0.5f, duration: 0.1f, frequency: 1);
-        }
-
         private void Slam()
-        {
+        { 
             _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, new SpawnParams() { Position = transform.position });
 
             AudioManager.PlaySoundRpc(SoundId.WaveSignSlam);

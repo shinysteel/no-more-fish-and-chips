@@ -1,12 +1,13 @@
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.States;
+using NoMoreFishAndChips.Voyages;
 using PrimeTween;
 using ShinyOwl.Common;
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using NoMoreFishAndChips.Voyages;
-using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -31,6 +32,8 @@ namespace NoMoreFishAndChips.UI
 
             HandleWaveIndexChanged(_context.VoyageRunner.WaveIndex);
             _context.VoyageRunner.OnWaveIndexChanged += HandleWaveIndexChanged;
+
+            _context.VoyageRunner.OnStageComplete += HandleStageComplete;
         }
 
         private void OnDestroy()
@@ -39,6 +42,7 @@ namespace NoMoreFishAndChips.UI
             {
                 _context.VoyageRunner.OnStageDataChanged -= HandleStageDataChanged;
                 _context.VoyageRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
+                _context.VoyageRunner.OnStageComplete -= HandleStageComplete;
             }
         }
         
@@ -54,9 +58,21 @@ namespace NoMoreFishAndChips.UI
                 return;
             }
 
+            TweenFill((float)index / _context.VoyageRunner.StageData.Waves.Length);
+        }
+
+        private void HandleStageComplete()
+        {
+            TweenFill(1f);
+        }
+
+        private void TweenFill(float endValue)
+        {
+            float duration = 0.5f;
+
             _fillTween.Stop();
 
-            _fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _context.VoyageRunner.StageData.Waves.Length, duration: 0.5f);
+            _fillTween = Tween.UIFillAmount(_fillImage, endValue: endValue, duration: duration);
         }
     }
 }
