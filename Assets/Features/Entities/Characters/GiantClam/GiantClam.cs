@@ -224,6 +224,11 @@ namespace NoMoreFishAndChips.Entities
             _stateMachine.AddState(EState.EmptyRage, rageState);
         }
 
+        protected override EntityLogicFactory CreateLogicFactory()
+        {
+            return new GiantClamLogicFactory();
+        }
+
         protected override void OnSpawned()
         {
             base.OnSpawned();
