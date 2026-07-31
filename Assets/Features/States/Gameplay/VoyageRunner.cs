@@ -48,22 +48,36 @@ namespace NoMoreFishAndChips.States
 
         public void ContinueVoyage()
         {
-            if (_voyage?.IsComplete != false)
+            if (_voyage?.IsComplete ?? false)
             {
-                _voyage = new Voyage(_temperateSeaVoyageData, _netWaveIndex);
-                _voyage.OnStageChanged += HandleStageChanged;
-                _voyage.OnStageComplete += HandleStageComplete;
+                _voyage.OnWaveIndexChanged -= HandleVoyageWaveIndexChanged;
+                _voyage.OnStageChanged -= HandleVoyageStageChanged;
+                _voyage.OnStageComplete -= HandleVoyageStageComplete;
+                _voyage = null;
+            }
+
+            if (_voyage == null)
+            {
+                _voyage = new Voyage(_temperateSeaVoyageData);
+                _voyage.OnWaveIndexChanged += HandleVoyageWaveIndexChanged;
+                _voyage.OnStageChanged += HandleVoyageStageChanged;
+                _voyage.OnStageComplete += HandleVoyageStageComplete;
             }
 
             _voyage.Continue();
         }
 
-        private void HandleStageChanged(IStage stage)
+        private void HandleVoyageWaveIndexChanged(int index)
+        {
+            _netWaveIndex.value = index;
+        }
+
+        private void HandleVoyageStageChanged(IStage stage)
         {
             OnStageChanged?.Invoke(stage);
         }
 
-        private void HandleStageComplete()
+        private void HandleVoyageStageComplete()
         {
             OnStageComplete?.Invoke();
         }

@@ -21,7 +21,8 @@ namespace NoMoreFishAndChips.Voyages
         private EntityManager _entityManager;
 
         private StageData _data;
-        private SyncVar<int> _netWaveIndex;
+
+        private int _waveIndex;
 
         private WaveStep _waveStep;
         private int _waveStepIndex;
@@ -29,12 +30,14 @@ namespace NoMoreFishAndChips.Voyages
 
         private StateMachine<EState> _stateMachine;
 
-        private bool IsLastWaveStep => _waveStepIndex >= _data.Waves[_netWaveIndex.value].Steps.Length - 1;
-        private bool IsLastWave => _netWaveIndex.value >= _data.Waves.Length - 1;
+        public int WaveIndex => _waveIndex;
+        private bool IsLastWaveStep => _waveStepIndex >= _data.Waves[_waveIndex].Steps.Length - 1;
+        private bool IsLastWave => _waveIndex >= _data.Waves.Length - 1;
         public bool IsComplete => IsLastWave && _areWavesDefeated;
 
         StageData IStage.Data => _data;
 
+        public event Action<int> OnWaveIndexChanged;
         public event Action OnWaveComplete;
 
         private enum EState
@@ -141,14 +144,13 @@ namespace NoMoreFishAndChips.Voyages
             }
         }
 
-        public Stage(StageData data, SyncVar<int> netWaveIndex)
+        public Stage(StageData data)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
 
             _entityManager.AddListener(this);
 
             _data = data;
-            _netWaveIndex = netWaveIndex;
 
             _stateMachine = new();
 
@@ -175,14 +177,15 @@ namespace NoMoreFishAndChips.Voyages
         public void NextWaveStep()
         {
             _waveStepIndex++;
-            _waveStep = _data.Waves[_netWaveIndex.value].Steps[_waveStepIndex];
+            _waveStep = _data.Waves[_waveIndex].Steps[_waveStepIndex];
         }
 
         public void NextWave()
         {
             if (_waveStep != null)
             {
-                _netWaveIndex.value++;
+                _waveIndex++;
+                OnWaveIndexChanged?.Invoke(_waveIndex);
             }
 
             _waveStepIndex = -1;
