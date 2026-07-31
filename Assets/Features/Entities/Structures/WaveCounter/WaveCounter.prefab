@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       propertyPath: m_Name
-      value: WaveSign
+      value: WaveCounter
       objectReference: {fileID: 0}
     - target: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       propertyPath: m_LocalPosition.x
@@ -302,7 +302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2bcfc322931af674f9e33cb5c95b3e10, type: 3}
       propertyPath: m_Name
-      value: WaveSign
+      value: WaveCounter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

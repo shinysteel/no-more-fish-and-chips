@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class WaveSign : Structure<WaveSignDefinitionData>
+    public class WaveCounter : Structure<WaveCounterDefinitionData>
     {
         [SerializeField] private TextMeshPro _countText;
 
@@ -74,7 +74,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void Jump()
         {
-            AudioManager.PlaySoundRpc(SoundId.WaveSignJump);
+            AudioManager.PlaySoundRpc(SoundId.WaveCounterJump);
 
             _sequence.Complete();
 
@@ -96,7 +96,7 @@ namespace NoMoreFishAndChips.Entities
         { 
             _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, new SpawnParams() { Position = transform.position });
 
-            AudioManager.PlaySoundRpc(SoundId.WaveSignSlam);
+            AudioManager.PlaySoundRpc(SoundId.WaveCounterSlam);
         }
     }
 }

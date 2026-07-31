@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
-  m_Name: WaveSignJumpCueData
+  m_Name: WaveCounterSlamCueData
   m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
-  _id: 12
-  _volume: 0.8
+  _id: 13
+  _volume: 1
   _minPitch: 0.9
   _maxPitch: 1.1
   _audioClips:
-  - {fileID: 8300000, guid: c8e43f91f8d1c32429f038f4e14d3856, type: 3}
+  - {fileID: 8300000, guid: eed5de25da0dd704e9156039e2a8bfa9, type: 3}

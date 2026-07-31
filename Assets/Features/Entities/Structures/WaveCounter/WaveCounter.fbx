@@ -10,14 +10,14 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 5
-		Day: 2
-		Hour: 2
-		Minute: 8
-		Second: 4
-		Millisecond: 995
+		Month: 7
+		Day: 31
+		Hour: 17
+		Minute: 26
+		Second: 32
+		Millisecond: 632
 	}
-	Creator: "Blockbench 5.1.4"
+	Creator: "Blockbench 5.1.6"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "5.1.4"
+			P: "Original|ApplicationVersion", "KString", "", "", "5.1.6"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.1.4"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.1.6"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-05-01 16:08:04:995"
+CreationTime: "2026-07-31 07:26:32:632"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1914781712 {
+	Document: 672670171 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 71852787, "Model::wave_sign", "Null" {
+	Model: 77662212, "Model::wave_counter", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72635939, "Model::stand", "Mesh" {
+	Model: 79455468, "Model::stand", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77917179, "Geometry::stand", "Mesh" {
+	Geometry: 73363149, "Geometry::stand", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,15.625,3.125,6.25,15.625,-3.125,6.25,0,3.125,6.25,0,-3.125,-3.125,15.625,-3.125,-3.125,15.625,3.125,-3.125,0,-3.125,-3.125,0,3.125
 		}
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75891006, "Model::board", "Mesh" {
+	Model: 76307272, "Model::board", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75433277, "Geometry::board", "Mesh" {
+	Geometry: 78209702, "Geometry::board", "Mesh" {
 		Vertices: *24 {
 			a: 25,28.125,6.25,25,28.125,-3.1249999999999996,25,0,6.25,25,0,-3.1249999999999996,-21.875,28.125,-3.1249999999999996,-21.875,28.125,6.25,-21.875,0,-3.1249999999999996,-21.875,0,6.25
 		}
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 78964975, "Material::WaveSign.png", "" {
+	Material: 71698862, "Material::WaveCounter.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -425,26 +425,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 75690265, "Texture::WaveSign.png", "" {
+	Texture: 77104907, "Texture::WaveCounter.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::WaveSign.png"
-		Media: "Video::WaveSign.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\WaveSign\WaveSign.png"
-		RelativeFilename: "WaveSign.png"
+		TextureName: "Texture::WaveCounter.png"
+		Media: "Video::WaveCounter.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\WaveCounter\WaveCounter.png"
+		RelativeFilename: "WaveCounter.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 72899949, "Video::WaveSign.png", "Clip" {
+	Video: 73803096, "Video::WaveCounter.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\WaveSign\WaveSign.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\WaveCounter\WaveCounter.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Structures\WaveSign\WaveSign.png"
-		RelativeFilename: "WaveSign.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\WaveCounter\WaveCounter.png"
+		RelativeFilename: "WaveCounter.png"
 	}
 }
 
@@ -453,32 +453,32 @@ Objects:  {
 
 Connections:  {
 
-	;Model::wave_sign, Model::RootNode
-	C: "OO",71852787,0
+	;Model::wave_counter, Model::RootNode
+	C: "OO",77662212,0
 
-	;Model::stand, Model::wave_sign
-	C: "OO",72635939,71852787
+	;Model::stand, Model::wave_counter
+	C: "OO",79455468,77662212
 
 	;Geometry::stand, Model::stand
-	C: "OO",77917179,72635939
+	C: "OO",73363149,79455468
 
-	;Material::WaveSign.png, Model::stand
-	C: "OO",78964975,72635939
+	;Material::WaveCounter.png, Model::stand
+	C: "OO",71698862,79455468
 
-	;Model::board, Model::wave_sign
-	C: "OO",75891006,71852787
+	;Model::board, Model::wave_counter
+	C: "OO",76307272,77662212
 
 	;Geometry::board, Model::board
-	C: "OO",75433277,75891006
+	C: "OO",78209702,76307272
 
-	;Material::WaveSign.png, Model::board
-	C: "OO",78964975,75891006
+	;Material::WaveCounter.png, Model::board
+	C: "OO",71698862,76307272
 
-	;Texture::WaveSign.png, Material::WaveSign.png
-	C: "OP",75690265,78964975, "DiffuseColor"
+	;Texture::WaveCounter.png, Material::WaveCounter.png
+	C: "OP",77104907,71698862, "DiffuseColor"
 
-	;Video::WaveSign.png, Texture::WaveSign.png
-	C: "OO",72899949,75690265
+	;Video::WaveCounter.png, Texture::WaveCounter.png
+	C: "OO",73803096,77104907
 }
 
 ; Takes section

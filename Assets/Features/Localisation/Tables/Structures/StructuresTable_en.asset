@@ -18,14 +18,6 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 3804925952
-    m_Localized: Wave Sign
-    m_Metadata:
-      m_Items: []
-  - m_Id: 46536495104
-    m_Localized: Keeps track of how many waves you've survived
-    m_Metadata:
-      m_Items: []
   - m_Id: 27724425787174912
     m_Localized: Clam Chest
     m_Metadata:
@@ -40,6 +32,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 42798570853986304
     m_Localized: A box to grow any seeds you find
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72039784476143616
+    m_Localized: Wave Counter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72039784518086656
+    m_Localized: Keeps track of how many waves you've survived
     m_Metadata:
       m_Items: []
   references:

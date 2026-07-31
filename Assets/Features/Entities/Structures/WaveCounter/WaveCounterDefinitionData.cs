@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "WaveSignDefinitionData", menuName = "Data/Entities/Structures/WaveSignDefinitionData")]
-    public class WaveSignDefinitionData : StructureDefinitionData
+    [CreateAssetMenu(fileName = "WaveCounterDefinitionData", menuName = "Data/Entities/Structures/WaveCounterDefinitionData")]
+    public class WaveCounterDefinitionData : StructureDefinitionData
     {
         [SerializeField] private HitboxData _slamHitboxData;
 

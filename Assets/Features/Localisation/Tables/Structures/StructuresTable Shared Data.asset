@@ -15,12 +15,12 @@ MonoBehaviour:
   m_TableCollectionName: StructuresTable
   m_TableCollectionNameGuidString: b7cbb4f34acfcaf4889948744b43934c
   m_Entries:
-  - m_Id: 3804925952
-    m_Key: structures.waveSignName
+  - m_Id: 72039784476143616
+    m_Key: structures.waveCounterName
     m_Metadata:
       m_Items: []
-  - m_Id: 46536495104
-    m_Key: structures.waveSignDescription
+  - m_Id: 72039784518086656
+    m_Key: structures.waveCounterDescription
     m_Metadata:
       m_Items: []
   - m_Id: 27724425787174912

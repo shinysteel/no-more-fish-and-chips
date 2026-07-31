@@ -18,14 +18,6 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 3804925952
-    m_Localized: Signo de onda
-    m_Metadata:
-      m_Items: []
-  - m_Id: 46536495104
-    m_Localized: "Lleva la cuenta de cu\xE1ntas olas has sobrevivido."
-    m_Metadata:
-      m_Items: []
   - m_Id: 27724425787174912
     m_Localized: Cofre de almejas
     m_Metadata:
@@ -40,6 +32,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 42798570853986304
     m_Localized: Una caja para cultivar cualquier semilla que encuentres
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72039784476143616
+    m_Localized: Contador de ondas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 72039784518086656
+    m_Localized: "Lleva la cuenta de cu\xE1ntas olas has sobrevivido."
     m_Metadata:
       m_Items: []
   references:

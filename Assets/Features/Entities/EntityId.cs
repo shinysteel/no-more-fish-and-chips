@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
         MetalTile = 203,
 
         // Structures
-        WaveSign = 300,
+        WaveCounter = 300,
         ClamChest = 301,
         Planter = 302,
     }

@@ -72,7 +72,7 @@ namespace NoMoreFishAndChips.Environments
             }
 
             // Start with a wave sign
-            Structures.Add(new StructureSave(new Vector2Int(0, 1), EntityId.WaveSign, string.Empty));
+            Structures.Add(new StructureSave(new Vector2Int(0, 1), EntityId.WaveCounter, string.Empty));
         }
     }
 }
