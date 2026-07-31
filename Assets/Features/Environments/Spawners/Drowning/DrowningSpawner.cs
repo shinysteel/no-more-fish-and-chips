@@ -12,6 +12,8 @@ namespace NoMoreFishAndChips.Environments
 {
     public class DrowningSpawner : GameplayBehaviour, IEntityManagerListener, IStateManagerListener
     {
+        [SerializeField] private float _spawnDuration = 2.5f;
+
         private Dictionary<RaftPlayer, Drowning> _playerDrowningMap = new();
 
         private bool _isSpawning;
@@ -59,7 +61,7 @@ namespace NoMoreFishAndChips.Environments
         {
             foreach (RaftPlayer player in _context.Players)
             {
-                if (player.CharacterPhysicsModule.TimeInWater >= 1f && !player.RaftPlayerDefeatLogic.InBarrel)
+                if (player.CharacterPhysicsModule.TimeInWater >= _spawnDuration && !player.RaftPlayerDefeatLogic.InBarrel)
                 {
                     SpawnDrowning(player);
                 }

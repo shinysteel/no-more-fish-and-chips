@@ -75,7 +75,7 @@ namespace NoMoreFishAndChips.Entities
                 direction.y = 0f;
                 direction.Normalize();
 
-                float speed = -1f + Mathf.Pow(1.4f, _drowning.EntityLifecycleLogic.TimeAlive);
+                float speed = -1f + Mathf.Pow(_drowning.DefinitionData.ChaseSettings.SpeedGrowth, _drowning.EntityLifecycleLogic.TimeAlive);
 
                 _drowning.transform.position += direction * speed * Time.deltaTime;
             }
