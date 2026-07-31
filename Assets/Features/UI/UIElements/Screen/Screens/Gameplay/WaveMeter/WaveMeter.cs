@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using NoMoreFishAndChips.Voyages;
+using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -25,12 +26,10 @@ namespace NoMoreFishAndChips.UI
         {
             _context = context;
 
-            HandleStageChanged(_context.VoyageRunner.Voyage?.Stage);
-            
-            _context.VoyageRunner.OnStageChanged += HandleStageChanged;
-                
-            HandleWaveIndexChanged(_context.VoyageRunner.WaveIndex);
+            HandleStageDataChanged(_context.VoyageRunner.StageData);
+            _context.VoyageRunner.OnStageDataChanged += HandleStageDataChanged;
 
+            HandleWaveIndexChanged(_context.VoyageRunner.WaveIndex);
             _context.VoyageRunner.OnWaveIndexChanged += HandleWaveIndexChanged;
         }
 
@@ -38,26 +37,26 @@ namespace NoMoreFishAndChips.UI
         {
             if (_context.VoyageRunner != null)
             {
-                _context.VoyageRunner.OnStageChanged -= HandleStageChanged;
+                _context.VoyageRunner.OnStageDataChanged -= HandleStageDataChanged;
                 _context.VoyageRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
             }
         }
-
-        private void HandleStageChanged(IStage stage)
+        
+        private void HandleStageDataChanged(StageData data)
         {
-            _rectTransform.sizeDelta = new Vector2(stage != null ? BaseWidth + IndexWidth * stage.Data.Waves.Length : 0f, _rectTransform.sizeDelta.y);
+            _rectTransform.sizeDelta = new Vector2(data != null ? BaseWidth + IndexWidth * data.Waves.Length : 0f, _rectTransform.sizeDelta.y);
         }
 
         private void HandleWaveIndexChanged(int index)
         {
-            if (_context.VoyageRunner.Voyage == null)
+            if (_context.VoyageRunner.StageData == null)
             {
                 return;
             }
 
             _fillTween.Stop();
 
-            _fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _context.VoyageRunner.Voyage.Stage.Data.Waves.Length, duration: 0.5f);
+            _fillTween = Tween.UIFillAmount(_fillImage, endValue: (float)index / _context.VoyageRunner.StageData.Waves.Length, duration: 0.5f);
         }
     }
 }

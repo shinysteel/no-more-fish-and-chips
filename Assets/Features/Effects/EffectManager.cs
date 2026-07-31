@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Effects
 
         private EffectManagerConfig _config;
 
-        private Dictionary<VfxId, VFX> _idPrefabMap = new();
+        private Dictionary<VfxId, VFX> _vfxIdPrefabMap = new();
         private Dictionary<VfxId, Pool<VFX>> _vfxPools = new();
 
         public override void InitialiseConfig(GameManagerConfig config)
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Effects
 
             foreach (VFX vfx in _config.VfxScanner.GetAssets())
             {
-                _idPrefabMap.Add(vfx.VfxId, vfx);
+                _vfxIdPrefabMap.Add(vfx.VfxId, vfx);
             }
 
             base.InitialiseConfig(config);
@@ -42,7 +42,7 @@ namespace NoMoreFishAndChips.Effects
         public static void SpawnVfxRpc(VfxId id, Vector3 position)
         {
             EffectManager effectManager = GameManager.Instance.Get<EffectManager>();
-            effectManager._poolManager.GetPoolable(effectManager._vfxPools, id, effectManager._idPrefabMap[id], new SpawnParams() { Position = position });
+            effectManager._poolManager.GetPoolable(effectManager._vfxPools, id, effectManager._vfxIdPrefabMap[id], new SpawnParams() { Position = position });
         }
 
         public void ReturnVfx(VFX vfx)

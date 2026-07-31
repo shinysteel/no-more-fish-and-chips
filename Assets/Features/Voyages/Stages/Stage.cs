@@ -11,12 +11,7 @@ using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Voyages
 {
-    public interface IStage
-    {
-        StageData Data { get; }
-    }
-
-    public class Stage : IStage, IEntityManagerListener
+    public class Stage : IEntityManagerListener
     {
         private EntityManager _entityManager;
 
@@ -34,8 +29,6 @@ namespace NoMoreFishAndChips.Voyages
         private bool IsLastWaveStep => _waveStepIndex >= _data.Waves[_waveIndex].Steps.Length - 1;
         private bool IsLastWave => _waveIndex >= _data.Waves.Length - 1;
         public bool IsComplete => IsLastWave && _areWavesDefeated;
-
-        StageData IStage.Data => _data;
 
         public event Action<int> OnWaveIndexChanged;
         public event Action OnWaveComplete;

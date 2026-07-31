@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c5907fe8b72144993332615d256c52, type: 3}
   m_Name: SquidStrongholdStageData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Environments.StageData
+  _id: 2
   _waves:
   - _steps:
     - _entityId: 101

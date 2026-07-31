@@ -32,3 +32,4 @@ MonoBehaviour:
   _audioManagerConfig: {fileID: 11400000, guid: dbdf0da829e4bd4478fb08adf481aa30, type: 2}
   _environmentManagerConfig: {fileID: 11400000, guid: 5c56b2dd7cfc02441bab9f5db0d0bfe0, type: 2}
   _rarityManagerConfig: {fileID: 11400000, guid: 64fd308499e801f4686c618274fbc162, type: 2}
+  _voyageManagerConfig: {fileID: 11400000, guid: 6968a53a2b6f0634d9c1a1a90605cbac, type: 2}

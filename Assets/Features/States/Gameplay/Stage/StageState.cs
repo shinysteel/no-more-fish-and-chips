@@ -44,7 +44,10 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _context.VoyageRunner.ContinueVoyage();
+            if (_networkManager.IsServer)
+            {
+                _context.VoyageRunner.ContinueVoyage();
+            }
         }
         
         private void HandleStageComplete()

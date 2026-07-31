@@ -45,7 +45,7 @@ namespace NoMoreFishAndChips.Environments
                 // Clients need to manually handle changes that have happened before we joined
                 foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _netTiles)
                 {
-                    SyncDictionaryChange<Vector2Int, RaftTile> change = new(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
+                    SyncDictionaryChange<Vector2Int, RaftTile> change = new SyncDictionaryChange<Vector2Int, RaftTile>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
                     HandleNetTilesChanged(change);
                 }
             }

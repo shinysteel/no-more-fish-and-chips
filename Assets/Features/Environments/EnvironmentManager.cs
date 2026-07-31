@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.Environments
 
         private EnvironmentManagerConfig _config;
 
-        private Dictionary<PropId, Prop> _idPrefabMap = new();
+        private Dictionary<PropId, Prop> _propIdPrefabMap = new();
         private Dictionary<PropId, Pool<Prop>> _propPools = new();
 
         public override void InitialiseConfig(GameManagerConfig config)
@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Environments
                     continue;
                 }
 
-                _idPrefabMap.Add(prop.Id, prop);
+                _propIdPrefabMap.Add(prop.Id, prop);
             }
 
             base.InitialiseConfig(config);
@@ -37,7 +37,7 @@ namespace NoMoreFishAndChips.Environments
 
         public Prop GetProp(PropId id, SpawnParams parameters)
         {
-            return _poolManager.GetPoolable(_propPools, id, _idPrefabMap[id], parameters);
+            return _poolManager.GetPoolable(_propPools, id, _propIdPrefabMap[id], parameters);
         }
 
         public void ReturnProp(Prop prop)

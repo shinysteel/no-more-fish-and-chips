@@ -5,12 +5,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Voyages
 {
-    public interface IVoyage
-    {
-        IStage Stage { get; }
-    }
-
-    public class Voyage : IVoyage
+    public class Voyage
     {
         private VoyageData _data;
 
@@ -20,10 +15,8 @@ namespace NoMoreFishAndChips.Voyages
         public int WaveIndex => _stage.WaveIndex;
         public bool IsComplete => _stageIndex >= _data.StageDatas.Length - 1 && _stage.IsComplete;
 
-        IStage IVoyage.Stage => _stage;
-
+        public event Action<int> OnStageIndexChanged;
         public event Action<int> OnWaveIndexChanged;
-        public event Action<IStage> OnStageChanged;
         public event Action OnStageComplete;
 
         public Voyage(VoyageData data)
@@ -39,6 +32,7 @@ namespace NoMoreFishAndChips.Voyages
                 _stage.OnWaveComplete -= HandleWaveComplete;
                 _stage = null;
                 _stageIndex++;
+                OnStageIndexChanged?.Invoke(_stageIndex);
             }
 
             if (_stageIndex >= _data.StageDatas.Length)
@@ -49,8 +43,6 @@ namespace NoMoreFishAndChips.Voyages
             _stage = new Stage(_data.StageDatas[_stageIndex]);
             _stage.OnWaveIndexChanged += HandleWaveIndexChanged;
             _stage.OnWaveComplete += HandleWaveComplete;
-
-            OnStageChanged?.Invoke(_stage);
         }
 
         private void HandleWaveIndexChanged(int index)
@@ -68,7 +60,7 @@ namespace NoMoreFishAndChips.Voyages
 
         public void Tick()
         {
-            _stage.Tick();
+            _stage?.Tick();
         }
     }
 }
