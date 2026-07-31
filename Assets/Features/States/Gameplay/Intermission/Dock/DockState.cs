@@ -55,8 +55,11 @@ namespace NoMoreFishAndChips.States
             _context.References.Ocean.SetCurrent(false, 0f);
 
             _startTimer = 0f;
-            
-            // _ = EnterVoyageResultsAsync();
+
+            if (_context.VoyageRunner.VoyageResult != VoyageResult.None)
+            {
+                _ = EnterVoyageResultsAsync();
+            }
         }
 
         private async Task EnterVoyageResultsAsync()
@@ -152,11 +155,17 @@ namespace NoMoreFishAndChips.States
 
             _startTimer += Time.deltaTime;
 
-            if (_startTimer >= _config.StartDelay)
+            if (_startTimer < _config.StartDelay)
+            {
+                return;
+            }
+
+            if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
             {
                 _lobbyManager.StartLobby();
-                _parentStateMachine.ChangeState(EIntermissionState.Depart);
             }
+
+            _parentStateMachine.ChangeState(EIntermissionState.Depart);
         }
     }
 }

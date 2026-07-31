@@ -13,6 +13,13 @@ using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.States
 {
+    public enum VoyageResult
+    {
+        None,
+        Victory,
+        Defeat
+    }
+
     public class VoyageRunner : GameplayBehaviour
     {
         [SerializeField] private VoyageData _temperateSeaVoyageData;
@@ -22,17 +29,17 @@ namespace NoMoreFishAndChips.States
 
         private StageData _stageData;
 
+        private SyncVar<VoyageResult> _netVoyageResult = new SyncVar<VoyageResult>(ownerAuth: true);
         private SyncList<StageId> _netStageIds = new SyncList<StageId>(ownerAuth: true);
         private SyncVar<int> _netStageIndex = new SyncVar<int>(ownerAuth: true);
         private SyncVar<int> _netWaveIndex = new SyncVar<int>(ownerAuth: true);
 
         public StageData StageData => _stageData;
+        public VoyageResult VoyageResult => _netVoyageResult.value;
         public int WaveIndex => _netWaveIndex.value;
 
         public event Action<StageData> OnStageDataChanged;
         public event Action<int> OnWaveIndexChanged;
-
-        // Currently only emitted for the host
         public event Action OnStageComplete;
 
         protected override void OnSpawned()
@@ -121,6 +128,17 @@ namespace NoMoreFishAndChips.States
         }
 
         private void HandleVoyageStageComplete()
+        {
+            if (_voyage.IsComplete)
+            {
+                _netVoyageResult.value = VoyageResult.Victory;
+            }
+
+            RaiseStageCompleteRpc();
+        }
+
+        [ObserversRpc]
+        private void RaiseStageCompleteRpc()
         {
             OnStageComplete?.Invoke();
         }

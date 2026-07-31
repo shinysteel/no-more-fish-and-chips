@@ -52,10 +52,17 @@ namespace NoMoreFishAndChips.States
         
         private void HandleStageComplete()
         {
-            if (_networkManager.IsServer)
+            if (!_networkManager.IsServer)
             {
-                _parentStateMachine.ChangeState(EGameplayState.Intermission);
+                return;
             }
+
+            if (_context.VoyageRunner.VoyageResult != VoyageResult.None)
+            {
+                _lobbyManager.StopLobby();
+            }
+
+            _parentStateMachine.ChangeState(EGameplayState.Intermission);
         }
     }
 }

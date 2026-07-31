@@ -15,14 +15,14 @@ MonoBehaviour:
   _id: 1
   _waves:
   - _steps:
-    - _entityId: 102
+    - _entityId: 101
       _count: 1
       _interval: 0
   - _steps:
-    - _entityId: 102
+    - _entityId: 101
       _count: 1
       _interval: 0
   - _steps:
-    - _entityId: 102
+    - _entityId: 101
       _count: 1
       _interval: 0
