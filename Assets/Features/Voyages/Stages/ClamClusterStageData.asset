@@ -15,11 +15,11 @@ MonoBehaviour:
   _id: 0
   _waves:
   - _steps:
-    - _entityId: 103
+    - _entityId: 102
       _count: 1
       _interval: 0
   - _steps:
-    - _entityId: 103
+    - _entityId: 102
       _count: 1
       _interval: 0
   - _steps:

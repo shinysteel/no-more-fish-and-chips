@@ -17,10 +17,15 @@ namespace NoMoreFishAndChips.Entities
 
         public void SetEnabled(bool enabled)
         {
+            _character.EntityModel.Animator.enabled = !enabled;
+
+            if (!_character.isOwner)
+            {
+                return;
+            }
+
             _character.EntityPhysicsLogic.Rigidbody.isKinematic = _isKinematic && !enabled;
             _character.EntityPhysicsLogic.Rigidbody.constraints = enabled ? RigidbodyConstraints.None : _rigidbodyConstraints;
-
-            _character.EntityModel.Animator.enabled = !enabled;
 
             if (!enabled)
             {

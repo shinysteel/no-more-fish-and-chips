@@ -79,15 +79,11 @@ namespace NoMoreFishAndChips.Entities
         {
             _character.CharacterModel.SetDefeated(defeated);
             _character.EntityModel.Animator.Update(0f);
+            _character.CharacterRagdollLogic.SetEnabled(defeated);
 
-            if (_character.isOwner)
+            if (_character.isOwner && defeated)
             {
-                _character.CharacterRagdollLogic.SetEnabled(defeated);
-
-                if (defeated)
-                {
-                    _tweenTimer = 0f;
-                }
+                _tweenTimer = 0f;
             }
 
             RaiseIsDefeatedChanged();
