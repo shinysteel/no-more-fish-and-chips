@@ -104,6 +104,8 @@ namespace NoMoreFishAndChips.States
             {
                 _voyage = new Voyage(_temperateSeaVoyageData);
 
+                _netVoyageResult.value = VoyageResult.None;
+
                 _voyage.OnStageIndexChanged += HandleVoyageStageIndexChanged;
                 _voyage.OnWaveIndexChanged += HandleVoyageWaveIndexChanged;
                 _voyage.OnStageComplete += HandleVoyageStageComplete;

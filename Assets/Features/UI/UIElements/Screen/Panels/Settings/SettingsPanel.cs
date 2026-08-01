@@ -13,8 +13,10 @@ namespace NoMoreFishAndChips.UI
         private NetworkManager _networkManager;
         private SaveManager _saveManager;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _saveManager = GameManager.Instance.Get<SaveManager>();
 
