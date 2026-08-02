@@ -104,6 +104,7 @@ namespace NoMoreFishAndChips.States
             
             Vector2Int cell = _context.Raft.Queries.Axes[Axis.Vertical].MinLine.MinEdge.Node.Cell;
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;
+
             _island = _networkManager.Spawn(_config.IslandPrefab, new SpawnParams() { Position = position });
 
             if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
@@ -114,7 +115,7 @@ namespace NoMoreFishAndChips.States
             }
             else
             {
-                _island.transform.position += Vector3.forward * (5f + Ocean.DefaultSetCurrentDuration * 0.5f);
+                _island.transform.position += Vector3.forward * (3f + Ocean.DefaultSetCurrentDuration * 0.5f);
 
                 _subStateMachine.ChangeState(EIntermissionState.Arrive);
             }
