@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.UI
         protected GameplayContext _context;
 
         protected T[] _slots;
-        protected SlotViewOutliner<T> _outliner;
+        protected RegisterOutliner<T> _outliner;
 
         public T[] Slots => _slots;
 
@@ -51,6 +51,8 @@ namespace NoMoreFishAndChips.UI
                     _poolManager.ReturnTypedPoolable(slot);
                 }
             }
+
+            _outliner.Dispose();
         }
 
         private void Update()

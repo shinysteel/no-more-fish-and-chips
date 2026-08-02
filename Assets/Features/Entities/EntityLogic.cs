@@ -13,6 +13,9 @@ namespace NoMoreFishAndChips.Entities
             _entity = entity;
         }
 
+        public virtual void Dispose()
+        { }
+
         public virtual void OnSpawned()
         { }
 

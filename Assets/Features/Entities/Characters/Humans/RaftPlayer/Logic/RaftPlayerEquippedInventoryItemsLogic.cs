@@ -15,7 +15,7 @@ namespace NoMoreFishAndChips.Entities
             _player.Hotbar.OnSelectedChanged += HandleHotbarSelectedChanged;
         }
 
-        ~RaftPlayerEquippedInventoryItemsLogic()
+        public override void Dispose()
         {
             if (_player != null)
             {

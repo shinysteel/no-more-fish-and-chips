@@ -48,16 +48,16 @@ namespace NoMoreFishAndChips.Networking
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             foreach (LobbyService service in _lobbyServices.Values)
             {
-                service?.Shutdown();
+                service?.Dispose();
             }
 
             SetLobbyService(ELobbyService.None);
 
-            base.Shutdown();
+            base.Dispose();
         }
 
         public void SetLobbyService(ELobbyService service)

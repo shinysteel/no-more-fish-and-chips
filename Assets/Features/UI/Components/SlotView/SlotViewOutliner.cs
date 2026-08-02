@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.UI
             _context.LocalPlayer.GrabbedInventoryItemLogic.OnGrabbedInventoryItemChanged += HandleGrabbedInventoryItemChanged;
         }
 
-        ~SlotViewOutliner()
+        public void Dispose()
         {
             if (_context.LocalPlayer != null)
             {

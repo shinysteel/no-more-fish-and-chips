@@ -14,6 +14,7 @@ namespace ShinyOwl.Common.Framework
     {
         IStateMachine SubStateMachine { get; }
 
+        void Dispose();
         void Enter();
         void Tick();
         void FixedTick();
@@ -34,6 +35,11 @@ namespace ShinyOwl.Common.Framework
         public State(StateMachine<TParentStateEnum> parent)
         {
             _parentStateMachine = parent;
+        }
+
+        public virtual void Dispose()
+        {
+            _subStateMachine?.Dispose();
         }
 
         public virtual void Enter()
@@ -98,6 +104,14 @@ namespace ShinyOwl.Common.Framework
             foreach (TStateEnum stateEnum in Enum.GetValues(typeof(TStateEnum)).Cast<TStateEnum>())
             {
                 _enumStateMap.Add(stateEnum, null);
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (IState state in _enumStateMap.Values)
+            {
+                state?.Dispose();
             }
         }
 

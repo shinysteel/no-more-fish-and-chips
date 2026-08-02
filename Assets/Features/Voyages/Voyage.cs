@@ -24,6 +24,11 @@ namespace NoMoreFishAndChips.Voyages
             _data = data;
         }
 
+        public void Dispose()
+        {
+            _stage?.Dispose();
+        }
+
         public void Continue()
         {
             if (_stage != null)

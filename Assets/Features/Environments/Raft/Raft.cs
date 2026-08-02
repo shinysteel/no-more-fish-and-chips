@@ -53,6 +53,13 @@ namespace NoMoreFishAndChips.Environments
             _netTiles.onChanged += HandleNetTilesChanged;
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _queries.Dispose();
+        }
+
         protected override void OnDespawned()
         {
             _instantiateManager.RaiseComponentDestroyed(this);

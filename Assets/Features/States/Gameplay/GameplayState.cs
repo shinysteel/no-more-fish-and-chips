@@ -18,6 +18,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -91,6 +92,8 @@ namespace NoMoreFishAndChips.States
 
         private GameplayStateConfig _config;
 
+        private CancellationTokenSource _enterCTS;
+
         private GameplayContext _context;
         private List<RaftPlayer> _players;
         private bool _isContextReady;
@@ -117,11 +120,16 @@ namespace NoMoreFishAndChips.States
             _instantiateManager.AddListener(this);
         }
 
-        ~GameplayState()
+        public override void Dispose()
         {
+            base.Dispose();
+
             _networkManager?.RemoveListener(this);
             _lobbyManager?.RemoveListener(this);
             _instantiateManager?.RemoveListener(this);
+
+            _enterCTS?.Cancel();
+            _enterCTS?.Dispose();
         }
 
         public override void Initialise(StateManagerConfig config)
@@ -144,10 +152,11 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _ = EnterAsync();
+            _enterCTS = new CancellationTokenSource();
+            _ = EnterAsync(_enterCTS.Token);
         }
 
-        private async Task EnterAsync()
+        private async Task EnterAsync(CancellationToken token)
         {
             try
             {
@@ -163,6 +172,11 @@ namespace NoMoreFishAndChips.States
                     {
                         await Task.Yield();
                     }
+                }
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
                 }
 
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentGameplay, LoadSceneMode.Additive, LoadSceneContext.Local);
@@ -284,7 +298,7 @@ namespace NoMoreFishAndChips.States
         }
 
         void ILobbyManagerListener.OnLobbyEnter(Lobby lobby)
-        {
+        {            
             // This can happen from any state besides itself. Currently we 
             // assume you're 'ready' straight away and move to the GameplayState
             if (_parentStateMachine.CurrentState == this)

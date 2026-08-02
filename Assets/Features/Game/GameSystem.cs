@@ -9,7 +9,7 @@ public interface IGameSystem
     void InitialiseConfig(GameManagerConfig config);
     void Tick();
     void LateTick();
-    void Shutdown();
+    void Dispose();
 }
 
 public enum ManagerState
@@ -41,7 +41,7 @@ public abstract class GameSystem<TListener> : IGameSystem
     public virtual void LateTick()
     { }
 
-    public virtual void Shutdown()
+    public virtual void Dispose()
     {
         State = ManagerState.None;
     }

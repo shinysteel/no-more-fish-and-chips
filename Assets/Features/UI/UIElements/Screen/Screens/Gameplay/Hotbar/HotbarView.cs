@@ -66,7 +66,7 @@ namespace NoMoreFishAndChips.UI
             hotbar.OnSelectedChanged += HandleSelectedChanged;
         }
 
-        ~HotbarView()
+        private void OnDestroy()
         {
             if (_context.LocalPlayer?.Hotbar != null)
             {

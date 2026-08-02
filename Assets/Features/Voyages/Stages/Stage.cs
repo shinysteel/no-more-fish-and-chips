@@ -157,9 +157,11 @@ namespace NoMoreFishAndChips.Voyages
             _stateMachine.ChangeState(EState.Spawn);
         }
 
-        ~Stage()
+        public void Dispose()
         {
             _entityManager?.RemoveListener(this);
+
+            _stateMachine.Dispose();
         }
 
         public void Tick()

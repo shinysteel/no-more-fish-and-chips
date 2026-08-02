@@ -103,7 +103,7 @@ namespace NoMoreFishAndChips.Networking
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             _sceneManager?.RemoveListener(this);
 
@@ -113,7 +113,7 @@ namespace NoMoreFishAndChips.Networking
             _purrnetNetworkManager.onPlayerJoined -= HandlePlayerJoined;
             _purrnetNetworkManager.onPlayerLeft -= HandlePlayerLeft;
 
-            base.Shutdown();
+            base.Dispose();
         }
 
         public PurrnetPlayer GetPurrnetPlayer(PlayerID id)

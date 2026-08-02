@@ -42,6 +42,13 @@ namespace NoMoreFishAndChips.States
         public event Action<int> OnWaveIndexChanged;
         public event Action OnStageComplete;
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _voyage?.Dispose();
+        }
+
         protected override void OnSpawned()
         {
             base.OnSpawned();

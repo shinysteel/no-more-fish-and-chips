@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Instantiating
 {
-    [CreateAssetMenu(fileName = "GameObjectManagerConfig", menuName = "Configs/Managers/GameObjectManagerConfig")]
+    [CreateAssetMenu(fileName = "InstantiateManagerConfig", menuName = "Configs/Managers/InstantiateManagerConfig")]
     public class InstantiateManagerConfig : ScriptableObject
     { }
 }

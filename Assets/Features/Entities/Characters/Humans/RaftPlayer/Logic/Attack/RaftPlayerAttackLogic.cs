@@ -86,6 +86,9 @@ namespace NoMoreFishAndChips.Entities
             {
                 _paddleStateMachine.OnStateEnumChanged -= HandlePaddleStateEnumChanged;
                 _spearStateMachine.OnStateEnumChanged -= HandleSpearStateEnumChanged;
+
+                _paddleStateMachine.Dispose();
+                _spearStateMachine.Dispose();
             }
         }
 

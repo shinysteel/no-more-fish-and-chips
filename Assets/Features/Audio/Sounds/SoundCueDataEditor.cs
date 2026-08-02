@@ -98,6 +98,7 @@ namespace NoMoreFishAndChips.Audio
             foreach (CancellationTokenSource cts in _ctsList)
             {
                 cts.Cancel();
+                cts.Dispose();
             }
         }
     }

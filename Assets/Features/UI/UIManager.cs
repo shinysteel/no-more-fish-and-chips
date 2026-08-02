@@ -72,9 +72,11 @@ namespace NoMoreFishAndChips.UI
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             _stateManager?.RemoveListener(this);
+
+            base.Dispose();
         }
 
         /// <summary>

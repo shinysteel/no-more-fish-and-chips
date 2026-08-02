@@ -32,8 +32,10 @@ namespace NoMoreFishAndChips.States
             _context.VoyageRunner.OnStageComplete += HandleStageComplete;
         }
 
-        ~StageState()
+        public override void Dispose()
         {
+            base.Dispose();
+
             if (_context.VoyageRunner != null)
             {
                 _context.VoyageRunner.OnStageComplete -= HandleStageComplete;

@@ -136,13 +136,15 @@ namespace NoMoreFishAndChips.States
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             TraverseStateMachines((IStateMachine machine) => machine.OnStateChanged -= HandleStateChanged);
 
             _sceneManager?.RemoveListener(this);
 
-            base.Shutdown();
+            _stateMachine.Dispose();
+
+            base.Dispose();
         }
 
         private void TraverseStateMachines(Action<IStateMachine> action)

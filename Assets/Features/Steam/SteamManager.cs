@@ -114,7 +114,7 @@ namespace Steam
         // OnApplicationQuit gets called too early to shutdown the SteamAPI.
         // Because the SteamManager should be persistent and never disabled or destroyed we can shutdown the SteamAPI here.
         // Thus it is not recommended to perform any Steamworks work in other OnDestroy functions as the order of execution can not be garenteed upon Shutdown. Prefer OnDisable().
-        public override void Shutdown()
+        public override void Dispose()
         {
             if (!m_bInitialized)
             {
@@ -123,7 +123,7 @@ namespace Steam
 
             SteamAPI.Shutdown();
 
-            base.Shutdown();
+            base.Dispose();
         }
 
         public override void Tick()

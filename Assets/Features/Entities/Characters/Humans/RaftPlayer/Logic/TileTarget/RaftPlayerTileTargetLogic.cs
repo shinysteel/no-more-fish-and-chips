@@ -53,6 +53,11 @@ namespace NoMoreFishAndChips.Entities
             _player.Hotbar.OnSelectedChanged += HandleHotbarSelectedSlotChanged;
         }
 
+        public override void Dispose()
+        {
+            _target.Dispose();
+        }
+
         public override void OnDespawned()
         {
             _target.OnChanged -= HandleTargetChanged;

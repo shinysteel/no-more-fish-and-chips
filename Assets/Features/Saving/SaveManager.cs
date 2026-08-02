@@ -104,7 +104,7 @@ namespace NoMoreFishAndChips.Saving
 
     public class SaveManager : GameSystem<ISaveManagerListener>, IInstantiateManagerListener
     {
-        private InstantiateManager _gameObjectManager;
+        private InstantiateManager _instantiateManager;
 
         private SaveManagerConfig _config;
         public SaveManagerConfig Config => _config;
@@ -130,9 +130,9 @@ namespace NoMoreFishAndChips.Saving
 
         public override void InitialiseConfig(GameManagerConfig config)
         {
-            _gameObjectManager = GameManager.Instance.Get<InstantiateManager>();
+            _instantiateManager = GameManager.Instance.Get<InstantiateManager>();
 
-            _gameObjectManager.AddListener(this);
+            _instantiateManager.AddListener(this);
 
             _config = config.SaveManagerConfig;
 
@@ -150,11 +150,11 @@ namespace NoMoreFishAndChips.Saving
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
-            _gameObjectManager?.RemoveListener(this);
+            _instantiateManager?.RemoveListener(this);
 
-            base.Shutdown();
+            base.Dispose();
         }
 
         private void RefreshSaveFiles()

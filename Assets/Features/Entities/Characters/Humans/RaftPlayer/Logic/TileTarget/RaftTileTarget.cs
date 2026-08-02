@@ -25,7 +25,7 @@ namespace NoMoreFishAndChips.Entities
             _context.Raft.OnTileChanged += HandleTileChanged;
         }
 
-        ~RaftTileTarget()
+        public void Dispose()
         {
             if (_context.Raft != null)
             {

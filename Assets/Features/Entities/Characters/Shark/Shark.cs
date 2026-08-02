@@ -327,6 +327,13 @@ namespace NoMoreFishAndChips.Entities
             _stateMachine.AddState(EState.Bite, biteState);
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _stateMachine.Dispose();
+        }
+
         protected override void OnSpawned()
         {
             base.OnSpawned();

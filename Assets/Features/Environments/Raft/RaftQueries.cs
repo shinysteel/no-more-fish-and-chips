@@ -36,7 +36,7 @@ namespace NoMoreFishAndChips.Environments
             _raft.OnTileChanged += HandleTileChanged;
         }
 
-        ~RaftAxis()
+        public void Dispose()
         {
             if (_raft != null)
             {
@@ -303,9 +303,14 @@ namespace NoMoreFishAndChips.Environments
             _raft.OnTileChanged += HandleTileChanged;
         }
 
-        ~RaftQueries()
+        public void Dispose()
         {
             _raft.OnTileChanged -= HandleTileChanged;
+
+            foreach (RaftAxis axis in _axes.Values)
+            {
+                axis.Dispose();
+            }
         }
 
         private void HandleTileChanged(Vector2Int tileCell, RaftTile tile)

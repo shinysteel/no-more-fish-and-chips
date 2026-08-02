@@ -92,7 +92,7 @@ namespace NoMoreFishAndChips.Networking
         public event Action<Lobby> OnLobbyStart;
         public event Action OnLobbyLeave;
 
-        public abstract void Shutdown();
+        public abstract void Dispose();
         public abstract Task<Lobby[]> SearchLobbiesAsync();
         public abstract Task<Lobby> CreateLobbyAsync();
         public abstract Task<Lobby> JoinLobbyAsync(string lobbyId);

@@ -33,7 +33,7 @@ namespace NoMoreFishAndChips.Networking
             _lobbyDataUpdateListener = Callback<LobbyDataUpdate_t>.Create(HandleLobbyDataUpdate);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             _lobbyMatchListListener?.Dispose();
             _lobbyCreatedListener?.Dispose();

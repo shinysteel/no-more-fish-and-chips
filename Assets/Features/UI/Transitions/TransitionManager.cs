@@ -32,9 +32,9 @@ namespace NoMoreFishAndChips.UI.Transitions
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
-            base.Shutdown();
+            base.Dispose();
         }
 
         public void CoverScreen(Action onComplete)

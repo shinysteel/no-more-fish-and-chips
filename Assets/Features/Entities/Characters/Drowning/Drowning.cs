@@ -179,6 +179,13 @@ namespace NoMoreFishAndChips.Entities
             _stateMachine.AddState(EState.Disappear, disappearState);
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _stateMachine.Dispose();
+        }
+
         public void SetTargetPlayer(RaftPlayer targetPlayer)
         {
             _targetPlayer = targetPlayer;

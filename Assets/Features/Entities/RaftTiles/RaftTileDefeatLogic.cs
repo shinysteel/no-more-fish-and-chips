@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
             _tile.EntityHealthLogic.OnChanged += HandleHealthChanged;
         }
 
-        ~RaftTileDefeatLogic()
+        public override void Dispose()
         {
             if (_tile != null)
             {

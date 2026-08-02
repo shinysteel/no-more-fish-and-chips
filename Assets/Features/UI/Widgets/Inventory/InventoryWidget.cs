@@ -93,6 +93,8 @@ namespace NoMoreFishAndChips.UI
                 _inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;
                 _inventory.OnInventoryItemChanged -= HandleInventoryItemChanged;
             }
+
+            _inventoryOutliner.Dispose();
         }
 
         private void Update()

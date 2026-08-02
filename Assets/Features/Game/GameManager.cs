@@ -169,16 +169,11 @@ public class GameManager : MonoBehaviour
         return ready;
     }
 
-    private void OnApplicationQuit()
-    {
-        Shutdown();
-    }
-
-    private void Shutdown()
+    private void OnDestroy()
     {
         foreach (IGameSystem manager in _managers)
         {
-            manager.Shutdown();
+            manager.Dispose();
         }
 
         Instance = null;

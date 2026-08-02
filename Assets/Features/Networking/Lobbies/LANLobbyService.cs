@@ -136,7 +136,7 @@ namespace NoMoreFishAndChips.Networking
 #endif
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             _networkManager?.RemoveListener(this);
 

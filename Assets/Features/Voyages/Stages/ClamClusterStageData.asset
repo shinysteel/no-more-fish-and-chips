@@ -17,4 +17,4 @@ MonoBehaviour:
   - _steps:
     - _entityId: 101
       _count: 15
-      _interval: 0.5
+      _interval: 0.1

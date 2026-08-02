@@ -120,7 +120,7 @@ namespace NoMoreFishAndChips.Scenes
             base.InitialiseConfig(config);
         }
 
-        public override void Shutdown()
+        public override void Dispose()
         {
             _networkManager?.RemoveListener(this);
 
@@ -128,7 +128,7 @@ namespace NoMoreFishAndChips.Scenes
             UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= HandleSceneUnloaded;
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged -= HandleActiveSceneChanged;
 
-            base.Shutdown();
+            base.Dispose();
         }
 
         private EScene GetSceneEnum(SceneID id)
