@@ -85,15 +85,19 @@ namespace NoMoreFishAndChips.Environments
 
         private void Spawn()
         {
+            if (!_context.Raft.Queries.Axes[Axis.Horizontal].TryGetLinesBounds(out IntRange horizontalBounds)
+                || !_context.Raft.Queries.Axes[Axis.Vertical].TryGetLinesBounds(out IntRange verticalBounds))
+            {
+                return;
+            }
+
             int minSpread = 3;
 
-            float x = Random.Range(
-                (float)Mathf.Min(-minSpread, _context.Raft.Queries.Axes[Axis.Horizontal].MinLineIndex), 
-                Mathf.Max(minSpread, _context.Raft.Queries.Axes[Axis.Horizontal].MaxLineIndex));
+            float x = Random.Range((float)Mathf.Min(-minSpread, horizontalBounds.Min), Mathf.Max(minSpread, horizontalBounds.Max));
 
             int forwardDist = 10;
 
-            int y = _context.Raft.Queries.Axes[Axis.Vertical].MaxLineIndex + forwardDist;
+            int y = verticalBounds.Max + forwardDist;
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(new Vector2(x, y));
 

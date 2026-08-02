@@ -63,13 +63,15 @@ namespace NoMoreFishAndChips.Environments
             if (change.operation == SyncDictionaryOperation.Added)
             {
                 _tiles.Add(change.key, change.value);
+                OnTileChanged?.Invoke(change.key, change.value);
             }
             else if (change.operation == SyncDictionaryOperation.Removed)
             {
                 _tiles.Remove(change.key);
-            }
 
-            OnTileChanged?.Invoke(change.key, change.value);
+                // Despite the operation, change.value is not null and so it needs to be entered manually
+                OnTileChanged?.Invoke(change.key, null);
+            }
         }
 
         [ServerRpc(requireOwnership: false)]

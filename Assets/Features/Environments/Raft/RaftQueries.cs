@@ -22,35 +22,16 @@ namespace NoMoreFishAndChips.Environments
     {
         private Raft _raft;
         private Axis _type;
-        private Dictionary<int, RaftLine> _lines = new();
+        private SortedDictionary<int, RaftLine> _lines = new();
+        private IntRange _linesBounds;
 
         public Axis Type => _type;
-
-        private int _minLineIndex;
-        private int _maxLineIndex;
-
-        public int MinLineIndex => _minLineIndex;
-        public int MaxLineIndex => _maxLineIndex;
-
         public IReadOnlyDictionary<int, RaftLine> Lines => _lines;
-
-        public RaftLine MinLine => _lines[_minLineIndex];
-        public RaftLine MaxLine => _lines[_maxLineIndex];
-
-        // An arbitrary value for how many lines we setup on each axix
-        public const int DefaultLines = 20;
 
         public RaftAxis(Raft raft, Axis type)
         {
             _raft = raft;
             _type = type;
-
-            for (int i = 0; i < DefaultLines; i++)
-            {
-                // Evenly distribute from negative to positive
-                int lineIndex = i - DefaultLines / 2;
-                _lines.Add(lineIndex, new RaftLine(this, lineIndex));
-            }
             
             _raft.OnTileChanged += HandleTileChanged;
         }
@@ -66,7 +47,6 @@ namespace NoMoreFishAndChips.Environments
         private void HandleTileChanged(Vector2Int cell, RaftTile tile)
         {
             UpdateLines(cell, tile);
-            UpdateBounds(cell, tile);
         }
 
         // Maintains positional maps when any Tile is changed
@@ -75,44 +55,39 @@ namespace NoMoreFishAndChips.Environments
             int lineIndex = CellToLineIndex(cell);
             int axisIndex = CellToAxisIndex(cell);
 
-            if (!_lines.ContainsKey(lineIndex))
-            {
-                Log.Error($"No line exists for the cell {cell}");
-                return;
-            }
-
-            if (tile == null)
-            {
-                _lines[lineIndex].RemoveNode(axisIndex);
-            } 
-            else if (!_lines[lineIndex].Nodes.ContainsKey(axisIndex))
-            {
-                _lines[lineIndex].AddNode(axisIndex, new RaftLineNode(axisIndex, _lines[lineIndex]));
-            }
-        }
-
-        // Recalculates boundaries when any Tile is changed
-        private void UpdateBounds(Vector2Int cell, RaftTile tile)
-        {
-            int lineIndex = CellToLineIndex(cell);
-
             if (tile != null)
             {
-                _minLineIndex = Mathf.Min(_minLineIndex, lineIndex);
-                _maxLineIndex = Mathf.Max(_maxLineIndex, lineIndex);
+                if (!_lines.ContainsKey(lineIndex))
+                {
+                    _lines.Add(lineIndex, new RaftLine(this, lineIndex));
+                    RefreshLinesBounds();
+                }
+
+                _lines[lineIndex].AddNode(axisIndex);
             }
             else
             {
-                if (_minLineIndex == lineIndex && !_lines.ContainsKey(lineIndex))
-                {
-                    _minLineIndex = _lines.Keys.Min();
-                }
+                _lines[lineIndex].RemoveNode(axisIndex);
 
-                if (_maxLineIndex == lineIndex && !_lines.ContainsKey(lineIndex))
+                if (_lines[lineIndex].Nodes.Count == 0)
                 {
-                    _maxLineIndex = _lines.Keys.Max();
+                    _lines.Remove(lineIndex);
+                    RefreshLinesBounds();
                 }
             }
+        }
+
+        private void RefreshLinesBounds()
+        {
+            _linesBounds = _lines.Count > 0
+                ? new IntRange(_lines.Keys.Min(), _lines.Keys.Max())
+                : null;
+        }
+
+        public bool TryGetLinesBounds(out IntRange bounds)
+        {
+            bounds = _linesBounds;
+            return bounds != null;
         }
 
         public int CellToLineIndex(Vector2Int cell)
@@ -167,9 +142,9 @@ namespace NoMoreFishAndChips.Environments
             _nodes = new();
         }
 
-        public void AddNode(int axisIndex, RaftLineNode node)
+        public void AddNode(int axisIndex)
         {
-            _nodes.Add(axisIndex, node);
+            _nodes.Add(axisIndex, new RaftLineNode(axisIndex, this));
 
             RefreshEdges();
         }
