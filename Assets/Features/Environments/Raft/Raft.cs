@@ -16,6 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
+using UnityEngine.Pool;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
 namespace NoMoreFishAndChips.Environments
@@ -79,6 +80,92 @@ namespace NoMoreFishAndChips.Environments
                 // Despite the operation, change.value is not null and so it needs to be entered manually
                 OnTileChanged?.Invoke(change.key, null);
             }
+
+            if (isOwner)
+            {
+                DefeatDisconnectedTiles();
+            }
+        }
+
+        private void DefeatDisconnectedTiles()
+        {
+            List<List<RaftTile>> tileGroups = ListPool<List<RaftTile>>.Get();
+
+            DetermineTileGroups(tileGroups);
+
+            if (tileGroups.Count > 1)
+            {
+                List<RaftTile> mainGroup = tileGroups
+                    .OrderByDescending(group => group.Count)
+                    .ThenBy(group => group.Min(tile => tile.Cell.x))
+                    .ThenBy(group => group.Min(tile => tile.Cell.y))
+                    .First();
+
+                int mainIndex = tileGroups.IndexOf(mainGroup);
+
+                for (int i = 0; i < tileGroups.Count; i++)
+                {
+                    if (i == mainIndex)
+                    {
+                        continue;
+                    }
+
+                    foreach (RaftTile tile in tileGroups[i])
+                    {
+                        tile.EntityDefeatLogic.SetIsDefeated(true);
+                    }
+                }
+            }
+
+            foreach (List<RaftTile> group in tileGroups)
+            {
+                ListPool<RaftTile>.Release(group);
+            }
+
+            ListPool<List<RaftTile>>.Release(tileGroups);
+        }
+
+        private void DetermineTileGroups(List<List<RaftTile>> tileGroups)
+        {
+            List<Vector2Int> visitedCells = ListPool<Vector2Int>.Get();
+
+            foreach (RaftTile tile in _tiles.Values)
+            {
+                if (visitedCells.Contains(tile.Cell))
+                {
+                    continue;
+                }
+
+                List<RaftTile> group = ListPool<RaftTile>.Get();
+
+                void processCell(Vector2Int cell)
+                {
+                    if (visitedCells.Contains(cell))
+                    {
+                        return;
+                    }
+
+                    if (!_tiles.TryGetValue(cell, out RaftTile tile))
+                    {
+                        return;
+                    }
+
+                    visitedCells.Add(cell);
+                    group.Add(tile);
+
+                    for (int i = -1; i <= 1; i += 2)
+                    {
+                        processCell(cell + new Vector2Int(i, 0));
+                        processCell(cell + new Vector2Int(0, i));
+                    }
+                }
+
+                processCell(tile.Cell);
+                
+                tileGroups.Add(group);
+            }
+
+            ListPool<Vector2Int>.Release(visitedCells);
         }
 
         [ServerRpc(requireOwnership: false)]

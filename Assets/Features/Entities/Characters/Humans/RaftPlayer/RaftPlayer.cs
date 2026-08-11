@@ -130,16 +130,6 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        protected override void Update()
-        {
-            base.Update();
-
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Driftwood, Count = 3 }, false, out _, out _, out _);
-            }
-        }
-
         [TargetRpc]
         public void SetPositionRpc(PlayerID id, Vector3 position)
         {

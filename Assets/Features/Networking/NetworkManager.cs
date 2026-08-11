@@ -155,8 +155,6 @@ namespace NoMoreFishAndChips.Networking
         {
             if (behaviour is PurrnetPlayer player)
             {
-                Log.Info($"add local player");
-
                 _purrnetPlayers.Add(player);
                 _playerIdPurrnetPlayerMap.Add(behaviour.owner.Value, player);
             }
