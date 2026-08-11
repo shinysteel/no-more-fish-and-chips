@@ -36,7 +36,7 @@ namespace NoMoreFishAndChips.States
         {
             base.Dispose();
 
-            if (_context.VoyageRunner != null)
+            if (_context?.VoyageRunner != null)
             {
                 _context.VoyageRunner.OnStageComplete -= HandleStageComplete;
             }

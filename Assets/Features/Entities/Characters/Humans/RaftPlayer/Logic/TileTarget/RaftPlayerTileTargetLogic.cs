@@ -167,15 +167,15 @@ namespace NoMoreFishAndChips.Entities
 
             if (_isBuilding)
             {
-                if (_target.CanBuildTile())
-                {
-                    id = PropId.TileScaffold;
-                    color = _settings.ValidColor;
-                }
-                else
+                if (_target.Tile != null)
                 {
                     id = PropId.StructureScaffold;
                     color = _target.CanBuildStructure() ? _settings.ValidColor : _settings.InvalidColor;
+                }
+                else
+                {
+                    id = PropId.TileScaffold;
+                    color = _target.CanBuildTile() ? _settings.ValidColor : _settings.InvalidColor;
                 }
             }
 

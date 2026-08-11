@@ -209,6 +209,8 @@ namespace NoMoreFishAndChips.States
                     }
                 }
 
+                Log.Info($"check for local player");
+
                 _players = new();
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 

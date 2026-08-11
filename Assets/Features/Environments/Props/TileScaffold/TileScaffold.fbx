@@ -10,14 +10,14 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 5
-		Day: 3
-		Hour: 10
-		Minute: 47
-		Second: 16
-		Millisecond: 145
+		Month: 8
+		Day: 11
+		Hour: 19
+		Minute: 26
+		Second: 48
+		Millisecond: 270
 	}
-	Creator: "Blockbench 5.1.4"
+	Creator: "Blockbench 5.1.6"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "5.1.4"
+			P: "Original|ApplicationVersion", "KString", "", "", "5.1.6"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.1.4"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.1.6"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-05-03 00:47:16:145"
+CreationTime: "2026-08-11 09:26:48:270"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 422553608 {
+	Document: 645861466 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 71356144, "Model::tile_scaffold", "Null" {
+	Model: 75733796, "Model::tile_scaffold", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 78232015, "Model::standard", "Mesh" {
+	Model: 79983254, "Model::standard", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,9 +297,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75796690, "Geometry::standard", "Mesh" {
+	Geometry: 71726271, "Geometry::standard", "Mesh" {
 		Vertices: *24 {
-			a: 50,25,-40.625,50,25,-50,50,0,-40.625,50,0,-50,40.625,25,-50,40.625,25,-40.625,40.625,0,-50,40.625,0,-40.625
+			a: 50,25.03125,-40.625,50,25.03125,-50,50,0.031249999999999334,-40.625,50,0.031249999999999334,-50,40.625,25.03125,-50,40.625,25.03125,-40.625,40.625,0.031249999999999334,-50,40.625,0.031249999999999334,-40.625
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70931401, "Model::standard_1", "Mesh" {
+	Model: 73869972, "Model::standard_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,9 +363,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75281398, "Geometry::standard_1", "Mesh" {
+	Geometry: 72688196, "Geometry::standard_1", "Mesh" {
 		Vertices: *24 {
-			a: 53.125,25,-40.625,53.125,25,-50,53.125,0,-40.625,53.125,0,-50,43.75,25,-50,43.75,25,-40.625,43.75,0,-50,43.75,0,-40.625
+			a: 53.125,25.03125,-40.625,53.125,25.03125,-50,53.125,0.031249999999999334,-40.625,53.125,0.031249999999999334,-50,43.75,25.03125,-50,43.75,25.03125,-40.625,43.75,0.031249999999999334,-50,43.75,0.031249999999999334,-40.625
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74854713, "Model::standard_2", "Mesh" {
+	Model: 72192377, "Model::standard_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -429,9 +429,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72024803, "Geometry::standard_2", "Mesh" {
+	Geometry: 74253281, "Geometry::standard_2", "Mesh" {
 		Vertices: *24 {
-			a: 53.125,25,-43.75,53.125,25,-53.125,53.125,0,-43.75,53.125,0,-53.125,43.75,25,-53.125,43.75,25,-43.75,43.75,0,-53.125,43.75,0,-43.75
+			a: 53.125,25.03125,-43.75,53.125,25.03125,-53.125,53.125,0.031249999999999334,-43.75,53.125,0.031249999999999334,-53.125,43.75,25.03125,-53.125,43.75,25.03125,-43.75,43.75,0.031249999999999334,-53.125,43.75,0.031249999999999334,-43.75
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -480,7 +480,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71271163, "Model::standard_3", "Mesh" {
+	Model: 78142564, "Model::standard_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -495,9 +495,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79935926, "Geometry::standard_3", "Mesh" {
+	Geometry: 75560395, "Geometry::standard_3", "Mesh" {
 		Vertices: *24 {
-			a: 50,25,-43.75,50,25,-53.125,50,0,-43.75,50,0,-53.125,40.625,25,-53.125,40.625,25,-43.75,40.625,0,-53.125,40.625,0,-43.75
+			a: 50,25.03125,-43.75,50,25.03125,-53.125,50,0.031249999999999334,-43.75,50,0.031249999999999334,-53.125,40.625,25.03125,-53.125,40.625,25.03125,-43.75,40.625,0.031249999999999334,-53.125,40.625,0.031249999999999334,-43.75
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -546,7 +546,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72656504, "Model::tape", "Mesh" {
+	Model: 77917676, "Model::tape", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79967392, "Geometry::tape", "Mesh" {
+	Geometry: 70102318, "Geometry::tape", "Mesh" {
 		Vertices: *24 {
 			a: 121.875,15.625,-50,121.875,15.625,-50,121.875,9.375,-50,121.875,9.375,-50,43.75,15.625,-50,43.75,15.625,-50,43.75,9.375,-50,43.75,9.375,-50
 		}
@@ -612,7 +612,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73468749, "Model::tape_1", "Mesh" {
+	Model: 72815307, "Model::tape_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -627,7 +627,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70592905, "Geometry::tape_1", "Mesh" {
+	Geometry: 76974095, "Geometry::tape_1", "Mesh" {
 		Vertices: *24 {
 			a: 121.875,15.625,-50,121.875,15.625,-50,121.875,9.375,-50,121.875,9.375,-50,43.75,15.625,-50,43.75,15.625,-50,43.75,9.375,-50,43.75,9.375,-50
 		}
@@ -678,7 +678,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70919275, "Model::tape_2", "Mesh" {
+	Model: 71798641, "Model::tape_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -693,7 +693,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73855302, "Geometry::tape_2", "Mesh" {
+	Geometry: 74015538, "Geometry::tape_2", "Mesh" {
 		Vertices: *24 {
 			a: 43.75,15.625,-53.125,43.75,15.625,-131.25,43.75,9.375,-53.125,43.75,9.375,-131.25,43.75,15.625,-131.25,43.75,15.625,-53.125,43.75,9.375,-131.25,43.75,9.375,-53.125
 		}
@@ -744,7 +744,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79652923, "Model::tape_3", "Mesh" {
+	Model: 71708293, "Model::tape_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -759,7 +759,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78720245, "Geometry::tape_3", "Mesh" {
+	Geometry: 74740659, "Geometry::tape_3", "Mesh" {
 		Vertices: *24 {
 			a: 43.75,15.625,-53.125,43.75,15.625,-131.25,43.75,9.375,-53.125,43.75,9.375,-131.25,43.75,15.625,-131.25,43.75,15.625,-53.125,43.75,9.375,-131.25,43.75,9.375,-53.125
 		}
@@ -810,7 +810,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 75493725, "Material::TileScaffold.png", "" {
+	Material: 76896346, "Material::TileScaffold.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -821,25 +821,25 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 79794108, "Texture::TileScaffold.png", "" {
+	Texture: 71570751, "Texture::TileScaffold.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::TileScaffold.png"
 		Media: "Video::TileScaffold.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\Humans\RaftPlayer\Logic\TileTarget\TileScaffold\TileScaffold.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\TileScaffold\TileScaffold.png"
 		RelativeFilename: "TileScaffold.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 72550284, "Video::TileScaffold.png", "Clip" {
+	Video: 70575082, "Video::TileScaffold.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\Humans\RaftPlayer\Logic\TileTarget\TileScaffold\TileScaffold.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\TileScaffold\TileScaffold.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Entities\Characters\Humans\RaftPlayer\Logic\TileTarget\TileScaffold\TileScaffold.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\TileScaffold\TileScaffold.png"
 		RelativeFilename: "TileScaffold.png"
 	}
 }
@@ -850,85 +850,85 @@ Objects:  {
 Connections:  {
 
 	;Model::tile_scaffold, Model::RootNode
-	C: "OO",71356144,0
+	C: "OO",75733796,0
 
 	;Model::standard, Model::tile_scaffold
-	C: "OO",78232015,71356144
+	C: "OO",79983254,75733796
 
 	;Geometry::standard, Model::standard
-	C: "OO",75796690,78232015
+	C: "OO",71726271,79983254
 
 	;Material::TileScaffold.png, Model::standard
-	C: "OO",75493725,78232015
+	C: "OO",76896346,79983254
 
 	;Model::standard_1, Model::tile_scaffold
-	C: "OO",70931401,71356144
+	C: "OO",73869972,75733796
 
 	;Geometry::standard_1, Model::standard_1
-	C: "OO",75281398,70931401
+	C: "OO",72688196,73869972
 
 	;Material::TileScaffold.png, Model::standard_1
-	C: "OO",75493725,70931401
+	C: "OO",76896346,73869972
 
 	;Model::standard_2, Model::tile_scaffold
-	C: "OO",74854713,71356144
+	C: "OO",72192377,75733796
 
 	;Geometry::standard_2, Model::standard_2
-	C: "OO",72024803,74854713
+	C: "OO",74253281,72192377
 
 	;Material::TileScaffold.png, Model::standard_2
-	C: "OO",75493725,74854713
+	C: "OO",76896346,72192377
 
 	;Model::standard_3, Model::tile_scaffold
-	C: "OO",71271163,71356144
+	C: "OO",78142564,75733796
 
 	;Geometry::standard_3, Model::standard_3
-	C: "OO",79935926,71271163
+	C: "OO",75560395,78142564
 
 	;Material::TileScaffold.png, Model::standard_3
-	C: "OO",75493725,71271163
+	C: "OO",76896346,78142564
 
 	;Model::tape, Model::tile_scaffold
-	C: "OO",72656504,71356144
+	C: "OO",77917676,75733796
 
 	;Geometry::tape, Model::tape
-	C: "OO",79967392,72656504
+	C: "OO",70102318,77917676
 
 	;Material::TileScaffold.png, Model::tape
-	C: "OO",75493725,72656504
+	C: "OO",76896346,77917676
 
 	;Model::tape_1, Model::tile_scaffold
-	C: "OO",73468749,71356144
+	C: "OO",72815307,75733796
 
 	;Geometry::tape_1, Model::tape_1
-	C: "OO",70592905,73468749
+	C: "OO",76974095,72815307
 
 	;Material::TileScaffold.png, Model::tape_1
-	C: "OO",75493725,73468749
+	C: "OO",76896346,72815307
 
 	;Model::tape_2, Model::tile_scaffold
-	C: "OO",70919275,71356144
+	C: "OO",71798641,75733796
 
 	;Geometry::tape_2, Model::tape_2
-	C: "OO",73855302,70919275
+	C: "OO",74015538,71798641
 
 	;Material::TileScaffold.png, Model::tape_2
-	C: "OO",75493725,70919275
+	C: "OO",76896346,71798641
 
 	;Model::tape_3, Model::tile_scaffold
-	C: "OO",79652923,71356144
+	C: "OO",71708293,75733796
 
 	;Geometry::tape_3, Model::tape_3
-	C: "OO",78720245,79652923
+	C: "OO",74740659,71708293
 
 	;Material::TileScaffold.png, Model::tape_3
-	C: "OO",75493725,79652923
+	C: "OO",76896346,71708293
 
 	;Texture::TileScaffold.png, Material::TileScaffold.png
-	C: "OP",79794108,75493725, "DiffuseColor"
+	C: "OP",71570751,76896346, "DiffuseColor"
 
 	;Video::TileScaffold.png, Texture::TileScaffold.png
-	C: "OO",72550284,79794108
+	C: "OO",70575082,71570751
 }
 
 ; Takes section
