@@ -191,5 +191,13 @@ namespace NoMoreFishAndChips.Environments
             _entityManager.Despawn(_netTiles[cell]);
             _netTiles.Remove(cell);
         }
+
+        public void ClearNetRaftTiles()
+        {
+            foreach (Vector2Int cell in _netTiles.Keys.ToArray())
+            {
+                RemoveNetRaftTile(cell);
+            }
+        }
     }
 }

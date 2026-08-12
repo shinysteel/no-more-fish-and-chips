@@ -101,7 +101,7 @@ namespace NoMoreFishAndChips.States
         {
             _lobbyManager.StopLobby();
 
-            foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToList())
+            foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToArray())
             {
                 _entityManager.Despawn(entity);
             }

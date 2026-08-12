@@ -14,6 +14,8 @@ namespace NoMoreFishAndChips.Environments
 
         public void LoadTo(Raft raft)
         {
+            raft.ClearNetRaftTiles();
+            
             foreach (RaftTileSave save in Tiles)
             {
                 raft.AddNetTileRpc(save.Cell, save.TileId, save.Health, save.Rotations);
