@@ -32,11 +32,6 @@ namespace NoMoreFishAndChips.UI.Transitions
             base.InitialiseConfig(config);
         }
 
-        public override void Dispose()
-        {
-            base.Dispose();
-        }
-
         public void CoverScreen(Action onComplete)
         {
             _fadeOverlay.Show(onComplete);

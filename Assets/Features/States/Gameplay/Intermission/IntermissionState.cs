@@ -102,13 +102,10 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
-            if (!_context.Raft.Queries.Axes[Axis.Vertical].TryGetLinesBounds(out IntRange bounds))
-            {
-                Log.Error("Could not retrieve bounds");
-                return;
-            }
+            Vector2Int cell = _context.Raft.Queries.Axes[Axis.Vertical].TryGetLinesBounds(out IntRange bounds)
+                ? _context.Raft.Queries.Axes[Axis.Vertical].Lines[bounds.Min].MinEdge.Node.Cell
+                : -Vector2Int.one;
 
-            Vector2Int cell = _context.Raft.Queries.Axes[Axis.Vertical].Lines[bounds.Min].MinEdge.Node.Cell;
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;
 
             _island = _networkManager.Spawn(_config.IslandPrefab, new SpawnParams() { Position = position });

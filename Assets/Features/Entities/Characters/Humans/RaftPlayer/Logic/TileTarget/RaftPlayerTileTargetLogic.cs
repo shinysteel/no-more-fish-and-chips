@@ -55,12 +55,15 @@ namespace NoMoreFishAndChips.Entities
 
         public override void Dispose()
         {
-            _target.Dispose();
+            _target?.Dispose();
         }
 
         public override void OnDespawned()
         {
-            _target.OnChanged -= HandleTargetChanged;
+            if (_target != null)
+            {
+                _target.OnChanged -= HandleTargetChanged;
+            }
 
             if (_player != null)
             {

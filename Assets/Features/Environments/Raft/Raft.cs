@@ -58,7 +58,7 @@ namespace NoMoreFishAndChips.Environments
         {
             base.OnDestroy();
 
-            _queries.Dispose();
+            _queries?.Dispose();
         }
 
         protected override void OnDespawned()
@@ -81,7 +81,7 @@ namespace NoMoreFishAndChips.Environments
                 OnTileChanged?.Invoke(change.key, null);
             }
 
-            if (isOwner)
+            if (isOwner && _tiles.Count > 0)
             {
                 DefeatDisconnectedTiles();
             }

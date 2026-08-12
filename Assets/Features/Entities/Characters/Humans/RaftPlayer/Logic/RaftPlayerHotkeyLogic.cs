@@ -399,10 +399,5 @@ namespace NoMoreFishAndChips.Entities
 
             _player.Hotbar.SetSlot(number - 1, itemView.InventoryItem.ItemInstance.InstanceId);
         }
-
-        public void InitialiseContext(GameplayContext context)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

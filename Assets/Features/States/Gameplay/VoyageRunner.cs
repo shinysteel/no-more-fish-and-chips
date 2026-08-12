@@ -38,6 +38,7 @@ namespace NoMoreFishAndChips.States
         public VoyageResult VoyageResult => _netVoyageResult.value;
         public int WaveIndex => _netWaveIndex.value;
 
+        public event Action<VoyageResult> OnVoyageResultChanged;
         public event Action<StageData> OnStageDataChanged;
         public event Action<int> OnWaveIndexChanged;
         public event Action OnStageComplete;
@@ -53,18 +54,37 @@ namespace NoMoreFishAndChips.States
         {
             base.OnSpawned();
 
+            _netVoyageResult.onChanged += HandleNetVoyageResultChanged;
             _netStageIds.onChanged += HandleNetStageIdsChanged;
             _netStageIndex.onChanged += HandleNetStageIndexChanged;
             _netWaveIndex.onChanged += HandleNetWaveIndexChanged;
+        }
+
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _context.Raft.OnTileChanged += HandleTileChanged;
         }
 
         protected override void OnDespawned()
         {
             base.OnDespawned();
 
+            if (_context?.Raft != null)
+            {
+                _context.Raft.OnTileChanged -= HandleTileChanged;
+            }
+
+            _netVoyageResult.onChanged -= HandleNetVoyageResultChanged;
             _netStageIds.onChanged -= HandleNetStageIdsChanged;
             _netStageIndex.onChanged -= HandleNetStageIndexChanged;
             _netWaveIndex.onChanged -= HandleNetWaveIndexChanged;
+        }
+
+        private void HandleNetVoyageResultChanged(VoyageResult result)
+        {
+            OnVoyageResultChanged?.Invoke(result);
         }
 
         private void HandleNetStageIdsChanged(SyncListChange<StageId> change)
@@ -80,6 +100,19 @@ namespace NoMoreFishAndChips.States
         private void HandleNetWaveIndexChanged(int index)
         {
             OnWaveIndexChanged?.Invoke(index);
+        }
+
+        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
+        {
+            if (!isOwner)
+            {
+                return;
+            }
+
+            if (_context.Raft.Tiles.Count == 0)
+            {
+                _netVoyageResult.value = VoyageResult.Defeat;
+            }
         }
 
         private void RefreshStageData()
