@@ -32,6 +32,11 @@ namespace NoMoreFishAndChips.UI
         /// </summary>
         public virtual void Show(Action onComplete)
         {
+            if (this == null)
+            {
+                return;
+            }
+            
             _isShowing = true;
             _uiAnimation.Show(new UIAnimationParams(onComplete, gameObject, _canvasGroup));
         }
@@ -41,6 +46,11 @@ namespace NoMoreFishAndChips.UI
         /// </summary>
         public virtual void Hide(Action onComplete)
         {
+            if (this == null)
+            {
+                return;
+            }
+
             _isShowing = false;
             _uiAnimation.Hide(new UIAnimationParams(onComplete, gameObject, _canvasGroup));
         }

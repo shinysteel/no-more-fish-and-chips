@@ -30,6 +30,8 @@ namespace NoMoreFishAndChips.Networking
         {
             base.OnSpawned();
 
+            Log.Info($"purrnet player created");
+
             _instantiateManager.RaiseComponentInstantiated(this);
 
             _netUsername.onChanged += HandleNetUsernameChanged;

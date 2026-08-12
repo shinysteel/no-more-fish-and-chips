@@ -209,6 +209,8 @@ namespace NoMoreFishAndChips.States
                     }
                 }
 
+                Log.Info($"trying to access local purrent player");
+
                 _players = new();
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 

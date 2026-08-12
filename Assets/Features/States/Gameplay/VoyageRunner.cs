@@ -129,22 +129,23 @@ namespace NoMoreFishAndChips.States
 
         public void ContinueVoyage()
         {
-            if (_voyage?.IsComplete ?? false)
+            if (_netVoyageResult.value != VoyageResult.None)
             {
                 _voyage.OnStageIndexChanged -= HandleVoyageStageIndexChanged;
                 _voyage.OnWaveIndexChanged -= HandleVoyageWaveIndexChanged;
                 _voyage.OnStageComplete -= HandleVoyageStageComplete;
 
+                _voyage.Dispose();
                 _voyage = null;
 
                 _netStageIds.Clear();
+
+                _netVoyageResult.value = VoyageResult.None;
             }
 
             if (_voyage == null)
             {
                 _voyage = new Voyage(_temperateSeaVoyageData);
-
-                _netVoyageResult.value = VoyageResult.None;
 
                 _voyage.OnStageIndexChanged += HandleVoyageStageIndexChanged;
                 _voyage.OnWaveIndexChanged += HandleVoyageWaveIndexChanged;
@@ -192,7 +193,10 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
-            _voyage?.Tick();
+            if (_netVoyageResult.value == VoyageResult.None)
+            {
+                _voyage?.Tick();
+            }
         }
     }
 }

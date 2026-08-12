@@ -1,9 +1,17 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Saving;
 using ShinyOwl.Common.Framework;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine.Pool;
+using System.Threading.Tasks;
+using PurrNet;
+using ShinyOwl.Common;
+
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+using System;
 
 namespace NoMoreFishAndChips.States
 {
@@ -12,6 +20,7 @@ namespace NoMoreFishAndChips.States
         private NetworkManager _networkManager;
         private LobbyManager _lobbyManager;
         private EntityManager _entityManager;
+        private SaveManager _saveManager;
 
         private StageStateConfig _config;
 
@@ -20,6 +29,7 @@ namespace NoMoreFishAndChips.States
             _networkManager = GameManager.Instance.Get<NetworkManager>();
             _lobbyManager = GameManager.Instance.Get<LobbyManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
+            _saveManager = GameManager.Instance.Get<SaveManager>();
         }
 
         public override void InitialiseConfig(GameplayStateConfig config)
@@ -57,28 +67,6 @@ namespace NoMoreFishAndChips.States
             }
         }
 
-        private void HandleVoyageResultChanged(VoyageResult result)
-        {
-            if (!_networkManager.IsServer)
-            {
-                return;
-            }
-
-            if (result != VoyageResult.Defeat)
-            {
-                return;
-            }
-
-            _lobbyManager.StopLobby();
-
-            foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToList())
-            {
-                _entityManager.Despawn(entity);
-            }
-
-            _parentStateMachine.ChangeState(EGameplayState.Intermission);
-        }
-
         private void HandleStageComplete()
         {
             if (!_networkManager.IsServer)
@@ -86,12 +74,56 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
-            if (_context.VoyageRunner.VoyageResult != VoyageResult.None)
+            if (_context.VoyageRunner.VoyageResult != VoyageResult.Victory)
             {
-                _lobbyManager.StopLobby();
+                _parentStateMachine.ChangeState(EGameplayState.Intermission);
+            }
+            else
+            {
+                _ = RestartGameAsync();
+            }
+        }
+
+        private void HandleVoyageResultChanged(VoyageResult result)
+        {
+            if (!_networkManager.IsServer)
+            {
+                return;
             }
 
+            if (result == VoyageResult.Defeat)
+            {
+                _ = RestartGameAsync();
+            }
+        }
+
+        private async Task RestartGameAsync()
+        {
+            _lobbyManager.StopLobby();
+
+            foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToList())
+            {
+                _entityManager.Despawn(entity);
+            }
+
+            await _saveManager.LoadGameAsync();
+
+            LoadPlayerRpc();
+
             _parentStateMachine.ChangeState(EGameplayState.Intermission);
+        }
+
+        [ObserversRpc]
+        public static void LoadPlayerRpc()
+        {
+            NetworkManager networkManager = GameManager.Instance.Get<NetworkManager>();
+
+            if (networkManager.IsServer)
+            {
+                return;
+            }
+
+            ((ISaveable)networkManager.LocalPurrnetPlayer).LoadAsync();
         }
     }
 }
