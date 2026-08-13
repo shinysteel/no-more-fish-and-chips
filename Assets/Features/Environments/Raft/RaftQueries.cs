@@ -359,18 +359,22 @@ namespace NoMoreFishAndChips.Environments
         }
 
         /// <summary>
-        /// Retrieves a random tile
+        /// Retrieves a random tile that fulfills a predicate
         /// </summary>
-        public bool TryGetRandomTile(out RaftTile tile)
+        public bool TryGetRandomTile(Func<RaftTile, bool> predicate, out RaftTile tile)
         {
             tile = null;
 
-            if (_raft.Tiles.Count == 0)
+            IEnumerable<RaftTile> tiles = _raft.Tiles.Values.Where(tile => predicate(tile));
+
+            int count = tiles.Count();
+
+            if (count == 0)
             {
                 return false;
             }
 
-            tile = _raft.Tiles.Values.ElementAt(Random.Range(0, _raft.Tiles.Count));
+            tile = tiles.ElementAt(Random.Range(0, count));
 
             return true;
         }
@@ -390,44 +394,28 @@ namespace NoMoreFishAndChips.Environments
         }
 
         /// <summary>
-        /// Retrieves a random line that fulfills a coniditon
+        /// Retrieves a random line
         /// </summary>
-        public bool TryGetRandomLine(Func<RaftLine, bool> condition, out RaftLine randomLine)
+        public bool TryGetRandomLine(out RaftLine line)
         {
-            List<RaftLine> lines = ListPool<RaftLine>.Get();
-            List<RaftLine> candidates = ListPool<RaftLine>.Get();
+            line = null;
 
-            randomLine = null;
+            IEnumerable<RaftLine> lines = Enumerable.Empty<RaftLine>();
 
             foreach (RaftAxis axis in _axes.Values)
             {
-                lines.AddRange(axis.Lines.Values);
+                lines = lines.Concat(axis.Lines.Values);
             }
 
-            foreach (RaftLine line in lines)
+            int count = lines.Count();
+
+            if (count == 0)
             {
-                if (condition(line))
-                {
-                    candidates.Add(line);   
-                }
+                return false;
             }
 
-            try
-            {
-                if (candidates.Count == 0)
-                {
-                    return false;
-                }
-
-                randomLine = candidates[Random.Range(0, candidates.Count)];
-
-                return true;
-            }
-            finally
-            {
-                ListPool<RaftLine>.Release(lines);
-                ListPool<RaftLine>.Release(candidates);
-            }
+            line = lines.ElementAt(Random.Range(0, count));
+            return true;
         }
 
         public bool TryGetRandomAdjacentLine(RaftLine targetLine, out RaftLine adjacentLine, out int adjacentDirection)

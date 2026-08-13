@@ -59,7 +59,7 @@ namespace NoMoreFishAndChips.Entities
                 base.Enter();
 
                 // Choose a tile to target and a position to scout from
-                if (!_fish._context.Raft.Queries.TryGetRandomTile(out RaftTile tile) 
+                if (!_fish._context.Raft.Queries.TryGetRandomTile((RaftTile tile) => !tile.EntityDefeatLogic.IsDefeated, out RaftTile tile) 
                     || !_fish._context.Raft.Queries.TryGetClosestEdge(tile.Cell, out RaftEdge edge))
                 {
                     _fish._entityManager.Despawn(_fish);

@@ -61,7 +61,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.Enter();
 
-                if (!_seagull._context.Raft.Queries.TryGetRandomTile(out RaftTile tile))
+                if (!_seagull._context.Raft.Queries.TryGetRandomTile(_ => true, out RaftTile tile))
                 {
                     _seagull._entityManager.Despawn(_seagull);
                     return;

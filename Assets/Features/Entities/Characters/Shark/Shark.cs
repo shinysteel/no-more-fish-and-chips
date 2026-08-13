@@ -63,7 +63,7 @@ namespace NoMoreFishAndChips.Entities
                 base.Enter();
 
                 // Retrieve two lines to swim along
-                if (!_shark._context.Raft.Queries.TryGetRandomLine((RaftLine line) => line.Nodes.Count > 0, out _shark._targetLines[0])
+                if (!_shark._context.Raft.Queries.TryGetRandomLine(out _shark._targetLines[0])
                     || !_shark._context.Raft.Queries.TryGetRandomAdjacentLine(_shark._targetLines[0], out _shark._targetLines[1], out int adjacentDirection))
                 {
                     _shark._entityManager.Despawn(_shark);
