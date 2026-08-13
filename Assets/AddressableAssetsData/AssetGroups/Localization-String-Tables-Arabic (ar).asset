@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ar
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 322ff718a5f601f4596db736209c3a16
+    m_Address: VoyageResultsScreenTable_ar
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ar
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f3b59f03b28ef742963f03d91df00a7
     m_Address: HostGamePanelTable_ar
     m_ReadOnly: 1

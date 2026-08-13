@@ -93,6 +93,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-it-IT
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d51c64f98309fd44d8b71e5a46d81b06
+    m_Address: VoyageResultsScreenTable_it-IT
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-it-IT
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e300ae280baddb04296c0991d16d1054
     m_Address: ClamChestPanelTable_it-IT
     m_ReadOnly: 1

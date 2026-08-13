@@ -2377,6 +2377,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ReturnToLobbyButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6059495618770986416, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1645763457024
+      objectReference: {fileID: 0}
+    - target: {fileID: 6059495618770986416, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:5a0c86f09d7304e46944de8bd59a7608
+      objectReference: {fileID: 0}
     - target: {fileID: 8441973474860913680, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -2691,6 +2699,7 @@ MonoBehaviour:
   _uiAnimation: {fileID: 2206527657225296016}
   _rectTransform: {fileID: 6301778686773612169}
   _canvasGroup: {fileID: 7967115965822732165}
+  _outcomeText: {fileID: 8216606078471823734}
   _returnToLobbyButton: {fileID: 1564118579928331605}
 --- !u!1001 &3128521664331692753
 PrefabInstance:
@@ -3154,7 +3163,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3164,6 +3174,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8746915969032943170, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
   m_PrefabInstance: {fileID: 3601805034902260273}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8216606078471823734 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+  m_PrefabInstance: {fileID: 3601805034902260273}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &5118275612714645744
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b627a619c2f4e840826332d871eadc4
+    m_Address: VoyageResultsScreenTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74053e449baab8f4eacd8a0144991f00
     m_Address: BrowseGamesPanelTable_pt-BR
     m_ReadOnly: 1

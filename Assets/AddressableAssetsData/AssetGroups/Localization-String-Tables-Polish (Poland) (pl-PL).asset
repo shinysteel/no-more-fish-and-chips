@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Polish (Poland) (pl-PL)
   m_GUID: 2fd387beca6625b4da05b5692f805b43
   m_SerializeEntries:
+  - m_GUID: 029b6c6ede417b844a5ce69fa33099b5
+    m_Address: VoyageResultsScreenTable_pl-PL
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pl-PL
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0aa81323d4d9f2d489e5332e2aef4d89
     m_Address: CharactersTable_pl-PL
     m_ReadOnly: 1

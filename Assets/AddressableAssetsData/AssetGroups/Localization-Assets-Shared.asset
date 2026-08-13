@@ -48,6 +48,12 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a0c86f09d7304e46944de8bd59a7608
+    m_Address: Assets/Features/Localisation/Tables/VoyageResultsScreen/VoyageResultsScreenTable
+      Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7591ee45632c75a4bada3755faede7a8
     m_Address: Assets/Features/Localisation/Tables/CraftingKitPanelTable/CraftingKitPanelTable
       Shared Data.asset

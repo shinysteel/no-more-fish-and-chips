@@ -15,6 +15,12 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Russian (Russia) (ru-RU)
   m_GUID: bc5b82a0ede0c72499d1e3c60446e8de
   m_SerializeEntries:
+  - m_GUID: 11d7d148bd5fac84e9984c3a50738685
+    m_Address: VoyageResultsScreenTable_ru-RU
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru-RU
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1e2445ed01304eb49bf5b6fbcf950973
     m_Address: CraftingKitPanelTable_ru-RU
     m_ReadOnly: 1

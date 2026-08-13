@@ -105,6 +105,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f740264d0008ff340a05b8f85f8f29a6
+    m_Address: VoyageResultsScreenTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fdf565f45f6dd7a43818ebe3e6c07b4e
     m_Address: ItemsTable_ko-KR
     m_ReadOnly: 1

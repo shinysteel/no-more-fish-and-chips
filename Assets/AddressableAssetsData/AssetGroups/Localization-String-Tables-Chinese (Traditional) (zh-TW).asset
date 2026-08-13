@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f536005d9df2964e8857fd5295c2288
+    m_Address: VoyageResultsScreenTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 74d29e00cd44eaa4fb7d2a5ac1c86c75
     m_Address: BuildingKitPanelTable_zh-TW
     m_ReadOnly: 1

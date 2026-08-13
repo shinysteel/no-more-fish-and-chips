@@ -69,6 +69,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-de-DE
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 948734846fdf40840a5415958ba24a31
+    m_Address: VoyageResultsScreenTable_de-DE
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-de-DE
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9e30889d6e120cc43ba3992a620c6c6f
     m_Address: WidgetsTable_de-DE
     m_ReadOnly: 1

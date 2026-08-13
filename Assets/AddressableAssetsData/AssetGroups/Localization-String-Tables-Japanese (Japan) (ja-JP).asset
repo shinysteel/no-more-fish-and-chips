@@ -81,6 +81,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ja-JP
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79e6ba4ee164bc4458a106a9c25f9dae
+    m_Address: VoyageResultsScreenTable_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ee19afbbe8e90248b61a44ec73eda14
     m_Address: BrowseGamesPanelTable_ja-JP
     m_ReadOnly: 1

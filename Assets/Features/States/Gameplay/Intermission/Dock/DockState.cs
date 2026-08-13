@@ -85,7 +85,7 @@ namespace NoMoreFishAndChips.States
                 _cameraManager.CinemachineBrain.OutputCamera.cullingMask = _config.VoyageResultsMask;
 
                 _voyageResultsScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.VoyageResultsScreenPrefab, UILayer.Screens);
-                _voyageResultsScreen.Setup(() => _ = ExitVoyageResultsAsync());
+                _voyageResultsScreen.Setup(_context, () => _ = ExitVoyageResultsAsync());
 
                 _voyageResultsScreen.Show(null);
                 _context.GameplayScreen.Hide(null);
