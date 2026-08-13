@@ -54,7 +54,8 @@ namespace NoMoreFishAndChips.UI
             {
                 WaveNode node = _poolManager.GetTypedPoolable<WaveNode>(new SpawnParams() { Parent = _wavesContainer });
 
-                bool complete = stageIndex < context.VoyageRunner.StageIndex
+                bool complete = context.VoyageRunner.VoyageResult == VoyageResult.Victory
+                    || stageIndex < context.VoyageRunner.StageIndex
                     || (stageIndex == context.VoyageRunner.StageIndex && i < context.VoyageRunner.WaveIndex);
 
                 node.Setup(complete);

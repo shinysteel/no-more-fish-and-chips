@@ -18,22 +18,13 @@ MonoBehaviour:
   _waves:
   - _steps:
     - _entityId: 101
-      _count: 25
-      _interval: 0.5
-    - _entityId: 101
       _count: 1
       _interval: 0
   - _steps:
     - _entityId: 101
       _count: 1
       _interval: 0
-    - _entityId: 101
-      _count: 1
-      _interval: 0
   - _steps:
-    - _entityId: 101
-      _count: 1
-      _interval: 0
     - _entityId: 101
       _count: 1
       _interval: 0
