@@ -109,6 +109,12 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
+            // Lock in a result once it's decided. Also guards against tiles being cleared on load
+            if (_netVoyageResult.value != VoyageResult.None)
+            {
+                return;
+            }
+
             if (_context.Raft.Tiles.Count == 0)
             {
                 _netVoyageResult.value = VoyageResult.Defeat;

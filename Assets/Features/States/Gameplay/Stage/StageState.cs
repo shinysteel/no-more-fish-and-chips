@@ -74,13 +74,9 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
-            if (_context.VoyageRunner.VoyageResult != VoyageResult.Victory)
+            if (_context.VoyageRunner.VoyageResult == VoyageResult.None)
             {
                 _parentStateMachine.ChangeState(EGameplayState.Intermission);
-            }
-            else
-            {
-                _ = RestartGameAsync();
             }
         }
 
@@ -91,7 +87,7 @@ namespace NoMoreFishAndChips.States
                 return;
             }
 
-            if (result == VoyageResult.Defeat)
+            if (result != VoyageResult.None)
             {
                 _ = RestartGameAsync();
             }
