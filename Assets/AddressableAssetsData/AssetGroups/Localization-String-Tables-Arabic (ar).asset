@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ar
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 148b09948b7f04f459043ec63d752973
+    m_Address: VoyageBoardPanelTable_ar
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ar
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 25e567703a8b5d0489f8751e434de6a4
     m_Address: GiantClamsMouthPanelTable_ar
     m_ReadOnly: 1
@@ -75,6 +81,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ar
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93106683db617c841b48ecd25ed5a105
+    m_Address: StagesTable_ar
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ar
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b8f6caa53e1b7eb4fb169e9c27bd4824
     m_Address: CharactersTable_ar
     m_ReadOnly: 1
@@ -89,6 +101,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c5b164d258484624198ce074f3b70fc5
     m_Address: CraftingKitPanelTable_ar
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ar
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8fc92e1c89d0584faf04dac3c178955
+    m_Address: VoyagesTable_ar
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ar

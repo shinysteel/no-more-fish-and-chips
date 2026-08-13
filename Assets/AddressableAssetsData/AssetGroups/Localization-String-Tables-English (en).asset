@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 287ef00df21968b419848903f6dcd739
+    m_Address: StagesTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 314278e40f2e4be41be7b43f99999182
     m_Address: EntitiesTable_en
     m_ReadOnly: 1
@@ -59,6 +65,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 616f0abd5cb169a40a0e4984eae5e8b3
     m_Address: FishingBagPanelTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 794e1590d8d1ef74687d3ae840ea8190
+    m_Address: VoyagesTable_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
@@ -95,6 +107,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf7022593563dde46833c10d9cd64b47
     m_Address: GiantClamsMouthPanelTable_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0e96e11278ad3f4ea8eb92ff98a6bcd
+    m_Address: VoyageBoardPanelTable_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

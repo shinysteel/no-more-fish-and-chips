@@ -33,6 +33,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 236ca70562e98c3479ec01eb78fcf30c
+    m_Address: VoyagesTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5f45bdf2a7633124b80d57de3784b911
     m_Address: WorldPanelTable_zh-TW
     m_ReadOnly: 1
@@ -99,8 +105,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca15adb7da954f140812bab7ffef4f67
+    m_Address: StagesTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d677bd1c9e7e43046845b020d054fe8b
     m_Address: SettingsPanelTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4457f8a07a59b0408f2b5fba88956be
+    m_Address: VoyageBoardPanelTable_zh-TW
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-TW

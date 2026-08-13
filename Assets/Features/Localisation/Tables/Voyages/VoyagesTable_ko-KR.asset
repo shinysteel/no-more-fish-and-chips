@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: VoyagesTable_ko-KR
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: ko-KR
+  m_SharedData: {fileID: 11400000, guid: cad8a92c45cc69745a7b0ed1751a8c5b, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2671501471744
+    m_Localized: "\uC628\uB300\uD574"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2671518248960
+    m_Localized: "\uB9D1\uC740 \uD558\uB298, \uC794\uC794\uD55C \uD30C\uB3C4, \uD48D\uBD80\uD55C
+      \uC5B4\uC871 \uC790\uC6D0. \uC774 \uC9C0\uC5ED\uC740 \uC138\uACC4\uC5D0\uC11C
+      \uD53C\uC2DC \uC564 \uCE69\uC2A4 \uAC00\uAC8C\uAC00 \uAC00\uC7A5 \uBC00\uC9D1\uB41C
+      \uACF3\uC73C\uB85C \uC720\uBA85\uD569\uB2C8\uB2E4."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

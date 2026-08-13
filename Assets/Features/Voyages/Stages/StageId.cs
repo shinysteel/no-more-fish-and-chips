@@ -4,8 +4,8 @@ namespace NoMoreFishAndChips.Voyages
 {
     public enum StageId
     {
-        ClamClusterEasy,
-        SharkDenMedium,
-        SquidStrongholdHard
+        ClamCluster,
+        SharkDen,
+        SquidStronghold
     }
 }

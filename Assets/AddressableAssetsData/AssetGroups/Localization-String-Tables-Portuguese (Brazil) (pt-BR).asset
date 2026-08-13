@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2839e5d216de5dd42b05c883ab483977
+    m_Address: VoyageBoardPanelTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2bd44050f5e77494eab0a383c115efe9
     m_Address: SettingsPanelTable_pt-BR
     m_ReadOnly: 1
@@ -69,6 +75,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e09dbcd6d3d65649b1f1f793e5ab121
+    m_Address: VoyagesTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9008bd353f1b2f24e8ed29e615e10fc2
     m_Address: ClamChestPanelTable_pt-BR
     m_ReadOnly: 1
@@ -77,6 +89,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9f9fd6661150702428ba115210fc2a04
     m_Address: ItemsTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a203ec382a57fe84c97279ea94a79354
+    m_Address: StagesTable_pt-BR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-pt-BR

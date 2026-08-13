@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ClamClusterStageData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Environments.StageData
   _id: 0
+  _nameTerm: -777686779
+  _sprite: {fileID: 1407720248, guid: ff096e7ae8e2bb74196cb8c90c25b06a, type: 3}
   _waves:
   - _steps:
     - _entityId: 101

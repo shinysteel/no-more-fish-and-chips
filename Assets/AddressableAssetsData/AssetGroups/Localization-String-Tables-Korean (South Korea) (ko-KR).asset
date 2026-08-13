@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 101335e0e87c2d0439c9dfb6b0f830e7
+    m_Address: StagesTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 15df1f72d2017cf4893981b8b6827e09
     m_Address: CommonTable_ko-KR
     m_ReadOnly: 1
@@ -87,6 +93,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c3ef1a603b8668f4d87018beb9b18845
+    m_Address: VoyageBoardPanelTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: da28023b4ad0dda4daacf2b33f5b65d2
     m_Address: BrowseGamesPanelTable_ko-KR
     m_ReadOnly: 1
@@ -113,6 +125,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fdf565f45f6dd7a43818ebe3e6c07b4e
     m_Address: ItemsTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffeec0055a83bb74aab3732b47930a8f
+    m_Address: VoyagesTable_ko-KR
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-ko-KR

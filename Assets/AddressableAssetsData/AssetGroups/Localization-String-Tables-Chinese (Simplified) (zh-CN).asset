@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-CN
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 34b5f885e456a854b8c709fb70909274
+    m_Address: VoyageBoardPanelTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 356fb4bab105e6d42b1b8b25e0d0e4fb
     m_Address: BuildingKitPanelTable_zh-CN
     m_ReadOnly: 1
@@ -81,6 +87,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-CN
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d8b4d29a588219c43904a082fe550248
+    m_Address: StagesTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: da309738996110849915f797514a9bcb
     m_Address: VoyageResultsScreenTable_zh-CN
     m_ReadOnly: 1
@@ -113,6 +125,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f57597bcadd6b8c469804cc452e9eff3
     m_Address: FishingBagPanelTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f901f5e36161cca4f93f71b1aa9abd91
+    m_Address: VoyagesTable_zh-CN
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-zh-CN

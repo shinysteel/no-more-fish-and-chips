@@ -1349,6 +1349,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2181490936856762011}
     m_Modifications:
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1139343192065
+      objectReference: {fileID: 0}
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:29f2ebdb46cd91a449454941fe7c346e
+      objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_text
       value: 'Difficulty:'
@@ -1704,9 +1712,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 750988990251542737, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1139330609152
+      objectReference: {fileID: 0}
+    - target: {fileID: 750988990251542737, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:29f2ebdb46cd91a449454941fe7c346e
+      objectReference: {fileID: 0}
     - target: {fileID: 3802163686133970347, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_Name
-      value: SeaChartPanel
+      value: VoyageBoardPanel
       objectReference: {fileID: 0}
     - target: {fileID: 4705308164282050647, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
       propertyPath: m_text
@@ -2191,6 +2207,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6946061818125245690}
     m_Modifications:
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 1139343192064
+      objectReference: {fileID: 0}
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:29f2ebdb46cd91a449454941fe7c346e
+      objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_text
       value: 'Selected Sea:'
