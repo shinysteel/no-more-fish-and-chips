@@ -31,11 +31,16 @@ namespace NoMoreFishAndChips.UI
         }
 
         public void OnReturnedToPool()
-        { 
-            foreach (WaveNode node in _wavesNodes)
+        {
+            if (_poolManager != null)
             {
-                _poolManager.ReturnTypedPoolable(node);
+                foreach (WaveNode node in _wavesNodes)
+                {
+                    _poolManager.ReturnTypedPoolable(node);
+                }
             }
+
+            _wavesNodes.Clear();
         }
 
         public void Setup(GameplayContext context, int stageIndex)
@@ -53,6 +58,8 @@ namespace NoMoreFishAndChips.UI
                     || (stageIndex == context.VoyageRunner.StageIndex && i < context.VoyageRunner.WaveIndex);
 
                 node.Setup(complete);
+
+                _wavesNodes.Add(node);
             }
         }
 

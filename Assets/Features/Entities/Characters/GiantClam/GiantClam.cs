@@ -85,6 +85,7 @@ namespace NoMoreFishAndChips.Entities
 
                 if (!_clam._context.Raft.Queries.TryGetRandomLine(out RaftLine line))
                 {
+                    _clam.OnDespawned();
                     _clam._entityManager.Despawn(_clam);
                     return;
                 }

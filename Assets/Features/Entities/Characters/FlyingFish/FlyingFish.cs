@@ -62,6 +62,7 @@ namespace NoMoreFishAndChips.Entities
                 if (!_fish._context.Raft.Queries.TryGetRandomTile((RaftTile tile) => !tile.EntityDefeatLogic.IsDefeated, out RaftTile tile) 
                     || !_fish._context.Raft.Queries.TryGetClosestEdge(tile.Cell, out RaftEdge edge))
                 {
+                    _fish.OnDespawned();
                     _fish._entityManager.Despawn(_fish);
                     return;
                 }
@@ -216,7 +217,7 @@ namespace NoMoreFishAndChips.Entities
 
             base.OnDespawned();
         }
-
+        
         protected override void Update()
         {
             base.Update();

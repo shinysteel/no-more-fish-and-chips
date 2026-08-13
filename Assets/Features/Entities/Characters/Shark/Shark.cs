@@ -66,6 +66,7 @@ namespace NoMoreFishAndChips.Entities
                 if (!_shark._context.Raft.Queries.TryGetRandomLine(out _shark._targetLines[0])
                     || !_shark._context.Raft.Queries.TryGetRandomAdjacentLine(_shark._targetLines[0], out _shark._targetLines[1], out int adjacentDirection))
                 {
+                    _shark.OnDespawned();
                     _shark._entityManager.Despawn(_shark);
                     return;
                 }

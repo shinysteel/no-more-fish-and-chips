@@ -67,6 +67,24 @@ namespace NoMoreFishAndChips.States
             }
         }
 
+        public override void Tick()
+        {
+            bool result = true;
+
+            foreach (Entity entity in _entityManager.Entities)
+            {
+                if (entity == null)
+                {
+                    result = false;
+                }
+            }
+
+            if (result == false)
+            {
+                Log.Info($"theres a null in entities");
+            }
+        }
+        
         private void HandleStageComplete()
         {
             if (!_networkManager.IsServer)
@@ -95,20 +113,27 @@ namespace NoMoreFishAndChips.States
 
         private async Task RestartGameAsync()
         {
-            _lobbyManager.StopLobby();
-
-            foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToArray())
+            try
             {
-                _entityManager.Despawn(entity);
+                _lobbyManager.StopLobby();
+
+                foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToArray())
+                {
+                    _entityManager.Despawn(entity);
+                }
+
+                await _saveManager.LoadGameAsync();
+
+                LoadPlayerRpc();
+
+                _parentStateMachine.ChangeState(EGameplayState.Intermission);
             }
-
-            await _saveManager.LoadGameAsync();
-
-            LoadPlayerRpc();
-
-            _parentStateMachine.ChangeState(EGameplayState.Intermission);
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
         }
-
+        
         [ObserversRpc]
         public static void LoadPlayerRpc()
         {
