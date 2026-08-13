@@ -50,10 +50,12 @@ namespace NoMoreFishAndChips.UI
 
             _outcomeText.text = _localisationManager.GetString(context.VoyageRunner.VoyageResult == VoyageResult.Victory ? LocalisationTerm.VoyageResultsScreenVictory : LocalisationTerm.VoyageResultsScreenDefeat);
 
-            Utils.Collections.ResizeList(_stageNodes, context.VoyageRunner.StageIds.Count,
-                createElement: () => _poolManager.GetTypedPoolable<StageNode>(new SpawnParams() { Parent = _stagesContainer }),
-                removeElement: (StageNode node) => _poolManager.ReturnTypedPoolable(node),
-                processElement: (StageNode node, int index) => node.Setup(context, index));
+            for (int i = 0; i < context.VoyageRunner.StageIds.Count; i++)
+            {
+                StageNode node = _poolManager.GetTypedPoolable<StageNode>(new SpawnParams() { Parent = _stagesContainer });
+                node.Setup(context, i);
+                _stageNodes.Add(node);
+            }
         }
 
         private void HandleReturnToLobbyPressed()

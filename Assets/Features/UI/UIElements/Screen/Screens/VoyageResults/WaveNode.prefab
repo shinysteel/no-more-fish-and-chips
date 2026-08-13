@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3612947428012449724}
-  - component: {fileID: 880282924018561216}
+  - component: {fileID: 7057525721570925993}
   - component: {fileID: 6187346844252105012}
+  - component: {fileID: 880282924018561216}
   m_Layer: 5
   m_Name: WaveNode
   m_TagString: Untagged
@@ -37,14 +38,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &880282924018561216
-CanvasRenderer:
+--- !u!114 &7057525721570925993
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4351765520318300110}
-  m_CullTransparentMesh: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943c70d475f836b48ba625eb6debaba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.WaveNode
+  _image: {fileID: 6187346844252105012}
+  _completeColor: {r: 1, g: 1, b: 1, a: 1}
+  _incompleteColor: {r: 0.17254902, g: 0.31764707, b: 0.39607844, a: 1}
 --- !u!114 &6187346844252105012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,3 +83,11 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!222 &880282924018561216
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4351765520318300110}
+  m_CullTransparentMesh: 1

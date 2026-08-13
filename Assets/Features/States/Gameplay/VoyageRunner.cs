@@ -37,6 +37,7 @@ namespace NoMoreFishAndChips.States
         public StageData StageData => _stageData;
         public VoyageResult VoyageResult => _netVoyageResult.value;
         public IReadOnlyList<StageId> StageIds => _netStageIds.list;
+        public int StageIndex => _netStageIndex.value;
         public int WaveIndex => _netWaveIndex.value;
 
         public event Action<VoyageResult> OnVoyageResultChanged;
