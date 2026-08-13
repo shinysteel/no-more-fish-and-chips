@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnDespawned();
 
-            _networkManager?.RemoveListener(this);
+            _networkManager.RemoveListener(this);
         }
 
         public override string GetJsonData()

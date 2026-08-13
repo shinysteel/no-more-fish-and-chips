@@ -138,7 +138,7 @@ namespace NoMoreFishAndChips.Networking
 
         public override void Dispose()
         {
-            _networkManager?.RemoveListener(this);
+            _networkManager.RemoveListener(this);
 
             StopBroadcasting();
             StopListening();

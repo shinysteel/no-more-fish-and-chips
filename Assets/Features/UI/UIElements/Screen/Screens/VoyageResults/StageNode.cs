@@ -32,13 +32,10 @@ namespace NoMoreFishAndChips.UI
 
         public void OnReturnedToPool()
         {
-            if (_poolManager != null)
+            foreach (WaveNode node in _wavesNodes)
             {
-                foreach (WaveNode node in _wavesNodes)
-                {
-                    _poolManager.ReturnTypedPoolable(node);
-                }
-            }
+                _poolManager.ReturnTypedPoolable(node);
+            }   
 
             _wavesNodes.Clear();
         }

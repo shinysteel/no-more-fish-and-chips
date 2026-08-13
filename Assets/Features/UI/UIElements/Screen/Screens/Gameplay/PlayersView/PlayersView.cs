@@ -33,7 +33,7 @@ namespace NoMoreFishAndChips.UI
         
         private void OnDestroy()
         {
-            _networkManager?.RemoveListener(this);
+            _networkManager.RemoveListener(this);
         }
 
         void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)

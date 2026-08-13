@@ -174,8 +174,8 @@ namespace NoMoreFishAndChips.Voyages
 
         public void Dispose()
         {
-            _entityManager?.RemoveListener(this);
-            _hitboxManager?.RemoveListener(this);
+            _entityManager.RemoveListener(this);
+            _hitboxManager.RemoveListener(this);
 
             if (_context.Raft != null)
             {

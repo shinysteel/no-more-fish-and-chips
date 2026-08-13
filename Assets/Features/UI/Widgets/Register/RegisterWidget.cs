@@ -44,14 +44,11 @@ namespace NoMoreFishAndChips.UI
 
         protected virtual void OnDestroy()
         {
-            if (_poolManager != null)
+            foreach (T slot in _slots)
             {
-                foreach (T slot in _slots)
-                {
-                    _poolManager.ReturnTypedPoolable(slot);
-                }
+                _poolManager.ReturnTypedPoolable(slot);
             }
-
+            
             _outliner.Dispose();
         }
 

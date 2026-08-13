@@ -105,7 +105,7 @@ namespace NoMoreFishAndChips.Networking
 
         public override void Dispose()
         {
-            _sceneManager?.RemoveListener(this);
+            _sceneManager.RemoveListener(this);
 
             _purrnetNetworkManager.onNetworkStarted -= HandleNetworkStarted;
             _purrnetNetworkManager.onNetworkShutdown -= HandleNetworkShutdown;

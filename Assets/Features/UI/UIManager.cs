@@ -74,7 +74,7 @@ namespace NoMoreFishAndChips.UI
 
         public override void Dispose()
         {
-            _stateManager?.RemoveListener(this);
+            _stateManager.RemoveListener(this);
 
             base.Dispose();
         }

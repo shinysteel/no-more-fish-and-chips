@@ -42,7 +42,7 @@ namespace NoMoreFishAndChips.UI
 
         private void OnDestroy()
         {
-            _entityManager?.RemoveListener(this);
+            _entityManager.RemoveListener(this);
         }
 
         private void Update()

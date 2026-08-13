@@ -27,7 +27,7 @@ namespace NoMoreFishAndChips.States
         {
             _netStatePathEnumValues.onChanged -= HandleNetStatePathChanged;
 
-            _stateManager?.RemoveListener(this);
+            _stateManager.RemoveListener(this);
         }
 
         void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)

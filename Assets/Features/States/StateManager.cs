@@ -140,7 +140,7 @@ namespace NoMoreFishAndChips.States
         {
             TraverseStateMachines((IStateMachine machine) => machine.OnStateChanged -= HandleStateChanged);
 
-            _sceneManager?.RemoveListener(this);
+            _sceneManager.RemoveListener(this);
 
             _stateMachine.Dispose();
 

@@ -273,7 +273,7 @@ namespace NoMoreFishAndChips.Entities
             _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged -= HandleNetExplodeBlendChanged;
 
-            _networkManager?.RemoveListener(this);
+            _networkManager.RemoveListener(this);
 
             base.OnDespawned();
         }

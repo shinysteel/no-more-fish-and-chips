@@ -83,16 +83,13 @@ namespace NoMoreFishAndChips.UI
 
         private void OnDestroy()
         {
-            if (_poolManager != null)
+            foreach (LobbyContainerModel model in _lobbyContainerModels)
             {
-                foreach (LobbyContainerModel model in _lobbyContainerModels)
+                foreach (LobbyEntry entry in model.Entries)
                 {
-                    foreach (LobbyEntry entry in model.Entries)
-                    {
-                        _poolManager.ReturnTypedPoolable(entry);
-                    }
+                    _poolManager.ReturnTypedPoolable(entry);
                 }
-            }
+            }   
         }
 
         private void Update()

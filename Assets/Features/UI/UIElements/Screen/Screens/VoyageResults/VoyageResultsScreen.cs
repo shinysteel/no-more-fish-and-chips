@@ -35,12 +35,9 @@ namespace NoMoreFishAndChips.UI
 
         private void OnDestroy()
         {
-            if (_poolManager != null)
+            foreach (StageNode node in _stageNodes)
             {
-                foreach (StageNode node in _stageNodes)
-                {
-                    _poolManager.ReturnTypedPoolable(node);
-                }
+                _poolManager.ReturnTypedPoolable(node);
             }
         }
 

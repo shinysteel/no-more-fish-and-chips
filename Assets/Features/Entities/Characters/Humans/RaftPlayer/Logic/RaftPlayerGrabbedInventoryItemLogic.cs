@@ -39,7 +39,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override void OnDespawned()
         {
-            _uiManager?.RemoveListener(this);
+            _uiManager.RemoveListener(this);
 
             _netGrabbedInventoryItem.onChanged -= HandleNetGrabbedInventoryItemChanged;
         }

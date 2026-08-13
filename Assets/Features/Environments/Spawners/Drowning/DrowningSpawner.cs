@@ -32,8 +32,8 @@ namespace NoMoreFishAndChips.Environments
         {
             base.OnDespawned();
 
-            _entityManager?.RemoveListener(this);
-            _stateManager?.RemoveListener(this);
+            _entityManager.RemoveListener(this);
+            _stateManager.RemoveListener(this);
         }
 
         private void Update()

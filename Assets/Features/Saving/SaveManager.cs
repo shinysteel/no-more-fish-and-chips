@@ -152,7 +152,7 @@ namespace NoMoreFishAndChips.Saving
 
         public override void Dispose()
         {
-            _instantiateManager?.RemoveListener(this);
+            _instantiateManager.RemoveListener(this);
 
             base.Dispose();
         }

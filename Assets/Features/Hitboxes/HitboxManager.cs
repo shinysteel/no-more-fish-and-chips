@@ -36,7 +36,7 @@ namespace NoMoreFishAndChips.Hitboxes
 
         public override void Dispose()
         {
-            _poolManager?.RemoveListener(this);
+            _poolManager.RemoveListener(this);
 
             base.Dispose();
         }

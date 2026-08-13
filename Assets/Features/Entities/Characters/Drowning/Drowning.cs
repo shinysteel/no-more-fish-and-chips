@@ -227,7 +227,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _entityManager?.RemoveListener(this);
+                _entityManager.RemoveListener(this);
 
                 _stateMachine.ChangeState(EState.None);
             }

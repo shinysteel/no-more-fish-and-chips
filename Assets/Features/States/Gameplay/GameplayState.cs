@@ -124,9 +124,9 @@ namespace NoMoreFishAndChips.States
         {
             base.Dispose();
 
-            _networkManager?.RemoveListener(this);
-            _lobbyManager?.RemoveListener(this);
-            _instantiateManager?.RemoveListener(this);
+            _networkManager.RemoveListener(this);
+            _lobbyManager.RemoveListener(this);
+            _instantiateManager.RemoveListener(this);
 
             _enterCTS?.Cancel();
             _enterCTS?.Dispose();

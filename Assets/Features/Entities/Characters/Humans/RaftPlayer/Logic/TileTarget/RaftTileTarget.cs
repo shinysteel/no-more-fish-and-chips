@@ -36,7 +36,7 @@ namespace NoMoreFishAndChips.Entities
 
         public void Dispose()
         {
-            _stateManager?.RemoveListener(this);
+            _stateManager.RemoveListener(this);
 
             if (_context.Raft != null)
             {

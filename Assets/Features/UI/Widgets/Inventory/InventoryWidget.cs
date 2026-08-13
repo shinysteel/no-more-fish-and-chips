@@ -75,19 +75,16 @@ namespace NoMoreFishAndChips.UI
         private void OnDestroy()
         {
             // Return pooled views
-            if (_poolManager != null)
+            foreach (InventorySlotView view in _inventorySlotViews.Values)
             {
-                foreach (InventorySlotView view in _inventorySlotViews.Values)
-                {
-                    _poolManager.ReturnTypedPoolable(view);
-                }
-
-                foreach (InventoryItemView view in _inventoryItemViews.Values)
-                {
-                    _poolManager.ReturnTypedPoolable(view);
-                }
+                _poolManager.ReturnTypedPoolable(view);
             }
 
+            foreach (InventoryItemView view in _inventoryItemViews.Values)
+            {
+                _poolManager.ReturnTypedPoolable(view);
+            }
+            
             if (_inventory != null)
             {
                 _inventory.OnInventorySlotChanged -= HandleInventorySlotChanged;

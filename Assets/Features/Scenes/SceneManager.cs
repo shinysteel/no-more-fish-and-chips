@@ -122,7 +122,7 @@ namespace NoMoreFishAndChips.Scenes
 
         public override void Dispose()
         {
-            _networkManager?.RemoveListener(this);
+            _networkManager.RemoveListener(this);
 
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= HandleSceneLoaded;
             UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= HandleSceneUnloaded;
