@@ -355,10 +355,10 @@ namespace NoMoreFishAndChips.Inventories
 
         public event Action<Vector2Int, InventorySlot> OnInventorySlotChanged;
 
-        // It was not obvious that the string in Action<string, InventoryItem> represented instanceId. This
+        // It was not obvious that the string in Action<string, InventoryItem, InventoryItem> represented instanceId. This
         // is a good example of when to use custom delegates. If more parameters could be added in the future,
         // then you could also consider using EventArgs
-        public delegate void InventoryItemChangedDelegate(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem);
+        public delegate void InventoryItemChangedDelegate(string instanceId, InventoryItem previous, InventoryItem current);
         public event InventoryItemChangedDelegate OnInventoryItemChanged;
 
         protected override void OnSpawned()
@@ -470,27 +470,27 @@ namespace NoMoreFishAndChips.Inventories
         private void HandleNetInventoryItemsChanged(SyncDictionaryChange<string, NetInventoryItem> change)
         {
             // You can't reuse a variable name between cases
-            InventoryItem oldInventoryItem;
+            InventoryItem previous;
 
             switch (change.operation)
             {
                 case SyncDictionaryOperation.Added:
                 case SyncDictionaryOperation.Set:
-                    _inventoryItems.TryGetValue(change.value.ItemInstance.InstanceId, out oldInventoryItem);
-                    InventoryItem newInventoryItem = InventoryItem.Create(change.value);
+                    _inventoryItems.TryGetValue(change.value.ItemInstance.InstanceId, out previous);
+                    InventoryItem current = InventoryItem.Create(change.value);
 
-                    _inventoryItems[change.value.ItemInstance.InstanceId] = newInventoryItem;
+                    _inventoryItems[change.value.ItemInstance.InstanceId] = current;
 
-                    OnInventoryItemChanged?.Invoke(change.value.ItemInstance.InstanceId, oldInventoryItem, newInventoryItem);
+                    OnInventoryItemChanged?.Invoke(change.value.ItemInstance.InstanceId, previous, current);
                     break;
 
                 case SyncDictionaryOperation.Removed:
-                    oldInventoryItem = _inventoryItems[change.key];
-                    string instanceId = oldInventoryItem.ItemInstance.InstanceId;
+                    previous = _inventoryItems[change.key];
+                    string instanceId = previous.ItemInstance.InstanceId;
 
                     _inventoryItems.Remove(change.key);
 
-                    OnInventoryItemChanged?.Invoke(instanceId, oldInventoryItem, null);
+                    OnInventoryItemChanged?.Invoke(instanceId, previous, null);
                     break;
 
                 case SyncDictionaryOperation.Cleared:

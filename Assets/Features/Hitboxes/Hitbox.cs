@@ -20,6 +20,7 @@ namespace NoMoreFishAndChips.Hitboxes
         private HitboxManager _hitboxManager;
 
         private HitboxData _data;
+        public HitboxData Data => _data;
 
         private float _timer;
 

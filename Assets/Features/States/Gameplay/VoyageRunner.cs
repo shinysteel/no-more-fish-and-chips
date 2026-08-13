@@ -104,7 +104,7 @@ namespace NoMoreFishAndChips.States
             OnWaveIndexChanged?.Invoke(index);
         }
 
-        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
         {
             if (!isOwner)
             {
@@ -153,7 +153,7 @@ namespace NoMoreFishAndChips.States
 
             if (_voyage == null)
             {
-                _voyage = new Voyage(_temperateSeaVoyageData);
+                _voyage = new Voyage(_context, _temperateSeaVoyageData);
 
                 _voyage.OnStageIndexChanged += HandleVoyageStageIndexChanged;
                 _voyage.OnWaveIndexChanged += HandleVoyageWaveIndexChanged;

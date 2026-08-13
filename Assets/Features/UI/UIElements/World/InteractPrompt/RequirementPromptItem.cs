@@ -44,7 +44,7 @@ namespace NoMoreFishAndChips.UI
             }
         }
 
-        private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        private void HandleInventoryItemChanged(string instanceId, InventoryItem previous, InventoryItem current)
         {
             Refresh();
         }

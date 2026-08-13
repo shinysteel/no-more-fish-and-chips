@@ -66,24 +66,6 @@ namespace NoMoreFishAndChips.States
                 _context.VoyageRunner.ContinueVoyage();
             }
         }
-
-        public override void Tick()
-        {
-            bool result = true;
-
-            foreach (Entity entity in _entityManager.Entities)
-            {
-                if (entity == null)
-                {
-                    result = false;
-                }
-            }
-
-            if (result == false)
-            {
-                Log.Info($"theres a null in entities");
-            }
-        }
         
         private void HandleStageComplete()
         {

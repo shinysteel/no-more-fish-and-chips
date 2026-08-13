@@ -140,13 +140,13 @@ namespace NoMoreFishAndChips.UI
         }
 
         // Listen to item changes
-        private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        private void HandleInventoryItemChanged(string instanceId, InventoryItem previous, InventoryItem current)
         {
-            SetInventoryItemToSlotViews(oldInventoryItem, newInventoryItem);
+            SetInventoryItemToSlotViews(previous, current);
 
-            if (newInventoryItem != null)
+            if (current != null)
             {
-                SetInventoryItemView(instanceId, newInventoryItem);
+                SetInventoryItemView(instanceId, current);
             }
             else
             {
@@ -157,7 +157,7 @@ namespace NoMoreFishAndChips.UI
         }
 
         // Informs slot views on the status of items occupying them
-        private void SetInventoryItemToSlotViews(InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        private void SetInventoryItemToSlotViews(InventoryItem previous, InventoryItem current)
         {
             void set(Vector2Int setCell, BoolGrid shape, InventoryItem item)
             {
@@ -167,14 +167,14 @@ namespace NoMoreFishAndChips.UI
                 });
             }
 
-            if (oldInventoryItem != null)
+            if (previous != null)
             {
-                set(oldInventoryItem.Cell, oldInventoryItem.Shape, null);
+                set(previous.Cell, previous.Shape, null);
             }
 
-            if (newInventoryItem != null)
+            if (current != null)
             {
-                set(newInventoryItem.Cell, newInventoryItem.Shape, newInventoryItem);
+                set(current.Cell, current.Shape, current);
             }
         }
 

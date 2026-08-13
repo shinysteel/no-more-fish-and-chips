@@ -55,17 +55,17 @@ namespace NoMoreFishAndChips.Entities
 
             // Refresh _tile whenever _cell changes
             _context.Raft.Tiles.TryGetValue(_cell, out RaftTile tile);
-            HandleTileChanged(_cell, tile);
+            HandleTileChanged(_cell, null, tile);
         }
 
-        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
         {
             if (_cell != cell)
             {
                 return;
             }
 
-            _tile = tile;
+            _tile = current;
 
             OnChanged?.Invoke();
         }

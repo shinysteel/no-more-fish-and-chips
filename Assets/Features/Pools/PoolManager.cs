@@ -26,7 +26,9 @@ namespace NoMoreFishAndChips.Pools
     { }
 
     public interface IPoolManagerListener
-    { }
+    {
+        void OnPoolableReturned(IPoolable poolable);
+    }
     
     public interface IPool
     {
@@ -185,6 +187,7 @@ namespace NoMoreFishAndChips.Pools
             }
 
             pool.Return(obj);
+            NotifyPoolableReturned(obj);
         }
 
         public T GetPoolable<T, U>(Dictionary<U, Pool<T>> pools, U id, T prefab, SpawnParams parameters)
@@ -211,6 +214,12 @@ namespace NoMoreFishAndChips.Pools
             }
 
             pool.Return(poolable);
+            NotifyPoolableReturned(poolable);
+        }
+
+        private void NotifyPoolableReturned(IPoolable poolable)
+        {
+            Listeners.Dispatch(listener => listener.OnPoolableReturned(poolable));
         }
     }
 }

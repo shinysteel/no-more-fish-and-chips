@@ -8,13 +8,18 @@ using System;
 using System.Linq;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+using ShinyOwl.Common;
+using NoMoreFishAndChips.Hitboxes;
+using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.Voyages
 {
-    public class Stage : IEntityManagerListener
+    public class Stage : IEntityManagerListener, IHitboxManagerListener
     {
         private EntityManager _entityManager;
+        private HitboxManager _hitboxManager;
 
+        private GameplayContext _context;
         private StageData _data;
 
         private int _waveIndex;
@@ -137,13 +142,23 @@ namespace NoMoreFishAndChips.Voyages
             }
         }
 
-        public Stage(StageData data)
+        public Stage(GameplayContext context, StageData data)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
+            _hitboxManager = GameManager.Instance.Get<HitboxManager>();
 
             _entityManager.AddListener(this);
+            _hitboxManager.AddListener(this);
 
+            _context = context;
             _data = data;
+
+            foreach (RaftTile tile in _context.Raft.Tiles.Values)
+            {
+                HandleTileChanged(tile.Cell, null, tile);
+            }
+
+            _context.Raft.OnTileChanged += HandleTileChanged;
 
             _stateMachine = new();
 
@@ -160,6 +175,12 @@ namespace NoMoreFishAndChips.Voyages
         public void Dispose()
         {
             _entityManager?.RemoveListener(this);
+            _hitboxManager?.RemoveListener(this);
+
+            if (_context.Raft != null)
+            {
+                _context.Raft.OnTileChanged -= HandleTileChanged;
+            }
 
             _stateMachine.Dispose();
         }
@@ -192,18 +213,45 @@ namespace NoMoreFishAndChips.Voyages
             RefreshAreWavesDefeated();
         }
 
-        private void RefreshAreWavesDefeated()
+        public void OnHitboxesChanged(IReadOnlyList<Hitbox> hitboxes)
         {
+            RefreshAreWavesDefeated();
+        }
+
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
+        {
+            if (previous != null)
+            {
+                previous.EntityDefeatLogic.OnIsDefeatedChanged -= HandleTileIsDefeatedChanged;
+            }
+
+            if (current != null)
+            {
+                current.EntityDefeatLogic.OnIsDefeatedChanged += HandleTileIsDefeatedChanged;
+            }
+        }
+
+        private void HandleTileIsDefeatedChanged(bool defeated)
+        {
+            RefreshAreWavesDefeated();
+        }
+
+        private void RefreshAreWavesDefeated()
+        {   
             if (_entityManager.Entities.Any(entity => entity is Character character && character.EntityDefinitionData.Alliance == EntityAlliance.Enemy))
             {
                 return;
             }
 
-            // This condition won't work unless we can listen to an event for this interaction
-            //if (_entityManager.Entities.Any(entity => entity is RaftTile tile && tile.TileDefeatModule.IsSinking))
-            //{
-            //    return;
-            //}
+            if (_hitboxManager.Hitboxes.Any(hitbox => hitbox.Data.Alliance == EntityAlliance.Enemy || hitbox.Data.Alliance == EntityAlliance.Neutral))
+            {
+                return;
+            }
+
+            if (_context.Raft.Tiles.Values.Any(tile => tile.EntityDefeatLogic.IsDefeated))
+            {
+                return;
+            }
 
             _areWavesDefeated = true;
         }

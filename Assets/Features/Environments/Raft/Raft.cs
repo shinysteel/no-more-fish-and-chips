@@ -27,7 +27,7 @@ namespace NoMoreFishAndChips.Environments
         private Dictionary<Vector2Int, RaftTile> _tiles = new();
         public IReadOnlyDictionary<Vector2Int, RaftTile> Tiles => _tiles;
 
-        public event Action<Vector2Int, RaftTile> OnTileChanged;
+        public event Action<Vector2Int, RaftTile, RaftTile> OnTileChanged;
 
         private RaftQueries _queries;
         public RaftQueries Queries => _queries;
@@ -71,19 +71,19 @@ namespace NoMoreFishAndChips.Environments
             if (change.operation == SyncDictionaryOperation.Added)
             {
                 _tiles.Add(change.key, change.value);
-                OnTileChanged?.Invoke(change.key, change.value);
+                OnTileChanged?.Invoke(change.key, null, change.value);
             }
             else if (change.operation == SyncDictionaryOperation.Removed)
             {
                 _tiles.Remove(change.key);
 
-                // Despite the operation, change.value is not null and so it needs to be entered manually
-                OnTileChanged?.Invoke(change.key, null);
-            }
+                if (isOwner && _tiles.Count > 0)
+                {
+                    DefeatDisconnectedTiles();
+                }
 
-            if (isOwner && _tiles.Count > 0)
-            {
-                DefeatDisconnectedTiles();
+                // Despite the operation, change.value is not null and so it needs to be entered manually
+                OnTileChanged?.Invoke(change.key, change.value, null);
             }
         }
 
@@ -188,8 +188,11 @@ namespace NoMoreFishAndChips.Environments
 
         public void RemoveNetRaftTile(Vector2Int cell)
         {
-            _entityManager.Despawn(_netTiles[cell]);
+            RaftTile tile = _netTiles[cell];
+
             _netTiles.Remove(cell);
+
+            _entityManager.Despawn(tile);
         }
 
         public void ClearNetRaftTiles()

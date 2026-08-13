@@ -189,7 +189,7 @@ namespace NoMoreFishAndChips.Entities
         /// <summary>
         /// If the source of the item we are holding has changes, we need to match them
         /// </summary>
-        private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        private void HandleInventoryItemChanged(string instanceId, InventoryItem previous, InventoryItem current)
         {
             if (_netGrabbedInventoryItem.value == null)
             {
@@ -202,13 +202,13 @@ namespace NoMoreFishAndChips.Entities
             }
 
             // This callback can happen before we call SetNetGrabbedInventoryItem(null) ourselves, so it's safe to ignore in this scenario
-            if (newInventoryItem == null)
+            if (current == null)
             {
                 return;
             }
 
             // Sync up with any changes that aren't to the pivot or rotations
-            NetInventoryItem netInventoryItem = new NetInventoryItem(newInventoryItem.Cell, _netGrabbedInventoryItem.value.Pivot, _netGrabbedInventoryItem.value.Rotations, NetItemInstance.Create(newInventoryItem.ItemInstance));
+            NetInventoryItem netInventoryItem = new NetInventoryItem(current.Cell, _netGrabbedInventoryItem.value.Pivot, _netGrabbedInventoryItem.value.Rotations, NetItemInstance.Create(current.ItemInstance));
 
             _netGrabbedInventoryItem.value = netInventoryItem;
         }

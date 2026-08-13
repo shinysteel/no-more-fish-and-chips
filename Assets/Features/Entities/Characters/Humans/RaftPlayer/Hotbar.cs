@@ -165,7 +165,7 @@ namespace NoMoreFishAndChips.Entities
             OnSelectedChanged?.Invoke(_selectedSlot);
         }
 
-        private void HandleInventoryItemChanged(string instanceId, InventoryItem oldInventoryItem, InventoryItem newInventoryItem)
+        private void HandleInventoryItemChanged(string instanceId, InventoryItem previous, InventoryItem current)
         {
             bool assigned = false;
 
@@ -177,15 +177,15 @@ namespace NoMoreFishAndChips.Entities
                     continue;
                 }
 
-                SetSlot(slot.Index, newInventoryItem?.ItemInstance.InstanceId);
+                SetSlot(slot.Index, current?.ItemInstance.InstanceId);
                 assigned = true;
                 break;
             }
 
             // If it's not assigned and a slot is available, assign it
-            if (oldInventoryItem == null && newInventoryItem != null && !assigned && TryGetNextUnassignedSlot(out int index))
+            if (previous == null && current != null && !assigned && TryGetNextUnassignedSlot(out int index))
             {
-                SetSlot(index, newInventoryItem.ItemInstance.InstanceId);
+                SetSlot(index, current.ItemInstance.InstanceId);
             }
         }
 

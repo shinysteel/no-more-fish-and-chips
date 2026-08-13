@@ -44,9 +44,9 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        private void HandleTileChanged(Vector2Int cell, RaftTile tile)
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
         {
-            UpdateLines(cell, tile);
+            UpdateLines(cell, current);
         }
 
         // Maintains positional maps when any Tile is changed
@@ -297,7 +297,7 @@ namespace NoMoreFishAndChips.Environments
 
             foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _raft.Tiles)
             {
-                HandleTileChanged(kvp.Key, kvp.Value);
+                HandleTileChanged(kvp.Key, null, kvp.Value);
             }
 
             _raft.OnTileChanged += HandleTileChanged;
@@ -313,7 +313,7 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        private void HandleTileChanged(Vector2Int tileCell, RaftTile tile)
+        private void HandleTileChanged(Vector2Int tileCell, RaftTile previous, RaftTile current)
         {
             void processCell(Vector2Int offset)
             {

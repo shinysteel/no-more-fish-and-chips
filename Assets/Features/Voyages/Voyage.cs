@@ -7,6 +7,7 @@ namespace NoMoreFishAndChips.Voyages
 {
     public class Voyage
     {
+        private GameplayContext _context;
         private VoyageData _data;
 
         private Stage _stage;
@@ -19,8 +20,9 @@ namespace NoMoreFishAndChips.Voyages
         public event Action<int> OnWaveIndexChanged;
         public event Action OnStageComplete;
 
-        public Voyage(VoyageData data)
+        public Voyage(GameplayContext context, VoyageData data)
         {
+            _context = context;
             _data = data;
         }
 
@@ -45,7 +47,7 @@ namespace NoMoreFishAndChips.Voyages
                 return;
             }
 
-            _stage = new Stage(_data.StageDatas[_stageIndex]);
+            _stage = new Stage(_context, _data.StageDatas[_stageIndex]);
             _stage.OnWaveIndexChanged += HandleWaveIndexChanged;
             _stage.OnWaveComplete += HandleWaveComplete;
         }

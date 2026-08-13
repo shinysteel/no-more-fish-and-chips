@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.States;
 using PurrNet;
+using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
@@ -11,8 +12,6 @@ namespace NoMoreFishAndChips.Entities
         private RaftTileDefeatSettings _settings;
 
         private float _sinkTimer;
-
-        public bool IsSinking => _sinkTimer > 0f;
 
         public RaftTileDefeatLogic(RaftTile tile, SyncVar<bool> netIsDefeated) : base(tile, netIsDefeated)
         {
