@@ -213,7 +213,7 @@ namespace NoMoreFishAndChips.Voyages
             RefreshAreWavesDefeated();
         }
 
-        public void OnHitboxesChanged(IReadOnlyList<Hitbox> hitboxes)
+        void IHitboxManagerListener.OnHitboxesChanged(IReadOnlyList<Hitbox> hitboxes)
         {
             RefreshAreWavesDefeated();
         }

@@ -62,7 +62,7 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_sinkTimer >= _settings.Duration)
                 {
-                    _context.Raft.RemoveNetRaftTile(_tile.Cell);
+                    _context.Raft.RemoveTile(_tile.Cell);
                     return;
                 }
             }

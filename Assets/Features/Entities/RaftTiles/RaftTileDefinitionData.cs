@@ -55,7 +55,7 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            context.Raft.AddNetTileRpc(target.Cell, _id, _health, Random.Range(0, 4));
+            context.Raft.AddTileRpc(target.Cell, _id, _health, Random.Range(0, 4));
 
             return true;
         }

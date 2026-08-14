@@ -14,11 +14,11 @@ namespace NoMoreFishAndChips.Environments
 
         public void LoadTo(Raft raft)
         {
-            raft.ClearNetRaftTiles();
+            raft.ClearTiles();
             
             foreach (RaftTileSave save in Tiles)
             {
-                raft.AddNetTileRpc(save.Cell, save.TileId, save.Health, save.Rotations);
+                raft.AddTileRpc(save.Cell, save.TileId, save.Health, save.Rotations);
             }
 
             foreach (StructureSave save in Structures)

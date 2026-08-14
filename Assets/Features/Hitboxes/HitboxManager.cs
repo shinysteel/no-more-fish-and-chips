@@ -9,7 +9,7 @@ namespace NoMoreFishAndChips.Hitboxes
 {
     public interface IHitboxManagerListener
     {
-        void OnHitboxesChanged(IReadOnlyList<Hitbox> hitboxes);
+        void OnHitboxesChanged(IReadOnlyList<Hitbox> hitboxes) { }
     }
 
     public class HitboxManager : GameSystem<IHitboxManagerListener>, IPoolManagerListener
