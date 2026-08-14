@@ -47,6 +47,31 @@ namespace NoMoreFishAndChips.States
             _config = config.DockStateConfig;
         }
 
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _context.VoyageRunner.OnVoyageResultChanged += HandleVoyageResultChanged;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            if (_context.VoyageRunner != null)
+            {
+                _context.VoyageRunner.OnVoyageResultChanged -= HandleVoyageResultChanged;
+            }
+        }
+
+        private void HandleVoyageResultChanged(VoyageResult result)
+        {
+            if (_parentStateMachine.CurrentState == this && result != VoyageResult.None)
+            {
+                _ = EnterVoyageResultsAsync();
+            }
+        }
+
         public override void Enter()
         {
             base.Enter();
@@ -56,10 +81,7 @@ namespace NoMoreFishAndChips.States
 
             _startTimer = 0f;
 
-            if (_context.VoyageRunner.VoyageResult != VoyageResult.None)
-            {
-                _ = EnterVoyageResultsAsync();
-            }
+            HandleVoyageResultChanged(_context.VoyageRunner.VoyageResult);
         }
 
         private async Task EnterVoyageResultsAsync()
