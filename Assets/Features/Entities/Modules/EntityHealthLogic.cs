@@ -14,10 +14,10 @@ namespace NoMoreFishAndChips.Entities
 
         private SyncVar<int> _netHealth;
 
-        private int _max;
-        public int Max => _max;
+        private int _maxHealth;
+        public int MaxHealth => _maxHealth;
 
-        public int Current => _netHealth.value;
+        public int CurrentHealth => _netHealth.value;
 
         public event Action<int, int> OnChanged;
 
@@ -29,14 +29,14 @@ namespace NoMoreFishAndChips.Entities
            
             _netHealth.onChangedWithOld += HandleNetHealthChanged;
 
-            _max = _entity.EntityDefinitionData.Health;
+            _maxHealth = _entity.EntityDefinitionData.Health;
         }
 
         public override void OnSpawned()
         {
-            if (_entity.isOwner)
+            if (_entity.isOwner && _netHealth.value == 0)
             {
-                SetHealth(_max);
+                SetHealth(_maxHealth);
             }
         }
 
@@ -64,21 +64,21 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            health = Mathf.Clamp(health, 0, _max);
+            health = Mathf.Clamp(health, 0, _maxHealth);
 
-            if (Current == health)
+            if (_netHealth.value == health)
             {
                 return;
             }
 
-            int previous = Current;
+            int previous = _netHealth.value;
 
             _entity.SetNetHealthRpc(health);
         }
 
         public void ChangeHealth(int change)
         {
-            SetHealth(Current + change);
+            SetHealth(_netHealth.value + change);
         }
     }
 }

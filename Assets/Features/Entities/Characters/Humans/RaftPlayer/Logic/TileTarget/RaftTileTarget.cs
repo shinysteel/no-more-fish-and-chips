@@ -97,7 +97,7 @@ namespace NoMoreFishAndChips.Entities
 
         public bool CanRepair()
         {
-            return _tile?.EntityHealthLogic.Current < _tile?.EntityHealthLogic.Max;
+            return _tile?.EntityHealthLogic.CurrentHealth < _tile?.EntityHealthLogic.MaxHealth;
         }
 
         void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)

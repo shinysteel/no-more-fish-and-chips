@@ -118,7 +118,7 @@ namespace NoMoreFishAndChips.Entities
 
                 // Find the closest tile that can be repaired
                 RaftTile closestTile = tiles
-                    .Where(tile => tile.EntityHealthLogic.Current < tile.EntityHealthLogic.Max && Vector3.Distance(tile.transform.position, _player.transform.position) < RepairRange)
+                    .Where(tile => tile.EntityHealthLogic.CurrentHealth < tile.EntityHealthLogic.MaxHealth && Vector3.Distance(tile.transform.position, _player.transform.position) < RepairRange)
                     .OrderBy(tile => Vector3.Distance(tile.transform.position, _player.transform.position))
                     .FirstOrDefault();
 

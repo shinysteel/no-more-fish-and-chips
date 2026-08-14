@@ -57,12 +57,25 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
+            HandleHealthChanged(0, EntityHealthLogic.CurrentHealth);
+            
             EntityHealthLogic.OnChanged += HandleHealthChanged;
+        }
+
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            HandleNetCellChanged(_netCell.value);
+
+            _netCell.onChanged += HandleNetCellChanged;
         }
 
         protected override void OnDespawned()
         {
             EntityHealthLogic.OnChanged -= HandleHealthChanged;
+
+            _netCell.onChanged -= HandleNetCellChanged;
 
             base.OnDespawned();
         }
@@ -75,7 +88,12 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)current / EntityHealthLogic.Max));
+            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)current / EntityHealthLogic.MaxHealth));
+        }
+
+        private void HandleNetCellChanged(Vector2Int cell)
+        {
+            transform.position = _context.Raft.Queries.CellToWorldPosition(_netCell.value);
         }
 
         [ServerRpc(requireOwnership: false)]
@@ -92,14 +110,7 @@ namespace NoMoreFishAndChips.Entities
 
         public void SetNetCell(Vector2Int cell)
         {
-            if (_netCell.value == cell)
-            {
-                return;
-            }
-
             _netCell.value = cell;
-
-            transform.position = _context.Raft.Queries.CellToWorldPosition(_netCell.value);
         }
 
         public void SetNetRotations(int rotations)
@@ -166,7 +177,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return isSpawned && EntityHealthLogic.Current < EntityHealthLogic.Max && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         WorldUI IInteractable.CreatePromptUI()

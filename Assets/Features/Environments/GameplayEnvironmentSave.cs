@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.Environments
 {
@@ -46,7 +47,7 @@ namespace NoMoreFishAndChips.Environments
         }
 
         public void ApplyDefaults()
-        {
+        {   
             Raft.ApplyDefaults();
         }
     }
