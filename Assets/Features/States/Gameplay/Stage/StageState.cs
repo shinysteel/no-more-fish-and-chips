@@ -76,6 +76,7 @@ namespace NoMoreFishAndChips.States
 
             if (_context.VoyageRunner.VoyageResult == VoyageResult.None)
             {
+                Log.Info($"stage complete with {_context.VoyageRunner.VoyageResult}, so going to intermission");
                 _parentStateMachine.ChangeState(EGameplayState.Intermission);
             }
         }
@@ -89,6 +90,7 @@ namespace NoMoreFishAndChips.States
 
             if (result != VoyageResult.None)
             {
+                Log.Info($"voyage result changed to {result}, so restarting game");
                 _ = RestartGameAsync();
             }
         }

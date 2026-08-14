@@ -182,6 +182,7 @@ namespace NoMoreFishAndChips.States
         {
             if (_voyage.IsComplete)
             {
+                Log.Info($"setting result to victory");
                 _netVoyageResult.value = VoyageResult.Victory;
             }
 
@@ -191,6 +192,7 @@ namespace NoMoreFishAndChips.States
         [ObserversRpc]
         private void RaiseStageCompleteRpc()
         {
+            Log.Info($"raising stage complelte");
             OnStageComplete?.Invoke();
         }
 
