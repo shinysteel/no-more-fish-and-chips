@@ -76,7 +76,6 @@ namespace NoMoreFishAndChips.States
 
             if (_context.VoyageRunner.VoyageResult == VoyageResult.None)
             {
-                Log.Info($"stage complete with {_context.VoyageRunner.VoyageResult}, so going to intermission");
                 _parentStateMachine.ChangeState(EGameplayState.Intermission);
             }
         }
@@ -90,7 +89,6 @@ namespace NoMoreFishAndChips.States
 
             if (result != VoyageResult.None)
             {
-                Log.Info($"voyage result changed to {result}, so restarting game");
                 _ = RestartGameAsync();
             }
         }
@@ -100,6 +98,12 @@ namespace NoMoreFishAndChips.States
             try
             {
                 _lobbyManager.StopLobby();
+
+                // For services like Steam, changing a lobby property is async
+                while (_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
+                {
+                    await Task.Yield();
+                }
 
                 foreach (Entity entity in _entityManager.Entities.Where(entity => entity is not RaftPlayer).ToArray())
                 {
