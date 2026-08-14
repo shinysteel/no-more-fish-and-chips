@@ -177,7 +177,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return isSpawned && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         WorldUI IInteractable.CreatePromptUI()
