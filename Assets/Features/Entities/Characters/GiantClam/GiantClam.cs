@@ -33,6 +33,8 @@ namespace NoMoreFishAndChips.Entities
 
         private StateMachine<EState> _stateMachine;
 
+        private ItemModel _pearlItemModel;
+
         private int _openCount;
 
         private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
@@ -247,9 +249,16 @@ namespace NoMoreFishAndChips.Entities
 
             _giantClamPanelInstance = new PanelInstance<GiantClamsMouthPanel>(_uiManager.Config.GiantClamsMouthPanelPrefab);
 
+            if (!isOwner)
+            {
+                RefreshPearl();
+            }
+
+            _inventory.OnInventoryItemChanged += HandleInventoryItemChanged;
+
             if (isOwner)
             {
-                if (Random.value < 0.25f)
+                if (Random.value < 1f)
                 {
                     _ = AddPearlAsync();
                 }
@@ -261,16 +270,6 @@ namespace NoMoreFishAndChips.Entities
 
             _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged += HandleNetExplodeBlendChanged;
-        }
-
-        private async Task AddPearlAsync()
-        {
-            while (!_inventory.IsReady)
-            {
-                await Task.Yield();
-            }
-
-            _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Pearl, Count = 1 }, false, out _, out _, out _);
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -290,9 +289,56 @@ namespace NoMoreFishAndChips.Entities
             _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged -= HandleNetExplodeBlendChanged;
 
+            if (_pearlItemModel != null)
+            {
+                _itemManager.ReturnModel(_pearlItemModel);
+                _pearlItemModel = null;
+            }
+
+            _inventory.OnInventoryItemChanged -= HandleInventoryItemChanged;
+
             _networkManager.RemoveListener(this);
 
             base.OnDespawned();
+        }
+
+        private async Task AddPearlAsync()
+        {
+            while (!_inventory.IsReady)
+            {
+                await Task.Yield();
+            }
+
+            _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Pearl, Count = 1 }, false, out _, out _, out _);
+        }
+
+        private void HandleInventoryItemChanged(string instanceId, InventoryItem previous, InventoryItem current)
+        {
+            if (previous?.ItemInstance.Data.ItemId == ItemId.Pearl || current?.ItemInstance.Data.ItemId == ItemId.Pearl)
+            {
+                RefreshPearl();
+            }
+        }
+
+        private void RefreshPearl()
+        {
+            bool pearl = _inventory.CanRemoveItem(new InventoryChangeParams() { ItemId = ItemId.Pearl, Count = 1 }, out _, out _);
+
+            if (pearl)
+            {
+                if (_pearlItemModel == null)
+                {
+                    _pearlItemModel = _itemManager.GetModel(ItemId.Pearl, new SpawnParams() { Position = Vector3.up * 0.125f, Parent = transform });
+                }
+            }
+            else
+            {
+                if (_pearlItemModel != null)
+                {
+                    _itemManager.ReturnModel(_pearlItemModel);
+                    _pearlItemModel = null;
+                }
+            }
         }
 
         private void HandleNetCanOpenInventoryChanged(bool canOpenInventory)

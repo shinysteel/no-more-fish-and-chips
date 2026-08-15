@@ -37,6 +37,7 @@ namespace NoMoreFishAndChips.Entities
             if (!_entity.isOwner)
             {
                 _rigidbody.isKinematic = true;
+                _rigidbody.constraints = RigidbodyConstraints.None;
             }
         }
     }
