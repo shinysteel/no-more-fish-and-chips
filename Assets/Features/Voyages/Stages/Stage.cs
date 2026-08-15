@@ -119,7 +119,7 @@ namespace NoMoreFishAndChips.Voyages
                     return;
                 }
 
-                if (_stateTimer < _maxDuration && !_stage._areWavesDefeated)
+                if (_stateTimer < _maxDuration && _stage.IsLastWaveStep && !_stage._areWavesDefeated)
                 {
                     return;
                 }
