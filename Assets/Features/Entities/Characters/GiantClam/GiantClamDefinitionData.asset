@@ -15,11 +15,12 @@ MonoBehaviour:
   _nameTerm: 0
   _descriptionTerm: 0
   _sprite: {fileID: 0}
-  _rarity: 2
+  _rarity: 3
   _id: 106
   _health: 1
   _isDamageable: 0
   _alliance: 1
+  _surfaceType: 0
   _dropTables:
   - {fileID: 11400000, guid: 1ba9f51cf8b435e48a36b349638ab4e9, type: 2}
   _entityDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}
@@ -27,3 +28,5 @@ MonoBehaviour:
   _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
   _iInteractableSettings: {fileID: 11400000, guid: 8a60672d68d681246ba117147f585e0c, type: 2}
   _inventoryLayout: {fileID: 11400000, guid: 22c1353f09ee52f44bed489a5d85730e, type: 2}
+  _awaitItemsSettings:
+    _duration: 20

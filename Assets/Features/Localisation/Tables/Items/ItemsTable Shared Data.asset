@@ -103,6 +103,14 @@ MonoBehaviour:
     m_Key: items.shellFragmentDescription
     m_Metadata:
       m_Items: []
+  - m_Id: 37710964537520128
+    m_Key: items.pearlName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37710964566880256
+    m_Key: items.pearlDescription
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

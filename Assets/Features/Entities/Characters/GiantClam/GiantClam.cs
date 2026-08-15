@@ -12,6 +12,8 @@ using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
 using UnityEngine;
+using NoMoreFishAndChips.Items;
+using System.Threading.Tasks;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -247,6 +249,11 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
+                if (Random.value < 0.25f)
+                {
+                    _ = AddPearlAsync();
+                }
+                
                 _stateMachine.ChangeState(EState.SpawnLaunch);
             }
 
@@ -254,6 +261,16 @@ namespace NoMoreFishAndChips.Entities
 
             _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
             _netExplodeBlend.onChanged += HandleNetExplodeBlendChanged;
+        }
+
+        private async Task AddPearlAsync()
+        {
+            while (!_inventory.IsReady)
+            {
+                await Task.Yield();
+            }
+
+            _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Pearl, Count = 1 }, false, out _, out _, out _);
         }
 
         public override void InitialiseContext(GameplayContext context)

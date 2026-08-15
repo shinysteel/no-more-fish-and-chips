@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1411205394435
-    m_Localized: Un mezzo per lanciare il pesce
+    m_Localized: Un mezzo per lanciare i pesci
     m_Metadata:
       m_Items: []
   - m_Id: 1411205394436
@@ -104,6 +104,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 20673045960421376
     m_Localized: I resti di una vongola rotta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37710964537520128
+    m_Localized: Perla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 37710964566880256
+    m_Localized: Un tesoro luccicante da una vongola gigante
     m_Metadata:
       m_Items: []
   references:
