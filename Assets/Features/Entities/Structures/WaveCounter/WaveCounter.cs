@@ -82,7 +82,7 @@ namespace NoMoreFishAndChips.Entities
             Quaternion rotation = transform.rotation;
 
             _sequence = Sequence.Create()
-                .Group(Tween.LocalPositionY(transform, endValue: y + 0.25f, duration: 0.5f, ease: Ease.OutQuad))
+                .Chain(Tween.LocalPositionY(transform, endValue: y + 0.25f, duration: 0.5f, ease: Ease.OutQuad))
                 .Group(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.5f, onValueChange: (float value) =>
                 {
                     transform.rotation = rotation * Quaternion.AngleAxis(value * 360f, Vector3.up);

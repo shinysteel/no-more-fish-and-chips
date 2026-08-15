@@ -284,10 +284,10 @@ namespace NoMoreFishAndChips.Entities
             {
                 _shark._entityModel.Animator.SetBool(IsBitingBoolName, false);
 
-                _goToSwimStateSequence = Sequence.Create();
-                _goToSwimStateSequence.Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration));
-                _goToSwimStateSequence.Group(TweenExtensions.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: Ease.OutQuad));
-                _goToSwimStateSequence.OnComplete(() => _parentStateMachine.ChangeState(EState.Swim));
+                _goToSwimStateSequence = Sequence.Create()
+                    .Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration))
+                    .Group(TweenExtensions.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: Ease.OutQuad))
+                    .ChainCallback(() => _parentStateMachine.ChangeState(EState.Swim));
             }
 
             private void RemoveMarker()

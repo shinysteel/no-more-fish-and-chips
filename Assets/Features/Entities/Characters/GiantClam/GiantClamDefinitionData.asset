@@ -30,3 +30,5 @@ MonoBehaviour:
   _inventoryLayout: {fileID: 11400000, guid: 22c1353f09ee52f44bed489a5d85730e, type: 2}
   _awaitItemsSettings:
     _duration: 20
+  _emptyRageSettings:
+    _hitboxData: {fileID: 11400000, guid: 09a94ad83eff0754eb83bcdada935ae2, type: 2}

@@ -38,7 +38,7 @@ namespace NoMoreFishAndChips.Entities
             Sequence.Create()
                 .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.75f, onValueChange: (float value) =>
                 {
-                    _clam.SetNetExplodedBlend(value);
+                    _clam.SetNetExplodeBlend(value);
                     _clam.transform.position = Vector3.Lerp(startPosition, endPosition, value);
                     _clam.transform.rotation = startRotation * Quaternion.AngleAxis(value * 360f, Vector3.up);
                 })

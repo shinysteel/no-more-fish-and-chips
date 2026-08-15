@@ -40,6 +40,7 @@ namespace NoMoreFishAndChips.Entities
         private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
 
         private SyncVar<bool> _netCanOpenInventory = new SyncVar<bool>(ownerAuth: true);
+        private SyncVar<float> _netRageBlend = new SyncVar<float>(ownerAuth: true);
         private SyncVar<float> _netExplodeBlend = new SyncVar<float>(ownerAuth: true);
 
         private StateAnimationEvents _closedStateAnimationEvents;
@@ -47,8 +48,9 @@ namespace NoMoreFishAndChips.Entities
 
         public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
 
+        private const string RageBlendName = "_RageBlend";
         private const string ExplodeBlendName = "_ExplodeBlend";
-
+        
         private const string BaseLayerName = "Base Layer";
 
         private const string ClosedStateName = BaseLayerName + ".Closed";
@@ -103,7 +105,7 @@ namespace NoMoreFishAndChips.Entities
                 Vector3 endPosition = _clam._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell);
 
                 Sequence.Create()
-                    .Group(Tween.PositionY(_clam.transform, startValue: -1f, endValue: 1f, duration: 0.5f))
+                    .Chain(Tween.PositionY(_clam.transform, startValue: -1f, endValue: 1f, duration: 0.5f))
                     .Group(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.5f, ease: Ease.OutSine, onValueChange: (float value) =>
                     {
                         Vector3 position = Vector3.Lerp(startPosition, endPosition, value);
@@ -190,9 +192,19 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                // tween a rage
-                // jump, then slam down on the tile
-                // deal x damage to the tile. if the tile is destroyed, keep going into the water
+                Quaternion rotation = _clam.transform.rotation;
+
+                Sequence.Create()
+                    .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.5f, (float value) =>
+                    {
+                        _clam.SetNetRageBlend(value);
+                        _clam.transform.rotation = rotation * Quaternion.AngleAxis(25f * Mathf.Sin(2f * Mathf.PI * value), Vector3.up);
+                    }))
+                    .Chain(Tween.PositionY(_clam.transform, endValue: _clam.transform.position.y + 1f, duration: 0.5f))
+                    .Group(TweenExtensions.Rotation(_clam.transform, endValue: _clam.transform.rotation * Quaternion.AngleAxis(-180f, Vector3.right), duration: 0.5f, ease: Ease.OutQuad))
+                    .Chain(Tween.PositionY(_clam.transform, endValue: 0.125f, duration: 0.25f))
+                    .ChainCallback(() => _clam._hitboxManager.SpawnHitbox(_clam.DefinitionData.EmptyRageSettings.HitboxData, new SpawnParams() { Position = _clam.transform.position }))
+                    .ChainCallback(() => _clam._entityManager.Despawn(_clam));
             }
         }
 
@@ -258,7 +270,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                if (Random.value < 1f)
+                if (Random.value < 0.25f)
                 {
                     _ = AddPearlAsync();
                 }
@@ -269,6 +281,11 @@ namespace NoMoreFishAndChips.Entities
             EntityDefeatLogic.OnIsDefeatedChanged += HandleIsDefeatedChanged;
 
             _netCanOpenInventory.onChanged += HandleNetCanOpenInventoryChanged;
+
+            HandleNetRageBlendChanged(_netRageBlend.value);
+            _netRageBlend.onChanged += HandleNetRageBlendChanged;
+
+            HandleNetExplodeBlendChanged(_netExplodeBlend.value);
             _netExplodeBlend.onChanged += HandleNetExplodeBlendChanged;
         }
 
@@ -287,6 +304,7 @@ namespace NoMoreFishAndChips.Entities
             EntityDefeatLogic.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
 
             _netCanOpenInventory.onChanged -= HandleNetCanOpenInventoryChanged;
+            _netRageBlend.onChanged -= HandleNetRageBlendChanged;
             _netExplodeBlend.onChanged -= HandleNetExplodeBlendChanged;
 
             if (_pearlItemModel != null)
@@ -349,7 +367,17 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void SetNetExplodedBlend(float blend)
+        public void SetNetRageBlend(float blend)
+        {
+            _netRageBlend.value = blend;
+        }
+
+        private void HandleNetRageBlendChanged(float blend)
+        {
+            _entityModel.Material.SetFloat(RageBlendName, blend);
+        }
+
+        public void SetNetExplodeBlend(float blend)
         {
             _netExplodeBlend.value = blend;
         }
