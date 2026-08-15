@@ -73,8 +73,6 @@ namespace NoMoreFishAndChips.Entities
 
         protected override void OnDespawned()
         {
-            Log.Info($"despawning tile at cell {_netCell.value}");
-
             EntityHealthLogic.OnChanged -= HandleHealthChanged;
 
             _netCell.onChanged -= HandleNetCellChanged;

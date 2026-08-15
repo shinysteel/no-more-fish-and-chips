@@ -136,7 +136,6 @@ namespace NoMoreFishAndChips.Environments
 
                     foreach (RaftTile tile in tileGroups[i])
                     {
-                        Log.Info($"defeating disconnected tile at cell {tile.Cell}");
                         tile.EntityDefeatLogic.SetIsDefeated(true);
                     }
                 }
