@@ -71,7 +71,14 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _entity.SetNetHealthRpc(health);
+            if (_entity.isOwner)
+            {
+                _netHealth.value = health;
+            }
+            else
+            {
+                _entity.SetNetHealthRpc(_entity.owner.Value, health);
+            }
         }
 
         public void ChangeHealth(int change)

@@ -100,7 +100,14 @@ namespace NoMoreFishAndChips.Entities
 
         public void SetIsDefeated(bool defeated)
         {
-            _entity.SetNetIsDefeated(_entity.owner.Value, defeated);
+            if (_entity.isOwner)
+            {
+                _netIsDefeated.value = defeated;
+            }
+            else
+            {
+                _entity.SetNetIsDefeatedRpc(_entity.owner.Value, defeated);
+            }
         }
 
         public virtual void Despawn()

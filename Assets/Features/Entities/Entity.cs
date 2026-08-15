@@ -121,14 +121,14 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        [ServerRpc]
-        public void SetNetHealthRpc(int health)
+        [TargetRpc]
+        public void SetNetHealthRpc(PlayerID id, int health)
         {
             _netHealth.value = health;
         }
 
         [TargetRpc]
-        public void SetNetIsDefeated(PlayerID id, bool defeated)
+        public void SetNetIsDefeatedRpc(PlayerID id, bool defeated)
         {
             _netIsDefeated.value = defeated;
         }
