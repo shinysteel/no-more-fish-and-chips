@@ -94,7 +94,8 @@ namespace NoMoreFishAndChips.Voyages
 
         private class WaitState : State
         {
-            private float _duration = 3f;
+            private float _minDuration = 3f;
+            private float _maxDuration = 5f;
 
             public WaitState(StateMachine<EState> parent, Stage stage) : base(parent, stage)
             { }
@@ -105,15 +106,20 @@ namespace NoMoreFishAndChips.Voyages
 
                 if (_stage.IsLastWaveStep && _stage.IsLastWave)
                 {
-                    Tween.Delay(_duration, _stage.RefreshAreWavesDefeated);
+                    Tween.Delay(_minDuration, _stage.RefreshAreWavesDefeated);
                 }
             }
 
             public override void Tick()
             {
                 base.Tick();
+                
+                if (_stateTimer < _minDuration)
+                {
+                    return;
+                }
 
-                if (_stateTimer < _duration)
+                if (_stateTimer < _maxDuration && !_stage._areWavesDefeated)
                 {
                     return;
                 }
@@ -194,6 +200,8 @@ namespace NoMoreFishAndChips.Voyages
         {
             _waveStepIndex++;
             _waveStep = _data.Waves[_waveIndex].Steps[_waveStepIndex];
+
+            _areWavesDefeated = false;
         }
 
         public void NextWave()

@@ -23,7 +23,7 @@ MonoBehaviour:
   - _steps:
     - _entityId: 101
       _count: 3
-      _interval: 1
+      _interval: 2
     - _entityId: 106
       _count: 1
       _interval: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
   - _steps:
     - _entityId: 101
       _count: 5
-      _interval: 1
+      _interval: 2
     - _entityId: 106
       _count: 1
       _interval: 0
