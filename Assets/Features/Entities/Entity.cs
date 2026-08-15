@@ -121,8 +121,8 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        [TargetRpc]
-        public void SetNetHealthRpc(PlayerID id, int health)
+        [ServerRpc]
+        public void SetNetHealthRpc(int health)
         {
             _netHealth.value = health;
         }
