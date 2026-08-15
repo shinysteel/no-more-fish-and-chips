@@ -81,30 +81,6 @@ namespace NoMoreFishAndChips.Environments
             OnTileChanged?.Invoke(cell, null, tile);
         }
 
-        public void RemoveTile(Vector2Int cell)
-        {
-            RaftTile tile = _tiles[cell];
-
-            _tiles.Remove(cell);
-
-            if (_tiles.Count > 0)
-            {
-                DefeatDisconnectedTiles();
-            }
-
-            OnTileChanged?.Invoke(cell, tile, null);
-
-            _entityManager.Despawn(tile);
-        }
-
-        public void ClearTiles()
-        {
-            foreach (Vector2Int cell in _tiles.Keys.ToArray())
-            {
-                RemoveTile(cell);
-            }
-        }
-
         void IEntityManagerListener.OnEntitySpawned(Entity entity)
         {
             if (isOwner)
@@ -122,14 +98,14 @@ namespace NoMoreFishAndChips.Environments
 
         void IEntityManagerListener.OnEntityDespawned(Entity entity)
         {
-            if (isOwner)
-            {
-                return;
-            }
-
             if (entity is RaftTile tile)
             {
                 _tiles.Remove(tile.Cell);
+
+                if (isOwner && _tiles.Count > 0)
+                {
+                    DefeatDisconnectedTiles();
+                }
 
                 OnTileChanged?.Invoke(tile.Cell, tile, null);
             }
@@ -160,6 +136,7 @@ namespace NoMoreFishAndChips.Environments
 
                     foreach (RaftTile tile in tileGroups[i])
                     {
+                        Log.Info($"defeating disconnected tile at cell {tile.Cell}");
                         tile.EntityDefeatLogic.SetIsDefeated(true);
                     }
                 }
