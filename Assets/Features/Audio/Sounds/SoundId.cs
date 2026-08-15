@@ -27,6 +27,8 @@ namespace NoMoreFishAndChips.Audio
         HumanFootstepGrass,
         DockBellRing,
         HumanJumpGoop,
-        HumanFootstepGoop
+        HumanFootstepGoop,
+        HumanJumpMetal,
+        HumanFootstepMetal
     }
 }

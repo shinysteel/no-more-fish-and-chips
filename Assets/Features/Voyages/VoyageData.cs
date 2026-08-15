@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Voyages
 {
-    [CreateAssetMenu(fileName = "VoyageData", menuName = "Data/Voyage/VoyageData")]
+    [CreateAssetMenu(fileName = "VoyageData", menuName = "Data/Voyages/VoyageData")]
     public class VoyageData : ScriptableObject
     {
         [SerializeField] private VoyageId _id;

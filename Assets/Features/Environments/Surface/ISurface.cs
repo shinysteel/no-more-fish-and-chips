@@ -8,7 +8,8 @@ namespace NoMoreFishAndChips.Environments
         Wood,
         Sand,
         Grass,
-        Goop
+        Goop,
+        Metal
     }
 
     public interface ISurface
