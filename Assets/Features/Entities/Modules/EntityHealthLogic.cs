@@ -73,7 +73,7 @@ namespace NoMoreFishAndChips.Entities
 
             int previous = _netHealth.value;
 
-            _entity.SetNetHealthRpc(health);
+            _entity.SetNetHealthRpc(_entity.owner.Value, health);
         }
 
         public void ChangeHealth(int change)
