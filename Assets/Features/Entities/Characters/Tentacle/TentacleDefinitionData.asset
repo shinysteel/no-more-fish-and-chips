@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03ce048f8e93b544903920f5ed183c7, type: 3}
+  m_Name: TentacleDefinitionData
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.TentacleDefinitionData
+  _nameTerm: 0
+  _descriptionTerm: 0
+  _sprite: {fileID: 0}
+  _rarity: 3
+  _id: 107
+  _health: 2
+  _isDamageable: 1
+  _alliance: 1
+  _surfaceType: 0
+  _dropTables:
+  - {fileID: 11400000, guid: f96eda0f924d64f42844af266d7d5cbc, type: 2}
+  _entityDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}
+  _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
+  _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
+  _slamHitboxData: {fileID: 11400000, guid: 043fd8627d0acff45ab9ad49baccb5d7, type: 2}

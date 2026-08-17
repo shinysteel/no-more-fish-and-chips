@@ -16,6 +16,7 @@ namespace NoMoreFishAndChips.Entities
         Drowning = 104,
         Crab = 105,
         GiantClam = 106,
+        Tentacle = 107,
 
         // Tiles
         GoopTile = 201,

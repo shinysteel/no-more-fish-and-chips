@@ -17,14 +17,6 @@ MonoBehaviour:
   _sprite: {fileID: 899213345, guid: ff096e7ae8e2bb74196cb8c90c25b06a, type: 3}
   _waves:
   - _steps:
-    - _entityId: 101
-      _count: 1
-      _interval: 0
-  - _steps:
-    - _entityId: 101
-      _count: 1
-      _interval: 0
-  - _steps:
-    - _entityId: 101
-      _count: 1
+    - _entityId: 107
+      _count: 2
       _interval: 0
