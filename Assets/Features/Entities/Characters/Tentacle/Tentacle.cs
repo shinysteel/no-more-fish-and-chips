@@ -97,8 +97,16 @@ namespace NoMoreFishAndChips.Entities
                 _markerId = _tentacle._context.EnvironmentMarker.AddNetMarkedCells(
                     _tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward),
                     _tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward * 2f));
+            }
 
-                Tween.Delay(_chargeDuration, () => _tentacle.CharacterModel.SetTrigger(SlamTriggerName));
+            public override void Tick()
+            {
+                if (_stateTimer < _chargeDuration && _stateTimer + Time.deltaTime >= _chargeDuration)
+                {
+                    _tentacle.CharacterModel.SetTrigger(SlamTriggerName);
+                }
+
+                base.Tick();
             }
 
             public override void Exit()
