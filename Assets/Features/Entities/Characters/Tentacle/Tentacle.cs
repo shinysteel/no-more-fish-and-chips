@@ -16,7 +16,9 @@ namespace NoMoreFishAndChips.Entities
         private const string BaseLayerName = "Base Layer";
 
         private const string IsChargingBoolName = "IsCharging";
+
         private const string SlamTriggerName = "Slam";
+        private const string RetreatTriggerName = "Retreat";
 
         private const string SlamImpactStateName = BaseLayerName + ".Slam.Impact";
 
@@ -25,7 +27,8 @@ namespace NoMoreFishAndChips.Entities
             None,
             Surface,
             Idle,
-            Slam
+            Slam,
+            Retreat
         }
 
         private abstract class State : State<EState, ENone>
@@ -63,10 +66,17 @@ namespace NoMoreFishAndChips.Entities
 
         private class IdleState : State
         {
-            private float _duration = 4f;
+            private float _duration = 3f;
 
             public IdleState(StateMachine<EState> parent, Tentacle tentacle) : base(parent, tentacle)
             { }
+
+            public override void Enter()
+            {
+                base.Enter();
+
+                TryRetreat();
+            }
 
             public override void Tick()
             {
@@ -74,14 +84,31 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_stateTimer >= _duration)
                 {
-                    _parentStateMachine.ChangeState(EState.Slam);
+                    if (!TryRetreat())
+                    {
+                        _parentStateMachine.ChangeState(EState.Slam);
+                    }
+                }
+            }
+
+            private bool TryRetreat()
+            {
+                if (_tentacle._context.Raft.Tiles.ContainsKey(_tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward))
+                    || _tentacle._context.Raft.Tiles.ContainsKey(_tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward * 2f)))
+                {
+                    return false;
+                }
+                else
+                {
+                    _parentStateMachine.ChangeState(EState.Retreat);
+                    return true;
                 }
             }
         }
 
         private class SlamState : State
         {
-            private float _chargeDuration = 4f;
+            private float _chargeDuration = 3f;
             private int? _markerId;
 
             public SlamState(StateMachine<EState> parent, Tentacle tentacle) : base(parent, tentacle)
@@ -133,6 +160,20 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        private class RetreatState : State
+        {
+            public RetreatState(StateMachine<EState> parent, Tentacle tentacle) : base(parent, tentacle)
+            { }
+
+            public override void Enter()
+            {
+                _tentacle.CharacterModel.SetTrigger(RetreatTriggerName);
+
+                Tween.PositionY(_tentacle.transform, endValue: -3f, duration: 1f, ease: Ease.InBack)
+                    .OnComplete(() => _tentacle._entityManager.Despawn(_tentacle));
+            }
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -160,10 +201,12 @@ namespace NoMoreFishAndChips.Entities
             SurfaceState surfaceState = new SurfaceState(_stateMachine, this);
             IdleState idleState = new IdleState(_stateMachine, this);
             SlamState slamState = new SlamState(_stateMachine, this);
-
+            RetreatState retreatState = new RetreatState(_stateMachine, this);
+            
             _stateMachine.AddState(EState.Surface, surfaceState);
             _stateMachine.AddState(EState.Idle, idleState);
             _stateMachine.AddState(EState.Slam, slamState);
+            _stateMachine.AddState(EState.Retreat, retreatState);
         }
 
         protected override void OnDestroy()

@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2026
 		Month: 8
-		Day: 18
-		Hour: 12
-		Minute: 28
-		Second: 35
-		Millisecond: 194
+		Day: 19
+		Hour: 13
+		Minute: 44
+		Second: 42
+		Millisecond: 149
 	}
 	Creator: "Blockbench 5.1.6"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-08-18 02:28:35:194"
+CreationTime: "2026-08-19 03:44:42:149"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1911279117 {
+	Document: 1528120289 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -98,7 +98,7 @@ References:
 
 Definitions:  {
 	Version: 100
-	Count: 139
+	Count: 165
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -263,7 +263,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationStack" {
-		Count: 4
+		Count: 5
 		PropertyTemplate: "FbxAnimStack" {
 			Properties70:  {
 				P: "Description", "KString", "", "", ""
@@ -275,7 +275,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationLayer" {
-		Count: 4
+		Count: 5
 		PropertyTemplate: "FbxAnimLayer" {
 			Properties70:  {
 				P: "Weight", "Number", "", "A",100
@@ -291,7 +291,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationCurveNode" {
-		Count: 26
+		Count: 32
 		PropertyTemplate: "FbxAnimCurveNode" {
 			Properties70:  {
 				P: "d", "Compound", "", ""
@@ -299,7 +299,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "AnimationCurve" {
-		Count: 78
+		Count: 96
 	}
 }
 
@@ -307,7 +307,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 73450477, "Model::tentacle", "Null" {
+	Model: 75018445, "Model::tentacle", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -321,7 +321,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 77203014, "Model::body", "Null" {
+	Model: 70974520, "Model::body", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -335,7 +335,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76980809, "Model::segment2", "Null" {
+	Model: 74211720, "Model::segment2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -349,7 +349,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75757903, "Model::segment3", "Null" {
+	Model: 77010414, "Model::segment3", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74784378, "Model::segment4", "Null" {
+	Model: 77286391, "Model::segment4", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -377,7 +377,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70452214, "Model::segment5", "Null" {
+	Model: 77768960, "Model::segment5", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -391,7 +391,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79767234, "Model::segment6", "Null" {
+	Model: 75327328, "Model::segment6", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -405,7 +405,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76308877, "Model::segment7", "Null" {
+	Model: 70376867, "Model::segment7", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -419,7 +419,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75941616, "Model::segment", "Null" {
+	Model: 75634540, "Model::segment", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -433,7 +433,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 73012556, "Model::segment3_1", "Mesh" {
+	Model: 79930623, "Model::segment3_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -448,7 +448,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70563796, "Geometry::segment3_1", "Mesh" {
+	Geometry: 71222609, "Geometry::segment3_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,31.25,15.625,18.75,31.25,-18.75,18.75,-6.25,15.625,18.75,-6.25,-18.75,-15.625,31.25,-18.75,-15.625,31.25,15.625,-15.625,-6.25,-18.75,-15.625,-6.25,15.625
 		}
@@ -499,7 +499,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78309168, "Model::segment2_1", "Mesh" {
+	Model: 76545811, "Model::segment2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -514,7 +514,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71033597, "Geometry::segment2_1", "Mesh" {
+	Geometry: 70298670, "Geometry::segment2_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,31.25,18.75,18.75,31.25,-18.75,18.75,-6.25,18.75,18.75,-6.25,-18.75,-18.75,31.25,-18.75,-18.75,31.25,18.75,-18.75,-6.25,-18.75,-18.75,-6.25,18.75
 		}
@@ -565,7 +565,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79125721, "Model::segment4_1", "Mesh" {
+	Model: 75375415, "Model::segment4_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -580,7 +580,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78502863, "Geometry::segment4_1", "Mesh" {
+	Geometry: 71862073, "Geometry::segment4_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,31.25,12.5,18.75,31.25,-18.75,18.75,-6.25,12.5,18.75,-6.25,-18.75,-12.5,31.25,-18.75,-12.5,31.25,12.5,-12.5,-6.25,-18.75,-12.5,-6.25,12.5
 		}
@@ -631,7 +631,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72187541, "Model::segment5_1", "Mesh" {
+	Model: 72657806, "Model::segment5_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -646,7 +646,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72623918, "Geometry::segment5_1", "Mesh" {
+	Geometry: 76748018, "Geometry::segment5_1", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,31.25,9.375,15.625,31.25,-15.625,15.625,-6.25,9.375,15.625,-6.25,-15.625,-9.375,31.25,-15.625,-9.375,31.25,9.375,-9.375,-6.25,-15.625,-9.375,-6.25,9.375
 		}
@@ -697,7 +697,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70308720, "Model::segment6_1", "Mesh" {
+	Model: 75756596, "Model::segment6_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -712,7 +712,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75544625, "Geometry::segment6_1", "Mesh" {
+	Geometry: 78906308, "Geometry::segment6_1", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,31.25,6.25,12.5,31.25,-12.5,12.5,-6.25,6.25,12.5,-6.25,-12.5,-6.25,31.25,-12.5,-6.25,31.25,6.25,-6.25,-6.25,-12.5,-6.25,-6.25,6.25
 		}
@@ -763,7 +763,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78878957, "Model::segment7_1", "Mesh" {
+	Model: 70151155, "Model::segment7_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -778,7 +778,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73886917, "Geometry::segment7_1", "Mesh" {
+	Geometry: 73399003, "Geometry::segment7_1", "Mesh" {
 		Vertices: *24 {
 			a: 9.375,37.5,3.125,9.375,37.5,-9.375,9.375,-6.25,3.125,9.375,-6.25,-9.375,-3.125,37.5,-9.375,-3.125,37.5,3.125,-3.125,-6.25,-9.375,-3.125,-6.25,3.125
 		}
@@ -829,7 +829,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72728395, "Model::segment_1", "Mesh" {
+	Model: 73532741, "Model::segment_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -844,7 +844,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74721184, "Geometry::segment_1", "Mesh" {
+	Geometry: 78391506, "Geometry::segment_1", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,6.25,18.75,21.875,6.25,-21.875,21.875,-25,18.75,21.875,-25,-21.875,-18.75,6.25,-21.875,-18.75,6.25,18.75,-18.75,-25,-21.875,-18.75,-25,18.75
 		}
@@ -895,7 +895,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 71992125, "Material::Tentacle.png", "" {
+	Material: 76888205, "Material::Tentacle.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -906,7 +906,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 78462670, "Texture::Tentacle.png", "" {
+	Texture: 76694528, "Texture::Tentacle.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::Tentacle.png"
@@ -918,7 +918,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 75062117, "Video::Tentacle.png", "Clip" {
+	Video: 78246512, "Video::Tentacle.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\Tentacle\Tentacle.png"
@@ -927,22 +927,22 @@ Objects:  {
 		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\Tentacle\Tentacle.png"
 		RelativeFilename: "Tentacle.png"
 	}
-	AnimationStack: 70967231, "AnimStack::Tentacle_Idle", "" {
+	AnimationStack: 79006383, "AnimStack::Tentacle_Idle", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",92372316000
 			P: "ReferenceStop", "KTime", "Time", "",92372316000
 		}
 	}
-	AnimationLayer: 75098802, "AnimLayer::Tentacle_Idle", "" {
+	AnimationLayer: 78795793, "AnimLayer::Tentacle_Idle", "" {
 	}
-	AnimationCurveNode: 73679965, "AnimCurveNode::Tentacle_Idle.R", "" {
+	AnimationCurveNode: 77797144, "AnimCurveNode::Tentacle_Idle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76841648, "AnimCurve::Tentacle_Idle.RX", "" {
+	AnimationCurve: 75143632, "AnimCurve::Tentacle_Idle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -961,7 +961,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 74005603, "AnimCurve::Tentacle_Idle.RY", "" {
+	AnimationCurve: 74982339, "AnimCurve::Tentacle_Idle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -980,7 +980,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 76381136, "AnimCurve::Tentacle_Idle.RZ", "" {
+	AnimationCurve: 71115728, "AnimCurve::Tentacle_Idle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -999,14 +999,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 74246152, "AnimCurveNode::Tentacle_Idle.R", "" {
+	AnimationCurveNode: 76967424, "AnimCurveNode::Tentacle_Idle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72929894, "AnimCurve::Tentacle_Idle.RX", "" {
+	AnimationCurve: 74429864, "AnimCurve::Tentacle_Idle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1025,7 +1025,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 71021664, "AnimCurve::Tentacle_Idle.RY", "" {
+	AnimationCurve: 74799440, "AnimCurve::Tentacle_Idle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1044,7 +1044,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 77673999, "AnimCurve::Tentacle_Idle.RZ", "" {
+	AnimationCurve: 74433816, "AnimCurve::Tentacle_Idle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1063,14 +1063,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 79503747, "AnimCurveNode::Tentacle_Idle.R", "" {
+	AnimationCurveNode: 73131424, "AnimCurveNode::Tentacle_Idle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72638868, "AnimCurve::Tentacle_Idle.RX", "" {
+	AnimationCurve: 70153635, "AnimCurve::Tentacle_Idle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1089,7 +1089,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 75968351, "AnimCurve::Tentacle_Idle.RY", "" {
+	AnimationCurve: 78219930, "AnimCurve::Tentacle_Idle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1108,7 +1108,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 76937419, "AnimCurve::Tentacle_Idle.RZ", "" {
+	AnimationCurve: 76998339, "AnimCurve::Tentacle_Idle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1127,14 +1127,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 76478709, "AnimCurveNode::Tentacle_Idle.R", "" {
+	AnimationCurveNode: 79024204, "AnimCurveNode::Tentacle_Idle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72632923, "AnimCurve::Tentacle_Idle.RX", "" {
+	AnimationCurve: 77304293, "AnimCurve::Tentacle_Idle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1153,7 +1153,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 74844286, "AnimCurve::Tentacle_Idle.RY", "" {
+	AnimationCurve: 73896855, "AnimCurve::Tentacle_Idle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1172,7 +1172,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 79627700, "AnimCurve::Tentacle_Idle.RZ", "" {
+	AnimationCurve: 74613038, "AnimCurve::Tentacle_Idle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1191,14 +1191,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 74983814, "AnimCurveNode::Tentacle_Idle.R", "" {
+	AnimationCurveNode: 71479861, "AnimCurveNode::Tentacle_Idle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72246506, "AnimCurve::Tentacle_Idle.RX", "" {
+	AnimationCurve: 79822958, "AnimCurve::Tentacle_Idle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1217,7 +1217,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 71508148, "AnimCurve::Tentacle_Idle.RY", "" {
+	AnimationCurve: 74920647, "AnimCurve::Tentacle_Idle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1236,7 +1236,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 71976641, "AnimCurve::Tentacle_Idle.RZ", "" {
+	AnimationCurve: 77662462, "AnimCurve::Tentacle_Idle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1255,14 +1255,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 72210983, "AnimCurveNode::Tentacle_Idle.R", "" {
+	AnimationCurveNode: 72973385, "AnimCurveNode::Tentacle_Idle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78946526, "AnimCurve::Tentacle_Idle.RX", "" {
+	AnimationCurve: 72585765, "AnimCurve::Tentacle_Idle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1281,7 +1281,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 70281779, "AnimCurve::Tentacle_Idle.RY", "" {
+	AnimationCurve: 78145852, "AnimCurve::Tentacle_Idle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1300,7 +1300,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 79578376, "AnimCurve::Tentacle_Idle.RZ", "" {
+	AnimationCurve: 75108201, "AnimCurve::Tentacle_Idle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1319,22 +1319,22 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationStack: 74717378, "AnimStack::Tentacle_SlamCharge", "" {
+	AnimationStack: 73591370, "AnimStack::Tentacle_SlamCharge", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",92372316000
 			P: "ReferenceStop", "KTime", "Time", "",92372316000
 		}
 	}
-	AnimationLayer: 75208020, "AnimLayer::Tentacle_SlamCharge", "" {
+	AnimationLayer: 71609041, "AnimLayer::Tentacle_SlamCharge", "" {
 	}
-	AnimationCurveNode: 79082332, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
+	AnimationCurveNode: 76412467, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78375347, "AnimCurve::Tentacle_SlamCharge.RX", "" {
+	AnimationCurve: 76629920, "AnimCurve::Tentacle_SlamCharge.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1353,7 +1353,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 78556954, "AnimCurve::Tentacle_SlamCharge.RY", "" {
+	AnimationCurve: 70476020, "AnimCurve::Tentacle_SlamCharge.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1372,7 +1372,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 75869903, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
+	AnimationCurve: 75246757, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1391,14 +1391,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 78452159, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
+	AnimationCurveNode: 74173787, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77980410, "AnimCurve::Tentacle_SlamCharge.RX", "" {
+	AnimationCurve: 75344745, "AnimCurve::Tentacle_SlamCharge.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1417,7 +1417,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 74982966, "AnimCurve::Tentacle_SlamCharge.RY", "" {
+	AnimationCurve: 74729783, "AnimCurve::Tentacle_SlamCharge.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1436,7 +1436,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 78850770, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
+	AnimationCurve: 70575742, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1455,14 +1455,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 75913115, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
+	AnimationCurveNode: 73176630, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70710747, "AnimCurve::Tentacle_SlamCharge.RX", "" {
+	AnimationCurve: 79091997, "AnimCurve::Tentacle_SlamCharge.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1481,7 +1481,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 73202281, "AnimCurve::Tentacle_SlamCharge.RY", "" {
+	AnimationCurve: 70406798, "AnimCurve::Tentacle_SlamCharge.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1500,7 +1500,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 72686494, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
+	AnimationCurve: 78905021, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1519,14 +1519,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 71453680, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
+	AnimationCurveNode: 71752787, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79253448, "AnimCurve::Tentacle_SlamCharge.RX", "" {
+	AnimationCurve: 71097692, "AnimCurve::Tentacle_SlamCharge.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1545,7 +1545,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 75768450, "AnimCurve::Tentacle_SlamCharge.RY", "" {
+	AnimationCurve: 74217483, "AnimCurve::Tentacle_SlamCharge.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1564,7 +1564,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 73730878, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
+	AnimationCurve: 74332220, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1583,14 +1583,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 78602614, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
+	AnimationCurveNode: 78310178, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76908633, "AnimCurve::Tentacle_SlamCharge.RX", "" {
+	AnimationCurve: 75890608, "AnimCurve::Tentacle_SlamCharge.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1609,7 +1609,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 74676567, "AnimCurve::Tentacle_SlamCharge.RY", "" {
+	AnimationCurve: 79378315, "AnimCurve::Tentacle_SlamCharge.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1628,7 +1628,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 77521612, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
+	AnimationCurve: 79021068, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1647,14 +1647,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 74636514, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
+	AnimationCurveNode: 76591497, "AnimCurveNode::Tentacle_SlamCharge.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76080044, "AnimCurve::Tentacle_SlamCharge.RX", "" {
+	AnimationCurve: 75404753, "AnimCurve::Tentacle_SlamCharge.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1673,7 +1673,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 77550681, "AnimCurve::Tentacle_SlamCharge.RY", "" {
+	AnimationCurve: 78477281, "AnimCurve::Tentacle_SlamCharge.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1692,7 +1692,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 78522528, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
+	AnimationCurve: 70009707, "AnimCurve::Tentacle_SlamCharge.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -1711,22 +1711,22 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationStack: 75346262, "AnimStack::Tentacle_SlamImpact", "" {
+	AnimationStack: 77671882, "AnimStack::Tentacle_SlamImpact", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",48110735204
 			P: "ReferenceStop", "KTime", "Time", "",48110735204
 		}
 	}
-	AnimationLayer: 79983843, "AnimLayer::Tentacle_SlamImpact", "" {
+	AnimationLayer: 79536298, "AnimLayer::Tentacle_SlamImpact", "" {
 	}
-	AnimationCurveNode: 72454306, "AnimCurveNode::Tentacle_SlamImpact.P", "" {
+	AnimationCurveNode: 72205439, "AnimCurveNode::Tentacle_SlamImpact.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70415693, "AnimCurve::Tentacle_SlamImpact.PX", "" {
+	AnimationCurve: 75716398, "AnimCurve::Tentacle_SlamImpact.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -1745,7 +1745,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 77450841, "AnimCurve::Tentacle_SlamImpact.PY", "" {
+	AnimationCurve: 75131884, "AnimCurve::Tentacle_SlamImpact.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -1764,7 +1764,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 71705017, "AnimCurve::Tentacle_SlamImpact.PZ", "" {
+	AnimationCurve: 77418321, "AnimCurve::Tentacle_SlamImpact.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -1783,14 +1783,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 78050234, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
+	AnimationCurveNode: 79517214, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71103111, "AnimCurve::Tentacle_SlamImpact.RX", "" {
+	AnimationCurve: 71823261, "AnimCurve::Tentacle_SlamImpact.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1809,7 +1809,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 77514786, "AnimCurve::Tentacle_SlamImpact.RY", "" {
+	AnimationCurve: 70222476, "AnimCurve::Tentacle_SlamImpact.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1828,7 +1828,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 70233160, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
+	AnimationCurve: 74200208, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1847,14 +1847,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 74846188, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
+	AnimationCurveNode: 70424927, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70976855, "AnimCurve::Tentacle_SlamImpact.RX", "" {
+	AnimationCurve: 72503515, "AnimCurve::Tentacle_SlamImpact.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1873,7 +1873,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 74453707, "AnimCurve::Tentacle_SlamImpact.RY", "" {
+	AnimationCurve: 75095125, "AnimCurve::Tentacle_SlamImpact.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1892,7 +1892,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 70641014, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
+	AnimationCurve: 76658221, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1911,14 +1911,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 71796645, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
+	AnimationCurveNode: 70255746, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77572096, "AnimCurve::Tentacle_SlamImpact.RX", "" {
+	AnimationCurve: 76845944, "AnimCurve::Tentacle_SlamImpact.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1937,7 +1937,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 73802726, "AnimCurve::Tentacle_SlamImpact.RY", "" {
+	AnimationCurve: 79990990, "AnimCurve::Tentacle_SlamImpact.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1956,7 +1956,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 77322457, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
+	AnimationCurve: 71392939, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -1975,14 +1975,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 79038546, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
+	AnimationCurveNode: 71624839, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70665483, "AnimCurve::Tentacle_SlamImpact.RX", "" {
+	AnimationCurve: 71515419, "AnimCurve::Tentacle_SlamImpact.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2001,7 +2001,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 72602148, "AnimCurve::Tentacle_SlamImpact.RY", "" {
+	AnimationCurve: 79863283, "AnimCurve::Tentacle_SlamImpact.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2020,7 +2020,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 74536383, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
+	AnimationCurve: 76138986, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2039,14 +2039,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 73108827, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
+	AnimationCurveNode: 70447093, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76217631, "AnimCurve::Tentacle_SlamImpact.RX", "" {
+	AnimationCurve: 76535249, "AnimCurve::Tentacle_SlamImpact.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2065,7 +2065,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 76412761, "AnimCurve::Tentacle_SlamImpact.RY", "" {
+	AnimationCurve: 78044748, "AnimCurve::Tentacle_SlamImpact.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2084,7 +2084,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 79523829, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
+	AnimationCurve: 73951236, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2103,14 +2103,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 79126649, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
+	AnimationCurveNode: 72085872, "AnimCurveNode::Tentacle_SlamImpact.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77902898, "AnimCurve::Tentacle_SlamImpact.RX", "" {
+	AnimationCurve: 78329270, "AnimCurve::Tentacle_SlamImpact.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2129,7 +2129,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 79943939, "AnimCurve::Tentacle_SlamImpact.RY", "" {
+	AnimationCurve: 70814388, "AnimCurve::Tentacle_SlamImpact.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2148,7 +2148,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 73419332, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
+	AnimationCurve: 77048531, "AnimCurve::Tentacle_SlamImpact.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2167,29 +2167,29 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationStack: 77553153, "AnimStack::Tentacle_Hurt", "" {
+	AnimationStack: 72734833, "AnimStack::Tentacle_Hurt", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",23093079000
 			P: "ReferenceStop", "KTime", "Time", "",23093079000
 		}
 	}
-	AnimationLayer: 71901513, "AnimLayer::Tentacle_Hurt", "" {
+	AnimationLayer: 70231774, "AnimLayer::Tentacle_Hurt", "" {
 	}
-	AnimationCurveNode: 74177635, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurveNode: 71019040, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75777495, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 72838102, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,-6.729970932006836,-8.429826736450195,-9.268649101257324,-9.937387466430664,-10,-9.504298210144043,-8.615058898925781,-6.523552894592285,0
+			a: 0,-6.729896068572998,-8.42980670928955,-9.26864242553711,-9.937387466430664,-10,-9.504298210144043,-8.615058898925781,-6.523552894592285,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2201,26 +2201,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 78301536, "AnimCurve::Tentacle_Hurt.RY", "" {
-		Default: 0
-		KeyVer: 4008
-		KeyTime: *10 {
-			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
-		}
-		KeyValueFloat: *10 {
-			a: 0,0,0,0,0,0,0,0,0,0
-		}
-		KeyAttrFlags: *1 {
-			a: 24836
-		}
-		KeyAttrDataFloat: *4 {
-			a: 0,0,255790911,0
-		}
-		KeyAttrRefCount: *1 {
-			a: 10
-		}
-	}
-	AnimationCurve: 79253919, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 79535248, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2239,21 +2220,40 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 74741735, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurve: 77744970, "AnimCurve::Tentacle_Hurt.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *10 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
+		}
+		KeyValueFloat: *10 {
+			a: 0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 10
+		}
+	}
+	AnimationCurveNode: 72427099, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77896155, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 72958758, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,-6.282931327819824,-8.381881713867188,-9.297348976135254,-9.945326805114746,-10,-9.207560539245605,-7.7554426193237305,-4.572462558746338,0
+			a: 0,-6.282932758331299,-8.381881713867188,-9.29734992980957,-9.945326805114746,-10,-9.207560539245605,-7.7554426193237305,-4.572462558746338,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2265,26 +2265,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 70102651, "AnimCurve::Tentacle_Hurt.RY", "" {
-		Default: 0
-		KeyVer: 4008
-		KeyTime: *10 {
-			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
-		}
-		KeyValueFloat: *10 {
-			a: 0,0,0,0,0,0,0,0,0,0
-		}
-		KeyAttrFlags: *1 {
-			a: 24836
-		}
-		KeyAttrDataFloat: *4 {
-			a: 0,0,255790911,0
-		}
-		KeyAttrRefCount: *1 {
-			a: 10
-		}
-	}
-	AnimationCurve: 79511848, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 70131361, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2303,21 +2284,40 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 73358537, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurve: 76069344, "AnimCurve::Tentacle_Hurt.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *10 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
+		}
+		KeyValueFloat: *10 {
+			a: 0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 10
+		}
+	}
+	AnimationCurveNode: 79588193, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73411802, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 74348109, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,-5.987512111663818,-8.124459266662598,-9.140827178955078,-9.927895545959473,-10,-9.36963176727295,-8.217429161071777,-5.493358135223389,0
+			a: 0,-5.987314224243164,-8.12437915802002,-9.14079475402832,-9.927892684936523,-10,-9.369611740112305,-8.217371940612793,-5.493222236633301,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2329,26 +2329,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 73275352, "AnimCurve::Tentacle_Hurt.RY", "" {
-		Default: 0
-		KeyVer: 4008
-		KeyTime: *10 {
-			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
-		}
-		KeyValueFloat: *10 {
-			a: 0,0,0,0,0,0,0,0,0,0
-		}
-		KeyAttrFlags: *1 {
-			a: 24836
-		}
-		KeyAttrDataFloat: *4 {
-			a: 0,0,255790911,0
-		}
-		KeyAttrRefCount: *1 {
-			a: 10
-		}
-	}
-	AnimationCurve: 77911968, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 70057238, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2367,21 +2348,40 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 73933432, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurve: 74213849, "AnimCurve::Tentacle_Hurt.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *10 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
+		}
+		KeyValueFloat: *10 {
+			a: 0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 10
+		}
+	}
+	AnimationCurveNode: 72607638, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72619030, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 78203481, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,-7.36378812789917,-9.136956214904785,-9.666244506835938,-9.977187156677246,-10,-9.504298210144043,-8.615058898925781,-6.523552894592285,0
+			a: 0,-7.363789081573486,-9.136956214904785,-9.666244506835938,-9.977187156677246,-10,-9.504298210144043,-8.615058898925781,-6.523552894592285,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2393,26 +2393,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 72101469, "AnimCurve::Tentacle_Hurt.RY", "" {
-		Default: 0
-		KeyVer: 4008
-		KeyTime: *10 {
-			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
-		}
-		KeyValueFloat: *10 {
-			a: 0,0,0,0,0,0,0,0,0,0
-		}
-		KeyAttrFlags: *1 {
-			a: 24836
-		}
-		KeyAttrDataFloat: *4 {
-			a: 0,0,255790911,0
-		}
-		KeyAttrRefCount: *1 {
-			a: 10
-		}
-	}
-	AnimationCurve: 75072986, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 72226009, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2431,21 +2412,40 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 73351179, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurve: 76109957, "AnimCurve::Tentacle_Hurt.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *10 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
+		}
+		KeyValueFloat: *10 {
+			a: 0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 10
+		}
+	}
+	AnimationCurveNode: 74654394, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70440128, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 76927879, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,-7.47944974899292,-8.933290481567383,-9.536064147949219,-9.963526725769043,-10,-9.504298210144043,-8.615058898925781,-6.523552894592285,0
+			a: 0,-7.479376316070557,-8.933277130126953,-9.53606128692627,-9.963526725769043,-10,-9.504298210144043,-8.615058898925781,-6.523552894592285,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2457,26 +2457,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 78355915, "AnimCurve::Tentacle_Hurt.RY", "" {
-		Default: 0
-		KeyVer: 4008
-		KeyTime: *10 {
-			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
-		}
-		KeyValueFloat: *10 {
-			a: 0,0,0,0,0,0,0,0,0,0
-		}
-		KeyAttrFlags: *1 {
-			a: 24836
-		}
-		KeyAttrDataFloat: *4 {
-			a: 0,0,255790911,0
-		}
-		KeyAttrRefCount: *1 {
-			a: 10
-		}
-	}
-	AnimationCurve: 72270158, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 71959064, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2495,21 +2476,40 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 75930761, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurve: 79065029, "AnimCurve::Tentacle_Hurt.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *10 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
+		}
+		KeyValueFloat: *10 {
+			a: 0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 10
+		}
+	}
+	AnimationCurveNode: 74010433, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70932141, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 77137508, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,-5.963232040405273,-8.46084976196289,-9.40554141998291,-9.961109161376953,-10,-9.089740753173828,-7.438889026641846,-4.108611583709717,0
+			a: 0,-5.963154315948486,-8.460857391357422,-9.405552864074707,-9.96111011505127,-10,-9.089774131774902,-7.438973426818848,-4.108719825744629,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2521,26 +2521,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 78931504, "AnimCurve::Tentacle_Hurt.RY", "" {
-		Default: 0
-		KeyVer: 4008
-		KeyTime: *10 {
-			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
-		}
-		KeyValueFloat: *10 {
-			a: 0,0,0,0,0,0,0,0,0,0
-		}
-		KeyAttrFlags: *1 {
-			a: 24836
-		}
-		KeyAttrDataFloat: *4 {
-			a: 0,0,255790911,0
-		}
-		KeyAttrRefCount: *1 {
-			a: 10
-		}
-	}
-	AnimationCurve: 73060444, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 74740995, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2559,21 +2540,40 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 78538268, "AnimCurveNode::Tentacle_Hurt.R", "" {
+	AnimationCurve: 78550861, "AnimCurve::Tentacle_Hurt.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *10 {
+			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
+		}
+		KeyValueFloat: *10 {
+			a: 0,0,0,0,0,0,0,0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 10
+		}
+	}
+	AnimationCurveNode: 70269367, "AnimCurveNode::Tentacle_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72969693, "AnimCurve::Tentacle_Hurt.RX", "" {
+	AnimationCurve: 71451405, "AnimCurve::Tentacle_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
 			a: 0,1924423296,3848846592,5773269504,9622116352,11546539008,15395386368,17319809024,19244232704,23093078016
 		}
 		KeyValueFloat: *10 {
-			a: 0,17.37603187561035,21.963607788085938,23.71680450439453,24.902061462402344,25,23.606216430664062,21.07982635498047,15.067766189575195,0
+			a: 0,17.375980377197266,21.963607788085938,23.71683120727539,24.90206527709961,25,23.60625648498535,21.079952239990234,15.068092346191406,0
 		}
 		KeyAttrFlags: *1 {
 			a: 24836
@@ -2585,7 +2585,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 71093629, "AnimCurve::Tentacle_Hurt.RY", "" {
+	AnimationCurve: 71645626, "AnimCurve::Tentacle_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2604,7 +2604,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 70904425, "AnimCurve::Tentacle_Hurt.RZ", "" {
+	AnimationCurve: 78370408, "AnimCurve::Tentacle_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -2621,6 +2621,398 @@ Objects:  {
 		}
 		KeyAttrRefCount: *1 {
 			a: 10
+		}
+	}
+	AnimationStack: 75694417, "AnimStack::Tentacle_Retreat", "" {
+		Properties70:  {
+			P: "LocalStop", "KTime", "Time", "",34639618500
+			P: "ReferenceStop", "KTime", "Time", "",34639618500
+		}
+	}
+	AnimationLayer: 73404048, "AnimLayer::Tentacle_Retreat", "" {
+	}
+	AnimationCurveNode: 73018809, "AnimCurveNode::Tentacle_Retreat.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 71121852, "AnimCurve::Tentacle_Retreat.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 0,5773269504,25017503744
+		}
+		KeyValueFloat: *3 {
+			a: 10,-1,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 75098767, "AnimCurve::Tentacle_Retreat.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 0,5773269504,25017503744
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 76543687, "AnimCurve::Tentacle_Retreat.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 0,5773269504,25017503744
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurveNode: 76879391, "AnimCurveNode::Tentacle_Retreat.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 73114122, "AnimCurve::Tentacle_Retreat.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 1924423296,7697693184,26941925376
+		}
+		KeyValueFloat: *3 {
+			a: 15,-1,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 74887130, "AnimCurve::Tentacle_Retreat.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 1924423296,7697693184,26941925376
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 78491120, "AnimCurve::Tentacle_Retreat.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 1924423296,7697693184,26941925376
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurveNode: 75065750, "AnimCurveNode::Tentacle_Retreat.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 78272784, "AnimCurve::Tentacle_Retreat.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 3848846592,9622116352,28866349056
+		}
+		KeyValueFloat: *3 {
+			a: -15,1,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 71940797, "AnimCurve::Tentacle_Retreat.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 3848846592,9622116352,28866349056
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 75619330, "AnimCurve::Tentacle_Retreat.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 3848846592,9622116352,28866349056
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurveNode: 72517278, "AnimCurveNode::Tentacle_Retreat.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 71095983, "AnimCurve::Tentacle_Retreat.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 5773269504,11546539008,30790772736
+		}
+		KeyValueFloat: *3 {
+			a: -20,1,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 72029878, "AnimCurve::Tentacle_Retreat.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 5773269504,11546539008,30790772736
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 74554697, "AnimCurve::Tentacle_Retreat.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 5773269504,11546539008,30790772736
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurveNode: 70037333, "AnimCurveNode::Tentacle_Retreat.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 78953091, "AnimCurve::Tentacle_Retreat.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 7697693184,13470962688,32715194368
+		}
+		KeyValueFloat: *3 {
+			a: -20,1,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 73842002, "AnimCurve::Tentacle_Retreat.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 7697693184,13470962688,32715194368
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 76905606, "AnimCurve::Tentacle_Retreat.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 7697693184,13470962688,32715194368
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurveNode: 70499613, "AnimCurveNode::Tentacle_Retreat.R", "" {
+		Properties70:  {
+			P: "d|X", "Number", "", "A",1
+			P: "d|Y", "Number", "", "A",1
+			P: "d|Z", "Number", "", "A",1
+		}
+	}
+	AnimationCurve: 79619869, "AnimCurve::Tentacle_Retreat.RX", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 9622116352,15395386368,34639618048
+		}
+		KeyValueFloat: *3 {
+			a: -15,1,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 70996752, "AnimCurve::Tentacle_Retreat.RY", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 9622116352,15395386368,34639618048
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
+		}
+	}
+	AnimationCurve: 73960769, "AnimCurve::Tentacle_Retreat.RZ", "" {
+		Default: 0
+		KeyVer: 4008
+		KeyTime: *3 {
+			a: 9622116352,15395386368,34639618048
+		}
+		KeyValueFloat: *3 {
+			a: 0,0,0
+		}
+		KeyAttrFlags: *1 {
+			a: 24836
+		}
+		KeyAttrDataFloat: *4 {
+			a: 0,0,255790911,0
+		}
+		KeyAttrRefCount: *1 {
+			a: 3
 		}
 	}
 }
@@ -2631,502 +3023,595 @@ Objects:  {
 Connections:  {
 
 	;Model::tentacle, Model::RootNode
-	C: "OO",73450477,0
+	C: "OO",75018445,0
 
 	;Model::body, Model::tentacle
-	C: "OO",77203014,73450477
+	C: "OO",70974520,75018445
 
 	;Model::segment2, Model::segment
-	C: "OO",76980809,75941616
+	C: "OO",74211720,75634540
 
 	;Model::segment3, Model::segment2
-	C: "OO",75757903,76980809
+	C: "OO",77010414,74211720
 
 	;Model::segment4, Model::segment3
-	C: "OO",74784378,75757903
+	C: "OO",77286391,77010414
 
 	;Model::segment5, Model::segment4
-	C: "OO",70452214,74784378
+	C: "OO",77768960,77286391
 
 	;Model::segment6, Model::segment5
-	C: "OO",79767234,70452214
+	C: "OO",75327328,77768960
 
 	;Model::segment7, Model::segment6
-	C: "OO",76308877,79767234
+	C: "OO",70376867,75327328
 
 	;Model::segment, Model::body
-	C: "OO",75941616,77203014
+	C: "OO",75634540,70974520
 
 	;Model::segment3_1, Model::segment3
-	C: "OO",73012556,75757903
+	C: "OO",79930623,77010414
 
 	;Geometry::segment3_1, Model::segment3_1
-	C: "OO",70563796,73012556
+	C: "OO",71222609,79930623
 
 	;Material::Tentacle.png, Model::segment3_1
-	C: "OO",71992125,73012556
+	C: "OO",76888205,79930623
 
 	;Model::segment2_1, Model::segment2
-	C: "OO",78309168,76980809
+	C: "OO",76545811,74211720
 
 	;Geometry::segment2_1, Model::segment2_1
-	C: "OO",71033597,78309168
+	C: "OO",70298670,76545811
 
 	;Material::Tentacle.png, Model::segment2_1
-	C: "OO",71992125,78309168
+	C: "OO",76888205,76545811
 
 	;Model::segment4_1, Model::segment4
-	C: "OO",79125721,74784378
+	C: "OO",75375415,77286391
 
 	;Geometry::segment4_1, Model::segment4_1
-	C: "OO",78502863,79125721
+	C: "OO",71862073,75375415
 
 	;Material::Tentacle.png, Model::segment4_1
-	C: "OO",71992125,79125721
+	C: "OO",76888205,75375415
 
 	;Model::segment5_1, Model::segment5
-	C: "OO",72187541,70452214
+	C: "OO",72657806,77768960
 
 	;Geometry::segment5_1, Model::segment5_1
-	C: "OO",72623918,72187541
+	C: "OO",76748018,72657806
 
 	;Material::Tentacle.png, Model::segment5_1
-	C: "OO",71992125,72187541
+	C: "OO",76888205,72657806
 
 	;Model::segment6_1, Model::segment6
-	C: "OO",70308720,79767234
+	C: "OO",75756596,75327328
 
 	;Geometry::segment6_1, Model::segment6_1
-	C: "OO",75544625,70308720
+	C: "OO",78906308,75756596
 
 	;Material::Tentacle.png, Model::segment6_1
-	C: "OO",71992125,70308720
+	C: "OO",76888205,75756596
 
 	;Model::segment7_1, Model::segment7
-	C: "OO",78878957,76308877
+	C: "OO",70151155,70376867
 
 	;Geometry::segment7_1, Model::segment7_1
-	C: "OO",73886917,78878957
+	C: "OO",73399003,70151155
 
 	;Material::Tentacle.png, Model::segment7_1
-	C: "OO",71992125,78878957
+	C: "OO",76888205,70151155
 
 	;Model::segment_1, Model::segment
-	C: "OO",72728395,75941616
+	C: "OO",73532741,75634540
 
 	;Geometry::segment_1, Model::segment_1
-	C: "OO",74721184,72728395
+	C: "OO",78391506,73532741
 
 	;Material::Tentacle.png, Model::segment_1
-	C: "OO",71992125,72728395
+	C: "OO",76888205,73532741
 
 	;Texture::Tentacle.png, Material::Tentacle.png
-	C: "OP",78462670,71992125, "DiffuseColor"
+	C: "OP",76694528,76888205, "DiffuseColor"
 
 	;Video::Tentacle.png, Texture::Tentacle.png
-	C: "OO",75062117,78462670
+	C: "OO",78246512,76694528
 
 	;AnimLayer::Tentacle_Idle, AnimStack::Tentacle_Idle
-	C: "OO",75098802,70967231
+	C: "OO",78795793,79006383
 
 	;AnimCurveNode::Tentacle_Idle.R, Model::segment2
-	C: "OP",73679965,76980809, "Lcl Rotation"
+	C: "OP",77797144,74211720, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Idle.R, AnimLayer::Tentacle_Idle
-	C: "OO",73679965,75098802
+	C: "OO",77797144,78795793
 
 	;AnimCurve::Tentacle_Idle.RX, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",76841648,73679965, "d|X"
+	C: "OP",75143632,77797144, "d|X"
 
 	;AnimCurve::Tentacle_Idle.RY, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",74005603,73679965, "d|Y"
+	C: "OP",74982339,77797144, "d|Y"
 
 	;AnimCurve::Tentacle_Idle.RZ, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",76381136,73679965, "d|Z"
+	C: "OP",71115728,77797144, "d|Z"
 
 	;AnimCurveNode::Tentacle_Idle.R, Model::segment3
-	C: "OP",74246152,75757903, "Lcl Rotation"
+	C: "OP",76967424,77010414, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Idle.R, AnimLayer::Tentacle_Idle
-	C: "OO",74246152,75098802
+	C: "OO",76967424,78795793
 
 	;AnimCurve::Tentacle_Idle.RX, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",72929894,74246152, "d|X"
+	C: "OP",74429864,76967424, "d|X"
 
 	;AnimCurve::Tentacle_Idle.RY, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",71021664,74246152, "d|Y"
+	C: "OP",74799440,76967424, "d|Y"
 
 	;AnimCurve::Tentacle_Idle.RZ, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",77673999,74246152, "d|Z"
+	C: "OP",74433816,76967424, "d|Z"
 
 	;AnimCurveNode::Tentacle_Idle.R, Model::segment4
-	C: "OP",79503747,74784378, "Lcl Rotation"
+	C: "OP",73131424,77286391, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Idle.R, AnimLayer::Tentacle_Idle
-	C: "OO",79503747,75098802
+	C: "OO",73131424,78795793
 
 	;AnimCurve::Tentacle_Idle.RX, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",72638868,79503747, "d|X"
+	C: "OP",70153635,73131424, "d|X"
 
 	;AnimCurve::Tentacle_Idle.RY, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",75968351,79503747, "d|Y"
+	C: "OP",78219930,73131424, "d|Y"
 
 	;AnimCurve::Tentacle_Idle.RZ, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",76937419,79503747, "d|Z"
+	C: "OP",76998339,73131424, "d|Z"
 
 	;AnimCurveNode::Tentacle_Idle.R, Model::segment5
-	C: "OP",76478709,70452214, "Lcl Rotation"
+	C: "OP",79024204,77768960, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Idle.R, AnimLayer::Tentacle_Idle
-	C: "OO",76478709,75098802
+	C: "OO",79024204,78795793
 
 	;AnimCurve::Tentacle_Idle.RX, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",72632923,76478709, "d|X"
+	C: "OP",77304293,79024204, "d|X"
 
 	;AnimCurve::Tentacle_Idle.RY, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",74844286,76478709, "d|Y"
+	C: "OP",73896855,79024204, "d|Y"
 
 	;AnimCurve::Tentacle_Idle.RZ, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",79627700,76478709, "d|Z"
+	C: "OP",74613038,79024204, "d|Z"
 
 	;AnimCurveNode::Tentacle_Idle.R, Model::segment6
-	C: "OP",74983814,79767234, "Lcl Rotation"
+	C: "OP",71479861,75327328, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Idle.R, AnimLayer::Tentacle_Idle
-	C: "OO",74983814,75098802
+	C: "OO",71479861,78795793
 
 	;AnimCurve::Tentacle_Idle.RX, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",72246506,74983814, "d|X"
+	C: "OP",79822958,71479861, "d|X"
 
 	;AnimCurve::Tentacle_Idle.RY, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",71508148,74983814, "d|Y"
+	C: "OP",74920647,71479861, "d|Y"
 
 	;AnimCurve::Tentacle_Idle.RZ, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",71976641,74983814, "d|Z"
+	C: "OP",77662462,71479861, "d|Z"
 
 	;AnimCurveNode::Tentacle_Idle.R, Model::segment7
-	C: "OP",72210983,76308877, "Lcl Rotation"
+	C: "OP",72973385,70376867, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Idle.R, AnimLayer::Tentacle_Idle
-	C: "OO",72210983,75098802
+	C: "OO",72973385,78795793
 
 	;AnimCurve::Tentacle_Idle.RX, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",78946526,72210983, "d|X"
+	C: "OP",72585765,72973385, "d|X"
 
 	;AnimCurve::Tentacle_Idle.RY, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",70281779,72210983, "d|Y"
+	C: "OP",78145852,72973385, "d|Y"
 
 	;AnimCurve::Tentacle_Idle.RZ, AnimCurveNode::Tentacle_Idle.R
-	C: "OP",79578376,72210983, "d|Z"
+	C: "OP",75108201,72973385, "d|Z"
 
 	;AnimLayer::Tentacle_SlamCharge, AnimStack::Tentacle_SlamCharge
-	C: "OO",75208020,74717378
+	C: "OO",71609041,73591370
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, Model::segment2
-	C: "OP",79082332,76980809, "Lcl Rotation"
+	C: "OP",76412467,74211720, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, AnimLayer::Tentacle_SlamCharge
-	C: "OO",79082332,75208020
+	C: "OO",76412467,71609041
 
 	;AnimCurve::Tentacle_SlamCharge.RX, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",78375347,79082332, "d|X"
+	C: "OP",76629920,76412467, "d|X"
 
 	;AnimCurve::Tentacle_SlamCharge.RY, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",78556954,79082332, "d|Y"
+	C: "OP",70476020,76412467, "d|Y"
 
 	;AnimCurve::Tentacle_SlamCharge.RZ, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",75869903,79082332, "d|Z"
+	C: "OP",75246757,76412467, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, Model::segment3
-	C: "OP",78452159,75757903, "Lcl Rotation"
+	C: "OP",74173787,77010414, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, AnimLayer::Tentacle_SlamCharge
-	C: "OO",78452159,75208020
+	C: "OO",74173787,71609041
 
 	;AnimCurve::Tentacle_SlamCharge.RX, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",77980410,78452159, "d|X"
+	C: "OP",75344745,74173787, "d|X"
 
 	;AnimCurve::Tentacle_SlamCharge.RY, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",74982966,78452159, "d|Y"
+	C: "OP",74729783,74173787, "d|Y"
 
 	;AnimCurve::Tentacle_SlamCharge.RZ, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",78850770,78452159, "d|Z"
+	C: "OP",70575742,74173787, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, Model::segment4
-	C: "OP",75913115,74784378, "Lcl Rotation"
+	C: "OP",73176630,77286391, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, AnimLayer::Tentacle_SlamCharge
-	C: "OO",75913115,75208020
+	C: "OO",73176630,71609041
 
 	;AnimCurve::Tentacle_SlamCharge.RX, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",70710747,75913115, "d|X"
+	C: "OP",79091997,73176630, "d|X"
 
 	;AnimCurve::Tentacle_SlamCharge.RY, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",73202281,75913115, "d|Y"
+	C: "OP",70406798,73176630, "d|Y"
 
 	;AnimCurve::Tentacle_SlamCharge.RZ, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",72686494,75913115, "d|Z"
+	C: "OP",78905021,73176630, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, Model::segment5
-	C: "OP",71453680,70452214, "Lcl Rotation"
+	C: "OP",71752787,77768960, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, AnimLayer::Tentacle_SlamCharge
-	C: "OO",71453680,75208020
+	C: "OO",71752787,71609041
 
 	;AnimCurve::Tentacle_SlamCharge.RX, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",79253448,71453680, "d|X"
+	C: "OP",71097692,71752787, "d|X"
 
 	;AnimCurve::Tentacle_SlamCharge.RY, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",75768450,71453680, "d|Y"
+	C: "OP",74217483,71752787, "d|Y"
 
 	;AnimCurve::Tentacle_SlamCharge.RZ, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",73730878,71453680, "d|Z"
+	C: "OP",74332220,71752787, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, Model::segment6
-	C: "OP",78602614,79767234, "Lcl Rotation"
+	C: "OP",78310178,75327328, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, AnimLayer::Tentacle_SlamCharge
-	C: "OO",78602614,75208020
+	C: "OO",78310178,71609041
 
 	;AnimCurve::Tentacle_SlamCharge.RX, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",76908633,78602614, "d|X"
+	C: "OP",75890608,78310178, "d|X"
 
 	;AnimCurve::Tentacle_SlamCharge.RY, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",74676567,78602614, "d|Y"
+	C: "OP",79378315,78310178, "d|Y"
 
 	;AnimCurve::Tentacle_SlamCharge.RZ, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",77521612,78602614, "d|Z"
+	C: "OP",79021068,78310178, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, Model::segment7
-	C: "OP",74636514,76308877, "Lcl Rotation"
+	C: "OP",76591497,70376867, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamCharge.R, AnimLayer::Tentacle_SlamCharge
-	C: "OO",74636514,75208020
+	C: "OO",76591497,71609041
 
 	;AnimCurve::Tentacle_SlamCharge.RX, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",76080044,74636514, "d|X"
+	C: "OP",75404753,76591497, "d|X"
 
 	;AnimCurve::Tentacle_SlamCharge.RY, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",77550681,74636514, "d|Y"
+	C: "OP",78477281,76591497, "d|Y"
 
 	;AnimCurve::Tentacle_SlamCharge.RZ, AnimCurveNode::Tentacle_SlamCharge.R
-	C: "OP",78522528,74636514, "d|Z"
+	C: "OP",70009707,76591497, "d|Z"
 
 	;AnimLayer::Tentacle_SlamImpact, AnimStack::Tentacle_SlamImpact
-	C: "OO",79983843,75346262
+	C: "OO",79536298,77671882
 
 	;AnimCurveNode::Tentacle_SlamImpact.P, Model::body
-	C: "OP",72454306,77203014, "Lcl Translation"
+	C: "OP",72205439,70974520, "Lcl Translation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.P, AnimLayer::Tentacle_SlamImpact
-	C: "OO",72454306,79983843
+	C: "OO",72205439,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.PX, AnimCurveNode::Tentacle_SlamImpact.P
-	C: "OP",70415693,72454306, "d|X"
+	C: "OP",75716398,72205439, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.PY, AnimCurveNode::Tentacle_SlamImpact.P
-	C: "OP",77450841,72454306, "d|Y"
+	C: "OP",75131884,72205439, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.PZ, AnimCurveNode::Tentacle_SlamImpact.P
-	C: "OP",71705017,72454306, "d|Z"
+	C: "OP",77418321,72205439, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, Model::segment2
-	C: "OP",78050234,76980809, "Lcl Rotation"
+	C: "OP",79517214,74211720, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, AnimLayer::Tentacle_SlamImpact
-	C: "OO",78050234,79983843
+	C: "OO",79517214,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.RX, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",71103111,78050234, "d|X"
+	C: "OP",71823261,79517214, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.RY, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",77514786,78050234, "d|Y"
+	C: "OP",70222476,79517214, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.RZ, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",70233160,78050234, "d|Z"
+	C: "OP",74200208,79517214, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, Model::segment3
-	C: "OP",74846188,75757903, "Lcl Rotation"
+	C: "OP",70424927,77010414, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, AnimLayer::Tentacle_SlamImpact
-	C: "OO",74846188,79983843
+	C: "OO",70424927,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.RX, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",70976855,74846188, "d|X"
+	C: "OP",72503515,70424927, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.RY, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",74453707,74846188, "d|Y"
+	C: "OP",75095125,70424927, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.RZ, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",70641014,74846188, "d|Z"
+	C: "OP",76658221,70424927, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, Model::segment4
-	C: "OP",71796645,74784378, "Lcl Rotation"
+	C: "OP",70255746,77286391, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, AnimLayer::Tentacle_SlamImpact
-	C: "OO",71796645,79983843
+	C: "OO",70255746,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.RX, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",77572096,71796645, "d|X"
+	C: "OP",76845944,70255746, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.RY, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",73802726,71796645, "d|Y"
+	C: "OP",79990990,70255746, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.RZ, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",77322457,71796645, "d|Z"
+	C: "OP",71392939,70255746, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, Model::segment5
-	C: "OP",79038546,70452214, "Lcl Rotation"
+	C: "OP",71624839,77768960, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, AnimLayer::Tentacle_SlamImpact
-	C: "OO",79038546,79983843
+	C: "OO",71624839,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.RX, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",70665483,79038546, "d|X"
+	C: "OP",71515419,71624839, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.RY, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",72602148,79038546, "d|Y"
+	C: "OP",79863283,71624839, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.RZ, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",74536383,79038546, "d|Z"
+	C: "OP",76138986,71624839, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, Model::segment6
-	C: "OP",73108827,79767234, "Lcl Rotation"
+	C: "OP",70447093,75327328, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, AnimLayer::Tentacle_SlamImpact
-	C: "OO",73108827,79983843
+	C: "OO",70447093,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.RX, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",76217631,73108827, "d|X"
+	C: "OP",76535249,70447093, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.RY, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",76412761,73108827, "d|Y"
+	C: "OP",78044748,70447093, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.RZ, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",79523829,73108827, "d|Z"
+	C: "OP",73951236,70447093, "d|Z"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, Model::segment7
-	C: "OP",79126649,76308877, "Lcl Rotation"
+	C: "OP",72085872,70376867, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_SlamImpact.R, AnimLayer::Tentacle_SlamImpact
-	C: "OO",79126649,79983843
+	C: "OO",72085872,79536298
 
 	;AnimCurve::Tentacle_SlamImpact.RX, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",77902898,79126649, "d|X"
+	C: "OP",78329270,72085872, "d|X"
 
 	;AnimCurve::Tentacle_SlamImpact.RY, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",79943939,79126649, "d|Y"
+	C: "OP",70814388,72085872, "d|Y"
 
 	;AnimCurve::Tentacle_SlamImpact.RZ, AnimCurveNode::Tentacle_SlamImpact.R
-	C: "OP",73419332,79126649, "d|Z"
+	C: "OP",77048531,72085872, "d|Z"
 
 	;AnimLayer::Tentacle_Hurt, AnimStack::Tentacle_Hurt
-	C: "OO",71901513,77553153
+	C: "OO",70231774,72734833
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment2
-	C: "OP",74177635,76980809, "Lcl Rotation"
+	C: "OP",71019040,74211720, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",74177635,71901513
+	C: "OO",71019040,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",75777495,74177635, "d|X"
+	C: "OP",72838102,71019040, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",78301536,74177635, "d|Y"
+	C: "OP",79535248,71019040, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",79253919,74177635, "d|Z"
+	C: "OP",77744970,71019040, "d|Z"
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment3
-	C: "OP",74741735,75757903, "Lcl Rotation"
+	C: "OP",72427099,77010414, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",74741735,71901513
+	C: "OO",72427099,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",77896155,74741735, "d|X"
+	C: "OP",72958758,72427099, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",70102651,74741735, "d|Y"
+	C: "OP",70131361,72427099, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",79511848,74741735, "d|Z"
+	C: "OP",76069344,72427099, "d|Z"
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment4
-	C: "OP",73358537,74784378, "Lcl Rotation"
+	C: "OP",79588193,77286391, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",73358537,71901513
+	C: "OO",79588193,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",73411802,73358537, "d|X"
+	C: "OP",74348109,79588193, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",73275352,73358537, "d|Y"
+	C: "OP",70057238,79588193, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",77911968,73358537, "d|Z"
+	C: "OP",74213849,79588193, "d|Z"
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment5
-	C: "OP",73933432,70452214, "Lcl Rotation"
+	C: "OP",72607638,77768960, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",73933432,71901513
+	C: "OO",72607638,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",72619030,73933432, "d|X"
+	C: "OP",78203481,72607638, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",72101469,73933432, "d|Y"
+	C: "OP",72226009,72607638, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",75072986,73933432, "d|Z"
+	C: "OP",76109957,72607638, "d|Z"
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment6
-	C: "OP",73351179,79767234, "Lcl Rotation"
+	C: "OP",74654394,75327328, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",73351179,71901513
+	C: "OO",74654394,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",70440128,73351179, "d|X"
+	C: "OP",76927879,74654394, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",78355915,73351179, "d|Y"
+	C: "OP",71959064,74654394, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",72270158,73351179, "d|Z"
+	C: "OP",79065029,74654394, "d|Z"
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment7
-	C: "OP",75930761,76308877, "Lcl Rotation"
+	C: "OP",74010433,70376867, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",75930761,71901513
+	C: "OO",74010433,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",70932141,75930761, "d|X"
+	C: "OP",77137508,74010433, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",78931504,75930761, "d|Y"
+	C: "OP",74740995,74010433, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",73060444,75930761, "d|Z"
+	C: "OP",78550861,74010433, "d|Z"
 
 	;AnimCurveNode::Tentacle_Hurt.R, Model::segment
-	C: "OP",78538268,75941616, "Lcl Rotation"
+	C: "OP",70269367,75634540, "Lcl Rotation"
 
 	;AnimCurveNode::Tentacle_Hurt.R, AnimLayer::Tentacle_Hurt
-	C: "OO",78538268,71901513
+	C: "OO",70269367,70231774
 
 	;AnimCurve::Tentacle_Hurt.RX, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",72969693,78538268, "d|X"
+	C: "OP",71451405,70269367, "d|X"
 
 	;AnimCurve::Tentacle_Hurt.RY, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",71093629,78538268, "d|Y"
+	C: "OP",71645626,70269367, "d|Y"
 
 	;AnimCurve::Tentacle_Hurt.RZ, AnimCurveNode::Tentacle_Hurt.R
-	C: "OP",70904425,78538268, "d|Z"
+	C: "OP",78370408,70269367, "d|Z"
+
+	;AnimLayer::Tentacle_Retreat, AnimStack::Tentacle_Retreat
+	C: "OO",73404048,75694417
+
+	;AnimCurveNode::Tentacle_Retreat.R, Model::segment2
+	C: "OP",73018809,74211720, "Lcl Rotation"
+
+	;AnimCurveNode::Tentacle_Retreat.R, AnimLayer::Tentacle_Retreat
+	C: "OO",73018809,73404048
+
+	;AnimCurve::Tentacle_Retreat.RX, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",71121852,73018809, "d|X"
+
+	;AnimCurve::Tentacle_Retreat.RY, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",75098767,73018809, "d|Y"
+
+	;AnimCurve::Tentacle_Retreat.RZ, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",76543687,73018809, "d|Z"
+
+	;AnimCurveNode::Tentacle_Retreat.R, Model::segment3
+	C: "OP",76879391,77010414, "Lcl Rotation"
+
+	;AnimCurveNode::Tentacle_Retreat.R, AnimLayer::Tentacle_Retreat
+	C: "OO",76879391,73404048
+
+	;AnimCurve::Tentacle_Retreat.RX, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",73114122,76879391, "d|X"
+
+	;AnimCurve::Tentacle_Retreat.RY, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",74887130,76879391, "d|Y"
+
+	;AnimCurve::Tentacle_Retreat.RZ, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",78491120,76879391, "d|Z"
+
+	;AnimCurveNode::Tentacle_Retreat.R, Model::segment4
+	C: "OP",75065750,77286391, "Lcl Rotation"
+
+	;AnimCurveNode::Tentacle_Retreat.R, AnimLayer::Tentacle_Retreat
+	C: "OO",75065750,73404048
+
+	;AnimCurve::Tentacle_Retreat.RX, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",78272784,75065750, "d|X"
+
+	;AnimCurve::Tentacle_Retreat.RY, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",71940797,75065750, "d|Y"
+
+	;AnimCurve::Tentacle_Retreat.RZ, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",75619330,75065750, "d|Z"
+
+	;AnimCurveNode::Tentacle_Retreat.R, Model::segment5
+	C: "OP",72517278,77768960, "Lcl Rotation"
+
+	;AnimCurveNode::Tentacle_Retreat.R, AnimLayer::Tentacle_Retreat
+	C: "OO",72517278,73404048
+
+	;AnimCurve::Tentacle_Retreat.RX, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",71095983,72517278, "d|X"
+
+	;AnimCurve::Tentacle_Retreat.RY, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",72029878,72517278, "d|Y"
+
+	;AnimCurve::Tentacle_Retreat.RZ, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",74554697,72517278, "d|Z"
+
+	;AnimCurveNode::Tentacle_Retreat.R, Model::segment6
+	C: "OP",70037333,75327328, "Lcl Rotation"
+
+	;AnimCurveNode::Tentacle_Retreat.R, AnimLayer::Tentacle_Retreat
+	C: "OO",70037333,73404048
+
+	;AnimCurve::Tentacle_Retreat.RX, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",78953091,70037333, "d|X"
+
+	;AnimCurve::Tentacle_Retreat.RY, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",73842002,70037333, "d|Y"
+
+	;AnimCurve::Tentacle_Retreat.RZ, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",76905606,70037333, "d|Z"
+
+	;AnimCurveNode::Tentacle_Retreat.R, Model::segment7
+	C: "OP",70499613,70376867, "Lcl Rotation"
+
+	;AnimCurveNode::Tentacle_Retreat.R, AnimLayer::Tentacle_Retreat
+	C: "OO",70499613,73404048
+
+	;AnimCurve::Tentacle_Retreat.RX, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",79619869,70499613, "d|X"
+
+	;AnimCurve::Tentacle_Retreat.RY, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",70996752,70499613, "d|Y"
+
+	;AnimCurve::Tentacle_Retreat.RZ, AnimCurveNode::Tentacle_Retreat.R
+	C: "OP",73960769,70499613, "d|Z"
 }
 
 ; Takes section
@@ -3153,5 +3638,10 @@ Takes:  {
 		FileName: "Tentacle_Hurt.tak"
 		LocalTime: 0,23093079000
 		ReferenceTime: 0,23093079000
+	}
+	Take: "Tentacle_Retreat" {
+		FileName: "Tentacle_Retreat.tak"
+		LocalTime: 0,34639618500
+		ReferenceTime: 0,34639618500
 	}
 }
