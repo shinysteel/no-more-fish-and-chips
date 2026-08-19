@@ -53,8 +53,9 @@ namespace NoMoreFishAndChips.Entities
                     _tentacle._entityManager.Despawn(_tentacle);
                 }
 
-                _tentacle.transform.position = _tentacle._context.Raft.Queries.CellToWorldPosition(line.MinEdge.Node.Cell + Utils.Math.DirectionToVector2Int(line.MinEdge.Direction));
-                _tentacle.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(line.MaxEdge.Direction), Vector3.up);
+                RaftEdge edge = Random.value < 0.5f ? line.MinEdge : line.MaxEdge;
+                _tentacle.transform.position = _tentacle._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell + Utils.Math.DirectionToVector2Int(edge.Direction));
+                _tentacle.transform.rotation = Quaternion.LookRotation(-Utils.Math.DirectionToVector3(edge.Direction), Vector3.up);
 
                 Tween.PositionY(_tentacle.transform, startValue: -3f, endValue: -0.33f, duration: 1f, ease: Ease.OutBack).OnComplete(() => _parentStateMachine.ChangeState(EState.Idle));
             }
@@ -101,7 +102,11 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Tick()
             {
-                if (_stateTimer < _chargeDuration && _stateTimer + Time.deltaTime >= _chargeDuration)
+                if (!_tentacle.CharacterActLogic.CanAct)
+                {
+                    _parentStateMachine.ChangeState(EState.Idle);
+                }
+                else if (_stateTimer < _chargeDuration && _stateTimer + Time.deltaTime >= _chargeDuration)
                 {
                     _tentacle.CharacterModel.SetTrigger(SlamTriggerName);
                 }
@@ -112,6 +117,8 @@ namespace NoMoreFishAndChips.Entities
             public override void Exit()
             {
                 base.Exit();
+
+                _tentacle.CharacterModel.Animator.SetBool(IsChargingBoolName, false);
 
                 RemoveMarker();
             }
@@ -132,13 +139,6 @@ namespace NoMoreFishAndChips.Entities
 
             _slamImpactStateAnimationEvents = new StateAnimationEvents(SlamImpactStateName, false)
             {
-                new StateAnimationEvent(0f, () =>
-                {
-                    if (isOwner)
-                    {
-                        CharacterModel.Animator.SetBool(IsChargingBoolName, false);
-                    }
-                }),
                 new StateAnimationEvent(0.4f, () =>
                 {
                     if (isOwner)
