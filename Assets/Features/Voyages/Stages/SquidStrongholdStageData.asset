@@ -18,5 +18,24 @@ MonoBehaviour:
   _waves:
   - _steps:
     - _entityId: 107
-      _count: 2
+      _count: 1
       _interval: 0
+  - _steps:
+    - _entityId: 101
+      _count: 2
+      _interval: 2
+  - _steps:
+    - _entityId: 107
+      _count: 2
+      _interval: 0.1
+  - _steps:
+    - _entityId: 107
+      _count: 1
+      _interval: 0
+    - _entityId: 103
+      _count: 2
+      _interval: 0.5
+  - _steps:
+    - _entityId: 107
+      _count: 3
+      _interval: 0.1
