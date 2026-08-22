@@ -18,6 +18,7 @@ namespace NoMoreFishAndChips.Voyages
     {
         private EntityManager _entityManager;
         private HitboxManager _hitboxManager;
+        private NetworkManager _networkManager;
 
         private GameplayContext _context;
         private StageData _data;
@@ -79,7 +80,11 @@ namespace NoMoreFishAndChips.Voyages
 
                 while (_spawnCounter < _stage._waveStep.Count && _stepTimer >= _stage._waveStep.Interval)
                 {
-                    _stage._entityManager.Spawn(_stage._waveStep.EntityId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+                    for (int i = 0; i < Mathf.CeilToInt(_stage._networkManager.PurrnetPlayers.Count / 2f); i++)
+                    {
+                        _stage._entityManager.Spawn(_stage._waveStep.EntityId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+                    }
+
                     _spawnCounter++;
                     _stage._areWavesDefeated = false;
                     _stepTimer -= _stage._waveStep.Interval;
@@ -152,6 +157,7 @@ namespace NoMoreFishAndChips.Voyages
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
 
             _entityManager.AddListener(this);
             _hitboxManager.AddListener(this);
