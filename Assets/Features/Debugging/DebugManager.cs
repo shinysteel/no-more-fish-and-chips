@@ -18,7 +18,9 @@ namespace NoMoreFishAndChips.Debugging
 
         public override void Tick()
         {
+#if UNITY_EDITOR    
             FastForwardTick();
+#endif
         }
 
         private void FastForwardTick()

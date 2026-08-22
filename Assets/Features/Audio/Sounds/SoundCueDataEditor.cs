@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
@@ -5,8 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Audio
@@ -103,3 +104,4 @@ namespace NoMoreFishAndChips.Audio
         }
     }
 }
+#endif
