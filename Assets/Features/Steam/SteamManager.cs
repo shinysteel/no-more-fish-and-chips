@@ -49,6 +49,11 @@ namespace Steam
 
         public override void InitialiseConfig(GameManagerConfig config)
         {
+            // For now, always mark as ready so that Steam is not required to play
+            base.InitialiseConfig(config);
+
+            _config = config.SteamManagerConfig;
+
             if (!Packsize.Test())
             {
                 Debug.LogError("[Steamworks.NET] Packsize Test returned false, the wrong version of Steamworks.NET is being run in this platform.");
@@ -98,8 +103,6 @@ namespace Steam
                 return;
             }
 
-            _config = config.SteamManagerConfig;
-
             if (m_SteamAPIWarningMessageHook == null)
             {
                 // Set up our callback to receive warning messages from Steam.
@@ -107,8 +110,6 @@ namespace Steam
                 m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
                 SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
             }
-
-            base.InitialiseConfig(config);
         }
 
         // OnApplicationQuit gets called too early to shutdown the SteamAPI.

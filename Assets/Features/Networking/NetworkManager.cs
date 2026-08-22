@@ -12,6 +12,7 @@ using PurrNet.Packing;
 using PurrNet.Steam;
 using PurrNet.Transports;
 using ShinyOwl.Common;
+using Steam;
 using Steamworks;
 using System;
 using System.Collections;
@@ -49,6 +50,7 @@ namespace NoMoreFishAndChips.Networking
         private NetworkManagerConfig _config;
 
         private SceneManager _sceneManager;
+        private SteamManager _steamManager;
 
         private PurrNet.NetworkManager _purrnetNetworkManager;
 
@@ -74,6 +76,7 @@ namespace NoMoreFishAndChips.Networking
         public override void InitialiseConfig(GameManagerConfig config)
         {
             _sceneManager = GameManager.Instance.Get<SceneManager>();
+            _steamManager = GameManager.Instance.Get<SteamManager>();
 
             _sceneManager.AddListener(this);
 
@@ -86,8 +89,20 @@ namespace NoMoreFishAndChips.Networking
             _purrnetNetworkManager.onPlayerJoined += HandlePlayerJoined;
             _purrnetNetworkManager.onPlayerLeft += HandlePlayerLeft;
 
-            GetTransport<UDPTransport>().serverPort = _config.UDPServerPort;
-            GetTransport<SteamTransport>().serverPort = _config.SteamServerPort;
+            UDPTransport udpTransport = GetTransport<UDPTransport>();
+            SteamTransport steamTransport = GetTransport<SteamTransport>();
+
+            udpTransport.serverPort = _config.UDPServerPort;
+            steamTransport.serverPort = _config.SteamServerPort;
+
+            List<GenericTransport> filter = new List<GenericTransport>() { udpTransport };
+
+            if (_steamManager.Initialized)
+            {
+                filter.Add(steamTransport);
+            }
+
+            GetCompositeTransport().SetServerTransportFilter(filter);
 
             // Remove this and let other scripts request
             SetClientTransport<UDPTransport>();
