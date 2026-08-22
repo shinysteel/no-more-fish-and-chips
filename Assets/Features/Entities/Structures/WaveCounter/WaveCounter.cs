@@ -94,7 +94,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void Slam()
         { 
-            _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, new SpawnParams() { Position = transform.position });
+            _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, this, new SpawnParams() { Position = transform.position });
 
             AudioManager.PlaySoundRpc(SoundId.WaveCounterSlam);
         }

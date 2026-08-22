@@ -20,6 +20,8 @@ namespace NoMoreFishAndChips.Hitboxes
         private HitboxManager _hitboxManager;
 
         private HitboxData _data;
+        private Entity _source;
+
         public HitboxData Data => _data;
 
         private float _timer;
@@ -35,9 +37,10 @@ namespace NoMoreFishAndChips.Hitboxes
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
         }
 
-        public void Initialise(HitboxData data)
+        public void Initialise(HitboxData data, Entity source)
         {
             _data = data;
+            _source = source;
         }
 
         private void FixedUpdate()
@@ -71,6 +74,11 @@ namespace NoMoreFishAndChips.Hitboxes
                 for (int i = 0; i < overlaps; i++)
                 {
                     if (!_collidersNonAlloc[i].TryGetComponent(out Entity entity))
+                    {
+                        continue;
+                    }
+
+                    if (entity == _source)
                     {
                         continue;
                     }
@@ -110,16 +118,8 @@ namespace NoMoreFishAndChips.Hitboxes
                         torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
                         Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
 
-                        if (entity is Entity netEntity)
-                        {
-                            netEntity.AddForceRpc(netEntity.owner.Value, force);
-                            netEntity.AddTorqueRpc(netEntity.owner.Value, torque);
-                        }
-                        else
-                        {
-                            entity.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Impulse);
-                            entity.EntityPhysicsLogic.Rigidbody.AddTorque(torque, ForceMode.Impulse);
-                        }
+                        entity.AddForceRpc(entity.owner.Value, force);
+                        entity.AddTorqueRpc(entity.owner.Value, torque);
 
                         if (entity is Character character)
                         {

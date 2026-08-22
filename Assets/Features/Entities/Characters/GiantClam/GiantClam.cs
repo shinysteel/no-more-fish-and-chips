@@ -203,7 +203,7 @@ namespace NoMoreFishAndChips.Entities
                     .Chain(Tween.PositionY(_clam.transform, endValue: _clam.transform.position.y + 1f, duration: 0.5f))
                     .Group(TweenExtensions.Rotation(_clam.transform, endValue: _clam.transform.rotation * Quaternion.AngleAxis(-180f, Vector3.right), duration: 0.5f, ease: Ease.OutQuad))
                     .Chain(Tween.PositionY(_clam.transform, endValue: 0.125f, duration: 0.25f))
-                    .ChainCallback(() => _clam._hitboxManager.SpawnHitbox(_clam.DefinitionData.EmptyRageSettings.HitboxData, new SpawnParams() { Position = _clam.transform.position }))
+                    .ChainCallback(() => _clam._hitboxManager.SpawnHitbox(_clam.DefinitionData.EmptyRageSettings.HitboxData, _clam, new SpawnParams() { Position = _clam.transform.position }))
                     .ChainCallback(() => _clam._entityManager.Despawn(_clam));
             }
         }

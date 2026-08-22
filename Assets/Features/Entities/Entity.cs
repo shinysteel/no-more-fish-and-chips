@@ -70,7 +70,7 @@ namespace NoMoreFishAndChips.Entities
                 logic.OnSpawned();
             }
 
-            _entityManager.RaiseNetEntitySpawned(this);
+            _entityManager.RaiseEntitySpawned(this);
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -87,7 +87,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnDespawned();
 
-            _entityManager?.RaiseNetEntityDespawned(this);
+            _entityManager?.RaiseEntityDespawned(this);
 
             foreach (EntityLogic logic in _typeLogicMap.Values)
             {

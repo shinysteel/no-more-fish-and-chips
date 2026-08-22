@@ -282,7 +282,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _hitboxManager.SpawnHitbox(DefinitionData.AttackSettings.HitboxData, new SpawnParams() { Position = transform.position })));
+                _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _hitboxManager.SpawnHitbox(DefinitionData.AttackSettings.HitboxData, this, new SpawnParams() { Position = transform.position })));
                 _attackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () => _rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse)));
                 _attackStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _stateMachine.ChangeState(EState.Idle)));
 

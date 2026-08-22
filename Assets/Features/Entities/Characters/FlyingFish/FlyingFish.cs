@@ -164,7 +164,7 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_flyTimer > _fish.DefinitionData.FlyDuration)
                 {
-                    _fish._hitboxManager.SpawnHitbox(_fish.DefinitionData.ImpactHitboxData, new SpawnParams() { Position = _fish._landPosition });
+                    _fish._hitboxManager.SpawnHitbox(_fish.DefinitionData.ImpactHitboxData, _fish, new SpawnParams() { Position = _fish._landPosition });
 
                     _fish._entityManager.Despawn(_fish);
                 }

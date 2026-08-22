@@ -41,10 +41,10 @@ namespace NoMoreFishAndChips.Hitboxes
             base.Dispose();
         }
 
-        public void SpawnHitbox(HitboxData data, SpawnParams parameters)
+        public void SpawnHitbox(HitboxData data, Entity source, SpawnParams parameters)
         {
             Hitbox hitbox = _poolManager.GetTypedPoolable<Hitbox>(parameters);
-            hitbox.Initialise(data);
+            hitbox.Initialise(data, source);
             _hitboxes.Add(hitbox);
             NotifyHitboxesChanged();
         }

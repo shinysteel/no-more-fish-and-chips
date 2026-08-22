@@ -127,18 +127,18 @@ namespace NoMoreFishAndChips.Entities
             _poolManager.ReturnPoolable(model, model.Id, _modelPools);
         }
 
-        // Since NetEntity lifecycle is controlled by Purrnet, we need to manually raise these events
-        public void RaiseNetEntitySpawned(Entity entity) => NotifyNetEntitySpawned(entity);
-        public void RaiseNetEntityDespawned(Entity entity) => NotifyNetEntityDespawned(entity);
+        // Since Entity lifecycle is controlled by Purrnet, we need to manually raise these events
+        public void RaiseEntitySpawned(Entity entity) => NotifyEntitySpawned(entity);
+        public void RaiseEntityDespawned(Entity entity) => NotifyEntityDespawned(entity);
 
-        private void NotifyNetEntitySpawned(Entity entity)
+        private void NotifyEntitySpawned(Entity entity)
         {
             _entities.Add(entity);
 
             Listeners.Dispatch(listener => listener.OnEntitySpawned(entity));
         }
 
-        private void NotifyNetEntityDespawned(Entity entity)
+        private void NotifyEntityDespawned(Entity entity)
         {
             _entities.Remove(entity);
 

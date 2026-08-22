@@ -184,7 +184,7 @@ namespace NoMoreFishAndChips.Entities
                 {
                     if (isOwner)
                     {
-                        _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, new SpawnParams() { Position = transform.position + transform.forward * 1.5f, Rotation = transform.rotation });
+                        _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, this, new SpawnParams() { Position = transform.position + transform.forward * 1.5f, Rotation = transform.rotation });
                     }
                 }),
                 new StateAnimationEvent(1f, () =>
