@@ -133,22 +133,64 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6878979728503944995, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
+      propertyPath: _networkAnimator
+      value: 
+      objectReference: {fileID: 2613316004471988011}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 507233225910080573, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2613316004471988011}
   m_SourcePrefab: {fileID: 100100000, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
+--- !u!95 &3045909192118759857 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6530766562946241789, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
+  m_PrefabInstance: {fileID: 8134855335593452876}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3428299580908376687 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6878979728503944995, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
   m_PrefabInstance: {fileID: 8134855335593452876}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8642058305064694129}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4efe20aa95fa10e4eb3d9f4219fb46cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.CharacterModel
+--- !u!1 &8642058305064694129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 507233225910080573, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
+  m_PrefabInstance: {fileID: 8134855335593452876}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2613316004471988011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642058305064694129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b598b9d8509d64abb9fdaf07fa3f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkAnimator
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _animator: {fileID: 3045909192118759857}
+  _ownerAuth: 1
+  _autoSyncParameters: 1
+  _dontSyncParameters: []
 --- !u!4 &8981605446698150859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 883230281271938695, guid: 42bb5c2787c5fe74f832693c72645ffe, type: 3}
