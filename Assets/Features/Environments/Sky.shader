@@ -480,7 +480,7 @@ Shader "Custom/Sky"
 				float3 BitangentWS = cross( input.normalWS, input.tangentWS.xyz ) * input.tangentWS.w * renormFactor;
 				float3 NormalWS = input.normalWS * renormFactor;
 
-				Gradient gradient21 = NewGradient( 0, 5, 2, float4( 0.4980392, 0.7607843, 0.8392157, 0 ), float4( 0.4980392, 0.7607843, 0.8392157, 0.4 ), float4( 0.972549, 0.9960784, 1, 0.5007706 ), float4( 0.6588235, 0.8588235, 0.9411765, 0.6 ), float4( 0.1176471, 0.3098039, 0.4784314, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient21 = NewGradient( 0, 5, 2, float4( 0.4980392, 0.7607843, 0.8392157, 0 ), float4( 0.4980392, 0.7607843, 0.8392157, 0.4749981 ), float4( 0.972549, 0.9960784, 1, 0.5007706 ), float4( 0.6588235, 0.8588235, 0.9411765, 0.5250019 ), float4( 0.1176471, 0.3098039, 0.4784314, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 texCoord14 = input.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				
 				float3 BakedAlbedo = 0;
@@ -1977,7 +1977,7 @@ Shader "Custom/Sky"
 				float3 BitangentWS = cross( input.normalWS, input.tangentWS.xyz ) * input.tangentWS.w * renormFactor;
 				float3 NormalWS = input.normalWS * renormFactor;
 
-				Gradient gradient21 = NewGradient( 0, 5, 2, float4( 0.4980392, 0.7607843, 0.8392157, 0 ), float4( 0.4980392, 0.7607843, 0.8392157, 0.4 ), float4( 0.972549, 0.9960784, 1, 0.5007706 ), float4( 0.6588235, 0.8588235, 0.9411765, 0.6 ), float4( 0.1176471, 0.3098039, 0.4784314, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient21 = NewGradient( 0, 5, 2, float4( 0.4980392, 0.7607843, 0.8392157, 0 ), float4( 0.4980392, 0.7607843, 0.8392157, 0.4749981 ), float4( 0.972549, 0.9960784, 1, 0.5007706 ), float4( 0.6588235, 0.8588235, 0.9411765, 0.5250019 ), float4( 0.1176471, 0.3098039, 0.4784314, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 texCoord14 = input.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				
 
@@ -2039,7 +2039,7 @@ Shader "Custom/Sky"
 /*ASEBEGIN
 Version=19908
 Node;AmplifyShaderEditor.TextureCoordinatesNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;14;-560,64;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.GradientNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;21;-560,-32;Inherit;False;0;5;2;0.4980392,0.7607843,0.8392157,0;0.4980392,0.7607843,0.8392157,0.4;0.972549,0.9960784,1,0.5007706;0.6588235,0.8588235,0.9411765,0.6;0.1176471,0.3098039,0.4784314,1;1,0;1,1;0;1;OBJECT;0
+Node;AmplifyShaderEditor.GradientNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;21;-560,-32;Inherit;False;0;5;2;0.4980392,0.7607843,0.8392157,0;0.4980392,0.7607843,0.8392157,0.4749981;0.972549,0.9960784,1,0.5007706;0.6588235,0.8588235,0.9411765,0.5250019;0.1176471,0.3098039,0.4784314,1;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.GradientSampleNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;17;-320,0;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;0;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ExtraPrePass;0;0;ExtraPrePass;6;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -2058,4 +2058,4 @@ WireConnection;17;0;21;0
 WireConnection;17;1;14;2
 WireConnection;1;2;17;0
 ASEEND*/
-//CHKSM=ABFC4FC83E32112A88A6FB2705FF93276EA785AC
+//CHKSM=6827B6C7EAA9DE52D54685C9D3F79F0319EE436D
