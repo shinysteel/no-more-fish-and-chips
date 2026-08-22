@@ -16,7 +16,7 @@ MonoBehaviour:
   _knockbackForceStrength: 20
   _knockbackTorqueStrength: 0.25
   _stunDuration: 0.5
-  _alliance: 2
+  _alliance: 0
   _mask:
     serializedVersion: 2
     m_Bits: 4294967295
