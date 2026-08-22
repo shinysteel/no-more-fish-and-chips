@@ -1047,7 +1047,7 @@ namespace NoMoreFishAndChips.Inventories
         {
             foreach (InventoryItem inventoryItem in _inventoryItems.Values)
             {
-                _itemManager.SpawnDroppedItem(NetItemInstance.Create(inventoryItem.ItemInstance), DroppedItemType.Default, position);
+                _itemManager.SpawnDroppedItem(NetItemInstance.Create(inventoryItem.ItemInstance), DroppedItemType.Default, position, true);
             }
 
             ClearNetInventoryItemsRpc(owner.Value);

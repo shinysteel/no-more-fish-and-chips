@@ -10,6 +10,8 @@ using UnityEngine.Pool;
 using UnityEngine.UIElements;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
 
+using Random = UnityEngine.Random;
+
 namespace NoMoreFishAndChips.Items
 {
     public interface IItemManagerListener
@@ -91,7 +93,7 @@ namespace NoMoreFishAndChips.Items
 
                 foreach (NetItemInstance netItemInstance in netItemInstances)
                 {
-                    SpawnDroppedItem(netItemInstance, type, position);
+                    SpawnDroppedItem(netItemInstance, type, position, true);
                 }
             }
             finally
@@ -101,10 +103,18 @@ namespace NoMoreFishAndChips.Items
             }
         }
 
-        public DroppedItem SpawnDroppedItem(NetItemInstance netItemInstance, DroppedItemType type, Vector3 position)
+        public DroppedItem SpawnDroppedItem(NetItemInstance netItemInstance, DroppedItemType type, Vector3 position, bool launch)
         {
             DroppedItem droppedItem = (DroppedItem)_entityManager.Spawn(EntityId.DroppedItem, new SpawnParams() { Position = position });
             droppedItem.Set(netItemInstance, type);
+
+            if (launch)
+            {
+                Vector2 random = Random.insideUnitCircle.normalized;
+                Vector3 direction = new Vector3(random.x, 0f, random.y);
+                direction = Quaternion.AngleAxis(-75f, Vector3.right) * direction;
+                droppedItem.EntityPhysicsLogic.Rigidbody.AddForce(direction * 7.5f, ForceMode.Impulse);
+            }
 
             return droppedItem;
         }
