@@ -35,7 +35,7 @@ namespace NoMoreFishAndChips.Entities
         {
             ItemManager itemManager = GameManager.Instance.Get<ItemManager>();
 
-            DroppedItem droppedItem = itemManager.SpawnDroppedItem(netItemInstance, DroppedItemType.Default, position);
+            DroppedItem droppedItem = itemManager.SpawnDroppedItem(netItemInstance, DroppedItemType.Default, position, false);
 
             // Launch the item
             droppedItem.EntityPhysicsLogic.Rigidbody.AddForce(direction * strength, ForceMode.Impulse);
