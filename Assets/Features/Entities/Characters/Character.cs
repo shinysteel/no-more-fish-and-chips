@@ -28,8 +28,8 @@ namespace NoMoreFishAndChips.Entities
             AddLogic(typeof(CharacterActLogic), factory.CreateActLogic(this));
         }
 
-        [ServerRpc]
-        public void StunRpc(float duration)
+        [TargetRpc]
+        public void StunRpc(PlayerID id, float duration)
         {
             CharacterActLogic.Stun(duration);
         }

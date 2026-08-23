@@ -123,7 +123,7 @@ namespace NoMoreFishAndChips.Hitboxes
 
                         if (entity is Character character)
                         {
-                            character.StunRpc(_data.StunDuration);
+                            character.StunRpc(character.owner.Value, _data.StunDuration);
                         }
 
                         // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
