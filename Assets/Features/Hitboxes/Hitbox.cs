@@ -93,7 +93,7 @@ namespace NoMoreFishAndChips.Hitboxes
                         continue;
                     }
 
-                    if (_data.Alliance == entity.EntityDefinitionData.Alliance && _data.Alliance != EntityAlliance.Neutral && entity is not RaftPlayer)
+                    if (_data.Alliance == entity.EntityDefinitionData.Alliance && _data.Alliance != EntityAlliance.Neutral && !(_source is RaftPlayer && entity is RaftPlayer))
                     {
                         continue;
                     }
