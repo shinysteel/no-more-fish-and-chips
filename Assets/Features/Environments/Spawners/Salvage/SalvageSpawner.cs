@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.Environments
 
             if (_spawnTimer < _spawnInterval)
             {
-                _spawnTimer += Time.deltaTime;
+                _spawnTimer += Time.deltaTime * _networkManager.PurrnetPlayers.Count;
                 return;
             }
 

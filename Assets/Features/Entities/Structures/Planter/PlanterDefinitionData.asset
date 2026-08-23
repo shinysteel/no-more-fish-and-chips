@@ -15,18 +15,18 @@ MonoBehaviour:
   _nameTerm: -897745646
   _descriptionTerm: -868385518
   _sprite: {fileID: 21300000, guid: 6080eb884ac174f46afa310591450636, type: 3}
+  _rarity: 0
   _id: 302
   _health: 1
   _isDamageable: 0
   _alliance: 0
+  _surfaceType: 0
   _dropTables: []
   _entityDefeatSettings: {fileID: 11400000, guid: 4d6268f574805274586387a8befa046c, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
   _buildRecipe:
-    _requirements:
-    - _itemId: 1
-      _count: 2
+    _requirements: []
   _iInteractableSettings: {fileID: 11400000, guid: e7d2000787996de4b911b468dcd0015b, type: 2}
   _plantRecipe:
     _requirements:
