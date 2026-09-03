@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Environments;
 using UnityEngine;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Effects;
+using NoMoreFishAndChips.Voyages;
 using NoMoreFishAndChips.States;
 
 [CreateAssetMenu(fileName = "GameplayStateConfig", menuName = "Configs/Managers/States/Gameplay/GameplayStateConfig")]

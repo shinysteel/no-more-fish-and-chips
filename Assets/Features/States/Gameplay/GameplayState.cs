@@ -21,6 +21,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using NoMoreFishAndChips.Voyages;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using Object = UnityEngine.Object;

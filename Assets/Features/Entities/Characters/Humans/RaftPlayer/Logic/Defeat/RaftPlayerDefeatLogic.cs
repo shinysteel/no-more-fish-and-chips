@@ -4,9 +4,9 @@ using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Pools;
 using PrimeTween;
 using PurrNet;
-using ShinyOwl.Common.Extensions;
 using System;
 using UnityEngine;
+using ShinyOwl.Common;
 
 using Random = UnityEngine.Random;
 
@@ -134,7 +134,7 @@ namespace NoMoreFishAndChips.Entities
             if (defeated)
             {
                 _player.EntityPhysicsLogic.Rigidbody.isKinematic = true;
-                TweenExtensions.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: Ease.OutQuad);
+                PrimeTweenFix.Rotation(_player.transform, endValue: Quaternion.LookRotation(Vector3.back, Vector3.up), duration: 0.33f, ease: PrimeTweenConfig.defaultEase);
             }
 
             RaiseIsDefeatedChanged();

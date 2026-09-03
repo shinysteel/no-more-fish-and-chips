@@ -4,9 +4,8 @@ using NoMoreFishAndChips.States;
 using PurrNet;
 using System.Collections.Generic;
 using UnityEngine;
-using NoMoreFishAndChips.Effects;
 
-namespace NoMoreFishAndChips.States
+namespace NoMoreFishAndChips.Effects
 {
     public class EnvironmentMarker : GameplayBehaviour
     {

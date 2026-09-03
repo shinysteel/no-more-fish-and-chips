@@ -1,7 +1,6 @@
 using NoMoreFishAndChips.Environments;
 using PrimeTween;
 using ShinyOwl.Common;
-using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
@@ -207,7 +206,7 @@ namespace NoMoreFishAndChips.Entities
                 Vector3 bitePosition = _shark.transform.position + _shark.transform.forward * 0.1f + Vector3.up * 0.2f;
 
                 Tween.Position(_shark.transform, endValue: bitePosition, duration: _tweenDuration);
-                TweenExtensions.Rotation(_shark.transform, endValue: _shark.transform.rotation * Quaternion.AngleAxis(-30f, Vector3.right), duration: _tweenDuration, ease: Ease.OutQuad);
+                PrimeTweenFix.Rotation(_shark.transform, endValue: _shark.transform.rotation * Quaternion.AngleAxis(-30f, Vector3.right), duration: _tweenDuration, ease: PrimeTweenConfig.defaultEase);
 
                 _shark._entityModel.Animator.SetBool(IsBitingBoolName, true);
 
@@ -286,7 +285,7 @@ namespace NoMoreFishAndChips.Entities
 
                 _goToSwimStateSequence = Sequence.Create()
                     .Chain(Tween.Position(_shark.transform, endValue: _startPosition, duration: _tweenDuration))
-                    .Group(TweenExtensions.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: Ease.OutQuad))
+                    .Group(PrimeTweenFix.Rotation(_shark.transform, endValue: _startRotation, duration: _tweenDuration, ease: PrimeTweenConfig.defaultEase))
                     .ChainCallback(() => _parentStateMachine.ChangeState(EState.Swim));
             }
 

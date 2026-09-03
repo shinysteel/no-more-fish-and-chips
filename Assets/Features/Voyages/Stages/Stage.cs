@@ -80,13 +80,13 @@ namespace NoMoreFishAndChips.Voyages
 
                 while (_spawnCounter < _stage._waveStep.Count && _stepTimer >= _stage._waveStep.Interval)
                 {
-                    for (int i = 0; i < Mathf.CeilToInt(_stage._networkManager.PurrnetPlayers.Count / 2f); i++)
+                    if (_stage._entityManager.TrySpawnEnemy(_stage._waveStep.EntityId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition }, _stage._context, out _))
                     {
-                        _stage._entityManager.Spawn(_stage._waveStep.EntityId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition });
+                        _stage._areWavesDefeated = false;
                     }
 
                     _spawnCounter++;
-                    _stage._areWavesDefeated = false;
+                    
                     _stepTimer -= _stage._waveStep.Interval;
                 }
 

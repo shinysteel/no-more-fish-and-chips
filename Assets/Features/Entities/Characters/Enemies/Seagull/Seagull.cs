@@ -1,7 +1,6 @@
 using NoMoreFishAndChips.Audio;
 using PrimeTween;
 using ShinyOwl.Common;
-using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
@@ -102,7 +101,7 @@ namespace NoMoreFishAndChips.Entities
 
                 _targetsChosen++;
 
-                TweenExtensions.Rotation(_seagull.transform, endValue: Quaternion.AngleAxis(_glideDirection * -10f, Vector3.forward), duration: 0.5f, Ease.OutQuad);
+                PrimeTweenFix.Rotation(_seagull.transform, endValue: Quaternion.AngleAxis(_glideDirection * -10f, Vector3.forward), duration: 0.5f, ease: PrimeTweenConfig.defaultEase);
             }
 
             public override void Tick()
@@ -152,7 +151,7 @@ namespace NoMoreFishAndChips.Entities
 
                 _seagull._rigidbody.isKinematic = false;
 
-                TweenExtensions.Rotation(_seagull.transform, endValue: Quaternion.LookRotation(Vector3.forward, Vector3.up), duration: 1f, ease: Ease.OutQuad);
+                PrimeTweenFix.Rotation(_seagull.transform, endValue: Quaternion.LookRotation(Vector3.forward, Vector3.up), duration: 1f, ease: PrimeTweenConfig.defaultEase);
             }
 
             public override void FixedTick()
@@ -199,7 +198,7 @@ namespace NoMoreFishAndChips.Entities
                     direction.y = 0f;
                     direction.Normalize();
 
-                    TweenExtensions.Rotation(_seagull.transform, endValue: Quaternion.LookRotation(direction, Vector3.up), duration: 0.2f, ease: Ease.OutQuad);
+                    PrimeTweenFix.Rotation(_seagull.transform, endValue: Quaternion.LookRotation(direction, Vector3.up), duration: 0.2f, ease: PrimeTweenConfig.defaultEase);
 
                     _parentStateMachine.ChangeState(EState.Attack);
                 }

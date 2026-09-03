@@ -114,7 +114,7 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            return enemyPrefab.TrySpawn(out enemy);
+            return enemyPrefab.TrySpawn(parameters, context, out enemy);
         }
 
         // Centralised spawn method for entities, handling NetEntity, Entity + Poolable and Entity all in one

@@ -9,6 +9,7 @@ using ShinyOwl.Common.Utils;
 using NUnit.Framework;
 using System.Collections.Generic;
 using NoMoreFishAndChips.Pools;
+using NoMoreFishAndChips.Voyages;
 
 namespace NoMoreFishAndChips.UI
 {

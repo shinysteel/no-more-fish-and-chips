@@ -7,7 +7,6 @@ using NoMoreFishAndChips.UI;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
-using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Linq;
@@ -201,7 +200,7 @@ namespace NoMoreFishAndChips.Entities
                         _clam.transform.rotation = rotation * Quaternion.AngleAxis(25f * Mathf.Sin(2f * Mathf.PI * value), Vector3.up);
                     }))
                     .Chain(Tween.PositionY(_clam.transform, endValue: _clam.transform.position.y + 1f, duration: 0.5f))
-                    .Group(TweenExtensions.Rotation(_clam.transform, endValue: _clam.transform.rotation * Quaternion.AngleAxis(-180f, Vector3.right), duration: 0.5f, ease: Ease.OutQuad))
+                    .Group(PrimeTweenFix.Rotation(_clam.transform, endValue: _clam.transform.rotation * Quaternion.AngleAxis(-180f, Vector3.right), duration: 0.5f, ease: PrimeTweenConfig.defaultEase))
                     .Chain(Tween.PositionY(_clam.transform, endValue: 0.125f, duration: 0.25f))
                     .ChainCallback(() => _clam._hitboxManager.SpawnHitbox(_clam.DefinitionData.EmptyRageSettings.HitboxData, _clam, new SpawnParams() { Position = _clam.transform.position }))
                     .ChainCallback(() => _clam._entityManager.Despawn(_clam));

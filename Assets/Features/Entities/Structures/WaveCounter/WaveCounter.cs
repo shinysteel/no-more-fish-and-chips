@@ -3,7 +3,6 @@ using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
-using ShinyOwl.Common.Extensions;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;

@@ -3,10 +3,16 @@ using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.States;
 using PrimeTween;
-using ShinyOwl.Common.Extensions;
+using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Pool;
+
+using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -33,14 +39,9 @@ namespace NoMoreFishAndChips.Entities
         }
     }
 
-    // Surface and scout a tile on the raft
     public class FlyingFishSurfaceState : FlyingFishState
     {
-        private int _scoutOffset = 3;
-        private float _restDistance = 0.05f;
-        private float _scoutTilt = 15f;
-        private float _surfaceDuration = 0.5f;
-        private float _surfaceDistance = 0.5f;
+        private RaftEdge _edge;
 
         public FlyingFishSurfaceState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
         { }
@@ -49,64 +50,91 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            // Choose a tile to target and a position to scout from
-            if (!_context.Raft.Queries.TryGetRandomTile((RaftTile tile) => !tile.EntityDefeatLogic.IsDefeated, out RaftTile tile)
-                || !_context.Raft.Queries.TryGetClosestEdge(tile.Cell, out RaftEdge edge))
-            {
-                // _fish.OnDespawned();
-                // _fish._entityManager.Despawn(_fish);
-                return;
-            }
-
-            _fish.SetLandPosition(_context.Raft.Queries.CellToWorldPosition(tile.Cell));
-
-            _fish.transform.position = _context.Raft.Queries.CellToWorldPosition(edge.Node.Cell + Utils.Math.DirectionToVector2Int(edge.Direction) * _scoutOffset);
-
-            // Rest slightly in the water
-            _fish.transform.position += Vector3.down * _restDistance;
-
-            // Face towards the raft, with a slight tilt up
-            _fish.transform.rotation = Quaternion.LookRotation(-Utils.Math.DirectionToVector3(edge.Direction));
-            _fish.transform.rotation = Quaternion.AngleAxis(-_scoutTilt, _fish.transform.right) * _fish.transform.rotation;
-
-            // Animate from underwater to surface
-            _fish.transform.position += Vector3.down * _surfaceDistance;
-            Vector3 surfacePosition = _fish.transform.position + Vector3.up * _surfaceDistance;
-            Tween.Position(_fish.transform, endValue: surfacePosition, duration: _surfaceDuration, ease: Ease.OutBack);
-
-            EffectManager.SpawnVfxRpc(VfxId.WaterSplash, new Vector3(surfacePosition.x, 0f, surfacePosition.z));
-
-            // Place a marker
-            _fish.SetMarkerId(_context.EnvironmentMarker.AddNetMarkedCells(tile.Cell));
+            Surface();
+            ChooseLandingPosition();
+            WiggleThenFly();
         }
 
-        public override void Tick()
+        // Surface away from the edge
+        private void Surface()
         {
-            base.Tick();
+            _edge = Random.value <= 0.5f ? _fish.SpawnInfo.RaftLine.MinEdge : _fish.SpawnInfo.RaftLine.MaxEdge;
 
-            // Scout for some time before attacking
-            if (_stateTimer < _fish.DefinitionData.ScoutDuration)
+            Vector2Int cell = _edge.Node.Cell;
+            cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * Random.Range(2, 4);
+
+            Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell);
+            position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+            position += Vector3.down * 0.5f;
+
+            _fish.EntityPhysicsLogic.Rigidbody.position = position;
+
+            EffectManager.SpawnVfxRpc(VfxId.WaterSplash, new Vector3(position.x, 0f, position.z));
+        }
+
+        // Choose between the edge and the tile behind it
+        private void ChooseLandingPosition()
+        {
+            List<RaftTile> tiles = ListPool<RaftTile>.Get();
+
+            tiles.Add(_context.Raft.Tiles[_edge.Node.Cell]);
+
+            if (_context.Raft.Tiles.TryGetValue(_edge.Node.Cell - Utils.Math.DirectionToVector2Int(_edge.Direction), out RaftTile tile))
             {
-                return;
+                tiles.Add(tile);
             }
 
-            _parentStateMachine.ChangeState(EFlyingFishState.Fly);
+            Vector3 position = tiles.OrderBy(tile => tile.EntityDefeatLogic.IsDefeated).ThenBy(tile => Random.value).First().transform.position;
+            position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+
+            _fish.SetLandingPosition(position);
+
+            ListPool<RaftTile>.Release(tiles);
+        }
+
+        private void WiggleThenFly()
+        {
+            Quaternion getRotationToLandingPosition()
+            {
+                Vector3 direction = (_fish.LandingPosition - _fish.EntityPhysicsLogic.Rigidbody.position).normalized;
+                direction.y = 0f;
+                direction.Normalize();
+
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+                return rotation;
+            }
+
+            Sequence.Create(updateType: UpdateType.FixedUpdate)
+                // Wiggle while facing the target
+                .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 1f, onValueChange: _ =>
+                {
+                    Quaternion rotation = getRotationToLandingPosition();
+                    rotation *= Quaternion.AngleAxis(-15f, Vector3.right);
+
+                    _fish.EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
+                }))
+                // Tilt up
+                .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.25f, onValueChange: (float value) =>
+                {
+                    Quaternion startRotation = getRotationToLandingPosition();
+                    startRotation *= Quaternion.AngleAxis(-15f, Vector3.right);
+
+                    Quaternion endRotation = getRotationToLandingPosition();
+                    endRotation *= Quaternion.AngleAxis(-75f, Vector3.right);
+
+                    Quaternion rotation = Quaternion.Slerp(startRotation, endRotation, value);
+
+                    _fish.EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
+                }))
+                .ChainCallback(() => _parentStateMachine.ChangeState(EFlyingFishState.Fly));
         }
     }
 
-    // Fly into a tile on the raft
     public class FlyingFishFlyState : FlyingFishState
     {
         private HitboxManager _hitboxManager;
         private EntityManager _entityManager;
-
-        private Vector3 _anticipatePosition;
-        private Quaternion _anticipateRotation;
-
-        private Quaternion _landRotation;
-
-        private bool _isAnticipating;
-        private float _flyTimer;
 
         public FlyingFishFlyState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
         {
@@ -118,53 +146,13 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            _flyTimer = 0f;
+            _fish.EntityModel.Animator.SetBool(FlyingFish.IsFlyingBoolName, true);
 
-            _isAnticipating = true;
-            Vector3 anticipateOffset = Vector3.down * 0.2f;
-            float anticipateDuration = 0.2f;
+            _fish.EntityPhysicsLogic.Rigidbody.AddForce(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward * 50f, ForceMode.Impulse);
 
-            _anticipatePosition = _fish.transform.position + anticipateOffset;
+            Quaternion rotation = Quaternion.FromToRotation(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward, Vector3.down) * _fish.EntityPhysicsLogic.Rigidbody.rotation;
 
-            // Match the launch angle
-            _anticipateRotation = Quaternion.AngleAxis(-_fish.DefinitionData.LaunchAngle, _fish.transform.right) * _fish.transform.rotation;
-
-            // Anticipate with a small duck
-            Sequence.Create()
-                .Chain(Tween.Position(_fish.transform, _anticipatePosition, anticipateDuration, Ease.OutQuad))
-                .Group(TweenExtensions.Rotation(_fish.transform, _anticipateRotation, anticipateDuration, Ease.OutQuad))
-                .OnComplete(() =>
-                {
-                    _isAnticipating = false;
-                    _fish.EntityModel.Animator.SetBool(FlyingFish.IsFlyingBoolName, true);
-                });
-
-            // Straight down
-            _landRotation = Quaternion.AngleAxis(90f, _fish.transform.right) * _fish.transform.rotation;
-        }
-
-        public override void Tick()
-        {
-            base.Tick();
-
-            if (_isAnticipating)
-            {
-                return;
-            }
-
-            _flyTimer += Time.deltaTime;
-
-            // Interpolate from start to end
-            float time = _flyTimer / _fish.DefinitionData.FlyDuration;
-            _fish.transform.position = Utils.Physics.GetProjectilePosition(_anticipatePosition, _fish.LandPosition, Physics.gravity.magnitude * 0.5f, _fish.DefinitionData.LaunchAngle, time);
-            _fish.transform.rotation = Quaternion.Slerp(_anticipateRotation, _landRotation, time);
-
-            if (_flyTimer > _fish.DefinitionData.FlyDuration)
-            {
-                _hitboxManager.SpawnHitbox(_fish.DefinitionData.ImpactHitboxData, _fish, new SpawnParams() { Position = _fish.LandPosition });
-
-                _entityManager.Despawn(_fish);
-            }
+            PrimeTweenFix.RigidbodyMoveRotation(_fish.EntityPhysicsLogic.Rigidbody, endValue: rotation, duration: 1f, ease: Ease.InOutQuad);
         }
     }
 }

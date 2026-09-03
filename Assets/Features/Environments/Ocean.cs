@@ -86,7 +86,7 @@ namespace NoMoreFishAndChips.Environments
                 }
 
                 BuoyancyOnTriggerStay(collider, entity);
-                CurrentOnTriggerStay(entity.EntityPhysicsLogic.Rigidbody, false);
+                CurrentEntityOnTriggerStay(entity);
                 DragOnTriggerStay(collider, entity);
             }
             else if (collider.gameObject.TryGetComponent(out Island island))
@@ -101,7 +101,7 @@ namespace NoMoreFishAndChips.Environments
                     return;
                 }
                 
-                CurrentOnTriggerStay(island.Rigidbody, true);
+                CurrentRigidbodyOnTriggerStay(island.Rigidbody, true);
             }
         }
 
@@ -124,14 +124,24 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // Current is referring to motion in water
-        private void CurrentOnTriggerStay(Rigidbody rigidbody, bool allowKinematic)
+        private void CurrentEntityOnTriggerStay(Entity entity)
+        {
+            if (entity is Character && !entity.EntityDefeatLogic.IsDefeated)
+            {
+                return;
+            }
+
+            CurrentRigidbodyOnTriggerStay(entity.EntityPhysicsLogic.Rigidbody, false);
+        }
+
+        private void CurrentRigidbodyOnTriggerStay(Rigidbody rigidbody, bool allowKinematic)
         {
             if (_currentSpeed == 0f)
             {
                 return;
             }
 
-            if (!allowKinematic && rigidbody.isKinematic)
+            if (rigidbody.isKinematic && !allowKinematic)
             {
                 return;
             }

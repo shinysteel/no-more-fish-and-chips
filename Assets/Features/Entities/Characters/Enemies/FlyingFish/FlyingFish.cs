@@ -4,7 +4,6 @@ using ShinyOwl.Common.Framework;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
 using PrimeTween;
-using ShinyOwl.Common.Extensions;
 using ShinyOwl.Common;
 using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.Hitboxes;
@@ -13,17 +12,32 @@ using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class FlyingFish : Character<FlyingFishDefinitionData>
+    public class FlyingFish : Enemy<FlyingFishDefinitionData, FlyingFishSpawnInfo>
     {
         private StateMachine<EFlyingFishState> _stateMachine;
 
-        private Vector3 _landPosition;
-        public Vector3 LandPosition => _landPosition;
-        
-        private int? _markerId;
+        private Vector3 _landingPositionn;
+        public Vector3 LandingPosition => _landingPositionn;
 
         public const string IsFlyingBoolName = "IsFlying";
 
+        public override bool TrySpawn(SpawnParams parameters, GameplayContext context, out Enemy enemy)
+        {
+            enemy = default;
+
+            if (!context.Raft.Queries.TryGetRandomLine(out RaftLine line))
+            {
+                return false;
+            }
+
+            EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
+            enemy = (Enemy)entityManager.Spawn(DefinitionData.Id, parameters);
+
+            ((FlyingFish)enemy).SetSpawnInfo(new FlyingFishSpawnInfo(line));
+
+            return true;
+        }
+        
         protected override void Awake()
         {
             base.Awake();
@@ -87,14 +101,9 @@ namespace NoMoreFishAndChips.Entities
             _stateMachine.Tick();
         }
 
-        public void SetLandPosition(Vector3 position)
+        public void SetLandingPosition(Vector3 position)
         {
-            _landPosition = position;
-        }
-
-        public void SetMarkerId(int? id)
-        {
-            _markerId = id;
+            _landingPositionn = position;
         }
 
         private void HandleIsDefeatedChanged(bool defeated)
@@ -107,13 +116,13 @@ namespace NoMoreFishAndChips.Entities
 
         private void Cleanup()
         {
-            _landPosition = Vector3.zero;
+            //_landPosition = Vector3.zero;
 
-            if (_markerId.HasValue)
-            {
-                _context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
-                _markerId = null;
-            }
+            //if (_markerId.HasValue)
+            //{
+            //    _context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
+            //    _markerId = null;
+            //}
 
             _entityModel.Animator.SetBool(IsFlyingBoolName, false);
 

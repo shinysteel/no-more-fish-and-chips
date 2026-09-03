@@ -9,6 +9,7 @@ using NoMoreFishAndChips.Networking;
 using System.Threading.Tasks;
 using ShinyOwl.Common.Utils;
 using ShinyOwl.Common;
+using NoMoreFishAndChips.Voyages;
 
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
 

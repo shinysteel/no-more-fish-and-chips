@@ -5,20 +5,17 @@ namespace NoMoreFishAndChips.Entities
 {
     public abstract class Enemy : Character
     {
-        public abstract bool TrySpawn(out Enemy enemy);
+        public abstract bool TrySpawn(SpawnParams parameters, GameplayContext context, out Enemy enemy);
     }
 
-    public abstract class Enemy<T> : Enemy
-        where T : EntityDefinitionData
-    {
-        public T DefinitionData => (T)_entityDefinitionData;
-    }
-
-    public abstract class Enemy<T, U> : Enemy<T>
+    public abstract class Enemy<T, U> : Enemy
         where T : EntityDefinitionData
         where U : EnemySpawnInfo
     {
+        public T DefinitionData => (T)_entityDefinitionData;
+
         protected U _spawnInfo;
+        public U SpawnInfo => _spawnInfo;
 
         public void SetSpawnInfo(U info)
         {

@@ -8,10 +8,10 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
-using NoMoreFishAndChips.Voyages;
 using System.Collections.Generic;
+using NoMoreFishAndChips.States;
 
-namespace NoMoreFishAndChips.States
+namespace NoMoreFishAndChips.Voyages
 {
     public enum VoyageResult
     {

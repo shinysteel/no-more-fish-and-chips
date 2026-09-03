@@ -9,6 +9,7 @@ using UnityEngine.Pool;
 using System.Threading.Tasks;
 using PurrNet;
 using ShinyOwl.Common;
+using NoMoreFishAndChips.Voyages;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using System;
