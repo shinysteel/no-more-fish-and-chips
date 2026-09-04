@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6c0829d1599f28418a14f0b5f8d89a9, type: 3}
-  m_Name: FlyingFishImpactHitboxData
+  m_Name: FlyingFishFlyHitboxData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Hitboxes.HitboxData
   _damage: 1
   _knockbackForceStrength: 25
@@ -23,7 +23,7 @@ MonoBehaviour:
   _steps:
   - _shape: 0
     _offset: {x: 0, y: 0, z: 0}
-    _size: {x: 0.99, y: 0.99, z: 0.99}
+    _size: {x: 0.5, y: 1, z: 0.5}
     _radius: 0
     _startTime: 0
     _duration: 0.1

@@ -147,7 +147,6 @@ namespace NoMoreFishAndChips.Entities
                 _seagull._entityModel.Animator.SetBool(IsFlappingBoolName, true);
 
                 _landPosition = tile.transform.position;
-                _landPosition.y = tile.GetSurfaceY();
 
                 _seagull._rigidbody.isKinematic = false;
 

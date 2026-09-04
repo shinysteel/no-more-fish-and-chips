@@ -113,7 +113,7 @@ namespace NoMoreFishAndChips.Networking
             PackCollections.RegisterDictionary<Vector2Int, NetInventorySlot>();
             PackCollections.RegisterDictionary<string, NetInventoryItem>();
             PackCollections.RegisterDictionary<Vector2Int, Structure>();
-            PackCollections.RegisterDictionary<int, Vector2Int[]>();
+            PackCollections.RegisterDictionary<int, NetMarker>();
             
             base.InitialiseConfig(config);
         }

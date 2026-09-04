@@ -16,9 +16,6 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<EFlyingFishState> _stateMachine;
 
-        private Vector3 _landingPositionn;
-        public Vector3 LandingPosition => _landingPositionn;
-
         public const string IsFlyingBoolName = "IsFlying";
 
         public override bool TrySpawn(SpawnParams parameters, GameplayContext context, out Enemy enemy)
@@ -76,7 +73,7 @@ namespace NoMoreFishAndChips.Entities
 
             EntityDefeatLogic.OnIsDefeatedChanged -= HandleIsDefeatedChanged;
 
-            if (isServer)
+            if (isOwner)
             {
                 Cleanup();
             } 
@@ -93,17 +90,10 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Update();
             
-            if (!isServer)
+            if (isOwner)
             {
-                return;
+                _stateMachine.Tick();
             }
-
-            _stateMachine.Tick();
-        }
-
-        public void SetLandingPosition(Vector3 position)
-        {
-            _landingPositionn = position;
         }
 
         private void HandleIsDefeatedChanged(bool defeated)
@@ -116,14 +106,6 @@ namespace NoMoreFishAndChips.Entities
 
         private void Cleanup()
         {
-            //_landPosition = Vector3.zero;
-
-            //if (_markerId.HasValue)
-            //{
-            //    _context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
-            //    _markerId = null;
-            //}
-
             _entityModel.Animator.SetBool(IsFlyingBoolName, false);
 
             // Cleanup will always happen on Despawn, but can also happen when Defeated

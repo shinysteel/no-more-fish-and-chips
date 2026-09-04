@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 745259385588039650}
   - component: {fileID: 7095426318951412384}
   m_Layer: 0
-  m_Name: DangerMarker
+  m_Name: Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

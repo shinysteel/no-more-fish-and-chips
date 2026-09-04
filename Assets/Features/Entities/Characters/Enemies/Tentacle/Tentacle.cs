@@ -122,9 +122,9 @@ namespace NoMoreFishAndChips.Entities
 
                 _tentacle.CharacterModel.Animator.SetBool(IsChargingBoolName, true);
 
-                _markerId = _tentacle._context.EnvironmentMarker.AddNetMarkedCells(
-                    _tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward),
-                    _tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward * 2f));
+                //_markerId = _tentacle._context.EnvironmentMarker.AddNetMarkedCells(
+                //    _tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward),
+                //    _tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward * 2f));
             }
 
             public override void Tick()
@@ -154,7 +154,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (_tentacle.isOwner && _markerId.HasValue)
                 {
-                    _tentacle._context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
+                    // _tentacle._context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
                     _markerId = null;
                 }
             }

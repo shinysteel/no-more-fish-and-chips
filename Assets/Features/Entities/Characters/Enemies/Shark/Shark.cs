@@ -256,7 +256,7 @@ namespace NoMoreFishAndChips.Entities
 
                     int axisIndex = _shark._targetLines[0].RaftAxis.WorldPositionToAxisIndex(_shark.transform.position);
 
-                    _markerId ??= _shark._context.EnvironmentMarker.AddNetMarkedCells(_shark._targetLines.Select(line => line.AxisIndexToCell(axisIndex + 1 * _shark._swimDirectionFlat)).ToArray());                    
+                    // _markerId ??= _shark._context.EnvironmentMarker.AddNetMarkedCells(_shark._targetLines.Select(line => line.AxisIndexToCell(axisIndex + 1 * _shark._swimDirectionFlat)).ToArray());                    
 
                     if (_biteTimer < _biteInterval)
                     {
@@ -293,7 +293,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (_markerId.HasValue)
                 {
-                    _shark._context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
+                    // _shark._context.EnvironmentMarker.RemoveNetMarkedCells(_markerId.Value);
                     _markerId = null;
                 }
             }

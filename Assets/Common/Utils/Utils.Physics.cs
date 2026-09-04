@@ -1,4 +1,3 @@
-using UnityEngine;
 using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Cameras;
 using PurrNet;
@@ -14,32 +13,45 @@ namespace ShinyOwl.Common.Utils
     {
         public static class Physics
         {
-            public static Vector3 GetProjectilePosition(Vector3 startPosition, Vector3 endPosition, float gravity, float launchAngle, float normalisedTime)
-            {
-                Vector3 direction = endPosition - startPosition;
-                Vector3 directionXZ = new Vector3(direction.x, 0f, direction.z);
-                float distance = directionXZ.magnitude;
-                float radians = launchAngle * Mathf.Deg2Rad;
-                float cos = Mathf.Cos(radians);
-                float sin = Mathf.Sin(radians);
-                float height = direction.y;
-                float speed = (gravity * distance * distance) / (2f * cos * cos * (distance * Mathf.Tan(radians) - height));
-                speed = Mathf.Sqrt(speed);
-                Vector3 velocity = directionXZ.normalized * speed * cos + Vector3.up * speed * sin;
-                float time = distance / (speed * cos);
-                float t = time * normalisedTime;
-                return startPosition + velocity * t + Vector3.down * (0.5f * gravity * t * t);
-            }
-
             public static int CapsuleCastNonAlloc(CapsuleCollider collider, Vector3 offset, Vector3 direction, RaycastHit[] results, float maxDistance, int layerMask)
             {
-                Vector3 center = collider.transform.position + collider.transform.TransformVector(collider.center) + offset;
-                float radius = collider.radius * Mathf.Max(collider.transform.lossyScale.x, collider.transform.lossyScale.z);
-                float height = Mathf.Max(collider.height * collider.transform.lossyScale.y, radius * 2f);
+                Vector3 center = collider.transform.TransformPoint(collider.center) + offset;
+
+                Vector3 scale = collider.transform.lossyScale;
+
+                Vector3 axis = Vector3.zero;
+                float radiusScale = 0f;
+                float heightScale = 0f;
+
+                switch (collider.direction)
+                {
+                    case 0:
+                        axis = collider.transform.right;
+                        radiusScale = Mathf.Max(scale.y, scale.z);
+                        heightScale = scale.x;
+                        break;
+
+                    case 1:
+                        axis = collider.transform.up;
+                        radiusScale = Mathf.Max(scale.x, scale.z);
+                        heightScale = scale.y;
+                        break;
+
+                    case 2:
+                        axis = collider.transform.forward;
+                        radiusScale = Mathf.Max(scale.x, scale.y);
+                        heightScale = scale.z;
+                        break;
+                }
+
+                float radius = collider.radius * radiusScale;
+
+                float height = Mathf.Max(collider.height * heightScale, radius * 2f);
+
                 float pointOffset = height * 0.5f - radius;
 
-                Vector3 point1 = center - Vector3.up * pointOffset;
-                Vector3 point2 = center + Vector3.up * pointOffset;
+                Vector3 point1 = center - axis * pointOffset;
+                Vector3 point2 = center + axis * pointOffset;
 
                 return UnityEngine.Physics.CapsuleCastNonAlloc(point1, point2, radius, direction, results, maxDistance, layerMask);
             }

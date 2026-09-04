@@ -93,7 +93,10 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetCellChanged(Vector2Int cell)
         {
-            transform.position = _context.Raft.Queries.CellToWorldPosition(_netCell.value);
+            Vector3 position = _context.Raft.Queries.CellToWorldPosition(_netCell.value);
+            position.y = 0.125f;
+
+            transform.position = position;
         }
 
         [ServerRpc(requireOwnership: false)]
@@ -104,7 +107,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _netStructure.value = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform, Position = new Vector3(transform.position.x, GetSurfaceY(), transform.position.z) });
+            _netStructure.value = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform, Position = transform.position });
             _netStructure.value.SetCell(_netCell.value);
         }
 
@@ -147,32 +150,19 @@ namespace NoMoreFishAndChips.Entities
 
             bool dip = Physics.CheckSphere(_rigidbody.position, TileDefinitionData.DipSettings.Radius, TileDefinitionData.DipSettings.Mask);
 
-            float targetY;
+            // Sit just above the water
+            float targetY = 0.125f;
 
-            if (dip)
-            {
-                // Sit just above the water
-                targetY = 0f;
-            }
-            else
+            if (!dip)
             {
                 // Bob up and down
-                targetY = TileDefinitionData.BobSettings.Amplitude * Mathf.PerlinNoise(
+                targetY = 0.125f + TileDefinitionData.BobSettings.Amplitude * Mathf.PerlinNoise(
                     _netCell.value.x * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale,
                     _netCell.value.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
             }
 
             Vector3 targetPosition = new Vector3(_rigidbody.position.x, targetY, _rigidbody.position.z);
             _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.DipSettings.Speed * Time.fixedDeltaTime));
-        }
-
-        /// <summary>
-        /// Retrieves the y coord that sits on top of the tile
-        /// </summary>
-        public float GetSurfaceY()
-        {
-            float height = 0.25f;
-            return transform.position.y + height * 0.5f;
         }
 
         bool IInteractable.CanPrompt()

@@ -42,6 +42,7 @@ namespace NoMoreFishAndChips.Entities
     public class FlyingFishSurfaceState : FlyingFishState
     {
         private RaftEdge _edge;
+        private Vector3 _targetPosition;
 
         public FlyingFishSurfaceState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
         { }
@@ -51,7 +52,7 @@ namespace NoMoreFishAndChips.Entities
             base.Enter();
 
             Surface();
-            ChooseLandingPosition();
+            ChooseDirection();
             WiggleThenFly();
         }
 
@@ -72,8 +73,8 @@ namespace NoMoreFishAndChips.Entities
             EffectManager.SpawnVfxRpc(VfxId.WaterSplash, new Vector3(position.x, 0f, position.z));
         }
 
-        // Choose between the edge and the tile behind it
-        private void ChooseLandingPosition()
+        // Choose a random point on either the edge or the tile behind it
+        private void ChooseDirection()
         {
             List<RaftTile> tiles = ListPool<RaftTile>.Get();
 
@@ -84,19 +85,18 @@ namespace NoMoreFishAndChips.Entities
                 tiles.Add(tile);
             }
 
-            Vector3 position = tiles.OrderBy(tile => tile.EntityDefeatLogic.IsDefeated).ThenBy(tile => Random.value).First().transform.position;
-            position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
-
-            _fish.SetLandingPosition(position);
+            _targetPosition = tiles.OrderBy(tile => tile.EntityDefeatLogic.IsDefeated).ThenBy(tile => Random.value).First().transform.position;
+            _targetPosition += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+            _targetPosition.y = 0f;
 
             ListPool<RaftTile>.Release(tiles);
         }
 
         private void WiggleThenFly()
         {
-            Quaternion getRotationToLandingPosition()
+            Quaternion getRotationToTargetPosition()
             {
-                Vector3 direction = (_fish.LandingPosition - _fish.EntityPhysicsLogic.Rigidbody.position).normalized;
+                Vector3 direction = (_targetPosition - _fish.EntityPhysicsLogic.Rigidbody.position).normalized;
                 direction.y = 0f;
                 direction.Normalize();
 
@@ -109,7 +109,7 @@ namespace NoMoreFishAndChips.Entities
                 // Wiggle while facing the target
                 .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 1f, onValueChange: _ =>
                 {
-                    Quaternion rotation = getRotationToLandingPosition();
+                    Quaternion rotation = getRotationToTargetPosition();
                     rotation *= Quaternion.AngleAxis(-15f, Vector3.right);
 
                     _fish.EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
@@ -117,10 +117,10 @@ namespace NoMoreFishAndChips.Entities
                 // Tilt up
                 .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.25f, onValueChange: (float value) =>
                 {
-                    Quaternion startRotation = getRotationToLandingPosition();
+                    Quaternion startRotation = getRotationToTargetPosition();
                     startRotation *= Quaternion.AngleAxis(-15f, Vector3.right);
 
-                    Quaternion endRotation = getRotationToLandingPosition();
+                    Quaternion endRotation = getRotationToTargetPosition();
                     endRotation *= Quaternion.AngleAxis(-75f, Vector3.right);
 
                     Quaternion rotation = Quaternion.Slerp(startRotation, endRotation, value);
@@ -136,10 +136,20 @@ namespace NoMoreFishAndChips.Entities
         private HitboxManager _hitboxManager;
         private EntityManager _entityManager;
 
+        private FlyingFishFlySettings _settings;
+
+        private RaycastHit[] _hitsNonAlloc = new RaycastHit[1];
+
+        private NetMarkerHandle _netMarkerHandle;
+
+        private bool _readyToExplode;
+
         public FlyingFishFlyState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
+
+            _settings = fish.DefinitionData.FlySettings;
         }
 
         public override void Enter()
@@ -153,6 +163,84 @@ namespace NoMoreFishAndChips.Entities
             Quaternion rotation = Quaternion.FromToRotation(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward, Vector3.down) * _fish.EntityPhysicsLogic.Rigidbody.rotation;
 
             PrimeTweenFix.RigidbodyMoveRotation(_fish.EntityPhysicsLogic.Rigidbody, endValue: rotation, duration: 1f, ease: Ease.InOutQuad);
+
+            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), Vector3.one * 0.5f, 0f);
+
+            _readyToExplode = false;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _netMarkerHandle.Remove();
+            _netMarkerHandle = null;
+        }
+        
+        public override void Tick()
+        {
+            base.Tick();
+
+            MarkerTick();
+            ExplodeTick();
+        }
+
+        private void MarkerTick()
+        {
+            Vector3 position = CalculateMarkerPosition();
+            _netMarkerHandle.SetPosition(position);
+        }
+
+        private void ExplodeTick()
+        {
+            if (_fish.CharacterPhysicsModule.InAir)
+            {
+                _readyToExplode = true;
+            }
+
+            if (!_readyToExplode)
+            {
+                return;
+            }
+
+            if (!_fish.CharacterPhysicsModule.InAir)
+            {
+                _hitboxManager.SpawnHitbox(_settings.HitboxData, _fish, new SpawnParams() { Position = _fish.transform.position });
+                _entityManager.Despawn(_fish);
+            }
+        }
+        
+        private Vector3 CalculateMarkerPosition()
+        {
+            Vector3 position = _fish.EntityPhysicsLogic.Rigidbody.position;
+            Vector3 linearVelocity = _fish.EntityPhysicsLogic.Rigidbody.linearVelocity;
+
+            float time = 0f;
+            float maxTime = 2.5f;
+
+            while (time < maxTime)
+            {
+                linearVelocity += Physics.gravity * Time.fixedDeltaTime;
+                linearVelocity *= 1f / (1f + _fish.EntityPhysicsLogic.Rigidbody.linearDamping * Time.fixedDeltaTime);
+
+                Vector3 nextPosition = position + linearVelocity * Time.fixedDeltaTime;
+                Vector3 delta = nextPosition - position;
+                
+                if (delta != Vector3.zero)
+                {
+                    int hits = Utils.Physics.CapsuleCastNonAlloc((CapsuleCollider)_fish.EntityPhysicsLogic.Collider, position - _fish.EntityPhysicsLogic.Rigidbody.position, delta.normalized, _hitsNonAlloc, delta.magnitude, _settings.Mask);
+
+                    if (hits > 0)
+                    {
+                        return _hitsNonAlloc[0].point;
+                    }
+                }
+
+                position = nextPosition;
+                time += Time.fixedDeltaTime;
+            }
+
+            return Vector3.zero;
         }
     }
 }

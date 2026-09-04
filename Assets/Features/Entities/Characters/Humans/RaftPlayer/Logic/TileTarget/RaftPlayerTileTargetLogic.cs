@@ -149,11 +149,6 @@ namespace NoMoreFishAndChips.Entities
             }
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(_target.Cell);
-            
-            if (_target.Tile != null)
-            {
-                position.y = _target.Tile.GetSurfaceY();
-            }
 
             if (_targetProp.Id == PropId.TileScaffold)
             {

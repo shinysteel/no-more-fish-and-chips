@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Hitboxes;
+using System;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -6,14 +7,18 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "FlyingFishDefinitionData", menuName = "Data/Entities/Characters/FlyingFishDefinitionData")]
     public class FlyingFishDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private float _scoutDuration = 1.5f;
-        [SerializeField] private float _flyDuration = 1.25f;
-        [SerializeField] private float _launchAngle = 75f;
-        [SerializeField] private HitboxData _impactHitboxData;
+        [SerializeField] private FlyingFishFlySettings _flySettings;
 
-        public float ScoutDuration => _scoutDuration;
-        public float FlyDuration => _flyDuration;
-        public float LaunchAngle => _launchAngle;
-        public HitboxData ImpactHitboxData => _impactHitboxData;
+        public FlyingFishFlySettings FlySettings => _flySettings;
+    }
+
+    [Serializable]
+    public class FlyingFishFlySettings
+    {
+        [SerializeField] private LayerMask _mask;
+        [SerializeField] private HitboxData _hitboxData;
+
+        public LayerMask Mask => _mask;
+        public HitboxData HitboxData => _hitboxData;
     }
 }

@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
@@ -9,9 +10,8 @@ namespace NoMoreFishAndChips.Effects
 {
     public class EnvironmentMarker : GameplayBehaviour
     {
-        private SyncDictionaryWrapper<int, Vector2Int[]> _netMarkedCells = new SyncDictionaryWrapper<int, Vector2Int[]>(ownerAuth: true);
-
-        private Dictionary<int, DangerMarker> _markedCells = new();
+        private SyncDictionaryWrapper<int, NetMarker> _netMarkers = new SyncDictionaryWrapper<int, NetMarker>(ownerAuth: true);
+        private Dictionary<int, Marker> _markers = new();
 
         private int _idCounter;
 
@@ -19,53 +19,65 @@ namespace NoMoreFishAndChips.Effects
         {
             base.InitialiseContext(context);
 
-            foreach (KeyValuePair<int, Vector2Int[]> kvp in _netMarkedCells)
+            foreach (KeyValuePair<int, NetMarker> kvp in _netMarkers)
             {
-                SyncDictionaryChange<int, Vector2Int[]> change = new SyncDictionaryChange<int, Vector2Int[]>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
-                HandleNetMarkedCellsChanged(change);
+                SyncDictionaryChange<int, NetMarker> change = new SyncDictionaryChange<int, NetMarker>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
+                HandleNetMarkersChanged(change);
             }
 
-            _netMarkedCells.onChanged += HandleNetMarkedCellsChanged;
+            _netMarkers.onChanged += HandleNetMarkersChanged;
         }
 
         protected override void OnDespawned()
         {
             base.OnDespawned();
 
-            _netMarkedCells.onChanged -= HandleNetMarkedCellsChanged;
+            _netMarkers.onChanged -= HandleNetMarkersChanged;
 
-            foreach (DangerMarker marker in _markedCells.Values)
+            foreach (Marker marker in _markers.Values)
             {
                 _poolManager.ReturnTypedPoolable(marker);
             }
         }
 
-        public int AddNetMarkedCells(params Vector2Int[] cells)
-        {
-            int id = _idCounter++;
-            _netMarkedCells.Add(id, cells);
-
-            return id;
-        }
-
-        public void RemoveNetMarkedCells(int id)
-        {
-            _netMarkedCells.Remove(id);
-        }
-
-        private void HandleNetMarkedCellsChanged(SyncDictionaryChange<int, Vector2Int[]> change)
+        private void HandleNetMarkersChanged(SyncDictionaryChange<int, NetMarker> change)
         {
             if (change.operation == SyncDictionaryOperation.Added)
             {
-                DangerMarker marker = _poolManager.GetTypedPoolable<DangerMarker>(new SpawnParams());
+                Marker marker = _poolManager.GetTypedPoolable<Marker>(new SpawnParams());
                 marker.Initialise(_context, change.value);
-                _markedCells.Add(change.key, marker);
+                _markers.Add(change.key, marker);
+            }
+            else if (change.operation == SyncDictionaryOperation.Set)
+            {
+                _markers[change.key].SetNetMarker(change.value);
             }
             else if (change.operation == SyncDictionaryOperation.Removed)
             {
-                _poolManager.ReturnTypedPoolable(_markedCells[change.key]);
-                _markedCells.Remove(change.key);
+                _poolManager.ReturnTypedPoolable(_markers[change.key]);
+                _markers.Remove(change.key);
             }
+        }
+
+        public NetMarkerHandle CreateNetMarker(Vector3 position, Vector3 scale, float blend)
+        {
+            int id = _idCounter++;
+            NetMarker marker = new NetMarker(position, scale, blend);
+
+            _netMarkers.Add(id, marker);
+
+            NetMarkerHandle handle = new NetMarkerHandle(this, marker, id);
+            return handle;
+        }
+
+        public void SetNetMarkerDirty(int id)
+        {
+            _netMarkers.SetDirty(id);
+        }
+
+        public void RemoveNetMarker(int id)
+        {
+            _netMarkers.Remove(id);
         }
     }
 }
