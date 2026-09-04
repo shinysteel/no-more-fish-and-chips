@@ -13,9 +13,11 @@ namespace ShinyOwl.Common.Utils
     {
         public static class Physics
         {
-            public static int CapsuleCastNonAlloc(CapsuleCollider collider, Vector3 offset, Vector3 direction, RaycastHit[] results, float maxDistance, int layerMask)
+            public static int CapsuleCastNonAlloc(CapsuleCollider collider, Vector3 positionOffset, Quaternion rotationOffset, Vector3 direction, RaycastHit[] results, float maxDistance, int layerMask)
             {
-                Vector3 center = collider.transform.TransformPoint(collider.center) + offset;
+                Vector3 center = collider.transform.TransformPoint(collider.center + positionOffset);
+
+                Quaternion rotation = collider.transform.rotation * rotationOffset;
 
                 Vector3 scale = collider.transform.lossyScale;
 
@@ -26,19 +28,19 @@ namespace ShinyOwl.Common.Utils
                 switch (collider.direction)
                 {
                     case 0:
-                        axis = collider.transform.right;
+                        axis = rotation * Vector3.right;
                         radiusScale = Mathf.Max(scale.y, scale.z);
                         heightScale = scale.x;
                         break;
 
                     case 1:
-                        axis = collider.transform.up;
+                        axis = rotation * Vector3.up;
                         radiusScale = Mathf.Max(scale.x, scale.z);
                         heightScale = scale.y;
                         break;
 
                     case 2:
-                        axis = collider.transform.forward;
+                        axis = rotation * Vector3.forward;
                         radiusScale = Mathf.Max(scale.x, scale.y);
                         heightScale = scale.z;
                         break;

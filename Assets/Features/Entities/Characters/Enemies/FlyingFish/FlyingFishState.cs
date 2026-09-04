@@ -9,6 +9,7 @@ using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -138,7 +139,7 @@ namespace NoMoreFishAndChips.Entities
 
         private FlyingFishFlySettings _settings;
 
-        private RaycastHit[] _hitsNonAlloc = new RaycastHit[1];
+        private RaycastHit[] _markerHitsNonAlloc = new RaycastHit[4];
 
         private NetMarkerHandle _netMarkerHandle;
 
@@ -159,14 +160,24 @@ namespace NoMoreFishAndChips.Entities
             _fish.EntityModel.Animator.SetBool(FlyingFish.IsFlyingBoolName, true);
 
             _fish.EntityPhysicsLogic.Rigidbody.AddForce(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward * 50f, ForceMode.Impulse);
-
-            Quaternion rotation = Quaternion.FromToRotation(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward, Vector3.down) * _fish.EntityPhysicsLogic.Rigidbody.rotation;
-
-            PrimeTweenFix.RigidbodyMoveRotation(_fish.EntityPhysicsLogic.Rigidbody, endValue: rotation, duration: 1f, ease: Ease.InOutQuad);
-
-            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), Vector3.one * 0.5f, 0f);
+            
+            PrimeTweenFix.RigidbodyMoveRotation(_fish.EntityPhysicsLogic.Rigidbody, endValue: Quaternion.FromToRotation(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward, Vector3.down) * _fish.EntityPhysicsLogic.Rigidbody.rotation, duration: 1f, ease: Ease.InOutQuad);
 
             _readyToExplode = false;
+
+            _ = CreateMarkerAsync();
+        }
+
+        private async Task CreateMarkerAsync()
+        {
+            while (_fish.CharacterPhysicsModule.InWater)
+            {
+                await Task.Yield();
+            }
+
+            await Utils.Tasks.WaitForFixedUpdateAsync();
+
+            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), Vector3.one * 0.5f, 0f);
         }
 
         public override void Exit()
@@ -181,58 +192,74 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Tick();
 
-            MarkerTick();
             ExplodeTick();
+            MarkerTick();
         }
-
-        private void MarkerTick()
-        {
-            Vector3 position = CalculateMarkerPosition();
-            _netMarkerHandle.SetPosition(position);
-        }
-
+        
         private void ExplodeTick()
         {
+            // Once airborne, we are ready to explode
             if (_fish.CharacterPhysicsModule.InAir)
             {
                 _readyToExplode = true;
             }
 
-            if (!_readyToExplode)
+            if (!_readyToExplode || _fish.CharacterPhysicsModule.InAir)
             {
                 return;
             }
 
-            if (!_fish.CharacterPhysicsModule.InAir)
+            _hitboxManager.SpawnHitbox(_settings.HitboxData, _fish, new SpawnParams() { Position = _fish.transform.position });
+            _entityManager.Despawn(_fish);
+        }
+
+        private void MarkerTick()
+        {
+            if (_netMarkerHandle == null)
             {
-                _hitboxManager.SpawnHitbox(_settings.HitboxData, _fish, new SpawnParams() { Position = _fish.transform.position });
-                _entityManager.Despawn(_fish);
+                return;
             }
+
+            Vector3 position = CalculateMarkerPosition();
+
+            _netMarkerHandle.SetPosition(position);
         }
         
         private Vector3 CalculateMarkerPosition()
         {
             Vector3 position = _fish.EntityPhysicsLogic.Rigidbody.position;
-            Vector3 linearVelocity = _fish.EntityPhysicsLogic.Rigidbody.linearVelocity;
+            Vector3 velocity = _fish.EntityPhysicsLogic.Rigidbody.linearVelocity;
 
             float time = 0f;
-            float maxTime = 2.5f;
+            float duration = 3f;
 
-            while (time < maxTime)
+            while (time < duration)
             {
-                linearVelocity += Physics.gravity * Time.fixedDeltaTime;
-                linearVelocity *= 1f / (1f + _fish.EntityPhysicsLogic.Rigidbody.linearDamping * Time.fixedDeltaTime);
+                velocity += Physics.gravity * Time.fixedDeltaTime;
+                velocity *= 1f / (1f + _fish.EntityPhysicsLogic.Rigidbody.linearDamping * Time.fixedDeltaTime);
 
-                Vector3 nextPosition = position + linearVelocity * Time.fixedDeltaTime;
+                Vector3 nextPosition = position + velocity * Time.fixedDeltaTime;
                 Vector3 delta = nextPosition - position;
                 
                 if (delta != Vector3.zero)
                 {
-                    int hits = Utils.Physics.CapsuleCastNonAlloc((CapsuleCollider)_fish.EntityPhysicsLogic.Collider, position - _fish.EntityPhysicsLogic.Rigidbody.position, delta.normalized, _hitsNonAlloc, delta.magnitude, _settings.Mask);
+                    int hits = Physics.SphereCastNonAlloc(nextPosition, ((SphereCollider)_fish.EntityPhysicsLogic.Collider).radius, delta.normalized, _markerHitsNonAlloc, delta.magnitude, _settings.Mask);
 
                     if (hits > 0)
                     {
-                        return _hitsNonAlloc[0].point;
+                        int closestIndex = -1;
+                        float closestDistance = Mathf.Infinity;
+
+                        for (int i = 0; i < hits; i++)
+                        {
+                            if (_markerHitsNonAlloc[i].distance < closestDistance)
+                            {
+                                closestIndex = i;
+                                closestDistance = _markerHitsNonAlloc[i].distance;
+                            }
+                        }
+
+                        return closestDistance > 0f ? _markerHitsNonAlloc[closestIndex].point : nextPosition;
                     }
                 }
 
@@ -240,7 +267,7 @@ namespace NoMoreFishAndChips.Entities
                 time += Time.fixedDeltaTime;
             }
 
-            return Vector3.zero;
-        }
+            return _fish.EntityPhysicsLogic.Rigidbody.position;
+        } 
     }
 }

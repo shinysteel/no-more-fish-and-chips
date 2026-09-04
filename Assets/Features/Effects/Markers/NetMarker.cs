@@ -1,3 +1,4 @@
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Effects

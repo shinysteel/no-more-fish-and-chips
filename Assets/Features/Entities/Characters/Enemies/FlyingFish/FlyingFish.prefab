@@ -48,7 +48,7 @@ PrefabInstance:
       addedObject: {fileID: 5801466337614864078}
     - targetCorrespondingSourceObject: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 9036134110673403694}
+      addedObject: {fileID: 5349225981908490635}
   m_SourcePrefab: {fileID: 100100000, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
 --- !u!54 &2620132874775960851 stripped
 Rigidbody:
@@ -84,9 +84,9 @@ MonoBehaviour:
   _entityDefinitionData: {fileID: 11400000, guid: 349370ccaeb9e5548b6d4002c5167571, type: 2}
   _entityModel: {fileID: 8293588335339962594}
   _rigidbody: {fileID: 2620132874775960851}
-  _collider: {fileID: 9036134110673403694}
---- !u!136 &9036134110673403694
-CapsuleCollider:
+  _collider: {fileID: 5349225981908490635}
+--- !u!135 &5349225981908490635
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,10 +103,8 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.075
-  m_Height: 0.5
-  m_Direction: 2
+  serializedVersion: 3
+  m_Radius: 0.175
   m_Center: {x: 0, y: 0.075, z: 0}
 --- !u!4 &8282702041294059726 stripped
 Transform:

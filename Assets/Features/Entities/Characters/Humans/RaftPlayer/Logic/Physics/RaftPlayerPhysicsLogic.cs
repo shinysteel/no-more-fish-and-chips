@@ -179,7 +179,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _isClimbing = Utils.Physics.CapsuleCastNonAlloc(_capsuleCollider, Vector3.zero, direction, _climbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.Climb.Mask) > 0;
+            _isClimbing = Utils.Physics.CapsuleCastNonAlloc(_capsuleCollider, Vector3.zero, Quaternion.identity, direction, _climbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.Climb.Mask) > 0;
 
             if (!_isClimbing)
             {
