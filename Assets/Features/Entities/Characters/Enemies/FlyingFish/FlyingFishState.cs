@@ -42,11 +42,15 @@ namespace NoMoreFishAndChips.Entities
 
     public class FlyingFishSurfaceState : FlyingFishState
     {
+        private FlyingFishSurfaceSettings _settings;
+
         private RaftEdge _edge;
         private Vector3 _targetPosition;
 
         public FlyingFishSurfaceState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
-        { }
+        {
+            _settings = _fish.DefinitionData.SurfaceSettings;
+        }
 
         public override void Enter()
         {
@@ -63,11 +67,11 @@ namespace NoMoreFishAndChips.Entities
             _edge = Random.value <= 0.5f ? _fish.SpawnInfo.RaftLine.MinEdge : _fish.SpawnInfo.RaftLine.MaxEdge;
 
             Vector2Int cell = _edge.Node.Cell;
-            cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * Random.Range(2, 4);
+            cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell);
             position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
-            position += Vector3.down * 0.5f;
+            position += Vector3.down * _settings.Depth;
 
             _fish.EntityPhysicsLogic.Rigidbody.position = position;
 
@@ -108,21 +112,25 @@ namespace NoMoreFishAndChips.Entities
 
             Sequence.Create(updateType: UpdateType.FixedUpdate)
                 // Wiggle while facing the target
-                .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 1f, onValueChange: _ =>
+                .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: _settings.WiggleDuration, onValueChange: _ =>
                 {
                     Quaternion rotation = getRotationToTargetPosition();
-                    rotation *= Quaternion.AngleAxis(-15f, Vector3.right);
+                    rotation *= Quaternion.AngleAxis(_settings.WigglePitch, Vector3.right);
 
                     _fish.EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
                 }))
-                // Tilt up
-                .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.25f, onValueChange: (float value) =>
+                // Pitch up
+                .Chain(Tween.Custom(startValue: 0f, endValue: 1f, duration: _settings.PitchDuration, onValueChange: (float value) =>
                 {
                     Quaternion startRotation = getRotationToTargetPosition();
-                    startRotation *= Quaternion.AngleAxis(-15f, Vector3.right);
+                    startRotation *= Quaternion.AngleAxis(_settings.WigglePitch, Vector3.right);
+
+                    float distance = Vector3.Distance(_fish.EntityPhysicsLogic.Rigidbody.position, _targetPosition);
+                    float t = Mathf.InverseLerp(_settings.DistanceRange.Min, _settings.DistanceRange.Max, distance);
+                    float angle = Mathf.Lerp(_settings.PitchRange.Min, _settings.PitchRange.Max, t);
 
                     Quaternion endRotation = getRotationToTargetPosition();
-                    endRotation *= Quaternion.AngleAxis(-75f, Vector3.right);
+                    endRotation *= Quaternion.AngleAxis(angle, Vector3.right);
 
                     Quaternion rotation = Quaternion.Slerp(startRotation, endRotation, value);
 
@@ -150,7 +158,7 @@ namespace NoMoreFishAndChips.Entities
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
 
-            _settings = fish.DefinitionData.FlySettings;
+            _settings = _fish.DefinitionData.FlySettings;
         }
 
         public override void Enter()
@@ -159,9 +167,11 @@ namespace NoMoreFishAndChips.Entities
 
             _fish.EntityModel.Animator.SetBool(FlyingFish.IsFlyingBoolName, true);
 
-            _fish.EntityPhysicsLogic.Rigidbody.AddForce(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward * 50f, ForceMode.Impulse);
-            
-            PrimeTweenFix.RigidbodyMoveRotation(_fish.EntityPhysicsLogic.Rigidbody, endValue: Quaternion.FromToRotation(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward, Vector3.down) * _fish.EntityPhysicsLogic.Rigidbody.rotation, duration: 1f, ease: Ease.InOutQuad);
+            _fish.EntityPhysicsLogic.Rigidbody.AddForce(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward * _settings.ForceStrength, ForceMode.Impulse);
+
+            Quaternion rotation = Quaternion.FromToRotation(_fish.EntityPhysicsLogic.Rigidbody.rotation * Vector3.forward, Vector3.down) * _fish.EntityPhysicsLogic.Rigidbody.rotation;
+
+            PrimeTweenFix.RigidbodyMoveRotation(_fish.EntityPhysicsLogic.Rigidbody, endValue: rotation, duration: _settings.RotateDuration, ease: Ease.InOutQuad);
 
             _readyToExplode = false;
 
@@ -177,7 +187,7 @@ namespace NoMoreFishAndChips.Entities
 
             await Utils.Tasks.WaitForFixedUpdateAsync();
 
-            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), Vector3.one * 0.5f, 0f);
+            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), _settings.MarkerScale, 0f);
         }
 
         public override void Exit()
@@ -231,9 +241,8 @@ namespace NoMoreFishAndChips.Entities
             Vector3 velocity = _fish.EntityPhysicsLogic.Rigidbody.linearVelocity;
 
             float time = 0f;
-            float duration = 3f;
 
-            while (time < duration)
+            while (time < _settings.CalculateDuration)
             {
                 velocity += Physics.gravity * Time.fixedDeltaTime;
                 velocity *= 1f / (1f + _fish.EntityPhysicsLogic.Rigidbody.linearDamping * Time.fixedDeltaTime);
@@ -243,7 +252,7 @@ namespace NoMoreFishAndChips.Entities
                 
                 if (delta != Vector3.zero)
                 {
-                    int hits = Physics.SphereCastNonAlloc(nextPosition, ((SphereCollider)_fish.EntityPhysicsLogic.Collider).radius, delta.normalized, _markerHitsNonAlloc, delta.magnitude, _settings.Mask);
+                    int hits = Physics.SphereCastNonAlloc(nextPosition, ((SphereCollider)_fish.EntityPhysicsLogic.Collider).radius, delta.normalized, _markerHitsNonAlloc, delta.magnitude, _settings.MarkerMask);
 
                     if (hits > 0)
                     {

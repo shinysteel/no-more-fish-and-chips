@@ -26,8 +26,24 @@ MonoBehaviour:
   _entityDefeatSettings: {fileID: 11400000, guid: 484c201329a59914caafd3e06dbc8ddf, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
+  _surfaceSettings:
+    _offsetRange:
+      _min: 2
+      _max: 4
+    _depth: 0.5
+    _wigglePitch: -15
+    _distanceRange:
+      _min: 1.5
+      _max: 4.5
+    _pitchRange:
+      _min: -80
+      _max: -55
   _flySettings:
-    _mask:
+    _forceStrength: 50
+    _rotateDuration: 1
+    _calculateDuration: 3
+    _markerScale: {x: 0.5, y: 1, z: 0.5}
+    _markerMask:
       serializedVersion: 2
       m_Bits: 272
     _hitboxData: {fileID: 11400000, guid: 4237e9e1fb991bc4b88a5900687465e3, type: 2}

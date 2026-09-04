@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 namespace ShinyOwl.Common
 {
     [Serializable]
@@ -18,10 +20,9 @@ namespace ShinyOwl.Common
             _max = max;
         }
 
-        public void SetRange(int min, int max)
+        public int RandomRange()
         {
-            _min = min;
-            _max = max;
+            return Random.Range(_min, _max);
         }
     }
 }
