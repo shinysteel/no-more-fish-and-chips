@@ -22,15 +22,15 @@ MonoBehaviour:
     m_Localized: Raft Player
     m_Metadata:
       m_Items: []
-  - m_Id: 78748749824
-    m_Localized: Flying Fish
-    m_Metadata:
-      m_Items: []
   - m_Id: 57181638656
     m_Localized: Defender of rafts, flinger of fish. It's you!
     m_Metadata:
       m_Items: []
-  - m_Id: 134080008192
+  - m_Id: 85035966026575872
+    m_Localized: Sailfin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 85035966055936000
     m_Localized: A nimble foe that uses its wings to launch itself onto the raft
     m_Metadata:
       m_Items: []

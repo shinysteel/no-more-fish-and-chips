@@ -26,11 +26,11 @@ MonoBehaviour:
     m_Localized: "D\xE9fenseur des radeaux, lanceur de poissons. C'est toi !"
     m_Metadata:
       m_Items: []
-  - m_Id: 78748749824
-    m_Localized: Poisson volant
+  - m_Id: 85035966026575872
+    m_Localized: Aileron
     m_Metadata:
       m_Items: []
-  - m_Id: 134080008192
+  - m_Id: 85035966055936000
     m_Localized: Un adversaire agile qui utilise ses ailes pour se propulser sur
       le radeau
     m_Metadata:

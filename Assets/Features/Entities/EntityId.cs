@@ -10,7 +10,7 @@ namespace NoMoreFishAndChips.Entities
 
         // Characters
         RaftPlayer = 100,
-        FlyingFish = 101,
+        Sailfin = 101,
         Shark = 102,
         Seagull = 103,
         Drowning = 104,

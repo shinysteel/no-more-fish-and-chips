@@ -26,11 +26,11 @@ MonoBehaviour:
     m_Localized: "Besch\xFCtzer der Fl\xF6\xDFe, Werfer der Fische. Du bist es!"
     m_Metadata:
       m_Items: []
-  - m_Id: 78748749824
-    m_Localized: Fliegende Fische
+  - m_Id: 85035966026575872
+    m_Localized: Segelflosse
     m_Metadata:
       m_Items: []
-  - m_Id: 134080008192
+  - m_Id: 85035966055936000
     m_Localized: "Ein flinker Gegner, der seine Fl\xFCgel nutzt, um sich auf das
       Flo\xDF zu katapultieren."
     m_Metadata:

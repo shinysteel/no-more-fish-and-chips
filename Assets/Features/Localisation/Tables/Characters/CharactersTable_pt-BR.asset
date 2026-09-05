@@ -26,11 +26,11 @@ MonoBehaviour:
     m_Localized: "Defensor das jangadas, lan\xE7ador de peixes. \xC9 voc\xEA!"
     m_Metadata:
       m_Items: []
-  - m_Id: 78748749824
-    m_Localized: Peixe Voador
+  - m_Id: 85035966026575872
+    m_Localized: Sailfin
     m_Metadata:
       m_Items: []
-  - m_Id: 134080008192
+  - m_Id: 85035966055936000
     m_Localized: "Um inimigo \xE1gil que usa suas asas para se lan\xE7ar na jangada."
     m_Metadata:
       m_Items: []

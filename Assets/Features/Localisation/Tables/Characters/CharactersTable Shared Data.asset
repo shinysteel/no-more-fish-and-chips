@@ -23,12 +23,12 @@ MonoBehaviour:
     m_Key: characters.raftPlayerDescription
     m_Metadata:
       m_Items: []
-  - m_Id: 78748749824
-    m_Key: characters.flyingFishName
+  - m_Id: 85035966026575872
+    m_Key: characters.sailfinName
     m_Metadata:
       m_Items: []
-  - m_Id: 134080008192
-    m_Key: characters.flyingFishDescription
+  - m_Id: 85035966055936000
+    m_Key: characters.sailfinDescription
     m_Metadata:
       m_Items: []
   m_Metadata:

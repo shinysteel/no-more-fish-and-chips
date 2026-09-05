@@ -26,11 +26,11 @@ MonoBehaviour:
     m_Localized: Difensore delle zattere, lanciatore di pesci. Sei tu!
     m_Metadata:
       m_Items: []
-  - m_Id: 78748749824
-    m_Localized: Pesce volante
+  - m_Id: 85035966026575872
+    m_Localized: Pinna a vela
     m_Metadata:
       m_Items: []
-  - m_Id: 134080008192
+  - m_Id: 85035966055936000
     m_Localized: Un nemico agile che usa le sue ali per lanciarsi sulla zattera
     m_Metadata:
       m_Items: []

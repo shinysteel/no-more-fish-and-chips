@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a22a24c04778843a379873e57b5bcf, type: 3}
-  m_Name: FlyingFishDefinitionData
+  m_Name: SailfinDefinitionData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.FlyingFishData
-  _nameTerm: 1439338514
-  _descriptionTerm: 936022047
-  _sprite: {fileID: 21300000, guid: 26ac797996e24a94baa353639730d331, type: 3}
+  _nameTerm: -1257542718
+  _descriptionTerm: -1261737022
+  _sprite: {fileID: 0}
   _rarity: 0
   _id: 101
   _health: 1
@@ -31,7 +31,9 @@ MonoBehaviour:
       _min: 2
       _max: 4
     _depth: 0.5
+    _wiggleDuration: 1
     _wigglePitch: -15
+    _pitchDuration: 0.25
     _distanceRange:
       _min: 1.5
       _max: 4.5
@@ -46,4 +48,5 @@ MonoBehaviour:
     _markerMask:
       serializedVersion: 2
       m_Bits: 272
+    _blendDistance: 2.5
     _hitboxData: {fileID: 11400000, guid: 4237e9e1fb991bc4b88a5900687465e3, type: 2}
