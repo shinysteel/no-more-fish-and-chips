@@ -107,7 +107,7 @@ namespace NoMoreFishAndChips.Hitboxes
                     entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
 
                     // Damaging an entity can cause it to despawn, which nulls all modules
-                    if (!entity.EntityDefeatLogic.IsDefeated)
+                    if (entity.isSpawned)
                     {
                         Vector3 forceDirection = (entity.transform.position - transform.position).normalized;
                         Vector3 force = forceDirection * _data.KnockbackForceStrength;
