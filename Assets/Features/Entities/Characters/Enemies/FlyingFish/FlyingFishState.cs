@@ -153,6 +153,8 @@ namespace NoMoreFishAndChips.Entities
 
         private bool _readyToExplode;
 
+        private Vector3? _blendPosition;
+
         public FlyingFishFlyState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
@@ -230,9 +232,32 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
+            // Position
             Vector3 position = CalculateMarkerPosition();
 
             _netMarkerHandle.SetPosition(position);
+
+            // Blend
+            float blend = 0f;
+
+            if (_fish.EntityPhysicsLogic.Rigidbody.linearVelocity.y >= 0f)
+            {
+                _blendPosition = null;
+            }
+            else
+            {
+                if (!_blendPosition.HasValue)
+                {
+                    _blendPosition = _fish.EntityPhysicsLogic.Rigidbody.position;
+                }
+
+                float totalDistance = Vector3.Distance(_blendPosition.Value, position);
+                float currentDistance = Vector3.Distance(_fish.EntityPhysicsLogic.Rigidbody.position, position);
+
+                blend = _settings.BlendDistance < totalDistance ? Mathf.InverseLerp(totalDistance, _settings.BlendDistance, currentDistance) : 1f;
+            }
+
+            _netMarkerHandle.SetBlend(blend);
         }
         
         private Vector3 CalculateMarkerPosition()

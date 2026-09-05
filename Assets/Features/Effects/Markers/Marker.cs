@@ -11,7 +11,10 @@ namespace NoMoreFishAndChips.Effects
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
+        [SerializeField] private Gradient _gradient;
+
         private float _transformSpeed = 50f;
+        private float _blendSpeed = 50f;
 
         private Material _material;
 
@@ -42,6 +45,8 @@ namespace NoMoreFishAndChips.Effects
                 transform.localScale = Vector3.LerpUnclamped(Vector3.zero, NetMarker.GetScale(), value);
             });
 
+            BlendUpdate(1f);
+
             Tween.MaterialAlpha(_material, startValue: 0f, endValue: 1f, duration: 0.5f);
         }
 
@@ -54,6 +59,7 @@ namespace NoMoreFishAndChips.Effects
         {
             PositionUpdate(Time.deltaTime);
             ScaleUpdate();
+            BlendUpdate(Time.deltaTime);
         }
 
         private void PositionUpdate(float deltaTime)
@@ -87,6 +93,11 @@ namespace NoMoreFishAndChips.Effects
             }
 
             transform.localScale = Vector3.Lerp(transform.localScale, _netMarker.GetScale(), _transformSpeed * Time.deltaTime);
+        }
+        
+        private void BlendUpdate(float deltaTime)
+        {
+            _material.color = Color.Lerp(_material.color, _gradient.Evaluate(_netMarker.Blend), _blendSpeed * deltaTime);
         }
 
         public void OnReturnedToPool()

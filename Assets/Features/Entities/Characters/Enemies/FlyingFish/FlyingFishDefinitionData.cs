@@ -43,6 +43,7 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private float _calculateDuration = 3f;
         [SerializeField] private Vector3 _markerScale = Vector3.one * 0.5f;
         [SerializeField] private LayerMask _markerMask;
+        [SerializeField] private float _blendDistance = 2f;
         [SerializeField] private HitboxData _hitboxData;
 
         public float ForceStrength => _forceStrength;
@@ -50,6 +51,7 @@ namespace NoMoreFishAndChips.Entities
         public float CalculateDuration => _calculateDuration;
         public Vector3 MarkerScale => _markerScale;
         public LayerMask MarkerMask => _markerMask;
+        public float BlendDistance => _blendDistance;
         public HitboxData HitboxData => _hitboxData;
     }
 }
