@@ -20,16 +20,15 @@ namespace NoMoreFishAndChips.Hitboxes
         private HitboxManager _hitboxManager;
 
         private HitboxData _data;
-        private Entity _source;
-
         public HitboxData Data => _data;
+
+        private Entity _source;
 
         private float _timer;
 
         private Dictionary<HitboxStep, ColliderProxy> _stepProxyMap = new();
 
-        private Collider[] _collidersNonAlloc = new Collider[MaxOverlaps];
-        private const int MaxOverlaps = 10;
+        private Dictionary<ELayer, int> _layerCountMap = new();
 
         private List<Entity> _hitEntities = new();
 
@@ -117,6 +116,13 @@ namespace NoMoreFishAndChips.Hitboxes
                 return;
             }
 
+            ELayer layer = (ELayer)entity.gameObject.layer;
+            HitboxLimit limit = _data.Limits.FirstOrDefault(limit => limit.Layer == layer);
+            if (_layerCountMap.TryGetValue(layer, out int count) && count >= (limit?.Count ?? int.MaxValue))
+            {
+                return;
+            }
+
             if (_hitEntities.Contains(entity))
             {
                 return;
@@ -131,6 +137,8 @@ namespace NoMoreFishAndChips.Hitboxes
             {
                 return;
             }
+
+            _layerCountMap[layer] = _layerCountMap.GetValueOrDefault(layer) + 1;
 
             // Hit the entity
             entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
@@ -181,6 +189,13 @@ namespace NoMoreFishAndChips.Hitboxes
 
             _timer = 0f;
 
+            foreach (ColliderProxy proxy in _stepProxyMap.Values)
+            {
+                _poolManager.ReturnTypedPoolable(proxy);
+            }
+
+            _stepProxyMap.Clear();
+            _layerCountMap.Clear();
             _hitEntities.Clear();
         }
 

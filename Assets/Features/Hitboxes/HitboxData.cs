@@ -15,6 +15,7 @@ namespace NoMoreFishAndChips.Hitboxes
         [SerializeField] private float _stunDuration = 0.2f;
         [SerializeField] private EntityAlliance _alliance = EntityAlliance.Ally;
         [SerializeField] private LayerMask _mask = -1;
+        [SerializeField] private HitboxLimit[] _limits = new HitboxLimit[0];
         [SerializeField] private HitboxStep[] _steps = new HitboxStep[0];
 
         public int Damage => _damage;
@@ -23,10 +24,22 @@ namespace NoMoreFishAndChips.Hitboxes
         public float StunDuration => _stunDuration;
         public EntityAlliance Alliance => _alliance;
         public LayerMask Mask => _mask;
+        public HitboxLimit[] Limits => _limits;
         public HitboxStep[] Steps => _steps;
 
         // We don't cache this since it's nice to have it update in realtime while editing
         public float HitboxDuration => _steps.Max(step => step.StartTime + step.Duration);
+    }
+
+    // The number of entities a hitbox is able to hit can be limited
+    [Serializable]
+    public class HitboxLimit
+    {
+        [SerializeField] private ELayer _layer;
+        [SerializeField] private int _count;
+
+        public ELayer Layer => _layer;
+        public int Count => _count;
     }
 
     [Serializable]

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c0829d1599f28418a14f0b5f8d89a9, type: 3}
   m_Name: FlyingFishFlyHitboxData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Hitboxes.HitboxData
-  _damage: 0
+  _damage: 1
   _knockbackForceStrength: 25
   _knockbackTorqueStrength: 0.5
   _stunDuration: 0.2
@@ -20,6 +20,9 @@ MonoBehaviour:
   _mask:
     serializedVersion: 2
     m_Bits: 4294967295
+  _limits:
+  - _layer: 8
+    _count: 1
   _steps:
   - _shape: 0
     _offset: {x: 0, y: 0, z: 0}
