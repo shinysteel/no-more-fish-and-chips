@@ -32,6 +32,22 @@ namespace NoMoreFishAndChips.Hitboxes
 
         private List<Entity> _hitEntities = new();
 
+        private List<EntityCollision> _entityCollisions = new();
+
+        private class EntityCollision
+        {
+            public Entity Entity { get; private set; }
+            public Collider Collider { get; private set; }
+            public Collider OtherCollider { get; private set; }
+
+            public EntityCollision(Entity entity, Collider collider, Collider otherCollider)
+            {
+                Entity = entity;
+                Collider = collider;
+                OtherCollider = otherCollider;
+            }
+        }
+
         private void Awake()
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
@@ -116,18 +132,6 @@ namespace NoMoreFishAndChips.Hitboxes
                 return;
             }
 
-            ELayer layer = (ELayer)entity.gameObject.layer;
-            HitboxLimit limit = _data.Limits.FirstOrDefault(limit => limit.Layer == layer);
-            if (_layerCountMap.TryGetValue(layer, out int count) && count >= (limit?.Count ?? int.MaxValue))
-            {
-                return;
-            }
-
-            if (_hitEntities.Contains(entity))
-            {
-                return;
-            }
-
             if (_data.Alliance == entity.EntityDefinitionData.Alliance && _data.Alliance != EntityAlliance.Neutral && !(_source is RaftPlayer && entity is RaftPlayer))
             {
                 return;
@@ -138,49 +142,79 @@ namespace NoMoreFishAndChips.Hitboxes
                 return;
             }
 
-            _layerCountMap[layer] = _layerCountMap.GetValueOrDefault(layer) + 1;
+            _entityCollisions.Add(new EntityCollision(entity, collider, otherCollider));
+        }
 
-            // Hit the entity
-            entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
+        private void LateUpdate()
+        {
+            CollisionsLateUpdate();
+        }
 
-            // Damaging an entity can cause it to despawn, which nulls all modules
-            if (entity.isSpawned)
+        private void CollisionsLateUpdate()
+        {
+            _entityCollisions.Sort((a, b) => Vector3.Distance(a.Collider.transform.position, a.OtherCollider.transform.position).CompareTo(Vector3.Distance(b.Collider.transform.position, b.OtherCollider.transform.position)));
+
+            foreach (EntityCollision collision in _entityCollisions)
             {
-                Physics.ComputePenetration(collider, collider.transform.position, collider.transform.rotation, otherCollider, otherCollider.transform.position, otherCollider.transform.rotation, out Vector3 forceDirection, out _);
-               
-                forceDirection.y = 0f;
-                forceDirection.Normalize();
-
-                // Inverting penetration will produce the best direction to separate collider from otherColider
-                forceDirection = -forceDirection;
-
-                // Torque is dependent on the horizontal value of forceDirection
-                Vector3 torqueDirection = forceDirection;
-
-                // Universal pitching for hitbox force
-                forceDirection = Quaternion.AngleAxis(45f, Vector3.Cross(forceDirection, Vector3.up).normalized) * forceDirection;
-                Vector3 force = forceDirection * _data.KnockbackForceStrength;
-
-                // Using the cross product, torque can make the entity rotate backwards relative to the hitbox
-                torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
-                Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
-
-                entity.AddForceRpc(entity.owner.Value, force);
-                entity.AddTorqueRpc(entity.owner.Value, torque);
-
-                if (entity is Character character)
+                ELayer layer = (ELayer)collision.Entity.gameObject.layer;
+                HitboxLimit limit = _data.Limits.FirstOrDefault(limit => limit.Layer == layer);
+                if (_layerCountMap.TryGetValue(layer, out int count) && count >= (limit?.Count ?? int.MaxValue))
                 {
-                    character.StunRpc(character.owner.Value, _data.StunDuration);
+                    continue;
                 }
 
-                // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
-                if (entity is RaftPlayer player)
+                if (_hitEntities.Contains(collision.Entity))
                 {
-                    player.AnimateHurtRpc();
+                    continue;
                 }
+
+                _layerCountMap[layer] = _layerCountMap.GetValueOrDefault(layer) + 1;
+
+                // Hit the entity
+                collision.Entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
+
+                // Damaging an entity can cause it to despawn, which nulls all modules
+                if (collision.Entity.isSpawned)
+                {
+                    Physics.ComputePenetration(collision.Collider, collision.Collider.transform.position, collision.Collider.transform.rotation, 
+                        collision.OtherCollider, collision.OtherCollider.transform.position, collision.OtherCollider.transform.rotation, out Vector3 forceDirection, out _);
+
+                    forceDirection.y = 0f;
+                    forceDirection.Normalize();
+
+                    // Inverting penetration will produce the best direction to separate collider from otherColider
+                    forceDirection = -forceDirection;
+
+                    // Torque is dependent on the horizontal value of forceDirection
+                    Vector3 torqueDirection = forceDirection;
+
+                    // Universal pitching for hitbox force
+                    forceDirection = Quaternion.AngleAxis(45f, Vector3.Cross(forceDirection, Vector3.up).normalized) * forceDirection;
+                    Vector3 force = forceDirection * _data.KnockbackForceStrength;
+
+                    // Using the cross product, torque can make the entity rotate backwards relative to the hitbox
+                    torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
+                    Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
+
+                    collision.Entity.AddForceRpc(collision.Entity.owner.Value, force);
+                    collision.Entity.AddTorqueRpc(collision.Entity.owner.Value, torque);
+
+                    if (collision.Entity is Character character)
+                    {
+                        character.StunRpc(character.owner.Value, _data.StunDuration);
+                    }
+
+                    // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
+                    if (collision.Entity is RaftPlayer player)
+                    {
+                        player.AnimateHurtRpc();
+                    }
+                }
+
+                _hitEntities.Add(collision.Entity);
             }
 
-            _hitEntities.Add(entity);
+            _entityCollisions.Clear();
         }
 
         public void OnReturnedToPool()
@@ -197,6 +231,7 @@ namespace NoMoreFishAndChips.Hitboxes
             _stepProxyMap.Clear();
             _layerCountMap.Clear();
             _hitEntities.Clear();
+            _entityCollisions.Clear();
         }
 
         public void OnTakenFromPool()
