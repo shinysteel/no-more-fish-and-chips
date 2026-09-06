@@ -64,7 +64,10 @@ namespace NoMoreFishAndChips.Entities
                 state.InitialiseContext(context);
             }
 
-            _stateMachine.ChangeState(EFlyingFishState.Surface);
+            if (isOwner)
+            {
+                _stateMachine.ChangeState(EFlyingFishState.Surface);
+            }
         }
 
         protected override void OnDespawned()
@@ -100,6 +103,11 @@ namespace NoMoreFishAndChips.Entities
         {
             if (isOwner && defeated)
             {
+                if (_stateMachine.CurrentStateEnum == EFlyingFishState.Fly)
+                {
+                    EntityPhysicsLogic.Rigidbody.linearVelocity = Vector3.zero;
+                }
+                
                 Cleanup();
             }
         }

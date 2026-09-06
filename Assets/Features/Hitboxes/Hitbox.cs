@@ -26,6 +26,8 @@ namespace NoMoreFishAndChips.Hitboxes
 
         private float _timer;
 
+        private Dictionary<HitboxStep, ColliderProxy> _stepProxyMap = new();
+
         private Collider[] _collidersNonAlloc = new Collider[MaxOverlaps];
         private const int MaxOverlaps = 10;
 
@@ -43,11 +45,11 @@ namespace NoMoreFishAndChips.Hitboxes
             _source = source;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            _timer += Time.fixedDeltaTime;
+            _timer += Time.deltaTime;
 
-            StepFixedUpdate();
+            StepUpdate();
 
             if (_timer >= _data.HitboxDuration)
             {
@@ -55,89 +57,124 @@ namespace NoMoreFishAndChips.Hitboxes
             }
         }
 
-        private void StepFixedUpdate()
+        private void StepUpdate()
         {
             foreach (HitboxStep step in _data.Steps)
             {
-                if (!step.InTimeWindow(_timer))
+                if (step.InTimeWindow(_timer))
                 {
-                    continue;
+                    if (!_stepProxyMap.ContainsKey(step))
+                    {
+                        ColliderProxy proxy = null;
+                        SpawnParams parameters = new SpawnParams() { Position = step.GetPosition(transform), Rotation = transform.rotation };
+
+                        switch (step.Shape)
+                        {
+                            case HitboxShape.Box:
+                                proxy = _poolManager.GetTypedPoolable<BoxColliderProxy>(parameters);
+                                ((BoxColliderProxy)proxy).Collider.size = step.Size;
+                                break;
+
+                            case HitboxShape.Sphere:
+                                proxy = _poolManager.GetTypedPoolable<SphereColliderProxy>(parameters);
+                                ((SphereColliderProxy)proxy).Collider.radius = step.Radius;
+                                break;
+                        }
+
+                        proxy.OnUnityTriggerStay += HandleTriggerStay;
+
+                        _stepProxyMap.Add(step, proxy);
+                    }
                 }
-
-                int overlaps = step.Shape switch
+                else
                 {
-                    HitboxShape.Box => Physics.OverlapBoxNonAlloc(step.GetPosition(transform), step.Size * 0.5f, _collidersNonAlloc, transform.rotation, _data.Mask),
-                    HitboxShape.Sphere => Physics.OverlapSphereNonAlloc(step.GetPosition(transform), step.Radius, _collidersNonAlloc, _data.Mask),
-                    _ => 0
-                };
-
-                for (int i = 0; i < overlaps; i++)
-                {
-                    if (!_collidersNonAlloc[i].TryGetComponent(out Entity entity))
+                    if (_stepProxyMap.ContainsKey(step))
                     {
-                        continue;
+                        _stepProxyMap[step].OnUnityTriggerStay -= HandleTriggerStay;
+
+                        _poolManager.ReturnTypedPoolable(_stepProxyMap[step]);
+
+                        _stepProxyMap.Remove(step);
                     }
-
-                    if (entity == _source)
-                    {
-                        continue;
-                    }
-
-                    if (!entity.isSpawned)
-                    {
-                        continue;
-                    }
-
-                    if (_hitEntities.Contains(entity))
-                    {
-                        continue;
-                    }
-
-                    if (_data.Alliance == entity.EntityDefinitionData.Alliance && _data.Alliance != EntityAlliance.Neutral && !(_source is RaftPlayer && entity is RaftPlayer))
-                    {
-                        continue;
-                    }
-
-                    if (entity.EntityLifecycleLogic.InGracePeriod)
-                    {
-                        continue;
-                    }
-
-                    // Hit the entity
-                    entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
-
-                    // Damaging an entity can cause it to despawn, which nulls all modules
-                    if (entity.isSpawned)
-                    {
-                        Vector3 forceDirection = (entity.transform.position - transform.position).normalized;
-                        Vector3 force = forceDirection * _data.KnockbackForceStrength;
-
-                        Vector3 torqueDirection = forceDirection;
-                        torqueDirection.y = 0f;
-                        torqueDirection.Normalize();
-                        torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
-                        Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
-
-                        entity.AddForceRpc(entity.owner.Value, force);
-                        entity.AddTorqueRpc(entity.owner.Value, torque);
-
-                        if (entity is Character character)
-                        {
-                            character.StunRpc(character.owner.Value, _data.StunDuration);
-                        }
-
-                        // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
-                        if (entity is RaftPlayer player)
-                        {
-                            player.AnimateHurtRpc();
-                        }
-                    }
-
-                    _hitEntities.Add(entity);
                 }
             }
         }
-        
+
+        private void HandleTriggerStay(Collider collider, Collider otherCollider)
+        {
+            if (!otherCollider.TryGetComponent(out Entity entity))
+            {
+                return;
+            }
+
+            if (entity == _source)
+            {
+                return;
+            }
+
+            if (!entity.isSpawned)
+            {
+                return;
+            }
+
+            if (_hitEntities.Contains(entity))
+            {
+                return;
+            }
+
+            if (_data.Alliance == entity.EntityDefinitionData.Alliance && _data.Alliance != EntityAlliance.Neutral && !(_source is RaftPlayer && entity is RaftPlayer))
+            {
+                return;
+            }
+
+            if (entity.EntityLifecycleLogic.InGracePeriod)
+            {
+                return;
+            }
+
+            // Hit the entity
+            entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
+
+            // Damaging an entity can cause it to despawn, which nulls all modules
+            if (entity.isSpawned)
+            {
+                Physics.ComputePenetration(collider, collider.transform.position, collider.transform.rotation, otherCollider, otherCollider.transform.position, otherCollider.transform.rotation, out Vector3 forceDirection, out _);
+               
+                forceDirection.y = 0f;
+                forceDirection.Normalize();
+
+                // Inverting penetration will produce the best direction to separate collider from otherColider
+                forceDirection = -forceDirection;
+
+                // Torque is dependent on the horizontal value of forceDirection
+                Vector3 torqueDirection = forceDirection;
+
+                // Universal pitching for hitbox force
+                forceDirection = Quaternion.AngleAxis(45f, Vector3.Cross(forceDirection, Vector3.up).normalized) * forceDirection;
+                Vector3 force = forceDirection * _data.KnockbackForceStrength;
+
+                // Using the cross product, torque can make the entity rotate backwards relative to the hitbox
+                torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
+                Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
+
+                entity.AddForceRpc(entity.owner.Value, force);
+                entity.AddTorqueRpc(entity.owner.Value, torque);
+
+                if (entity is Character character)
+                {
+                    character.StunRpc(character.owner.Value, _data.StunDuration);
+                }
+
+                // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
+                if (entity is RaftPlayer player)
+                {
+                    player.AnimateHurtRpc();
+                }
+            }
+
+            _hitEntities.Add(entity);
+        }
+
         public void OnReturnedToPool()
         {
             _data = null;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PaddleSwingHitboxData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Hitboxes.HitboxData
   _damage: 1
-  _knockbackForceStrength: 40
+  _knockbackForceStrength: 20
   _knockbackTorqueStrength: 0.25
   _stunDuration: 0.25
   _alliance: 0
