@@ -77,6 +77,8 @@ namespace NoMoreFishAndChips.Entities
 
         protected override void HandleNetIsDefeatedChanged(bool defeated)
         {
+            Log.Info($"character {_character.gameObject.name} defeated to {defeated}");
+            
             _character.CharacterModel.SetDefeated(defeated);
             _character.EntityModel.Animator.Update(0f);
             _character.CharacterRagdollLogic.SetEnabled(defeated);
