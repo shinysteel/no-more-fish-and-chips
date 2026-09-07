@@ -8,15 +8,15 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "FlyingFishDefinitionData", menuName = "Data/Entities/Characters/FlyingFishDefinitionData")]
     public class FlyingFishDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private FlyingFishSurfaceSettings _surfaceSettings;
+        [SerializeField] private FlyingFishArriveSettings _arriveSettings;
         [SerializeField] private FlyingFishFlySettings _flySettings;
 
-        public FlyingFishSurfaceSettings SurfaceSettings => _surfaceSettings;
+        public FlyingFishArriveSettings ArriveSettings => _arriveSettings;
         public FlyingFishFlySettings FlySettings => _flySettings;
     }
 
     [Serializable]
-    public class FlyingFishSurfaceSettings
+    public class FlyingFishArriveSettings
     {
         [SerializeField] private IntRange _offsetRange = new IntRange(2, 4);
         [SerializeField] private float _depth = 0.5f;

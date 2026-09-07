@@ -41,10 +41,10 @@ namespace NoMoreFishAndChips.Entities
 
             _stateMachine = new();
 
-            FlyingFishSurfaceState surfaceState = new FlyingFishSurfaceState(_stateMachine, this);
+            FlyingFishArriveState arriveState = new FlyingFishArriveState(_stateMachine, this);
             FlyingFishFlyState flyState = new FlyingFishFlyState(_stateMachine, this);
 
-            _stateMachine.AddState(EFlyingFishState.Surface, surfaceState);
+            _stateMachine.AddState(EFlyingFishState.Arrive, arriveState);
             _stateMachine.AddState(EFlyingFishState.Fly, flyState);
         } 
 
@@ -66,7 +66,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _stateMachine.ChangeState(EFlyingFishState.Surface);
+                _stateMachine.ChangeState(EFlyingFishState.Arrive);
             }
         }
 

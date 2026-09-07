@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.Entities
     public enum EFlyingFishState
     {
         None,
-        Surface,
+        Arrive,
         Fly
     }
 
@@ -40,16 +40,16 @@ namespace NoMoreFishAndChips.Entities
         }
     }
 
-    public class FlyingFishSurfaceState : FlyingFishState
+    public class FlyingFishArriveState : FlyingFishState
     {
-        private FlyingFishSurfaceSettings _settings;
+        private FlyingFishArriveSettings _settings;
 
         private RaftEdge _edge;
         private Vector3 _targetPosition;
 
-        public FlyingFishSurfaceState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
+        public FlyingFishArriveState(StateMachine<EFlyingFishState> parent, FlyingFish fish) : base(parent, fish)
         {
-            _settings = _fish.DefinitionData.SurfaceSettings;
+            _settings = _fish.DefinitionData.ArriveSettings;
         }
 
         public override void Enter()
