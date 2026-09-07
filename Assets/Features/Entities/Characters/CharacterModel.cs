@@ -59,14 +59,14 @@ namespace NoMoreFishAndChips.Entities
             // Flash red
             _hurtTween = Tween.Custom(startValue: 1f, endValue: 0f, duration: 0.5f, onValueChange: (float value) =>
             {
-                _material.SetFloat(HurtBlendShaderPropertyName, value);
+                SetMaterialFloat(HurtBlendShaderPropertyName, value);
             });
         }
 
         public void AdditiveHurt()
         {
             // Additive animation
-            SetTrigger(HurtAnimatorTriggerName);
+            SetAnimatorTrigger(HurtAnimatorTriggerName);
 
             ResetBlinkTimer();
         }
@@ -74,7 +74,7 @@ namespace NoMoreFishAndChips.Entities
         public void SetDefeated(bool defeated)
         {
             // Tint grey
-            _material.SetFloat(DefeatBlendShaderPropertyName, defeated ? 1f : 0f);
+            SetMaterialFloat(DefeatBlendShaderPropertyName, defeated ? 1f : 0f);
 
             _animator.SetBool(IsDefeatedAnimatorBoolName, defeated);
         }

@@ -219,7 +219,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.Enter();
 
-                _seagull.CharacterModel.SetTrigger(AttackTriggerName);
+                _seagull.CharacterModel.SetAnimatorTrigger(AttackTriggerName);
             }
         }
 

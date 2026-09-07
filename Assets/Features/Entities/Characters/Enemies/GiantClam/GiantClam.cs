@@ -373,7 +373,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetRageBlendChanged(float blend)
         {
-            _entityModel.Material.SetFloat(RageBlendName, blend);
+            _entityModel.SetMaterialFloat(RageBlendName, blend);
         }
 
         public void SetNetExplodeBlend(float blend)
@@ -383,7 +383,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetExplodeBlendChanged(float blend)
         {
-            _entityModel.Material.SetFloat(ExplodeBlendName, blend);
+            _entityModel.SetMaterialFloat(ExplodeBlendName, blend);
         }
 
         protected override void Update()

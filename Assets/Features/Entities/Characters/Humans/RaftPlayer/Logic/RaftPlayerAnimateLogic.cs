@@ -179,7 +179,7 @@ namespace NoMoreFishAndChips.Entities
 
         public void Jump()
         {
-            _player.EntityModel.SetTrigger(JumpTriggerName);
+            _player.EntityModel.SetAnimatorTrigger(JumpTriggerName);
         }
     }
 }

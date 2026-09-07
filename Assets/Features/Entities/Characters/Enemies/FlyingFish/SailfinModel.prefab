@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8791136190203780821, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e4d2fb78de6ed3b469c43ad9edd39ca3, type: 2}
     - target: {fileID: -8679921383154817045, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -20,10 +24,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8427755107179918695, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e4d2fb78de6ed3b469c43ad9edd39ca3, type: 2}
+    - target: {fileID: -3763769573833444613, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e4d2fb78de6ed3b469c43ad9edd39ca3, type: 2}
+    - target: {fileID: -1326873540575346228, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e4d2fb78de6ed3b469c43ad9edd39ca3, type: 2}
     - target: {fileID: 919132149155446097, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
       propertyPath: m_Name
-      value: FlyingFishModel
+      value: SailfinModel
       objectReference: {fileID: 0}
+    - target: {fileID: 1418587517541411048, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e4d2fb78de6ed3b469c43ad9edd39ca3, type: 2}
+    - target: {fileID: 3683196770379712958, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e4d2fb78de6ed3b469c43ad9edd39ca3, type: 2}
     - target: {fileID: 5866666021909216657, guid: aa8e3698c7371c84dbf87e51e0ee26a9, type: 3}
       propertyPath: m_Controller
       value: 
@@ -61,4 +85,3 @@ MonoBehaviour:
   _id: 101
   _animator: {fileID: 3036008423404595125}
   _networkAnimator: {fileID: 0}
-  _itemLocator: {fileID: 0}

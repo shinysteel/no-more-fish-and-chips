@@ -135,7 +135,7 @@ namespace NoMoreFishAndChips.Entities
                 }
                 else if (_stateTimer < _chargeDuration && _stateTimer + Time.deltaTime >= _chargeDuration)
                 {
-                    _tentacle.CharacterModel.SetTrigger(SlamTriggerName);
+                    _tentacle.CharacterModel.SetAnimatorTrigger(SlamTriggerName);
                 }
 
                 base.Tick();
@@ -167,7 +167,7 @@ namespace NoMoreFishAndChips.Entities
 
             public override void Enter()
             {
-                _tentacle.CharacterModel.SetTrigger(RetreatTriggerName);
+                _tentacle.CharacterModel.SetAnimatorTrigger(RetreatTriggerName);
 
                 Tween.PositionY(_tentacle.transform, endValue: -3f, duration: 1f, ease: Ease.InBack)
                     .OnComplete(() => _tentacle._entityManager.Despawn(_tentacle));

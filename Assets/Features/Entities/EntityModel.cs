@@ -4,6 +4,7 @@ using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -16,11 +17,10 @@ namespace NoMoreFishAndChips.Entities
 
         protected ItemManager _itemManager;
 
-        protected Material _material;
-
+        private Dictionary<Material, Material> _sharedMaterialMap = new();
+        
         public EntityId Id => _id;
         public Animator Animator => _animator;
-        public Material Material => _material;
 
         private void Awake()
         {
@@ -28,18 +28,20 @@ namespace NoMoreFishAndChips.Entities
 
             foreach (MeshRenderer renderer in transform.GetComponentsInChildren<MeshRenderer>())
             {
-                if (_material == null)
+                Material sharedMaterial = renderer.sharedMaterial;
+
+                if (!_sharedMaterialMap.TryGetValue(sharedMaterial, out Material material))
                 {
-                    _material = renderer.material;
+                    _sharedMaterialMap.Add(sharedMaterial, renderer.material);
                 }
                 else
                 {
-                    renderer.material = _material;
-                }
+                    renderer.material = material;
+                } 
             }
         }
 
-        public void SetTrigger(string name)
+        public void SetAnimatorTrigger(string name)
         {
             if (_networkAnimator == null)
             {
@@ -48,6 +50,14 @@ namespace NoMoreFishAndChips.Entities
             else
             {
                 _networkAnimator.SetTrigger(name);
+            }
+        }
+
+        public void SetMaterialFloat(string name, float value)
+        {
+            foreach (Material material in _sharedMaterialMap.Values)
+            {
+                material.SetFloat(name, value);
             }
         }
 
