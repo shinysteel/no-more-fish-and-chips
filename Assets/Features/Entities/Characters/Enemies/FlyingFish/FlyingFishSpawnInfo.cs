@@ -5,12 +5,12 @@ namespace NoMoreFishAndChips.Entities
 {
     public class FlyingFishSpawnInfo : EnemySpawnInfo
     {
-        private RaftLine _raftLine;
-        public RaftLine RaftLine => _raftLine;
+        private RaftLine _line;
+        public RaftLine Line => _line;
 
         public FlyingFishSpawnInfo(RaftLine line)
         {
-            _raftLine = line;
+            _line = line;
         }
     }
 }

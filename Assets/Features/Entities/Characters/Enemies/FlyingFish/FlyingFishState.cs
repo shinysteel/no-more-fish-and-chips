@@ -64,7 +64,7 @@ namespace NoMoreFishAndChips.Entities
         // Surface away from the edge
         private void Surface()
         {
-            _edge = Random.value <= 0.5f ? _fish.SpawnInfo.RaftLine.MinEdge : _fish.SpawnInfo.RaftLine.MaxEdge;
+            _edge = Random.value <= 0.5f ? _fish.SpawnInfo.Line.MinEdge : _fish.SpawnInfo.Line.MaxEdge;
 
             Vector2Int cell = _edge.Node.Cell;
             cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();

@@ -46,7 +46,14 @@ namespace NoMoreFishAndChips.Entities
 
             _stateMachine.AddState(EFlyingFishState.Arrive, arriveState);
             _stateMachine.AddState(EFlyingFishState.Fly, flyState);
-        } 
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _stateMachine.Dispose();
+        }
 
         protected override void OnSpawned()
         {
@@ -82,18 +89,11 @@ namespace NoMoreFishAndChips.Entities
             } 
         }
 
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            _stateMachine.Dispose();
-        }
-
         protected override void Update()
         {
             base.Update();
             
-            if (isOwner)
+            if (isOwner && isFullySpawned)
             {
                 _stateMachine.Tick();
             }

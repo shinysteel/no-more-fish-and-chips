@@ -7,33 +7,75 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "SeagullDefinitionData", menuName = "Data/Entities/Characters/SeagullDefinitionData")]
     public class SeagullDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private SeagullFlySettings _flySettings;
-        [SerializeField] private SeagullAttackSettings _attackSettings;
+        [SerializeField] private SeagullArriveSettings _arriveSettings;
+        [SerializeField] private SeagullAirSettings _airSettings;
+        [SerializeField] private SeagullGroundSettings _groundSettings;
+        [SerializeField] private SeagullWaterSettings _waterSettings;
 
-        public SeagullFlySettings FlySettings => _flySettings;
-        public SeagullAttackSettings AttackSettings => _attackSettings;
-    }
-
-
-    [Serializable]
-    public class SeagullFlySettings
-    {
-        [SerializeField] private float _speed = 2.5f;
-        [SerializeField] private float _acceleration = 2.5f;
-
-        public float Speed => _speed;
-        public float Acceleration => _acceleration;
+        public SeagullArriveSettings ArriveSettings => _arriveSettings;
+        public SeagullAirSettings AirSettings => _airSettings;
+        public SeagullGroundSettings GroundSettings => _groundSettings;
+        public SeagullWaterSettings WaterSettings => _waterSettings;
     }
 
     [Serializable]
-    public class SeagullAttackSettings
+    public class SeagullArriveSettings
+    { }
+
+    [Serializable]
+
+    public class SeagullAirSettings
     {
-        [SerializeField] private float _range = 0.5f;
-        [SerializeField] private LayerMask _mask;
+        [SerializeField] private SeagullAirTakeoffSettings _takeoffSettings;
+        [SerializeField] private SeagullAirStrafeSettings _strafeSettings;
+        [SerializeField] private SeagullAirLandSettings _landSettings;
+
+        public SeagullAirTakeoffSettings TakeoffSettings => _takeoffSettings;
+        public SeagullAirStrafeSettings StrafeSettings => _strafeSettings;
+        public SeagullAirLandSettings LandSettings => _landSettings;
+    }
+
+    [Serializable]
+    public class SeagullAirTakeoffSettings
+    { }
+
+    [Serializable]
+    public class SeagullAirStrafeSettings
+    { }
+
+    [Serializable]
+    public class SeagullAirLandSettings
+    { }
+
+    [Serializable]
+    public class SeagullGroundSettings
+    {
+        [SerializeField] private SeagullGroundIdleSettings _idleSettings;
+        [SerializeField] private SeagullGroundRoamSettings _roamSettings;
+        [SerializeField] private SeagullGroundAttackSettings _attackSettings;
+
+        public SeagullGroundIdleSettings IdleSettings => _idleSettings;
+        public SeagullGroundRoamSettings RoamSettings => _roamSettings;
+        public SeagullGroundAttackSettings AttackSettings => _attackSettings;
+    }
+
+    [Serializable]
+    public class SeagullGroundIdleSettings
+    { }
+
+    [Serializable]
+    public class SeagullGroundRoamSettings
+    { }
+
+    [Serializable]
+    public class SeagullGroundAttackSettings
+    {
         [SerializeField] private HitboxData _hitboxData;
 
-        public float Range => _range;
-        public LayerMask Mask => _mask;
         public HitboxData HitboxData => _hitboxData;
     }
+
+    [Serializable]
+    public class SeagullWaterSettings
+    { }
 }

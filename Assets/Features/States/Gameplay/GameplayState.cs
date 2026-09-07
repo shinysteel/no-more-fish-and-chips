@@ -137,8 +137,6 @@ namespace NoMoreFishAndChips.States
         {
             _config = config.GameplayStateConfig;
 
-            _subStateMachine = new();
-
             IntermissionState lobbyState = new IntermissionState(_subStateMachine);
             StageState stageState = new StageState(_subStateMachine);
 

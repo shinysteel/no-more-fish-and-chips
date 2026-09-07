@@ -28,13 +28,19 @@ namespace ShinyOwl.Common.Framework
         protected StateMachine<TParentStateEnum> _parentStateMachine;
         protected StateMachine<TSubStateEnum> _subStateMachine;
 
-        public IStateMachine SubStateMachine => _subStateMachine;
+        public StateMachine<TSubStateEnum> SubStateMachine => _subStateMachine;
+        IStateMachine IState.SubStateMachine => _subStateMachine;
 
         protected float _stateTimer;
 
         public State(StateMachine<TParentStateEnum> parent)
         {
             _parentStateMachine = parent;
+
+            if (typeof(TSubStateEnum) != typeof(ENone))
+            {
+                _subStateMachine = new();
+            }
         }
 
         public virtual void Dispose()

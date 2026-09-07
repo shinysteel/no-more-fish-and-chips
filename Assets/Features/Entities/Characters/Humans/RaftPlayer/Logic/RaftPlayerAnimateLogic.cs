@@ -78,22 +78,31 @@ namespace NoMoreFishAndChips.Entities
 
             _paddleSwingStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false)
             {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.PaddleSwing)),
-                new StateAnimationEvent(0f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true)),
+                new StateAnimationEvent(0f, () =>
+                {
+                    _audioManager.PlaySound(SoundId.PaddleSwing);
+                    _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
+                }),
                 new StateAnimationEvent(0.66f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
             };
 
             _spearJab1StateAnimationEvents = new StateAnimationEvents(SpearJab1StateName, false)
             {
-                new StateAnimationEvent(0.2f, () => _audioManager.PlaySound(SoundId.SpearJab)),
-                new StateAnimationEvent(0.2f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true)),
+                new StateAnimationEvent(0.2f, () =>
+                {
+                    _audioManager.PlaySound(SoundId.SpearJab);
+                    _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
+                }),
                 new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
             };
 
             _spearJab2StateAnimationEvents = new StateAnimationEvents(SpearJab2StateName, false)
             {
-                new StateAnimationEvent(0.2f, () => _audioManager.PlaySound(SoundId.SpearJab)),
-                new StateAnimationEvent(0.2f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true)),
+                new StateAnimationEvent(0.2f, () =>
+                {
+                    _audioManager.PlaySound(SoundId.SpearJab);
+                    _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
+                }),
                 new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
             };
         }

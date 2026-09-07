@@ -66,8 +66,6 @@ namespace NoMoreFishAndChips.States
         {
             _config = config.IntermissionStageConfig;
 
-            _subStateMachine = new();
-
             ArriveState arriveState = new ArriveState(_subStateMachine);
             DockState dockState = new DockState(_subStateMachine);
             DepartState departState = new DepartState(_subStateMachine, this);
