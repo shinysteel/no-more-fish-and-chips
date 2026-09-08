@@ -19,7 +19,7 @@ namespace NoMoreFishAndChips.Entities
     public class FlyingFishArriveSettings
     {
         [SerializeField] private IntRange _offsetRange = new IntRange(2, 4);
-        [SerializeField] private float _depth = 0.5f;
+        [SerializeField] private float _startDepth = 0.5f;
         [SerializeField] private float _wiggleDuration = 1f;
         [SerializeField] private float _wigglePitch = -15f;
         [SerializeField] private float _pitchDuration = 0.25f;
@@ -27,7 +27,7 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private FloatRange _pitchRange = new FloatRange(-75f, -60f);
 
         public IntRange OffsetRange => _offsetRange;
-        public float Depth => _depth;
+        public float StartDepth => _startDepth;
         public float WiggleDuration => _wiggleDuration;
         public float WigglePitch => _wigglePitch;
         public float PitchDuration => _pitchDuration;

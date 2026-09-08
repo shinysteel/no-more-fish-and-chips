@@ -93,6 +93,16 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            foreach (ISeagullState state in _stateMachine)
+            {
+                state.InitialiseContext(_context);
+            }
+        }
+
         protected override void OnDespawned()
         {
             base.OnDespawned();
@@ -126,6 +136,18 @@ namespace NoMoreFishAndChips.Entities
             if (isOwner && isFullySpawned)
             {
                 _stateMachine.FixedTick();
+            }
+        }
+
+        public void HoldAltitude(float dampingStrength)
+        {
+            if (EntityPhysicsLogic.Rigidbody.linearVelocity.y <= 0f)
+            {
+                Vector3 force = -Physics.gravity;
+
+                force.y -= EntityPhysicsLogic.Rigidbody.linearVelocity.y * dampingStrength;
+
+                EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Acceleration);
             }
         }
 

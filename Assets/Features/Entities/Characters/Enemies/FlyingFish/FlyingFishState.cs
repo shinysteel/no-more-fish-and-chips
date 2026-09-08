@@ -71,7 +71,7 @@ namespace NoMoreFishAndChips.Entities
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell);
             position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
-            position += Vector3.down * _settings.Depth;
+            position += Vector3.down * _settings.StartDepth;
 
             _fish.EntityPhysicsLogic.Rigidbody.position = position;
 

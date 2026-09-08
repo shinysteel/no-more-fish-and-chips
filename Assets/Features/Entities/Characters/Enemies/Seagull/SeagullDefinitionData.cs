@@ -21,13 +21,15 @@ namespace NoMoreFishAndChips.Entities
     [Serializable]
     public class SeagullArriveSettings
     {
-        [SerializeField] private float _altitude = 5f;
-        [SerializeField] private float _floatStrength = 2f;
-        [SerializeField] private float _restThreshold = 0.1f;
+        [SerializeField] private float _delay = 0.5f;
+        [SerializeField] private float _startAltitude = 5f;
+        [SerializeField] private float _dampingStrength = 2f;
+        [SerializeField] private float _duration = 1f;
 
-        public float Altitude => _altitude;
-        public float FloatStrength => _floatStrength;
-        public float RestThreshold => _restThreshold;
+        public float Delay => _delay;
+        public float StartAltitude => _startAltitude;
+        public float DampingStrength => _dampingStrength;
+        public float Duration => _duration;
     }
 
     [Serializable]
@@ -49,7 +51,21 @@ namespace NoMoreFishAndChips.Entities
 
     [Serializable]
     public class SeagullAirStrafeSettings
-    { }
+    {
+        [SerializeField] private float _strafeDuration = 1f;
+        [SerializeField] private float _strafeAcceleration = 2.5f;
+        [SerializeField] private float _strafeRoll = 25f;
+        [SerializeField] private float _rotateSpeed = 45f;
+        [SerializeField] private float _brakeDuration = 0.5f;
+        [SerializeField] private float _dampingStrength = 2f;
+        
+        public float StrafeDuration => _strafeDuration;
+        public float StrafeAcceleration => _strafeAcceleration;
+        public float StrafeRoll => _strafeRoll;
+        public float RotateSpeed => _rotateSpeed;
+        public float BrakeDuration => _brakeDuration;
+        public float DampingStrength => _dampingStrength;
+    }
 
     [Serializable]
     public class SeagullAirLandSettings
