@@ -4,6 +4,7 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -43,9 +44,37 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            _seagull.transform.position = _seagull.SpawnInfo.Tile.transform.position + Vector3.up * 5f;
+            Vector3 position = _seagull.SpawnInfo.Tile.transform.position;
+            position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+            position += Vector3.up * _settings.Altitude;
 
-            _parentStateMachine.ChangeState(ESeagullState.Air);
+            _seagull.transform.position = position;
+        }
+
+        public override void FixedTick()
+        {
+            base.FixedTick();
+
+            if (_stateTimer < 0.5f)
+            {
+                return;
+            }
+
+            // Float down
+            if (_seagull.EntityPhysicsLogic.Rigidbody.linearVelocity.y <= 0f)
+            {
+                Vector3 force = -Physics.gravity;
+
+                force.y -= _seagull.EntityPhysicsLogic.Rigidbody.linearVelocity.y * _settings.FloatStrength;
+
+                _seagull.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Acceleration);
+            }
+
+            // When at rest, go to air state
+            if (Mathf.Abs(_seagull.EntityPhysicsLogic.Rigidbody.linearVelocity.y) <= _settings.RestThreshold)
+            {
+                _parentStateMachine.ChangeState(ESeagullState.Air);
+            }
         }
     }
 
@@ -111,6 +140,13 @@ namespace NoMoreFishAndChips.Entities
         public SeagullAirStrafeState(StateMachine<ESeagullAirState> parent, Seagull seagull) : base(parent, seagull)
         {
             _settings = _seagull.DefinitionData.AirSettings.StrafeSettings;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            // 
         }
     }
 

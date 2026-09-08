@@ -20,7 +20,15 @@ namespace NoMoreFishAndChips.Entities
 
     [Serializable]
     public class SeagullArriveSettings
-    { }
+    {
+        [SerializeField] private float _altitude = 5f;
+        [SerializeField] private float _floatStrength = 2f;
+        [SerializeField] private float _restThreshold = 0.1f;
+
+        public float Altitude => _altitude;
+        public float FloatStrength => _floatStrength;
+        public float RestThreshold => _restThreshold;
+    }
 
     [Serializable]
 

@@ -14,269 +14,6 @@ using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Environments
 {
-    /// <summary>
-    /// A RaftAxis will be either horizontal or vertical. It contains a collection of RaftLines, and keeps
-    /// track of its bounds
-    /// </summary>
-    public class RaftAxis
-    {
-        private Raft _raft;
-        private Axis _type;
-        private SortedDictionary<int, RaftLine> _lines = new();
-        private IntRange _linesBounds;
-
-        public Axis Type => _type;
-        public IReadOnlyDictionary<int, RaftLine> Lines => _lines;
-
-        public RaftAxis(Raft raft, Axis type)
-        {
-            _raft = raft;
-            _type = type;
-            
-            _raft.OnTileChanged += HandleTileChanged;
-        }
-
-        public void Dispose()
-        {
-            if (_raft != null)
-            {
-                _raft.OnTileChanged -= HandleTileChanged;
-            }
-        }
-
-        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
-        {
-            UpdateLines(cell, current);
-        }
-
-        // Maintains positional maps when any Tile is changed
-        private void UpdateLines(Vector2Int cell, RaftTile tile)
-        {
-            int lineIndex = CellToLineIndex(cell);
-            int axisIndex = CellToAxisIndex(cell);
-
-            if (tile != null)
-            {
-                if (!_lines.ContainsKey(lineIndex))
-                {
-                    _lines.Add(lineIndex, new RaftLine(this, lineIndex));
-                    RefreshLinesBounds();
-                }
-
-                _lines[lineIndex].AddNode(axisIndex);
-            }
-            else
-            {
-                _lines[lineIndex].RemoveNode(axisIndex);
-
-                if (_lines[lineIndex].Nodes.Count == 0)
-                {
-                    _lines.Remove(lineIndex);
-                    RefreshLinesBounds();
-                }
-            }
-        }
-
-        private void RefreshLinesBounds()
-        {
-            _linesBounds = _lines.Count > 0
-                ? new IntRange(_lines.Keys.Min(), _lines.Keys.Max())
-                : null;
-        }
-
-        public bool TryGetLinesBounds(out IntRange bounds)
-        {
-            bounds = _linesBounds;
-            return bounds != null;
-        }
-
-        public int CellToLineIndex(Vector2Int cell)
-        {
-            return _type == Axis.Horizontal ? cell.y : cell.x;
-        }
-
-        // The AxisIndex is a stripped coordinate from a position - one that is relevant to this axis. For example,
-        // if this axis is Horizontal, the x-coordinate is relevant
-        public int CellToAxisIndex(Vector2Int cell)
-        {
-            return _type == Axis.Horizontal ? cell.x : cell.y;
-        }
-
-        public int WorldPositionToAxisIndex(Vector3 position)
-        {
-            return CellToAxisIndex(_raft.Queries.WorldPositionToCell(position));
-        }
-
-        public Direction GetDirection()
-        {
-            return _type == Axis.Horizontal ? Direction.Up : Direction.Right;
-        }
-    }
-
-    /// <summary>
-    /// A RaftLine represents a span of cells along an index on an axis. It stores its ends
-    /// into the values '_minEdge' and '_maxEdge'
-    /// </summary>
-    public class RaftLine
-    {
-        private RaftAxis _raftAxis;
-        public RaftAxis RaftAxis => _raftAxis;
-
-        private int _lineIndex;
-        public int LineIndex => _lineIndex;
-
-        private SortedDictionary<int, RaftLineNode> _nodes;
-        public IReadOnlyDictionary<int, RaftLineNode> Nodes => _nodes;
-
-        private RaftEdge _minEdge;
-        private RaftEdge _maxEdge;
-
-        public RaftEdge MinEdge => _minEdge;
-        public RaftEdge MaxEdge => _maxEdge;
-
-        public RaftLine(RaftAxis raftAxis, int lineIndex)
-        {
-            _raftAxis = raftAxis;
-            _lineIndex = lineIndex;
-
-            _nodes = new();
-        }
-
-        public void AddNode(int axisIndex)
-        {
-            _nodes.Add(axisIndex, new RaftLineNode(axisIndex, this));
-
-            RefreshEdges();
-        }
-
-        public void RemoveNode(int axisIndex)
-        {
-            _nodes.Remove(axisIndex);
-
-            RefreshEdges();
-        }
-
-        // Manual refresh when we know min and max are potentially dirty
-        private void RefreshEdges()
-        {
-            if (_nodes.Count == 0)
-            {
-                _minEdge = null;
-                _maxEdge = null;
-                return;
-            }
-
-            RaftLineNode minNode = _nodes.First().Value;
-            RaftLineNode maxNode = _nodes.Last().Value;
-
-            _minEdge = new RaftEdge(minNode, _raftAxis.Type == Axis.Horizontal ? Direction.Left : Direction.Down);
-            _maxEdge = new RaftEdge(maxNode, _raftAxis.Type == Axis.Horizontal ? Direction.Right : Direction.Up);
-        }
-
-        public RaftEdge GetEdge(int direction)
-        {
-            return direction < 0 ? _minEdge : _maxEdge;
-        }
-
-        public RaftEdge GetRandomEdge()
-        {
-            return Random.value < 0.5f ? _minEdge : _maxEdge;
-        }
-
-        public RaftLineNode GetNextNode(int axisIndex, int direction)
-        {
-            if (direction < 0)
-            {
-                return _nodes.Values.LastOrDefault(node => node.AxisIndex < axisIndex);
-            }
-            else
-            {
-                return _nodes.Values.FirstOrDefault(node => node.AxisIndex > axisIndex);
-            }
-        }
-
-        public Vector2Int AxisIndexToCell(int axisIndex)
-        {
-            if (_raftAxis.Type == Axis.Horizontal)
-            {
-                return new Vector2Int(axisIndex, _lineIndex);
-            }
-            else
-            {
-                return new Vector2Int(_lineIndex, axisIndex);
-            }
-        }
-
-        public Vector3 AxisIndexToWorldPosition(int axisIndex)
-        {
-            if (_raftAxis.Type == Axis.Horizontal)
-            {
-                return new Vector3(axisIndex, 0f, _lineIndex);
-            }
-            else
-            {
-                return new Vector3(_lineIndex, 0f, axisIndex);
-            }
-        }
-    }
-
-    /// <summary>
-    /// A context container for both a Tile and it's AxisIndex within a RaftLine
-    /// </summary>
-    public class RaftLineNode : IComparable<RaftLineNode>
-    {
-        private int _axisIndex;
-        public int AxisIndex => _axisIndex;
-
-        private RaftLine _line;
-
-        private Vector2Int _cell;
-        public Vector2Int Cell => _cell;
-
-        public RaftLineNode(int axisIndex, RaftLine line)
-        {
-            _axisIndex = axisIndex;
-            _line = line;
-            _cell = _line.AxisIndexToCell(_axisIndex);
-        }
-
-        public int CompareTo(RaftLineNode other)
-        {
-            return _axisIndex.CompareTo(other._axisIndex);
-        }
-    }
-
-    /// <summary>
-    /// A RaftEdge captures information about a tile that at the time of creation was considered on
-    /// the edge of the raft. This simply means that the tile had either the smallest or biggest value in a RaftLine
-    /// </summary>
-    public class RaftEdge
-    {
-        private RaftLineNode _node;
-        private Direction _direction;
-
-        public RaftLineNode Node => _node;
-        public Direction Direction => _direction;
-
-        public RaftEdge(RaftLineNode node, Direction direction)
-        {
-            _node = node;
-            _direction = direction;
-        }
-    }
-
-    public class RaftPerimeterCell
-    {
-        private Vector2Int _cell;
-        private List<Direction> _openDirections;
-
-        public RaftPerimeterCell(Vector2Int cell, List<Direction> openDirections)
-        {
-            _cell = cell;
-            _openDirections = openDirections;
-        }
-    }
-
     public class RaftQueries
     {
         private Raft _raft;
@@ -358,9 +95,7 @@ namespace NoMoreFishAndChips.Environments
             return new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
 
-        /// <summary>
-        /// Retrieves a random tile that fulfills a predicate
-        /// </summary>
+        // Retrieves a random tile that fulfills a predicate
         public bool TryGetRandomTile(Func<RaftTile, bool> predicate, out RaftTile tile)
         {
             tile = null;
@@ -393,9 +128,7 @@ namespace NoMoreFishAndChips.Environments
             return true;
         }
 
-        /// <summary>
-        /// Retrieves a random line
-        /// </summary>
+        // Retrieves a random line
         public bool TryGetRandomLine(out RaftLine line)
         {
             line = null;
@@ -452,9 +185,7 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        /// <summary>
-        /// Finds the closest edge to a cell. Ties are resolved randomly
-        /// </summary>
+        // Finds the closest edge to a cell. Ties are resolved randomly
         public bool TryGetClosestEdge(Vector2Int cell, out RaftEdge closestEdge)
         {
             closestEdge = null;
