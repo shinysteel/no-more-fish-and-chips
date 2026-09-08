@@ -38,7 +38,10 @@ MonoBehaviour:
       _strafeRoll: 20
       _rotateSpeed: 2.5
       _brakeDuration: 1
+      _brakeStrength: 1
       _dampingStrength: 1
+    _landSettings:
+      _flapStrength: 5
   _groundSettings:
     _attackSettings:
       _hitboxData: {fileID: 0}

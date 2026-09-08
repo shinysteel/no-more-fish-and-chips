@@ -9,7 +9,7 @@ namespace NoMoreFishAndChips.Entities
     {
         public CharacterModel CharacterModel => (CharacterModel)_entityModel;
 
-        public CharacterPhysicsLogic CharacterPhysicsModule => (CharacterPhysicsLogic)EntityPhysicsLogic;
+        public CharacterPhysicsLogic CharacterPhysicsLogic => (CharacterPhysicsLogic)EntityPhysicsLogic;
         public CharacterRagdollLogic CharacterRagdollLogic => GetLogic<CharacterRagdollLogic>();
         public CharacterActLogic CharacterActLogic => GetLogic<CharacterActLogic>();
 

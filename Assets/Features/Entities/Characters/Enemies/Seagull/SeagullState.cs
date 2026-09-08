@@ -71,7 +71,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             // Float down
-            _seagull.HoldAltitude(_settings.DampingStrength);
+            _seagull.StabiliseAltitude(_settings.DampingStrength);
 
             if (_stateTimer >= _settings.Duration)
             {
@@ -107,7 +107,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            if (!_seagull.CharacterPhysicsModule.InAir)
+            if (!_seagull.CharacterPhysicsLogic.InAir)
             {
                 _subStateMachine.ChangeState(ESeagullAirState.Takeoff);
             }
@@ -115,6 +115,23 @@ namespace NoMoreFishAndChips.Entities
             {
                 _subStateMachine.ChangeState(ESeagullAirState.Strafe);
             }
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+
+            if (_subStateMachine.CurrentStateEnum != ESeagullAirState.Takeoff)
+            {
+                _seagull.EvaluateState();
+            }
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _subStateMachine.ChangeState(ESeagullAirState.None);
         }
     }
 
@@ -180,7 +197,8 @@ namespace NoMoreFishAndChips.Entities
                 Vector3 direction;
                 float strength;
                 Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
-
+                
+                // Strafe, then brake
                 if (_timer < _state._settings.StrafeDuration)
                 {
                     direction = _direction;
@@ -190,7 +208,7 @@ namespace NoMoreFishAndChips.Entities
                 else
                 {
                     direction = -_direction;
-                    strength = Mathf.Abs(_state._seagull.EntityPhysicsLogic.Rigidbody.linearVelocity.x) * _state._settings.DampingStrength;
+                    strength = Mathf.Abs(_state._seagull.EntityPhysicsLogic.Rigidbody.linearVelocity.x) * _state._settings.BrakeStrength;
                 }
 
                 _state._seagull.EntityPhysicsLogic.Rigidbody.AddForce(direction * strength, ForceMode.Acceleration);
@@ -239,7 +257,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.FixedTick();
 
-            _seagull.HoldAltitude(2f);
+            _seagull.StabiliseAltitude(_settings.DampingStrength);
 
             _strafe.FixedTick();
         }
@@ -252,6 +270,27 @@ namespace NoMoreFishAndChips.Entities
         public SeagullAirLandState(StateMachine<ESeagullAirState> parent, Seagull seagull) : base(parent, seagull)
         {
             _settings = _seagull.DefinitionData.AirSettings.LandSettings;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            _seagull.EntityModel.Animator.SetBool(Seagull.IsFlappingBoolName, true);
+        }
+
+        public override void FixedTick()
+        {
+            base.FixedTick();
+
+            _seagull.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * _settings.FlapStrength, ForceMode.Acceleration);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _seagull.EntityModel.Animator.SetBool(Seagull.IsFlappingBoolName, false);
         }
     }
 

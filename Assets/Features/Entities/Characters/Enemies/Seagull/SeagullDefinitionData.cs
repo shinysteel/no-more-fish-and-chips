@@ -57,19 +57,25 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private float _strafeRoll = 20f;
         [SerializeField] private float _rotateSpeed = 2.5f;
         [SerializeField] private float _brakeDuration = 1f;
-        [SerializeField] private float _dampingStrength = 1f;
+        [SerializeField] private float _brakeStrength = 1f;
+        [SerializeField] private float _dampingStrength = 2f;
         
         public float StrafeDuration => _strafeDuration;
         public float StrafeAcceleration => _strafeAcceleration;
         public float StrafeRoll => _strafeRoll;
         public float RotateSpeed => _rotateSpeed;
         public float BrakeDuration => _brakeDuration;
+        public float BrakeStrength => _brakeStrength;
         public float DampingStrength => _dampingStrength;
     }
 
     [Serializable]
     public class SeagullAirLandSettings
-    { }
+    {
+        [SerializeField] private float _flapStrength = 5f;
+
+        public float FlapStrength => _flapStrength;
+    }
 
     [Serializable]
     public class SeagullGroundSettings

@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 base.Tick();
 
-                if (!_drowning._targetPlayer.CharacterPhysicsModule.InWater)
+                if (!_drowning._targetPlayer.CharacterPhysicsLogic.InWater)
                 {
                     _parentStateMachine.ChangeState(EState.Disappear);
                     return;

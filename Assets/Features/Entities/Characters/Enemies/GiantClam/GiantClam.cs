@@ -123,7 +123,7 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                if (_clam.CharacterPhysicsModule.GroundSurface != null)
+                if (_clam.CharacterPhysicsLogic.IsGrounded)
                 {
                     _parentStateMachine.ChangeState(EState.AwaitItems);
                 }

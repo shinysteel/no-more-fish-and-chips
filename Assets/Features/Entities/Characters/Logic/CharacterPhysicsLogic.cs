@@ -22,9 +22,9 @@ namespace NoMoreFishAndChips.Entities
         private float _timeInWater;
         public float TimeInWater => _timeInWater;
 
+        public bool IsGrounded => _groundSurface != null;
         public bool InWater => _timeInWater > 0f;
-        
-        public bool InAir => _groundSurface == null && !InWater;
+        public bool InAir => _groundSurface == null && _timeInWater == 0f;
 
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];

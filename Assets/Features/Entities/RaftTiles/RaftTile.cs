@@ -37,7 +37,7 @@ namespace NoMoreFishAndChips.Entities
 
         public const float Size = 1f;
 
-        public RaftTileDefeatLogic TileDefeatModule => (RaftTileDefeatLogic)EntityDefeatLogic;
+        public RaftTileDefeatLogic TileDefeatLogic => (RaftTileDefeatLogic)EntityDefeatLogic;
 
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
 

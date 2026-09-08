@@ -71,7 +71,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (!_player.CharacterPhysicsModule.InWater)
+            if (!_player.CharacterPhysicsLogic.InWater)
             {
                 return;
             }
@@ -167,7 +167,7 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_networkManager.IsServer)
                 {
-                    _player.CharacterPhysicsModule.ResetTimeInWater();
+                    _player.CharacterPhysicsLogic.ResetTimeInWater();
                 }
             }
         }

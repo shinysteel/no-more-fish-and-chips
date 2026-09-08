@@ -61,7 +61,7 @@ namespace NoMoreFishAndChips.Environments
         {
             foreach (RaftPlayer player in _context.Players)
             {
-                if (player.CharacterPhysicsModule.TimeInWater >= _spawnDuration && !player.RaftPlayerDefeatLogic.InBarrel)
+                if (player.CharacterPhysicsLogic.TimeInWater >= _spawnDuration && !player.RaftPlayerDefeatLogic.InBarrel)
                 {
                     SpawnDrowning(player);
                 }

@@ -19,4 +19,4 @@ MonoBehaviour:
   - _steps:
     - _entityId: 103
       _count: 1
-      _interval: 2
+      _interval: 0.5

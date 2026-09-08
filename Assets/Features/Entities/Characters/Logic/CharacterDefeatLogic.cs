@@ -41,7 +41,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void DefeatsInWaterTick()
         {
-            if (_character.CharacterPhysicsModule.InWater)
+            if (_character.CharacterPhysicsLogic.InWater)
             {
                 SetIsDefeated(true);
             }
@@ -59,7 +59,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (_character.CharacterPhysicsModule.GroundSurface == null && !_character.CharacterPhysicsModule.InWater)
+            if (_character.CharacterPhysicsLogic.InAir)
             {
                 return;
             }
@@ -71,8 +71,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _defeatTween = Tween.Scale(_character.transform, endValue: Vector3.zero, duration: _settings.TweenDuration, ease: Ease.InBack)
-                .OnComplete(Despawn);
+            _defeatTween = Tween.Scale(_character.transform, endValue: Vector3.zero, duration: _settings.TweenDuration, ease: Ease.InBack).OnComplete(Despawn);
         }
 
         protected override void HandleNetIsDefeatedChanged(bool defeated)

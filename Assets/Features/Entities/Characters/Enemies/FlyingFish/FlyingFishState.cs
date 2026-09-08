@@ -182,7 +182,7 @@ namespace NoMoreFishAndChips.Entities
 
         private async Task CreateMarkerAsync()
         {
-            while (_fish.CharacterPhysicsModule.InWater)
+            while (_fish.CharacterPhysicsLogic.InWater)
             {
                 await Task.Yield();
             }
@@ -211,12 +211,12 @@ namespace NoMoreFishAndChips.Entities
         private void ExplodeTick()
         {
             // Once airborne, we are ready to explode
-            if (_fish.CharacterPhysicsModule.InAir)
+            if (_fish.CharacterPhysicsLogic.InAir)
             {
                 _readyToExplode = true;
             }
 
-            if (!_readyToExplode || _fish.CharacterPhysicsModule.InAir)
+            if (!_readyToExplode || _fish.CharacterPhysicsLogic.InAir)
             {
                 return;
             }

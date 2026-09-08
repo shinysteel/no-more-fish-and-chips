@@ -109,12 +109,12 @@ namespace NoMoreFishAndChips.Entities
 
         private void PlayJumpSound()
         {
-            if (_player.CharacterPhysicsModule.LastGroundSurface == null)
+            if (_player.CharacterPhysicsLogic.LastGroundSurface == null)
             {
                 return;
             }
 
-            SoundId id = _player.CharacterPhysicsModule.LastGroundSurface.SurfaceType switch
+            SoundId id = _player.CharacterPhysicsLogic.LastGroundSurface.SurfaceType switch
             {
                 SurfaceType.None => SoundId.None,
                 SurfaceType.Wood => SoundId.HumanJumpWood,
@@ -133,12 +133,12 @@ namespace NoMoreFishAndChips.Entities
 
         private void PlayFootstepSound()
         {
-            if (_player.CharacterPhysicsModule.LastGroundSurface == null)
+            if (_player.CharacterPhysicsLogic.LastGroundSurface == null)
             {
                 return;
             }
 
-            SoundId id = _player.CharacterPhysicsModule.LastGroundSurface.SurfaceType switch
+            SoundId id = _player.CharacterPhysicsLogic.LastGroundSurface.SurfaceType switch
             {
                 SurfaceType.None => SoundId.None,
                 SurfaceType.Wood => SoundId.HumanFootstepWood,
@@ -160,8 +160,8 @@ namespace NoMoreFishAndChips.Entities
             if (_player.isOwner)
             {
                 bool isMoving = _player.RaftPlayerActLogic.CanAct && _player.InputLogic.MoveDirection != Vector3.zero;
-                bool inWater = _player.CharacterPhysicsModule.InWater;
-                bool inAir = _player.CharacterPhysicsModule.InAir;
+                bool inWater = _player.CharacterPhysicsLogic.InWater;
+                bool inAir = _player.CharacterPhysicsLogic.InAir;
                 bool isHoldingItem = _player.Hotbar.SelectedSlot.InventoryItem != null;
                 bool inBarrel = _player.RaftPlayerDefeatLogic.InBarrel;
 

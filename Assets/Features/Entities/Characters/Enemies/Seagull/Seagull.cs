@@ -18,7 +18,7 @@ namespace NoMoreFishAndChips.Entities
         public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
 
         private const string InAirBoolName = "InAir";
-        private const string IsFlappingBoolName = "IsFlapping";
+        public const string IsFlappingBoolName = "IsFlapping";
 
         private const string AttackTriggerName = "Attack";
 
@@ -119,6 +119,8 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Update();
 
+            _entityModel.Animator.SetBool(InAirBoolName, CharacterPhysicsLogic.InAir);
+
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
             _attackStateAnimationEvents.Tick(info);
             _airFlapStateAnimationEvents.Tick(info);
@@ -139,7 +141,7 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void HoldAltitude(float dampingStrength)
+        public void StabiliseAltitude(float dampingStrength)
         {
             if (EntityPhysicsLogic.Rigidbody.linearVelocity.y <= 0f)
             {
@@ -148,6 +150,18 @@ namespace NoMoreFishAndChips.Entities
                 force.y -= EntityPhysicsLogic.Rigidbody.linearVelocity.y * dampingStrength;
 
                 EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Acceleration);
+            }
+        }
+
+        public void EvaluateState()
+        {
+            if (CharacterPhysicsLogic.IsGrounded && _stateMachine.CurrentStateEnum != ESeagullState.Ground)
+            {
+                _stateMachine.ChangeState(ESeagullState.Ground);
+            }
+            else if (CharacterPhysicsLogic.InWater && _stateMachine.CurrentStateEnum != ESeagullState.Water)
+            {
+                _stateMachine.ChangeState(ESeagullState.Water);
             }
         }
 
