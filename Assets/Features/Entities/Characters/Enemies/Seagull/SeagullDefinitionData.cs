@@ -54,10 +54,10 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private float _strafeDuration = 1f;
         [SerializeField] private float _strafeAcceleration = 2.5f;
-        [SerializeField] private float _strafeRoll = 25f;
-        [SerializeField] private float _rotateSpeed = 45f;
-        [SerializeField] private float _brakeDuration = 0.5f;
-        [SerializeField] private float _dampingStrength = 2f;
+        [SerializeField] private float _strafeRoll = 20f;
+        [SerializeField] private float _rotateSpeed = 2.5f;
+        [SerializeField] private float _brakeDuration = 1f;
+        [SerializeField] private float _dampingStrength = 1f;
         
         public float StrafeDuration => _strafeDuration;
         public float StrafeAcceleration => _strafeAcceleration;

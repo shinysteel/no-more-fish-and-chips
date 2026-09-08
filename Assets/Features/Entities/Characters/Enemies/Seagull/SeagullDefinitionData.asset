@@ -35,10 +35,10 @@ MonoBehaviour:
     _strafeSettings:
       _strafeDuration: 1
       _strafeAcceleration: 2.5
-      _strafeRoll: -20
+      _strafeRoll: 20
+      _rotateSpeed: 2.5
       _brakeDuration: 1
       _dampingStrength: 1
-      _rotateSpeed: 1
   _groundSettings:
     _attackSettings:
       _hitboxData: {fileID: 0}

@@ -30,11 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4308314301107375625, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
       propertyPath: m_Name
-      value: FlyingFish
+      value: Sailfin
       objectReference: {fileID: 0}
     - target: {fileID: 9147761710190489017, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
       propertyPath: m_Mass
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9147761710190489017, guid: badd43a18d5ac3c4c9eea3b471409447, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

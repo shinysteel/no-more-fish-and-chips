@@ -58,7 +58,7 @@ namespace NoMoreFishAndChips.Entities
             position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
             position += Vector3.up * _settings.StartAltitude;
 
-            _seagull.transform.position = position;
+            _seagull.EntityPhysicsLogic.Rigidbody.position = position;
         }
 
         public override void FixedTick()
@@ -185,7 +185,7 @@ namespace NoMoreFishAndChips.Entities
                 {
                     direction = _direction;
                     strength = _state._settings.StrafeAcceleration;
-                    rotation *= Quaternion.AngleAxis(_state._settings.StrafeRoll * Mathf.Sign(direction.x), Vector3.forward);
+                    rotation *= Quaternion.AngleAxis(-_state._settings.StrafeRoll * Mathf.Sign(direction.x), Vector3.forward);
                 }
                 else
                 {
