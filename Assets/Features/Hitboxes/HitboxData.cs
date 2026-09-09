@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Hitboxes
         [SerializeField] private int _damage = 1;
         [SerializeField] private float _knockbackForceStrength = 1f;
         [SerializeField] private float _knockbackTorqueStrength = 0.5f;
-        [SerializeField] private float _stunDuration = 0.2f;
+        [SerializeField] private float _poiseDamage = 0.2f;
         [SerializeField] private EntityAlliance _alliance = EntityAlliance.Ally;
         [SerializeField] private LayerMask _mask = -1;
         [SerializeField] private HitboxLimit[] _limits = new HitboxLimit[0];
@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Hitboxes
         public int Damage => _damage;
         public float KnockbackForceStrength => _knockbackForceStrength;
         public float KnockbackTorqueStrength => _knockbackTorqueStrength;
-        public float StunDuration => _stunDuration;
+        public float PoiseDamage => _poiseDamage;
         public EntityAlliance Alliance => _alliance;
         public LayerMask Mask => _mask;
         public HitboxLimit[] Limits => _limits;

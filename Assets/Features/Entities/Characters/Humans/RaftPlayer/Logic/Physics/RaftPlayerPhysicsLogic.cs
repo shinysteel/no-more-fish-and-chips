@@ -27,7 +27,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _player = player;
             _capsuleCollider = capsuleCollider;
-            _settings = (RaftPlayerPhysicsSettings)_player.EntityDefinitionData.EntityPhysicsSettings;
+            _settings = _player.DefinitionData.RaftPlayerPhysicsSettings;
         }
 
         public override void Tick()

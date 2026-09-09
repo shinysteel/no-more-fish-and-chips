@@ -17,7 +17,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _tile = tile;
 
-            _settings = (RaftTileDefeatSettings)_tile.EntityDefinitionData.EntityDefeatSettings;
+            _settings = _tile.TileDefinitionData.TileDefeatSettings;
             
             _tile.EntityHealthLogic.OnChanged += HandleHealthChanged;
         }

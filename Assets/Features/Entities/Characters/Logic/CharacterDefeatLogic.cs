@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _character = character;
 
-            _settings = (CharacterDefeatSettings)_character.EntityDefinitionData.EntityDefeatSettings;
+            _settings = _character.CharacterDefinitionData.CharacterDefeatSettings;
         }
 
         public override void Tick()

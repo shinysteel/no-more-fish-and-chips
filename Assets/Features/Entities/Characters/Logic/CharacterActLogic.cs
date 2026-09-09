@@ -1,38 +1,83 @@
 using UnityEngine;
+using System;
 
 namespace NoMoreFishAndChips.Entities
 {
     public class CharacterActLogic : CharacterLogic
     {
-        private bool _isStunned;
-        private float _stunTimer;
+        private CharacterActSettings _settings;
 
-        public virtual bool CanAct => !_character.EntityDefeatLogic.IsDefeated && !_isStunned;
+        private float _poise;
+        private float _regenTimer;
+        private float _staggerTimer;
+
+        private bool IsStaggered => _staggerTimer > 0f;
+        public virtual bool CanAct => !_character.EntityDefeatLogic.IsDefeated && !IsStaggered;
+
+        public event Action OnStaggered;
 
         public CharacterActLogic(Character character) : base(character)
-        { }
+        {
+            _settings = character.CharacterDefinitionData.ActSettings;
+
+            _poise = _settings.Poise;
+        }
 
         public override void Tick()
         {
-            if (!_character.isOwner)
+            if (_character.isOwner)
+            {
+                RegenTick();
+                StaggerTick();
+            }
+        }
+
+        private void RegenTick()
+        {
+            if (IsStaggered)
             {
                 return;
             }
 
-            StunTick();
+            _regenTimer = Mathf.Max(_regenTimer - Time.deltaTime, 0f);
+
+            if (_regenTimer == 0f)
+            {
+                _poise = _settings.Poise;
+            }
         }
 
-        private void StunTick()
+        private void StaggerTick()
         {
-            _stunTimer -= Time.deltaTime;
-            _stunTimer = Mathf.Max(_stunTimer, 0f);
-
-            _isStunned = _stunTimer > 0f;
+            _staggerTimer = Mathf.Max(_staggerTimer - Time.deltaTime, 0f);
         }
 
-        public void Stun(float duration)
+        public void ChangePoise(float change)
         {
-            _stunTimer = Mathf.Max(_stunTimer, duration);
+            if (IsStaggered)
+            {
+                return;
+            }
+
+            _poise += change;
+            _poise = Mathf.Max(_poise, 0f);
+
+            if (_poise > 0f)
+            {
+                _regenTimer = _settings.RegenDelay;
+            }
+            else
+            {
+                Stagger();
+            }
+        }
+
+        private void Stagger()
+        {
+            _staggerTimer = _settings.StaggerDuration;
+            _regenTimer = 0f;
+
+            OnStaggered?.Invoke();
         }
     }
 }

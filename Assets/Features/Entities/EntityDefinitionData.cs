@@ -14,9 +14,9 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private EntityAlliance _alliance;
         [SerializeField] private SurfaceType _surfaceType;
         [SerializeField] private DropTable[] _dropTables;
-        [SerializeField] private EntityDefeatSettings _entityDefeatSettings;
+        [SerializeField] protected EntityDefeatSettings _entityDefeatSettings;
         [SerializeField] private EntityLifecycleSettings _entityLifecycleSettings;
-        [SerializeField] private EntityPhysicsSettings _entityPhysicsSettings;
+        [SerializeField] protected EntityPhysicsSettings _entityPhysicsSettings;
 
         public EntityId Id => _id;
         public int Health => _health;

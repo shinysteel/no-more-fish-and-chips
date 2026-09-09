@@ -15,11 +15,12 @@ MonoBehaviour:
   _damage: 1
   _knockbackForceStrength: 20
   _knockbackTorqueStrength: 0.25
-  _stunDuration: 0.25
+  _poiseDamage: 0.5
   _alliance: 0
   _mask:
     serializedVersion: 2
     m_Bits: 4294967295
+  _limits: []
   _steps:
   - _shape: 1
     _offset: {x: 0, y: 0.25, z: 0}

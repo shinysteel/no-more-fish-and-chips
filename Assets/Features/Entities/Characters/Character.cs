@@ -9,6 +9,8 @@ namespace NoMoreFishAndChips.Entities
     {
         public CharacterModel CharacterModel => (CharacterModel)_entityModel;
 
+        public CharacterDefinitionData CharacterDefinitionData => (CharacterDefinitionData)_entityDefinitionData;
+
         public CharacterPhysicsLogic CharacterPhysicsLogic => (CharacterPhysicsLogic)EntityPhysicsLogic;
         public CharacterRagdollLogic CharacterRagdollLogic => GetLogic<CharacterRagdollLogic>();
         public CharacterActLogic CharacterActLogic => GetLogic<CharacterActLogic>();
@@ -29,9 +31,9 @@ namespace NoMoreFishAndChips.Entities
         }
 
         [TargetRpc]
-        public void StunRpc(PlayerID id, float duration)
+        public void ChangePoiseRpc(PlayerID id, float change)
         {
-            CharacterActLogic.Stun(duration);
+            CharacterActLogic.ChangePoise(change);
         }
     }
 

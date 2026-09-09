@@ -201,7 +201,7 @@ namespace NoMoreFishAndChips.Hitboxes
 
                     if (collision.Entity is Character character)
                     {
-                        character.StunRpc(character.owner.Value, _data.StunDuration);
+                        character.ChangePoiseRpc(character.owner.Value, -_data.PoiseDamage);
                     }
 
                     // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it

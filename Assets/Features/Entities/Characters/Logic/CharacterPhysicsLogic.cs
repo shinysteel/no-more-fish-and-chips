@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Entities
         public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, Collider collider) : base(character, rigidbody, collider)
         {
             _character = character;
-            _settings = (CharacterPhysicsSettings)_character.EntityDefinitionData.EntityPhysicsSettings;
+            _settings = _character.CharacterDefinitionData.CharacterPhysicsSettings;
         }
 
         public override void FixedTick()

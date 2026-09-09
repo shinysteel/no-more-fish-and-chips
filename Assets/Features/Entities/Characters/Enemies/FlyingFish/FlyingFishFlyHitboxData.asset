@@ -15,7 +15,7 @@ MonoBehaviour:
   _damage: 1
   _knockbackForceStrength: 25
   _knockbackTorqueStrength: 0.5
-  _stunDuration: 0.2
+  _poiseDamage: 0.2
   _alliance: 1
   _mask:
     serializedVersion: 2

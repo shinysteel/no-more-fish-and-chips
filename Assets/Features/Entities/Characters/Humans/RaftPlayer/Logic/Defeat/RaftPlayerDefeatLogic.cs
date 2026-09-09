@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Entities
             _player = player;
             _netInBarrel = netInBarrel;
 
-            _settings = (RaftPlayerDefeatSettings)_player.DefinitionData.EntityDefeatSettings;
+            _settings = _player.DefinitionData.RaftPlayerDefeatSettings;
 
             _netInBarrel.onChanged += HandleNetInBarrelChanged;
         }

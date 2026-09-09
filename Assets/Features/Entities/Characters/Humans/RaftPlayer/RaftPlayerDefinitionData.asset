@@ -20,10 +20,12 @@ MonoBehaviour:
   _health: 1
   _isDamageable: 0
   _alliance: 0
+  _surfaceType: 0
   _dropTables: []
   _entityDefeatSettings: {fileID: 11400000, guid: f6d453bc7732d1544951952226952a3f, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 1cb918813fdeea64ba84e4ef6eb1ffb8, type: 2}
+  _actSettings: {fileID: 11400000, guid: 1c135009443135c48b9ef778e0500303, type: 2}
   _interactSettings: {fileID: 11400000, guid: da84a5b8bf687604b84d0bb4818d2391, type: 2}
   _dropInventoryItemSettings: {fileID: 11400000, guid: b80a952aa43fdb048887a9e8804e22b3, type: 2}
   _attackSettings: {fileID: 11400000, guid: 3b5d7d41be98a0c47a80dd66b96d5f46, type: 2}

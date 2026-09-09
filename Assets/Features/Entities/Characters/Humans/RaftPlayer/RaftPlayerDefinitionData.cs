@@ -20,5 +20,8 @@ namespace NoMoreFishAndChips.Entities
         public RaftPlayerTileTargetSettings TileTargetSettings => _tileTargetSettings;
         public BoolGrid UnlockableInventoryLayout => _unlockableInventoryLayout;
         public BoolGrid DefaultUnlockedInventoryLayout => _defaultUnlockedInventoryLayout;
+
+        public RaftPlayerDefeatSettings RaftPlayerDefeatSettings => (RaftPlayerDefeatSettings)_entityDefeatSettings;
+        public RaftPlayerPhysicsSettings RaftPlayerPhysicsSettings => (RaftPlayerPhysicsSettings)_entityPhysicsSettings;
     }
 }

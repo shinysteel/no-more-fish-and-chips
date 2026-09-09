@@ -46,6 +46,8 @@ namespace NoMoreFishAndChips.Entities
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
         public Recipe RepairRecipe => _repairRecipe;
 
+        public RaftTileDefeatSettings TileDefeatSettings => (RaftTileDefeatSettings)_entityDefeatSettings;
+
         DefinitionData ICreatable.DefinitionData => this;
 
         public bool TryBuild(GameplayContext context, RaftTileTarget target)

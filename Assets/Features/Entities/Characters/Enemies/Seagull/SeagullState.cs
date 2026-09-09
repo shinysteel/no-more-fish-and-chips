@@ -59,8 +59,10 @@ namespace NoMoreFishAndChips.Entities
             position += Vector3.up * _settings.StartAltitude;
 
             _seagull.EntityPhysicsLogic.Rigidbody.position = position;
-        }
 
+            _seagull.EntityPhysicsLogic.Rigidbody.linearVelocity = Vector3.zero;
+        }
+        
         public override void FixedTick()
         {
             base.FixedTick();
@@ -315,6 +317,13 @@ namespace NoMoreFishAndChips.Entities
             {
                 state.InitialiseContext(_context);
             }
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+
+            _seagull.EvaluateState();
         }
     }
 
