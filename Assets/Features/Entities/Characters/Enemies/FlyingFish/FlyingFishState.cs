@@ -70,7 +70,7 @@ namespace NoMoreFishAndChips.Entities
             cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();
 
             Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell);
-            position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+            position += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
             position += Vector3.down * _settings.StartDepth;
 
             _fish.EntityPhysicsLogic.Rigidbody.position = position;
@@ -91,7 +91,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             _targetPosition = tiles.OrderBy(tile => tile.EntityDefeatLogic.IsDefeated).ThenBy(tile => Random.value).First().transform.position;
-            _targetPosition += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+            _targetPosition += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
             _targetPosition.y = 0f;
 
             ListPool<RaftTile>.Release(tiles);

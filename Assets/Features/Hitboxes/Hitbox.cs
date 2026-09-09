@@ -117,6 +117,11 @@ namespace NoMoreFishAndChips.Hitboxes
 
         private void HandleTriggerStay(Collider collider, Collider otherCollider)
         {
+            if ((_data.Mask & (1 << otherCollider.gameObject.layer)) == 0)
+            {
+                return;
+            }
+
             if (!otherCollider.TryGetComponent(out Entity entity))
             {
                 return;

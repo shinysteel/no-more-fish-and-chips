@@ -72,18 +72,28 @@ namespace NoMoreFishAndChips.Entities
     [Serializable]
     public class SeagullAirLandSettings
     {
+        [SerializeField] private float _alignAcceleration = 2f;
+        [SerializeField] private float _alignDeceleration = 2f;
+        [SerializeField] private float _rotateSpeed = 5f;
         [SerializeField] private float _flapStrength = 5f;
 
+        public float AlignAcceleration => _alignAcceleration;
+        public float AlignDeceleration => _alignDeceleration;
+        public float RotateSpeed => _rotateSpeed;
         public float FlapStrength => _flapStrength;
     }
 
     [Serializable]
     public class SeagullGroundSettings
     {
+        [SerializeField] private float _attackRange = 0.5f;
+        [SerializeField] private LayerMask _attackMask = 1 << (int)ELayer.Player;
         [SerializeField] private SeagullGroundIdleSettings _idleSettings;
         [SerializeField] private SeagullGroundRoamSettings _roamSettings;
         [SerializeField] private SeagullGroundAttackSettings _attackSettings;
 
+        public float AttackRange => _attackRange;
+        public LayerMask AttackMask => _attackMask;
         public SeagullGroundIdleSettings IdleSettings => _idleSettings;
         public SeagullGroundRoamSettings RoamSettings => _roamSettings;
         public SeagullGroundAttackSettings AttackSettings => _attackSettings;

@@ -1,10 +1,12 @@
 using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.States;
+using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using Steamworks;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -55,7 +57,7 @@ namespace NoMoreFishAndChips.Entities
             base.Enter();
 
             Vector3 position = _seagull.SpawnInfo.Tile.transform.position;
-            position += new Vector3(Random.Range(-0.5f, 0.5f), 0f, Random.Range(-0.5f, 0.5f));
+            position += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
             position += Vector3.up * _settings.StartAltitude;
 
             _seagull.EntityPhysicsLogic.Rigidbody.position = position;
@@ -214,7 +216,7 @@ namespace NoMoreFishAndChips.Entities
                 }
 
                 _state._seagull.EntityPhysicsLogic.Rigidbody.AddForce(direction * strength, ForceMode.Acceleration);
-                _state._seagull.EntityPhysicsLogic.Rigidbody.MoveRotation(Quaternion.Lerp(_state._seagull.EntityPhysicsLogic.Rigidbody.rotation, rotation, _state._settings.RotateSpeed * Time.fixedDeltaTime));
+                _state._seagull.EntityPhysicsLogic.Rigidbody.MoveRotation(Quaternion.Slerp(_state._seagull.EntityPhysicsLogic.Rigidbody.rotation, rotation, _state._settings.RotateSpeed * Time.fixedDeltaTime));
             }
         }
 
@@ -263,11 +265,22 @@ namespace NoMoreFishAndChips.Entities
 
             _strafe.FixedTick();
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            Quaternion rotation = Quaternion.LookRotation(_seagull.transform.forward, Vector3.up);
+            _seagull.EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
+        }
     }
 
     public class SeagullAirLandState : SeagullAirSubState
     {
         private SeagullAirLandSettings _settings;
+
+        private Vector3 _landPosition;
+        private Quaternion _landRotation;
 
         public SeagullAirLandState(StateMachine<ESeagullAirState> parent, Seagull seagull) : base(parent, seagull)
         {
@@ -279,13 +292,68 @@ namespace NoMoreFishAndChips.Entities
             base.Enter();
 
             _seagull.EntityModel.Animator.SetBool(Seagull.IsFlappingBoolName, true);
+
+            _context.Raft.Queries.TryGetClosestTile(_seagull.transform.position, out RaftTile tile);
+
+            _landPosition = tile.transform.position;
+            _landPosition += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
+
+            Vector3 direction = (_landPosition - _seagull.transform.position);
+            direction.y = 0f;
+            direction.Normalize();
+            _landRotation = Quaternion.LookRotation(direction, Vector3.up);
         }
 
         public override void FixedTick()
         {
             base.FixedTick();
 
+            AlignFixedTick();
+            RotateFixedTick();
+
             _seagull.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * _settings.FlapStrength, ForceMode.Acceleration);
+        }
+
+        private void AlignFixedTick()
+        {
+            Vector3 offset = _landPosition - _seagull.transform.position;
+            offset.y = 0f;
+
+            float distance = offset.magnitude;
+            if (distance == 0f)
+            {
+                return;
+            }
+
+            Vector3 direction = offset.normalized;
+
+            Vector3 velocity = _seagull.EntityPhysicsLogic.Rigidbody.linearVelocity;
+            velocity.y = 0f;
+
+            float speed = Vector3.Dot(velocity, direction);
+
+            // The rate of change required to come to a stop at _landPosition
+            float stopDeceleration = Mathf.Pow(speed, 2f) / (2f * distance);
+
+            Vector3 force;
+
+            if (stopDeceleration <= _settings.AlignDeceleration)
+            {
+                force = direction * _settings.AlignAcceleration;
+            }
+            else
+            {
+                force = -direction * _settings.AlignDeceleration;
+            }
+
+            _seagull.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Acceleration);
+        }
+
+        private void RotateFixedTick()
+        {
+            Quaternion rotation = Quaternion.Slerp(_seagull.EntityPhysicsLogic.Rigidbody.rotation, _landRotation, _settings.RotateSpeed * Time.fixedDeltaTime);
+
+            _seagull.EntityPhysicsLogic.Rigidbody.rotation = rotation;
         }
 
         public override void Exit()
@@ -306,8 +374,14 @@ namespace NoMoreFishAndChips.Entities
 
     public class SeagullGroundState : SeagullState<ESeagullGroundState>
     {
+        private SeagullGroundSettings _settings;
+
+        private Collider[] _collidersNonAlloc = new Collider[1];
+
         public SeagullGroundState(StateMachine<ESeagullState> parent, Seagull seagull) : base(parent, seagull)
-        { }
+        {
+            _settings = _seagull.DefinitionData.GroundSettings;
+        }
 
         public override void InitialiseContext(GameplayContext context)
         {
@@ -323,7 +397,33 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Tick();
 
+            if (_subStateMachine.CurrentStateEnum == ESeagullGroundState.Attack)
+            {
+                return;
+            }
+
             _seagull.EvaluateState();
+
+            // EvaluateState can exit this state
+            if (_parentStateMachine.CurrentState == this)
+            {
+                AttackTick();
+            }
+        }
+
+        private void AttackTick()
+        {
+            if (Physics.OverlapSphereNonAlloc(_seagull.transform.position, _settings.AttackRange, _collidersNonAlloc, _settings.AttackMask) > 0)
+            {
+                Vector3 direction = _collidersNonAlloc[0].transform.position - _seagull.transform.position;
+                direction.y = 0f;
+                direction.Normalize();
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+                Tween.RigidbodyMoveRotation(_seagull.EntityPhysicsLogic.Rigidbody, endValue: rotation, duration: 0.2f);
+
+                _subStateMachine.ChangeState(ESeagullGroundState.Attack);
+            }
         }
     }
 
@@ -390,8 +490,16 @@ namespace NoMoreFishAndChips.Entities
 
             _seagull.AttackStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
             {
-                _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
+                if (_seagull.isOwner)
+                {
+                    _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
+                }
             }));
+        }
+
+        public override void Enter()
+        {
+            _seagull.EntityModel.SetAnimatorTrigger(Seagull.AttackTriggerName);
         }
     }
 

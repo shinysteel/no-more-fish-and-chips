@@ -42,6 +42,9 @@ MonoBehaviour:
       _brakeStrength: 1
       _dampingStrength: 1
     _landSettings:
+      _alignAcceleration: 2
+      _alignDeceleration: 2
+      _rotateSpeed: 5
       _flapStrength: 5
   _groundSettings:
     _attackSettings:

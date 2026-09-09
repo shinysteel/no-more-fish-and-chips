@@ -22,7 +22,7 @@ namespace NoMoreFishAndChips.Entities
         private const string InWaterBoolName = "InWater";
         public const string IsFlappingBoolName = "IsFlapping";
 
-        private const string AttackTriggerName = "Attack";
+        public const string AttackTriggerName = "Attack";
 
         private const string AttackStateName = "Attack";
         private const string AirFlapStateName = "Base Layer.Air.Flap";
