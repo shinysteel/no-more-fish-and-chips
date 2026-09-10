@@ -8,7 +8,7 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "SeagullDefinitionData", menuName = "Data/Entities/Characters/SeagullDefinitionData")]
     public class SeagullDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private float _glideDistance = 2.5f;
+        [SerializeField] private float _glideDistance = 2f;
         [SerializeField] private LayerMask _glideMask;
         [SerializeField] private SeagullArriveSettings _arriveSettings;
         [SerializeField] private SeagullAirSettings _airSettings;

@@ -27,7 +27,7 @@ MonoBehaviour:
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
   _actSettings: {fileID: 11400000, guid: 1c135009443135c48b9ef778e0500303, type: 2}
-  _glideDistance: 2.5
+  _glideDistance: 2
   _glideMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -38,8 +38,8 @@ MonoBehaviour:
     _duration: 1.5
   _airSettings:
     _takeoffSettings:
-      _speed: 5
-      _acceleration: 10
+      _speed: 2
+      _acceleration: 20
     _strafeSettings:
       _strafeDuration: 1
       _strafeAcceleration: 2.5
