@@ -376,7 +376,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private SeagullGroundSettings _settings;
 
-        private Collider[] _collidersNonAlloc = new Collider[1];
+        private Collider[] _attackCollidersNonAlloc = new Collider[1];
 
         public SeagullGroundState(StateMachine<ESeagullState> parent, Seagull seagull) : base(parent, seagull)
         {
@@ -413,9 +413,9 @@ namespace NoMoreFishAndChips.Entities
 
         private void AttackTick()
         {
-            if (Physics.OverlapSphereNonAlloc(_seagull.transform.position, _settings.AttackRange, _collidersNonAlloc, _settings.AttackMask) > 0)
+            if (Physics.OverlapSphereNonAlloc(_seagull.transform.position, _settings.AttackRange, _attackCollidersNonAlloc, _settings.AttackMask) > 0)
             {
-                Vector3 direction = _collidersNonAlloc[0].transform.position - _seagull.transform.position;
+                Vector3 direction = _attackCollidersNonAlloc[0].transform.position - _seagull.transform.position;
                 direction.y = 0f;
                 direction.Normalize();
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);

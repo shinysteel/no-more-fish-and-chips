@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.Entities
 {

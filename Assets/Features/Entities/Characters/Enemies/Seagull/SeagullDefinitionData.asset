@@ -27,6 +27,10 @@ MonoBehaviour:
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
   _actSettings: {fileID: 11400000, guid: 1c135009443135c48b9ef778e0500303, type: 2}
+  _evaluateStateAirDistance: 1
+  _evaluateStateAirMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   _arriveSettings:
     _delay: 0.5
     _startAltitude: 5
@@ -47,5 +51,9 @@ MonoBehaviour:
       _rotateSpeed: 5
       _flapStrength: 5
   _groundSettings:
+    _attackRange: 0.5
+    _attackMask:
+      serializedVersion: 2
+      m_Bits: 64
     _attackSettings:
       _hitboxData: {fileID: 11400000, guid: 57098d4ca57a1394e92017fcc2c88605, type: 2}

@@ -36,9 +36,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Seagull_Idle
-      takeName: Seagull_Idle
-      internalID: -8651781313715854477
+      name: Seagull_GroundIdle
+      takeName: Seagull_GroundIdle
+      internalID: 6120426418557626844
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -65,9 +65,38 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Seagull_Flap
-      takeName: Seagull_Flap
-      internalID: 7257401526077037100
+      name: Seagull_GroundAttack
+      takeName: Seagull_GroundAttack
+      internalID: 687031115433103243
+      firstFrame: 0
+      lastFrame: 22
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Seagull_AirFlap
+      takeName: Seagull_AirFlap
+      internalID: -7525479680260320297
       firstFrame: 0
       lastFrame: 15
       wrapMode: 0
@@ -94,9 +123,38 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Seagull_Glide
-      takeName: Seagull_Glide
-      internalID: -2408924388220752794
+      name: Seagull_AirGlide
+      takeName: Seagull_AirGlide
+      internalID: -5849689153057324951
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Seagull_WaterIdle
+      takeName: Seagull_WaterIdle
+      internalID: 924939234264036758
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -125,7 +183,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Seagull_Blink
       takeName: Seagull_Blink
-      internalID: -3883089095473521348
+      internalID: 7856583525905556671
       firstFrame: 0
       lastFrame: 5
       wrapMode: 0
@@ -154,38 +212,9 @@ ModelImporter:
     - serializedVersion: 16
       name: Seagull_Hurt
       takeName: Seagull_Hurt
-      internalID: 7234220090803745223
+      internalID: 7378353355936919579
       firstFrame: 0
       lastFrame: 15
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Seagull_Attack
-      takeName: Seagull_Attack
-      internalID: -6016025936984070707
-      firstFrame: 0
-      lastFrame: 22
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

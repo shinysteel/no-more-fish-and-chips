@@ -7,11 +7,15 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "SeagullDefinitionData", menuName = "Data/Entities/Characters/SeagullDefinitionData")]
     public class SeagullDefinitionData : CharacterDefinitionData
     {
+        [SerializeField] private float _evaluateStateAirDistance = 0.5f;
+        [SerializeField] private LayerMask _evaluateStateAirMask;
         [SerializeField] private SeagullArriveSettings _arriveSettings;
         [SerializeField] private SeagullAirSettings _airSettings;
         [SerializeField] private SeagullGroundSettings _groundSettings;
         [SerializeField] private SeagullWaterSettings _waterSettings;
 
+        public float EvaluateStateAirDistance => _evaluateStateAirDistance;
+        public LayerMask EvaluateStateAirMask => _evaluateStateAirMask;
         public SeagullArriveSettings ArriveSettings => _arriveSettings;
         public SeagullAirSettings AirSettings => _airSettings;
         public SeagullGroundSettings GroundSettings => _groundSettings;
@@ -87,7 +91,7 @@ namespace NoMoreFishAndChips.Entities
     public class SeagullGroundSettings
     {
         [SerializeField] private float _attackRange = 0.5f;
-        [SerializeField] private LayerMask _attackMask = 1 << (int)ELayer.Player;
+        [SerializeField] private LayerMask _attackMask;
         [SerializeField] private SeagullGroundIdleSettings _idleSettings;
         [SerializeField] private SeagullGroundRoamSettings _roamSettings;
         [SerializeField] private SeagullGroundAttackSettings _attackSettings;
