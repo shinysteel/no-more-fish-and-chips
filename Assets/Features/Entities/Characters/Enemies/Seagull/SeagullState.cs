@@ -163,6 +163,45 @@ namespace NoMoreFishAndChips.Entities
         {
             _settings = _seagull.DefinitionData.AirSettings.TakeoffSettings;
         }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            _seagull.EntityModel.Animator.SetBool(Seagull.IsFlappingBoolName, true);
+        }
+
+        public override void FixedTick()
+        {
+            base.FixedTick();
+
+            if (!_seagull.CanGlide())
+            {
+                Vector3 direction = Vector3.up;
+
+                float dot = Vector3.Dot(_seagull.EntityPhysicsLogic.Rigidbody.linearVelocity, direction);
+                float delta = _settings.Speed - dot;
+
+                if (delta > 0f)
+                {
+                    float change = Mathf.Min(delta, _settings.Acceleration * Time.fixedDeltaTime);
+                    float acceleration = change / Time.fixedDeltaTime;
+
+                    _seagull.EntityPhysicsLogic.Rigidbody.AddForce(direction * acceleration, ForceMode.Acceleration);
+                }
+            }
+            else
+            {
+                _parentStateMachine.ChangeState(ESeagullAirState.Strafe);
+            }
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _seagull.EntityModel.Animator.SetBool(Seagull.IsFlappingBoolName, false);
+        }
     }
 
     public class SeagullAirStrafeState : SeagullAirSubState
@@ -507,9 +546,35 @@ namespace NoMoreFishAndChips.Entities
     {
         private SeagullWaterSettings _settings;
 
+        private float _idleDuration;
+
         public SeagullWaterState(StateMachine<ESeagullState> parent, Seagull seagull) : base(parent, seagull)
         {
             _settings = _seagull.DefinitionData.WaterSettings;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            _idleDuration = _settings.IdleRange.RandomRange();
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+
+            _seagull.EvaluateState();
+
+            if (_parentStateMachine.CurrentState != this)
+            {
+                return;
+            }
+
+            if (_stateTimer >= _idleDuration)
+            {
+                _parentStateMachine.ChangeState(ESeagullState.Air);
+            }
         }
     }
 

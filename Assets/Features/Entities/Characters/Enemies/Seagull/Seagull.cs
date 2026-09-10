@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<ESeagullState> _stateMachine;
 
-        private RaycastHit[] _evaluateStateHitsNonAlloc = new RaycastHit[2];
+        private RaycastHit[] _glideHitsNonAlloc = new RaycastHit[2];
 
         private StateAnimationEvents _attackStateAnimationEvents;
         private StateAnimationEvents _airFlapStateAnimationEvents;
@@ -159,21 +159,29 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public bool CanGlide()
+        {
+            int hits = Utils.Physics.CapsuleCastNonAlloc((CapsuleCollider)_collider, Vector3.zero, Quaternion.identity, Vector3.down, _glideHitsNonAlloc, DefinitionData.GlideDistance, DefinitionData.GlideMask);
+
+            for (int i = 0; i < hits; i++)
+            {
+                if (_glideHitsNonAlloc[i].collider != _collider)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public void EvaluateState()
         {
             if (CharacterPhysicsLogic.InAir && _stateMachine.CurrentStateEnum != ESeagullState.Air)
             {
-                int hits = Utils.Physics.CapsuleCastNonAlloc((CapsuleCollider)_collider, Vector3.zero, Quaternion.identity, Vector3.down, _evaluateStateHitsNonAlloc, DefinitionData.EvaluateStateAirDistance, DefinitionData.EvaluateStateAirMask);
-
-                for (int i = 0; i < hits; i++)
+                if (CanGlide())
                 {
-                    if (_evaluateStateHitsNonAlloc[i].collider != _collider)
-                    {
-                        return;
-                    }
+                    _stateMachine.ChangeState(ESeagullState.Air);
                 }
-
-                _stateMachine.ChangeState(ESeagullState.Air);
             }
             else if (CharacterPhysicsLogic.IsGrounded && _stateMachine.CurrentStateEnum != ESeagullState.Ground)
             {

@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Hitboxes;
+using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
@@ -7,15 +8,15 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "SeagullDefinitionData", menuName = "Data/Entities/Characters/SeagullDefinitionData")]
     public class SeagullDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private float _evaluateStateAirDistance = 0.5f;
-        [SerializeField] private LayerMask _evaluateStateAirMask;
+        [SerializeField] private float _glideDistance = 2.5f;
+        [SerializeField] private LayerMask _glideMask;
         [SerializeField] private SeagullArriveSettings _arriveSettings;
         [SerializeField] private SeagullAirSettings _airSettings;
         [SerializeField] private SeagullGroundSettings _groundSettings;
         [SerializeField] private SeagullWaterSettings _waterSettings;
 
-        public float EvaluateStateAirDistance => _evaluateStateAirDistance;
-        public LayerMask EvaluateStateAirMask => _evaluateStateAirMask;
+        public float GlideDistance => _glideDistance;
+        public LayerMask GlideMask => _glideMask;
         public SeagullArriveSettings ArriveSettings => _arriveSettings;
         public SeagullAirSettings AirSettings => _airSettings;
         public SeagullGroundSettings GroundSettings => _groundSettings;
@@ -51,7 +52,13 @@ namespace NoMoreFishAndChips.Entities
 
     [Serializable]
     public class SeagullAirTakeoffSettings
-    { }
+    {
+        [SerializeField] private float _speed = 11f;
+        [SerializeField] private float _acceleration = 11f;
+
+        public float Speed => _speed;
+        public float Acceleration => _acceleration;
+    }
 
     [Serializable]
     public class SeagullAirStrafeSettings
@@ -121,5 +128,9 @@ namespace NoMoreFishAndChips.Entities
 
     [Serializable]
     public class SeagullWaterSettings
-    { }
+    {
+        [SerializeField] private FloatRange _idleRange = new FloatRange(2f, 3f);
+
+        public FloatRange IdleRange => _idleRange;
+    }
 }
