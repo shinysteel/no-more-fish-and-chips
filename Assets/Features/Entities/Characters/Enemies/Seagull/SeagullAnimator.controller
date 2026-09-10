@@ -37,12 +37,9 @@ AnimatorTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsGrounded
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: InAir
-    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: -3693145683797148740}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -173,12 +170,9 @@ AnimatorTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InAir
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: InWater
-    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: -6408764238887773861}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -221,9 +215,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InAir
-    m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -432,11 +426,8 @@ AnimatorTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InWater
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: IsGrounded
+  - m_ConditionMode: 6
+    m_ConditionEvent: EnvironmentState
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 3025226316066060130}
   m_DstState: {fileID: 0}
@@ -481,25 +472,7 @@ AnimatorController:
   - m_Name: EnvironmentState
     m_Type: 3
     m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: IsGrounded
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: InAir
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
-  - m_Name: InWater
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
+    m_DefaultInt: 1
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: IsWalking
@@ -608,8 +581,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsGrounded
+  - m_ConditionMode: 7
+    m_ConditionEvent: EnvironmentState
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -711,9 +684,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InWater
-    m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -857,9 +830,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InAir
-    m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -882,11 +855,8 @@ AnimatorTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InAir
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: IsGrounded
+  - m_ConditionMode: 6
+    m_ConditionEvent: EnvironmentState
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 3025226316066060130}
   m_DstState: {fileID: 0}
@@ -902,8 +872,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsGrounded
+  - m_ConditionMode: 7
+    m_ConditionEvent: EnvironmentState
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -1004,8 +974,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsGrounded
+  - m_ConditionMode: 7
+    m_ConditionEvent: EnvironmentState
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -1029,12 +999,9 @@ AnimatorTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsGrounded
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: InWater
-    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: -6408764238887773861}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -1049,12 +1016,9 @@ AnimatorTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: InWater
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: InAir
-    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: EnvironmentState
+    m_EventTreshold: 1
   m_DstStateMachine: {fileID: -3693145683797148740}
   m_DstState: {fileID: 0}
   m_Solo: 0

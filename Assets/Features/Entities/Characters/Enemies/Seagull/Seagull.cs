@@ -19,9 +19,7 @@ namespace NoMoreFishAndChips.Entities
 
         public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
 
-        private const string IsGroundedBoolName = "IsGrounded";
-        private const string InAirBoolName = "InAir";
-        private const string InWaterBoolName = "InWater";
+        private const string EnvironmentStateIntName = "EnvironmentState";
         public const string IsFlappingBoolName = "IsFlapping";
 
         public const string AttackTriggerName = "Attack";
@@ -123,9 +121,15 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Update();
 
-            _entityModel.Animator.SetBool(IsGroundedBoolName, CharacterPhysicsLogic.IsGrounded);
-            _entityModel.Animator.SetBool(InAirBoolName, CharacterPhysicsLogic.InAir);
-            _entityModel.Animator.SetBool(InWaterBoolName, CharacterPhysicsLogic.InWater);
+            int environmentState = _stateMachine.CurrentStateEnum switch
+            {
+                ESeagullState.Ground => 0,
+                ESeagullState.Air or ESeagullState.Arrive => 1,
+                ESeagullState.Water => 2,
+                _ => -1
+            };
+
+            _entityModel.Animator.SetInteger(EnvironmentStateIntName, environmentState);
             
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
             _attackStateAnimationEvents.Tick(info);
