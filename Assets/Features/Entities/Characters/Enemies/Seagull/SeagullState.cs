@@ -432,6 +432,13 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public override void Enter()
+        {
+            base.Enter();
+
+            _subStateMachine.ChangeState(ESeagullGroundState.Idle);
+        }
+
         public override void Tick()
         {
             base.Tick();
@@ -464,6 +471,13 @@ namespace NoMoreFishAndChips.Entities
                 _subStateMachine.ChangeState(ESeagullGroundState.Attack);
             }
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _subStateMachine.ChangeState(ESeagullGroundState.None);
+        }
     }
 
     public abstract class SeagullGroundSubState : State<ESeagullGroundState, ENone>
@@ -486,9 +500,28 @@ namespace NoMoreFishAndChips.Entities
     {
         private SeagullGroundIdleSettings _settings;
 
+        private float _idleDuration;
+
         public SeagullGroundIdleState(StateMachine<ESeagullGroundState> parent, Seagull seagull) : base(parent, seagull)
         {
             _settings = _seagull.DefinitionData.GroundSettings.IdleSettings;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            // _idleDuration = _settings.IdleRange.RandomRange();
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+
+            //if (_stateTimer >= _idleDuration)
+            //{
+            //    _parentStateMachine.ChangeState(ESeagullGroundState.Roam);
+            //}
         }
     }
 

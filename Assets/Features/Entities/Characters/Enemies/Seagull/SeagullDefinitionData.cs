@@ -112,7 +112,11 @@ namespace NoMoreFishAndChips.Entities
 
     [Serializable]
     public class SeagullGroundIdleSettings
-    { }
+    {
+        [SerializeField] private FloatRange _idleRange = new FloatRange(2f, 3f);
+
+        public FloatRange IdleRange => _idleRange;
+    }
 
     [Serializable]
     public class SeagullGroundRoamSettings
