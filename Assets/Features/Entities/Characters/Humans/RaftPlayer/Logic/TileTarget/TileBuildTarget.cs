@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftTile _tile;
         private Prop _prop;
 
-        public TileBuildTarget(GameplayContext context, RaftPlayerBuildTargetSettings settings, Vector3 position) : base(context, settings, position)
+        public TileBuildTarget(GameplayContext context, BuildTargetSettings settings, Vector3 position) : base(context, settings, position)
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
@@ -73,8 +73,6 @@ namespace NoMoreFishAndChips.Entities
             _tile = current;
 
             RefreshProp();
-
-            RaiseChanged();
         }
 
         private void RefreshProp()
@@ -109,7 +107,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (previous.Contains(EGameplayState.Stage) != current.Contains(EGameplayState.Stage))
             {
-                RaiseChanged();
+                RefreshProp();
             }
         }
     }

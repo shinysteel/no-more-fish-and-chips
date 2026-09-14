@@ -70,11 +70,11 @@ namespace NoMoreFishAndChips.Entities
 
             if (entity is RaftTile tile)
             {
-                _buildTarget = new TileBuildTarget(_context, _settings, position);
+                _buildTarget = new TileBuildTarget(_context, _settings.BuildTargetSettings, position);
             }
             else if (entity is Structure structure)
             {
-                _buildTarget = new StructureBuildTarget(_context, _settings, position, buildableId);
+                _buildTarget = new StructureBuildTarget(_context, _settings.BuildTargetSettings, position, buildableId);
             }
             else
             {
