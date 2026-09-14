@@ -25,11 +25,14 @@ namespace NoMoreFishAndChips.Environments
     {
         private Dictionary<Vector2Int, RaftTile> _tiles = new();
         public IReadOnlyDictionary<Vector2Int, RaftTile> Tiles => _tiles;
-
-        public event Action<Vector2Int, RaftTile, RaftTile> OnTileChanged;
+        private Dictionary<Vector2Int, Structure> _structures = new();
+        public IReadOnlyDictionary<Vector2Int, Structure> Structures => _structures;
 
         private RaftQueries _queries;
         public RaftQueries Queries => _queries;
+
+        public event Action<Vector2Int, RaftTile, RaftTile> OnTileChanged;
+        public event Action<Vector2Int, Structure, Structure> OnStructureChanged;
 
         public override void InitialiseContext(GameplayContext context)
         {
@@ -81,6 +84,10 @@ namespace NoMoreFishAndChips.Environments
             OnTileChanged?.Invoke(cell, null, tile);
         }
 
+        [ServerRpc(requireOwnership: false)]
+        public void AddStructureRpc()
+        { }
+
         void IEntityManagerListener.OnEntitySpawned(Entity entity)
         {
             if (isOwner)
@@ -93,6 +100,12 @@ namespace NoMoreFishAndChips.Environments
                 _tiles.Add(tile.Cell, tile);
 
                 OnTileChanged?.Invoke(tile.Cell, null, tile);
+            }
+            else if (entity is Structure structure)
+            {
+                _structures.Add(structure.Cell, structure);
+
+                OnStructureChanged?.Invoke(structure.Cell, null, structure);
             }
         }
 
@@ -108,6 +121,12 @@ namespace NoMoreFishAndChips.Environments
                 }
 
                 OnTileChanged?.Invoke(tile.Cell, tile, null);
+            }
+            else if (entity is Structure structure)
+            {
+                _structures.Remove(structure.Cell);
+
+                OnStructureChanged?.Invoke(structure.Cell, structure, null);
             }
         }
 
