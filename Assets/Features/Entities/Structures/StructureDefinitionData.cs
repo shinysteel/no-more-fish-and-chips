@@ -9,7 +9,9 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private Recipe _buildRecipe;
 
-        public DefinitionData DefinitionData => this;
         public Recipe BuildRecipe => _buildRecipe;
+
+        DefinitionData ICreatable.DefinitionData => this;
+        EntityDefinitionData IBuildable.EntityDefinitionData => this;
     }
 }

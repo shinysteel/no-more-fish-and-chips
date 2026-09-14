@@ -49,5 +49,6 @@ namespace NoMoreFishAndChips.Entities
         public RaftTileDefeatSettings TileDefeatSettings => (RaftTileDefeatSettings)_entityDefeatSettings;
 
         DefinitionData ICreatable.DefinitionData => this;
+        EntityDefinitionData IBuildable.EntityDefinitionData => this;
     }
 }

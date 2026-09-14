@@ -85,6 +85,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_cell);
+            position.y = -0.125f;
             _prop.transform.position = position;
             _prop.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
         }
