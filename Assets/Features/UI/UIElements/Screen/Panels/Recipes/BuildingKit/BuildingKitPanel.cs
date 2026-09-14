@@ -15,69 +15,25 @@ namespace NoMoreFishAndChips.UI
         {
             base.Setup(context);
 
-            _context.LocalPlayer.TileTargetLogic.OnTargetChanged += HandleRaftPlayerTileTargetChanged;
-
             _context.LocalPlayer.Hotbar.OnSelectedChanged += HandleHotbarSelectedChanged;
-        }
-
-        public override void Hide(Action onComplete)
-        {
-            base.Hide(onComplete);
-
-            _context.LocalPlayer.TileTargetLogic.SetIsBuilding(false);
         }
 
         private void OnDestroy()
         {
             if (_context.LocalPlayer != null)
             {
-                _context.LocalPlayer.TileTargetLogic.OnTargetChanged -= HandleRaftPlayerTileTargetChanged;
-
                 _context.LocalPlayer.Hotbar.OnSelectedChanged -= HandleHotbarSelectedChanged;
             }
         }
 
         protected override IEnumerable<IBuildable> GetCreatables()
         {
-            IEnumerable<IBuildable> buildables = Enumerable.Empty<IBuildable>();
-
-            // We populate the entries with either tiles or structures depending on the target
-            if (_context.LocalPlayer.TileTargetLogic.Target.CanBuildTile())
-            {
-                buildables = _entityManager.GetPrefabs<RaftTile>().Where(tile => tile.TileDefinitionData.BuildRecipe.Requirements.Length > 0).Select(tile => tile.TileDefinitionData);
-            }
-            else if (_context.LocalPlayer.TileTargetLogic.Target.CanBuildStructure())
-            {
-                buildables = _entityManager.GetPrefabs<Structure>().Where(structure => structure.StructureDefinitionData.BuildRecipe.Requirements.Length > 0).Select(structure => structure.StructureDefinitionData);
-            }
-
-            return buildables;
+            return _entityManager.GetPrefabs<RaftTile>().Where(tile => tile.TileDefinitionData.BuildRecipe.Requirements.Length > 0).Select(tile => (IBuildable)tile.TileDefinitionData)
+                .Concat(_entityManager.GetPrefabs<Structure>().Where(structure => structure.StructureDefinitionData.BuildRecipe.Requirements.Length > 0).Select(structure => structure.StructureDefinitionData));
         }
 
         protected override void CreatePressed(IBuildable buildable)
-        {
-            List<InventoryChangeParams> parameters = buildable.BuildRecipe.ToChangeParams();
-
-            if (!_context.LocalPlayer.Inventory.CanRemoveItems(parameters, out _))
-            {
-                return;
-            }
-
-            if (!buildable.TryBuild(_context, _context.LocalPlayer.TileTargetLogic.Target))
-            {
-                return;
-            }
-
-            _context.LocalPlayer.Inventory.TryRemoveItems(parameters);
-        }
-
-        private void HandleRaftPlayerTileTargetChanged(RaftTileTarget target)
-        {
-            if (_isShowing)
-            {
-                RefreshEntries();
-            }
-        }
+        { }
 
         private void HandleHotbarSelectedChanged(HotbarSlot slot)
         {

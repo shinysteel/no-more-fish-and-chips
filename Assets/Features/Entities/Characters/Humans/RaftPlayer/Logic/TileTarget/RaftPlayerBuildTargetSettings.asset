@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca216aebdd8b3ad449fdfad175aaa116, type: 3}
-  m_Name: RaftPlayerTileTargetSettings
+  m_Name: RaftPlayerBuildTargetSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerTileTargetSettings
   _validColor: {r: 0.5411765, g: 1, b: 0.5921569, a: 1}
   _invalidColor: {r: 1, g: 0.5411765, b: 0.5411765, a: 1}

@@ -21,10 +21,10 @@ namespace NoMoreFishAndChips.Environments
 
             foreach (StructureSave save in Structures)
             {
-                raft.Tiles[save.Cell].AddStructureRpc(save.StructureId);
+                raft.AddStructureRpc(save.Cell, save.StructureId);
 
                 // Since we are the server, we can assume it exists straight away
-                raft.Tiles[save.Cell].Structure.LoadJsonData(save.JsonData);
+                raft.Structures[save.Cell].LoadJsonData(save.JsonData);
             }
         }
 
@@ -36,11 +36,11 @@ namespace NoMoreFishAndChips.Environments
             foreach (RaftTile tile in raft.Tiles.Values)
             {
                 Tiles.Add(new RaftTileSave(tile));
+            }
 
-                if (tile.Structure != null)
-                {
-                    Structures.Add(new StructureSave(tile.Structure));
-                }
+            foreach (Structure structure in raft.Structures.Values)
+            {
+                Structures.Add(new StructureSave(structure));
             }
         }
 
@@ -72,7 +72,7 @@ namespace NoMoreFishAndChips.Environments
             }
 
             // Start with a wave sign
-            Structures.Add(new StructureSave(new Vector2Int(0, 1), EntityId.WaveCounter, string.Empty));
+            Structures.Add(new StructureSave(new Vector2Int(0, 3), EntityId.WaveCounter, string.Empty));
         }
     }
 }

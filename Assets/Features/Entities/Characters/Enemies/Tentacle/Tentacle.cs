@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.Entities
                 }
 
                 RaftEdge edge = Random.value < 0.5f ? line.MinEdge : line.MaxEdge;
-                _tentacle.transform.position = _tentacle._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell + Utils.Math.DirectionToVector2Int(edge.Direction));
+                _tentacle.transform.position = _tentacle._context.Raft.Queries.TileCellToWorldPosition(edge.Node.Cell + Utils.Math.DirectionToVector2Int(edge.Direction));
                 _tentacle.transform.rotation = Quaternion.LookRotation(-Utils.Math.DirectionToVector3(edge.Direction), Vector3.up);
 
                 Tween.PositionY(_tentacle.transform, startValue: -3f, endValue: -0.33f, duration: 1f, ease: Ease.OutBack).OnComplete(() => _parentStateMachine.ChangeState(EState.Idle));
@@ -93,8 +93,8 @@ namespace NoMoreFishAndChips.Entities
 
             private bool TryRetreat()
             {
-                if (_tentacle._context.Raft.Tiles.ContainsKey(_tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward))
-                    || _tentacle._context.Raft.Tiles.ContainsKey(_tentacle._context.Raft.Queries.WorldPositionToCell(_tentacle.transform.position + _tentacle.transform.forward * 2f)))
+                if (_tentacle._context.Raft.Tiles.ContainsKey(_tentacle._context.Raft.Queries.WorldPositionToTileCell(_tentacle.transform.position + _tentacle.transform.forward))
+                    || _tentacle._context.Raft.Tiles.ContainsKey(_tentacle._context.Raft.Queries.WorldPositionToTileCell(_tentacle.transform.position + _tentacle.transform.forward * 2f)))
                 {
                     return false;
                 }

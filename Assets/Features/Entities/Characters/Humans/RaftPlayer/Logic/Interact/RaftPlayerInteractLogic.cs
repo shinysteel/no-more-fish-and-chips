@@ -244,7 +244,7 @@ namespace NoMoreFishAndChips.Entities
             angle = 0f;
             distance = 0f;
 
-            if (_player.TileTargetLogic.IsBuilding)
+            if (_player.BuildTargetLogic.IsBuilding)
             {
                 return false;
             }

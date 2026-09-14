@@ -100,8 +100,8 @@ namespace NoMoreFishAndChips.Entities
                 _clam.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(Utils.Math.FlipDirection(edge.Direction)), Vector3.up);
 
                 Vector2Int edgeDirection = Utils.Math.DirectionToVector2Int(edge.Direction);
-                Vector3 startPosition = _clam._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell + edgeDirection);
-                Vector3 endPosition = _clam._context.Raft.Queries.CellToWorldPosition(edge.Node.Cell);
+                Vector3 startPosition = _clam._context.Raft.Queries.TileCellToWorldPosition(edge.Node.Cell + edgeDirection);
+                Vector3 endPosition = _clam._context.Raft.Queries.TileCellToWorldPosition(edge.Node.Cell);
 
                 Sequence.Create()
                     .Chain(Tween.PositionY(_clam.transform, startValue: -1f, endValue: 1f, duration: 0.5f))

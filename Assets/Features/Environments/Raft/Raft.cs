@@ -1,20 +1,10 @@
-using LiteNetLib;
-using Newtonsoft.Json;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Networking;
-using NoMoreFishAndChips.Pools;
-using NoMoreFishAndChips.Saving;
-using NoMoreFishAndChips.Scenes;
 using NoMoreFishAndChips.States;
 using PurrNet;
-using ShinyOwl.Common;
-using ShinyOwl.Common.Utils;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Timers;
 using UnityEngine;
 using UnityEngine.Pool;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
@@ -85,8 +75,21 @@ namespace NoMoreFishAndChips.Environments
         }
 
         [ServerRpc(requireOwnership: false)]
-        public void AddStructureRpc()
-        { }
+        public void AddStructureRpc(Vector2Int cell, EntityId structureId)
+        {
+            if (_structures.ContainsKey(cell))
+            {
+                return;
+            }
+
+            Structure structure = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform });
+
+            structure.SetCell(cell);
+
+            _structures.Add(cell, structure);
+
+            OnStructureChanged?.Invoke(cell, null, structure);
+        }
 
         void IEntityManagerListener.OnEntitySpawned(Entity entity)
         {

@@ -31,6 +31,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
+            transform.position = _context.Raft.Queries.StructureCellToWorldPosition(_cell);
             transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
         }
     }

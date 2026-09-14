@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.Entities
             Vector2Int cell = _edge.Node.Cell;
             cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();
 
-            Vector3 position = _context.Raft.Queries.CellToWorldPosition(cell);
+            Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(cell);
             position += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
             position += Vector3.down * _settings.StartDepth;
 

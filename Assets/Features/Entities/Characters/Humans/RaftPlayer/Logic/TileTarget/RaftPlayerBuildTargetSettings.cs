@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "RaftPlayerTileTargetSettings", menuName = "Settings/Entities/RaftPlayerTileTargetSettings")]
-    public class RaftPlayerTileTargetSettings : ScriptableObject
+    [CreateAssetMenu(fileName = "RaftPlayerBuildTargetSettings", menuName = "Settings/Entities/RaftPlayerBuildTargetSettings")]
+    public class RaftPlayerBuildTargetSettings : ScriptableObject
     {
         [SerializeField] private Color _validColor;
         [SerializeField] private Color _invalidColor;

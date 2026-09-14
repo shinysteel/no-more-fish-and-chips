@@ -23,11 +23,9 @@ namespace NoMoreFishAndChips.Entities
 
         private SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
         private SyncVar<int> _netRotations = new SyncVar<int>(ownerAuth: true);
-        private SyncVar<Structure> _netStructure = new SyncVar<Structure>(ownerAuth: true);
 
         public Vector2Int Cell => _netCell.value;
         public int Rotations => _netRotations.value;
-        public Structure Structure => _netStructure.value;
 
 
         private Material _material;
@@ -93,22 +91,10 @@ namespace NoMoreFishAndChips.Entities
 
         private void HandleNetCellChanged(Vector2Int cell)
         {
-            Vector3 position = _context.Raft.Queries.CellToWorldPosition(_netCell.value);
+            Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_netCell.value);
             position.y = 0.125f;
 
             transform.position = position;
-        }
-
-        [ServerRpc(requireOwnership: false)]
-        public void AddStructureRpc(EntityId structureId)
-        {
-            if (_netStructure.value != null)
-            {
-                return;
-            }
-
-            _netStructure.value = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform, Position = transform.position });
-            _netStructure.value.SetCell(_netCell.value);
         }
 
         public void SetNetCell(Vector2Int cell)
@@ -121,11 +107,6 @@ namespace NoMoreFishAndChips.Entities
             _netRotations.value = rotations;
 
             transform.rotation = Quaternion.AngleAxis(_netRotations.value * 90f, Vector3.up);
-        }
-
-        public void SetNetStructure(Structure structure)
-        {
-            _netStructure.value = structure;
         }
 
         protected override void FixedUpdate()

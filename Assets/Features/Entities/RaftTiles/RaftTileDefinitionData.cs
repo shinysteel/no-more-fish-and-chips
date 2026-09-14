@@ -49,17 +49,5 @@ namespace NoMoreFishAndChips.Entities
         public RaftTileDefeatSettings TileDefeatSettings => (RaftTileDefeatSettings)_entityDefeatSettings;
 
         DefinitionData ICreatable.DefinitionData => this;
-
-        public bool TryBuild(GameplayContext context, RaftTileTarget target)
-        {
-            if (target.Tile != null)
-            {
-                return false;
-            }
-
-            context.Raft.AddTileRpc(target.Cell, _id, _health, Random.Range(0, 4));
-
-            return true;
-        }
     }
 }

@@ -4,38 +4,36 @@ using System;
 using NoMoreFishAndChips.Networking;
 using ShinyOwl.Common.Utils;
 using ShinyOwl.Common;
+using NoMoreFishAndChips.Environments;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftTileTarget : IStateManagerListener
+    public class TileBuildTarget : BuildTarget, IStateManagerListener
     {
         private StateManager _stateManager;
+        private EnvironmentManager _environmentManager;
 
-        private GameplayContext _context;
-
-        private Vector2Int _cell;
         private RaftTile _tile;
+        private Prop _prop;
 
-        public Vector2Int Cell => _cell;
-        public RaftTile Tile => _tile;
-
-        public event Action OnChanged;
-
-        public RaftTileTarget(GameplayContext context)
+        public TileBuildTarget(GameplayContext context, RaftPlayerBuildTargetSettings settings, Vector3 position) : base(context, settings, position)
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
+            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+
+            _prop = _environmentManager.GetProp(PropId.TileScaffold, new SpawnParams());
+
+            RefreshProp();
 
             _stateManager.AddListener(this);
-
-            _context = context;
-
-            _cell = Vector2Int.one * int.MinValue;
 
             _context.Raft.OnTileChanged += HandleTileChanged;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
+            _environmentManager.ReturnProp(_prop);
+
             _stateManager.RemoveListener(this);
 
             if (_context.Raft != null)
@@ -44,17 +42,24 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void SetCell(Vector2Int cell)
-        {
+        public override void SetPosition(Vector3 position)
+        {            
+            if (_position == position)
+            {
+                return;
+            }
+
+            Vector2Int cell = _context.Raft.Queries.WorldPositionToTileCell(position);
+
             if (_cell == cell)
             {
                 return;
             }
 
             _cell = cell;
-
-            // Refresh _tile whenever _cell changes
+            
             _context.Raft.Tiles.TryGetValue(_cell, out RaftTile tile);
+
             HandleTileChanged(_cell, null, tile);
         }
 
@@ -67,15 +72,24 @@ namespace NoMoreFishAndChips.Entities
 
             _tile = current;
 
-            OnChanged?.Invoke();
+            RefreshProp();
+
+            RaiseChanged();
         }
 
-        public bool CanBuild()
+        private void RefreshProp()
         {
-            return CanBuildTile() || CanBuildStructure();
+            if (_prop == null)
+            {
+                return;
+            }
+
+            Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_cell);
+            _prop.transform.position = position;
+            _prop.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
         }
 
-        public bool CanBuildTile()
+        protected override bool CanBuild()
         {
             if (_tile != null)
             {
@@ -90,21 +104,11 @@ namespace NoMoreFishAndChips.Entities
             return _context.Raft.Queries.Axes[Axis.Vertical].TryGetLinesBounds(out IntRange range) && _cell.x >= range.Min;
         }
 
-        public bool CanBuildStructure()
-        {
-            return _tile != null && _tile.Structure == null;
-        }
-
-        public bool CanRepair()
-        {
-            return _tile?.EntityHealthLogic.CurrentHealth < _tile?.EntityHealthLogic.MaxHealth;
-        }
-
         void IStateManagerListener.OnStatePathChanged(StatePath previous, StatePath current)
         {
             if (previous.Contains(EGameplayState.Stage) != current.Contains(EGameplayState.Stage))
             {
-                OnChanged?.Invoke();
+                RaiseChanged();
             }
         }
     }

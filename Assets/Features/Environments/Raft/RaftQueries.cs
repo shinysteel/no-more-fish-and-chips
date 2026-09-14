@@ -25,7 +25,7 @@ namespace NoMoreFishAndChips.Environments
 
         private Dictionary<Vector2Int, RaftPerimeterCell> _perimeter = new();
 
-        private Vector2 _cellTotal;
+        private Vector2 _tileCellTotal;
 
         public RaftQueries(Raft raft)
         {
@@ -58,11 +58,11 @@ namespace NoMoreFishAndChips.Environments
             {
                 if (current != null)
                 {
-                    _cellTotal += tileCell;
+                    _tileCellTotal += tileCell;
                 }
                 else
                 {
-                    _cellTotal -= tileCell;
+                    _tileCellTotal -= tileCell;
                 }
             }
 
@@ -99,19 +99,29 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // Uses Vector2 to allow for floating-point cells
-        public Vector3 CellToWorldPosition(Vector2 cell)
+        public Vector3 TileCellToWorldPosition(Vector2 cell)
         {
             return new Vector3(cell.x, 0f, cell.y);
         }
 
-        public Vector2Int WorldPositionToCell(Vector3 position)
+        public Vector2Int WorldPositionToTileCell(Vector3 position)
         {
             return new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
 
+        public Vector3 StructureCellToWorldPosition(Vector2 cell)
+        {
+            return TileCellToWorldPosition(cell * 0.5f - Vector2.one * 0.25f);
+        }
+        
+        public Vector2Int WorldPositionToStructureCell(Vector3 position)
+        {
+            return WorldPositionToTileCell(position * 2f + new Vector3(0.5f, 0f, 0.5f));
+        }
+
         public Vector3 GetCenterPosition()
         {
-            return CellToWorldPosition(_cellTotal / _raft.Tiles.Count);
+            return TileCellToWorldPosition(_tileCellTotal / _raft.Tiles.Count);
         }
 
         // Retrieves a random tile that fulfills a predicate

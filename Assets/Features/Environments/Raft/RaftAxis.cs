@@ -93,7 +93,7 @@ namespace NoMoreFishAndChips.Environments
 
         public int WorldPositionToAxisIndex(Vector3 position)
         {
-            return CellToAxisIndex(_raft.Queries.WorldPositionToCell(position));
+            return CellToAxisIndex(_raft.Queries.WorldPositionToTileCell(position));
         }
 
         public Direction GetDirection()
