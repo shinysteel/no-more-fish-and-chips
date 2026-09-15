@@ -4,7 +4,6 @@ using NUnit.Framework;
 using UnityEngine;
 using NoMoreFishAndChips.Environments;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.Entities
@@ -12,37 +11,38 @@ namespace NoMoreFishAndChips.Entities
     public class StructureBuildTarget : BuildTarget
     {
         private EntityManager _entityManager;
-        private EnvironmentManager _environmentManager;
 
         private EntityId _structureId;
 
         private Structure _structure;
 
-        private GameObject _previewGameObject;
-        private List<Prop> _previewProps = new();
+        private Dictionary<Vector2Int, RaftTile> _tiles = new();
 
-        public StructureBuildTarget(GameplayContext context, BuildTargetSettings settings, Vector3 position, EntityId structureId) : base(context, settings, position)
+        private EntityModel _previewModel;
+
+        public StructureBuildTarget(GameplayContext context, BuildTargetSettings settings, EntityId structureId) : base(context, settings)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
             _structureId = structureId;
 
             _structure = (Structure)_entityManager.GetPrefab(_structureId);
 
-            _previewGameObject = new GameObject(nameof(StructureBuildTarget));
+            _previewModel = _entityManager.GetModel(structureId, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) });
 
             RefreshPreview();
-            
+
+            _context.Raft.OnTileChanged += HandleTileChanged;
             _context.Raft.OnStructureChanged += HandleStructureChanged;
         }
 
         public override void Dispose()
         {
-            Object.Destroy(_previewGameObject);
+            _entityManager.ReturnModel(_previewModel);
 
             if (_context.Raft != null)
             {
+                _context.Raft.OnTileChanged -= HandleTileChanged;
                 _context.Raft.OnStructureChanged -= HandleStructureChanged;
             }
         }
@@ -58,20 +58,17 @@ namespace NoMoreFishAndChips.Entities
 
             Vector2Int targetCell = _context.Raft.Queries.WorldPositionToStructureCell(position);
 
-            if (_structure != null)
+            Vector2Int playerCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
+            Vector2Int direction = targetCell - playerCell;
+
+            if (direction.x != 0)
             {
-                Vector2Int playerCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
-                Vector2Int direction = targetCell - playerCell;
+                targetCell.x -= direction.x > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.xMin : _structure.StructureDefinitionData.Shape.GridBounds.xMax;
+            }
 
-                if (direction.x != 0)
-                {
-                    targetCell.x -= direction.x > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.xMin : _structure.StructureDefinitionData.Shape.GridBounds.xMax;
-                }
-
-                if (direction.y != 0)
-                {
-                    targetCell.y -= direction.y > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.yMin : _structure.StructureDefinitionData.Shape.GridBounds.yMax;
-                }
+            if (direction.y != 0)
+            {
+                targetCell.y -= direction.y > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.yMin : _structure.StructureDefinitionData.Shape.GridBounds.yMax;
             }
 
             if (_cell == targetCell)
@@ -81,61 +78,81 @@ namespace NoMoreFishAndChips.Entities
 
             _cell = targetCell;
 
+            _tiles.Clear();
+
+            _structure.StructureDefinitionData.Shape.ForEachCell((Vector2Int cell, bool value) =>
+            {
+                Vector2Int structureCell = _cell + cell;
+                Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
+
+                _context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile);
+                _tiles.Add(tileCell, tile);
+            });
+            
             RefreshPreview();
-
-            // _context.Raft.Structures.TryGetValue(_cell, out Structure structure);
-
-            // HandleStructureChanged(_cell, null, structure);
         }
 
-        private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
-        { 
-
-        }
-
-        private void RefreshPreview()
-        {   
-            if (_previewGameObject == null)
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
+        {
+            if (!_tiles.ContainsKey(cell))
             {
                 return;
             }
 
-            _previewGameObject.transform.position = _context.Raft.Queries.StructureCellToWorldPosition(_cell) + Vector3.up * 0.125f;
+            _tiles[cell] = current;
 
-            foreach (Prop prop in _previewProps)
+            RefreshPreview();
+        }
+
+        private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
+        {
+            if (_structure.StructureDefinitionData.Shape[cell - _cell] == true)
             {
-                _environmentManager.ReturnProp(prop);
+                RefreshPreview();
+            }
+        }
+
+        private void RefreshPreview()
+        {   
+            if (_previewModel == null)
+            {
+                return;
             }
 
-            _previewProps.Clear();
+            Vector2 centerCell = new Vector2((_structure.StructureDefinitionData.Shape.GridBounds.xMin + _structure.StructureDefinitionData.Shape.GridBounds.xMax) / 2f, (_structure.StructureDefinitionData.Shape.GridBounds.yMin + _structure.StructureDefinitionData.Shape.GridBounds.yMax) / 2f);
+            Vector2 structureCell = _cell + centerCell;
+            Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(structureCell);
+            
+            position.y = 0.125f;
 
-            _structure.StructureDefinitionData.Shape.ForEachTrue((Vector2Int cell) =>
+            _previewModel.transform.position = position;
+
+            _previewModel.SetMaterialColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);
+        }
+
+        public override void Tick()
+        {
+            PreviewTick();
+        }
+
+        private void PreviewTick()
+        {
+            float? y = null;
+
+            foreach (RaftTile tile in _tiles.Values)
             {
-                void processSide(Vector3 direction)
+                if (tile == null)
                 {
-                    Vector2Int offset = new Vector2Int((int)direction.x, (int)direction.z);
-                    Vector3 position = new Vector3(cell.x, 0f, cell.y) * 0.5f + direction * 0.25f;
-                    Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-
-                    if (_structure.StructureDefinitionData.Shape[cell + offset] != true)
-                    {
-                        Prop tape = _environmentManager.GetProp(PropId.ScaffoldTape, new SpawnParams() { Position = position, Rotation = rotation, Parent = _previewGameObject.transform });
-                        _previewProps.Add(tape);
-                    }
+                    continue;
                 }
-
-                processSide(Vector3.forward);
-                processSide(Vector3.right);
-                processSide(Vector3.back);
-                processSide(Vector3.left);
-            });
-
-            Color color = CanBuild() ? _settings.ValidColor : _settings.InvalidColor;
-
-            foreach (Prop prop in _previewProps)
-            {
-                prop.SetColor(color);
+                
+                y = Mathf.Max(y ?? int.MinValue, tile.transform.position.y);
             }
+
+            Vector3 position = _previewModel.transform.position;
+            position.y = y ?? 0.125f;
+
+            _previewModel.transform.position = position;
         }
 
         protected override bool CanBuild()

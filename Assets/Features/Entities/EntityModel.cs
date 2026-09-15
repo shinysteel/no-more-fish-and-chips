@@ -53,6 +53,14 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public void SetMaterialColor(Color color)
+        {
+            foreach (Material material in _sharedMaterialMap.Values)
+            {
+                material.color = color;
+            }
+        }
+
         public void SetMaterialFloat(string name, float value)
         {
             foreach (Material material in _sharedMaterialMap.Values)

@@ -59,28 +59,24 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_player.isOwner)
             {
-                RefreshProp();
+                // RefreshProp();
             }
         }
 
         public void SetBuildTarget(EntityId buildableId)
         {
             Entity entity = _entityManager.GetPrefab(buildableId);
-            Vector3 position = _player.transform.position + _player.transform.forward * 0.75f;
 
-            if (entity is RaftTile tile)
+            _buildTarget?.Dispose();
+
+            _buildTarget = entity switch
             {
-                _buildTarget = new TileBuildTarget(_context, _settings.BuildTargetSettings, position);
-            }
-            else if (entity is Structure structure)
-            {
-                _buildTarget = new StructureBuildTarget(_context, _settings.BuildTargetSettings, position, buildableId);
-            }
-            else
-            {
-                _buildTarget?.Dispose();
-                _buildTarget = null;
-            }
+                RaftTile => new TileBuildTarget(_context, _settings.BuildTargetSettings),
+                Structure => new StructureBuildTarget(_context, _settings.BuildTargetSettings, buildableId),
+                _ => null
+            };
+
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);            
         }
 
         public override void Tick()
@@ -90,63 +86,8 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (_buildTarget == null)
-            {
-                return;
-            }
-
-            Vector3 position = _player.transform.position + _player.transform.forward * 0.75f;
-            _buildTarget.SetPosition(position);
-        }
-
-        private void TransformPropTick()
-        {
-            //if (_targetProp == null)
-            //{
-            //    return;
-            //}
-
-            //Vector3 position = _context.Raft.Queries.CellToWorldPosition(_target.Cell);
-
-            //if (_targetProp.Id == PropId.TileScaffold)
-            //{
-            //    position.y = -0.125f;
-            //}
-
-            //_targetProp.transform.position = position;
-        }
-
-        private void RefreshProp()
-        {
-            //PropId id = PropId.None;
-            //Color color = Color.white;
-
-            //if (_isBuilding)
-            //{
-            //    if (_target.Tile != null)
-            //    {
-            //        id = PropId.StructureScaffold;
-            //        color = _target.CanBuildStructure() ? _settings.ValidColor : _settings.InvalidColor;
-            //    }
-            //    else
-            //    {
-            //        id = PropId.TileScaffold;
-            //        color = _target.CanBuildTile() ? _settings.ValidColor : _settings.InvalidColor;
-            //    }
-            //}
-
-            //if (_targetProp != null && _targetProp.Id != id)
-            //{
-            //    _environmentManager.ReturnProp(_targetProp);
-            //    _targetProp = null;
-            //}
-
-            //if (_targetProp == null && id != PropId.None)
-            //{
-            //    _targetProp = _environmentManager.GetProp(id, new SpawnParams());
-            //}
-
-            //_targetProp?.SetColor(color);
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);
+            _buildTarget?.Tick();            
         }
     }
 }

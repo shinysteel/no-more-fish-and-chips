@@ -10,21 +10,22 @@ namespace NoMoreFishAndChips.Entities
 
         protected BuildTargetSettings _settings;
 
-        protected Vector3 _position;
-        protected Vector2Int _cell;
+        protected Vector3 _position = Vector3.positiveInfinity;
+        protected Vector2Int _cell = Vector2Int.one * int.MaxValue;
 
-        public BuildTarget(GameplayContext context, BuildTargetSettings settings, Vector3 position)
+        public BuildTarget(GameplayContext context, BuildTargetSettings settings)
         {
             _context = context;
             _settings = settings;
-
-            SetPosition(position);
         }
 
         public virtual void Dispose()
         { }
 
         public abstract void SetPosition(Vector3 position);
+
+        public virtual void Tick()
+        { }
 
         protected abstract bool CanBuild();
     }

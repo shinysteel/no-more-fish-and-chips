@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Entities
         private RaftTile _tile;
         private Prop _previewProp;
 
-        public TileBuildTarget(GameplayContext context, BuildTargetSettings settings, Vector3 position) : base(context, settings, position)
+        public TileBuildTarget(GameplayContext context, BuildTargetSettings settings) : base(context, settings)
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
