@@ -66,7 +66,7 @@ namespace NoMoreFishAndChips.Entities
         public void SetBuildTarget(EntityId buildableId)
         {
             Entity entity = _entityManager.GetPrefab(buildableId);
-            Vector3 position = _player.transform.position + _player.transform.forward * 1f;
+            Vector3 position = _player.transform.position + _player.transform.forward * 0.75f;
 
             if (entity is RaftTile tile)
             {
@@ -95,7 +95,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            Vector3 position = _player.transform.position + _player.transform.forward * 1f;
+            Vector3 position = _player.transform.position + _player.transform.forward * 0.75f;
             _buildTarget.SetPosition(position);
         }
 

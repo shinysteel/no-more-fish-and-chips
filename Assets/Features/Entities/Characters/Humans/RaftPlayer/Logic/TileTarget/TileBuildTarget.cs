@@ -14,16 +14,16 @@ namespace NoMoreFishAndChips.Entities
         private EnvironmentManager _environmentManager;
 
         private RaftTile _tile;
-        private Prop _prop;
+        private Prop _previewProp;
 
         public TileBuildTarget(GameplayContext context, BuildTargetSettings settings, Vector3 position) : base(context, settings, position)
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
-            _prop = _environmentManager.GetProp(PropId.TileScaffold, new SpawnParams());
+            _previewProp = _environmentManager.GetProp(PropId.TileScaffold, new SpawnParams());
 
-            RefreshProp();
+            RefreshPreview();
 
             _stateManager.AddListener(this);
 
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override void Dispose()
         {
-            _environmentManager.ReturnProp(_prop);
+            _environmentManager.ReturnProp(_previewProp);
 
             _stateManager.RemoveListener(this);
 
@@ -72,20 +72,20 @@ namespace NoMoreFishAndChips.Entities
 
             _tile = current;
 
-            RefreshProp();
+            RefreshPreview();
         }
 
-        private void RefreshProp()
+        private void RefreshPreview()
         {
-            if (_prop == null)
+            if (_previewProp == null)
             {
                 return;
             }
 
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_cell);
             position.y = -0.125f;
-            _prop.transform.position = position;
-            _prop.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
+            _previewProp.transform.position = position;
+            _previewProp.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
         }
 
         protected override bool CanBuild()
@@ -107,7 +107,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (previous.Contains(EGameplayState.Stage) != current.Contains(EGameplayState.Stage))
             {
-                RefreshProp();
+                RefreshPreview();
             }
         }
     }

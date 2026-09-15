@@ -99,10 +99,10 @@ namespace NoMoreFishAndChips.UI
                         return;
                     }
                     
-                    bool top = !item.Shape.TryGetBool(shapeCell + Vector2Int.up, out bool topBool) || !topBool;
-                    bool left = !item.Shape.TryGetBool(shapeCell + Vector2Int.left, out bool leftBool) || !leftBool;
-                    bool bottom = !item.Shape.TryGetBool(shapeCell + Vector2Int.down, out bool bottomBool) || !bottomBool;
-                    bool right = !item.Shape.TryGetBool(shapeCell + Vector2Int.right, out bool rightBool) || !rightBool;
+                    bool top = !item.Shape.TryGetBool(shapeCell + Vector2Int.up, out bool topValue) || !topValue;
+                    bool left = !item.Shape.TryGetBool(shapeCell + Vector2Int.left, out bool leftValue) || !leftValue;
+                    bool bottom = !item.Shape.TryGetBool(shapeCell + Vector2Int.down, out bool bottomValue) || !bottomValue;
+                    bool right = !item.Shape.TryGetBool(shapeCell + Vector2Int.right, out bool rightValue) || !rightValue;
 
                     slotView.CellOutline.SetEnabled(top, left, bottom, right);
                 });

@@ -104,19 +104,29 @@ namespace NoMoreFishAndChips.Environments
             return new Vector3(cell.x, 0f, cell.y);
         }
 
+        public Vector3 StructureCellToWorldPosition(Vector2 cell)
+        {
+            return TileCellToWorldPosition(cell * 0.5f - Vector2.one * 0.25f);
+        }
+
         public Vector2Int WorldPositionToTileCell(Vector3 position)
         {
             return new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
 
-        public Vector3 StructureCellToWorldPosition(Vector2 cell)
-        {
-            return TileCellToWorldPosition(cell * 0.5f - Vector2.one * 0.25f);
-        }
-        
         public Vector2Int WorldPositionToStructureCell(Vector3 position)
         {
             return WorldPositionToTileCell(position * 2f + new Vector3(0.5f, 0f, 0.5f));
+        }
+
+        public Vector2Int TileCellToStructureCell(Vector2Int cell)
+        {
+            return cell * 2;
+        }
+
+        public Vector2Int StructureCellToTileCell(Vector2Int cell)
+        {
+            return new Vector2Int(Mathf.FloorToInt(cell.x / 2f), Mathf.FloorToInt(cell.y / 2f));
         }
 
         public Vector3 GetCenterPosition()

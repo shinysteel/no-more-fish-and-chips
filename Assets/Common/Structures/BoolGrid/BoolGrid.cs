@@ -180,12 +180,11 @@ namespace ShinyOwl.Common.Structures
         public static string BoolsName => nameof(_bools);
 
         // You can retrieve cells relative to the pivot here. [-1, -1] is a valid request
-        public bool this[Vector2Int cell]
+        public bool? this[Vector2Int cell]
         {
             get
             {
-                TryGetBool(cell, out bool value);
-                return value;
+                return TryGetBool(cell, out bool value) ? value : null;
             }
         }
 
