@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3686520924897791646
+--- !u!1001 &817802345770262963
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,32 +8,43 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7890003014679263722}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
+    - target: {fileID: 1582176361376526512, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
+      propertyPath: m_Name
+      value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 2215442984469424650, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
+    - target: {fileID: 2215442984469424650, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
+    - target: {fileID: 2215442984469424650, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
-      propertyPath: m_Name
-      value: Planter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
---- !u!4 &3793049320554408309 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
+--- !u!4 &1578440538316622777 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 79321acde6212c34c8bd5bd8bbb760e4, type: 3}
-  m_PrefabInstance: {fileID: 3686520924897791646}
+  m_CorrespondingSourceObject: {fileID: 2215442984469424650, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
+  m_PrefabInstance: {fileID: 817802345770262963}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7655680019270168210 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7018607736950181665, guid: ca77d8c8dfe444241bdef3d6e4df3506, type: 3}
+  m_PrefabInstance: {fileID: 817802345770262963}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
 --- !u!1001 &6303910751046622800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91,7 +102,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3793049320554408309}
+      addedObject: {fileID: 1578440538316622777}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       insertIndex: 1
@@ -110,17 +121,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
   m_PrefabInstance: {fileID: 6303910751046622800}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8406065237091066365 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2581594641563713453, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
-  m_PrefabInstance: {fileID: 6303910751046622800}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9144905740177948551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
 --- !u!1 &9144905740177948551 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
@@ -148,9 +148,8 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _entityDefinitionData: {fileID: 11400000, guid: f505c3bd59a593e4baf99dc75face998, type: 2}
-  _entityModel: {fileID: 0}
+  _entityModel: {fileID: 7655680019270168210}
   _rigidbody: {fileID: 4310066444929063991}
-  _networkRigidbody: {fileID: 8406065237091066365}
   _collider: {fileID: 5953562315909881630}
 --- !u!65 &5953562315909881630
 BoxCollider:

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5169094079322576032
+--- !u!1001 &1007364994856040445
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,65 +8,48 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7740322228812494630}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
+    - target: {fileID: 5953532174920450693, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
+      propertyPath: m_Name
+      value: Model
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
+    - target: {fileID: 6473046318927206463, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
+    - target: {fileID: 6473046318927206463, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
+    - target: {fileID: 6473046318927206463, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-      propertyPath: m_Name
-      value: ClamChest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
---- !u!4 &4627157044244624203 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
+--- !u!4 &6065786250420350914 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-  m_PrefabInstance: {fileID: 5169094079322576032}
+  m_CorrespondingSourceObject: {fileID: 6473046318927206463, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
+  m_PrefabInstance: {fileID: 1007364994856040445}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5235366698202538356 stripped
+--- !u!4 &6683118517553790461 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1088619777609266644, guid: 2ecdbf463a46f1d41af143f2925de20c, type: 3}
-  m_PrefabInstance: {fileID: 5169094079322576032}
+  m_CorrespondingSourceObject: {fileID: 5856321920390023680, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
+  m_PrefabInstance: {fileID: 1007364994856040445}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8009778555602648260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7120914526126607161, guid: 7153a6aae41c7ca49982d5433597ace2, type: 3}
+  m_PrefabInstance: {fileID: 1007364994856040445}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
 --- !u!1001 &5867680774479417500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -124,7 +107,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4627157044244624203}
+      addedObject: {fileID: 6065786250420350914}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       insertIndex: 1
@@ -146,17 +129,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
   m_PrefabInstance: {fileID: 5867680774479417500}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8267934045330534193 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2581594641563713453, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
-  m_PrefabInstance: {fileID: 5867680774479417500}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8718114211947278667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d497b70c6fb6adc46b663609bee66dfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PurrNet.Runtime::PurrNet.NetworkRigidbody
 --- !u!1 &8718114211947278667 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
@@ -184,11 +156,10 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _entityDefinitionData: {fileID: 11400000, guid: 519a91e1e1075dd47a4ac38aed739eac, type: 2}
-  _entityModel: {fileID: 0}
+  _entityModel: {fileID: 8009778555602648260}
   _rigidbody: {fileID: 4451143466709783291}
-  _networkRigidbody: {fileID: 8267934045330534193}
   _collider: {fileID: 9163528764279447294}
-  _hingeTransform: {fileID: 5235366698202538356}
+  _hingeTransform: {fileID: 6683118517553790461}
   _inventory: {fileID: 8143664332312256887}
 --- !u!65 &9163528764279447294
 BoxCollider:

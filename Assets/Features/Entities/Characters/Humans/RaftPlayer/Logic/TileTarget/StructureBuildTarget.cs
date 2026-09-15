@@ -33,7 +33,7 @@ namespace NoMoreFishAndChips.Entities
             _previewGameObject = new GameObject(nameof(StructureBuildTarget));
 
             RefreshPreview();
-
+            
             _context.Raft.OnStructureChanged += HandleStructureChanged;
         }
 
