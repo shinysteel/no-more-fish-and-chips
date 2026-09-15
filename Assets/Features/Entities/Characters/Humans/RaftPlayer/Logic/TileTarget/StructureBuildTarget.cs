@@ -5,6 +5,7 @@ using UnityEngine;
 using NoMoreFishAndChips.Environments;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -52,17 +53,33 @@ namespace NoMoreFishAndChips.Entities
             {
                 return;
             }
-
+            
             _position = position;
 
-            Vector2Int cell = _context.Raft.Queries.WorldPositionToStructureCell(position);
+            Vector2Int targetCell = _context.Raft.Queries.WorldPositionToStructureCell(position);
 
-            if (_cell == cell)
+            if (_structure != null)
+            {
+                Vector2Int playerCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
+                Vector2Int direction = targetCell - playerCell;
+
+                if (direction.x != 0)
+                {
+                    targetCell.x -= direction.x > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.xMin : _structure.StructureDefinitionData.Shape.GridBounds.xMax;
+                }
+
+                if (direction.y != 0)
+                {
+                    targetCell.y -= direction.y > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.yMin : _structure.StructureDefinitionData.Shape.GridBounds.yMax;
+                }
+            }
+
+            if (_cell == targetCell)
             {
                 return;
             }
 
-            _cell = cell;
+            _cell = targetCell;
 
             RefreshPreview();
 
