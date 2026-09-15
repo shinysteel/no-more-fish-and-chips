@@ -6,7 +6,7 @@ namespace NoMoreFishAndChips.Environments
     {
         None,
         Barrel,
-        RepairPreview,
+        BoxSelect,
         PlantPreview,
         TileScaffold,
         ScaffoldStandard,

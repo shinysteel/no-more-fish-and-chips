@@ -208,7 +208,8 @@ namespace NoMoreFishAndChips.Entities
 
                     if (_promptInteractable.IInteractableSettings.PreviewId != PropId.None)
                     {
-                        _promptPreview = _environmentManager.GetProp(_promptInteractable.IInteractableSettings.PreviewId, new SpawnParams() { Parent = _promptInteractable.transform, Position = _promptInteractable.IInteractableSettings.PreviewPosition });
+                        SpawnParams parameters = new SpawnParams() { Position = _promptInteractable.IInteractableSettings.PreviewPosition, Scale = _promptInteractable.IInteractableSettings.PreviewScale, Parent = _promptInteractable.transform };
+                        _promptPreview = _environmentManager.GetProp(_promptInteractable.IInteractableSettings.PreviewId, parameters);
                         RefreshPreviewColor();
                     }
                 }

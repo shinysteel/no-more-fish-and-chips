@@ -18,3 +18,4 @@ MonoBehaviour:
   _maxDistance: 1
   _previewId: 2
   _previewPosition: {x: 0, y: -0.125, z: 0}
+  _previewScale: {x: 1.01, y: 0.26, z: 1.01}

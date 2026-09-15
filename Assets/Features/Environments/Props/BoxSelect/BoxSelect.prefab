@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5633074089068271618}
   - component: {fileID: 8886900954559526656}
   m_Layer: 0
-  m_Name: RepairPreview
+  m_Name: BoxSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Environments.Prop
   _id: 2
+  _surfaceType: 0
 --- !u!33 &5633074089068271618
 MeshFilter:
   m_ObjectHideFlags: 0
