@@ -19,9 +19,9 @@ namespace NoMoreFishAndChips.Entities
         Tentacle = 107,
 
         // Tiles
-        GoopTile = 201,
-        WoodenTile = 202,
-        MetalTile = 203,
+        GoopRaftTile = 201,
+        WoodenRaftTile = 202,
+        MetalRaftTile = 203,
 
         // Structures
         WaveCounter = 300,

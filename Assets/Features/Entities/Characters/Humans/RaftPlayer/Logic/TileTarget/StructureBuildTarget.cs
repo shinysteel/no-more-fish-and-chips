@@ -171,7 +171,7 @@ namespace NoMoreFishAndChips.Entities
 
             Color color = CanBuild() ? _settings.ValidColor : _settings.InvalidColor;
 
-            _previewModel.SetMaterialColor(color);
+            _previewModel.SetColor(color);
 
             foreach (PreviewProp preview in _previewProps)
             {

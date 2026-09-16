@@ -53,7 +53,7 @@ namespace NoMoreFishAndChips.Environments
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    EntityId id = EntityId.WoodenTile;
+                    EntityId id = EntityId.WoodenRaftTile;
 
                     EntityDefinitionData data = entityManager.GetPrefab(id).EntityDefinitionData;
 

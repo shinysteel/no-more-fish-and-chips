@@ -53,7 +53,7 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public void SetMaterialColor(Color color)
+        public void SetColor(Color color)
         {
             foreach (Material material in _sharedMaterialMap.Values)
             {

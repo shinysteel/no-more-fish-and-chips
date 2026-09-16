@@ -38,12 +38,14 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private RaftTileBobSettings _bobSettings;
         [SerializeField] private RaftTileDipSettings _dipSettings;
         [SerializeField] private IInteractableSettings _iInteractableSettings;
+        [SerializeField] private Color _damagedColor;
         [SerializeField] private Recipe _repairRecipe;
 
         public Recipe BuildRecipe => _buildRecipe;
         public RaftTileBobSettings BobSettings => _bobSettings;
         public RaftTileDipSettings DipSettings => _dipSettings;
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
+        public Color DamagedColor => _damagedColor;
         public Recipe RepairRecipe => _repairRecipe;
 
         public RaftTileDefeatSettings TileDefeatSettings => (RaftTileDefeatSettings)_entityDefeatSettings;

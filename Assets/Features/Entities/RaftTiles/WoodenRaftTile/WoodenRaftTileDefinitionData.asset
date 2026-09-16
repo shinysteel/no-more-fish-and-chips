@@ -41,6 +41,7 @@ MonoBehaviour:
     _radius: 1
     _speed: 0.25
   _iInteractableSettings: {fileID: 11400000, guid: df81e83ef372b034187474af1ebbe473, type: 2}
+  _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
   _repairRecipe:
     _requirements:
     - _itemId: 1

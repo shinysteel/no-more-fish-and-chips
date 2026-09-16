@@ -17,18 +17,11 @@ namespace NoMoreFishAndChips.Entities
 {
     public abstract class RaftTile : Entity, IInteractable
     {
-        [SerializeField] private MeshRenderer _meshRenderer;
-
-        [SerializeField] private Color _damagedColor;
-
         private SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
         private SyncVar<int> _netRotations = new SyncVar<int>(ownerAuth: true);
 
         public Vector2Int Cell => _netCell.value;
         public int Rotations => _netRotations.value;
-
-
-        private Material _material;
 
         public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
@@ -38,13 +31,6 @@ namespace NoMoreFishAndChips.Entities
         public RaftTileDefeatLogic TileDefeatLogic => (RaftTileDefeatLogic)EntityDefeatLogic;
 
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            _material = _meshRenderer.material;
-        }
 
         protected override EntityLogicFactory CreateLogicFactory()
         {
@@ -86,7 +72,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _material.color = Color.Lerp(Color.white, _damagedColor, 1f - ((float)current / EntityHealthLogic.MaxHealth));
+            _entityModel.SetColor(Color.Lerp(Color.white, TileDefinitionData.DamagedColor, 1f - ((float)current / EntityHealthLogic.MaxHealth)));
         }
 
         private void HandleNetCellChanged(Vector2Int cell)
