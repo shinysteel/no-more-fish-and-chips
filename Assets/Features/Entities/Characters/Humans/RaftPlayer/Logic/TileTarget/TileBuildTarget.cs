@@ -11,17 +11,17 @@ namespace NoMoreFishAndChips.Entities
     public class TileBuildTarget : BuildTarget, IStateManagerListener
     {
         private StateManager _stateManager;
-        private EnvironmentManager _environmentManager;
+        private EntityManager _entityManager;
 
         private RaftTile _tile;
-        private Prop _previewProp;
+        private EntityModel _previewModel;
 
-        public TileBuildTarget(GameplayContext context, BuildTargetSettings settings) : base(context, settings)
+        public TileBuildTarget(GameplayContext context, BuildTargetSettings settings, EntityId entityId) : base(context, settings, entityId)
         {
             _stateManager = GameManager.Instance.Get<StateManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
 
-            _previewProp = _environmentManager.GetProp(PropId.TileScaffold, new SpawnParams());
+            _previewModel = _entityManager.GetModel(_entityId, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Scale = Vector3.one * 1.01f });
 
             RefreshPreview();
 
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override void Dispose()
         {
-            _environmentManager.ReturnProp(_previewProp);
+            _entityManager.ReturnModel(_previewModel);
 
             _stateManager.RemoveListener(this);
 
@@ -77,15 +77,25 @@ namespace NoMoreFishAndChips.Entities
 
         private void RefreshPreview()
         {
-            if (_previewProp == null)
-            {
-                return;
-            }
-
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_cell);
             position.y = -0.125f;
-            _previewProp.transform.position = position;
-            _previewProp.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
+            _previewModel.transform.position = position;
+            _previewModel.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
+        }
+
+        public override void Tick()
+        {
+            PreviewTick();
+        }
+
+        private void PreviewTick()
+        {
+            float y = _tile != null ? _tile.transform.position.y - 0.25f : -0.125f;
+
+            Vector3 position = _previewModel.transform.position;
+            position.y = y;
+
+            _previewModel.transform.position = position;
         }
 
         protected override bool CanBuild()

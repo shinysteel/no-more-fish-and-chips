@@ -71,7 +71,7 @@ namespace NoMoreFishAndChips.Entities
 
             _buildTarget = entity switch
             {
-                RaftTile => new TileBuildTarget(_context, _settings.BuildTargetSettings),
+                RaftTile => new TileBuildTarget(_context, _settings.BuildTargetSettings, buildableId),
                 Structure => new StructureBuildTarget(_context, _settings.BuildTargetSettings, buildableId),
                 _ => null
             };

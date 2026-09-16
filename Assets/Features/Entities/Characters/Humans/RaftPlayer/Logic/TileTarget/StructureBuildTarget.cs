@@ -13,7 +13,6 @@ namespace NoMoreFishAndChips.Entities
         private EntityManager _entityManager;
         private EnvironmentManager _environmentManager;
 
-        private EntityId _structureId;
         private Structure _structure;
 
         private Dictionary<Vector2Int, RaftTile> _overlappingTiles = new();
@@ -33,16 +32,14 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public StructureBuildTarget(GameplayContext context, BuildTargetSettings settings, EntityId structureId) : base(context, settings)
+        public StructureBuildTarget(GameplayContext context, BuildTargetSettings settings, EntityId entityId) : base(context, settings, entityId)
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
-            _structureId = structureId;
+            _structure = (Structure)_entityManager.GetPrefab(_entityId);
 
-            _structure = (Structure)_entityManager.GetPrefab(_structureId);
-
-            _previewModel = _entityManager.GetModel(structureId, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) });
+            _previewModel = _entityManager.GetModel(entityId, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Scale = Vector3.one * 1.01f });
 
             RefreshPreview();
 
@@ -149,11 +146,6 @@ namespace NoMoreFishAndChips.Entities
 
         private void RefreshPreview()
         {   
-            if (_previewModel == null)
-            {
-                return;
-            }
-
             // A refresh involves recalculating the positions and colors of both the previewModel and previewProps
 
             Vector2 centerCell = new Vector2((_structure.StructureDefinitionData.Shape.GridBounds.xMin + _structure.StructureDefinitionData.Shape.GridBounds.xMax) / 2f, (_structure.StructureDefinitionData.Shape.GridBounds.yMin + _structure.StructureDefinitionData.Shape.GridBounds.yMax) / 2f);
