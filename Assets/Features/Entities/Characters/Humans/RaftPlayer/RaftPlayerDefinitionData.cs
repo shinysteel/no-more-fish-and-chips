@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "RaftPlayerDefinitionData", menuName = "Data/Entities/Characters/RaftPlayerDefinitionData")]
+    [CreateAssetMenu(fileName = "RaftPlayerDefinitionData", menuName = "Data/Entities/Characters/RaftPlayer/RaftPlayerDefinitionData")]
     public class RaftPlayerDefinitionData : CharacterDefinitionData
     {
         [SerializeField] private RaftPlayerInteractSettings _interactSettings;

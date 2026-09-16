@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NoMoreFishAndChips.Entities;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -32,6 +33,11 @@ namespace NoMoreFishAndChips.UI
             {
                 _image.sprite = _rightClickSprite;
                 _image.gameObject.SetActive(true);
+            }
+            else if (hotkey == ActionHotkey.RKey)
+            {
+                _text.text = "R";
+                _text.gameObject.SetActive(true);
             }
         }
     }

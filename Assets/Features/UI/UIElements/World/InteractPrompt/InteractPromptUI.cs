@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Pools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NoMoreFishAndChips.Entities;
 
 namespace NoMoreFishAndChips.UI
 {

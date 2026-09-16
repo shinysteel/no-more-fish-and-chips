@@ -1,9 +1,9 @@
 using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Items
+namespace NoMoreFishAndChips.Entities
 {
-    public abstract class ItemActionData : ScriptableObject
+    public abstract class ActionData : ScriptableObject
     {
         [SerializeField] protected ActionHotkey _hotkey;
         [SerializeField] private Sprite _sprite;

@@ -121,7 +121,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            ItemActionData actionData = _player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.ActionDatas.FirstOrDefault(data => data.Hotkey == hotkey);
+            ActionData actionData = _player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.ActionDatas.FirstOrDefault(data => data.Hotkey == hotkey);
 
             actionData?.Execute(_context);
         }

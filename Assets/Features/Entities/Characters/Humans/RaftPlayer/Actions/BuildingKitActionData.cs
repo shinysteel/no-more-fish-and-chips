@@ -2,10 +2,10 @@ using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Items
+namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "BuildActionData", menuName = "Data/Items/Actions/BuildActionData")]
-    public class BuildActionData : ItemActionData
+    [CreateAssetMenu(fileName = "BuildingKitActionData", menuName = "Data/Entities/Characters/RaftPlayer/Actions/BuildingKitActionData")]
+    public class BuildingKitActionData : ActionData
     {
         public override void Execute(GameplayContext context)
         {

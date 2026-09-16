@@ -5,6 +5,7 @@ using PrimeTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NoMoreFishAndChips.Entities;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -15,14 +16,14 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private ActionHotkeyView _actionHotkeyView;
 
         private GameplayContext _context;
-        private ItemActionData _data;
+        private ActionData _data;
 
         private void Awake()
         {
             _button.onClick.AddListener(Pressed);
         }
 
-        public void Setup(GameplayContext context, ItemActionData data)
+        public void Setup(GameplayContext context, ActionData data)
         {
             _context = context;
             _data = data;

@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Environments;
 using UnityEngine;
+using NoMoreFishAndChips.Entities;
 
 namespace NoMoreFishAndChips
 {

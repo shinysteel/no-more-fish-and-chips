@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3328031885849580086}
   - component: {fileID: 1140070029816685412}
   m_Layer: 5
-  m_Name: ActionHotkey
+  m_Name: ActionHotkeyView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

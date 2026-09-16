@@ -2,10 +2,10 @@ using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Items
+namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "AttackActionData", menuName = "Data/Items/Actions/AttackActionData")]
-    public class AttackActionData : ItemActionData
+    [CreateAssetMenu(fileName = "AttackActionData", menuName = "Data/Entities/Characters/RaftPlayer/Actions/AttackActionData")]
+    public class AttackActionData : ActionData
     {
         public override void Execute(GameplayContext context)
         {

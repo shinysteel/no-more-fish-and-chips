@@ -1,10 +1,10 @@
 using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Items
+namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "HotkeyActionData", menuName = "Data/Items/Actions/HotkeyActionData")]
-    public class HotkeyActionData : ItemActionData
+    [CreateAssetMenu(fileName = "HotkeyActionData", menuName = "Data/Entities/Characters/RaftPlayer/Actions/HotkeyActionData")]
+    public class HotkeyActionData : ActionData
     {
         public override void Execute(GameplayContext context)
         {

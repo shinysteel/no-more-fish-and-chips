@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Entities;
 
 namespace NoMoreFishAndChips.Items
 {
@@ -26,7 +27,7 @@ namespace NoMoreFishAndChips.Items
         [SerializeField] private Recipe _recipe;
         [SerializeField] private BoolGrid _shape;
         [SerializeField] private ItemModel _model;
-        [SerializeField] private ItemActionData[] _actionDatas = new ItemActionData[0];
+        [SerializeField] private ActionData[] _actionDatas = new ActionData[0];
         [SerializeField] private Vector3 _holdOffset;
 
         // To differentiate from InstanceId, we use ItemId
@@ -39,7 +40,7 @@ namespace NoMoreFishAndChips.Items
         public Recipe BuildRecipe => _recipe;
         public BoolGrid Shape => _shape;
         public ItemModel Model => _model;
-        public ItemActionData[] ActionDatas => _actionDatas;
+        public ActionData[] ActionDatas => _actionDatas;
         public Vector3 HoldOffset => _holdOffset;
 
         bool ICraftable.TryCraft(GameplayContext context)
