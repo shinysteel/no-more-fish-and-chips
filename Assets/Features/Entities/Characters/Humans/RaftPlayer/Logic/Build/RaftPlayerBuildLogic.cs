@@ -14,25 +14,25 @@ using UnityEngine.Pool;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerBuildTargetLogic : RaftPlayerLogic
+    public class RaftPlayerBuildLogic : RaftPlayerLogic
     {
         private CameraManager _cameraManager;
         private EnvironmentManager _environmentManager;
         private EntityManager _entityManager;
 
-        private RaftPlayerBuildTargetSettings _settings;
+        private RaftPlayerBuildSettings _settings;
 
         private BuildTarget _buildTarget;
 
         public bool IsBuilding => _buildTarget != null;
 
-        public RaftPlayerBuildTargetLogic(RaftPlayer player) : base(player)
+        public RaftPlayerBuildLogic(RaftPlayer player) : base(player)
         {
             _cameraManager = GameManager.Instance.Get<CameraManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
 
-            _settings = _player.DefinitionData.TileTargetSettings;
+            _settings = _player.DefinitionData.BuildSettings;
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -71,12 +71,14 @@ namespace NoMoreFishAndChips.Entities
 
             _buildTarget = entity switch
             {
-                RaftTile => new TileBuildTarget(_context, _settings.BuildTargetSettings, buildableId),
-                Structure => new StructureBuildTarget(_context, _settings.BuildTargetSettings, buildableId),
+                RaftTile => new TileBuildTarget(_context, _settings.TargetSettings, buildableId),
+                Structure => new StructureBuildTarget(_context, _settings.TargetSettings, buildableId),
                 _ => null
             };
 
-            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);            
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);
+
+            _player.ContextLogic.SetContext(_buildTarget != null ? _settings.ActionDatas : null);
         }
 
         public override void Tick()

@@ -10,8 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca216aebdd8b3ad449fdfad175aaa116, type: 3}
-  m_Name: RaftPlayerBuildTargetSettings
+  m_Name: RaftPlayerBuildSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerTileTargetSettings
-  _buildTargetSettings:
+  _actionDatas:
+  - {fileID: 11400000, guid: 2e4706ea0ced18f4990c758b12efc35b, type: 2}
+  - {fileID: 11400000, guid: cfa72f9b0e474254db45e989eb2b6559, type: 2}
+  - {fileID: 11400000, guid: a2055e23c8e46f845a652d5563f90547, type: 2}
+  _targetSettings:
     _validColor: {r: 0.5411765, g: 1, b: 0.5921569, a: 0.5019608}
     _invalidColor: {r: 1, g: 0.5411765, b: 0.5411765, a: 0.5019608}

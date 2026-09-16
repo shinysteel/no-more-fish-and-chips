@@ -10,14 +10,16 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private RaftPlayerInteractSettings _interactSettings;
         [SerializeField] private RaftPlayerDropInventoryItemSettings _dropInventoryItemSettings;
         [SerializeField] private RaftPlayerAttackSettings _attackSettings;
-        [SerializeField] private RaftPlayerBuildTargetSettings _tileTargetSettings;
+        [SerializeField] private RaftPlayerBuildSettings _buildSettings;
+        [SerializeField] private RaftPlayerContextSettings _contextSettings;
         [SerializeField] private BoolGrid _unlockableInventoryLayout;
         [SerializeField] private BoolGrid _defaultUnlockedInventoryLayout;
 
         public RaftPlayerInteractSettings InteractSettings => _interactSettings;
         public RaftPlayerDropInventoryItemSettings DropInventoryItemSettings => _dropInventoryItemSettings;
         public RaftPlayerAttackSettings AttackSettings => _attackSettings;
-        public RaftPlayerBuildTargetSettings TileTargetSettings => _tileTargetSettings;
+        public RaftPlayerBuildSettings BuildSettings => _buildSettings;
+        public RaftPlayerContextSettings ContextSettings => _contextSettings;
         public BoolGrid UnlockableInventoryLayout => _unlockableInventoryLayout;
         public BoolGrid DefaultUnlockedInventoryLayout => _defaultUnlockedInventoryLayout;
 

@@ -5,12 +5,22 @@ using System.Collections.Generic;
 using ShinyOwl.Common.Utils;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.UI
 {
     public class RequirementPromptUI : InteractPromptUI
     {
+        private PoolManager _poolManager;
+
         private List<RequirementPromptItem> _items = new();
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+        }
 
         public void SetupRequirement(GameplayContext context, Recipe recipe)
         {

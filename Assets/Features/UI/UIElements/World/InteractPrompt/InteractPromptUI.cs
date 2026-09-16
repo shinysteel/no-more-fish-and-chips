@@ -10,9 +10,9 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] private ActionHotkeyView _actionHotkeyView;
 
-        protected PoolManager _poolManager;
+        private PoolManager _poolManager;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
         }

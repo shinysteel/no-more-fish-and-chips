@@ -35,6 +35,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5842515307852990877, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+    - {fileID: -6879719317999539346, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
       insertIndex: -1
@@ -89,8 +90,6 @@ MonoBehaviour:
   _entityModel: {fileID: 7084810751218332243}
   _rigidbody: {fileID: 3467063576354713616}
   _collider: {fileID: 2598326273239812664}
-  _meshRenderer: {fileID: 7703286826110720322}
-  _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
 --- !u!1001 &8730643553399189508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,11 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
---- !u!23 &7703286826110720322 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 1427333785383283014, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
-  m_PrefabInstance: {fileID: 8730643553399189508}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8928945874659690512 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 198306788300191764, guid: 19cceff12153e71458572bef642c9b5b, type: 3}

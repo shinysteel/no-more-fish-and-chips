@@ -34,7 +34,7 @@ namespace NoMoreFishAndChips.UI
 
         protected override void CreatePressed(IBuildable buildable)
         {
-            _context.LocalPlayer.BuildTargetLogic.SetBuildTarget(buildable.EntityDefinitionData.Id);
+            _context.LocalPlayer.BuildLogic.SetBuildTarget(buildable.EntityDefinitionData.Id);
 
             ClosePressed();
         }

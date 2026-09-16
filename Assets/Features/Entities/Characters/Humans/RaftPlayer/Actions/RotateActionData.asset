@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RotateActionData
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.RotateActionData
   _hotkey: 4
-  _sprite: {fileID: -1215579977, guid: bf361b32fda094645b76e5aeadead5ab, type: 3}
+  _sprite: {fileID: 21300000, guid: 0773047eadcb3514197ed21f67ca8958, type: 3}
