@@ -156,7 +156,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 081e0e37afd739f4dae1dcde48cef8ec, type: 3}
+  m_Sprite: {fileID: 901368325, guid: 4f238b3f1a1b6e84ebef63e3b665b805, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -512,7 +512,7 @@ MonoBehaviour:
   _usernameText: {fileID: 6625902518058363258}
   _readyImage: {fileID: 8769349650019108280}
   _tickSprite: {fileID: 21300000, guid: 4c7936a74892afe4295a6d02ee4329ab, type: 3}
-  _crossSprite: {fileID: 21300000, guid: 081e0e37afd739f4dae1dcde48cef8ec, type: 3}
+  _crossSprite: {fileID: 901368325, guid: 4f238b3f1a1b6e84ebef63e3b665b805, type: 3}
 --- !u!114 &613944226947771889
 MonoBehaviour:
   m_ObjectHideFlags: 0

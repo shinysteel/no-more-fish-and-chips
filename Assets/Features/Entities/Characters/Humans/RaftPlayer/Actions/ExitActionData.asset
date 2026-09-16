@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c49ff93085d737428fdff97474ff37c, type: 3}
-  m_Name: BackActionData
+  m_Name: ExitActionData
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.BackActionData
   _hotkey: 3
-  _sprite: {fileID: 21300000, guid: 0773047eadcb3514197ed21f67ca8958, type: 3}
+  _sprite: {fileID: 1031826582, guid: 4f238b3f1a1b6e84ebef63e3b665b805, type: 3}
