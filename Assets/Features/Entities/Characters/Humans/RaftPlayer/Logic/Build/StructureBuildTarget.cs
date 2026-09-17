@@ -1,11 +1,12 @@
+using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
 using NUnit.Framework;
-using UnityEngine;
-using NoMoreFishAndChips.Environments;
-using System.Collections.Generic;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -72,8 +73,8 @@ namespace NoMoreFishAndChips.Entities
 
             _shape = _structure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _rotations);
 
-            RefreshPreviewProps();
-
+            RefreshCell();
+            RefreshData();
             RefreshPreview();
         }
 
@@ -86,46 +87,16 @@ namespace NoMoreFishAndChips.Entities
             
             _position = position;
 
-            Vector2Int targetCell = _context.Raft.Queries.WorldPositionToStructureCell(position);
+            Vector2Int cell = _cell;
 
-            Vector2Int playerCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
-            Vector2Int direction = targetCell - playerCell;
-
-            // For every cell opposite the player's forward and beyond the pivot, offset the pivot 
-            if (direction.x != 0)
-            {
-                targetCell.x -= direction.x > 0 ? _shape.GridBounds.xMin : _shape.GridBounds.xMax;
-            }
-
-            if (direction.y != 0)
-            {
-                targetCell.y -= direction.y > 0 ? _shape.GridBounds.yMin : _shape.GridBounds.yMax;
-            }
-
-            if (_cell == targetCell)
+            RefreshCell();
+            
+            if (cell == _cell)
             {
                 return;
             }
 
-            _cell = targetCell;
-
-            _overlappingTiles.Clear();
-
-            // Tracking overlappingTiles is neccessary to know where previews should sit on the y-axis
-            _shape.ForEachCell((Vector2Int cell, bool value) =>
-            {
-                Vector2Int structureCell = _cell + cell;
-                Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
-
-                if (!_overlappingTiles.ContainsKey(tileCell))
-                {
-                    _context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile);
-                    _overlappingTiles.Add(tileCell, tile);
-                }
-            });
-
-            RefreshPreviewProps();
-            
+            RefreshData();
             RefreshPreview();
         }
 
@@ -151,8 +122,44 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void RefreshPreviewProps()
+        private void RefreshCell()
         {
+            Vector2Int targetCell = _context.Raft.Queries.WorldPositionToStructureCell(_position);
+
+            Vector2Int playerCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
+            Vector2Int direction = targetCell - playerCell;
+
+            // For every cell opposite the player's forward and beyond the pivot, offset the pivot 
+            if (direction.x != 0)
+            {
+                targetCell.x -= direction.x > 0 ? _shape.GridBounds.xMin : _shape.GridBounds.xMax;
+            }
+
+            if (direction.y != 0)
+            {
+                targetCell.y -= direction.y > 0 ? _shape.GridBounds.yMin : _shape.GridBounds.yMax;
+            }
+
+            _cell = targetCell;
+        }
+
+        private void RefreshData()
+        {
+            _overlappingTiles.Clear();
+
+            // Tracking overlappingTiles is neccessary to know where previews should sit on the y-axis
+            _shape.ForEachCell((Vector2Int cell, bool value) =>
+            {
+                Vector2Int structureCell = _cell + cell;
+                Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
+
+                if (!_overlappingTiles.ContainsKey(tileCell))
+                {
+                    _context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile);
+                    _overlappingTiles.Add(tileCell, tile);
+                }
+            });
+
             foreach (PreviewProp preview in _previewProps)
             {
                 _environmentManager.ReturnProp(preview.Prop);
