@@ -84,8 +84,6 @@ MonoBehaviour:
   _entityModel: {fileID: 3747297613351771438}
   _rigidbody: {fileID: 504346204411109171}
   _collider: {fileID: 1363935644063819035}
-  _meshRenderer: {fileID: 6304547831646399636}
-  _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
 --- !u!4 &5787487654079216366 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
@@ -99,9 +97,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5787487654079216366}
     m_Modifications:
+    - target: {fileID: 6678815805547157736, guid: 99176269bccb95a4185ccc095c482f77, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8075818221958299167, guid: 99176269bccb95a4185ccc095c482f77, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 8075818221958299167, guid: 99176269bccb95a4185ccc095c482f77, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8888066406386705573, guid: 99176269bccb95a4185ccc095c482f77, type: 3}
       propertyPath: m_LocalPosition.y
@@ -138,10 +144,5 @@ MonoBehaviour:
 --- !u!4 &5075608058906770886 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8888066406386705573, guid: 99176269bccb95a4185ccc095c482f77, type: 3}
-  m_PrefabInstance: {fileID: 4407036038564567395}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &6304547831646399636 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7662504457653089783, guid: 99176269bccb95a4185ccc095c482f77, type: 3}
   m_PrefabInstance: {fileID: 4407036038564567395}
   m_PrefabAsset: {fileID: 0}

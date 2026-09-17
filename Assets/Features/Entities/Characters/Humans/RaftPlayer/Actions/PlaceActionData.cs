@@ -7,6 +7,8 @@ namespace NoMoreFishAndChips.Entities
     public class PlaceActionData : ActionData
     {
         public override void Execute(GameplayContext context)
-        { }
+        {
+            context.LocalPlayer.BuildLogic.Place();
+        }
     }
 }

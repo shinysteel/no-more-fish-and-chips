@@ -56,6 +56,16 @@ namespace NoMoreFishAndChips.Entities
             _previewModel.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up) * Quaternion.AngleAxis(90f * _rotations, Vector3.up);
         }
 
+        public override void Place()
+        {
+            if (CanBuild())
+            {
+                ScaffoldRaftTile prefab = (ScaffoldRaftTile)_entityManager.GetPrefab(EntityId.ScaffoldRaftTile);
+
+                _context.Raft.AddTileRpc(_cell, EntityId.ScaffoldRaftTile, prefab.TileDefinitionData.Health, 0);
+            }
+        } 
+
         public override void SetPosition(Vector3 position)
         {            
             if (_position == position)

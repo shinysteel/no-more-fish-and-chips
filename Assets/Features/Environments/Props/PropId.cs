@@ -8,7 +8,6 @@ namespace NoMoreFishAndChips.Environments
         Barrel,
         BoxSelect,
         PlantPreview,
-        TileScaffold,
         ScaffoldStandard,
         ScaffoldTape,
         SandTile,

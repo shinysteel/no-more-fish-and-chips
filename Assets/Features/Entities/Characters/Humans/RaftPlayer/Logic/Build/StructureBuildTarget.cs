@@ -86,6 +86,9 @@ namespace NoMoreFishAndChips.Entities
             RefreshPreview();
         }
 
+        public override void Place()
+        { }
+
         public override void SetPosition(Vector3 position)
         {
             if (_position == position)

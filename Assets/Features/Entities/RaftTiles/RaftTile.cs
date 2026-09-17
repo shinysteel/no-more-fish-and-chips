@@ -25,9 +25,6 @@ namespace NoMoreFishAndChips.Entities
 
         public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
-
-        public const float Size = 1f;
-
         public RaftTileDefeatLogic TileDefeatLogic => (RaftTileDefeatLogic)EntityDefeatLogic;
 
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
@@ -132,12 +129,17 @@ namespace NoMoreFishAndChips.Entities
             _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.DipSettings.Speed * Time.fixedDeltaTime));
         }
 
-        bool IInteractable.CanPrompt()
+        bool IInteractable.CanPrompt() => CanPrompt();
+        WorldUI IInteractable.CreatePromptUI() => CreatePromptUI();
+        bool IInteractable.CanInteract() => CanInteract();
+        void IInteractable.Interact() => Interact();
+
+        protected virtual bool CanPrompt()
         {
             return isSpawned && _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
-        WorldUI IInteractable.CreatePromptUI()
+        protected virtual WorldUI CreatePromptUI()
         {
             RequirementPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.RequirementPromptUIPrefab, Vector3.zero);
             ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey);
@@ -145,12 +147,12 @@ namespace NoMoreFishAndChips.Entities
             return ui;
         }
 
-        bool IInteractable.CanInteract()
+        protected virtual bool CanInteract()
         {
             return _context.LocalPlayer.Inventory.CanRemoveItems(TileDefinitionData.RepairRecipe.ToChangeParams(), out _);
         }
 
-        void IInteractable.Interact()
+        protected virtual void Interact()
         {
             if (_context.LocalPlayer.Inventory.TryRemoveItems(TileDefinitionData.RepairRecipe.ToChangeParams()))
             {

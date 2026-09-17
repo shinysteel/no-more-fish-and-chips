@@ -22,7 +22,8 @@ namespace NoMoreFishAndChips.Entities
         GoopRaftTile = 201,
         WoodenRaftTile = 202,
         MetalRaftTile = 203,
-
+        ScaffoldRaftTile = 204,
+        
         // Structures
         WaveCounter = 300,
         ClamChest = 301,

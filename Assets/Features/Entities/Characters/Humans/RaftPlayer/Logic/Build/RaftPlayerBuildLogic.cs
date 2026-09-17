@@ -84,10 +84,12 @@ namespace NoMoreFishAndChips.Entities
 
         public void Rotate()
         {
-            if (_buildTarget != null)
-            {
-                _buildTarget.ChangeRotations(1);
-            }
+            _buildTarget?.ChangeRotations(1);   
+        }
+
+        public void Place()
+        {
+            _buildTarget?.Place();
         }
     }
 }

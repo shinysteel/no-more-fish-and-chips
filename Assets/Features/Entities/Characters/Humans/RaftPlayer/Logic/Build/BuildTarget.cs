@@ -35,6 +35,8 @@ namespace NoMoreFishAndChips.Entities
 
         public abstract void SetRotations(int rotations);
 
+        public abstract void Place();
+
         public abstract void SetPosition(Vector3 position);
         
         public virtual void Tick()
