@@ -26,7 +26,7 @@ MonoBehaviour:
   _entityDefeatSettings: {fileID: 11400000, guid: 4d6268f574805274586387a8befa046c, type: 2}
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
-  _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
+  _shape: {fileID: 11400000, guid: 7b783547d3dcf654dbc1f3049e96379e, type: 2}
   _buildRecipe:
     _requirements:
     - _itemId: 11

@@ -35,32 +35,9 @@ namespace NoMoreFishAndChips.Entities
             _settings = _player.DefinitionData.BuildSettings;
         }
 
-        public override void InitialiseContext(GameplayContext context)
-        {
-            base.InitialiseContext(context);
-
-            _player.Hotbar.OnSelectedChanged += HandleHotbarSelectedSlotChanged;
-        }
-
         public override void Dispose()
         {
             _buildTarget?.Dispose();
-        }
-
-        public override void OnDespawned()
-        {
-            if (_player != null)
-            {
-                _player.Hotbar.OnSelectedChanged -= HandleHotbarSelectedSlotChanged;
-            }
-        }
-
-        private void HandleHotbarSelectedSlotChanged(HotbarSlot slot)
-        {
-            if (_player.isOwner)
-            {
-                // RefreshProp();
-            }
         }
 
         public void SetBuildTarget(EntityId buildableId)
@@ -76,7 +53,7 @@ namespace NoMoreFishAndChips.Entities
                 _ => null
             };
 
-            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _settings.Range);
 
             _player.ContextActionsLogic.SetActionDatas(_buildTarget != null ? _settings.ActionDatas : null);
         }
@@ -88,8 +65,16 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _settings.Range);
             _buildTarget?.Tick();            
+        }
+
+        public void Rotate()
+        {
+            if (_buildTarget != null)
+            {
+                _buildTarget.ChangeRotations(1);
+            }
         }
     }
 }

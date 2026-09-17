@@ -5,6 +5,7 @@ using UnityEngine;
 using NoMoreFishAndChips.Environments;
 using System.Collections.Generic;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -14,6 +15,7 @@ namespace NoMoreFishAndChips.Entities
         private EnvironmentManager _environmentManager;
 
         private Structure _structure;
+        private BoolGrid _shape;
 
         private Dictionary<Vector2Int, RaftTile> _overlappingTiles = new();
 
@@ -38,8 +40,9 @@ namespace NoMoreFishAndChips.Entities
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
             _structure = (Structure)_entityManager.GetPrefab(_entityId);
+            _shape = _structure.StructureDefinitionData.Shape;
 
-            _previewModel = _entityManager.GetModel(entityId, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Scale = Vector3.one * 1.01f });
+            _previewModel = _entityManager.GetModel(entityId, new SpawnParams() { Scale = Vector3.one * 1.01f });
 
             RefreshPreview();
 
@@ -63,6 +66,17 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public override void ChangeRotations(int rotations)
+        {
+            base.ChangeRotations(rotations);
+
+            _shape = _structure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _rotations);
+
+            RefreshPreviewProps();
+
+            RefreshPreview();
+        }
+
         public override void SetPosition(Vector3 position)
         {
             if (_position == position)
@@ -80,12 +94,12 @@ namespace NoMoreFishAndChips.Entities
             // For every cell opposite the player's forward and beyond the pivot, offset the pivot 
             if (direction.x != 0)
             {
-                targetCell.x -= direction.x > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.xMin : _structure.StructureDefinitionData.Shape.GridBounds.xMax;
+                targetCell.x -= direction.x > 0 ? _shape.GridBounds.xMin : _shape.GridBounds.xMax;
             }
 
             if (direction.y != 0)
             {
-                targetCell.y -= direction.y > 0 ? _structure.StructureDefinitionData.Shape.GridBounds.yMin : _structure.StructureDefinitionData.Shape.GridBounds.yMax;
+                targetCell.y -= direction.y > 0 ? _shape.GridBounds.yMin : _shape.GridBounds.yMax;
             }
 
             if (_cell == targetCell)
@@ -98,7 +112,7 @@ namespace NoMoreFishAndChips.Entities
             _overlappingTiles.Clear();
 
             // Tracking overlappingTiles is neccessary to know where previews should sit on the y-axis
-            _structure.StructureDefinitionData.Shape.ForEachCell((Vector2Int cell, bool value) =>
+            _shape.ForEachCell((Vector2Int cell, bool value) =>
             {
                 Vector2Int structureCell = _cell + cell;
                 Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
@@ -110,19 +124,7 @@ namespace NoMoreFishAndChips.Entities
                 }
             });
 
-            foreach (PreviewProp preview in _previewProps)
-            {
-                _environmentManager.ReturnProp(preview.Prop);
-            }
-
-            _previewProps.Clear();
-
-            _structure.StructureDefinitionData.Shape.ForEachTrue((Vector2Int cell) =>
-            {
-                Vector2Int structureCell = _cell + cell;
-                Prop prop = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Scale = new Vector3(0.51f, 0.26f, 0.51f) });
-                _previewProps.Add(new PreviewProp(structureCell, prop));
-            });
+            RefreshPreviewProps();
             
             RefreshPreview();
         }
@@ -143,21 +145,40 @@ namespace NoMoreFishAndChips.Entities
         private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
         {
             // Using the difference, we can know if a structure exists inside the shape
-            if (_structure.StructureDefinitionData.Shape[cell - _cell] == true)
+            if (_shape[cell - _cell] == true)
             {
                 RefreshPreview();
             }
+        }
+
+        private void RefreshPreviewProps()
+        {
+            foreach (PreviewProp preview in _previewProps)
+            {
+                _environmentManager.ReturnProp(preview.Prop);
+            }
+
+            _previewProps.Clear();
+
+            _shape.ForEachTrue((Vector2Int cell) =>
+            {
+                Vector2Int structureCell = _cell + cell;
+                Prop prop = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Scale = new Vector3(0.51f, 0.26f, 0.51f) });
+                _previewProps.Add(new PreviewProp(structureCell, prop));
+            });
         }
 
         private void RefreshPreview()
         {   
             // A refresh involves recalculating the positions and colors of both the previewModel and previewProps
 
-            Vector2 centerCell = new Vector2((_structure.StructureDefinitionData.Shape.GridBounds.xMin + _structure.StructureDefinitionData.Shape.GridBounds.xMax) / 2f, (_structure.StructureDefinitionData.Shape.GridBounds.yMin + _structure.StructureDefinitionData.Shape.GridBounds.yMax) / 2f);
+            Vector2 centerCell = new Vector2((_shape.GridBounds.xMin + _shape.GridBounds.xMax) / 2f, (_shape.GridBounds.yMin + _shape.GridBounds.yMax) / 2f);
             
             Vector3 modelPosition = _context.Raft.Queries.StructureCellToWorldPosition(_cell + centerCell);
             modelPosition.y = _previewModel.transform.position.y;
             _previewModel.transform.position = modelPosition;
+
+            _previewModel.transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.AngleAxis(_rotations * 90f, Vector3.up);
 
             foreach (PreviewProp preview in _previewProps)
             {
@@ -213,7 +234,7 @@ namespace NoMoreFishAndChips.Entities
         {
             bool build = true;
 
-            _structure.StructureDefinitionData.Shape.ForEachTrue((Vector2Int cell) =>
+            _shape.ForEachTrue((Vector2Int cell) =>
             {
                 if (!build)
                 {

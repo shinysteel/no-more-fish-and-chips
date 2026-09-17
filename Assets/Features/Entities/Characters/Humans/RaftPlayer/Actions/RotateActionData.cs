@@ -8,7 +8,7 @@ namespace NoMoreFishAndChips.Entities
     {
         public override void Execute(GameplayContext context)
         {
-
+            context.LocalPlayer.BuildLogic.Rotate();
         }
     }
 }

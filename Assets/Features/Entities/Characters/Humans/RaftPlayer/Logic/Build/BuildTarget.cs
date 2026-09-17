@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.States;
 using UnityEngine;
 using System;
+using ShinyOwl.Common.Utils;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -15,6 +16,8 @@ namespace NoMoreFishAndChips.Entities
         protected Vector3 _position = Vector3.positiveInfinity;
         protected Vector2Int _cell = Vector2Int.one * int.MaxValue;
 
+        protected int _rotations;
+
         public BuildTarget(GameplayContext context, BuildTargetSettings settings, EntityId entityId)
         {
             _context = context;
@@ -24,9 +27,14 @@ namespace NoMoreFishAndChips.Entities
 
         public virtual void Dispose()
         { }
+        
+        public virtual void ChangeRotations(int amount)
+        {
+            _rotations = Utils.Math.EuclideanModulo(_rotations + amount, 4);
+        }
 
         public abstract void SetPosition(Vector3 position);
-
+        
         public virtual void Tick()
         { }
 
