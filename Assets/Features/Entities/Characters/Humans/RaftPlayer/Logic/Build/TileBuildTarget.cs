@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Entities
             _stateManager = GameManager.Instance.Get<StateManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
 
-            _previewModel = _entityManager.GetModel(_entityId, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Scale = Vector3.one * 1.01f });
+            _previewModel = _entityManager.GetModel(_entityId, new SpawnParams() { Scale = Vector3.one * 1.01f });
 
             RefreshPreview();
 
@@ -40,6 +40,13 @@ namespace NoMoreFishAndChips.Entities
             {
                 _context.Raft.OnTileChanged -= HandleTileChanged;
             }
+        }
+
+        public override void ChangeRotations(int amount)
+        {
+            base.ChangeRotations(amount);
+
+            _previewModel.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up) * Quaternion.AngleAxis(90f * _rotations, Vector3.up);
         }
 
         public override void SetPosition(Vector3 position)

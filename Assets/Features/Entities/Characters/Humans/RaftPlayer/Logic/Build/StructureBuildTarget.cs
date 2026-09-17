@@ -185,7 +185,7 @@ namespace NoMoreFishAndChips.Entities
             modelPosition.y = _previewModel.transform.position.y;
             _previewModel.transform.position = modelPosition;
 
-            _previewModel.transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.AngleAxis(_rotations * 90f, Vector3.up);
+            _previewModel.transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up) * Quaternion.AngleAxis(90f * _rotations, Vector3.up);
 
             foreach (PreviewProp preview in _previewProps)
             {
