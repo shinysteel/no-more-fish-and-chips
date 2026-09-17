@@ -51,6 +51,11 @@ namespace NoMoreFishAndChips.Entities
         {
             _entityManager.ReturnModel(_previewModel);
 
+            foreach (PreviewProp prop in _previewProps)
+            {
+                _environmentManager.ReturnProp(prop.Prop);
+            }
+
             if (_context.Raft != null)
             {
                 _context.Raft.OnTileChanged -= HandleTileChanged;

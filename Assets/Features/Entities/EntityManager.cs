@@ -128,7 +128,7 @@ namespace NoMoreFishAndChips.Entities
             if (!_idPrefabMap.TryGetValue(id, out Entity prefab))
             {
                 Log.Error($"The entity {id} has not been mapped to a prefab");
-                return default;
+                return null;
             }
 
             return _networkManager.Spawn(prefab, parameters);
