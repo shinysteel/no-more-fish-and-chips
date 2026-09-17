@@ -19,6 +19,7 @@ namespace NoMoreFishAndChips.Entities
         private bool _leftClickHeld;
         private bool _rightClickPressed;
         private bool _fKey;
+        private bool _rKey;
         private bool _onePressed;
         private bool _twoPressed;
         private bool _threePressed;
@@ -39,6 +40,7 @@ namespace NoMoreFishAndChips.Entities
         public bool LeftClickHeld => _leftClickHeld;
         public bool RightClickPressed => _rightClickPressed;
         public bool FKey => _fKey;
+        public bool RKey => _rKey;
         public bool OnePressed => _onePressed;
         public bool TwoPressed => _twoPressed;
         public bool ThreePressed => _threePressed;
@@ -76,6 +78,7 @@ namespace NoMoreFishAndChips.Entities
             _leftClickHeld = Input.GetMouseButton(0);
             _rightClickPressed = Input.GetMouseButtonDown(1);
             _fKey = Input.GetKeyDown(KeyCode.F);
+            _rKey = Input.GetKeyDown(KeyCode.R);
             _onePressed = Input.GetKeyDown(KeyCode.Alpha1);
             _twoPressed = Input.GetKeyDown(KeyCode.Alpha2);
             _threePressed = Input.GetKeyDown(KeyCode.Alpha3);

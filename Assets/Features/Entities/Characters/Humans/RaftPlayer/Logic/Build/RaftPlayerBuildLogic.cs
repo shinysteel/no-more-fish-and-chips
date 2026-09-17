@@ -78,7 +78,7 @@ namespace NoMoreFishAndChips.Entities
 
             _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * 0.75f);
 
-            _player.ContextLogic.SetContext(_buildTarget != null ? _settings.ActionDatas : null);
+            _player.ContextActionsLogic.SetActionDatas(_buildTarget != null ? _settings.ActionDatas : null);
         }
 
         public override void Tick()

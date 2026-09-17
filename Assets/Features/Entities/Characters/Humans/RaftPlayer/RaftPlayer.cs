@@ -53,8 +53,9 @@ namespace NoMoreFishAndChips.Entities
         public RaftPlayerOpenNetBehaviourLogic OpenNetBehaviourLogic => GetLogic<RaftPlayerOpenNetBehaviourLogic>();
         public RaftPlayerAttackLogic AttackLogic => GetLogic<RaftPlayerAttackLogic>();
         public RaftPlayerReadyLogic ReadyLogic => GetLogic<RaftPlayerReadyLogic>();
+        public RaftPlayerHotkeyLogic HotkeyLogic => GetLogic<RaftPlayerHotkeyLogic>();
         public RaftPlayerBuildLogic BuildLogic => GetLogic<RaftPlayerBuildLogic>();
-        public RaftPlayerContextLogic ContextLogic => GetLogic<RaftPlayerContextLogic>();
+        public RaftPlayerContextActionsLogic ContextActionsLogic => GetLogic<RaftPlayerContextActionsLogic>();
 
         public class PlaceInventoryItemResponse
         {
@@ -102,7 +103,7 @@ namespace NoMoreFishAndChips.Entities
             AddLogic(typeof(RaftPlayerReadyLogic), new RaftPlayerReadyLogic(this, _netIsReady));
             AddLogic(typeof(RaftPlayerHotkeyLogic), new RaftPlayerHotkeyLogic(this, _netGrabbedInventoryItem));
             AddLogic(typeof(RaftPlayerBuildLogic), new RaftPlayerBuildLogic(this));
-            AddLogic(typeof(RaftPlayerContextLogic), new RaftPlayerContextLogic(this));
+            AddLogic(typeof(RaftPlayerContextActionsLogic), new RaftPlayerContextActionsLogic(this));
         }
 
         protected override void OnSpawned()

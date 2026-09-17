@@ -17,7 +17,7 @@ namespace NoMoreFishAndChips.Entities
     /// <summary>
     /// Groups all hotkey outputs together so they can be resolved deterministically
     /// </summary>
-    public class RaftPlayerHotkeyLogic : RaftPlayerLogic, IRequiresGameplayContext
+    public class RaftPlayerHotkeyLogic : RaftPlayerLogic
     {
         private UIManager _uiManager;
         private NetworkManager _networkManager;
@@ -25,8 +25,6 @@ namespace NoMoreFishAndChips.Entities
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem;
 
         private InventoryRaycaster _inventoryRaycaster;
-
-        public bool IsContextInitialised => throw new System.NotImplementedException();
 
         public RaftPlayerHotkeyLogic(RaftPlayer player, SyncVar<NetInventoryItem> netGrabbedInventoryItem) : base(player)
         {
@@ -36,6 +34,18 @@ namespace NoMoreFishAndChips.Entities
             _netGrabbedInventoryItem = netGrabbedInventoryItem;
 
             _inventoryRaycaster = new();
+        }
+
+        public bool IsActionHotkeyPressed(ActionHotkey hotkey)
+        {
+            return hotkey switch
+            {
+                ActionHotkey.FKey => _player.InputLogic.FKey,
+                ActionHotkey.LeftClick => _player.InputLogic.LeftClickPressed,
+                ActionHotkey.RightClick => _player.InputLogic.RightClickPressed,
+                ActionHotkey.RKey => _player.InputLogic.RKey,
+                _ => false
+            };
         }
 
         /// <summary>
@@ -50,6 +60,12 @@ namespace NoMoreFishAndChips.Entities
 
             if (!_player.CharacterActLogic.CanAct)
             {
+                return;
+            }
+
+            if (_player.ContextActionsLogic.HasActions)
+            {
+                _player.ContextActionsLogic.ListenForHotkeys();
                 return;
             }
 

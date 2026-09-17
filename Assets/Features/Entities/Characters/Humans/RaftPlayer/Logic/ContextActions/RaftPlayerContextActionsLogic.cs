@@ -3,27 +3,31 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class RaftPlayerContextLogic : RaftPlayerLogic
+    public class RaftPlayerContextActionsLogic : RaftPlayerLogic
     {
         private UIManager _uiManager;
+        private RaftPlayerContextActionsSettings _settings;
 
-        private RaftPlayerContextSettings _settings;
-
+        private ActionData[] _actionDatas;
         private ContextActionsUI _actionsUI;
 
-        public RaftPlayerContextLogic(RaftPlayer player) : base(player)
+        public bool HasActions => _actionDatas != null;
+        
+        public RaftPlayerContextActionsLogic(RaftPlayer player) : base(player)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 
-            _settings = _player.DefinitionData.ContextSettings;
+            _settings = _player.DefinitionData.ContextActionsSettings;
         }
 
-        public void SetContext(ActionData[] datas)
+        public void SetActionDatas(ActionData[] datas)
         {
+            _actionDatas = datas;
+
             if (datas != null)
             {
                 _actionsUI ??= _uiManager.CreateWorldUI(_uiManager.Config.ContextActionsUIPrefab, Vector3.zero);
-                _actionsUI.Setup(datas);
+                _actionsUI.Setup(_actionDatas);
             }
             else if (_actionsUI != null)
             {
@@ -37,6 +41,17 @@ namespace NoMoreFishAndChips.Entities
             if (_actionsUI != null)
             {
                 _actionsUI.transform.position = _player.transform.position + Vector3.up * _settings.Offset;
+            }
+        }
+
+        public void ListenForHotkeys()
+        {
+            foreach (ActionData data in _actionDatas)
+            {
+                if (_player.HotkeyLogic.IsActionHotkeyPressed(data.Hotkey))
+                {
+                    data.Execute(_context);
+                }
             }
         }
     }

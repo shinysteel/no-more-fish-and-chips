@@ -83,6 +83,11 @@ namespace NoMoreFishAndChips.Entities
         /// </summary>
         public Entity GetPrefab(EntityId id)
         {
+            if (id == EntityId.None)
+            {
+                return null;
+            }
+
             return _idPrefabMap[id];
         }
 

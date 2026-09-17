@@ -7,6 +7,8 @@ namespace NoMoreFishAndChips.Entities
     public class ExitActionData : ActionData
     {
         public override void Execute(GameplayContext context)
-        { }
+        {
+            context.LocalPlayer.BuildLogic.SetBuildTarget(EntityId.None);
+        }
     }
 }
