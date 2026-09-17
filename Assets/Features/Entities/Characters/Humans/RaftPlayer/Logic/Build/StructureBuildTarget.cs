@@ -7,6 +7,7 @@ using ShinyOwl.Common.Structures;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ShinyOwl.Common.Utils;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -67,9 +68,16 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public override void ChangeRotations(int rotations)
+        public override void SetRotations(int rotations)
         {
-            base.ChangeRotations(rotations);
+            rotations = Utils.Math.EuclideanModulo(rotations, 4);
+
+            if (_rotations == rotations)
+            {
+                return;
+            }
+
+            _rotations = rotations;
 
             _shape = _structure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _rotations);
 

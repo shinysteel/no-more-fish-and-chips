@@ -28,10 +28,12 @@ namespace NoMoreFishAndChips.Entities
         public virtual void Dispose()
         { }
         
-        public virtual void ChangeRotations(int amount)
+        public void ChangeRotations(int amount)
         {
-            _rotations = Utils.Math.EuclideanModulo(_rotations + amount, 4);
+            SetRotations(_rotations + 1);
         }
+
+        public abstract void SetRotations(int rotations);
 
         public abstract void SetPosition(Vector3 position);
         

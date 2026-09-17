@@ -42,9 +42,16 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public override void ChangeRotations(int amount)
+        public override void SetRotations(int rotations)
         {
-            base.ChangeRotations(amount);
+            rotations = Utils.Math.EuclideanModulo(rotations, 4);
+
+            if (_rotations == rotations)
+            {
+                return;
+            }
+
+            _rotations = rotations;
 
             _previewModel.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up) * Quaternion.AngleAxis(90f * _rotations, Vector3.up);
         }

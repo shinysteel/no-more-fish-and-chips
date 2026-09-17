@@ -6,6 +6,7 @@ using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,18 @@ namespace NoMoreFishAndChips.Entities
                 Structure => new StructureBuildTarget(_context, _settings.TargetSettings, buildableId),
                 _ => null
             };
+
+            if (entity is Structure)
+            {
+                Vector3 direction = _player.transform.forward;
+                direction.y = 0f;
+                direction.Normalize();
+
+                float angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                int rotations = Utils.Math.EuclideanModulo(Mathf.RoundToInt(angle / 90f), 4);
+
+                _buildTarget.SetRotations(rotations);
+            }
 
             _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _settings.Range);
 
