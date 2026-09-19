@@ -60,9 +60,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (CanBuild())
             {
-                ScaffoldRaftTile prefab = (ScaffoldRaftTile)_entityManager.GetPrefab(EntityId.ScaffoldRaftTile);
-
-                _context.Raft.AddTileRpc(_cell, EntityId.ScaffoldRaftTile, prefab.TileDefinitionData.Health, 0);
+                _context.Raft.AddTileScaffoldRpc(_cell, _entityId, _rotations);
             }
         } 
 
@@ -123,7 +121,7 @@ namespace NoMoreFishAndChips.Entities
         }
 
         protected override bool CanBuild()
-        {
+        {   
             if (_tile != null)
             {
                 return false;

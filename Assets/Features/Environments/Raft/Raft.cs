@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
+using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,24 +55,58 @@ namespace NoMoreFishAndChips.Environments
             _queries?.Dispose();
         }
 
-        [ServerRpc(requireOwnership: false)]
-        public void AddTileRpc(Vector2Int cell, EntityId tileId, int health, int rotations)
+        private T CreateTile<T>(Vector2Int cell, EntityId tileId, int health, int rotations, Action<T> onCreate) where T : RaftTile
         {
-            if (_tiles.ContainsKey(cell))
-            {
-                return;
-            }
-
-            RaftTile tile = (RaftTile)_entityManager.Spawn(tileId, new SpawnParams() { Parent = transform });
+            T tile = (T)_entityManager.Spawn(tileId, new SpawnParams() { Parent = transform });
 
             tile.InitialiseContext(_context);
             tile.EntityHealthLogic.SetHealth(health);
             tile.SetNetCell(cell);
             tile.SetNetRotations(rotations);
 
-            _tiles.Add(cell, tile);
+            onCreate?.Invoke(tile);
 
+            return tile;
+        }
+
+        [ServerRpc(requireOwnership: false)]
+        public void AddTileScaffoldRpc(Vector2Int cell, EntityId buildId, int buildRotations)
+        {
+            if (_tiles.ContainsKey(cell))
+            {
+                return;
+            }
+
+            ScaffoldRaftTile prefab = (ScaffoldRaftTile)_entityManager.GetPrefab(EntityId.ScaffoldRaftTile);
+
+            ScaffoldRaftTile tile = CreateTile(cell, EntityId.ScaffoldRaftTile, prefab.EntityDefinitionData.Health, 0, (ScaffoldRaftTile tile) =>
+            {
+                tile.SetNetBuildId(buildId);
+                tile.SetNetBuildRotations(buildRotations);
+            });
+
+            _tiles.Add(cell, tile);
             OnTileChanged?.Invoke(cell, null, tile);
+        }
+
+        public void SetTile(Vector2Int cell, EntityId tileId, int health, int rotations)
+        {
+            RaftTile previous = _tiles.GetValueOrDefault(cell);
+            RaftTile current = CreateTile<RaftTile>(cell, tileId, health, rotations, null);
+
+            _tiles[cell] = current;
+            OnTileChanged?.Invoke(cell, previous, current);
+
+            if (previous != null)
+            {
+                _entityManager.Despawn(previous);
+            }
+        }
+
+        [ServerRpc(requireOwnership: false)]
+        public void AddStructureScaffoldRpc()
+        {
+
         }
 
         [ServerRpc(requireOwnership: false)]

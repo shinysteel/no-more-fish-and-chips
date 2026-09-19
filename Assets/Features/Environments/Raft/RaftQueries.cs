@@ -54,16 +54,13 @@ namespace NoMoreFishAndChips.Environments
 
         private void HandleTileChanged(Vector2Int tileCell, RaftTile previous, RaftTile current)
         {
-            if (previous != current)
+            if (previous == null && current != null)
             {
-                if (current != null)
-                {
-                    _tileCellTotal += tileCell;
-                }
-                else
-                {
-                    _tileCellTotal -= tileCell;
-                }
+                _tileCellTotal += tileCell;
+            }
+            else if (previous != null && current == null)
+            {
+                _tileCellTotal -= tileCell;
             }
 
             void processCell(Vector2Int offset)

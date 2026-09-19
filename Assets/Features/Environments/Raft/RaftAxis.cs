@@ -36,6 +36,11 @@ namespace NoMoreFishAndChips.Environments
 
         private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
         {
+            if (previous != null && current != null)
+            {
+                return;
+            }
+            
             UpdateLines(cell, current);
         }
 
