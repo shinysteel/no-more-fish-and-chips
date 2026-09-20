@@ -129,7 +129,7 @@ namespace NoMoreFishAndChips.Entities
         private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
         {
             // Using the difference, we can know if a structure exists inside the shape
-            if (_shape[cell - _cell] == true)
+            if (_shape.TryGetBool(cell - cell, out bool value) && value)
             {
                 RefreshPreview();
             }
@@ -161,7 +161,7 @@ namespace NoMoreFishAndChips.Entities
             _overlappingTiles.Clear();
 
             // Tracking overlappingTiles is neccessary to know where previews should sit on the y-axis
-            _shape.ForEachCell((Vector2Int cell, bool value) =>
+            _shape.ForEachTrue((Vector2Int cell) =>
             {
                 Vector2Int structureCell = _cell + cell;
                 Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
@@ -252,26 +252,29 @@ namespace NoMoreFishAndChips.Entities
 
         protected override bool CanBuild()
         {
-            bool build = true;
-
-            _shape.ForEachTrue((Vector2Int cell) =>
+            foreach (KeyValuePair<Vector2Int, bool> kvp in _shape)
             {
-                if (!build)
+                if (!kvp.Value)
                 {
-                    return;
+                    continue;
                 }
 
-                Vector2Int structureCell = _cell + cell;
+                Vector2Int structureCell = _cell + kvp.Key;
+
+                if (_context.Raft.Structures.ContainsKey(structureCell))
+                {
+                    return false;
+                }
+
                 Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
 
-                if (!_context.Raft.Tiles.ContainsKey(tileCell) || _context.Raft.Structures.ContainsKey(structureCell))
+                if (!_context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile) || tile.TileDefinitionData.IsScaffold)
                 {
-                    build = false;
-                    return;
+                    return false;
                 }
-            });
-            
-            return build;
+            }
+
+            return true;
         }
     }
 }

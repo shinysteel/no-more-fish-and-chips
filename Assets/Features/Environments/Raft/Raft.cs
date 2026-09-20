@@ -3,10 +3,12 @@ using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.Pool;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
@@ -136,9 +138,24 @@ namespace NoMoreFishAndChips.Environments
         }
 
         [ServerRpc(requireOwnership: false)]
-        public void AddStructureScaffoldRpc()
+        public void AddStructureScaffoldRpc(Vector2Int addCell, EntityId buildId, int buildRotations)
         {
+            Structure prefab = (Structure)_entityManager.GetPrefab(buildId);
 
+            BoolGrid shape = prefab.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, buildRotations);
+
+            foreach (KeyValuePair<Vector2Int, bool> kvp in shape)
+            {
+                if (!kvp.Value)
+                {
+                    continue;
+                }
+
+                if (_netStructures.ContainsKey(addCell + kvp.Key))
+                {
+                    return;
+                }
+            }
         }
 
         [ServerRpc(requireOwnership: false)]

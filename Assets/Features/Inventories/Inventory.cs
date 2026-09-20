@@ -705,13 +705,6 @@ namespace NoMoreFishAndChips.Inventories
             }
 
             List<Vector2Int> placedCells = new();
-            void AddPlacedCells(Vector2Int placedCell, BoolGrid shape)
-            {
-                shape.ForEachTrue((Vector2Int shapeCell) =>
-                {
-                    placedCells.Add(placedCell + shapeCell);
-                });
-            }
 
             // Check empty slots
             if (overflow > 0)
@@ -750,7 +743,11 @@ namespace NoMoreFishAndChips.Inventories
                     if (place.IsValid)
                     {
                         places.Add(place);
-                        AddPlacedCells(place.Parameters.Cell, place.Shape);
+
+                        place.Shape.ForEachTrue((Vector2Int shapeCell) =>
+                        {
+                            placedCells.Add(place.Parameters.Cell + shapeCell);
+                        });
                     }
 
                     if (overflow == 0)
@@ -814,32 +811,32 @@ namespace NoMoreFishAndChips.Inventories
                 BoolGrid shape = data.Shape.GetTransformed(parameters.Pivot, rotations);
                 bool fits = true;
 
-                shape.ForEachTrue((Vector2Int shapeCell) =>
+                foreach (KeyValuePair<Vector2Int, bool> kvp in shape)
                 {
-                    if (!fits)
+                    if (!kvp.Value)
                     {
-                        return;
+                        continue;
                     }
-                    
-                    if (!_netInventorySlots.TryGetValue(parameters.Cell + shapeCell, out NetInventorySlot slot))
+
+                    if (!_netInventorySlots.TryGetValue(parameters.Cell + kvp.Key, out NetInventorySlot slot))
                     {
                         fits = false;
-                        return;
+                        break;
                     }
 
                     if (slot.IsLocked)
                     {
                         fits = false;
-                        return;
+                        break;
                     }
 
                     // It's okay to match our instanceId, since it would then be moving the item
                     if (slot.ItemInstanceId != null && slot.ItemInstanceId != parameters.InstanceId)
                     {
                         fits = false;
-                        return;
+                        break;
                     }
-                });
+                }
 
                 if (fits)
                 {

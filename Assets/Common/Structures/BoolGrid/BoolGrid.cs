@@ -179,12 +179,19 @@ namespace ShinyOwl.Common.Structures
         public static string RowsName => nameof(_rows);
         public static string BoolsName => nameof(_bools);
 
-        // You can retrieve cells relative to the pivot here. [-1, -1] is a valid request
-        public bool? this[Vector2Int cell]
+        private int CellToIndex(Vector2Int cell)
+        {
+            int arrayX = cell.x + _arrayOffset.x;
+            int arrayY = cell.y + _arrayOffset.y;
+            return arrayY * _columns + arrayX;
+        }
+
+        // You can retrieve cells relative to the pivot here
+        public bool this[Vector2Int cell]
         {
             get
             {
-                return TryGetBool(cell, out bool value) ? value : null;
+                return _bools[CellToIndex(cell)];
             }
         }
 
@@ -192,19 +199,15 @@ namespace ShinyOwl.Common.Structures
         {
             value = false;
 
-            int arrayX = cell.x + _arrayOffset.x;
-            if (arrayX < 0 || arrayX >= _columns)
+            int index = CellToIndex(cell);
+
+            if (index < 0 || index >= _bools.Length)
             {
                 return false;
             }
 
-            int arrayY = cell.y + _arrayOffset.y;
-            if (arrayY < 0 || arrayY >= _rows)
-            {
-                return false;
-            }
+            value = _bools[index];
 
-            value = _bools[arrayY * Columns + arrayX];
             return true;
         }
 
@@ -225,15 +228,29 @@ namespace ShinyOwl.Common.Structures
             return GetEnumerator();
         }
 
-        // foreach in 'this' is not so readable for what it's doing, so it's preferred to use these methods
-        public void ForEachCell(Action<Vector2Int, bool> action)
+        public IEnumerable<Vector2Int> Keys
         {
-            foreach (KeyValuePair<Vector2Int, bool> kvp in this)
+            get
             {
-                action(kvp.Key, kvp.Value);
+                foreach (KeyValuePair<Vector2Int, bool> kvp in this)
+                {
+                    yield return kvp.Key;
+                }
             }
         }
 
+        public IEnumerable<bool> Values
+        {
+            get
+            {
+                foreach (KeyValuePair<Vector2Int, bool> kvp in this)
+                {
+                    yield return kvp.Value;
+                }
+            }
+        }
+
+        // foreach in 'this' is not so readable for what it's doing, so it's preferred to use these methods
         public void ForEachTrue(Action<Vector2Int> action)
         {
             foreach (KeyValuePair<Vector2Int, bool> kvp in this)
@@ -250,7 +267,7 @@ namespace ShinyOwl.Common.Structures
             RecalculateVariables();
         }
 
-        // Recalculates bounds and counts
+        // Recalculates bounds and counts. Needs to be public so that the editor script can access it
         public void RecalculateVariables()
         {
             int minGridX = int.MaxValue;
@@ -266,27 +283,27 @@ namespace ShinyOwl.Common.Structures
             int cellCount = 0;
             int trueCount = 0;
 
-            ForEachCell((Vector2Int cell, bool value) =>
+            foreach (KeyValuePair<Vector2Int, bool> kvp in this)
             {
-                minGridX = Mathf.Min(minGridX, cell.x);
-                minGridY = Mathf.Min(minGridY, cell.y);
-                maxGridX = Mathf.Max(maxGridX, cell.x);
-                maxGridY = Mathf.Max(maxGridY, cell.y);
+                minGridX = Mathf.Min(minGridX, kvp.Key.x);
+                minGridY = Mathf.Min(minGridY, kvp.Key.y);
+                maxGridX = Mathf.Max(maxGridX, kvp.Key.x);
+                maxGridY = Mathf.Max(maxGridY, kvp.Key.y);
 
                 cellCount++;
 
-                if (!value)
+                if (!kvp.Value)
                 {
                     return;
                 }
 
-                minTrueX = Mathf.Min(minTrueX, cell.x);
-                minTrueY = Mathf.Min(minTrueY, cell.y);
-                maxTrueX = Mathf.Max(maxTrueX, cell.x);
-                maxTrueY = Mathf.Max(maxTrueY, cell.y);
+                minTrueX = Mathf.Min(minTrueX, kvp.Key.x);
+                minTrueY = Mathf.Min(minTrueY, kvp.Key.y);
+                maxTrueX = Mathf.Max(maxTrueX, kvp.Key.x);
+                maxTrueY = Mathf.Max(maxTrueY, kvp.Key.y);
 
                 trueCount++;
-            });
+            };
 
             _gridBounds = new RectInt(minGridX, minGridY, maxGridX - minGridX, maxGridY - minGridY);
             _trueBounds = new RectInt(minTrueX, minTrueY, maxTrueX - minTrueX, maxTrueY - minTrueY);
@@ -302,7 +319,7 @@ namespace ShinyOwl.Common.Structures
             int maxGridX = int.MinValue;
             int maxGridY = int.MinValue;
 
-            ForEachCell((Vector2Int cell, bool value) =>
+            foreach (Vector2Int cell in Keys)
             {
                 Vector2Int rotated = Utils.Utils.Math.RotateCell(cell - pivot, rotations, true);
 
@@ -310,7 +327,7 @@ namespace ShinyOwl.Common.Structures
                 minGridY = Mathf.Min(minGridY, rotated.y);
                 maxGridX = Mathf.Max(maxGridX, rotated.x);
                 maxGridY = Mathf.Max(maxGridY, rotated.y);
-            });
+            }
 
             BoolGrid grid = CreateInstance<BoolGrid>();
             grid._columns = maxGridX - minGridX + 1;
