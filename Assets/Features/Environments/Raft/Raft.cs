@@ -186,15 +186,14 @@ namespace NoMoreFishAndChips.Environments
         [ServerRpc(requireOwnership: false)]
         public void SetTileRpc(Vector2Int cell, EntityId tileId, int health, int rotations)
         {
-            _netTiles.TryGetValue(cell, out RaftTile previous);
-            RaftTile current = CreateTile<RaftTile>(cell, tileId, health, rotations, null);
-
-            _netTiles[cell] = current;
-
-            if (previous != null)
+            if (_netTiles.TryGetValue(cell, out RaftTile previous))
             {
                 _entityManager.Despawn(previous);
             }
+
+            RaftTile current = CreateTile<RaftTile>(cell, tileId, health, rotations, null);
+
+            _netTiles[cell] = current;
         }
 
         [ServerRpc(requireOwnership: false)]
