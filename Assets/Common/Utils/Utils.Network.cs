@@ -28,10 +28,58 @@ namespace ShinyOwl.Common.Utils
                 }
             }
 
-            public static void CacheSyncDictionaryChange<T, U>(Dictionary<T, U> cache, SyncDictionaryChange<T, U> change, Action<T, U, U> raiseChanged) 
+            // Standard caching where NetClass is converted into a local class
+            public static void CacheSyncDictionaryChange<TKey, TSyncValue, TCacheValue>(Dictionary<TKey, TCacheValue> cache, SyncDictionaryChange<TKey, TSyncValue> change, Action<TKey, TCacheValue, TCacheValue> raiseChanged,
+                Func<TCacheValue> add, Func<TCacheValue> set, Action remove, Action<TCacheValue> clear)
+                where TCacheValue : class
+            {
+                TCacheValue previous = change.key != null ? cache.GetValueOrDefault(change.key) : null;
+
+                switch (change.operation)
+                {
+                    case SyncDictionaryOperation.Added:
+                        cache.Add(change.key, add());
+                        raiseChanged(change.key, previous, cache[change.key]);
+                        break;
+
+                    case SyncDictionaryOperation.Set:
+                        cache[change.key] = set();
+                        raiseChanged(change.key, previous, cache[change.key]);
+                        break;
+
+                    case SyncDictionaryOperation.Removed:
+                        remove?.Invoke();
+                        cache.Remove(change.key);
+                        raiseChanged(change.key, previous, null);
+                        break;
+
+                    case SyncDictionaryOperation.Cleared:
+                        Dictionary<TKey, TCacheValue> dictionary = DictionaryPool<TKey, TCacheValue>.Get();
+
+                        foreach (KeyValuePair<TKey, TCacheValue> kvp in cache)
+                        {
+                            dictionary.Add(kvp.Key, kvp.Value);
+                        }
+
+                        cache.Clear();
+
+                        foreach (KeyValuePair<TKey, TCacheValue> kvp in dictionary)
+                        {
+                            raiseChanged(kvp.Key, kvp.Value, null);
+
+                            clear?.Invoke(kvp.Value);
+                        }
+
+                        DictionaryPool<TKey, TCacheValue>.Release(dictionary);
+                        break;
+                }
+            }
+
+            // Specialised caching for SyncDictionaries containing Network objects
+            public static void CacheSyncDictionaryChange<T, U>(Dictionary<T, U> cache, SyncDictionaryChange<T, U> change, Action<T, U, U> raiseChanged)
                 where U : Object
             {
-                U previous = cache.GetValueOrDefault(change.key);
+                U previous = change.key != null ? cache.GetValueOrDefault(change.key) : null;
 
                 switch (change.operation)
                 {
@@ -40,14 +88,14 @@ namespace ShinyOwl.Common.Utils
                         raiseChanged?.Invoke(change.key, null, cache[change.key]);
                         break;
 
-                    case SyncDictionaryOperation.Removed:
-                        cache.Remove(change.key);
-                        raiseChanged?.Invoke(change.key, previous, null);
-                        break;
-
                     case SyncDictionaryOperation.Set:
                         cache[change.key] = change.value;
                         raiseChanged?.Invoke(change.key, previous, cache[change.key]);
+                        break;
+
+                    case SyncDictionaryOperation.Removed:
+                        cache.Remove(change.key);
+                        raiseChanged?.Invoke(change.key, previous, null);
                         break;
 
                     case SyncDictionaryOperation.Cleared:
@@ -66,7 +114,6 @@ namespace ShinyOwl.Common.Utils
                         }
 
                         DictionaryPool<T, U>.Release(dictionary);
-
                         break;
                 }
             }

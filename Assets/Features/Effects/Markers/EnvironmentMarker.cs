@@ -3,6 +3,7 @@ using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
+using ShinyOwl.Common.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,21 +43,20 @@ namespace NoMoreFishAndChips.Effects
 
         private void HandleNetMarkersChanged(SyncDictionaryChange<int, NetMarker> change)
         {
-            if (change.operation == SyncDictionaryOperation.Added)
-            {
-                Marker marker = _poolManager.GetTypedPoolable<Marker>(new SpawnParams());
-                marker.Initialise(_context, change.value);
-                _markers.Add(change.key, marker);
-            }
-            else if (change.operation == SyncDictionaryOperation.Set)
-            {
-                _markers[change.key].SetNetMarker(change.value);
-            }
-            else if (change.operation == SyncDictionaryOperation.Removed)
-            {
-                _poolManager.ReturnTypedPoolable(_markers[change.key]);
-                _markers.Remove(change.key);
-            }
+            Utils.Network.CacheSyncDictionaryChange(_markers, change, null,
+                add: () =>
+                {
+                    Marker marker = _poolManager.GetTypedPoolable<Marker>(new SpawnParams());
+                    marker.Initialise(_context, change.value);
+                    return marker;
+                },
+                set: () =>
+                {
+                    _markers[change.key].SetNetMarker(change.value);
+                    return _markers[change.key];
+                },
+                remove: () => _poolManager.ReturnTypedPoolable(_markers[change.key]),
+                clear: (Marker marker) => _poolManager.ReturnTypedPoolable(marker));
         }
 
         public NetMarkerHandle CreateNetMarker(Vector3 position, Vector3 scale, float blend)

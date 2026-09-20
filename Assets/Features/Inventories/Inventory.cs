@@ -418,35 +418,23 @@ namespace NoMoreFishAndChips.Inventories
             });
         }
 
+        private void RaiseInventorySlotChanged(Vector2Int cell, InventorySlot previous, InventorySlot current)
+        {
+            OnInventorySlotChanged?.Invoke(cell, current);
+        }
+
         private void HandleNetInventorySlotsChanged(SyncDictionaryChange<Vector2Int, NetInventorySlot> change)
         {
-            switch (change.operation)
-            {
-                case SyncDictionaryOperation.Added:
-                    _inventorySlots.Add(change.key, InventorySlot.Create(this, change.key, change.value));
-                    OnInventorySlotChanged?.Invoke(change.key, _inventorySlots[change.key]);
-                    break;
-
-                case SyncDictionaryOperation.Removed:
-                    _inventorySlots.Remove(change.key);
-                    OnInventorySlotChanged?.Invoke(change.key, null);
-                    break;
-
-                case SyncDictionaryOperation.Set:
+            Utils.Network.CacheSyncDictionaryChange(_inventorySlots, change, RaiseInventorySlotChanged,
+                add: () => InventorySlot.Create(this, change.key, change.value),
+                set: () =>
+                {
                     _inventorySlots[change.key].SetIsLocked(change.value.IsLocked);
                     _inventorySlots[change.key].SetItemInstanceId(change.value.ItemInstanceId);
-                    OnInventorySlotChanged?.Invoke(change.key, _inventorySlots[change.key]);
-                    break;
-
-                case SyncDictionaryOperation.Cleared:
-                    Vector2Int[] cells = _inventorySlots.Keys.ToArray();
-                    _inventorySlots.Clear();
-                    foreach (Vector2Int cell in cells)
-                    {
-                        OnInventorySlotChanged?.Invoke(cell, null);
-                    }
-                    break;
-            }
+                    return _inventorySlots[change.key];
+                },
+                remove: null,
+                clear: null);
 
             // Refresh the lockState of adjacent cells
             if (change.operation != SyncDictionaryOperation.Cleared)
@@ -467,42 +455,18 @@ namespace NoMoreFishAndChips.Inventories
             }
         }
 
+        private void RaiseInventoryItemChanged(string instanceId, InventoryItem previous, InventoryItem current)
+        {
+            OnInventoryItemChanged?.Invoke(instanceId, previous, current);
+        }
+
         private void HandleNetInventoryItemsChanged(SyncDictionaryChange<string, NetInventoryItem> change)
         {
-            // You can't reuse a variable name between cases
-            InventoryItem previous;
-
-            switch (change.operation)
-            {
-                case SyncDictionaryOperation.Added:
-                case SyncDictionaryOperation.Set:
-                    _inventoryItems.TryGetValue(change.value.ItemInstance.InstanceId, out previous);
-                    InventoryItem current = InventoryItem.Create(change.value);
-
-                    _inventoryItems[change.value.ItemInstance.InstanceId] = current;
-
-                    OnInventoryItemChanged?.Invoke(change.value.ItemInstance.InstanceId, previous, current);
-                    break;
-
-                case SyncDictionaryOperation.Removed:
-                    previous = _inventoryItems[change.key];
-                    string instanceId = previous.ItemInstance.InstanceId;
-
-                    _inventoryItems.Remove(change.key);
-
-                    OnInventoryItemChanged?.Invoke(instanceId, previous, null);
-                    break;
-
-                case SyncDictionaryOperation.Cleared:
-                    InventoryItem[] inventoryItems = _inventoryItems.Values.ToArray();
-                    _inventoryItems.Clear();
-                    
-                    foreach (InventoryItem inventoryItem in inventoryItems)
-                    {
-                        OnInventoryItemChanged?.Invoke(inventoryItem.ItemInstance.InstanceId, inventoryItem, null);
-                    }
-                    break;
-            }
+            Utils.Network.CacheSyncDictionaryChange(_inventoryItems, change, RaiseInventoryItemChanged,
+                add: () => InventoryItem.Create(change.value),
+                set: () => InventoryItem.Create(change.value),
+                remove: null,
+                clear: null);
         }
 
         /// <summary>
