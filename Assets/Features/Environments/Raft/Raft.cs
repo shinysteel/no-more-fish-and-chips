@@ -242,6 +242,12 @@ namespace NoMoreFishAndChips.Environments
                     }
 
                     visitedCells.Add(cell);
+
+                    if (tile.TileDefinitionData.IsScaffold)
+                    {
+                        return;
+                    }
+
                     group.Add(tile);
 
                     for (int i = -1; i <= 1; i += 2)

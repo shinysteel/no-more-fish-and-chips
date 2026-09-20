@@ -40,6 +40,7 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private IInteractableSettings _iInteractableSettings;
         [SerializeField] private Color _damagedColor;
         [SerializeField] private Recipe _repairRecipe;
+        [SerializeField] private bool _isScaffold;
 
         public Recipe BuildRecipe => _buildRecipe;
         public RaftTileBobSettings BobSettings => _bobSettings;
@@ -47,6 +48,7 @@ namespace NoMoreFishAndChips.Entities
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
         public Color DamagedColor => _damagedColor;
         public Recipe RepairRecipe => _repairRecipe;
+        public bool IsScaffold => _isScaffold;
 
         public RaftTileDefeatSettings TileDefeatSettings => (RaftTileDefeatSettings)_entityDefeatSettings;
 

@@ -41,3 +41,4 @@ MonoBehaviour:
   _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
   _repairRecipe:
     _requirements: []
+  _isScaffold: 1

@@ -127,7 +127,7 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            if (!Utils.Math.HasAdjacency(_context.Raft.Tiles, _cell, (RaftTile tile) => tile.EntityDefinitionData.Id != EntityId.ScaffoldRaftTile))
+            if (!Utils.Math.HasAdjacency(_context.Raft.Tiles, _cell, (RaftTile tile) => !tile.TileDefinitionData.IsScaffold))
             {
                 return false;
             }
