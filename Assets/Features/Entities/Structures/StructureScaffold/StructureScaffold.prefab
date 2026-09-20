@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6110307936913067027
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+      propertyPath: m_Name
+      value: StructureScaffold
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 5048913124741744043}
+  m_SourcePrefab: {fileID: 100100000, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+--- !u!54 &4064427491735998068 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 7830515058189107815, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+  m_PrefabInstance: {fileID: 6110307936913067027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9033915797347429828 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+  m_PrefabInstance: {fileID: 6110307936913067027}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5048913124741744043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9033915797347429828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b62e252c6536b4c9e98344c9400dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.StructureScaffold
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _entityDefinitionData: {fileID: 11400000, guid: eb47363ee05d56e4d8ee1761fb21c911, type: 2}
+  _entityModel: {fileID: 0}
+  _rigidbody: {fileID: 4064427491735998068}
+  _collider: {fileID: 0}

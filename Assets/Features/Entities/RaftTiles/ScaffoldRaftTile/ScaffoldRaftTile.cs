@@ -40,7 +40,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected override void Interact()
         {
-            RaftTile prefab = (RaftTile)_entityManager.GetPrefab(_netBuildId.value);
+            Entity prefab = _entityManager.GetPrefab(_netBuildId.value);
             
             _context.Raft.SetTileRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value);
         }

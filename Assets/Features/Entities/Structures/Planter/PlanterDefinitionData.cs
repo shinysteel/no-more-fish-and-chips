@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    [CreateAssetMenu(fileName = "SaplingPlanterDefinitionData", menuName = "Data/Entities/Structures/SaplingPlanterDefinitionData")]
+    [CreateAssetMenu(fileName = "PlanterDefinitionData", menuName = "Data/Entities/Structures/PlanterDefinitionData")]
     public class PlanterDefinitionData : StructureDefinitionData
     {
         [SerializeField] private IInteractableSettings _iInteractableSettings;

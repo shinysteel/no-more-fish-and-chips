@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.Environments
 
             foreach (StructureSave save in Structures)
             {
-                raft.AddStructureRpc(save.Cell, save.StructureId);
+                raft.SetStructureRpc(save.Cell, save.StructureId, save.Health, save.Rotations);
 
                 // Since we are the server, we can assume it exists straight away
                 raft.Structures[save.Cell].LoadJsonData(save.JsonData);
@@ -72,7 +72,8 @@ namespace NoMoreFishAndChips.Environments
             }
 
             // Start with a wave sign
-            Structures.Add(new StructureSave(new Vector2Int(0, 3), EntityId.WaveCounter, string.Empty));
+            Entity prefab = entityManager.GetPrefab(EntityId.WaveCounter);
+            Structures.Add(new StructureSave(new Vector2Int(0, 3), EntityId.WaveCounter, prefab.EntityDefinitionData.Health, 0, string.Empty));
         }
     }
 }

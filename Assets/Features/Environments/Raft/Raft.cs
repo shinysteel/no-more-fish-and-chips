@@ -91,16 +91,13 @@ namespace NoMoreFishAndChips.Environments
             Utils.Network.CacheSyncDictionaryChange(_structures, change, RaiseStructureChanged);
         }
 
-        private T CreateTile<T>(Vector2Int cell, EntityId tileId, int health, int rotations, Action<T> onCreate) where T : RaftTile
+        private RaftTile CreateTile(Vector2Int cell, EntityId tileId, int health, int rotations)
         {
-            T tile = (T)_entityManager.Spawn(tileId, new SpawnParams() { Parent = transform });
+            RaftTile tile = (RaftTile)_entityManager.Spawn(tileId, new SpawnParams() { Parent = transform });
 
-            tile.InitialiseContext(_context);
             tile.EntityHealthLogic.SetHealth(health);
             tile.SetNetCell(cell);
             tile.SetNetRotations(rotations);
-
-            onCreate?.Invoke(tile);
 
             return tile;
         }
@@ -113,13 +110,11 @@ namespace NoMoreFishAndChips.Environments
                 return;
             }
 
-            ScaffoldRaftTile prefab = (ScaffoldRaftTile)_entityManager.GetPrefab(EntityId.ScaffoldRaftTile);
+            Entity prefab = _entityManager.GetPrefab(EntityId.ScaffoldRaftTile);
+            ScaffoldRaftTile tile = (ScaffoldRaftTile)CreateTile(cell, EntityId.ScaffoldRaftTile, prefab.EntityDefinitionData.Health, 0);
 
-            ScaffoldRaftTile tile = CreateTile(cell, EntityId.ScaffoldRaftTile, prefab.EntityDefinitionData.Health, 0, (ScaffoldRaftTile tile) =>
-            {
-                tile.SetNetBuildId(buildId);
-                tile.SetNetBuildRotations(buildRotations);
-            });
+            tile.SetNetBuildId(buildId);
+            tile.SetNetBuildRotations(buildRotations);
 
             _netTiles.Add(cell, tile);
         }
@@ -132,16 +127,26 @@ namespace NoMoreFishAndChips.Environments
                 _entityManager.Despawn(previous);
             }
 
-            RaftTile current = CreateTile<RaftTile>(cell, tileId, health, rotations, null);
+            RaftTile current = CreateTile(cell, tileId, health, rotations);
 
             _netTiles[cell] = current;
+        }
+
+        private Structure CreateStructure(Vector2Int cell, EntityId structureId, int health, int rotations)
+        {
+            Structure structure = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform });
+
+            structure.EntityHealthLogic.SetHealth(health);
+            structure.SetNetCell(cell);
+            structure.SetNetRotations(rotations);
+
+            return structure;
         }
 
         [ServerRpc(requireOwnership: false)]
         public void AddStructureScaffoldRpc(Vector2Int addCell, EntityId buildId, int buildRotations)
         {
             Structure prefab = (Structure)_entityManager.GetPrefab(buildId);
-
             BoolGrid shape = prefab.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, buildRotations);
 
             foreach (KeyValuePair<Vector2Int, bool> kvp in shape)
@@ -156,21 +161,58 @@ namespace NoMoreFishAndChips.Environments
                     return;
                 }
             }
+
+            StructureScaffold structure = (StructureScaffold)CreateStructure(addCell, EntityId.StructureScaffold, prefab.EntityDefinitionData.Health, 0);
+
+            structure.SetNetBuildId(buildId);
+            structure.SetNetBuildRotations(buildRotations);
+
+            shape.ForEachTrue((Vector2Int cell) =>
+            {
+                _netStructures.Add(addCell + cell, structure);
+            });
         }
 
         [ServerRpc(requireOwnership: false)]
-        public void AddStructureRpc(Vector2Int cell, EntityId structureId)
+        public void SetStructureRpc(Vector2Int setCell, EntityId structureId, int health, int rotations)
         {
-            if (_netStructures.ContainsKey(cell))
+            if (_netStructures.ContainsKey(setCell))
             {
                 return;
             }
 
-            Structure structure = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform });
+            Structure setStructure = CreateStructure(setCell, structureId, health, rotations);
+            BoolGrid setShape = setStructure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, rotations);
 
-            structure.SetCell(cell);
+            // Determine and despawn overlapping structures
+            List<Structure> overlappingStructures = ListPool<Structure>.Get();
 
-            _netStructures.Add(cell, structure);
+            setShape.ForEachTrue((Vector2Int cell) =>
+            {
+                if (_structures.TryGetValue(setCell + cell, out Structure structure) && !overlappingStructures.Contains(structure))
+                {
+                    overlappingStructures.Add(structure);
+                }
+            });
+
+            foreach (Structure structure in overlappingStructures)
+            {
+                _entityManager.Despawn(structure);
+
+                BoolGrid shape = structure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, structure.Rotations);
+
+                shape.ForEachTrue((Vector2Int cell) =>
+                {
+                    _netStructures[structure.Cell + cell] = null;
+                });
+            }
+
+            ListPool<Structure>.Release(overlappingStructures);
+
+            setShape.ForEachTrue((Vector2Int cell) =>
+            {
+                _netStructures[setCell + cell] = setStructure;
+            });
         }
 
         void IEntityManagerListener.OnEntityDespawned(Entity entity)
