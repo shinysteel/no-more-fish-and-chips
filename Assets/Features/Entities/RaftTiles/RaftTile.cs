@@ -22,7 +22,7 @@ namespace NoMoreFishAndChips.Entities
 
         public Vector2Int Cell => _netCell.value;
         public int Rotations => _netRotations.value;
-
+        
         public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
         public RaftTileDefeatLogic TileDefeatLogic => (RaftTileDefeatLogic)EntityDefeatLogic;
@@ -39,8 +39,10 @@ namespace NoMoreFishAndChips.Entities
             base.OnSpawned();
 
             HandleHealthChanged(0, EntityHealthLogic.CurrentHealth);
+            HandleNetRotationsChanged(_netRotations.value);
             
             EntityHealthLogic.OnChanged += HandleHealthChanged;
+            _netRotations.onChanged += HandleNetRotationsChanged;
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -48,17 +50,16 @@ namespace NoMoreFishAndChips.Entities
             base.InitialiseContext(context);
 
             HandleNetCellChanged(_netCell.value);
-
             _netCell.onChanged += HandleNetCellChanged;
         }
 
         protected override void OnDespawned()
-        {
-            EntityHealthLogic.OnChanged -= HandleHealthChanged;
-
-            _netCell.onChanged -= HandleNetCellChanged;
-            
+        {   
             base.OnDespawned();
+
+            EntityHealthLogic.OnChanged -= HandleHealthChanged;
+            _netRotations.onChanged -= HandleNetRotationsChanged;
+            _netCell.onChanged -= HandleNetCellChanged;
         }
 
         private void HandleHealthChanged(int previous, int current)
@@ -72,6 +73,11 @@ namespace NoMoreFishAndChips.Entities
             _entityModel.SetColor(Color.Lerp(Color.white, TileDefinitionData.DamagedColor, 1f - ((float)current / EntityHealthLogic.MaxHealth)));
         }
 
+        private void HandleNetRotationsChanged(int rotations)
+        {
+            transform.rotation = Quaternion.AngleAxis(rotations * 90f, Vector3.up);
+        }
+
         private void HandleNetCellChanged(Vector2Int cell)
         {
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_netCell.value);
@@ -80,16 +86,14 @@ namespace NoMoreFishAndChips.Entities
             transform.position = position;
         }
 
-        public void SetNetCell(Vector2Int cell)
-        {
-            _netCell.value = cell;
-        }
-
         public void SetNetRotations(int rotations)
         {
             _netRotations.value = rotations;
+        }
 
-            transform.rotation = Quaternion.AngleAxis(_netRotations.value * 90f, Vector3.up);
+        public void SetNetCell(Vector2Int cell)
+        {
+            _netCell.value = cell;
         }
 
         protected override void FixedUpdate()

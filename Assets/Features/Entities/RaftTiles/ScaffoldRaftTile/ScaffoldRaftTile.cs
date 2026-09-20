@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.UI;
 using PurrNet;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -40,7 +41,7 @@ namespace NoMoreFishAndChips.Entities
         protected override void Interact()
         {
             RaftTile prefab = (RaftTile)_entityManager.GetPrefab(_netBuildId.value);
-
+            
             _context.Raft.SetTileRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value);
         }
     }
