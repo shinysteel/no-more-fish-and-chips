@@ -197,7 +197,7 @@ namespace NoMoreFishAndChips.Environments
             try
             {
                 // An index of +1 or -1 means the line is adjacent
-                for (int i = -1; i < 2; i += 2)
+                for (int i = -1; i <= 1; i += 2)
                 {
                     if (targetLine.RaftAxis.Lines.TryGetValue(targetLine.LineIndex + i, out RaftLine line))
                     {

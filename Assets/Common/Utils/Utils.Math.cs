@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -119,6 +120,24 @@ namespace ShinyOwl.Common.Utils
             public static bool IsAdjacent(Vector2Int cellA, Vector2Int cellB)
             {
                 return Mathf.Abs(cellA.x - cellB.x) + Mathf.Abs(cellA.y - cellB.y) == 1;
+            }
+
+            public static bool HasAdjacency<T>(IReadOnlyDictionary<Vector2Int, T> dictionary, Vector2Int cell, Func<T, bool> condition)
+            {
+                bool adjacent(Vector2Int cell)
+                {
+                    return dictionary.TryGetValue(cell, out T value) && (condition?.Invoke(value) ?? true);
+                }
+
+                for (int i = -1; i <= 1; i += 2)
+                {
+                    if (adjacent(new Vector2Int(cell.x + i, cell.y)) || adjacent(new Vector2Int(cell.x, cell.y + i)))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
     }

@@ -116,13 +116,18 @@ namespace NoMoreFishAndChips.Entities
 
             Vector3 position = _previewModel.transform.position;
             position.y = y;
-
+            
             _previewModel.transform.position = position;
         }
 
         protected override bool CanBuild()
         {   
             if (_tile != null)
+            {
+                return false;
+            }
+
+            if (!Utils.Math.HasAdjacency(_context.Raft.Tiles, _cell, (RaftTile tile) => tile.EntityDefinitionData.Id != EntityId.ScaffoldRaftTile))
             {
                 return false;
             }
