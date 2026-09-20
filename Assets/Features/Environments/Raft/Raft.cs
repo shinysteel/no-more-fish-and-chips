@@ -3,6 +3,7 @@ using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,86 +69,24 @@ namespace NoMoreFishAndChips.Environments
             _entityManager.RemoveListener(this);
         }
 
+        private void RaiseTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
+        {
+            OnTileChanged?.Invoke(cell, previous, current);
+        }
+
+        private void RaiseStructureChanged(Vector2Int cell, Structure previous, Structure current)
+        {
+            OnStructureChanged?.Invoke(cell, previous, current);
+        }
+
         private void HandleNetTilesChanged(SyncDictionaryChange<Vector2Int, RaftTile> change)
         {
-            RaftTile previous = _tiles.GetValueOrDefault(change.key);
-
-            switch (change.operation)
-            {
-                case SyncDictionaryOperation.Added:
-                    _tiles.Add(change.key, change.value);
-                    OnTileChanged?.Invoke(change.key, null, _tiles[change.key]);
-                    break;
-
-                case SyncDictionaryOperation.Removed:
-                    _tiles.Remove(change.key);
-                    OnTileChanged?.Invoke(change.key, previous, null);
-                    break;
-
-                case SyncDictionaryOperation.Set:
-                    _tiles[change.key] = change.value;
-                    OnTileChanged?.Invoke(change.key, previous, _tiles[change.key]);
-                    break;
-
-                case SyncDictionaryOperation.Cleared:
-                    Dictionary<Vector2Int, RaftTile> dictionary = DictionaryPool<Vector2Int, RaftTile>.Get();
-
-                    foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _tiles)
-                    {
-                        dictionary.Add(kvp.Key, kvp.Value);
-                    }
-
-                    _tiles.Clear();
-
-                    foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _tiles)
-                    {
-                        OnTileChanged?.Invoke(kvp.Key, kvp.Value, null);
-                    }
-
-                    DictionaryPool<Vector2Int, RaftTile>.Release(dictionary);
-                    break;
-            }
+            Utils.Network.CacheSyncDictionaryChange(_tiles, change, RaiseTileChanged);
         }
 
         private void HandleNetStructuresChanged(SyncDictionaryChange<Vector2Int, Structure> change)
         {
-            Structure previous = _structures.GetValueOrDefault(change.key);
-
-            switch (change.operation)
-            {
-                case SyncDictionaryOperation.Added:
-                    _structures.Add(change.key, change.value);
-                    OnStructureChanged?.Invoke(change.key, null, _structures[change.key]);
-                    break;
-
-                case SyncDictionaryOperation.Removed:
-                    _structures.Remove(change.key);
-                    OnStructureChanged?.Invoke(change.key, previous, null);
-                    break;
-
-                case SyncDictionaryOperation.Set:
-                    _structures[change.key] = change.value;
-                    OnStructureChanged?.Invoke(change.key, previous, _structures[change.key]);
-                    break;
-
-                case SyncDictionaryOperation.Cleared:
-                    Dictionary<Vector2Int, Structure> dictionary = DictionaryPool<Vector2Int, Structure>.Get();
-
-                    foreach (KeyValuePair<Vector2Int, Structure> kvp in _structures)
-                    {
-                        dictionary.Add(kvp.Key, kvp.Value);
-                    }
-
-                    _structures.Clear();
-
-                    foreach (KeyValuePair<Vector2Int, Structure> kvp in _structures)
-                    {
-                        OnStructureChanged?.Invoke(kvp.Key, kvp.Value, null);
-                    }
-
-                    DictionaryPool<Vector2Int, Structure>.Release(dictionary);
-                    break;
-            }
+            Utils.Network.CacheSyncDictionaryChange(_structures, change, RaiseStructureChanged);
         }
 
         private T CreateTile<T>(Vector2Int cell, EntityId tileId, int health, int rotations, Action<T> onCreate) where T : RaftTile
