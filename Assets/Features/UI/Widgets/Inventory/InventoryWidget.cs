@@ -56,7 +56,7 @@ namespace NoMoreFishAndChips.UI
             
             foreach (KeyValuePair<Vector2Int, InventorySlot> kvp in _inventory.InventorySlots)
             {
-                HandleInventorySlotChanged(kvp.Key, kvp.Value);
+                HandleInventorySlotChanged(kvp.Key, null, kvp.Value);
             }
 
             _inventory.OnInventorySlotChanged += HandleInventorySlotChanged;
@@ -100,11 +100,11 @@ namespace NoMoreFishAndChips.UI
         }
 
         // Listen to slot changes
-        private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot slot)
+        private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot previous, InventorySlot current)
         {   
-            if (slot != null)
+            if (current != null)
             {
-                SetInventorySlotView(cell, slot);
+                SetInventorySlotView(cell, current);
             }
             else
             {

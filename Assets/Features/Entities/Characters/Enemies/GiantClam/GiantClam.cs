@@ -154,7 +154,7 @@ namespace NoMoreFishAndChips.Entities
                 _clam._netCanOpenInventory.value = false;
             }
 
-            private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot slot)
+            private void HandleInventorySlotChanged(Vector2Int cell, InventorySlot previous, InventorySlot current)
             {
                 CheckIfFull();
             }

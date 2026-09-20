@@ -353,7 +353,7 @@ namespace NoMoreFishAndChips.Inventories
 
         public bool IsReady => _netInventorySlots.IsReady && _netInventoryItems.IsReady;
 
-        public event Action<Vector2Int, InventorySlot> OnInventorySlotChanged;
+        public event Action<Vector2Int, InventorySlot, InventorySlot> OnInventorySlotChanged;
 
         // It was not obvious that the string in Action<string, InventoryItem, InventoryItem> represented instanceId. This
         // is a good example of when to use custom delegates. If more parameters could be added in the future,
@@ -420,7 +420,7 @@ namespace NoMoreFishAndChips.Inventories
 
         private void RaiseInventorySlotChanged(Vector2Int cell, InventorySlot previous, InventorySlot current)
         {
-            OnInventorySlotChanged?.Invoke(cell, current);
+            OnInventorySlotChanged?.Invoke(cell, previous, current);
         }
 
         private void HandleNetInventorySlotsChanged(SyncDictionaryChange<Vector2Int, NetInventorySlot> change)
