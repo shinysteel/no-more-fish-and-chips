@@ -41,7 +41,7 @@ namespace NoMoreFishAndChips.Entities
         {
             RaftTile prefab = (RaftTile)_entityManager.GetPrefab(_netBuildId.value);
 
-            _context.Raft.SetTile(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value);
+            _context.Raft.SetTileRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value);
         }
     }
 }

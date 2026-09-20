@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Environments
         {
             foreach (RaftTileSave save in Tiles)
             {
-                raft.SetTile(save.Cell, save.TileId, save.Health, save.Rotations);
+                raft.SetTileRpc(save.Cell, save.TileId, save.Health, save.Rotations);
             }
 
             foreach (StructureSave save in Structures)

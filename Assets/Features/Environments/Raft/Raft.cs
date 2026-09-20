@@ -14,9 +14,13 @@ namespace NoMoreFishAndChips.Environments
 {
     public class Raft : GameplayBehaviour, IEntityManagerListener
     {
+        private SyncDictionaryWrapper<Vector2Int, RaftTile> _netTiles = new SyncDictionaryWrapper<Vector2Int, RaftTile>(ownerAuth: true);
+        private SyncDictionaryWrapper<Vector2Int, Structure> _netStructures = new SyncDictionaryWrapper<Vector2Int, Structure>(ownerAuth: true);
+
         private Dictionary<Vector2Int, RaftTile> _tiles = new();
-        public IReadOnlyDictionary<Vector2Int, RaftTile> Tiles => _tiles;
         private Dictionary<Vector2Int, Structure> _structures = new();
+
+        public IReadOnlyDictionary<Vector2Int, RaftTile> Tiles => _tiles;
         public IReadOnlyDictionary<Vector2Int, Structure> Structures => _structures;
 
         private RaftQueries _queries;
@@ -34,14 +38,21 @@ namespace NoMoreFishAndChips.Environments
 
             _queries = new RaftQueries(this);
 
-            if (!isOwner)
+            foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _netTiles)
             {
-                // Clients need to manually handle changes that have happened before we joined
-                foreach (Entity entity in _entityManager.Entities)
-                {
-                    ((IEntityManagerListener)this).OnEntitySpawned(entity);
-                }
+                SyncDictionaryChange<Vector2Int, RaftTile> change = new SyncDictionaryChange<Vector2Int, RaftTile>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
+                HandleNetTilesChanged(change);
             }
+
+            _netTiles.onChanged += HandleNetTilesChanged;
+
+            foreach (KeyValuePair<Vector2Int, Structure> kvp in _netStructures)
+            {
+                SyncDictionaryChange<Vector2Int, Structure> change = new SyncDictionaryChange<Vector2Int, Structure>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
+                HandleNetStructuresChanged(change);
+            }
+
+            _netStructures.onChanged += HandleNetStructuresChanged;
 
             _entityManager.AddListener(this);
         }
@@ -50,9 +61,93 @@ namespace NoMoreFishAndChips.Environments
         {
             _instantiateManager.RaiseComponentDestroyed(this);
 
-            _entityManager.RemoveListener(this);
-
             _queries?.Dispose();
+
+            _netTiles.onChanged -= HandleNetTilesChanged;
+             
+            _entityManager.RemoveListener(this);
+        }
+
+        private void HandleNetTilesChanged(SyncDictionaryChange<Vector2Int, RaftTile> change)
+        {
+            RaftTile previous = _tiles.GetValueOrDefault(change.key);
+
+            switch (change.operation)
+            {
+                case SyncDictionaryOperation.Added:
+                    _tiles.Add(change.key, change.value);
+                    OnTileChanged?.Invoke(change.key, null, _tiles[change.key]);
+                    break;
+
+                case SyncDictionaryOperation.Removed:
+                    _tiles.Remove(change.key);
+                    OnTileChanged?.Invoke(change.key, previous, null);
+                    break;
+
+                case SyncDictionaryOperation.Set:
+                    _tiles[change.key] = change.value;
+                    OnTileChanged?.Invoke(change.key, previous, _tiles[change.key]);
+                    break;
+
+                case SyncDictionaryOperation.Cleared:
+                    Dictionary<Vector2Int, RaftTile> dictionary = DictionaryPool<Vector2Int, RaftTile>.Get();
+
+                    foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _tiles)
+                    {
+                        dictionary.Add(kvp.Key, kvp.Value);
+                    }
+
+                    _tiles.Clear();
+
+                    foreach (KeyValuePair<Vector2Int, RaftTile> kvp in _tiles)
+                    {
+                        OnTileChanged?.Invoke(kvp.Key, kvp.Value, null);
+                    }
+
+                    DictionaryPool<Vector2Int, RaftTile>.Release(dictionary);
+                    break;
+            }
+        }
+
+        private void HandleNetStructuresChanged(SyncDictionaryChange<Vector2Int, Structure> change)
+        {
+            Structure previous = _structures.GetValueOrDefault(change.key);
+
+            switch (change.operation)
+            {
+                case SyncDictionaryOperation.Added:
+                    _structures.Add(change.key, change.value);
+                    OnStructureChanged?.Invoke(change.key, null, _structures[change.key]);
+                    break;
+
+                case SyncDictionaryOperation.Removed:
+                    _structures.Remove(change.key);
+                    OnStructureChanged?.Invoke(change.key, previous, null);
+                    break;
+
+                case SyncDictionaryOperation.Set:
+                    _structures[change.key] = change.value;
+                    OnStructureChanged?.Invoke(change.key, previous, _structures[change.key]);
+                    break;
+
+                case SyncDictionaryOperation.Cleared:
+                    Dictionary<Vector2Int, Structure> dictionary = DictionaryPool<Vector2Int, Structure>.Get();
+
+                    foreach (KeyValuePair<Vector2Int, Structure> kvp in _structures)
+                    {
+                        dictionary.Add(kvp.Key, kvp.Value);
+                    }
+
+                    _structures.Clear();
+
+                    foreach (KeyValuePair<Vector2Int, Structure> kvp in _structures)
+                    {
+                        OnStructureChanged?.Invoke(kvp.Key, kvp.Value, null);
+                    }
+
+                    DictionaryPool<Vector2Int, Structure>.Release(dictionary);
+                    break;
+            }
         }
 
         private T CreateTile<T>(Vector2Int cell, EntityId tileId, int health, int rotations, Action<T> onCreate) where T : RaftTile
@@ -72,7 +167,7 @@ namespace NoMoreFishAndChips.Environments
         [ServerRpc(requireOwnership: false)]
         public void AddTileScaffoldRpc(Vector2Int cell, EntityId buildId, int buildRotations)
         {
-            if (_tiles.ContainsKey(cell))
+            if (_netTiles.ContainsKey(cell))
             {
                 return;
             }
@@ -85,17 +180,16 @@ namespace NoMoreFishAndChips.Environments
                 tile.SetNetBuildRotations(buildRotations);
             });
 
-            _tiles.Add(cell, tile);
-            OnTileChanged?.Invoke(cell, null, tile);
+            _netTiles.Add(cell, tile);
         }
 
-        public void SetTile(Vector2Int cell, EntityId tileId, int health, int rotations)
+        [ServerRpc(requireOwnership: false)]
+        public void SetTileRpc(Vector2Int cell, EntityId tileId, int health, int rotations)
         {
-            RaftTile previous = _tiles.GetValueOrDefault(cell);
+            _netTiles.TryGetValue(cell, out RaftTile previous);
             RaftTile current = CreateTile<RaftTile>(cell, tileId, health, rotations, null);
 
-            _tiles[cell] = current;
-            OnTileChanged?.Invoke(cell, previous, current);
+            _netTiles[cell] = current;
 
             if (previous != null)
             {
@@ -112,7 +206,7 @@ namespace NoMoreFishAndChips.Environments
         [ServerRpc(requireOwnership: false)]
         public void AddStructureRpc(Vector2Int cell, EntityId structureId)
         {
-            if (_structures.ContainsKey(cell))
+            if (_netStructures.ContainsKey(cell))
             {
                 return;
             }
@@ -121,50 +215,28 @@ namespace NoMoreFishAndChips.Environments
 
             structure.SetCell(cell);
 
-            _structures.Add(cell, structure);
-
-            OnStructureChanged?.Invoke(cell, null, structure);
+            _netStructures.Add(cell, structure);
         }
 
-        void IEntityManagerListener.OnEntitySpawned(Entity entity)
+        void IEntityManagerListener.OnEntityDespawned(Entity entity)
         {
-            if (isOwner)
+            if (!isOwner)
             {
                 return;
             }
 
             if (entity is RaftTile tile)
             {
-                _tiles.Add(tile.Cell, tile);
+                _netTiles.Remove(tile.Cell);
 
-                OnTileChanged?.Invoke(tile.Cell, null, tile);
-            }
-            else if (entity is Structure structure)
-            {
-                _structures.Add(structure.Cell, structure);
-
-                OnStructureChanged?.Invoke(structure.Cell, null, structure);
-            }
-        }
-
-        void IEntityManagerListener.OnEntityDespawned(Entity entity)
-        {
-            if (entity is RaftTile tile)
-            {
-                _tiles.Remove(tile.Cell);
-
-                if (isOwner && _tiles.Count > 0)
+                if (isOwner && _netTiles.Count > 0)
                 {
                     DefeatDisconnectedTiles();
                 }
-
-                OnTileChanged?.Invoke(tile.Cell, tile, null);
             }
             else if (entity is Structure structure)
             {
-                _structures.Remove(structure.Cell);
-
-                OnStructureChanged?.Invoke(structure.Cell, structure, null);
+                _netStructures.Remove(structure.Cell);
             }
         }
 
@@ -210,7 +282,7 @@ namespace NoMoreFishAndChips.Environments
         {
             List<Vector2Int> visitedCells = ListPool<Vector2Int>.Get();
 
-            foreach (RaftTile tile in _tiles.Values)
+            foreach (RaftTile tile in _netTiles.Values)
             {
                 if (visitedCells.Contains(tile.Cell))
                 {
@@ -226,7 +298,7 @@ namespace NoMoreFishAndChips.Environments
                         return;
                     }
 
-                    if (!_tiles.TryGetValue(cell, out RaftTile tile))
+                    if (!_netTiles.TryGetValue(cell, out RaftTile tile))
                     {
                         return;
                     }
