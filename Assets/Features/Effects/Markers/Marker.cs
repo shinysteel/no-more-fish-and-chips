@@ -3,6 +3,7 @@ using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
 using PrimeTween;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Effects
@@ -73,7 +74,7 @@ namespace NoMoreFishAndChips.Effects
 
             for (int i = 0; i < overlaps; i++)
             {
-                if (_collidersNonAlloc[i].TryGetComponent(out RaftTile tile))
+                if (Utils.Physics.ColliderTryGetComponent(_collidersNonAlloc[i], out RaftTile tile))
                 {
                     y = Mathf.Max(y, tile.transform.position.y);
                 }

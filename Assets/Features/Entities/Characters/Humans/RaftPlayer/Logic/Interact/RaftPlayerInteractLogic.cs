@@ -11,6 +11,7 @@ using UnityEngine.Pool;
 using NoMoreFishAndChips.Environments;
 
 using Object = UnityEngine.Object;
+using ShinyOwl.Common.Utils;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -35,15 +36,18 @@ namespace NoMoreFishAndChips.Entities
         private class NearbyInteractable : IComparable<NearbyInteractable>
         {
             private IInteractable _interactable;
+            private Collider _collider;
             private int _priority;
             private float _angle;
             private float _distance;
 
             public IInteractable Interactable => _interactable;
+            public Collider Collider => _collider;
 
-            public NearbyInteractable(IInteractable interactable)
+            public NearbyInteractable(IInteractable interactable, Collider collider)
             {
                 _interactable = interactable;
+                _collider = collider;
             }
 
             public void Set(int priority, float angle, float distance)
@@ -151,7 +155,7 @@ namespace NoMoreFishAndChips.Entities
             // Track new interactables that match our hotkey and are nearby
             for (int i = 0; i < overlaps; i++)
             {
-                if (!_collidersNonAlloc[i].TryGetComponent(out IInteractable interactable))
+                if (!Utils.Physics.ColliderTryGetComponent(_collidersNonAlloc[i], out IInteractable interactable))
                 {
                     continue;
                 }
@@ -161,12 +165,12 @@ namespace NoMoreFishAndChips.Entities
                     continue;
                 }
 
-                if (!CanPrompt(interactable, out _, out _))
+                if (!CanPrompt(interactable, _collidersNonAlloc[i], out _, out _))
                 {
                     continue;
                 }
 
-                _nearbyInteractables.Add(new NearbyInteractable(interactable));
+                _nearbyInteractables.Add(new NearbyInteractable(interactable, _collidersNonAlloc[i]));
             }
         }
 
@@ -175,7 +179,7 @@ namespace NoMoreFishAndChips.Entities
             // Recalculate angles and distances, and remove any that are no longer 'nearby'
             foreach (NearbyInteractable nearbyInteractable in _nearbyInteractables)
             {
-                if (CanPrompt(nearbyInteractable.Interactable, out float angle, out float distance))
+                if (CanPrompt(nearbyInteractable.Interactable, nearbyInteractable.Collider, out float angle, out float distance))
                 {
                     nearbyInteractable.Set(nearbyInteractable.Interactable.IInteractableSettings.Priority, angle, distance);
                 }
@@ -239,7 +243,7 @@ namespace NoMoreFishAndChips.Entities
             _promptUI.transform.position = _promptInteractable.transform.position + offset;
         }
 
-        private bool CanPrompt(IInteractable interactable, out float angle, out float distance)
+        private bool CanPrompt(IInteractable interactable, Collider collider, out float angle, out float distance)
         {
             angle = 0f;
             distance = 0f;
@@ -254,12 +258,12 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            Vector3 direction = (interactable.transform.position - _player.transform.position);
+            Vector3 direction = (collider.transform.position - _player.transform.position);
             direction.y = 0f;
             direction.Normalize();
             angle = Vector3.Angle(_player.transform.forward, direction);
 
-            distance = Vector3.Distance(_player.transform.position, interactable.transform.position);
+            distance = Vector3.Distance(_player.transform.position, collider.transform.position);
 
             if (distance > _settings.Radius)
             {

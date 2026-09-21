@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.UI;
 using NUnit.Framework;
 using PurrNet;
@@ -17,6 +18,7 @@ namespace NoMoreFishAndChips.Entities
         private List<Prop> _tapeProps = new();
         private List<Prop> _standardProps = new();
         private List<Prop> _previewProps = new();
+        private List<ColliderProxy> _colliderProxies = new();
 
         public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
 
@@ -27,17 +29,31 @@ namespace NoMoreFishAndChips.Entities
             HandleNetBuildRotationsChanged(_netBuildRotations.value);
 
             _netBuildRotations.onChanged += HandleNetBuildRotationsChanged;
+
+            _shape.ForEachTrue((Vector2Int cell) =>
+            {
+                Vector3 position = new Vector3(cell.x, 0f, cell.y) * 0.5f + Vector3.up * 0.125f;
+                Vector3 scale = new Vector3(0.5f, 0.25f, 0.5f);
+                BoxColliderProxy proxy = _poolManager.GetTypedPoolable<BoxColliderProxy>(new SpawnParams() { Position = position, Scale = scale, Parent = transform });
+                proxy.SetOwnerGameObject(gameObject);
+                _colliderProxies.Add(proxy);
+            });
         }
 
         protected override void OnDespawned()
         {
             base.OnDespawned();
 
-            ((IInteractable)this).HidePreview();
-
             ReturnScaffoldProps();
 
             _netBuildRotations.onChanged -= HandleNetBuildRotationsChanged;
+
+            ((IInteractable)this).HidePreview();
+
+            foreach (ColliderProxy proxy in _colliderProxies)
+            {
+                _poolManager.ReturnTypedPoolable(proxy);
+            }
         }
 
         protected override void RefreshShape()

@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Cameras;
+using NoMoreFishAndChips.Pools;
 using PurrNet;
 using ShinyOwl.Common;
 using System;
@@ -56,6 +57,21 @@ namespace ShinyOwl.Common.Utils
                 Vector3 point2 = center + axis * pointOffset;
 
                 return UnityEngine.Physics.CapsuleCastNonAlloc(point1, point2, radius, direction, results, maxDistance, layerMask);
+            }
+
+            public static bool ColliderTryGetComponent<T>(Collider collider, out T component)
+            {
+                if (collider.TryGetComponent(out component))
+                {
+                    return true;
+                }
+
+                if (!collider.TryGetComponent(out ColliderProxy proxy))
+                {
+                    return false;
+                }
+
+                return proxy.OwnerGameObject.TryGetComponent(out component);
             }
         }
     }

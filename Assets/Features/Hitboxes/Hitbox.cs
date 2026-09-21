@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using ShinyOwl.Common.Utils;
 
 namespace NoMoreFishAndChips.Hitboxes
 {
@@ -122,7 +123,7 @@ namespace NoMoreFishAndChips.Hitboxes
                 return;
             }
 
-            if (!otherCollider.TryGetComponent(out Entity entity))
+            if (!Utils.Physics.ColliderTryGetComponent(otherCollider, out Entity entity))
             {
                 return;
             }

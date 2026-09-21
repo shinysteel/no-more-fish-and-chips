@@ -4,6 +4,7 @@ using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
@@ -73,7 +74,7 @@ namespace NoMoreFishAndChips.Environments
 
         private void OnTriggerStay(Collider collider)
         {
-            if (collider.gameObject.TryGetComponent(out Entity entity))
+            if (Utils.Physics.ColliderTryGetComponent(collider, out Entity entity))
             {
                 if (!entity.isSpawned)
                 {
@@ -89,7 +90,7 @@ namespace NoMoreFishAndChips.Environments
                 CurrentEntityOnTriggerStay(entity);
                 DragOnTriggerStay(collider, entity);
             }
-            else if (collider.gameObject.TryGetComponent(out Island island))
+            else if (Utils.Physics.ColliderTryGetComponent(collider, out Island island))
             {
                 if (!island.isSpawned)
                 {
@@ -100,7 +101,7 @@ namespace NoMoreFishAndChips.Environments
                 {
                     return;
                 }
-                
+
                 CurrentRigidbodyOnTriggerStay(island.Rigidbody, true);
             }
         }
