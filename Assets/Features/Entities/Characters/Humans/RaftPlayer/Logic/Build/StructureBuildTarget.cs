@@ -88,7 +88,10 @@ namespace NoMoreFishAndChips.Entities
 
         public override void Place()
         {
-            _context.Raft.AddStructureScaffoldRpc(_cell, _entityId, _rotations);
+            if (CanBuild())
+            {
+                _context.Raft.AddStructureScaffoldRpc(_cell, _entityId, _rotations);
+            }
         }
 
         public override void SetPosition(Vector3 position)

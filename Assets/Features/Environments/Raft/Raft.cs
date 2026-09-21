@@ -203,6 +203,8 @@ namespace NoMoreFishAndChips.Environments
         [ServerRpc(requireOwnership: false)]
         public void AddStructureScaffoldRpc(Vector2Int cell, EntityId buildId, int buildRotations)
         {
+            // for some reason this isnt stopping you from placing invalid structures
+
             Structure prefab = (Structure)_entityManager.GetPrefab(buildId);
             BoolGrid shape = prefab.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, buildRotations);
 
@@ -213,7 +215,16 @@ namespace NoMoreFishAndChips.Environments
                     continue;
                 }
 
-                if (_structures.ContainsKey(cell + kvp.Key))
+                Vector2Int structureCell = cell + kvp.Key;
+
+                if (_structures.ContainsKey(structureCell))
+                {
+                    return;
+                }
+
+                Vector2Int tileCell = _queries.StructureCellToTileCell(structureCell);
+
+                if (!_tiles.ContainsKey(tileCell))
                 {
                     return;
                 }

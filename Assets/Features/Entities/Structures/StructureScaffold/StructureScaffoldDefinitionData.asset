@@ -29,3 +29,4 @@ MonoBehaviour:
   _buildRecipe:
     _requirements: []
   _isScaffold: 1
+  _iInteractableSettings: {fileID: 11400000, guid: d44696e368018fa4ab98ee40266f78eb, type: 2}

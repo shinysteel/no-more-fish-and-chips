@@ -1,19 +1,24 @@
+using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.UI;
+using NUnit.Framework;
 using PurrNet;
 using ShinyOwl.Common;
-using UnityEngine;
-using NoMoreFishAndChips.Environments;
-using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class StructureScaffold : Structure<StructureScaffoldDefinitionData>
+    public class StructureScaffold : Structure<StructureScaffoldDefinitionData>, IInteractable
     {
         private SyncVar<EntityId> _netBuildId = new SyncVar<EntityId>(ownerAuth: true);
         private SyncVar<int> _netBuildRotations = new SyncVar<int>(ownerAuth: true);
 
         private List<Prop> _tapeProps = new();
         private List<Prop> _standardProps = new();
+        private List<Prop> _previewProps = new();
+
+        public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
 
         protected override void OnSpawned()
         {
@@ -28,7 +33,9 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnDespawned();
 
-            ReturnProps();
+            ((IInteractable)this).HidePreview();
+
+            ReturnScaffoldProps();
 
             _netBuildRotations.onChanged -= HandleNetBuildRotationsChanged;
         }
@@ -67,13 +74,13 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void ReturnProps()
+        private void ReturnScaffoldProps()
         {
             foreach (Prop prop in _tapeProps)
             {
                 _environmentManager.ReturnProp(prop);
             }
-
+            
             _tapeProps.Clear();
 
             foreach (Prop prop in _standardProps)
@@ -86,7 +93,7 @@ namespace NoMoreFishAndChips.Entities
         
         private void RefreshProps()
         {
-            ReturnProps();
+            ReturnScaffoldProps();
 
             _shape.ForEachTrue((Vector2Int cell) =>
             {
@@ -141,6 +148,54 @@ namespace NoMoreFishAndChips.Entities
                     Prop standard = _environmentManager.GetProp(PropId.ScaffoldStandard, new SpawnParams() { Position = position, Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Parent = transform });
                     _standardProps.Add(standard);
                 }
+            }
+        }
+
+        bool IInteractable.CanPrompt()
+        {
+            return isSpawned && _context != null && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+        }
+
+        WorldUI IInteractable.CreatePromptUI()
+        {
+            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
+            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey);
+            return ui;
+        }
+
+        bool IInteractable.CanInteract()
+        {
+            return true;
+        }
+
+        void IInteractable.Interact()
+        { 
+
+        }
+
+        void IInteractable.ShowPreview()
+        {
+            _shape.ForEachTrue((Vector2Int cell) =>
+            {
+                Vector3 position = new Vector3(cell.x, 0f, cell.y) * 0.5f + Vector3.up * 0.075f;
+                Vector3 scale = new Vector3(0.51f, 0.15f, 0.51f);
+                _previewProps.Add(_environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = position, Scale = scale, Parent = transform }));
+            });
+        }
+
+        void IInteractable.SetPreviewColor(Color color)
+        { 
+            foreach (Prop prop in _previewProps)
+            {
+                prop.SetColor(color);
+            }
+        }
+
+        void IInteractable.HidePreview()
+        { 
+            foreach (Prop prop in _previewProps)
+            {
+                _environmentManager.ReturnProp(prop);
             }
         }
     }

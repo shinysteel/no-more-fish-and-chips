@@ -12,7 +12,7 @@ namespace NoMoreFishAndChips.Entities
 {
     public abstract class Structure : Entity
     {
-        private SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
+        protected SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
         private SyncVar<int> _netRotations = new SyncVar<int>(ownerAuth: true);
 
         public Vector2Int Cell => _netCell.value;
