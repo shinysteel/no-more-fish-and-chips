@@ -145,12 +145,12 @@ namespace NoMoreFishAndChips.Entities
             // For every cell opposite the player's forward and beyond the pivot, offset the pivot 
             if (direction.x != 0)
             {
-                targetCell.x -= direction.x > 0 ? _shape.GridBounds.xMin : _shape.GridBounds.xMax - 1;
+                targetCell.x -= direction.x > 0 ? _shape.TrueBounds.xMin : _shape.TrueBounds.xMax - 1;
             }
 
             if (direction.y != 0)
             {
-                targetCell.y -= direction.y > 0 ? _shape.GridBounds.yMin : _shape.GridBounds.yMax - 1;
+                targetCell.y -= direction.y > 0 ? _shape.TrueBounds.yMin : _shape.TrueBounds.yMax - 1;
             }
 
             _cell = targetCell;
@@ -192,7 +192,7 @@ namespace NoMoreFishAndChips.Entities
         {   
             // A refresh involves recalculating the positions and colors of both the previewModel and previewProps
 
-            Vector2 centerCell = _shape.GridBounds.center - Vector2.one * 0.5f;
+            Vector2 centerCell = _shape.TrueBounds.center - Vector2.one * 0.5f;
 
             Vector3 modelPosition = _context.Raft.Queries.StructureCellToWorldPosition(_cell + centerCell);
             modelPosition.y = _previewModel.transform.position.y;
