@@ -1,11 +1,14 @@
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 using NoMoreFishAndChips.Items;
+using NoMoreFishAndChips.Environments;
 
 namespace NoMoreFishAndChips.Entities
 {
     public class Planter : Structure<PlanterDefinitionData>, IInteractable
     {
+        private Prop _previewProp;
+
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         bool IInteractable.CanPrompt()
@@ -29,6 +32,22 @@ namespace NoMoreFishAndChips.Entities
         void IInteractable.Interact()
         {
             _context.LocalPlayer.Inventory.TryRemoveItems(DefinitionData.PlantRecipe.ToChangeParams());
+        }
+
+        void IInteractable.ShowPreview()
+        {
+            _previewProp = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = new Vector3(0f, 0.1875f, 0f), Parent = transform });
+        }
+
+        void IInteractable.SetPreviewColor(Color color)
+        {
+            _previewProp.SetColor(color);
+        }
+
+        void IInteractable.HidePreview()
+        {
+            _environmentManager.ReturnProp(_previewProp);
+            _previewProp = null;
         }
     }
 }

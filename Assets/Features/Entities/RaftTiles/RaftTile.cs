@@ -22,7 +22,9 @@ namespace NoMoreFishAndChips.Entities
 
         public Vector2Int Cell => _netCell.value;
         public int Rotations => _netRotations.value;
-        
+
+        private Prop _previewProp;
+
         public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
         public RaftTileDefeatLogic TileDefeatLogic => (RaftTileDefeatLogic)EntityDefeatLogic;
@@ -57,6 +59,8 @@ namespace NoMoreFishAndChips.Entities
         {   
             base.OnDespawned();
 
+            ((IInteractable)this).HidePreview();
+            
             EntityHealthLogic.OnChanged -= HandleHealthChanged;
             _netRotations.onChanged -= HandleNetRotationsChanged;
             _netCell.onChanged -= HandleNetCellChanged;
@@ -162,6 +166,28 @@ namespace NoMoreFishAndChips.Entities
             {
                 EntityHealthLogic.ChangeHealth(1);
             }
+        }
+
+        void IInteractable.ShowPreview()
+        {
+            _previewProp = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = new Vector3(0f, -0.125f, 0f), Scale = new Vector3(1.01f, 0.26f, 1.01f), Parent = transform });
+        }
+
+        void IInteractable.SetPreviewColor(Color color)
+        {
+            _previewProp.SetColor(color);
+        }
+
+        void IInteractable.HidePreview()
+        {
+            // We need to check for null, some Interacts of RaftTile destroy it
+            if (_previewProp == null)
+            {
+                return;
+            }
+
+            _environmentManager.ReturnProp(_previewProp);
+            _previewProp = null;
         }
     }
 }

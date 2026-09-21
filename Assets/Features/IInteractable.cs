@@ -11,5 +11,8 @@ namespace NoMoreFishAndChips
         WorldUI CreatePromptUI();
         bool CanInteract();
         void Interact();
+        void ShowPreview() { }
+        void SetPreviewColor(Color color) { }
+        void HidePreview() { }
     }
 }

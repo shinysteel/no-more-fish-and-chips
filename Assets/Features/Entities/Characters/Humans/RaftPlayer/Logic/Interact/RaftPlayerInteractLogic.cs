@@ -27,7 +27,6 @@ namespace NoMoreFishAndChips.Entities
 
         private IInteractable _promptInteractable;
         private WorldUI _promptUI;
-        private Prop _promptPreview;
 
         private Collider[] _collidersNonAlloc = new Collider[MaxOverlaps];
         private const int MaxOverlaps = 10;
@@ -82,18 +81,22 @@ namespace NoMoreFishAndChips.Entities
 
         public override void OnDespawned()
         {
+            ClearPrompts();
+        }
+
+        private void ClearPrompts()
+        {
             if (_promptUI != null)
             {
                 _uiManager.DestroyWorldUI(_promptUI);
             }
 
-            if (_promptPreview != null)
+            if (_promptInteractable != null)
             {
-                _environmentManager.ReturnProp(_promptPreview);
+                _promptInteractable.HidePreview();
             }
 
             _promptUI = null;
-            _promptPreview = null;
             _promptInteractable = null;
         }
         
@@ -196,7 +199,7 @@ namespace NoMoreFishAndChips.Entities
             // Reevaluate what UI we are showing and animate it
             if (_nearbyInteractables.Count == 0 || _promptInteractable != _nearbyInteractables[0].Interactable)
             {
-                OnDespawned();
+                ClearPrompts();
             }
 
             if (_nearbyInteractables.Count > 0)
@@ -206,19 +209,15 @@ namespace NoMoreFishAndChips.Entities
                     _promptInteractable = _nearbyInteractables[0].Interactable;
                     _promptUI = _promptInteractable.CreatePromptUI();
 
-                    if (_promptInteractable.IInteractableSettings.PreviewId != PropId.None)
-                    {
-                        SpawnParams parameters = new SpawnParams() { Position = _promptInteractable.IInteractableSettings.PreviewPosition, Scale = _promptInteractable.IInteractableSettings.PreviewScale, Parent = _promptInteractable.transform };
-                        _promptPreview = _environmentManager.GetProp(_promptInteractable.IInteractableSettings.PreviewId, parameters);
-                        RefreshPreviewColor();
-                    }
+                    _promptInteractable.ShowPreview();
+                    RefreshPreviewColor();
                 }
             }
         }
 
         private void RefreshPreviewColor()
         {
-            _promptPreview.SetColor(_promptInteractable.CanInteract() ? _settings.ValidColor : _settings.InvalidColor);
+            _promptInteractable.SetPreviewColor(_promptInteractable.CanInteract() ? _settings.ValidColor : _settings.InvalidColor);
         }
 
         private void AnimateTick()
