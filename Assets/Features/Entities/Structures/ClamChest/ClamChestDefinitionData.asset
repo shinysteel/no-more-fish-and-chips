@@ -37,5 +37,6 @@ MonoBehaviour:
       _count: 1
     - _itemId: 1
       _count: 2
+  _isScaffold: 0
   _iInteractableSettings: {fileID: 11400000, guid: 3cf75e5664f4059479107804db4833da, type: 2}
   _inventoryLayout: {fileID: 11400000, guid: 28853771c3054d3419707e9d481cf898, type: 2}

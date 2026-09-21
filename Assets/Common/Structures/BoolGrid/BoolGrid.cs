@@ -199,6 +199,18 @@ namespace ShinyOwl.Common.Structures
         {
             value = false;
 
+            int arrayX = cell.x + _arrayOffset.x;
+            if (arrayX < 0 || arrayX >= _columns)
+            {
+                return false;
+            }
+
+            int arrayY = cell.y + _arrayOffset.y;
+            if (arrayY < 0 || arrayY >= _rows)
+            {
+                return false;
+            }
+
             int index = CellToIndex(cell);
 
             if (index < 0 || index >= _bools.Length)
@@ -294,7 +306,7 @@ namespace ShinyOwl.Common.Structures
 
                 if (!kvp.Value)
                 {
-                    return;
+                    continue;
                 }
 
                 minTrueX = Mathf.Min(minTrueX, kvp.Key.x);

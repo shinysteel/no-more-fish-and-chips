@@ -13,6 +13,7 @@ using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.Voyages;
+using NoMoreFishAndChips.Environments;
 
 namespace NoMoreFishAndChips.Networking
 {
@@ -32,6 +33,7 @@ namespace NoMoreFishAndChips.Networking
         protected EffectManager _effectManager;
         protected StateManager _stateManager;
         protected VoyageManager _voyageManager;
+        protected EnvironmentManager _environmentManager;
 
         protected virtual void Awake()
         {
@@ -49,6 +51,7 @@ namespace NoMoreFishAndChips.Networking
             _effectManager = GameManager.Instance.Get<EffectManager>();
             _stateManager = GameManager.Instance.Get<StateManager>();
             _voyageManager = GameManager.Instance.Get<VoyageManager>();
+            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
         }
 
         protected override void OnSpawned()

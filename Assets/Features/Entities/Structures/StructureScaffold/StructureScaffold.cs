@@ -1,6 +1,9 @@
 using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
+using NoMoreFishAndChips.Environments;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -9,6 +12,8 @@ namespace NoMoreFishAndChips.Entities
         private SyncVar<EntityId> _netBuildId = new SyncVar<EntityId>(ownerAuth: true);
         private SyncVar<int> _netBuildRotations = new SyncVar<int>(ownerAuth: true);
 
+        private List<Prop> _tapeProps = new();
+
         protected override void OnSpawned()
         {
             base.OnSpawned();
@@ -16,6 +21,8 @@ namespace NoMoreFishAndChips.Entities
             HandleNetBuildRotationsChanged(_netBuildRotations.value);
 
             _netBuildRotations.onChanged += HandleNetBuildRotationsChanged;
+
+            Test();
         }
 
         protected override void OnDespawned()
@@ -55,6 +62,37 @@ namespace NoMoreFishAndChips.Entities
             {
                 HandleNetBuildRotationsChanged(_netBuildRotations.value);
             }
+        }
+
+        private void Test()
+        {
+            foreach (Prop prop in _tapeProps)
+            {
+                _environmentManager.ReturnProp(prop);
+            }
+
+            _tapeProps.Clear();
+
+            _shape.ForEachTrue((Vector2Int cell) =>
+            {
+                void processSide(Vector3 direction)
+                {
+                    Vector2Int offset = new Vector2Int((int)direction.x, (int)direction.z);
+                    Vector3 position = new Vector3(cell.x, 0f, cell.y) * 0.5f + direction * 0.25f;
+                    Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+                    if (!_shape.TryGetBool(cell + offset, out bool value) || !value)
+                    {
+                        Prop tape = _environmentManager.GetProp(PropId.ScaffoldTape, new SpawnParams() { Position = position, Rotation = rotation, Parent = transform });
+                        _tapeProps.Add(tape);
+                    }
+                }
+
+                processSide(Vector3.forward);
+                processSide(Vector3.right);
+                processSide(Vector3.back);
+                processSide(Vector3.left);
+            });
         }
     }
 }

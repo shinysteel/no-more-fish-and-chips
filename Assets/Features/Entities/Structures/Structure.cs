@@ -27,14 +27,15 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
-            if (isOwner)
+            if (isOwner && !StructureDefinitionData.IsScaffold)
             {
-                transform.position = _context.Raft.Queries.StructureCellToWorldPosition(_netCell.value);
                 transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
             }
 
+            HandleNetCellChanged(_netCell.value);
             HandleNetRotationsChanged(_netRotations.value);
 
+            _netCell.onChanged += HandleNetCellChanged;
             _netRotations.onChanged += HandleNetRotationsChanged;
         }
 
@@ -42,12 +43,23 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnDespawned();
 
+            _netCell.onChanged -= HandleNetCellChanged;
             _netRotations.onChanged -= HandleNetRotationsChanged;
         }
 
         protected virtual void RefreshShape()
         {
             _shape = StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _netRotations.value);
+        }
+
+        private void HandleNetCellChanged(Vector2Int cell)
+        {
+            if (isOwner)
+            {
+                Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(cell);
+                position.y = 0.125f;
+                transform.position = position;
+            }
         }
 
         private void HandleNetRotationsChanged(int rotations)

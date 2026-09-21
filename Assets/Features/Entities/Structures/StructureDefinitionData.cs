@@ -10,9 +10,11 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private BoolGrid _shape;
         [SerializeField] private Recipe _buildRecipe;
+        [SerializeField] private bool _isScaffold;
 
         public BoolGrid Shape => _shape;
         public Recipe BuildRecipe => _buildRecipe;
+        public bool IsScaffold => _isScaffold;
 
         DefinitionData ICreatable.DefinitionData => this;
         EntityDefinitionData IBuildable.EntityDefinitionData => this;
