@@ -233,7 +233,12 @@ namespace NoMoreFishAndChips.Environments
             }
             else if (entity is Structure structure)
             {
-                _netStructures.Remove(structure.Cell);
+                BoolGrid shape = structure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, structure.Rotations);
+
+                shape.ForEachTrue((Vector2Int cell) =>
+                {
+                    _netStructures.Remove(structure.Cell + cell);
+                });
             }
         }
 
