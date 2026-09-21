@@ -83,7 +83,8 @@ namespace NoMoreFishAndChips.UI
         private Vector2 CalculateAnchoredPositionForCell(Vector2Int cell)
         {
             // Offset relative to center, and respect inherited rotation
-            Vector2 rawOffset = new Vector2(cell.x - _inventoryItem.Shape.GridBounds.center.x, cell.y - _inventoryItem.Shape.GridBounds.center.y);
+            Vector2 centerCell = _inventoryItem.Shape.GridBounds.center - Vector2.one * 0.5f;
+            Vector2 rawOffset = new Vector2(cell.x - centerCell.x, cell.y - centerCell.y);
             Vector2 rotatedOffset = Utils.Math.RotateCell(rawOffset, _inventoryItem.Rotations, false);
 
             Vector2 slotSize = _inventoryItem.Rotations % 2 == 0 ? _slotSize : new Vector2(_slotSize.y, _slotSize.x);
@@ -109,9 +110,6 @@ namespace NoMoreFishAndChips.UI
 
             float sizeX = horizontal ? _slotSize.x : _slotSize.y;
             float sizeY = horizontal ? _slotSize.y : _slotSize.x;
-
-            int pivotX = horizontal ? _inventoryItem.Pivot.x : _inventoryItem.Pivot.y;
-            int pivotY = horizontal ? _inventoryItem.Pivot.y : _inventoryItem.Pivot.x;
 
             int minX = horizontal ? _inventoryItem.Shape.TrueBounds.xMin : _inventoryItem.Shape.TrueBounds.yMin;
             int minY = horizontal ? _inventoryItem.Shape.TrueBounds.yMin : _inventoryItem.Shape.TrueBounds.xMin;

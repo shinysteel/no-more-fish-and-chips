@@ -299,8 +299,8 @@ namespace ShinyOwl.Common.Structures
             {
                 minGridX = Mathf.Min(minGridX, kvp.Key.x);
                 minGridY = Mathf.Min(minGridY, kvp.Key.y);
-                maxGridX = Mathf.Max(maxGridX, kvp.Key.x);
-                maxGridY = Mathf.Max(maxGridY, kvp.Key.y);
+                maxGridX = Mathf.Max(maxGridX, kvp.Key.x + 1);
+                maxGridY = Mathf.Max(maxGridY, kvp.Key.y + 1);
 
                 cellCount++;
 
@@ -311,8 +311,8 @@ namespace ShinyOwl.Common.Structures
 
                 minTrueX = Mathf.Min(minTrueX, kvp.Key.x);
                 minTrueY = Mathf.Min(minTrueY, kvp.Key.y);
-                maxTrueX = Mathf.Max(maxTrueX, kvp.Key.x);
-                maxTrueY = Mathf.Max(maxTrueY, kvp.Key.y);
+                maxTrueX = Mathf.Max(maxTrueX, kvp.Key.x + 1);
+                maxTrueY = Mathf.Max(maxTrueY, kvp.Key.y + 1);
 
                 trueCount++;
             };
@@ -337,13 +337,13 @@ namespace ShinyOwl.Common.Structures
 
                 minGridX = Mathf.Min(minGridX, rotated.x);
                 minGridY = Mathf.Min(minGridY, rotated.y);
-                maxGridX = Mathf.Max(maxGridX, rotated.x);
-                maxGridY = Mathf.Max(maxGridY, rotated.y);
+                maxGridX = Mathf.Max(maxGridX, rotated.x + 1);
+                maxGridY = Mathf.Max(maxGridY, rotated.y + 1);
             }
 
             BoolGrid grid = CreateInstance<BoolGrid>();
-            grid._columns = maxGridX - minGridX + 1;
-            grid._rows = maxGridY - minGridY + 1;
+            grid._columns = maxGridX - minGridX;
+            grid._rows = maxGridY - minGridY;
             grid._bools = new bool[grid._columns * grid._rows];
 
             // An offset allows us to store 'negative' cells

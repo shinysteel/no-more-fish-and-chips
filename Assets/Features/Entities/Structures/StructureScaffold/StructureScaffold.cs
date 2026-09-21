@@ -13,6 +13,7 @@ namespace NoMoreFishAndChips.Entities
         private SyncVar<int> _netBuildRotations = new SyncVar<int>(ownerAuth: true);
 
         private List<Prop> _tapeProps = new();
+        private List<Prop> _standardProps = new();
 
         protected override void OnSpawned()
         {
