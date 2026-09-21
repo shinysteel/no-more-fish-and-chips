@@ -27,11 +27,6 @@ namespace NoMoreFishAndChips.Entities
         {
             base.OnSpawned();
 
-            if (isOwner && !StructureDefinitionData.IsScaffold)
-            {
-                transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
-            }
-
             HandleNetCellChanged(_netCell.value);
             HandleNetRotationsChanged(_netRotations.value);
 
@@ -65,6 +60,11 @@ namespace NoMoreFishAndChips.Entities
         private void HandleNetRotationsChanged(int rotations)
         {
             RefreshShape();
+
+            if (isOwner && !StructureDefinitionData.IsScaffold)
+            {
+                transform.rotation = Quaternion.AngleAxis(Utils.Math.EuclideanModulo(rotations + 2, 4) * 90f, Vector3.up);
+            }
         }
 
         public void SetNetCell(Vector2Int cell)

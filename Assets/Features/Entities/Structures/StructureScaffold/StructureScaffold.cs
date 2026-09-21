@@ -185,8 +185,10 @@ namespace NoMoreFishAndChips.Entities
         }
 
         void IInteractable.Interact()
-        { 
+        {
+            Entity prefab = _entityManager.GetPrefab(_netBuildId.value);
 
+            _context.Raft.SetStructureRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value);
         }
 
         void IInteractable.ShowPreview()

@@ -203,8 +203,6 @@ namespace NoMoreFishAndChips.Environments
         [ServerRpc(requireOwnership: false)]
         public void AddStructureScaffoldRpc(Vector2Int cell, EntityId buildId, int buildRotations)
         {
-            // for some reason this isnt stopping you from placing invalid structures
-
             Structure prefab = (Structure)_entityManager.GetPrefab(buildId);
             BoolGrid shape = prefab.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, buildRotations);
 
@@ -241,11 +239,6 @@ namespace NoMoreFishAndChips.Environments
         [ServerRpc(requireOwnership: false)]
         public void SetStructureRpc(Vector2Int setCell, EntityId structureId, int health, int rotations)
         {
-            if (_structures.ContainsKey(setCell))
-            {
-                return;
-            }
-
             Structure setStructure = CreateStructure(setCell, structureId, health, rotations);
 
             // Determine and despawn overlapping structures

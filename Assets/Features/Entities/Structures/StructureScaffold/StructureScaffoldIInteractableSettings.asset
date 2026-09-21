@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: StructureScaffoldIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.IInteractableSettings
   _hotkey: 2
-  _priority: 1
+  _priority: 2
   _maxAngle: 45
   _maxDistance: 0.5
