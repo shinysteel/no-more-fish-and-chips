@@ -98,9 +98,6 @@ namespace NoMoreFishAndChips.Entities
                     {
                         Vector3 position = new Vector3(cell.x, 0f, cell.y) * 0.5f + direction * 0.25f;
                         
-                        // position.x -= Mathf.Sign(position.x) * 0.05f;
-                        // position.z -= Mathf.Sign(position.z) * 0.05f;
-
                         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
 
                         Prop tape = _environmentManager.GetProp(PropId.ScaffoldTape, new SpawnParams() { Position = position, Rotation = rotation, Parent = transform });
@@ -140,9 +137,6 @@ namespace NoMoreFishAndChips.Entities
                     }
 
                     Vector3 position = new Vector3(cell.x * 0.5f - 0.25f, 0f, cell.y * 0.5f - 0.25f);
-
-                    // position.x -= Mathf.Sign(position.x) * 0.05f;
-                    // position.z -= Mathf.Sign(position.z) * 0.05f;
 
                     Prop standard = _environmentManager.GetProp(PropId.ScaffoldStandard, new SpawnParams() { Position = position, Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Parent = transform });
                     _standardProps.Add(standard);
