@@ -5,6 +5,8 @@ using System;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
 using PurrNet;
+using ShinyOwl.Common.Structures;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -15,6 +17,9 @@ namespace NoMoreFishAndChips.Entities
 
         public Vector2Int Cell => _netCell.value;
         public int Rotations => _netRotations.value;
+
+        protected BoolGrid _shape;
+        public BoolGrid Shape => _shape;
 
         public StructureDefinitionData StructureDefinitionData => (StructureDefinitionData)_entityDefinitionData;
 
@@ -27,6 +32,27 @@ namespace NoMoreFishAndChips.Entities
                 transform.position = _context.Raft.Queries.StructureCellToWorldPosition(_netCell.value);
                 transform.rotation = Quaternion.LookRotation(Vector3.back, Vector3.up);
             }
+
+            HandleNetRotationsChanged(_netRotations.value);
+
+            _netRotations.onChanged += HandleNetRotationsChanged;
+        }
+
+        protected override void OnDespawned()
+        {
+            base.OnDespawned();
+
+            _netRotations.onChanged -= HandleNetRotationsChanged;
+        }
+
+        protected virtual void RefreshShape()
+        {
+            _shape = StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _netRotations.value);
+        }
+
+        private void HandleNetRotationsChanged(int rotations)
+        {
+            RefreshShape();
         }
 
         public void SetNetCell(Vector2Int cell)
@@ -37,6 +63,12 @@ namespace NoMoreFishAndChips.Entities
         public void SetNetRotations(int rotations)
         {
             _netRotations.value = rotations;
+
+            // Raft needs _shape to be assigned as soon as the Structure is created
+            if (isOwner)
+            {
+                HandleNetRotationsChanged(_netRotations.value);
+            }
         }
 
         public virtual string GetJsonData()
