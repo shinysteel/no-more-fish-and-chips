@@ -71,6 +71,11 @@ namespace ShinyOwl.Common.Utils
                     return false;
                 }
 
+                if (proxy.OwnerGameObject == null)
+                {
+                    return false;
+                }
+
                 return proxy.OwnerGameObject.TryGetComponent(out component);
             }
         }
