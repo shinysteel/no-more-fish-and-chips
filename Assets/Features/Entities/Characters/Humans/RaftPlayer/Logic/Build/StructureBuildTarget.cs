@@ -228,6 +228,8 @@ namespace NoMoreFishAndChips.Entities
         {
             // Y is constantly updated to have props sit on top of the tiles they overlap
 
+            Vector3 modelPosition = _previewModel.transform.position;
+
             float? y = null;
 
             foreach (RaftTile tile in _overlappingTiles.Values)
@@ -240,8 +242,8 @@ namespace NoMoreFishAndChips.Entities
                 y = Mathf.Max(y ?? int.MinValue, tile.transform.position.y);
             }
 
-            Vector3 modelPosition = _previewModel.transform.position;
             modelPosition.y = y ?? 0.125f;
+
             _previewModel.transform.position = modelPosition;
 
             foreach (PreviewProp preview in _previewProps)

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.IInteractableSettings
   _hotkey: 2
   _priority: 2
-  _maxAngle: 45
+  _maxAngle: 90
   _maxDistance: 0.5

@@ -7,6 +7,9 @@ using ShinyOwl.Common.Utils;
 using PurrNet;
 using ShinyOwl.Common.Structures;
 using ShinyOwl.Common;
+using NUnit.Framework;
+using UnityEngine.Pool;
+using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -59,7 +62,22 @@ namespace NoMoreFishAndChips.Entities
                 }
 
                 Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(structureCell);
-                position.y = 0.125f;
+
+                // Find the highest Y to sit on - without this it can be stuck in the tile                
+                float? y = null;
+
+                _shape.ForEachTrue((Vector2Int cell) =>
+                {
+                    Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(_netCell.value + cell);
+                    
+                    if (_context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile))
+                    {
+                        y = Mathf.Max(y ?? int.MinValue, tile.transform.position.y);
+                    }
+                });
+
+                position.y = y ?? 0.125f;
+
                 transform.position = position;
             }
         }
