@@ -160,7 +160,7 @@ namespace NoMoreFishAndChips.Entities
                     continue;
                 }
 
-                if (_nearbyInteractables.Any(nearbyInteractable => nearbyInteractable.Interactable == interactable))
+                if (_nearbyInteractables.Any(nearbyInteractable => nearbyInteractable.Collider == _collidersNonAlloc[i]))
                 {
                     continue;
                 }
