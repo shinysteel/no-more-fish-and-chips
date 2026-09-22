@@ -115,7 +115,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanInteract()
         {
-            return _context.LocalPlayer.Inventory.CanAddItem(InventoryChangeParams.Create(_netItemInstance), out _, out _, out _);
+            return isSpawned && _context != null && _context.LocalPlayer.Inventory.CanAddItem(InventoryChangeParams.Create(_netItemInstance), out _, out _, out _);
         }
 
         void IInteractable.Interact()
