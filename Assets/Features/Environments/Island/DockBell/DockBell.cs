@@ -16,7 +16,8 @@ namespace NoMoreFishAndChips.Environments
         private UIManager _uiManager;
         private NetworkManager _networkManager;
 
-        public IInteractableSettings IInteractableSettings => _iInteractableSettings;
+        Vector3 IInteractable.Position => transform.position;
+        IInteractableSettings IInteractable.IInteractableSettings => _iInteractableSettings;
 
         private void Awake()
         {

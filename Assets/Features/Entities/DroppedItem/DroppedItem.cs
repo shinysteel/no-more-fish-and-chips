@@ -34,6 +34,7 @@ namespace NoMoreFishAndChips.Entities
 
         private const int MaxItemModels = 3;
 
+        Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         protected override void OnSpawned()

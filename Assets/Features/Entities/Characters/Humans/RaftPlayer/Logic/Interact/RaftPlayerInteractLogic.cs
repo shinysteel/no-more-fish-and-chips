@@ -240,7 +240,7 @@ namespace NoMoreFishAndChips.Entities
             Vector3 offset = Vector3.up * (amplitude * Mathf.Sin(frequency * (_animateTimer - phaseShift)) + verticalShift);
 
             // Bob up and down slightly above the interactable
-            _promptUI.transform.position = _promptInteractable.transform.position + offset;
+            _promptUI.transform.position = _promptInteractable.Position + offset;
         }
 
         private bool CanPrompt(IInteractable interactable, Collider collider, out float angle, out float distance)

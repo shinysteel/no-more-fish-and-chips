@@ -60,10 +60,10 @@ namespace NoMoreFishAndChips.Environments
                     int health = data.Health;
 
                     // 33% chance to have one less health
-                    if (Random.value < 1f / 3f)
-                    {
-                        health--;
-                    }
+                    //if (Random.value < 1f / 3f)
+                    //{
+                    //    health--;
+                    //}
 
                     int rotations = Random.Range(0, 4);
 

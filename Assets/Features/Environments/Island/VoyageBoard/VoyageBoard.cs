@@ -12,7 +12,8 @@ namespace NoMoreFishAndChips.Environments
 
         private PanelInstance<VoyageBoardPanel> _voyageBoardPanelInstance;
 
-        public IInteractableSettings IInteractableSettings => _iInteractableSettings;
+        Vector3 IInteractable.Position => transform.position;
+        IInteractableSettings IInteractable.IInteractableSettings => _iInteractableSettings;
 
         private void Awake()
         {

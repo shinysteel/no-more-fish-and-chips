@@ -45,7 +45,8 @@ namespace NoMoreFishAndChips.Entities
         private StateAnimationEvents _closedStateAnimationEvents;
         private StateAnimationEvents _openedStateAnimationEvents;
 
-        public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
+        Vector3 IInteractable.Position => transform.position;
+        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         private const string RageBlendName = "_RageBlend";
         private const string ExplodeBlendName = "_ExplodeBlend";

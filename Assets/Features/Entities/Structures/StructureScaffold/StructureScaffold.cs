@@ -20,7 +20,9 @@ namespace NoMoreFishAndChips.Entities
         private List<Prop> _previewProps = new();
         private List<ColliderProxy> _colliderProxies = new();
 
-        public IInteractableSettings IInteractableSettings => DefinitionData.IInteractableSettings;
+        private Vector3 _iInteractablePositionOffset;
+        Vector3 IInteractable.Position => transform.position + _iInteractablePositionOffset;
+        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         protected override void OnSpawned()
         {
@@ -38,6 +40,10 @@ namespace NoMoreFishAndChips.Entities
                 proxy.SetOwnerGameObject(gameObject);
                 _colliderProxies.Add(proxy);
             });
+
+            Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(_netCell.value + _shape.TrueBounds.center - Vector2.one * 0.5f);
+            position.y = transform.position.y;
+            _iInteractablePositionOffset = position - transform.position;
         }
 
         protected override void OnDespawned()

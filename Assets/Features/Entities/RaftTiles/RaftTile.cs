@@ -29,6 +29,7 @@ namespace NoMoreFishAndChips.Entities
 
         public RaftTileDefeatLogic TileDefeatLogic => (RaftTileDefeatLogic)EntityDefeatLogic;
 
+        Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
 
         protected override EntityLogicFactory CreateLogicFactory()

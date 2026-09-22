@@ -9,6 +9,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private Prop _previewProp;
 
+        Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         bool IInteractable.CanPrompt()

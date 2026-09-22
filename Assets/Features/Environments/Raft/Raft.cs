@@ -12,6 +12,7 @@ using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.Pool;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Environments
 {
@@ -150,7 +151,7 @@ namespace NoMoreFishAndChips.Environments
 
         private RaftTile CreateTile(Vector2Int cell, EntityId tileId, int health, int rotations)
         {
-            RaftTile tile = (RaftTile)_entityManager.Spawn(tileId, new SpawnParams() { Parent = transform });
+            RaftTile tile = (RaftTile)_entityManager.Spawn(tileId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition, Parent = transform });
 
             tile.EntityHealthLogic.SetHealth(health);
             tile.SetNetCell(cell);
@@ -191,7 +192,7 @@ namespace NoMoreFishAndChips.Environments
 
         private Structure CreateStructure(Vector2Int cell, EntityId structureId, int health, int rotations)
         {
-            Structure structure = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Parent = transform });
+            Structure structure = (Structure)_entityManager.Spawn(structureId, new SpawnParams() { Position = NetworkManager.HiddenSpawnPosition, Parent = transform });
 
             structure.EntityHealthLogic.SetHealth(health);
             structure.SetNetCell(cell);

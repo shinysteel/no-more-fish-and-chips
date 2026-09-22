@@ -133,7 +133,7 @@ namespace NoMoreFishAndChips.Entities
 
             return _networkManager.Spawn(prefab, parameters);
         }
-
+        
         public void Despawn(Entity entity)
         {
             _networkManager.Despawn(entity);

@@ -51,7 +51,14 @@ namespace NoMoreFishAndChips.Entities
         {
             if (isOwner)
             {
-                Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(cell);
+                Vector2 structureCell = cell;
+
+                if (!StructureDefinitionData.IsScaffold)
+                {
+                    structureCell += _shape.TrueBounds.center - Vector2.one * 0.5f;
+                }
+
+                Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(structureCell);
                 position.y = 0.125f;
                 transform.position = position;
             }

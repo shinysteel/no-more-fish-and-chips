@@ -30,6 +30,7 @@ namespace NoMoreFishAndChips.Entities
 
         private const float OpenDuration = 0.4f;
 
+        Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
 
         protected override void Awake()

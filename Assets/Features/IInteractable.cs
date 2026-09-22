@@ -5,7 +5,7 @@ namespace NoMoreFishAndChips
 {
     public interface IInteractable
     {
-        Transform transform { get; }
+        Vector3 Position { get; }
         IInteractableSettings IInteractableSettings { get; }
         bool CanPrompt();
         WorldUI CreatePromptUI();
