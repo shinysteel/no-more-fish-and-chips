@@ -32,7 +32,7 @@ MonoBehaviour:
       _count: 4
   _isScaffold: 0
   _chargeDuration: 10
-  _electrocuteRadius: 5
+  _electrocuteRadius: 3
   _electrocuteMask:
     serializedVersion: 2
     m_Bits: 128

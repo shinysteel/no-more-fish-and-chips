@@ -6,7 +6,7 @@ namespace NoMoreFishAndChips.Entities
     public class TeslaCoilDefinitionData : StructureDefinitionData
     {
         [SerializeField] private float _chargeDuration = 10f;
-        [SerializeField] private float _electrocuteRadius = 5f;
+        [SerializeField] private float _electrocuteRadius = 3f;
         [SerializeField] private LayerMask _electrocuteMask;
         [SerializeField] private int _electroctuteDamage = 3;
 

@@ -59,6 +59,11 @@ namespace NoMoreFishAndChips.Entities
                     continue;
                 }
 
+                if (entity.EntityDefeatLogic.IsDefeated)
+                {
+                    continue;
+                }
+
                 entity.EntityHealthLogic.ChangeHealth(-DefinitionData.ElectrocuteDamage);
 
                 _chargeTimer = 0f;
