@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: "Permet de suivre le nombre de vagues auxquelles vous avez surv\xE9cu."
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Localized: Bobine Tesla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Localized: "Il provoque une d\xE9charge \xE9lectrique d\xE9vastatrice."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: "Registra quantas ondas voc\xEA sobreviveu."
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Localized: Bobina de Tesla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Localized: "Provoca um choque el\xE9trico devastador."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

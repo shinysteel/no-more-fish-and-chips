@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: "Lleva la cuenta de cu\xE1ntas olas has sobrevivido."
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Localized: Bobina de Tesla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Localized: "Provoca una descarga el\xE9ctrica devastadora."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

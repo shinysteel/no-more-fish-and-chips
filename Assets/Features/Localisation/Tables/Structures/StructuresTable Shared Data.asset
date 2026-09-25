@@ -39,6 +39,14 @@ MonoBehaviour:
     m_Key: structures.planterDescription
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Key: structures.teslaCoilName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Key: structures.teslaCoilDescription
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

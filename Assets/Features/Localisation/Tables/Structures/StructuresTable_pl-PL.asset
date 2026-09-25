@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: "\u015Aledzi, ile fal uda\u0142o Ci si\u0119 przetrwa\u0107"
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Localized: Cewka Tesli
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Localized: "\u0141aduje niszczycielski wstrz\u0105s elektryczny"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

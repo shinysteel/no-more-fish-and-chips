@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: Keeps track of how many waves you've survived
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Localized: Tesla Coil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Localized: Charges a devasating electric shock
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

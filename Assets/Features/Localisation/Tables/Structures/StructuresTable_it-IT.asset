@@ -42,6 +42,14 @@ MonoBehaviour:
     m_Localized: Tiene traccia di quante onde hai superato
     m_Metadata:
       m_Items: []
+  - m_Id: 92292273452445696
+    m_Localized: Bobina di Tesla
+    m_Metadata:
+      m_Items: []
+  - m_Id: 92292273486000128
+    m_Localized: Carica una devastante scossa elettrica
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

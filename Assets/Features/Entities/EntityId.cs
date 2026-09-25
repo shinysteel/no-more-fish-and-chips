@@ -28,6 +28,7 @@ namespace NoMoreFishAndChips.Entities
         WaveCounter = 300,
         ClamChest = 301,
         Planter = 302,
-        StructureScaffold = 303
+        StructureScaffold = 303,
+        TeslaCoil = 304
     }
 }

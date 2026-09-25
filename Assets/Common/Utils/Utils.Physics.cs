@@ -78,6 +78,11 @@ namespace ShinyOwl.Common.Utils
 
                 return proxy.OwnerGameObject.TryGetComponent(out component);
             }
+
+            public static T ColliderGetComponent<T>(Collider collider)
+            {
+                return collider.GetComponent<T>() ?? collider.GetComponent<ColliderProxy>().OwnerGameObject.GetComponent<T>();
+            }
         }
     }
 }
