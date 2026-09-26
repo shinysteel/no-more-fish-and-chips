@@ -136,6 +136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileMarker
   _meshRenderer: {fileID: 2631906499820761485}
+  _tileMask:
+    serializedVersion: 2
+    m_Bits: 256
   _gradient:
     serializedVersion: 2
     key0: {r: 0.9019608, g: 0.62759256, b: 0.427451, a: 1}

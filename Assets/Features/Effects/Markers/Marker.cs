@@ -12,6 +12,8 @@ namespace NoMoreFishAndChips.Effects
     {
         [SerializeField] private MeshRenderer _meshRenderer;
 
+        [SerializeField] private LayerMask _tileMask;
+
         [SerializeField] private Gradient _gradient;
 
         private float _transformSpeed = 50f;
@@ -26,7 +28,7 @@ namespace NoMoreFishAndChips.Effects
 
         private NetMarker NetMarker => _netMarker;
 
-        private Collider[] _collidersNonAlloc = new Collider[9];
+        private Collider[] _tileCollidersNonAlloc = new Collider[9];
 
         private void Awake()
         {
@@ -70,14 +72,11 @@ namespace NoMoreFishAndChips.Effects
             Vector3 overlapPosition = _netMarker.GetPosition();
             overlapPosition.y = 0.0625f;
             
-            int overlaps = Physics.OverlapBoxNonAlloc(overlapPosition, _netMarker.GetScale() * 0.5f, _collidersNonAlloc, Quaternion.identity);
+            int overlaps = Physics.OverlapBoxNonAlloc(overlapPosition, _netMarker.GetScale() * 0.5f, _tileCollidersNonAlloc, Quaternion.identity, _tileMask);
 
             for (int i = 0; i < overlaps; i++)
             {
-                if (Utils.Physics.ColliderTryGetComponent(_collidersNonAlloc[i], out RaftTile tile))
-                {
-                    y = Mathf.Max(y, tile.transform.position.y);
-                }
+                y = Mathf.Max(y, _tileCollidersNonAlloc[i].transform.position.y);
             }
 
             Vector3 targetPosition = _netMarker.GetPosition();

@@ -29,8 +29,8 @@ namespace NoMoreFishAndChips.Entities
         private IInteractable _promptInteractable;
         private WorldUI _promptUI;
 
-        private Collider[] _collidersNonAlloc = new Collider[MaxOverlaps];
-        private const int MaxOverlaps = 10;
+        private Collider[] _interactableCollidersNonAlloc = new Collider[MaxOverlaps];
+        private const int MaxOverlaps = 20;
 
         // An interactable that can be considered 'nearby', meaning its angle and distance relative to the player are below the maxes
         private class NearbyInteractable : IComparable<NearbyInteractable>
@@ -150,27 +150,27 @@ namespace NoMoreFishAndChips.Entities
 
         private void AddTick()
         {
-            int overlaps = Physics.OverlapSphereNonAlloc(_player.transform.position, _settings.Radius, _collidersNonAlloc, _settings.Mask);
+            int overlaps = Physics.OverlapSphereNonAlloc(_player.transform.position, _settings.Radius, _interactableCollidersNonAlloc, _settings.Mask);
 
             // Track new interactables that match our hotkey and are nearby
             for (int i = 0; i < overlaps; i++)
             {
-                if (!Utils.Physics.ColliderTryGetComponent(_collidersNonAlloc[i], out IInteractable interactable))
+                if (!Utils.Physics.ColliderTryGetComponent(_interactableCollidersNonAlloc[i], out IInteractable interactable))
                 {
                     continue;
                 }
 
-                if (_nearbyInteractables.Any(nearbyInteractable => nearbyInteractable.Collider == _collidersNonAlloc[i]))
+                if (_nearbyInteractables.Any(nearbyInteractable => nearbyInteractable.Collider == _interactableCollidersNonAlloc[i]))
                 {
                     continue;
                 }
 
-                if (!CanPrompt(interactable, _collidersNonAlloc[i], out _, out _))
+                if (!CanPrompt(interactable, _interactableCollidersNonAlloc[i], out _, out _))
                 {
                     continue;
                 }
 
-                _nearbyInteractables.Add(new NearbyInteractable(interactable, _collidersNonAlloc[i]));
+                _nearbyInteractables.Add(new NearbyInteractable(interactable, _interactableCollidersNonAlloc[i]));
             }
         }
 
