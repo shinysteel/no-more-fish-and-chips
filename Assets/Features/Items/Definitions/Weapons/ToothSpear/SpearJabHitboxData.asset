@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c0829d1599f28418a14f0b5f8d89a9, type: 3}
   m_Name: SpearJabHitboxData
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Hitboxes.HitboxData
-  _damage: 1
-  _knockbackForceStrength: 10
-  _knockbackTorqueStrength: 0.1
-  _poiseDamage: 0.1
+  _hit:
+    _healthDamage: 1
+    _poiseDamage: 0.1
+    _forceStrength: 10
+    _torqueStrength: 0.1
   _alliance: 0
   _mask:
     serializedVersion: 2

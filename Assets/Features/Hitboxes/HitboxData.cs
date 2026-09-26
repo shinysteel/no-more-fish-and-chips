@@ -9,19 +9,13 @@ namespace NoMoreFishAndChips.Hitboxes
     [CreateAssetMenu(fileName = "HitboxData", menuName = "Data/Hitboxes/HitboxData")]
     public class HitboxData : ScriptableObject
     {
-        [SerializeField] private int _damage = 1;
-        [SerializeField] private float _knockbackForceStrength = 1f;
-        [SerializeField] private float _knockbackTorqueStrength = 0.5f;
-        [SerializeField] private float _poiseDamage = 0.2f;
+        [SerializeField] private Hit _hit;
         [SerializeField] private EntityAlliance _alliance = EntityAlliance.Ally;
         [SerializeField] private LayerMask _mask = -1;
         [SerializeField] private HitboxLimit[] _limits = new HitboxLimit[0];
         [SerializeField] private HitboxStep[] _steps = new HitboxStep[0];
 
-        public int Damage => _damage;
-        public float KnockbackForceStrength => _knockbackForceStrength;
-        public float KnockbackTorqueStrength => _knockbackTorqueStrength;
-        public float PoiseDamage => _poiseDamage;
+        public Hit Hit => _hit;
         public EntityAlliance Alliance => _alliance;
         public LayerMask Mask => _mask;
         public HitboxLimit[] Limits => _limits;

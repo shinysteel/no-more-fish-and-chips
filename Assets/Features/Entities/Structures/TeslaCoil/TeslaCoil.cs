@@ -108,7 +108,7 @@ namespace NoMoreFishAndChips.Entities
                     continue;
                 }
 
-                entity.EntityHealthLogic.ChangeHealth(-DefinitionData.ElectrocuteDamage);
+                entity.HitRpc(entity.owner.Value, DefinitionData.ElectrocuteHit, (entity.transform.position - transform.position).normalized);
 
                 _chargeTimer = 0f;
 

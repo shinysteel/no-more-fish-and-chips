@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Networking;
@@ -133,9 +134,9 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public override void HitRpc(PlayerID id, int healthDamage, float poiseDamage, Vector3 direction, float forceStrength, float torqueStrength)
+        public override void HitRpc(PlayerID id, Hit hit, Vector3 direction)
         {
-            base.HitRpc(id, healthDamage, poiseDamage, direction, forceStrength, torqueStrength);
+            base.HitRpc(id, hit, direction);
 
             // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
             if (isSpawned)

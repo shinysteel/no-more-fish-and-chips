@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
@@ -134,9 +135,9 @@ namespace NoMoreFishAndChips.Entities
         }
 
         [TargetRpc]
-        public virtual void HitRpc(PlayerID id, int healthDamage, float poiseDamage, Vector3 direction, float forceStrength, float torqueStrength)
+        public virtual void HitRpc(PlayerID id, Hit hit, Vector3 direction)
         {
-            EntityHealthLogic.ChangeHealth(-healthDamage);
+            EntityHealthLogic.ChangeHealth(-hit.HealthDamage);
 
             // Damaging an entity can cause it to despawn, which nulls all modules
             if (isSpawned)
@@ -149,11 +150,11 @@ namespace NoMoreFishAndChips.Entities
 
                 // Universal pitching for hitbox force
                 direction = Quaternion.AngleAxis(45f, Vector3.Cross(direction, Vector3.up).normalized) * direction;
-                Vector3 force = direction * forceStrength;
+                Vector3 force = direction * hit.ForceStrength;
 
                 // Using the cross product, torque can make the entity rotate backwards relative to the hitbox
                 torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
-                Vector3 torque = torqueDirection * torqueStrength;
+                Vector3 torque = torqueDirection * hit.TorqueStrength;
 
                 _rigidbody.AddForce(force, ForceMode.Impulse);
                 _rigidbody.AddTorque(torque, ForceMode.Impulse);

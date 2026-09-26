@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
@@ -30,13 +31,13 @@ namespace NoMoreFishAndChips.Entities
             AddLogic(typeof(CharacterActLogic), factory.CreateActLogic(this));
         }
 
-        public override void HitRpc(PlayerID id, int healthDamage, float poiseDamage, Vector3 direction, float forceStrength, float torqueStrength)
+        public override void HitRpc(PlayerID id, Hit hit, Vector3 direction)
         {
-            base.HitRpc(id, healthDamage, poiseDamage, direction, forceStrength, torqueStrength);
+            base.HitRpc(id, hit, direction);
 
             if (isSpawned)
             {
-                CharacterActLogic.ChangePoise(-poiseDamage);
+                CharacterActLogic.ChangePoise(-hit.PoiseDamage);
             }
         }
     }

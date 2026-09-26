@@ -182,7 +182,7 @@ namespace NoMoreFishAndChips.Hitboxes
                 // Inverting penetration will produce the best direction to separate collider from otherColider
                 direction = -direction;
 
-                collision.Entity.HitRpc(collision.Entity.owner.Value, _data.Damage, _data.PoiseDamage, direction, _data.KnockbackForceStrength, _data.KnockbackTorqueStrength);                
+                collision.Entity.HitRpc(collision.Entity.owner.Value, _data.Hit, direction);
 
                 _hitEntities.Add(collision.Entity);
             }

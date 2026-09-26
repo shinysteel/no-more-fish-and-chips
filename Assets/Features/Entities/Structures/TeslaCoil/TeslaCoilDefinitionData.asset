@@ -36,4 +36,9 @@ MonoBehaviour:
   _electrocuteMask:
     serializedVersion: 2
     m_Bits: 128
-  _electroctuteDamage: 3
+  _electrocuteHit:
+    _healthDamage: 3
+    _poiseDamage: 1
+    _forceStrength: 10
+    _torqueStrength: 0.2
+  _electricityPosition: {x: 0, y: 0.75, z: 0}
