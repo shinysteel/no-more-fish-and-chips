@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Electricity1
+      name: TeslaElectricity1
       rect:
         serializedVersion: 2
         x: 0
@@ -145,7 +145,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Electricity2
+      name: TeslaElectricity2
       rect:
         serializedVersion: 2
         x: 32
@@ -167,7 +167,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Electricity3
+      name: TeslaElectricity3
       rect:
         serializedVersion: 2
         x: 64
@@ -189,7 +189,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Electricity4
+      name: TeslaElectricity4
       rect:
         serializedVersion: 2
         x: 96
@@ -211,7 +211,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Electricity5
+      name: TeslaElectricity5
       rect:
         serializedVersion: 2
         x: 128
@@ -233,7 +233,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Electricity6
+      name: TeslaElectricity6
       rect:
         serializedVersion: 2
         x: 160
@@ -255,7 +255,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Electricity7
+      name: TeslaElectricity7
       rect:
         serializedVersion: 2
         x: 192
@@ -292,13 +292,13 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Electricity1: 375057667
-      Electricity2: 945796885
-      Electricity3: 731082312
-      Electricity4: 1687442575
-      Electricity5: 1023810858
-      Electricity6: -506290677
-      Electricity7: 546076784
+      TeslaElectricity1: 375057667
+      TeslaElectricity2: 945796885
+      TeslaElectricity3: 731082312
+      TeslaElectricity4: 1687442575
+      TeslaElectricity5: 1023810858
+      TeslaElectricity6: -506290677
+      TeslaElectricity7: 546076784
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

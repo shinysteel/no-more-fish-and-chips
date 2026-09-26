@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5120211313472612466}
   - component: {fileID: 6421286520217219822}
   m_Layer: 0
-  m_Name: Electricity
+  m_Name: TeslaElectricity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

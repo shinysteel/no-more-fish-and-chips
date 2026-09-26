@@ -7,6 +7,8 @@ namespace NoMoreFishAndChips.Entities
 {
     public class TeslaCoil : Structure<TeslaCoilDefinitionData>
     {
+        [SerializeField] private LineRenderer _electrocuteLineRenderer;
+
         private SyncVar<float> _netChargeBlend = new SyncVar<float>(ownerAuth: true);
 
         private float _chargeTimer;
@@ -41,7 +43,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (_electricityVfx == null)
                 {
-                    _electricityVfx = _effectManager.GetVfx(VfxId.Electricity, DefinitionData.ElectricityPosition, transform);
+                    _electricityVfx = _effectManager.GetVfx(VfxId.TeslaElectricity, DefinitionData.ElectricityPosition, transform);
                 }
             }
             else

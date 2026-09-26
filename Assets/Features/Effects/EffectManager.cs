@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.Effects
     {
         None,
         WaterSplash,
-        Electricity
+        TeslaElectricity
     }
 
     public class EffectManager : GameSystem<IEffectManagerListener>
