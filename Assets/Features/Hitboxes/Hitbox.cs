@@ -176,46 +176,13 @@ namespace NoMoreFishAndChips.Hitboxes
 
                 _layerCountMap[layer] = _layerCountMap.GetValueOrDefault(layer) + 1;
 
-                // Hit the entity
-                collision.Entity.EntityHealthLogic.ChangeHealth(-_data.Damage);
+                Physics.ComputePenetration(collision.Collider, collision.Collider.transform.position, collision.Collider.transform.rotation, 
+                    collision.OtherCollider, collision.OtherCollider.transform.position, collision.OtherCollider.transform.rotation, out Vector3 direction, out _);
 
-                // Damaging an entity can cause it to despawn, which nulls all modules
-                if (collision.Entity.isSpawned)
-                {
-                    Physics.ComputePenetration(collision.Collider, collision.Collider.transform.position, collision.Collider.transform.rotation, 
-                        collision.OtherCollider, collision.OtherCollider.transform.position, collision.OtherCollider.transform.rotation, out Vector3 forceDirection, out _);
+                // Inverting penetration will produce the best direction to separate collider from otherColider
+                direction = -direction;
 
-                    forceDirection.y = 0f;
-                    forceDirection.Normalize();
-
-                    // Inverting penetration will produce the best direction to separate collider from otherColider
-                    forceDirection = -forceDirection;
-
-                    // Torque is dependent on the horizontal value of forceDirection
-                    Vector3 torqueDirection = forceDirection;
-
-                    // Universal pitching for hitbox force
-                    forceDirection = Quaternion.AngleAxis(45f, Vector3.Cross(forceDirection, Vector3.up).normalized) * forceDirection;
-                    Vector3 force = forceDirection * _data.KnockbackForceStrength;
-
-                    // Using the cross product, torque can make the entity rotate backwards relative to the hitbox
-                    torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
-                    Vector3 torque = torqueDirection * _data.KnockbackTorqueStrength;
-
-                    collision.Entity.AddForceRpc(collision.Entity.owner.Value, force);
-                    collision.Entity.AddTorqueRpc(collision.Entity.owner.Value, torque);
-
-                    if (collision.Entity is Character character)
-                    {
-                        character.ChangePoiseRpc(character.owner.Value, -_data.PoiseDamage);
-                    }
-
-                    // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
-                    if (collision.Entity is RaftPlayer player)
-                    {
-                        player.AnimateHurtRpc();
-                    }
-                }
+                collision.Entity.HitRpc(collision.Entity.owner.Value, _data.Damage, _data.PoiseDamage, direction, _data.KnockbackForceStrength, _data.KnockbackTorqueStrength);                
 
                 _hitEntities.Add(collision.Entity);
             }

@@ -30,10 +30,14 @@ namespace NoMoreFishAndChips.Entities
             AddLogic(typeof(CharacterActLogic), factory.CreateActLogic(this));
         }
 
-        [TargetRpc]
-        public void ChangePoiseRpc(PlayerID id, float change)
+        public override void HitRpc(PlayerID id, int healthDamage, float poiseDamage, Vector3 direction, float forceStrength, float torqueStrength)
         {
-            CharacterActLogic.ChangePoise(change);
+            base.HitRpc(id, healthDamage, poiseDamage, direction, forceStrength, torqueStrength);
+
+            if (isSpawned)
+            {
+                CharacterActLogic.ChangePoise(-poiseDamage);
+            }
         }
     }
 

@@ -133,22 +133,31 @@ namespace NoMoreFishAndChips.Entities
             _netIsDefeated.value = defeated;
         }
 
-        [ObserversRpc]
-        public void AnimateHurtRpc()
-        {
-            EntityEffectsLogic.AnimateHurt();
-        }
-
         [TargetRpc]
-        public void AddForceRpc(PlayerID id, Vector3 force)
+        public virtual void HitRpc(PlayerID id, int healthDamage, float poiseDamage, Vector3 direction, float forceStrength, float torqueStrength)
         {
-            _rigidbody.AddForce(force, ForceMode.Impulse);
-        }
+            EntityHealthLogic.ChangeHealth(-healthDamage);
 
-        [TargetRpc]
-        public void AddTorqueRpc(PlayerID id, Vector3 torque)
-        {
-            _rigidbody.AddTorque(torque, ForceMode.Impulse);
+            // Damaging an entity can cause it to despawn, which nulls all modules
+            if (isSpawned)
+            {
+                direction.y = 0f;
+                direction.Normalize();
+
+                // Torque is dependent on the horizontal value of forceDirection
+                Vector3 torqueDirection = direction;
+
+                // Universal pitching for hitbox force
+                direction = Quaternion.AngleAxis(45f, Vector3.Cross(direction, Vector3.up).normalized) * direction;
+                Vector3 force = direction * forceStrength;
+
+                // Using the cross product, torque can make the entity rotate backwards relative to the hitbox
+                torqueDirection = -Vector3.Cross(torqueDirection, Vector3.up);
+                Vector3 torque = torqueDirection * torqueStrength;
+
+                _rigidbody.AddForce(force, ForceMode.Impulse);
+                _rigidbody.AddTorque(torque, ForceMode.Impulse);
+            }
         }
     }
 }

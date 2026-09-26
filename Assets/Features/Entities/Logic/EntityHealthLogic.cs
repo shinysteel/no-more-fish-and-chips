@@ -63,7 +63,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 return;
             }
-
+            
             health = Mathf.Clamp(health, 0, _maxHealth);
 
             if (_netHealth.value == health)

@@ -133,6 +133,17 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public override void HitRpc(PlayerID id, int healthDamage, float poiseDamage, Vector3 direction, float forceStrength, float torqueStrength)
+        {
+            base.HitRpc(id, healthDamage, poiseDamage, direction, forceStrength, torqueStrength);
+
+            // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
+            if (isSpawned)
+            {
+                EntityEffectsLogic.AnimateHurt();
+            }
+        }
+
         [TargetRpc]
         public void SetPositionRpc(PlayerID id, Vector3 position)
         {
