@@ -19,7 +19,7 @@ namespace NoMoreFishAndChips.Environments
     public class Raft : GameplayBehaviour, IEntityManagerListener
     {
         private SyncDictionaryWrapper<Vector2Int, RaftTile> _netTiles = new SyncDictionaryWrapper<Vector2Int, RaftTile>(ownerAuth: true);
-        private SyncList<Structure> _netStructures = new SyncList<Structure>(ownerAuth: true);
+        private SyncDictionaryWrapper<Vector2Int, Structure> _netStructures = new SyncDictionaryWrapper<Vector2Int, Structure>(ownerAuth: true);
 
         private Dictionary<Vector2Int, RaftTile> _tiles = new();
         private Dictionary<Vector2Int, Structure> _structures = new();
@@ -50,9 +50,9 @@ namespace NoMoreFishAndChips.Environments
 
             _netTiles.onChanged += HandleNetTilesChanged;
 
-            for (int i = 0; i < _netStructures.Count; i++)
+            foreach (KeyValuePair<Vector2Int, Structure> kvp in _netStructures)
             {
-                SyncListChange<Structure> change = SyncListChange<Structure>.Added(_netStructures[i], i);
+                SyncDictionaryChange<Vector2Int, Structure> change = new SyncDictionaryChange<Vector2Int, Structure>(SyncDictionaryOperation.Added, kvp.Key, kvp.Value);
                 HandleNetStructuresChanged(change);
             }
 
@@ -79,74 +79,19 @@ namespace NoMoreFishAndChips.Environments
             OnTileChanged?.Invoke(cell, previous, current);
         }
 
+        private void RaiseStructureChanged(Vector2Int cell, Structure previous, Structure current)
+        {
+            OnStructureChanged?.Invoke(cell, previous, current);
+        }
+
         private void HandleNetTilesChanged(SyncDictionaryChange<Vector2Int, RaftTile> change)
         {
             Utils.Network.CacheSyncDictionaryChange(_tiles, change, RaiseTileChanged);
         }
 
-        private void HandleNetStructuresChanged(SyncListChange<Structure> change)
+        private void HandleNetStructuresChanged(SyncDictionaryChange<Vector2Int, Structure> change)
         {
-            void add(Structure structure)
-            {
-                structure.Shape.ForEachTrue((Vector2Int shapeCell) =>
-                {
-                    Vector2Int structureCell = structure.Cell + shapeCell;
-                    _structures.Add(structureCell, structure);
-                    OnStructureChanged?.Invoke(structureCell, null, structure);
-                });
-            }
-
-            void remove(Structure structure)
-            {
-                structure.Shape.ForEachTrue((Vector2Int shapeCell) =>
-                {
-                    Vector2Int structureCell = structure.Cell + shapeCell;
-                    _structures.Remove(structureCell);
-                    OnStructureChanged?.Invoke(structureCell, structure, null);
-                });
-            }
-
-            switch (change.operation)
-            {
-                case SyncListOperation.Added:
-                case SyncListOperation.Insert:
-                    add(change.value);
-                    break;
-
-                case SyncListOperation.Removed:
-                    remove(change.value);
-                    break;
-
-                case SyncListOperation.Set:
-                    if (change.oldValue != null)
-                    {
-                        remove(change.oldValue);
-                    }
-
-                    if (change.value != null)
-                    {
-                        add(change.value);
-                    }
-                    break;
-
-                case SyncListOperation.Cleared:
-                    Dictionary<Vector2Int, Structure> dictionary = DictionaryPool<Vector2Int, Structure>.Get();
-
-                    foreach (KeyValuePair<Vector2Int, Structure> kvp in _structures)
-                    {
-                        dictionary.Add(kvp.Key, kvp.Value);
-                    }
-
-                    _structures.Clear();
-
-                    foreach (KeyValuePair<Vector2Int, Structure> kvp in dictionary)
-                    {
-                        OnStructureChanged?.Invoke(kvp.Key, kvp.Value, null);
-                    }
-
-                    DictionaryPool<Vector2Int, Structure>.Release(dictionary);
-                    break;
-            }
+            Utils.Network.CacheSyncDictionaryChange(_structures, change, RaiseStructureChanged);
         }
 
         private RaftTile CreateTile(Vector2Int cell, EntityId tileId, int health, int rotations)
@@ -234,7 +179,10 @@ namespace NoMoreFishAndChips.Environments
             structure.SetNetBuildId(buildId);
             structure.SetNetBuildRotations(buildRotations);
 
-            _netStructures.Add(structure);
+            shape.ForEachTrue((Vector2Int shapeCell) =>
+            {
+                _netStructures.Add(cell + shapeCell, structure);
+            });
         }
 
         [ServerRpc(requireOwnership: false)]
@@ -260,7 +208,10 @@ namespace NoMoreFishAndChips.Environments
 
             ListPool<Structure>.Release(overlappingStructures);
 
-            _netStructures.Add(setStructure);
+            setStructure.Shape.ForEachTrue((Vector2Int shapeCell) =>
+            {
+                _netStructures[setCell + shapeCell] = setStructure;
+            });
         }
 
         void IEntityManagerListener.OnEntityDespawned(Entity entity)
@@ -281,7 +232,10 @@ namespace NoMoreFishAndChips.Environments
             }
             else if (entity is Structure structure)
             {
-                _netStructures.Remove(structure);
+                structure.Shape.ForEachTrue((Vector2Int cell) =>
+                {
+                    _netStructures.Remove(structure.Cell + cell);
+                });
             }
         }
 
