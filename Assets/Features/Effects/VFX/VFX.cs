@@ -37,8 +37,13 @@ namespace NoMoreFishAndChips.Effects
 
         private void Update()
         {
-            _timer += Time.deltaTime;
+            if (_particleSystem.main.loop)
+            {
+                return;
+            }
 
+            _timer += Time.deltaTime;
+             
             if (_timer < _particleSystem.main.duration)
             {
                 return;

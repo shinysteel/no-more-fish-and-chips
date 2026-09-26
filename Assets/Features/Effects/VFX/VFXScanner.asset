@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Effects.VFXScanner
   _folder: {fileID: 102900000, guid: 00000000000000001000000000000000, type: 3}
   _assets:
+  - {fileID: 2717879622121333205, guid: 1a659daf60f65a34ba4a6eb16361d453, type: 3}
   - {fileID: 4339949007393438749, guid: 8c599f78732160041b3d22d29b52a208, type: 3}

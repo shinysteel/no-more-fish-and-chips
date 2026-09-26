@@ -1,3 +1,5 @@
+using NoMoreFishAndChips.Effects;
+using PurrNet;
 using ShinyOwl.Common.Utils;
 using UnityEngine;
 
@@ -5,11 +7,52 @@ namespace NoMoreFishAndChips.Entities
 {
     public class TeslaCoil : Structure<TeslaCoilDefinitionData>
     {
+        private SyncVar<float> _netChargeBlend = new SyncVar<float>(ownerAuth: true);
+
         private float _chargeTimer;
 
         private Collider[] _electrocuteCollidersNonAlloc = new Collider[10];
 
+        private VFX _electricityVfx;
+
         private const string ChargeBlendName = "_ChargeBlend";
+
+        protected override void OnSpawned()
+        {
+            base.OnSpawned();
+
+            HandleNetChargeBlendChanged(_netChargeBlend.value);
+
+            _netChargeBlend.onChanged += HandleNetChargeBlendChanged;
+        }
+
+        protected override void OnDespawned()
+        {
+            base.OnDespawned();
+
+            _netChargeBlend.onChanged -= HandleNetChargeBlendChanged;
+        }
+
+        private void HandleNetChargeBlendChanged(float blend)
+        {
+            _entityModel.SetMaterialFloat(ChargeBlendName, blend);
+
+            if (blend == 1f)
+            {
+                if (_electricityVfx == null)
+                {
+                    _electricityVfx = _effectManager.GetVfx(VfxId.Electricity, DefinitionData.ElectricityPosition, transform);
+                }
+            }
+            else
+            {
+                if (_electricityVfx != null)
+                {
+                    _effectManager.ReturnVfx(_electricityVfx);
+                    _electricityVfx = null;
+                }
+            }
+        }
 
         protected override void Update()
         {
@@ -37,8 +80,7 @@ namespace NoMoreFishAndChips.Entities
             _chargeTimer = Mathf.Min(_chargeTimer, DefinitionData.ChargeDuration);
 
             float blend = _chargeTimer / DefinitionData.ChargeDuration;
-
-            _entityModel.SetMaterialFloat(ChargeBlendName, blend);
+            _netChargeBlend.value = blend;
         }
 
         private void ElectrocuteFixedUpdate()

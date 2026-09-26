@@ -12,7 +12,8 @@ namespace NoMoreFishAndChips.Effects
     public enum VfxId
     {
         None,
-        WaterSplash
+        WaterSplash,
+        Electricity
     }
 
     public class EffectManager : GameSystem<IEffectManagerListener>
@@ -42,7 +43,12 @@ namespace NoMoreFishAndChips.Effects
         public static void SpawnVfxRpc(VfxId id, Vector3 position)
         {
             EffectManager effectManager = GameManager.Instance.Get<EffectManager>();
-            effectManager._poolManager.GetPoolable(effectManager._vfxPools, id, effectManager._vfxIdPrefabMap[id], new SpawnParams() { Position = position });
+            effectManager.GetVfx(id, position, null);
+        }
+
+        public VFX GetVfx(VfxId id, Vector3 position, Transform parent)
+        {
+            return _poolManager.GetPoolable(_vfxPools, id, _vfxIdPrefabMap[id], new SpawnParams() { Position = position, Parent = parent });
         }
 
         public void ReturnVfx(VFX vfx)
