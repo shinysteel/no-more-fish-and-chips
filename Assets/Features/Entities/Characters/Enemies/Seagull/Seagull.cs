@@ -52,7 +52,7 @@ namespace NoMoreFishAndChips.Entities
 
             _airFlapStateAnimationEvents = new StateAnimationEvents(AirFlapStateName, true)
             {
-                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullFlap))
+                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullFlap, 0f))
             };
 
             _stateMachine = new();

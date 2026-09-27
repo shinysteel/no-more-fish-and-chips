@@ -51,7 +51,7 @@ namespace NoMoreFishAndChips.Environments
 
             _networkManager.LocalPurrnetPlayer.RaftPlayer.ReadyLogic.SetNetIsReady(true);
 
-            AudioManager.PlaySoundRpc(SoundId.DockBellRing);
+            AudioManager.PlaySoundRpc(SoundId.DockBellRing, 0f);
         }
     }
 }

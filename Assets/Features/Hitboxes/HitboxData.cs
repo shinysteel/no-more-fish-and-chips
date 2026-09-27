@@ -9,7 +9,7 @@ namespace NoMoreFishAndChips.Hitboxes
     [CreateAssetMenu(fileName = "HitboxData", menuName = "Data/Hitboxes/HitboxData")]
     public class HitboxData : ScriptableObject
     {
-        [SerializeField] private Hit _hit;
+        [SerializeField] private Hit _hit = new();
         [SerializeField] private EntityAlliance _alliance = EntityAlliance.Ally;
         [SerializeField] private LayerMask _mask = -1;
         [SerializeField] private HitboxLimit[] _limits = new HitboxLimit[0];

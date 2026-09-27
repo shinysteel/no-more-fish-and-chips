@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.Effects
 
             if (_soundId != SoundId.None)
             {
-                _audioManager.PlaySound(_soundId);
+                _audioManager.PlaySound(_soundId, 0f);
             }
 
             _timer = 0f;

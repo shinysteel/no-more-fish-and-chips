@@ -29,6 +29,9 @@ namespace NoMoreFishAndChips.Audio
         HumanJumpGoop,
         HumanFootstepGoop,
         HumanJumpMetal,
-        HumanFootstepMetal
+        HumanFootstepMetal,
+        TeslaCharge,
+        TeslaCharged,
+        TeslaElectrocute    
     }
 }

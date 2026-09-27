@@ -214,12 +214,12 @@ namespace NoMoreFishAndChips.Entities
 
             _closedStateAnimationEvents = new StateAnimationEvents(ClosedStateName, false)
             {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamClose))
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamClose, 0f))
             };
 
             _openedStateAnimationEvents = new StateAnimationEvents(OpenedStateName, false)
             {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamOpen))
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamOpen, 0f))
             };
 
             _closedStateAnimationEvents.Skip();

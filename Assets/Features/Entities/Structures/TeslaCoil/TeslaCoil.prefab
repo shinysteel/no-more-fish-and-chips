@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeslaCoil
       objectReference: {fileID: 0}
+    - target: {fileID: 2995674663429530071, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4180772696496383930, guid: 0760e80ac1fcc764b81d2f49b2876045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
@@ -76,6 +80,7 @@ MonoBehaviour:
   _entityModel: {fileID: 8356504059720307278}
   _rigidbody: {fileID: 6807994788887716798}
   _collider: {fileID: 1524366662919473607}
+  _electrocuteLineRenderer: {fileID: 7893754643427469155}
 --- !u!136 &1524366662919473607
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -125,7 +130,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 461b065509d820a42bd2b64875b6fe76, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -151,7 +156,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -200,8 +205,8 @@ LineRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
-    textureScale: {x: 1, y: 1}
+    textureMode: 1
+    textureScale: {x: 2.5, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1

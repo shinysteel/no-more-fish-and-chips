@@ -32,17 +32,17 @@ namespace NoMoreFishAndChips.Audio
             base.InitialiseConfig(config);
         }
 
-        public void PlaySound(SoundId id)
+        public void PlaySound(SoundId id, float pitchOffset)
         {
             SoundCue cue = _poolManager.GetTypedPoolable<SoundCue>(new SpawnParams());
-            cue.Initialise(_idDataMap[id]);
+            cue.Initialise(_idDataMap[id], pitchOffset);
         }
 
         [ObserversRpc]
-        public static void PlaySoundRpc(SoundId id)
+        public static void PlaySoundRpc(SoundId id, float pitchOffset)
         {
             AudioManager audioManager = GameManager.Instance.Get<AudioManager>();
-            audioManager.PlaySound(id);
+            audioManager.PlaySound(id, pitchOffset);
         }
     }
 }

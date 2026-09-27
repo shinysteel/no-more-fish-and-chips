@@ -557,7 +557,7 @@ namespace NoMoreFishAndChips.Entities
                     _seagull.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
                 }
 
-                _audioManager.PlaySound(SoundId.SeagullAttack);
+                _audioManager.PlaySound(SoundId.SeagullAttack, 0f);
             }));
 
             _seagull.AttackStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>

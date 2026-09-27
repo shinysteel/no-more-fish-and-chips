@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.UI
 
         private void Pressed()
         {
-            _audioManager.PlaySound(_id);
+            _audioManager.PlaySound(_id, 0f);
         }
     }
 }
