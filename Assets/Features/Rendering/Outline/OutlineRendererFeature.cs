@@ -13,7 +13,7 @@ namespace NoMoreFishAndChips.Rendering
 
         private class Pass : ScriptableRenderPass
         {
-            private IReadOnlyList<Renderer> _renderers;
+            private IReadOnlyDictionary<int, Outline> _outlines;
             private Material _maskMaterial;
             private Material _horizontalMaterial;
             private Material _verticalMaterial;
@@ -24,22 +24,22 @@ namespace NoMoreFishAndChips.Rendering
 
             private class MaskData
             {
-                private IReadOnlyList<Renderer> _renderers;
+                private IReadOnlyDictionary<int, Outline> _outlines;
                 private Material _material;
 
-                public IReadOnlyList<Renderer> Renderers => _renderers;
+                public IReadOnlyDictionary<int, Outline> Outlines => _outlines;
                 public Material Material => _material;
 
-                public void Set(IReadOnlyList<Renderer> renderers, Material material)
+                public void Set(IReadOnlyDictionary<int, Outline> outlines, Material material)
                 {
-                    _renderers = renderers;
+                    _outlines = outlines;
                     _material = material;
                 }
             }
 
-            public void Set(IReadOnlyList<Renderer> renderers, Material maskMaterial, Material horizontalMaterial, Material verticalMaterial)
+            public void Set(IReadOnlyDictionary<int, Outline> outlines, Material maskMaterial, Material horizontalMaterial, Material verticalMaterial)
             {
-                _renderers = renderers;
+                _outlines = outlines;
                 _maskMaterial = maskMaterial;
                 _horizontalMaterial = horizontalMaterial;
                 _verticalMaterial = verticalMaterial;
@@ -47,7 +47,7 @@ namespace NoMoreFishAndChips.Rendering
             
             public override void RecordRenderGraph(RenderGraph graph, ContextContainer container)
             {
-                if (_renderers.Count == 0)
+                if (_outlines.Count == 0)
                 {
                     return;
                 }
@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.Rendering
                 // Using declaration to use then dispose IDisposable variables once scope ends
                 using (IUnsafeRenderGraphBuilder maskBuilder = graph.AddUnsafePass(MaskName, out MaskData maskData))
                 {
-                    maskData.Set(_renderers, _maskMaterial);
+                    maskData.Set(_outlines, _maskMaterial);
 
                     maskBuilder.SetRenderAttachment(maskHandle, 0, AccessFlags.Write);
                     maskBuilder.SetRenderFunc<MaskData>(Mask);
@@ -91,9 +91,12 @@ namespace NoMoreFishAndChips.Rendering
             {
                 CommandBuffer buffer = CommandBufferHelpers.GetNativeCommandBuffer(context.cmd);
 
-                foreach (Renderer renderer in data.Renderers)
+                foreach (Outline outline in data.Outlines.Values)
                 {
-                    buffer.DrawRenderer(renderer, data.Material);
+                    foreach (Renderer renderer in outline.Renderers)
+                    {
+                        buffer.DrawRenderer(renderer, data.Material);
+                    }
                 }
             }
         }
@@ -113,7 +116,7 @@ namespace NoMoreFishAndChips.Rendering
 
             RenderingManager renderingManager = GameManager.Instance.Get<RenderingManager>();
             
-            _pass.Set(renderingManager.OutlineRenderers, renderingManager.Config.OutlineMaskMaterial, renderingManager.Config.OutlineHorizontalMaterial, renderingManager.Config.OutlineVerticalMaterial);
+            _pass.Set(renderingManager.Outlines, renderingManager.Config.OutlineMaskMaterial, renderingManager.Config.OutlineHorizontalMaterial, renderingManager.Config.OutlineVerticalMaterial);
 
             renderer.EnqueuePass(_pass);
         }

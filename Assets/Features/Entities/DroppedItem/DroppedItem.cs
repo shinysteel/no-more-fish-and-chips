@@ -36,6 +36,19 @@ namespace NoMoreFishAndChips.Entities
 
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+        IEnumerable<Renderer> IInteractable.Renderers 
+        { 
+            get
+            {
+                foreach (ItemModel model in _itemModels)
+                {
+                    foreach (MeshRenderer renderer in model.MeshRenderers)
+                    {
+                        yield return renderer;
+                    }
+                }
+            }
+        }
 
         protected override void OnSpawned()
         {

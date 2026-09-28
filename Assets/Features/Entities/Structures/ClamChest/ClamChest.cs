@@ -9,6 +9,7 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Structures;
 using UnityEngine;
 using NoMoreFishAndChips.Audio;
+using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -32,6 +33,7 @@ namespace NoMoreFishAndChips.Entities
 
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+        IEnumerable<Renderer> IInteractable.Renderers => _entityModel.MeshRenderers;
 
         protected override void Awake()
         {

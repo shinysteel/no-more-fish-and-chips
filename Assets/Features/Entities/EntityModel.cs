@@ -17,16 +17,21 @@ namespace NoMoreFishAndChips.Entities
 
         protected ItemManager _itemManager;
 
+        private MeshRenderer[] _meshRenderers;
+
         private Dictionary<Material, Material> _sharedMaterialMap = new();
-        
+
         public EntityId Id => _id;
         public Animator Animator => _animator;
+        public MeshRenderer[] MeshRenderers => _meshRenderers;
 
         private void Awake()
         {
             _itemManager = GameManager.Instance.Get<ItemManager>();
 
-            foreach (MeshRenderer renderer in transform.GetComponentsInChildren<MeshRenderer>())
+            _meshRenderers = transform.GetComponentsInChildren<MeshRenderer>();
+
+            foreach (MeshRenderer renderer in _meshRenderers)
             {
                 Material sharedMaterial = renderer.sharedMaterial;
 

@@ -11,8 +11,10 @@ namespace NoMoreFishAndChips.Rendering
         private RenderingManagerConfig _config;
         public RenderingManagerConfig Config => _config;
 
-        private List<Renderer> _outlineRenderers = new();
-        public IReadOnlyList<Renderer> OutlineRenderers => _outlineRenderers;
+        private Dictionary<int, Outline> _outlines = new();
+        private int _outlineIdCounter;
+
+        public IReadOnlyDictionary<int, Outline> Outlines => _outlines;
 
         public override void InitialiseConfig(GameManagerConfig config)
         {
@@ -21,14 +23,20 @@ namespace NoMoreFishAndChips.Rendering
             base.InitialiseConfig(config);
         }
 
-        public void AddOutline(Renderer renderer)
+        public OutlineHandle CreateOutline(IEnumerable<Renderer> renderers)
         {
-            _outlineRenderers.Add(renderer);
+            int id = _outlineIdCounter++;
+            Outline outline = new Outline(renderers);
+
+            _outlines.Add(id, outline);
+
+            OutlineHandle handle = new OutlineHandle(id);
+            return handle;
         }
 
-        public void RemoveOutline(Renderer renderer)
+        public void RemoveOutline(int id)
         {
-            _outlineRenderers.Remove(renderer);
+            _outlines.Remove(id);
         }
     }
 }

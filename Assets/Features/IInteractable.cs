@@ -1,4 +1,6 @@
 using NoMoreFishAndChips.UI;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NoMoreFishAndChips
@@ -11,6 +13,8 @@ namespace NoMoreFishAndChips
         WorldUI CreatePromptUI();
         bool CanInteract();
         void Interact();
+
+        IEnumerable<Renderer> Renderers { get => null; }
         void ShowPreview() { }
         void SetPreviewColor(Color color) { }
         void HidePreview() { }

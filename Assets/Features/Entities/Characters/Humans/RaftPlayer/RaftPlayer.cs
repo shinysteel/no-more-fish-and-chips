@@ -134,19 +134,6 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        protected override void Update()
-        {
-            base.Update();
-
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    _renderingManager.AddOutline(renderer);
-                }
-            }
-        }
-
         public override void HitRpc(PlayerID id, Hit hit, Vector3 direction)
         {
             base.HitRpc(id, hit, direction);

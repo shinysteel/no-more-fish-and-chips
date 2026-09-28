@@ -12,6 +12,7 @@ using NoMoreFishAndChips.Environments;
 
 using Object = UnityEngine.Object;
 using ShinyOwl.Common.Utils;
+using NoMoreFishAndChips.Rendering;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -19,6 +20,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private UIManager _uiManager;
         private EnvironmentManager _environmentManager;
+        private RenderingManager _renderingManager;
 
         private RaftPlayerInteractSettings _settings;
 
@@ -28,6 +30,7 @@ namespace NoMoreFishAndChips.Entities
 
         private IInteractable _promptInteractable;
         private WorldUI _promptUI;
+        private OutlineHandle _promptOutlineHandle;
 
         private Collider[] _interactableCollidersNonAlloc = new Collider[MaxOverlaps];
         private const int MaxOverlaps = 20;
@@ -79,6 +82,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _renderingManager = GameManager.Instance.Get<RenderingManager>();
 
             _settings = _player.DefinitionData.InteractSettings;
         }
@@ -100,8 +104,11 @@ namespace NoMoreFishAndChips.Entities
                 _promptInteractable.HidePreview();
             }
 
+            _promptOutlineHandle?.Remove();
+
             _promptUI = null;
             _promptInteractable = null;
+            _promptOutlineHandle = null;
         }
         
         public void Interact(ActionHotkey hotkey)
@@ -214,14 +221,14 @@ namespace NoMoreFishAndChips.Entities
                     _promptUI = _promptInteractable.CreatePromptUI();
 
                     _promptInteractable.ShowPreview();
-                    RefreshPreviewColor();
+                    _promptInteractable.SetPreviewColor(_promptInteractable.CanInteract() ? _settings.ValidColor : _settings.InvalidColor);
+
+                    if (_promptInteractable.Renderers != null)
+                    {
+                        _promptOutlineHandle = _renderingManager.CreateOutline(_promptInteractable.Renderers);
+                    }
                 }
             }
-        }
-
-        private void RefreshPreviewColor()
-        {
-            _promptInteractable.SetPreviewColor(_promptInteractable.CanInteract() ? _settings.ValidColor : _settings.InvalidColor);
         }
 
         private void AnimateTick()

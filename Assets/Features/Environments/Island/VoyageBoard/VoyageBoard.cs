@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.UI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
@@ -10,14 +11,19 @@ namespace NoMoreFishAndChips.Environments
 
         private UIManager _uiManager;
 
-        private PanelInstance<VoyageBoardPanel> _voyageBoardPanelInstance;
+        private MeshRenderer[] _meshRenderers;
 
+        private PanelInstance<VoyageBoardPanel> _voyageBoardPanelInstance;
+        
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => _iInteractableSettings;
+        IEnumerable<Renderer> IInteractable.Renderers => _meshRenderers;
 
         private void Awake()
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
+
+            _meshRenderers = GetComponentsInChildren<MeshRenderer>();
 
             _voyageBoardPanelInstance = new PanelInstance<VoyageBoardPanel>(_uiManager.Config.VoyageBoardPanelPrefab);
         }
