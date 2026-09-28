@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace AmplifyShaderEditor
 {
+	[Serializable]
 	public class PropertyDataCollector
 	{
 		public int NodeId;
@@ -1169,7 +1170,10 @@ namespace AmplifyShaderEditor
 			return m_pragmasDict.ContainsKey( value );
 		}
 
-		public void AddToPragmas( int nodeId, string value )
+		// @diogo: condition, when set, is emitted verbatim as a "#if <condition>" guard around the pragma
+		// (e.g. "UNITY_VERSION >= 60000100", "UNITY_VERSION >= 60000100 && UNITY_VERSION < 60010000", "defined( FOO )")
+		// so a single generated shader stays cross-compatible across SRP sub-versions (e.g. all of 17.x).
+		public void AddToPragmas( int nodeId, string value, string condition = null )
 		{
 			if( string.IsNullOrEmpty( value ) )
 				return;
@@ -1182,7 +1186,11 @@ namespace AmplifyShaderEditor
 
 			if( !m_pragmasDict.ContainsKey( value ) )
 			{
-				string finalValue = "#pragma " + value;
+				bool conditional = !string.IsNullOrEmpty( condition );
+				// continuation lines are left unindented on purpose: the template's tag indentation is applied per-line on output
+				string finalValue = conditional
+					? "#if " + condition + "\n#pragma " + value + "\n#endif"
+					: "#pragma " + value;
 				PropertyDataCollector dataCollector = new PropertyDataCollector( nodeId , finalValue );
 
 				//Adding both versions to dict so check can take both into account
@@ -1190,7 +1198,9 @@ namespace AmplifyShaderEditor
 				m_pragmasDict.Add( finalValue , dataCollector );
 
 				m_pragmasList.Add( m_pragmasDict[ value ] );
-				m_pragmas += "\t\t#pragma " + value + "\n";
+				m_pragmas += conditional
+					? "\t\t#if " + condition + "\n\t\t#pragma " + value + "\n\t\t#endif\n"
+					: "\t\t#pragma " + value + "\n";
 				m_dirtyPragmas = true;
 			}
 			else
@@ -1802,7 +1812,8 @@ namespace AmplifyShaderEditor
 
 		public void UpdateShaderImporter( ref Shader shader )
 		{
-			ShaderImporter importer = (ShaderImporter)ShaderImporter.GetAtPath( AssetDatabase.GetAssetPath( shader ) );
+			string path = AssetDatabase.GetAssetPath( shader );
+			ShaderImporter importer = (ShaderImporter)ShaderImporter.GetAtPath( path );
 			if( m_propertyNodes.Count > 0 )
 			{
 				try
@@ -1826,7 +1837,18 @@ namespace AmplifyShaderEditor
 					Debug.LogException( e );
 				}
 			}
-			importer.SaveAndReimport();
+			if ( AmplifyShaderEditorWindow.IsBatchProcessing )
+			{
+				// During a batch resave, SaveAndReimport would force an immediate per-shader asset import,
+				// flickering Unity's "Importing assets" dialog once per shader. Persist any importer change
+				// ( default textures ) to the .meta without reimporting; the batch's StopAssetEditing imports
+				// all the resaved shaders together in a single pass at the end.
+				AssetDatabase.WriteImportSettingsIfDirty( path );
+			}
+			else
+			{
+				importer.SaveAndReimport();
+			}
 		}
 
 		public void AddCustomAppData( string value )

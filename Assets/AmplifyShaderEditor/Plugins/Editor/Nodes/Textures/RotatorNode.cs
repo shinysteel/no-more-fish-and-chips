@@ -23,6 +23,7 @@ namespace AmplifyShaderEditor
 			m_inputPorts[ 2 ].FloatInternalData = 1;
 			m_textLabelWidth = 50;
 			m_previewShaderGUID = "e21408a1c7f12f14bbc2652f69bce1fc";
+			ContinuousPreviewRefresh = true;
 		}
 
 		public override void SetPreviewInputs()

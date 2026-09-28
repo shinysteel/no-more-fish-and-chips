@@ -9,71 +9,6 @@ namespace AmplifyShaderEditor
 
 	public struct Constants
 	{
-		/*public readonly static string[] CustomASEStandardArgsMacros =
-		{
-			"#if defined(SHADER_API_D3D11) || defined(SHADER_API_XBOXONE) || defined(UNITY_COMPILER_HLSLCC)//ASE Args Macros",
-			"#define ASE_TEXTURE2D_ARGS(textureName) Texture2D textureName, SamplerState sampler##textureName",
-			"#define ASE_TEXTURE3D_ARGS(textureName) Texture3D textureName, SamplerState sampler##textureName",
-			"#define ASE_TEXTURECUBE_ARGS(textureName) TextureCube textureName, SamplerState sampler##textureName",
-			"#define ASE_TEXTURE2D_PARAMS(textureName) textureName, sampler##textureName",
-			"#define ASE_TEXTURE3D_PARAMS(textureName) textureName, sampler##textureName",
-			"#define ASE_TEXTURECUBE_PARAMS(textureName) textureName, sampler##textureName",
-			"#define ASE_TEXTURE2D_ARRAY_PARAMS(textureName) textureName, sampler##textureName",
-			"#else//ASE Args Macros",
-			"#define ASE_TEXTURE2D_ARGS(textureName) sampler2D textureName",
-			"#define ASE_TEXTURE3D_ARGS(textureName) sampler3D textureName",
-			"#define ASE_TEXTURECUBE_ARGS(textureName) samplerCUBE textureName",
-			"#define ASE_TEXTURE2D_PARAMS(textureName) textureName",
-			"#define ASE_TEXTURE3D_PARAMS(textureName) textureName",
-			"#define ASE_TEXTURECUBE_PARAMS(textureName) textureName",
-			"#define ASE_TEXTURE2D_ARRAY_PARAMS(textureName) textureName",
-			"#endif//ASE Args Macros\n"
-		};
-
-		public readonly static string[] CustomASEDeclararionMacros =
-		{
-			"#define ASE_TEXTURE2D(textureName) {0}2D(textureName)",
-			"#define ASE_TEXTURE2D_ARRAY(textureName) {0}2D_ARRAY(textureName)",
-			"#define ASE_TEXTURE3D(textureName) {0}3D(textureName)",
-			"#define ASE_TEXTURECUBE(textureName) {0}CUBE(textureName)\n"
-		};
-
-		public readonly static string[] CustomASEStandarSamplingMacrosHelper =
-		{
-			"#if defined(SHADER_API_D3D11) || defined(SHADER_API_XBOXONE) || defined(UNITY_COMPILER_HLSLCC)//ASE Sampling Macros",
-			"#else//ASE Sampling Macros",
-			"#endif//ASE Sampling Macros\n"
-		};*/
-
-		/*public readonly static string[] CustomASESamplingMacros =
-		{
-			"#define ASE_SAMPLE_TEXTURE2D(textureName,{0}coords) {1}2D{2}(textureName,{0}coords)",
-			"#define ASE_SAMPLE_TEXTURE2D_LOD(textureName, {0}coord2, lod) {1}2D{2}_LOD(textureName, {0}coord2, lod)",
-			"#define ASE_SAMPLE_TEXTURE2D_BIAS(textureName,{0}coord2, bias) {1}2D{2}_BIAS(textureName,{0}coord2, bias)",
-			"#define ASE_SAMPLE_TEXTURE2D_GRAD(textureName,{0}coord2, dpdx, dpdy) {1}2D{2}_GRAD(textureName,{0}coord2, dpdx, dpdy)",
-
-			"#define ASE_SAMPLE_TEXTURE3D(textureName,{0}coord3) {1}3D{2}(textureName,{0}coord3)",
-			"#define ASE_SAMPLE_TEXTURE3D_LOD(textureName,{0}coord3, lod) {1}3D{2}_LOD(textureName,{0}coord3, lod)",
-			"#define ASE_SAMPLE_TEXTURE3D_BIAS(textureName,{0}coord3, bias) {1}3D{2}_BIAS(textureName,{0}coord3, bias)",
-			"#define ASE_SAMPLE_TEXTURE3D_GRAD(textureName,{0}coord3, dpdx, dpdy) {1}3D{2}_GRAD(textureName,{0}coord3, dpdx, dpdy)",
-
-			"#define ASE_SAMPLE_TEXTURECUBE(textureName,{0}coord3) {1}CUBE{2}(textureName,{0}coord3)",
-			"#define ASE_SAMPLE_TEXTURECUBE_LOD(textureName,{0}coord3, lod) {1}CUBE{2}_LOD(textureName,{0}coord3, lod)",
-			"#define ASE_SAMPLE_TEXTURECUBE_BIAS(textureName,{0}coord3, bias) {1}CUBE{2}_BIAS(textureName,{0}coord3, bias)\n"
-		};*/
-
-		// SRP
-		/*public readonly static string[] CustomASESRPArgsMacros =
-		{
-			"#define ASE_TEXTURE2D_ARGS(textureName) TEXTURE2D(textureName), SAMPLER(textureName)",
-			"#define ASE_TEXTURE3D_ARGS(textureName) TEXTURE3D(textureName), SAMPLER(textureName)",
-			"#define ASE_TEXTURECUBE_ARGS(textureName) TEXTURECUBE(textureName), SAMPLER(textureName)",
-			"#define ASE_TEXTURE2D_PARAMS(textureName) textureName, sampler##textureName",
-			"#define ASE_TEXTURE3D_PARAMS(textureName) textureName, sampler##textureName",
-			"#define ASE_TEXTURECUBE_PARAMS(textureName) textureName, sampler##textureName",
-			"#define ASE_TEXTURE2D_ARRAY_PARAMS(textureName) textureName, sampler##textureName\n"
-		};*/
-
 		public readonly static List<string> UnityNativeInspectors = new List<string>
 		{
 			"Rendering.HighDefinition.LightingShaderGraphGUI",
@@ -382,7 +317,11 @@ namespace AmplifyShaderEditor
 		public readonly static string UndoCreateConnectionId = "Create Connection";
 
 		public readonly static float MenuDragSpeed = -0.5f;
-		public readonly static string DefaultCustomInspector = "AmplifyShaderEditor.MaterialInspector";
+		// @diogo: an external integration may set PreferredCustomInspector (see PropertyNodeExtensions)
+		//         to override the inspector ASE assigns by default; null or empty keeps ASE's own.
+		public static string PreferredCustomInspector = null;
+		public readonly static string AseDefaultCustomInspector = "AmplifyShaderEditor.MaterialInspector";
+		public static string DefaultCustomInspector { get { return string.IsNullOrEmpty( PreferredCustomInspector ) ? AseDefaultCustomInspector : PreferredCustomInspector; } }
 		public readonly static string OldCustomInspector = "ASEMaterialInspector";
 		public readonly static string ReferenceTypeStr = "Mode";
 		public readonly static string AvailableReferenceStr = "Reference";
@@ -400,8 +339,6 @@ namespace AmplifyShaderEditor
 		public readonly static string ATSharedLibGUID = "ba242738c4be3324aa88d126f7cc19f9";
 		public readonly static string CameraDepthTextureValue = "UNITY_DECLARE_DEPTH_TEXTURE( _CameraDepthTexture );";
 
-		//public readonly static string CameraDepthTextureSRPVar = "TEXTURE2D(_CameraDepthTexture);";
-		//public readonly static string CameraDepthTextureSRPSampler = "SAMPLER(sampler_CameraDepthTexture);";
 		public readonly static string CameraDepthTextureLWEnabler = "REQUIRE_DEPTH_TEXTURE 1";
 
 		public readonly static string CameraDepthTextureTexelSize = "uniform float4 _CameraDepthTexture_TexelSize;";
@@ -410,8 +347,6 @@ namespace AmplifyShaderEditor
 
 
 		public readonly static string HelpURL = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor";
-		//public readonly static string NodeCommonUrl = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor/Nodes#";
-		//public readonly static string CommunityNodeCommonUrl = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor/Community_Nodes#";
 		public readonly static string NodeCommonUrl = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor/";
 		public readonly static string CommunityNodeCommonUrl = "http://wiki.amplify.pt/index.php?title=Unity_Products:Amplify_Shader_Editor/";
 		public readonly static Color InfiniteLoopColor = Color.red;
@@ -448,6 +383,9 @@ namespace AmplifyShaderEditor
 		public readonly static float PropertyPickerHeight = 16f;
 		public readonly static float PreviewExpanderWidth = 16f;
 		public readonly static float PreviewExpanderHeight = 16f;
+		// @diogo: previews rendered between GL.Flush calls during a preview pass; drains the graphics command
+		// ring buffer on large bursts so it can't overflow ( "Ran out of Graphics Ring Buffer space" ).
+		public const int PreviewFlushInterval = 512;
 		public readonly static float TextFieldFontSize = 11f;
 		public readonly static float DefaultFontSize = 14f;
 		public readonly static float DefaultTitleFontSize = 12f;
@@ -460,6 +398,11 @@ namespace AmplifyShaderEditor
 
 		public readonly static float PORT_INITIAL_Y = 41;
 		public readonly static float INPUT_PORT_DELTA_Y = 7;
+		// @diogo: node drag snap step, same on both axes; the port row pitch below stays a whole multiple of it so every port lands on a snap step
+		public readonly static float GRID_SNAP_X = 8;
+		public readonly static float GRID_SNAP_Y = 8;
+		// @diogo: fixed per-port row pitch; must stay a whole multiple of GRID_SNAP_Y so any output aligns with any input across snapped nodes
+		public readonly static float PORT_ROW_HEIGHT_Y = 24;
 		public readonly static float PORT_TO_LABEL_SPACE_X = 4;
 
 		public readonly static float NODE_HEADER_HEIGHT = 32;

@@ -31,7 +31,7 @@ namespace AmplifyShaderEditor
 		[NonSerialized]
 		private GUIStyle m_titleStyle;
 
-		[MenuItem( "Window/Amplify Shader Editor/" + Title, false, priority: 1100 )]
+		[MenuItem( "Window/Amplify Shader Editor/" + Title, false, priority: 1102 )]
 		static void ShowWindow()
 		{
 			var window = EditorWindow.GetWindow<BatchUpdateShaders>();
@@ -79,7 +79,7 @@ namespace AmplifyShaderEditor
 		{
 			if( m_updatingShaders )
 			{
-				m_updatingShaders = EditorPrefs.HasKey( AmplifyShaderEditorWindow.ASEFileList );
+				m_updatingShaders = AmplifyShaderEditorWindow.IsBatchProcessing;
 			}
 
 

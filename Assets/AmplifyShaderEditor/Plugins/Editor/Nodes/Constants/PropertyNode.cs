@@ -125,6 +125,11 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private List<string> m_customAttr = new List<string>();
 
+		// @diogo: opaque per-node payload owned by an external integration (see PropertyNodeExtensions).
+		//         Retained verbatim so it round-trips even when no integration is registered.
+		[SerializeField]
+		private string m_extensionData = string.Empty;
+
 		[SerializeField]
 		private bool m_hasHeaders = false;
 
@@ -211,6 +216,24 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private bool m_addGlobalToSRPBatcher = false;
 
+		// @diogo: generic Object/Reference mode support; opted-in by Float/Int/Vector/Color nodes
+		private readonly Color ReferenceHeaderColor = new Color( 0f, 0.5f, 0.585f, 1.0f );
+		private const float ReferenceIconSize = 19;
+
+		protected bool m_canBeReferenced = false;
+		private Rect m_referenceIconPos;
+
+		[SerializeField]
+		private TexReferenceType m_propertyReferenceType = TexReferenceType.Object;
+
+		[SerializeField]
+		private int m_propertyReferenceNodeId = -1;
+
+		private PropertyNode m_propertyReference = null;
+		private string m_lastPropertyReferenceTitle = string.Empty;
+		private string m_lastPropertyReferenceValue = string.Empty;
+		private List<PropertyNode> m_propertyReferenceCandidates = new List<PropertyNode>();
+
 		public PropertyNode() : base() { }
 		public PropertyNode( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) { }
 
@@ -244,7 +267,7 @@ namespace AmplifyShaderEditor
 					PaddingTitleRight = Constants.PropertyPickerWidth + Constants.IconsLeftRightMargin;
 			}
 
-			m_hasLeftDropdown = m_freeType;
+			m_hasLeftDropdown = m_freeType && !IsPropertyReference;
 		}
 
 		protected void BeginDelayedDirtyProperty()
@@ -304,7 +327,14 @@ namespace AmplifyShaderEditor
 
 				if( !m_propertyName.Equals( m_oldName ) )
 				{
-					if( UIUtils.IsUniformNameAvailable( m_propertyName ) || m_allowPropertyDuplicates )
+					if( m_variableMode == VariableMode.Fetch )
+					{
+						m_oldName = m_propertyName;
+						m_propertyNameIsDirty = true;
+						m_reRegisterName = false;
+						OnPropertyNameChanged();
+					}
+					else if( UIUtils.IsUniformNameAvailable( m_propertyName ) || m_allowPropertyDuplicates )
 					{
 						UIUtils.ReleaseUniformName( UniqueId, m_oldName );
 
@@ -375,9 +405,8 @@ namespace AmplifyShaderEditor
 
 		public void ChangeParameterType( PropertyType parameterType )
 		{
-			UndoUtils.RegisterCompleteObjectUndo( m_containerGraph.ParentWindow, Constants.UndoChangePropertyTypeNodesId );
-			UndoUtils.RegisterCompleteObjectUndo( m_containerGraph, Constants.UndoChangePropertyTypeNodesId );
-			UndoUtils.RecordObject( this, Constants.UndoChangePropertyTypeNodesId );
+
+			bool wasReserving = ReservesUniformName;
 
 			if( m_currentParameterType == PropertyType.Constant || m_currentParameterType == PropertyType.Global )
 			{
@@ -416,7 +445,189 @@ namespace AmplifyShaderEditor
 				CurrentVariableMode = VariableMode.Create;
 			}
 
+			// Reconcile registry ownership for the new type (C): flipping a constant into a reserving
+			// type acquires (and dedups) a name now, instead of relying on a slot it used to hold while
+			// constant; flipping back into a constant releases the slot.
+			bool willReserve = ReservesUniformName;
+			if( !wasReserving && willReserve )
+			{
+				if( UIUtils.IsUniformNameAvailable( m_propertyName ) )
+					UIUtils.RegisterUniformName( UniqueId, m_propertyName );
+				else
+					RegisterFirstAvailablePropertyName( false );
+			}
+			else if( wasReserving && !willReserve )
+			{
+				if( UIUtils.CheckUniformNameOwner( m_propertyName ) == UniqueId )
+					UIUtils.ReleaseUniformName( UniqueId, m_propertyName );
+			}
 		}
+
+		public bool IsPropertyReference { get { return m_canBeReferenced && m_propertyReferenceType == TexReferenceType.Instance; } }
+		public override int ReferencedNodeId { get { return IsPropertyReference ? m_propertyReferenceNodeId : base.ReferencedNodeId; } }
+		public bool CanBeReferenced { get { return m_canBeReferenced; } }
+
+		// Single rule for "does this node own a slot in the uniform-name dedup registry".
+		// Constants inline their value and emit no name, so they never reserve. Reference nodes
+		// borrow another node's name, and Fetch-mode nodes consume an externally declared name.
+		private bool ReservesUniformName
+		{
+			get
+			{
+				return m_currentParameterType != PropertyType.Constant
+					&& m_variableMode != VariableMode.Fetch
+					&& !IsPropertyReference;
+			}
+		}
+
+		public PropertyNode PropertyReference
+		{
+			get
+			{
+				if( !IsPropertyReference )
+					return null;
+
+				if( m_propertyReference == null && m_propertyReferenceNodeId > -1 )
+				{
+					m_propertyReference = ContainerGraph.GetNode( m_propertyReferenceNodeId ) as PropertyNode;
+				}
+
+				if( m_propertyReference != null && ( m_propertyReference == this || m_propertyReference.GetType() != GetType() ) )
+				{
+					m_propertyReference = null;
+				}
+
+				return m_propertyReference;
+			}
+		}
+
+		public void SetPropertyReference( PropertyNode reference )
+		{
+			if( !m_canBeReferenced || reference == null || reference == this || reference.GetType() != GetType() )
+				return;
+
+			if( m_propertyReferenceType != TexReferenceType.Instance )
+			{
+				m_propertyReferenceType = TexReferenceType.Instance;
+				EnablePropertyReferenceMode();
+			}
+
+			m_propertyReference = reference;
+			m_propertyReferenceNodeId = reference.UniqueId;
+
+			// Leave Constant mode so material values are displayed like on the referenced node; not going through
+			// ChangeParameterType() on purpose as referencing nodes must stay out of the property node registries
+			if( m_currentParameterType == PropertyType.Constant && reference.CurrentParameterType != PropertyType.Constant )
+			{
+				m_currentParameterType = PropertyType.Property;
+			}
+
+			m_propertyNameIsDirty = true;
+			PreviewIsDirty = true;
+		}
+
+		private void OnPropertyReferenceTypeChanged()
+		{
+			if( m_propertyReferenceType == TexReferenceType.Instance )
+			{
+				EnablePropertyReferenceMode();
+			}
+			else
+			{
+				DisablePropertyReferenceMode();
+			}
+		}
+
+		private void EnablePropertyReferenceMode()
+		{
+			// Release ownership over current property name so other nodes may use it
+			if( UIUtils.CheckUniformNameOwner( m_propertyName ) == UniqueId )
+			{
+				UIUtils.ReleaseUniformName( UniqueId, m_propertyName );
+			}
+			m_oldName = m_propertyName;
+
+			if( UIUtils.IsProperty( m_currentParameterType ) )
+			{
+				UIUtils.UnregisterPropertyNode( this );
+			}
+
+			m_propertyReference = null;
+			m_propertyReferenceNodeId = -1;
+			m_lastPropertyReferenceTitle = string.Empty;
+			m_lastPropertyReferenceValue = string.Empty;
+			m_headerColorModifier = ReferenceHeaderColor;
+			m_hasLeftDropdown = false;
+			DropdownEditing = false;
+		}
+
+		private void DisablePropertyReferenceMode()
+		{
+			m_headerColorModifier = Color.white;
+			m_hasLeftDropdown = m_freeType;
+			m_propertyReference = null;
+			m_propertyReferenceNodeId = -1;
+
+			if( UIUtils.IsUniformNameAvailable( m_propertyName ) )
+			{
+				UIUtils.RegisterUniformName( UniqueId, m_propertyName );
+				m_oldName = m_propertyName;
+			}
+			else if( UIUtils.CheckUniformNameOwner( m_propertyName ) != UniqueId )
+			{
+				RegisterFirstAvailablePropertyName( false );
+			}
+
+			if( UIUtils.IsProperty( m_currentParameterType ) )
+			{
+				UIUtils.RegisterPropertyNode( this );
+			}
+
+			m_propertyNameIsDirty = true;
+		}
+
+		private void RefreshPropertyReferenceCandidates()
+		{
+			m_propertyReferenceCandidates.Clear();
+			List<PropertyNode> nodes = ContainerGraph.RawPropertyNodes.NodesList;
+			int count = nodes.Count;
+			for( int i = 0; i < count; i++ )
+			{
+				PropertyNode candidate = nodes[ i ];
+				if( candidate != null && candidate != this && candidate.GetType() == GetType() && !candidate.IsPropertyReference )
+				{
+					m_propertyReferenceCandidates.Add( candidate );
+				}
+			}
+		}
+
+		private void DrawPropertyReferencePicker()
+		{
+			RefreshPropertyReferenceCandidates();
+			int count = m_propertyReferenceCandidates.Count;
+			string[] labels = new string[ count ];
+			int currentIdx = -1;
+			for( int i = 0; i < count; i++ )
+			{
+				labels[ i ] = m_propertyReferenceCandidates[ i ].PropertyInspectorName;
+				if( m_propertyReferenceCandidates[ i ].UniqueId == m_propertyReferenceNodeId )
+				{
+					currentIdx = i;
+				}
+			}
+
+			bool guiEnabledBuffer = GUI.enabled;
+			GUI.enabled = count > 0;
+			EditorGUI.BeginChangeCheck();
+			currentIdx = EditorGUILayoutPopup( Constants.AvailableReferenceStr, currentIdx, labels );
+			if( EditorGUI.EndChangeCheck() && currentIdx > -1 )
+			{
+				SetPropertyReference( m_propertyReferenceCandidates[ currentIdx ] );
+			}
+			GUI.enabled = guiEnabledBuffer;
+		}
+
+		protected virtual void CopyPropertyReferenceValues( PropertyNode reference ) { }
 
 		void InitializeAttribsArray()
 		{
@@ -432,6 +643,36 @@ namespace AmplifyShaderEditor
 					m_selectedAttribsArr[ i ] = true;
 					m_visibleAttribsFoldout = true;
 				}
+			}
+		}
+
+		public void SetAttribute( string name, bool state )
+		{
+			if( m_availableAttribsArr == null )
+			{
+				InitializeAttribsArray();
+			}
+
+			bool changed = false;
+			for( int i = 0; i < m_availableAttribsArr.Length; i++ )
+			{
+				if ( m_availableAttribsArr[ i ] == name && m_selectedAttribsArr[ i ] != state )
+				{
+					m_selectedAttribsArr[ i ] = state;
+					changed = true;
+				}
+			}
+
+			if ( changed )
+			{
+				m_selectedAttribs.Clear();
+				for( int i = 0; i < m_selectedAttribsArr.Length; i++ )
+				{
+					if( m_selectedAttribsArr[ i ] )
+						m_selectedAttribs.Add( i );
+				}
+
+				OnAtrributesChanged();
 			}
 		}
 
@@ -764,6 +1005,29 @@ namespace AmplifyShaderEditor
 			EditorGUI.BeginChangeCheck();
 			EditorGUILayout.BeginVertical();
 			{
+				if( m_canBeReferenced && m_freeType )
+				{
+					EditorGUI.BeginChangeCheck();
+					m_propertyReferenceType = (TexReferenceType)EditorGUILayoutPopup( Constants.ReferenceTypeStr, (int)m_propertyReferenceType, Constants.ReferenceArrayLabels );
+					if( EditorGUI.EndChangeCheck() )
+					{
+						OnPropertyReferenceTypeChanged();
+					}
+
+					UIUtils.DrawSeparator();
+
+					if( IsPropertyReference )
+					{
+						DrawPropertyReferencePicker();
+						EditorGUILayout.EndVertical();
+						if( EditorGUI.EndChangeCheck() )
+						{
+							OnDirtyProperty();
+						}
+						return;
+					}
+				}
+
 				if( m_freeType )
 				{
 					PropertyType parameterType = (PropertyType)EditorGUILayoutEnumPopup( ParameterTypeStr, m_currentParameterType );
@@ -868,10 +1132,10 @@ namespace AmplifyShaderEditor
 			if( m_freeType || m_freeName )
 			{
 				NodeUtils.DrawPropertyGroup( ref m_propertiesFoldout, Constants.ParameterLabelStr, DrawMainPropertyBlock );
-				if( m_drawAttributes )
+				if( m_drawAttributes && !IsPropertyReference )
 					NodeUtils.DrawPropertyGroup( ref m_visibleAttribsFoldout, Constants.AttributesLaberStr, DrawAttributes );
 
-				if( m_hasEnum )
+				if( m_hasEnum && !IsPropertyReference )
 				{
 					if( m_enumModeInt == 0 )
 						NodeUtils.DrawPropertyGroup( ref m_visibleEnumsFoldout, EnumsStr, DrawEnums, DrawEnumAddRemoveButtons );
@@ -879,7 +1143,7 @@ namespace AmplifyShaderEditor
 						NodeUtils.DrawPropertyGroup( ref m_visibleEnumsFoldout, EnumsStr, DrawEnums );
 				}
 
-				if( m_drawAttributes )
+				if( m_drawAttributes && !IsPropertyReference )
 				{
 					if( m_hasHeaders )
 						NodeUtils.DrawPropertyGroup( ref m_visibleHeaderAttrFoldout, HeaderAttrStr, DrawHeaderAttributes, DrawHeaderAttrAddRemoveButtons );
@@ -887,6 +1151,9 @@ namespace AmplifyShaderEditor
 					if( m_customAttrCount > 0 )
 						NodeUtils.DrawPropertyGroup( ref m_visibleCustomAttrFoldout, CustomAttrStr, DrawCustomAttributes, DrawCustomAttrAddRemoveButtons );
 				}
+
+				if( !IsPropertyReference )
+					PropertyNodeExtensions.DrawUI( this );
 
 				CheckPropertyFromInspector();
 			}
@@ -1062,7 +1329,7 @@ namespace AmplifyShaderEditor
 			// Custom Editable Title
 			if( ContainerGraph.LodLevel <= ParentGraph.NodeLOD.LOD3 )
 			{
-				if( !m_isEditing && ( ( !ContainerGraph.ParentWindow.MouseInteracted && drawInfo.CurrentEventType == EventType.MouseDown && m_titleClickArea.Contains( drawInfo.MousePosition ) ) ) )
+				if( !m_isEditing && !IsPropertyReference && ( ( !ContainerGraph.ParentWindow.MouseInteracted && drawInfo.CurrentEventType == EventType.MouseDown && m_titleClickArea.Contains( drawInfo.MousePosition ) ) ) )
 				{
 					if( ( EditorApplication.timeSinceStartup - m_clickTime ) < m_doubleClickTime )
 						m_startEditing = true;
@@ -1137,7 +1404,8 @@ namespace AmplifyShaderEditor
 			if( m_reRegisterName )
 			{
 				m_reRegisterName = false;
-				UIUtils.RegisterUniformName( UniqueId, m_propertyName );
+				if( ReservesUniformName )
+					UIUtils.RegisterUniformName( UniqueId, m_propertyName );
 			}
 
 			CheckDelayedDirtyProperty();
@@ -1147,7 +1415,12 @@ namespace AmplifyShaderEditor
 				m_lastParameterType = m_currentParameterType;
 				m_propertyNameIsDirty = false;
 				OnDirtyProperty();
-				if( m_currentParameterType != PropertyType.Constant )
+				if( IsPropertyReference && PropertyReference != null )
+				{
+					SetClippedTitle( PropertyReference.PropertyInspectorName, m_longNameSize );
+					SetClippedAdditionalTitle( string.Format( Constants.SubTitleValueFormatStr, PropertyReference.GetPropertyValStr() ), m_longNameSize, LongNameEnder );
+				}
+				else if( m_currentParameterType != PropertyType.Constant )
 				{
 					SetClippedTitle( m_propertyInspectorName, m_longNameSize );
 					//bool globalHandler = false;
@@ -1182,6 +1455,15 @@ namespace AmplifyShaderEditor
 
 			m_titleClickArea = m_titlePos;
 			m_titleClickArea.height = Constants.NODE_HEADER_HEIGHT;
+
+			if( IsPropertyReference )
+			{
+				m_referenceIconPos = m_globalPosition;
+				m_referenceIconPos.width = ReferenceIconSize * drawInfo.InvertedZoom;
+				m_referenceIconPos.height = ReferenceIconSize * drawInfo.InvertedZoom;
+				m_referenceIconPos.y += 10 * drawInfo.InvertedZoom;
+				m_referenceIconPos.x += 5 * drawInfo.InvertedZoom;
+			}
 		}
 
 		public override void OnNodeRepaint( DrawInfo drawInfo )
@@ -1196,6 +1478,11 @@ namespace AmplifyShaderEditor
 			{
 				GUI.Label( m_titleClickArea, m_content, UIUtils.GetCustomStyle( CustomStyle.NodeTitle ) );
 			}
+
+			if( IsPropertyReference )
+			{
+				GUI.Label( m_referenceIconPos, string.Empty, UIUtils.GetCustomStyle( CustomStyle.SamplerTextureIcon ) );
+			}
 		}
 
 		public void RegisterFirstAvailablePropertyName( bool releaseOldOne, bool appendIndexToCurrOne = false )
@@ -1203,7 +1490,14 @@ namespace AmplifyShaderEditor
 			if( releaseOldOne )
 				UIUtils.ReleaseUniformName( UniqueId, m_oldName );
 
-			if( m_isNodeBeingCopied || appendIndexToCurrOne )
+			if( !ReservesUniformName )
+			{
+				// C: constants (and fetch / reference nodes) don't reserve a slot. Give a plain default
+				// pair only when none exists yet; never scan for uniqueness or register.
+				if( string.IsNullOrEmpty( m_propertyName ) )
+					UIUtils.GetDefaultName( m_outputPorts[ 0 ].DataType, out m_propertyName, out m_propertyInspectorName, !string.IsNullOrEmpty( m_customPrefix ), m_customPrefix );
+			}
+			else if( m_isNodeBeingCopied || appendIndexToCurrOne )
 			{
 				if( string.IsNullOrEmpty( m_propertyName ) )
 					return;
@@ -1213,6 +1507,8 @@ namespace AmplifyShaderEditor
 				{
 					UIUtils.RegisterUniformName( UniqueId, newPropertyName );
 					m_propertyName = newPropertyName;
+					// B: keep the inspector name in lockstep with the deduped uniform.
+					m_propertyInspectorName = newPropertyName.StartsWith( "_" ) ? newPropertyName.Substring( 1 ) : newPropertyName;
 				}
 				else
 				{
@@ -1278,7 +1574,9 @@ namespace AmplifyShaderEditor
 			if( m_propertyName.Equals( propertyName ) )
 				return;
 
-			if( UIUtils.IsUniformNameAvailable( propertyName ) || m_allowPropertyDuplicates )
+			// Non-reserving nodes (constants) accept any display name without touching the registry;
+			// reserving nodes need the name to be free.
+			if( !ReservesUniformName || UIUtils.IsUniformNameAvailable( propertyName ) || m_allowPropertyDuplicates )
 			{
 				if( releaseOldOne )
 					UIUtils.ReleaseUniformName( UniqueId, m_oldName );
@@ -1289,7 +1587,8 @@ namespace AmplifyShaderEditor
 					m_propertyInspectorName = newName;
 				m_propertyNameIsDirty = true;
 				m_reRegisterName = false;
-				UIUtils.RegisterUniformName( UniqueId, propertyName );
+				if( ReservesUniformName )
+					UIUtils.RegisterUniformName( UniqueId, propertyName );
 				OnPropertyNameChanged();
 			}
 			else
@@ -1309,7 +1608,7 @@ namespace AmplifyShaderEditor
 		{
 			// Also testing inside shader function because node can be used indirectly over a custom expression and directly over a Function Output node
 			// That isn't being used externaly making it to not be registered ( since m_connStatus it set to Connected by being connected to an output node
-			if( CurrentParameterType != PropertyType.Constant && m_autoRegister && ( m_connStatus != NodeConnectionStatus.Connected || InsideShaderFunction ) )
+			if( CurrentParameterType != PropertyType.Constant && m_autoRegister && !IsPropertyReference && ( m_connStatus != NodeConnectionStatus.Connected || InsideShaderFunction ) )
 			{
 				RegisterProperty( ref dataCollector );
 			}
@@ -1327,8 +1626,8 @@ namespace AmplifyShaderEditor
 			{
 				case PropertyType.Property:
 				{
-					//Debug.Log( this.GetInstanceID()+" "+ OrderIndex+" "+GetPropertyValue() );
-					dataCollector.AddToProperties( UniqueId, GetPropertyValue(), OrderIndex );
+					if( m_variableMode == VariableMode.Create )
+						dataCollector.AddToProperties( UniqueId, GetPropertyValue(), OrderIndex );
 					string dataType = string.Empty;
 					string dataName = string.Empty;
 					bool fullValue = false;
@@ -1430,6 +1729,9 @@ namespace AmplifyShaderEditor
 				m_availableAttribs.Clear();
 
 			m_availableAttribs = null;
+
+			m_propertyReference = null;
+			m_propertyReferenceCandidates.Clear();
 		}
 		private const string HeaderFormatStr = "[Header({0})]";
 		string BuildHeader()
@@ -1462,14 +1764,18 @@ namespace AmplifyShaderEditor
 			return result;
 		}
 
+		// Canonical serialized form of the external integration payload (see PropertyNodeExtensions).
+		public string ExtensionData
+		{
+			get { return m_extensionData; }
+			set { m_extensionData = value; }
+		}
+
 		public string PropertyAttributes
 		{
 			get
 			{
 				int attribCount = m_selectedAttribs.Count;
-
-				if( m_selectedAttribs.Count == 0 && m_customAttrCount == 0 )
-					return string.Empty;
 
 				string attribs = string.Empty;
 				for( int i = 0; i < attribCount; i++ )
@@ -1487,6 +1793,8 @@ namespace AmplifyShaderEditor
 					if( !string.IsNullOrEmpty( m_customAttr[ i ] ) )
 						attribs += "[" + m_customAttr[ i ] + "]";
 				}
+
+				attribs += PropertyNodeExtensions.BuildAttributes( this );
 				return attribs;
 			}
 		}
@@ -1640,6 +1948,17 @@ namespace AmplifyShaderEditor
 			}
 
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_hybridInstanced );
+
+			if( m_canBeReferenced )
+			{
+				IOUtils.AddFieldValueToString( ref nodeInfo, m_propertyReferenceType );
+				IOUtils.AddFieldValueToString( ref nodeInfo, ( PropertyReference != null ) ? m_propertyReference.UniqueId : -1 );
+			}
+
+			// @diogo: opaque per-node extension payload (see PropertyNodeExtensions). Always written so the
+			//         stream stays in sync; empty when no integration is registered.
+			m_extensionData = PropertyNodeExtensions.WriteData( this, m_extensionData );
+			IOUtils.AddFieldValueToString( ref nodeInfo, m_extensionData );
 		}
 
 		int IdForAttrib( string name )
@@ -1771,6 +2090,27 @@ namespace AmplifyShaderEditor
 				m_hybridInstanced = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
 			}
 
+			if( m_canBeReferenced && UIUtils.CurrentShaderVersion() > 19909 )
+			{
+				m_propertyReferenceType = (TexReferenceType)Enum.Parse( typeof( TexReferenceType ), GetCurrentParam( ref nodeParams ) );
+				m_propertyReferenceNodeId = Convert.ToInt32( GetCurrentParam( ref nodeParams ) );
+				if( IsPropertyReference )
+				{
+					m_headerColorModifier = ReferenceHeaderColor;
+					m_hasLeftDropdown = false;
+					if( UIUtils.IsProperty( m_currentParameterType ) )
+					{
+						UIUtils.UnregisterPropertyNode( this );
+					}
+				}
+			}
+
+			if( UIUtils.CurrentShaderVersion() >= 19910 )
+			{
+				m_extensionData = GetCurrentParam( ref nodeParams );
+				PropertyNodeExtensions.ReadData( this, m_extensionData );
+			}
+
 			CheckEnumAttribute();
 			CheckHeaderAttribute();
 			if( m_enumCount > 0 )
@@ -1783,9 +2123,20 @@ namespace AmplifyShaderEditor
 			{
 				if( m_variableMode != VariableMode.Fetch || m_currentParameterType == PropertyType.Constant )
 				{
-					UIUtils.ReleaseUniformName( UniqueId, m_oldName );
-					UIUtils.RegisterUniformName( UniqueId, m_propertyName );
-					m_oldName = m_propertyName;
+					if( IsPropertyReference )
+					{
+						// Referencing nodes don't own a property name; release the auto-registered one
+						UIUtils.ReleaseUniformName( UniqueId, m_oldName );
+						m_oldName = m_propertyName;
+					}
+					else
+					{
+						UIUtils.ReleaseUniformName( UniqueId, m_oldName );
+						// C: constants keep their saved name but never reserve a registry slot.
+						if( m_currentParameterType != PropertyType.Constant )
+							UIUtils.RegisterUniformName( UniqueId, m_propertyName );
+						m_oldName = m_propertyName;
+					}
 				}
 			}
 			else
@@ -1795,6 +2146,52 @@ namespace AmplifyShaderEditor
 
 			ReleaseRansomedProperty();
 
+		}
+
+		// Preserve the property foldout states across a snapshot-undo reload; without this they are
+		// lost ( the attribute foldout, for instance, only re-derives open from ReadFromString when
+		// the node still has attributes, so undoing the last attribute would otherwise collapse it ).
+		public override void WriteUndoViewState( List<string> data )
+		{
+			base.WriteUndoViewState( data );
+			data.Add( m_visibleAttribsFoldout ? "1" : "0" );
+			data.Add( m_visibleEnumsFoldout ? "1" : "0" );
+			data.Add( m_visibleCustomAttrFoldout ? "1" : "0" );
+			data.Add( m_visibleHeaderAttrFoldout ? "1" : "0" );
+		}
+
+		public override void ReadUndoViewState( string[] data, ref int index )
+		{
+			base.ReadUndoViewState( data, ref index );
+			m_visibleAttribsFoldout = ReadUndoViewBool( data, ref index, m_visibleAttribsFoldout );
+			m_visibleEnumsFoldout = ReadUndoViewBool( data, ref index, m_visibleEnumsFoldout );
+			m_visibleCustomAttrFoldout = ReadUndoViewBool( data, ref index, m_visibleCustomAttrFoldout );
+			m_visibleHeaderAttrFoldout = ReadUndoViewBool( data, ref index, m_visibleHeaderAttrFoldout );
+		}
+
+		public override void ReconnectClipboardReferences( Clipboard clipboard )
+		{
+			base.ReconnectClipboardReferences( clipboard );
+			if( m_canBeReferenced && m_propertyReferenceNodeId > -1 )
+			{
+				int newId = clipboard.GeNewNodeId( m_propertyReferenceNodeId );
+				if( newId > -1 )
+				{
+					m_propertyReferenceNodeId = newId;
+				}
+				m_propertyReference = null;
+			}
+		}
+
+		public override void RefreshExternalReferences()
+		{
+			base.RefreshExternalReferences();
+			if( IsPropertyReference )
+			{
+				m_propertyReference = null;
+				m_headerColorModifier = ReferenceHeaderColor;
+				m_hasLeftDropdown = false;
+			}
 		}
 
 		public virtual void ReleaseRansomedProperty()
@@ -1877,7 +2274,14 @@ namespace AmplifyShaderEditor
 					}
 					else
 					{
-						if( !m_propertyName.Equals( m_oldName ) )
+						if( !ReservesUniformName )
+						{
+							// C: constant / reference nodes don't hold a registry slot on Create.
+							if( UIUtils.CheckUniformNameOwner( m_oldName ) == UniqueId )
+								UIUtils.ReleaseUniformName( UniqueId, m_oldName );
+							m_oldName = m_propertyName;
+						}
+						else if( !m_propertyName.Equals( m_oldName ) )
 						{
 							if( UIUtils.IsUniformNameAvailable( m_propertyName ) )
 							{
@@ -1923,6 +2327,29 @@ namespace AmplifyShaderEditor
 				FetchGlobalValue();
 				m_globalFetchTimestamp = EditorApplication.timeSinceStartup;
 			}
+
+			// Keep the property picker hidden while in Reference mode; AfterCommonInit() may run after
+			// ReadFromString() or domain reloads and turn it back on
+			if( m_canBeReferenced && m_freeType )
+			{
+				m_hasLeftDropdown = !IsPropertyReference;
+			}
+
+			if( IsPropertyReference )
+			{
+				PropertyNode reference = PropertyReference;
+				if( reference != null )
+				{
+					CopyPropertyReferenceValues( reference );
+					string referenceValue = reference.GetPropertyValStr();
+					if( !m_lastPropertyReferenceTitle.Equals( reference.PropertyInspectorName ) || !m_lastPropertyReferenceValue.Equals( referenceValue ) )
+					{
+						m_lastPropertyReferenceTitle = reference.PropertyInspectorName;
+						m_lastPropertyReferenceValue = referenceValue;
+						m_propertyNameIsDirty = true;
+					}
+				}
+			}
 		}
 
 		public void ShowGlobalValueButton()
@@ -1955,11 +2382,6 @@ namespace AmplifyShaderEditor
 		public bool FreeType { get { return m_freeType; } set { m_freeType = value; } }
 		public bool ReRegisterName { get { return m_reRegisterName; } set { m_reRegisterName = value; } }
 		public string CustomPrefix { get { return m_customPrefix; } set { m_customPrefix = value; } }
-		public override void RefreshOnUndo()
-		{
-			base.RefreshOnUndo();
-			BeginPropertyFromInspectorCheck();
-		}
 		public override string DataToArray { get { return PropertyInspectorName; } }
 		public bool RegisterPropertyOnInstancing { get { return m_registerPropertyOnInstancing; } set { m_registerPropertyOnInstancing = value; } }
 		public bool SrpBatcherCompatible { get { return m_srpBatcherCompatible; } }

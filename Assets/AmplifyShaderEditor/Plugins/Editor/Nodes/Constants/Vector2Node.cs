@@ -27,6 +27,10 @@ namespace AmplifyShaderEditor
 
 		public Vector2Node() : base() { }
 		public Vector2Node( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) { }
+
+		// @diogo: preview frag returns a single constant value, independent of UV (QA #5).
+		public override bool ConstantPreview { get { return true; } }
+
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -38,6 +42,7 @@ namespace AmplifyShaderEditor
 			m_previewShaderGUID = "88b4191eb06084d4da85d1dd2f984085";
 			m_srpBatcherCompatible = true;
 			m_showHybridInstancedUI = true;
+			m_canBeReferenced = true;
 		}
 
 		public override void CopyDefaultsToMaterial()
@@ -86,6 +91,12 @@ namespace AmplifyShaderEditor
 		public override void DrawGUIControls( DrawInfo drawInfo )
 		{
 			base.DrawGUIControls( drawInfo );
+
+			if ( IsPropertyReference )
+			{
+				m_isEditingFields = false;
+				return;
+			}
 
 			if ( drawInfo.CurrentEventType != EventType.MouseDown )
 				return;
@@ -190,6 +201,13 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
+			PropertyNode reference = PropertyReference;
+			if ( reference != null )
+			{
+				OrderIndex = reference.RawOrderIndex;
+				return reference.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
+			}
+
 			base.GenerateShaderForOutput( outputId,ref dataCollector, ignoreLocalvar );
 			m_precisionString = UIUtils.PrecisionWirePortToCgType( CurrentPrecisionType, m_outputPorts[ 0 ].DataType );
 
@@ -246,7 +264,7 @@ namespace AmplifyShaderEditor
 		public override void UpdateMaterial( Material mat )
 		{
 			base.UpdateMaterial( mat );
-			if ( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
+			if ( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction && !IsPropertyReference )
 			{
 				mat.SetVector( m_propertyName, m_materialValue );
 			}
@@ -276,6 +294,20 @@ namespace AmplifyShaderEditor
 			m_defaultValue = IOUtils.StringToVector2( GetCurrentParam( ref nodeParams ) );
 			if( UIUtils.CurrentShaderVersion() > 14101 )
 				m_materialValue = IOUtils.StringToVector2( GetCurrentParam( ref nodeParams ) );
+		}
+
+		protected override void CopyPropertyReferenceValues( PropertyNode reference )
+		{
+			Vector2Node node = reference as Vector2Node;
+			if ( node == null )
+				return;
+
+			if ( m_defaultValue != node.m_defaultValue || m_materialValue != node.m_materialValue )
+			{
+				m_defaultValue = node.m_defaultValue;
+				m_materialValue = node.m_materialValue;
+				PreviewIsDirty = true;
+			}
 		}
 
 		public override void SetGlobalValue() { Shader.SetGlobalVector( m_propertyName, m_defaultValue ); }

@@ -39,6 +39,7 @@ namespace AmplifyShaderEditor
 
 		[SerializeField]
 		private string m_filename;
+		public string Filename => m_filename;
 
 		[SerializeField]
 		private string m_headerTitle = string.Empty;
@@ -51,6 +52,11 @@ namespace AmplifyShaderEditor
 
 		[SerializeField]
 		private string m_functionGUID = string.Empty;
+		public string FunctionGUID => m_functionGUID;
+
+		// @diogo: see ShaderFunctionToNode.cs for more information
+		private bool m_isEligibleForConversion = false;
+		public bool IsEligibleForConversion => m_isEligibleForConversion;
 
 		//[SerializeField]
 		//private List<string> m_includes = new List<string>();
@@ -280,6 +286,52 @@ namespace AmplifyShaderEditor
 			if( m_allFunctionOutputs == null || m_allFunctionOutputs.Count == 0 )
 				return false;
 
+			// @diogo: on-demand idle-skip (pooled SF previews, QA #5). When pooling is on, skip walking a static
+			// SF's internal cone entirely - it only needs a recompute when this node is already dirty, when an
+			// outer input changed this pass, or when the output cone holds a live/continuous node ( m_previewLive
+			// from the last walk ). The FunctionOutput RTs are persistent so the visible swatch stays valid while
+			// skipped; outer producers are still visited ( memoized ) so their dirtiness is observed cheaply.
+			if( Preferences.User.PooledPreviews && !PreviewIsDirty && !m_previewLive )
+			{
+				bool anyInputDirty = false;
+				for( int i = 0; i < InputPorts.Count; i++ )
+				{
+					if( !InputPorts[ i ].IsConnected || InputPorts[ i ].ExternalReferences.Count == 0 )
+					{
+						continue;
+					}
+
+					ParentNode producer = ContainerGraph.GetNode( InputPorts[ i ].ExternalReferences[ 0 ].NodeId );
+					if( producer == null )
+					{
+						continue;
+					}
+
+					if( !duplicatesDict.ContainsKey( producer.OutputId ) )
+					{
+						if( producer.RecursivePreviewUpdate() )
+						{
+							anyInputDirty = true;
+						}
+					}
+					else if( duplicatesDict[ producer.OutputId ] )
+					{
+						anyInputDirty = true;
+					}
+				}
+
+				if( !anyInputDirty )
+				{
+					if( !duplicatesDict.ContainsKey( OutputId ) )
+					{
+						duplicatesDict.Add( OutputId, false );
+					}
+					return false;
+				}
+			}
+
+			// @diogo: accumulate preview liveness from the SF's outputs (pooled SF previews, QA #5).
+			bool live = false;
 			for( int i = 0; i < m_allFunctionOutputs.Count; i++ )
 			{
 				ParentNode outNode = m_allFunctionOutputs[ i ];
@@ -295,14 +347,49 @@ namespace AmplifyShaderEditor
 					{
 						PreviewIsDirty = true;
 					}
+					live = live || outNode.PreviewLive;
 				}
 			}
+			m_previewLive = live;
 
 			bool needsUpdate = PreviewIsDirty;
 			RenderNodePreview();
+
+			// @diogo: pooled SF previews (QA #5). The SF's compute is complete ( all internal reads happened
+			// in post-order above ), so hand this SF's transient internal preview RTs back to the pool. The
+			// FunctionOutput RTs are kept ( aliased by this node's visible swatch ); nested FunctionNodes
+			// already returned their own sub-graph when their RecursivePreviewUpdate ran.
+			if( Preferences.User.PooledPreviews && m_functionGraph != null )
+			{
+				ReturnInternalPooledPreviews( m_functionGraph );
+			}
+
 			if( !duplicatesDict.ContainsKey( OutputId ) )
 				duplicatesDict.Add( OutputId, needsUpdate );
 			return needsUpdate;
+		}
+
+		// @diogo: hand this SF's direct regular internal preview RTs back to the pool (pooled SF previews,
+		// QA #5). Skips FunctionOutput nodes (aliased by this node's visible output ports) and nested
+		// FunctionNodes (each returns its own sub-graph when its RecursivePreviewUpdate ran).
+		private void ReturnInternalPooledPreviews( ParentGraph graph )
+		{
+			ASEPreviewRTPool pool = ContainerGraph.ParentWindow.PreviewRTPool;
+			List<ParentNode> nodes = graph.AllNodes;
+			for( int i = 0; i < nodes.Count; i++ )
+			{
+				ParentNode node = nodes[ i ];
+				if( node == null || node is FunctionOutput || node is FunctionNode )
+				{
+					continue;
+				}
+
+				List<OutputPort> outputs = node.OutputPorts;
+				for( int p = 0; p < outputs.Count; p++ )
+				{
+					pool.Return( outputs[ p ].DetachPooledPreview() );
+				}
+			}
 		}
 
 		public override void RenderNodePreview()
@@ -703,34 +790,38 @@ namespace AmplifyShaderEditor
 			if( m_functionGraph != null && ContainerGraph.ParentWindow.CurrentGraph != m_functionGraph )
 				ContainerGraph.ParentWindow.CurrentGraph.InstancePropertyCount -= m_functionGraph.InstancePropertyCount;
 
-			if( ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface != null )
+			// @diogo: skip on whole-graph teardown: master nodes may already be destroyed, and their directives die with them
+			if ( !ParentGraph.IsBulkDestroying )
 			{
-				//for( int i = 0; i < m_includes.Count; i++ )
-				//{
-				//	//if( ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalIncludes.OutsideList.Contains( m_includes[ i ] ) )
-				//	//{
-				//	//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalIncludes.OutsideList.Remove( m_includes[ i ] );
-				//	//}
-				//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalDirectives.RemoveShaderFunctionItem( AdditionalLineType.Include, m_includes[ i ] );
-				//}
-
-				//for( int i = 0; i < m_pragmas.Count; i++ )
-				//{
-				//	//if( ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalPragmas.OutsideList.Contains( m_pragmas[ i ] ) )
-				//	//{
-				//	//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalPragmas.OutsideList.Remove( m_pragmas[ i ] );
-				//	//}
-				//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalDirectives.RemoveShaderFunctionItem( AdditionalLineType.Pragma, m_pragmas[ i ] );
-				//}
-				ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalDirectives.RemoveShaderFunctionItems( OutputId/*, m_directives */);
-			}
-			else
-			{
-				if( ContainerGraph.ParentWindow.OutsideGraph.MultiPassMasterNodes.Count > 0 )
+				if( ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface != null )
 				{
-					for( int lod = -1; lod < ContainerGraph.ParentWindow.OutsideGraph.LodMultiPassMasternodes.Count; lod++ )
+					//for( int i = 0; i < m_includes.Count; i++ )
+					//{
+					//	//if( ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalIncludes.OutsideList.Contains( m_includes[ i ] ) )
+					//	//{
+					//	//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalIncludes.OutsideList.Remove( m_includes[ i ] );
+					//	//}
+					//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalDirectives.RemoveShaderFunctionItem( AdditionalLineType.Include, m_includes[ i ] );
+					//}
+
+					//for( int i = 0; i < m_pragmas.Count; i++ )
+					//{
+					//	//if( ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalPragmas.OutsideList.Contains( m_pragmas[ i ] ) )
+					//	//{
+					//	//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalPragmas.OutsideList.Remove( m_pragmas[ i ] );
+					//	//}
+					//	ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalDirectives.RemoveShaderFunctionItem( AdditionalLineType.Pragma, m_pragmas[ i ] );
+					//}
+					ContainerGraph.ParentWindow.OutsideGraph.CurrentStandardSurface.AdditionalDirectives.RemoveShaderFunctionItems( OutputId/*, m_directives */);
+				}
+				else
+				{
+					if( ContainerGraph.ParentWindow.OutsideGraph.MultiPassMasterNodes.Count > 0 )
 					{
-						RemoveShaderFunctionDirectivesInternal( lod );
+						for( int lod = -1; lod < ContainerGraph.ParentWindow.OutsideGraph.LodMultiPassMasternodes.Count; lod++ )
+						{
+							RemoveShaderFunctionDirectivesInternal( lod );
+						}
 					}
 				}
 			}
@@ -819,6 +910,10 @@ namespace AmplifyShaderEditor
 			if( m_portsChanged )
 			{
 				m_portsChanged = false;
+				// @diogo: a function-switch selection can route the SF output through a branch containing a
+				// continuous node, changing its liveness; force a preview re-walk so the on-demand idle-skip
+				// re-evaluates m_previewLive instead of staying stale-false (pooled SF previews, QA #5).
+				PreviewIsDirty = true;
 				for( int i = 0; i < m_allFunctionOutputs.Count; i++ )
 				{
 					m_outputPorts[ i ].ChangeType( m_allFunctionOutputs[ i ].InputPorts[ 0 ].DataType, false );
@@ -1088,6 +1183,8 @@ namespace AmplifyShaderEditor
 				m_functionGUID = GetCurrentParam( ref nodeParams );
 			}
 
+			bool loadFailed = false;
+
 			AmplifyShaderFunction loaded = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( AssetDatabase.GUIDToAssetPath( m_functionGUID ) );
 			if( loaded != null )
 			{
@@ -1118,9 +1215,23 @@ namespace AmplifyShaderEditor
 					}
 					else
 					{
-						SetTitleText( "ERROR" );
-						UIUtils.ShowMessage( UniqueId, string.Format( "Error loading {0} shader function from project folder", m_filename ), MessageSeverity.Error );
+						loadFailed = true;
 					}
+				}
+				else
+				{
+					loadFailed = true;
+				}
+			}
+
+			if ( loadFailed )
+			{
+				if ( ShaderFunctionToNode.IsEligible( m_functionGUID ) )
+				{
+					// @diogo:
+					// Function is missing but is eligible for conversion to scripted node.
+					// Check ShaderFunctionToNode.cs for more information.
+					m_isEligibleForConversion = true;
 				}
 				else
 				{
@@ -1128,6 +1239,7 @@ namespace AmplifyShaderEditor
 					UIUtils.ShowMessage( UniqueId, string.Format( "Missing {0} shader function on project folder", m_filename ), MessageSeverity.Error );
 				}
 			}
+
 			if( UIUtils.CurrentShaderVersion() > 14203 )
 			{
 				ReadOptionsHelper = GetCurrentParam( ref nodeParams ).Split( ',' );
@@ -1211,22 +1323,6 @@ namespace AmplifyShaderEditor
 		{
 			get { return m_function; }
 			set { m_function = value; }
-		}
-
-		public override void RecordObjectOnDestroy( string Id )
-		{
-			base.RecordObjectOnDestroy( Id );
-			if( m_reordenator != null )
-				m_reordenator.RecordObject( Id );
-
-			if( m_functionGraph != null )
-			{
-				UndoUtils.RegisterCompleteObjectUndo( m_functionGraph, Id );
-				for( int i = 0; i < m_functionGraph.AllNodes.Count; i++ )
-				{
-					m_functionGraph.AllNodes[ i ].RecordObject( Id );
-				}
-			}
 		}
 
 		public override void SetContainerGraph( ParentGraph newgraph )

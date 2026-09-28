@@ -77,6 +77,8 @@ namespace AmplifyShaderEditor
 			SetPreviewInputs();
 			if( !Preferences.User.DisablePreviews )
 			{
+				PreparePooledPreview();
+
 				RenderTexture temp = RenderTexture.active;
 
 				RenderTexture.active = m_outputPorts[ 0 ].OutputPreviewTexture;

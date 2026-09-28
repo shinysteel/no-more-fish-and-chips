@@ -119,7 +119,6 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		[Serializable]
 		public class CacheNodeConnections
 		{
 			public Dictionary<string, List<NodeCache>> NodeCacheArray;
@@ -242,6 +241,8 @@ namespace AmplifyShaderEditor
 
 		[SerializeField]
 		private RenderingPlatformOpHelper m_renderingPlatformOpHelper = new RenderingPlatformOpHelper();
+		// @diogo: exposed for batch tooling ( Shader Utility ) so platforms can be toggled programmatically
+		public RenderingPlatformOpHelper RenderingPlatforms { get { return m_renderingPlatformOpHelper; } }
 
 		[SerializeField]
 		private RenderingOptionsOpHelper m_renderingOptionsOpHelper = new RenderingOptionsOpHelper();
@@ -367,9 +368,7 @@ namespace AmplifyShaderEditor
 		private bool m_previousTranslucencyOn = false;
 		private bool m_previousRefractionOn = false;
 
-		[SerializeField]
 		private CacheNodeConnections m_cacheNodeConnections = new CacheNodeConnections();
-
 
 		private bool m_usingProSkin = false;
 		private GUIStyle m_inspectorFoldoutStyle;
@@ -2657,20 +2656,31 @@ namespace AmplifyShaderEditor
 			ShaderBody += ContainerGraph.ParentWindow.GenerateGraphInfo();
 
 			//TODO: Remove current SaveDebugShader and uncomment SaveToDisk as soon as pathname is editable
+			string shaderDiskPath;
 			if( !String.IsNullOrEmpty( pathname ) )
 			{
-				IOUtils.StartSaveThread( ShaderBody, ( isFullPath ? pathname : ( IOUtils.dataPath + pathname ) ) );
+				shaderDiskPath = isFullPath ? pathname : ( IOUtils.dataPath + pathname );
 			}
 			else
 			{
-				IOUtils.StartSaveThread( ShaderBody, Application.dataPath + "/AmplifyShaderEditor/Samples/Shaders/" + m_shaderName + ".shader" );
+				shaderDiskPath = Application.dataPath + "/AmplifyShaderEditor/Samples/Shaders/" + m_shaderName + ".shader";
 			}
+			IOUtils.StartSaveThread( ShaderBody, shaderDiskPath );
 
 			// Load new shader into material
 
 			if( CurrentShader == null )
 			{
-				AssetDatabase.Refresh( ImportAssetOptions.ForceUpdate );
+				// @diogo: in Play mode import just the written file, avoiding a project-wide refresh
+				string shaderRelativePath = Application.isPlaying ? FileUtil.GetProjectRelativePath( shaderDiskPath ) : string.Empty;
+				if( Application.isPlaying && !string.IsNullOrEmpty( shaderRelativePath ) )
+				{
+					AssetDatabase.ImportAsset( shaderRelativePath, ImportAssetOptions.ForceSynchronousImport );
+				}
+				else
+				{
+					AssetDatabase.Refresh( ImportAssetOptions.ForceUpdate );
+				}
 				CurrentShader = Shader.Find( ShaderName );
 			}
 			//else
@@ -2921,6 +2931,8 @@ namespace AmplifyShaderEditor
 			try
 			{
 				base.ReadFromString( ref nodeParams );
+				// @diogo: surface graphs are always category 0; discard stale template index left by an interrupted type switch
+				m_masterNodeCategory = 0;
 				m_currentLightModel = (StandardShaderLightModel)Enum.Parse( typeof( StandardShaderLightModel ), GetCurrentParam( ref nodeParams ) );
 
 				if( CurrentMasterNodeCategory == AvailableShaderTypes.SurfaceShader && m_currentLightModel == StandardShaderLightModel.CustomLighting )

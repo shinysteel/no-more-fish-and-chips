@@ -33,3 +33,4 @@ MonoBehaviour:
   _environmentManagerConfig: {fileID: 11400000, guid: 5c56b2dd7cfc02441bab9f5db0d0bfe0, type: 2}
   _rarityManagerConfig: {fileID: 11400000, guid: 64fd308499e801f4686c618274fbc162, type: 2}
   _voyageManagerConfig: {fileID: 11400000, guid: 6968a53a2b6f0634d9c1a1a90605cbac, type: 2}
+  _renderingManagerConfig: {fileID: 11400000, guid: 29a4610a5121ab04789445980e9fd60f, type: 2}

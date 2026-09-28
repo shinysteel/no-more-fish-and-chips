@@ -32,9 +32,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				Geometry:SetDefine:ASE_GEOMETRY
 				Terrain:SetDefine:ASE_TERRAIN
 				Terrain:ShowOption:  Instanced Terrain Normals
-				Terrain:SetPropertyOnPass:ScenePickingPass:ChangeTagValue,LightMode,Picking
 				Impostor:SetDefine:ASE_IMPOSTOR
-				Geometry,Impostor:SetPropertyOnPass:ScenePickingPass:ChangeTagValue,LightMode,ScenePickingPass
 			Option:  Instanced Terrain Normals,InvertActionOnDeselection:Force Vertex,Force Pixel,Material Option:Force Pixel
 				Force Vertex?Category=Terrain:SetShaderProperty:_InstancedTerrainNormals,//[KeywordEnum(Vertex, Pixel)] _InstancedTerrainNormals("Instanced Terrain Normals", Float) = 1.0
 				Force Pixel?Category=Terrain:SetDefine:_INSTANCEDTERRAINNORMALS_PIXEL
@@ -247,10 +245,17 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				true:SetDefine:ASE_BAKEDGI 1
 				false:RemoveDefine:ASE_BAKEDGI 1
 			Option:Write Depth:false,true:false
-				true:SetDefine:ASE_DEPTH_WRITE_ON
-				true:ShowPort:ForwardBase:_DeviceDepth
-				false,disable:RemoveDefine:ASE_DEPTH_WRITE_ON
-				false,disable:HidePort:ForwardBase:_DeviceDepth
+				true:SetDefine:ASE_WRITE_DEPTH
+				true:ShowOption:  Conservative
+				true:ShowPort:ExtraPrePass:Depth
+				true:ShowPort:ForwardBase:Depth
+				false,disable:RemoveDefine:ASE_WRITE_DEPTH
+				false,disable:HideOption:  Conservative
+				false,disable:HidePort:ExtraPrePass:Depth
+				false,disable:HidePort:ForwardBase:Depth
+			Option:  Conservative:false,true:false
+				true:SetDefine:ASE_WRITE_DEPTH_CONSERVATIVE
+				false,disable:RemoveDefine:ASE_WRITE_DEPTH_CONSERVATIVE
 			Option:Extra Pre Pass:false,true:false
 				true:IncludePass:ExtraPrePass
 				false,disable:ExcludePass:ExtraPrePass
@@ -357,6 +362,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 		ZWrite On
 		ZTest LEqual
 		ColorMask RGBA
+		Blend One Zero, One Zero
+		BlendOp Add, Add
 
 		/*ase_stencil*/
 
@@ -481,7 +488,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 			Name "ExtraPrePass"
 			Tags { "LightMode" = "ForwardBase" }
 
-			Blend One Zero
+			Blend One Zero, One Zero
+			BlendOp Add, Add
 			Cull Back
 			ZWrite On
 			ZTest LEqual
@@ -517,6 +525,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				/*ase_pragma*/
 
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
+
 				struct appdata
 				{
 					float4 vertex : POSITION;
@@ -530,7 +546,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					float4 pos : SV_POSITION;
+					ASE_SV_POSITION_QUALIFIERS float4 pos : SV_POSITION;
 					float4 worldPos : TEXCOORD0; // xyz = positionWS, w = fogCoord
 					half3 normalWS : TEXCOORD1;
 					half4 tangentWS : TEXCOORD2;
@@ -682,8 +698,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#endif
 
 				half4 frag( v2f IN /*ase_frag_input*/
-							#if defined( ASE_DEPTH_WRITE_ON )
-								, out float outputDepth : SV_Depth
+							#if defined( ASE_WRITE_DEPTH )
+								, out float outputDepth : ASE_SV_DEPTH
 							#endif
 							) : SV_Target
 				{
@@ -729,8 +745,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half Alpha = /*ase_frag_out:Alpha;Float;1;-1;_AlphaP*/1/*end*/;
 					half AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;2;-1;_AlphaClipP*/0.5/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					half4 c = half4( Color, Alpha );
@@ -739,8 +755,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 						clip( Alpha - AlphaClipThreshold );
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					#if defined( ASE_FOG )
@@ -759,7 +775,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 			Name "ForwardBase"
 			Tags { "LightMode" = "ForwardBase" }
 
-			Blend One Zero
+			Blend One Zero, One Zero
+			BlendOp Add, Add
 
 			CGPROGRAM
 				#pragma vertex vert
@@ -792,6 +809,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				/*ase_pragma*/
 
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
+
 				struct appdata
 				{
 					float4 vertex : POSITION;
@@ -806,7 +831,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					float4 pos : SV_POSITION;
+					ASE_SV_POSITION_QUALIFIERS float4 pos : SV_POSITION;
 					float4 worldPos : TEXCOORD0; // xyz = positionWS, w = fogCoord
 					half3 normalWS : TEXCOORD1;
 					float4 tangentWS : TEXCOORD2; // holds terrainUV ifdef ENABLE_TERRAIN_PERPIXEL_NORMAL
@@ -995,8 +1020,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#endif
 
 				half4 frag( v2f IN /*ase_frag_input*/
-							#if defined( ASE_DEPTH_WRITE_ON )
-								, out float outputDepth : SV_Depth
+							#if defined( ASE_WRITE_DEPTH )
+								, out float outputDepth : ASE_SV_DEPTH
 							#endif
 							) : SV_Target
 				{
@@ -1074,8 +1099,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half3 Transmission = /*ase_frag_out:Transmission;Float3;13;-1;_Transmission*/1/*end*/;
 					half3 Translucency = /*ase_frag_out:Translucency;Float3;14;-1;_Translucency*/1/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					#ifdef _ALPHATEST_ON
@@ -1101,8 +1126,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 						// @diogo: already in world-space; do nothing
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					#ifndef USING_DIRECTIONAL_LIGHT
@@ -1270,6 +1295,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				/*ase_pragma*/
 
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
+
 				struct appdata
 				{
 					float4 vertex : POSITION;
@@ -1284,7 +1317,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					float4 pos : SV_POSITION;
+					ASE_SV_POSITION_QUALIFIERS float4 pos : SV_POSITION;
 					float4 worldPos : TEXCOORD0; // xyz = positionWS, w = fogCoord
 					half3 normalWS : TEXCOORD1;
 					float4 tangentWS : TEXCOORD2; // holds terrainUV ifdef ENABLE_TERRAIN_PERPIXEL_NORMAL
@@ -1455,8 +1488,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#endif
 
 				half4 frag ( v2f IN /*ase_frag_input*/
-					#if defined( ASE_DEPTH_WRITE_ON )
-					, out float outputDepth : SV_Depth
+					#if defined( ASE_WRITE_DEPTH )
+					, out float outputDepth : ASE_SV_DEPTH
 					#endif
 					) : SV_Target
 				{
@@ -1532,8 +1565,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half3 Transmission = /*ase_frag_out:Transmission;Float3;13;-1;_Transmission*/1/*end*/;
 					half3 Translucency = /*ase_frag_out:Translucency;Float3;14;-1;_Translucency*/1/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					#ifdef _ALPHATEST_ON
@@ -1559,8 +1592,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 						// @diogo: already in world-space; do nothing
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					#ifndef USING_DIRECTIONAL_LIGHT
@@ -1575,7 +1608,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					gi.indirect.specular = 0;
 					gi.light.color = _LightColor0.rgb;
 					gi.light.dir = lightDir;
-					gi.light.color *= atten;
+					gi.light.color *= LightAtten;
 
 					half4 c = 0;
 					#if defined(ASE_LIGHTING_SIMPLE)
@@ -1675,6 +1708,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				/*ase_pragma*/
 
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
+
 				struct appdata
 				{
 					float4 vertex : POSITION;
@@ -1689,7 +1730,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					float4 pos : SV_POSITION;
+					ASE_SV_POSITION_QUALIFIERS float4 pos : SV_POSITION;
 					float4 worldPos : TEXCOORD0; // xyz = positionWS, w = fogCoord
 					half3 normalWS : TEXCOORD1;
 					float4 tangentWS : TEXCOORD2; // holds terrainUV ifdef ENABLE_TERRAIN_PERPIXEL_NORMAL
@@ -1871,8 +1912,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					#if defined(SHADOWS_SHADOWMASK) && (UNITY_ALLOWED_MRT_COUNT > 4)
 					, out half4 outShadowMask : SV_Target4
 					#endif
-					#if defined( ASE_DEPTH_WRITE_ON )
-					, out float outputDepth : SV_Depth
+					#if defined( ASE_WRITE_DEPTH )
+					, out float outputDepth : ASE_SV_DEPTH
 					#endif
 				)
 				{
@@ -1936,8 +1977,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;8;-1;_AlphaClip*/0.5/*end*/;
 					half3 BakedGI = /*ase_frag_out:Baked GI;Float3;10;-1;_BakedGI*/0/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					#if ( ASE_FRAGMENT_NORMAL == 0 )
@@ -1952,8 +1993,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 						clip( o.Alpha - AlphaClipThreshold );
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					#ifndef USING_DIRECTIONAL_LIGHT
@@ -2329,6 +2370,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				/*ase_pragma*/
 
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
+
 				struct appdata
 				{
 					float4 vertex : POSITION;
@@ -2342,7 +2391,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					V2F_SHADOW_CASTER;
+					ASE_SV_POSITION_QUALIFIERS UNITY_POSITION( pos );
+					V2F_SHADOW_CASTER_NOPOS
 					/*ase_interp(1,):sp=sp*/
 					UNITY_VERTEX_INPUT_INSTANCE_ID
 					UNITY_VERTEX_OUTPUT_STEREO
@@ -2487,8 +2537,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#endif
 
 				half4 frag( v2f IN /*ase_frag_input*/
-							#if defined( ASE_DEPTH_WRITE_ON )
-								, out float outputDepth : SV_Depth
+							#if defined( ASE_WRITE_DEPTH )
+								, out float outputDepth : ASE_SV_DEPTH
 							#endif
 							) : SV_Target
 				{
@@ -2517,8 +2567,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;8;-1;_AlphaClip*/0.5/*end*/;
 					half AlphaClipThresholdShadow = /*ase_frag_out:Alpha Clip Threshold Shadow;Float;9;-1;_AlphaClipShadow*/0.5/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					#ifdef _ALPHATEST_SHADOW_ON
@@ -2539,8 +2589,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 						clip(alphaRef - 0.01);
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					SHADOW_CASTER_FRAGMENT(IN)
@@ -2561,8 +2611,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#pragma vertex vert
 				#pragma fragment frag
 				#pragma skip_variants FOG_LINEAR FOG_EXP FOG_EXP2
-
 				#pragma multi_compile_fwdbase
+				#define SCENESELECTIONPASS
 				#ifndef UNITY_PASS_FORWARDBASE
 					#define UNITY_PASS_FORWARDBASE
 				#endif
@@ -2585,6 +2635,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#include "AutoLight.cginc"
 
 				/*ase_pragma*/
+
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
 
 				int _ObjectId;
 				int _PassValue;
@@ -2600,7 +2658,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					float4 pos : SV_POSITION;
+					ASE_SV_POSITION_QUALIFIERS float4 pos : SV_POSITION;
 					float4 worldPos : TEXCOORD0; // xyz = positionWS
 					half3 normalWS : TEXCOORD1;
 					/*ase_interp(2,):sp=sp;wp=tc0.xyz;wn=tc1.xyz*/
@@ -2660,6 +2718,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				{
 					float4 vertex : INTERNALTESSPOS;
 					half3 normal : NORMAL;
+					half4 tangent : TANGENT;
 					/*ase_vcontrol*/
 					UNITY_VERTEX_INPUT_INSTANCE_ID
 				};
@@ -2677,6 +2736,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					UNITY_TRANSFER_INSTANCE_ID(v, o);
 					o.vertex = v.vertex;
 					o.normal = v.normal;
+					o.tangent = v.tangent;
 					/*ase_control_code:v=appdata;o=VertexControl*/
 					return o;
 				}
@@ -2716,6 +2776,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					appdata o = (appdata) 0;
 					o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 					o.normal = patch[0].normal * bary.x + patch[1].normal * bary.y + patch[2].normal * bary.z;
+					o.tangent = patch[0].tangent * bary.x + patch[1].tangent * bary.y + patch[2].tangent * bary.z;
 					/*ase_domain_code:patch=VertexControl;o=appdata;bary=SV_DomainLocation*/
 					#if defined(ASE_PHONG_TESSELLATION)
 					float3 pp[3];
@@ -2735,8 +2796,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#endif
 
 				half4 frag( v2f IN /*ase_frag_input*/
-							#if defined( ASE_DEPTH_WRITE_ON )
-								, out float outputDepth : SV_Depth
+							#if defined( ASE_WRITE_DEPTH )
+								, out float outputDepth : ASE_SV_DEPTH
 							#endif
 							) : SV_Target
 				{
@@ -2751,16 +2812,16 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half Alpha = /*ase_frag_out:Alpha;Float;7;-1;_Alpha*/1/*end*/;
 					half AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;8;-1;_AlphaClip*/0.5/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					#ifdef _ALPHATEST_ON
 						clip( Alpha - AlphaClipThreshold );
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					return float4( _ObjectId, _PassValue, 1.0, 1.0 );
@@ -2773,7 +2834,10 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 		{
 			/*ase_hide_pass*/
 			Name "ScenePickingPass"
-			Tags{ "LightMode" = "Picking" }
+			Tags
+			{
+				/*ase_immutable*/ "LightMode" = "Picking"
+			}
 
 			ZWrite On
 
@@ -2786,6 +2850,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#ifndef UNITY_PASS_FORWARDBASE
 					#define UNITY_PASS_FORWARDBASE
 				#endif
+				#define SCENEPICKINGPASS
 				#include "HLSLSupport.cginc"
 				#if defined( ASE_GEOMETRY ) || defined( ASE_IMPOSTOR )
 					#ifndef UNITY_INSTANCED_LOD_FADE
@@ -2806,6 +2871,14 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				/*ase_pragma*/
 
+				#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
+					#define ASE_SV_DEPTH SV_DepthLessEqual
+					#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
+				#else
+					#define ASE_SV_DEPTH SV_Depth
+					#define ASE_SV_POSITION_QUALIFIERS
+				#endif
+
 				float4 _SelectionID;
 
 				struct appdata
@@ -2819,7 +2892,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 
 				struct v2f
 				{
-					float4 pos : SV_POSITION;
+					ASE_SV_POSITION_QUALIFIERS float4 pos : SV_POSITION;
 					float4 worldPos : TEXCOORD0; // xyz = positionWS
 					half3 normalWS : TEXCOORD1;
 					/*ase_interp(2,):sp=sp;wp=tc0.xyz;wn=tc1.xyz*/
@@ -2879,6 +2952,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				{
 					float4 vertex : INTERNALTESSPOS;
 					half3 normal : NORMAL;
+					half4 tangent : TANGENT;
 					/*ase_vcontrol*/
 					UNITY_VERTEX_INPUT_INSTANCE_ID
 				};
@@ -2896,6 +2970,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					UNITY_TRANSFER_INSTANCE_ID(v, o);
 					o.vertex = v.vertex;
 					o.normal = v.normal;
+					o.tangent = v.tangent;
 					/*ase_control_code:v=appdata;o=VertexControl*/
 					return o;
 				}
@@ -2935,6 +3010,7 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					appdata o = (appdata) 0;
 					o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 					o.normal = patch[0].normal * bary.x + patch[1].normal * bary.y + patch[2].normal * bary.z;
+					o.tangent = patch[0].tangent * bary.x + patch[1].tangent * bary.y + patch[2].tangent * bary.z;
 					/*ase_domain_code:patch=VertexControl;o=appdata;bary=SV_DomainLocation*/
 					#if defined(ASE_PHONG_TESSELLATION)
 					float3 pp[3];
@@ -2954,8 +3030,8 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 				#endif
 
 				half4 frag( v2f IN /*ase_frag_input*/
-							#if defined( ASE_DEPTH_WRITE_ON )
-								, out float outputDepth : SV_Depth
+							#if defined( ASE_WRITE_DEPTH )
+								, out float outputDepth : ASE_SV_DEPTH
 							#endif
 							) : SV_Target
 				{
@@ -2970,16 +3046,16 @@ Shader /*ase_name*/ "Hidden/Built-In/Lit" /*end*/
 					half Alpha = /*ase_frag_out:Alpha;Float;7;-1;_Alpha*/1/*end*/;
 					half AlphaClipThreshold = /*ase_frag_out:Alpha Clip Threshold;Float;8;-1;_AlphaClip*/0.5/*end*/;
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						float DeviceDepth = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
+					#if defined( ASE_WRITE_DEPTH )
+						IN.pos.z = /*ase_frag_out:Depth;Float;28;-1;_DeviceDepth*/IN.pos.z/*end*/;
 					#endif
 
 					#ifdef _ALPHATEST_ON
 						clip( Alpha - AlphaClipThreshold );
 					#endif
 
-					#if defined( ASE_DEPTH_WRITE_ON )
-						outputDepth = DeviceDepth;
+					#if defined( ASE_WRITE_DEPTH )
+						outputDepth = IN.pos.z;
 					#endif
 
 					return _SelectionID;

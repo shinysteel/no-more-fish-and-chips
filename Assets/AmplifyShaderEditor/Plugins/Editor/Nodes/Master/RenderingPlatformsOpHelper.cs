@@ -124,10 +124,7 @@ namespace AmplifyShaderEditor
 			bool value = owner.ContainerGraph.ParentWindow.InnerWindowVariables.ExpandedRenderingPlatforms;
 			NodeUtils.DrawPropertyGroup( ref value, RenderingPlatformsStr, () =>
 			{
-				for( int i = 0; i < m_renderingPlatformValues.Length; i++ )
-				{
-					m_renderingPlatformValues[ i ] = owner.EditorGUILayoutToggleLeft( RenderingPlatformsInfo[ i ].Label, m_renderingPlatformValues[ i ] );
-				}
+				DrawPlatformToggles( owner );
 			} );
 			owner.ContainerGraph.ParentWindow.InnerWindowVariables.ExpandedRenderingPlatforms = value;
 		}
@@ -137,12 +134,67 @@ namespace AmplifyShaderEditor
 			bool value = owner.ContainerGraph.ParentWindow.InnerWindowVariables.ExpandedRenderingPlatforms;
 			NodeUtils.DrawNestedPropertyGroup( ref value , RenderingPlatformsStr , () =>
 			{
-				for( int i = 0 ; i < m_renderingPlatformValues.Length ; i++ )
-				{
-					m_renderingPlatformValues[ i ] = owner.EditorGUILayoutToggleLeft( RenderingPlatformsInfo[ i ].Label , m_renderingPlatformValues[ i ] );
-				}
+				DrawPlatformToggles( owner );
 			} );
 			owner.ContainerGraph.ParentWindow.InnerWindowVariables.ExpandedRenderingPlatforms = value;
+		}
+
+		// @diogo: "PlayStation" is an umbrella over ps4 + ps5; keep the three toggles in sync
+		private void DrawPlatformToggles( ParentNode owner )
+		{
+			int psIndex = PlatformToIndex[ RenderPlatforms.playstation ];
+			int ps4Index = PlatformToIndex[ RenderPlatforms.ps4 ];
+			int ps5Index = PlatformToIndex[ RenderPlatforms.ps5 ];
+
+			for( int i = 0; i < m_renderingPlatformValues.Length; i++ )
+			{
+				if( i == psIndex )
+				{
+					EditorGUI.BeginChangeCheck();
+					bool playstation = owner.EditorGUILayoutToggleLeft( RenderingPlatformsInfo[ i ].Label, m_renderingPlatformValues[ i ] );
+					if( EditorGUI.EndChangeCheck() )
+					{
+						// toggling the umbrella drives both child platforms
+						m_renderingPlatformValues[ ps4Index ] = playstation;
+						m_renderingPlatformValues[ ps5Index ] = playstation;
+					}
+				}
+				else
+				{
+					m_renderingPlatformValues[ i ] = owner.EditorGUILayoutToggleLeft( RenderingPlatformsInfo[ i ].Label, m_renderingPlatformValues[ i ] );
+				}
+			}
+
+			// umbrella reflects its children: on only when both are on
+			m_renderingPlatformValues[ psIndex ] = m_renderingPlatformValues[ ps4Index ] && m_renderingPlatformValues[ ps5Index ];
+		}
+
+		// @diogo: programmatic single-platform setter for batch tooling ( Shader Utility ); mirrors the
+		// playstation-umbrella rules in DrawPlatformToggles so the serialized state stays consistent.
+		public void SetPlatform( RenderPlatforms platform, bool enabled )
+		{
+			if( m_renderingPlatformValues == null )
+				return;
+
+			int psIndex = PlatformToIndex[ RenderPlatforms.playstation ];
+			int ps4Index = PlatformToIndex[ RenderPlatforms.ps4 ];
+			int ps5Index = PlatformToIndex[ RenderPlatforms.ps5 ];
+
+			if( platform == RenderPlatforms.playstation )
+			{
+				// toggling the umbrella drives both child platforms
+				m_renderingPlatformValues[ psIndex ] = enabled;
+				m_renderingPlatformValues[ ps4Index ] = enabled;
+				m_renderingPlatformValues[ ps5Index ] = enabled;
+				return;
+			}
+
+			if( PlatformToIndex.TryGetValue( platform, out int index ) )
+			{
+				m_renderingPlatformValues[ index ] = enabled;
+				// umbrella reflects its children: on only when both are on
+				m_renderingPlatformValues[ psIndex ] = m_renderingPlatformValues[ ps4Index ] && m_renderingPlatformValues[ ps5Index ];
+			}
 		}
 
 
@@ -173,11 +225,14 @@ namespace AmplifyShaderEditor
 
 				string result = string.Empty;
 
+				// @diogo: "playstation" token stands in for both ps4 and ps5
+				bool playstationActive = m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.ps4 ] ] && m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.ps5 ] ];
+
 				if ( checkedPlatforms < uncheckedPlatforms )
 				{
 					for ( int i = 0; i < m_renderingPlatformValues.Length; i++ )
 					{
-						if ( m_renderingPlatformValues[ i ] )
+						if ( ShouldEmitToken( i, true, playstationActive ) )
 						{
 						#if UNITY_6000_0_OR_NEWER
 							if ( RenderingPlatformsInfo[ i ].Value == RenderPlatforms.switch2 && !supportsSwitch2 )
@@ -199,7 +254,7 @@ namespace AmplifyShaderEditor
 				{
 					for ( int i = 0; i < m_renderingPlatformValues.Length; i++ )
 					{
-						if ( !m_renderingPlatformValues[ i ] )
+						if ( ShouldEmitToken( i, false, playstationActive ) )
 						{
 						#if UNITY_6000_0_OR_NEWER
 							if ( RenderingPlatformsInfo[ i ].Value == RenderPlatforms.switch2 && !supportsSwitch2 )
@@ -227,6 +282,40 @@ namespace AmplifyShaderEditor
 			return string.Empty;
 		}
 
+		// @diogo: "playstation" is the umbrella token for ps4 + ps5
+		private bool ShouldEmitToken( int i, bool onlyRenderers, bool playstationActive )
+		{
+			int psIndex = PlatformToIndex[ RenderPlatforms.playstation ];
+			int ps4Index = PlatformToIndex[ RenderPlatforms.ps4 ];
+			int ps5Index = PlatformToIndex[ RenderPlatforms.ps5 ];
+
+			if ( onlyRenderers )
+			{
+				if ( i == psIndex )
+				{
+					// fold ps4 + ps5 into the single "playstation" token
+					return playstationActive;
+				}
+				if ( i == ps4Index || i == ps5Index )
+				{
+					return !playstationActive && m_renderingPlatformValues[ i ];
+				}
+				return m_renderingPlatformValues[ i ];
+			}
+
+			// exclude_renderers: fold ps4 + ps5 into the single "playstation" token when both are off
+			bool playstationInactive = !m_renderingPlatformValues[ ps4Index ] && !m_renderingPlatformValues[ ps5Index ];
+			if ( i == psIndex )
+			{
+				return playstationInactive;
+			}
+			if ( i == ps4Index || i == ps5Index )
+			{
+				return !playstationInactive && !m_renderingPlatformValues[ i ];
+			}
+			return !m_renderingPlatformValues[ i ];
+		}
+
 		public void SetRenderingPlatforms( ref string ShaderBody )
 		{
 			string result = CreateResult();
@@ -250,16 +339,17 @@ namespace AmplifyShaderEditor
 				for( int i = 0; i < count; i++ )
 				{
 					RenderPlatforms platform = LegacyIndexToPlatform[ i ];
-					int newIndex = PlatformToIndex[ platform ];
 					bool value = Convert.ToBoolean( nodeParams[ index++ ] );
-					if( value )
+					// @diogo: some legacy platforms (d3d9, d3d11_9x, xbox360, psp2, n3ds, wiiu) no longer
+					// exist in PlatformToIndex; still consume their serialized value to keep the read index
+					// aligned, but only map the ones that survive
+					if ( PlatformToIndex.TryGetValue( platform, out int newIndex ) )
 					{
-						m_renderingPlatformValues[ newIndex ] = true;
-						activeCount += 1;
+						m_renderingPlatformValues[ newIndex ] = value;
 					}
-					else
+					if ( value )
 					{
-						m_renderingPlatformValues[ newIndex ] = false;
+						activeCount += 1;
 					}
 				}
 
@@ -273,8 +363,8 @@ namespace AmplifyShaderEditor
 				int count = Convert.ToInt32( nodeParams[ index++ ] );
 				if( count > 0 )
 				{
-					RenderPlatforms firstPlatform = (RenderPlatforms)Enum.Parse( typeof(RenderPlatforms), nodeParams[ index++ ] );
-					if( firstPlatform == RenderPlatforms.all )
+					string firstPlatformToken = nodeParams[ index++ ];
+					if( firstPlatformToken == RenderPlatforms.all.ToString() )
 					{
 						for( int i = 0; i < m_renderingPlatformValues.Length; i++ )
 						{
@@ -303,8 +393,19 @@ namespace AmplifyShaderEditor
 
 						for( int i = 0; i < count; i++ )
 						{
-							RenderPlatforms currPlatform = ( i == 0 ) ? firstPlatform : (RenderPlatforms)Enum.Parse( typeof( RenderPlatforms ), nodeParams[ index++ ] );
-							if ( PlatformToIndex.TryGetValue( currPlatform, out int platformIndex ) )
+							string platformToken = ( i == 0 ) ? firstPlatformToken : nodeParams[ index++ ];
+							// @diogo: skip platform tokens saved by a newer editor/Unity that don't exist in this enum build
+							// (e.g. switch2/webgpu under Unity < 6000) while keeping the read index aligned
+							if ( !Enum.TryParse( platformToken, out RenderPlatforms currPlatform ) )
+								continue;
+							if ( currPlatform == RenderPlatforms.playstation )
+							{
+								// @diogo: the "playstation" token stands in for both ps4 and ps5
+								m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.playstation ] ] = true;
+								m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.ps4 ] ] = true;
+								m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.ps5 ] ] = true;
+							}
+							else if ( PlatformToIndex.TryGetValue( currPlatform, out int platformIndex ) )
 							{
 								m_renderingPlatformValues[ platformIndex ] = true;
 							}
@@ -369,6 +470,13 @@ namespace AmplifyShaderEditor
 			for( int i = 0 ; i < m_renderingPlatformValues.Length ; i++ )
 			{
 				m_renderingPlatformValues[ i ] = template.RenderingPlatforms[ i ];
+			}
+
+			// @diogo: the "playstation" token stands in for both ps4 and ps5
+			if( m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.playstation ] ] )
+			{
+				m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.ps4 ] ] = true;
+				m_renderingPlatformValues[ PlatformToIndex[ RenderPlatforms.ps5 ] ] = true;
 			}
 		}
 

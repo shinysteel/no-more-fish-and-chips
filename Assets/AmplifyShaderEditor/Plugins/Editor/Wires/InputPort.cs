@@ -626,12 +626,7 @@ namespace AmplifyShaderEditor
 				return;
 			}
 
-			IOUtils.AddTypeToString( ref myString, IOUtils.WireConnectionParam );
-			IOUtils.AddFieldValueToString( ref myString, m_nodeId );
-			IOUtils.AddFieldValueToString( ref myString, m_portId );
-			IOUtils.AddFieldValueToString( ref myString, m_externalReferences[ 0 ].NodeId );
-			IOUtils.AddFieldValueToString( ref myString, m_externalReferences[ 0 ].PortId );
-			IOUtils.AddLineTerminator( ref myString );
+			JsonGraphFormat.AppendWireLine( ref myString, m_nodeId, m_portId, m_externalReferences[ 0 ].NodeId, m_externalReferences[ 0 ].PortId );
 		}
 
 		public void ShowInternalData( Rect rect, UndoParentNode owner, bool useCustomLabel = false, string customLabel = null )
@@ -1294,9 +1289,20 @@ namespace AmplifyShaderEditor
 
 		public void SetPreviewInputValue( ParentGraph container )
 		{
+			// @diogo: every default-value preview below is spatially uniform ( the Int/Float/Vector/Color
+			// shaders return a constant and Preview_Texture2D returns 0 ), so a 1x1 RT with Repeat wrap is
+			// pixel-identical downstream at any size - like ConstantPreview nodes (QA #5d). The width check
+			// also migrates full-size RTs left over from older sessions.
+			if( m_inputPreviewTexture != null && m_inputPreviewTexture.width != 1 )
+			{
+				m_inputPreviewTexture.Release();
+				UnityEngine.ScriptableObject.DestroyImmediate( m_inputPreviewTexture );
+				m_inputPreviewTexture = null;
+			}
+
 			if( m_inputPreviewTexture == null )
 			{
-				m_inputPreviewTexture = new RenderTexture( Preferences.User.PreviewSize , Preferences.User.PreviewSize , 0, Preferences.User.PreviewFormat , RenderTextureReadWrite.Linear );
+				m_inputPreviewTexture = new RenderTexture( 1 , 1 , 0, Preferences.User.PreviewFormat , RenderTextureReadWrite.Linear );
 				m_inputPreviewTexture.wrapMode = TextureWrapMode.Repeat;
 			}
 
@@ -1555,6 +1561,10 @@ namespace AmplifyShaderEditor
 				return m_inputPreviewTexture;
 			}
 		}
+
+		// @diogo: non-allocating peek at this port's own default-value preview RT ( null when never
+		// rendered ), for the VRAM stats only (QA #5d).
+		public RenderTexture OwnedInputPreviewTexture { get { return m_inputPreviewTexture; } }
 
 		public string ExternalLinkId
 		{

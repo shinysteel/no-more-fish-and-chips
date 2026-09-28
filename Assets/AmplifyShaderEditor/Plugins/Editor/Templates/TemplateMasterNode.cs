@@ -225,6 +225,12 @@ namespace AmplifyShaderEditor
 				int newPropertyCount = m_currentTemplate.AvailableShaderProperties.Count;
 				for( int i = 0; i < newPropertyCount; i++ )
 				{
+					// Unused properties are not reserved, leaving their names free for users to declare
+					if ( !m_currentTemplate.AvailableShaderProperties[ i ].NameInUse )
+					{
+						continue;
+					}
+
 					int nodeId = UIUtils.CheckUniformNameOwner( m_currentTemplate.AvailableShaderProperties[ i ].PropertyName );
 					if( nodeId > -1 )
 					{
@@ -286,10 +292,18 @@ namespace AmplifyShaderEditor
 					string pathname = AssetDatabase.GUIDToAssetPath( m_currentTemplate.GUID );
 					if( !string.IsNullOrEmpty( pathname ) )
 					{
-						Shader selectedTemplate = AssetDatabase.LoadAssetAtPath<Shader>( pathname );
-						if( selectedTemplate != null )
+						// @diogo: when a manifest overrides this template for the installed SRP version, edit the versioned .template file instead
+						if( ASEPackageManagerHelper.TryGetActiveTemplateOverridePath( m_currentTemplate.GUID, out string overridePath ) )
 						{
-							AssetDatabase.OpenAsset( selectedTemplate, 1 );
+							UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal( overridePath, 1 );
+						}
+						else
+						{
+							Shader selectedTemplate = AssetDatabase.LoadAssetAtPath<Shader>( pathname );
+							if( selectedTemplate != null )
+							{
+								AssetDatabase.OpenAsset( selectedTemplate, 1 );
+							}
 						}
 					}
 				}
@@ -447,6 +461,14 @@ namespace AmplifyShaderEditor
 			int shaderPropertiesAmount = m_currentTemplate.AvailableShaderProperties.Count;
 			for( int i = 0; i < shaderPropertiesAmount; i++ )
 			{
+				// Unused properties have no template declarations, so let user nodes declare their own uniforms;
+				// uniforms declared unconditionally on the template body must still be soft registered even while
+				// their property is commented out, so user nodes reusing the name don't redeclare them
+				if ( !m_currentTemplate.AvailableShaderProperties[ i ].NameInUse &&
+					!m_currentTemplate.AvailableShaderProperties[ i ].UniformDeclaredUnconditionally )
+				{
+					continue;
+				}
 				m_currentDataCollector.SoftRegisterUniform( m_currentTemplate.AvailableShaderProperties[ i ] );
 			}
 			m_containerGraph.CheckPropertiesAutoRegister( ref m_currentDataCollector );

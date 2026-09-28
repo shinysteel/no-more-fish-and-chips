@@ -170,6 +170,22 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		protected bool m_showPreview = false;
 
+		// @diogo: true when this node's preview re-renders every pass ( continuous, or fed by a live
+		// producer ). Only live SF-internal nodes are pooled - their RT is fresh each pass so it is safe to
+		// borrow/return; static nodes keep a persistent RT as a cache (pooled SF previews, QA #5).
+		protected bool m_previewLive = false;
+		public bool PreviewLive { get { return m_previewLive; } }
+
+		// @diogo: frontier flag (pooled SF previews, QA #5). Live consumers mark their producers during the
+		// walk; the cached snapshot ( last pass, read-then-reset at this node's visit ) tells a STATIC node
+		// whether a live consumer re-reads its RT every pass - if so it must keep a persistent RT ( frontier );
+		// if not it is interior and renders through the pool only when dirtied, owning nothing between edits.
+		protected bool m_feedsLiveConsumer = false;
+		protected bool m_feedsLiveConsumerCached = false;
+
+		// @diogo: re-entrancy guard for EnsurePreviewRendered ( graphs are acyclic, but never trust that ).
+		private bool m_ensurePreviewGuard = false;
+
 		[SerializeField]
 		protected int m_previewMaterialPassId = -1;
 
@@ -336,6 +352,9 @@ namespace AmplifyShaderEditor
 
 		private bool m_alive = true;
 
+		// @diogo: tombstone set by Destroy(); with deferred destruction the shell stays != null, so signal entry points must check it
+		private bool m_destroyed = false;
+
 		private bool m_wasDeprecated = false;
 
 		private double m_timedUpdateInitialValue;
@@ -454,6 +473,7 @@ namespace AmplifyShaderEditor
 		public virtual void Destroy()
 		{
 			m_alive = false;
+			m_destroyed = true;
 			if( OnNodeDestroyedEvent != null )
 			{
 				OnNodeDestroyedEvent( this );
@@ -534,8 +554,8 @@ namespace AmplifyShaderEditor
 
 			if( snap )
 			{
-				m_position.x = Mathf.Round( ( m_cachedPos.x + m_accumDelta.x ) / 16 ) * 16;
-				m_position.y = Mathf.Round( ( m_cachedPos.y + m_accumDelta.y ) / 16 ) * 16;
+				m_position.x = Mathf.Round( ( m_cachedPos.x + m_accumDelta.x ) / Constants.GRID_SNAP_X ) * Constants.GRID_SNAP_X;
+				m_position.y = Mathf.Round( ( m_cachedPos.y + m_accumDelta.y ) / Constants.GRID_SNAP_Y ) * Constants.GRID_SNAP_Y;
 			}
 			else
 			{
@@ -1046,7 +1066,7 @@ namespace AmplifyShaderEditor
 
             m_fontHeight = Mathf.Max( inSize.y, outSize.y );
 
-			m_position.height = Mathf.Max( inputCount, outputCount ) * ( m_fontHeight + Constants.INPUT_PORT_DELTA_Y );// + Constants.INPUT_PORT_DELTA_Y;
+			m_position.height = Mathf.Max( inputCount, outputCount ) * Constants.PORT_ROW_HEIGHT_Y;// + Constants.INPUT_PORT_DELTA_Y;
 			m_position.height = Mathf.Max( m_position.height, Mathf.Max( MinInsideBoxHeight, m_insideSize.y ) );
 			m_position.height += UIUtils.HeaderMaxHeight + /*m_extraHeaderHeight +*/ Constants.INPUT_PORT_DELTA_Y;// + m_extraSize.y;
 			if( m_showErrorMessage )
@@ -1105,6 +1125,12 @@ namespace AmplifyShaderEditor
 
 		public virtual void ActivateNode( int signalGenNodeId, int signalGenPortId, System.Type signalGenNodeType )
 		{
+			// @diogo: destroyed shells must ignore signals; destroy cascades and undo patching reach them via live neighbors
+			if ( m_destroyed )
+			{
+				return;
+			}
+
 			if( m_selfPowered )
 				return;
 
@@ -1135,6 +1161,12 @@ namespace AmplifyShaderEditor
 
 		public virtual void DeactivateNode( int deactivatedPort, bool forceComplete )
 		{
+			// @diogo: destroyed shells must ignore signals; destroy cascades and undo patching reach them via live neighbors
+			if ( m_destroyed )
+			{
+				return;
+			}
+
 			if( m_selfPowered )
 				return;
 
@@ -1155,6 +1187,13 @@ namespace AmplifyShaderEditor
 					}
 				}
 			}
+		}
+
+		// @diogo: incremental undo patching resets activation to the fresh-load precondition before re-propagating from the master node
+		public void ResetActivationState()
+		{
+			m_activeConnections = 0;
+			ConnStatus = NodeConnectionStatus.Not_Connected;
 		}
 
 		public Rect GlobalToLocalPosition( DrawInfo drawInfo )
@@ -1232,6 +1271,11 @@ namespace AmplifyShaderEditor
 		{
 			//if ( !m_drawPreview )
 			//	return;
+
+			if ( PreviewTexture == null )
+			{
+				return;
+			}
 
 			if( m_cachedDrawSphereId == -1 )
 				m_cachedDrawSphereId = Shader.PropertyToID( "_DrawSphere" );
@@ -1595,12 +1639,12 @@ namespace AmplifyShaderEditor
 								m_auxRect.xMax += Constants.PORT_TO_LABEL_SPACE_X * drawInfo.InvertedZoom + scaledOverflow + overflow;
 							m_sortedInputPorts[ i ].ActivePortArea = m_auxRect;
 						}
-						m_currInputPortPos.y += drawInfo.InvertedZoom * ( m_fontHeight + Constants.INPUT_PORT_DELTA_Y );
+						m_currInputPortPos.y += drawInfo.InvertedZoom * Constants.PORT_ROW_HEIGHT_Y;
 						//GUI.Label( m_sortedInputPorts[ i ].ActivePortArea, string.Empty, UIUtils.Box );
 					}
 				}
 				if( m_visibleInputs > 0 )
-					m_lastInputBottomRight.y += m_fontHeight * m_visibleInputs + Constants.INPUT_PORT_DELTA_Y * ( m_visibleInputs - 1 );
+					m_lastInputBottomRight.y += Constants.PORT_ROW_HEIGHT_Y * ( m_visibleInputs - 1 ) + m_fontHeight;
 			}
 
 			// Output Ports
@@ -1649,12 +1693,12 @@ namespace AmplifyShaderEditor
 							m_auxRect.xMax += Constants.PORT_INITIAL_X * drawInfo.InvertedZoom + scaledOverflow + overflow;
 							m_sortedOutputPorts[ i ].ActivePortArea = m_auxRect;
 						}
-						m_currOutputPortPos.y += drawInfo.InvertedZoom * ( m_fontHeight + Constants.INPUT_PORT_DELTA_Y );
+						m_currOutputPortPos.y += drawInfo.InvertedZoom * Constants.PORT_ROW_HEIGHT_Y;
 						//GUI.Label( m_sortedOutputPorts[ i ].ActivePortArea, string.Empty, UIUtils.Box );
 					}
 				}
 				if( m_visibleOutputs > 0 )
-					m_lastOutputBottomLeft.y += m_fontHeight * m_visibleOutputs + Constants.INPUT_PORT_DELTA_Y * ( m_visibleOutputs - 1 );
+					m_lastOutputBottomLeft.y += Constants.PORT_ROW_HEIGHT_Y * ( m_visibleOutputs - 1 ) + m_fontHeight;
 			}
 
 			m_lastInputBottomRight.x += m_marginPreviewLeft;
@@ -2508,12 +2552,12 @@ namespace AmplifyShaderEditor
 			SetSaveIsDirty();
 		}
 
-		public void DeleteInputPortByArrayIdx( int arrayIdx )
+		public void DeleteInputPortByArrayIdx( int arrayIdx, bool registerUndo = true )
 		{
 			if( arrayIdx >= m_inputPorts.Count )
 				return;
 
-			m_containerGraph.DeleteConnection( true, UniqueId, m_inputPorts[ arrayIdx ].PortId, false, true );
+			m_containerGraph.DeleteConnection( true, UniqueId, m_inputPorts[ arrayIdx ].PortId, false, true, registerUndo );
 			m_inputPortsDict.Remove( m_inputPorts[ arrayIdx ].PortId );
 			m_inputPorts.RemoveAt( arrayIdx );
 
@@ -3075,6 +3119,10 @@ namespace AmplifyShaderEditor
 			}
 		}
 
+		// @diogo: id of the node this one soft-references through its Reference dropdown, or -1 when not
+		// referencing; wire connectivity cannot see these links, so Clean Unused Nodes keeps targets via this
+		public virtual int ReferencedNodeId { get { return -1; } }
+
 		// This is also called when recording on Undo
 		public virtual void OnBeforeSerialize() { }
 		public virtual void OnAfterDeserialize()
@@ -3095,6 +3143,25 @@ namespace AmplifyShaderEditor
 		public virtual int OutputIdFromDeprecated( int oldOutputId ) { return oldOutputId; }
 
 		public virtual void ReadFromDeprecated( ref string[] nodeParams, Type oldType = null ) { }
+
+		public void CopyBasePropertiesFrom( ParentNode other )
+		{
+			m_containerGraph = other.m_containerGraph;
+
+			UniqueId = other.UniqueId;
+			m_position = other.m_position;
+
+			if ( UIUtils.CurrentShaderVersion() > 22 )
+			{
+				m_customPrecision = other.m_customPrecision;
+				m_currentPrecisionType = other.m_currentPrecisionType;
+			}
+
+			if ( UIUtils.CurrentShaderVersion() > 5004 )
+			{
+				m_showPreview = other.m_showPreview;
+			}
+		}
 
 		//Inherited classes must call this base method in order to setup id and position
 		public virtual void ReadFromString( ref string[] nodeParams )
@@ -3280,16 +3347,40 @@ namespace AmplifyShaderEditor
 
 		public virtual void WriteToString( ref string nodeInfo, ref string connectionsInfo )
 		{
-			IOUtils.AddTypeToString( ref nodeInfo, IOUtils.NodeParam );
-			IOUtils.AddFieldValueToString( ref nodeInfo, GetType().AssemblyQualifiedName );
-			IOUtils.AddFieldValueToString( ref nodeInfo, m_uniqueId );
-			IOUtils.AddFieldValueToString( ref nodeInfo, ( m_position.x.ToString() + IOUtils.VECTOR_SEPARATOR + m_position.y.ToString() ) );
+			var type = GetType();
+			var typeName = $"{ type.FullName}, {type.Assembly.GetName().Name}";
+
+			JsonGraphFormat.BeginNodeLine( ref nodeInfo, typeName, m_uniqueId, m_position.position );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_currentPrecisionType );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_showPreview );
 			for( int i = 0; i < m_inputPorts.Count; i++ )
 			{
 				m_inputPorts[ i ].WriteToString( ref connectionsInfo );
 			}
+		}
+
+		// --- Snapshot-undo view state ---
+		// Editor-only state ( foldout open/closed, etc. ) that is not part of the saved graph and so
+		// is lost when the snapshot-undo reload recreates the node. The window captures this by node
+		// id before a reload and reapplies it after, so undoing a value edit does not also collapse
+		// foldouts the user had open. Subclasses append their own fields after calling base, and read
+		// them back in the same order. m_showPreview is intentionally absent ( it is already part of
+		// the serialized graph, so it survives the reload on its own ).
+		public virtual void WriteUndoViewState( List<string> data )
+		{
+			data.Add( m_propertiesFoldout ? "1" : "0" );
+		}
+
+		public virtual void ReadUndoViewState( string[] data, ref int index )
+		{
+			m_propertiesFoldout = ReadUndoViewBool( data, ref index, m_propertiesFoldout );
+		}
+
+		// Bounds-checked positional read so a subclass that captures more fields than another reads
+		// ( or vice versa ) degrades to the current value instead of throwing during an undo.
+		protected static bool ReadUndoViewBool( string[] data, ref int index, bool fallback )
+		{
+			return ( index < data.Length ) ? ( data[ index++ ] == "1" ) : fallback;
 		}
 
 		public virtual void WriteInputDataToString( ref string nodeInfo )
@@ -3553,6 +3644,14 @@ namespace AmplifyShaderEditor
 				duplicatesDict = ContainerGraph.ParentWindow.VisitedChanged;
 			}
 
+			// @diogo: snapshot last pass's frontier flag, then reset so this pass's live consumers ( visited
+			// after their producers ) can re-mark it (pooled SF previews, QA #5).
+			m_feedsLiveConsumerCached = m_feedsLiveConsumer;
+			m_feedsLiveConsumer = false;
+
+			// @diogo: accumulate preview liveness from producers (pooled SF previews, QA #5).
+			bool live = ContinuousPreviewRefresh;
+
 			for( int i = 0; i < InputPorts.Count; i++ )
 			{
 				ParentNode outNode = null;
@@ -3571,6 +3670,35 @@ namespace AmplifyShaderEditor
 					{
 						PreviewIsDirty = true;
 					}
+					live = live || outNode.PreviewLive;
+				}
+			}
+
+			m_previewLive = live;
+
+			// @diogo: pooled SF previews (QA #5). Push: a live node marks its producers as frontier so they
+			// keep a persistent RT ( it re-reads them every pass ). Pull: about to render, so any producer
+			// whose RT is missing ( pooled static, returned after its last render ) must render first - this
+			// also self-heals liveness transitions where a stale flag let a frontier RT lapse.
+			if( m_previewLive || PreviewIsDirty )
+			{
+				for( int i = 0; i < InputPorts.Count; i++ )
+				{
+					if( InputPorts[ i ].ExternalReferences.Count > 0 )
+					{
+						ParentNode outNode = ContainerGraph.GetNode( InputPorts[ i ].ExternalReferences[ 0 ].NodeId );
+						if( outNode != null )
+						{
+							if( m_previewLive )
+							{
+								outNode.MarkFeedsLiveConsumer();
+							}
+							if( PreviewIsDirty )
+							{
+								outNode.EnsurePreviewRendered();
+							}
+						}
+					}
 				}
 			}
 
@@ -3579,6 +3707,64 @@ namespace AmplifyShaderEditor
 			if( !duplicatesDict.ContainsKey( OutputId ) )
 				duplicatesDict.Add( OutputId, needsUpdate );
 			return needsUpdate;
+		}
+
+		public void MarkFeedsLiveConsumer()
+		{
+			m_feedsLiveConsumer = true;
+		}
+
+		// @diogo: render this node now if any of its output RTs is missing (pooled SF previews, QA #5). A
+		// pooled static's RT only exists during the pass that rendered it, so a consumer about to render must
+		// pull its whole RT-less producer chain first ( recursion below, producers before this node ).
+		public virtual void EnsurePreviewRendered()
+		{
+			if( !HasPreviewShader || !m_initialized || m_outputPorts == null || m_outputPorts.Count == 0 )
+			{
+				return;
+			}
+
+			bool missing = false;
+			for( int i = 0; i < m_outputPorts.Count; i++ )
+			{
+				if( !m_outputPorts[ i ].HasPreviewTexture )
+				{
+					missing = true;
+					break;
+				}
+			}
+
+			// @diogo: also re-render when dirty, not just when the RT is missing. An out-of-band reference reader
+			// ( e.g. Instance Sampler -> master ) may pull a producer that sits outside every visible cone and was
+			// edited since its last render, so a present-but-stale RT must still be refreshed here. In the normal
+			// walk this is a no-op ( producers render before consumers and clear their dirty flag first ).
+			if( ( !missing && !PreviewIsDirty ) || m_ensurePreviewGuard )
+			{
+				return;
+			}
+
+			m_ensurePreviewGuard = true;
+			EnsureProducersRendered();
+			PreviewIsDirty = true;
+			RenderNodePreview();
+			m_ensurePreviewGuard = false;
+		}
+
+		// @diogo: recursion step of EnsurePreviewRendered; FunctionInput overrides it to resolve its real
+		// producer through the outer graph (pooled SF previews, QA #5).
+		protected virtual void EnsureProducersRendered()
+		{
+			for( int i = 0; i < InputPorts.Count; i++ )
+			{
+				if( InputPorts[ i ].ExternalReferences.Count > 0 )
+				{
+					ParentNode outNode = ContainerGraph.GetNode( InputPorts[ i ].ExternalReferences[ 0 ].NodeId );
+					if( outNode != null )
+					{
+						outNode.EnsurePreviewRendered();
+					}
+				}
+			}
 		}
 
 		public virtual void RenderNodePreview()
@@ -3612,8 +3798,10 @@ namespace AmplifyShaderEditor
 
 			if (!Preferences.User.DisablePreviews)
 			{
+				PreparePooledPreview();
+
 				RenderTexture temp = RenderTexture.active;
-				RenderTexture beforeMask = RenderTexture.GetTemporary(Preferences.User.PreviewSize, Preferences.User.PreviewSize, 0, Preferences.User.PreviewFormat, RenderTextureReadWrite.Linear);
+				RenderTexture beforeMask = RenderTexture.GetTemporary(UIUtils.CurrentPreviewSize, UIUtils.CurrentPreviewSize, 0, Preferences.User.PreviewFormat, RenderTextureReadWrite.Linear);
 
 				int count = m_outputPorts.Count;
 				for( int i = 0; i < count; i++ )
@@ -3679,6 +3867,72 @@ namespace AmplifyShaderEditor
 			PreviewIsDirty = ContinuousPreviewRefresh;
 
 			FinishPreviewRender = true;
+		}
+
+		// @diogo: previews rendered since the last GL.Flush this pass; see PreparePooledPreview and BeginPreviewPass.
+		private static int s_previewRenderCount = 0;
+
+		// @diogo: reset once at the start of each preview pass so a settled graph ( fewer renders than the flush
+		// interval ) never triggers a flush - the drain only kicks in on genuinely large bursts.
+		public static void BeginPreviewPass()
+		{
+			s_previewRenderCount = 0;
+		}
+
+		// @diogo: pooled SF previews (QA #5). Called by every RenderNodePreview ( base and overrides ) right
+		// before blitting: when the gate passes, this render's output RTs are borrowed from the transient pool
+		// and handed back when the owning SF finishes computing ( ReturnInternalPooledPreviews ), so the node
+		// owns no VRAM between renders. Gate policy: SF-internal regular nodes pool when LIVE ( they re-render
+		// every pass anyway ) or when static WITHOUT a live consumer ( interior - they render only when dirtied,
+		// and any consumer that needs them re-rendered first pulls them via EnsurePreviewRendered ). Static
+		// frontier nodes ( m_feedsLiveConsumerCached ) keep a persistent RT: a live consumer re-reads them every
+		// pass without re-rendering them, so pooling those would force per-pass re-renders ( measured +45 ms ).
+		// Correctness: producers render before consumers in post-order and the pool holds a whole SF's RTs until
+		// SF-end, so every in-pass read hits a valid RT. Reference-registry reads ( Instance samplers, Texture
+		// Transform/Texel Size/Texture Array ) bypass InputPorts, but their read sites pull the referenced node
+		// via EnsurePreviewRendered and mark it as feeding a live consumer when the reader is live, so property
+		// nodes pool like everything else (QA #5c). The same applies to Get Local Var's registry read of its
+		// RegisterLocalVarNode. The gate also honors the raw ( un-snapshotted ) mark: a reference-only node
+		// that no wire cone visits never snapshots, and the raw flag is what stops a live reader from
+		// re-pulling it every pass. FunctionOutput is excluded because the owning FunctionNode's swatch
+		// aliases its RT across ticks; FunctionNode ports only alias FunctionOutput RTs and own nothing
+		// themselves.
+		protected void PreparePooledPreview()
+		{
+			// @diogo: drain the graphics command ring buffer every N previews so a big pass ( e.g. a fresh load
+			// of a huge graph ) can't overflow it. Runs once per actual render ( this method is the shared
+			// pre-blit hook for the base path and all overrides ), so it counts real GPU-command bursts.
+			if ( ++s_previewRenderCount >= Constants.PreviewFlushInterval )
+			{
+				s_previewRenderCount = 0;
+				GL.Flush();
+			}
+
+			bool pooledPreview = Preferences.User.PooledPreviews && InsideShaderFunction && ( m_previewLive || ( !m_feedsLiveConsumerCached && !m_feedsLiveConsumer ) ) && !( this is FunctionOutput ) && !( this is FunctionNode );
+			if( pooledPreview )
+			{
+				ASEPreviewRTPool pool = ContainerGraph.ParentWindow.PreviewRTPool;
+				for( int pp = 0; pp < m_outputPorts.Count; pp++ )
+				{
+					// @diogo: reuse an RT already borrowed this pass - a re-render ( EnsurePreviewRendered on a
+					// continuous node ) would otherwise overwrite it in AssignPooledPreview and orphan it in the
+					// pool, growing VRAM unbounded on time-driven SF graphs.
+					if( !m_outputPorts[ pp ].HasPooledPreviewTexture )
+					{
+						m_outputPorts[ pp ].AssignPooledPreview( pool.Checkout() );
+					}
+				}
+			}
+			else
+			{
+				// @diogo: rendering into owned RTs - drop any whose size no longer matches the current
+				// ( zoom-scaled ) preview size so they re-allocate for this blit (QA #5d). Safe here: FunctionNode
+				// never reaches this ( own RenderNodePreview ), so no aliased RT is ever touched.
+				for( int pp = 0; pp < m_outputPorts.Count; pp++ )
+				{
+					m_outputPorts[ pp ].EnsureOwnedPreviewSize();
+				}
+			}
 		}
 
 		protected void ShowTab( NodeMessageType type, string tooltip )
@@ -3778,7 +4032,6 @@ namespace AmplifyShaderEditor
 			return finalTitle;
 		}
 
-		public virtual void RefreshOnUndo() { }
 		public virtual void CalculateCustomGraphDepth() { }
 		public int GraphDepth { get { return m_graphDepth; } }
 
@@ -3823,6 +4076,12 @@ namespace AmplifyShaderEditor
 			get { return !string.IsNullOrEmpty( m_previewShaderGUID ); }
 		}
 
+		// @diogo: nodes whose preview is spatially uniform ( the frag ignores UV and returns a single value )
+		// override this to true so their output ports allocate a 1x1 preview RT instead of PreviewSize² - the
+		// Repeat wrap makes it read identically to a full swatch for both display and downstream consumers, at a
+		// fraction of the VRAM (QA #5).
+		public virtual bool ConstantPreview { get { return false; } }
+
 		public void CheckSpherePreview()
 		{
 			bool oneIsSphere = false;
@@ -3857,6 +4116,15 @@ namespace AmplifyShaderEditor
 		{
 			get { return m_showPreview; }
 			set { m_showPreview = value; }
+		}
+
+		// @diogo: true when this node's preview swatch is actually shown ( per-node expanded or global preview ),
+		// matching the draw-side test at DrawPreview. The preview pass roots on visible nodes only, so it renders
+		// just the shown previews and their upstream cones instead of the whole graph. Virtual because picker-style
+		// nodes ( Texture Sample/Object/Array ) draw their preview RT through DrawTexturePicker with m_drawPreview off.
+		public virtual bool IsPreviewVisible
+		{
+			get { return ( m_showPreview || ( ContainerGraph != null && ContainerGraph.ParentWindow != null && ContainerGraph.ParentWindow.GlobalPreview ) ) && m_drawPreview; }
 		}
 
 		public int VisiblePorts
@@ -3908,7 +4176,9 @@ namespace AmplifyShaderEditor
 
 		public virtual bool CheckFindText( string text )
 		{
-			return TitleContent.text.IndexOf( text, StringComparison.CurrentCultureIgnoreCase ) >= 0;
+			// @diogo: also match the node's unique id, so an id from an error log can be searched directly
+			return TitleContent.text.IndexOf( text, StringComparison.CurrentCultureIgnoreCase ) >= 0 ||
+				( int.TryParse( text, out int id ) && id == m_uniqueId );
 		}
 
 		public virtual ParentNode ExecuteStubCode(){ return this; }
@@ -3921,7 +4191,7 @@ namespace AmplifyShaderEditor
 				for( int i = 0; i < InputPorts.Count; i++ )
 				{
 					if( InputPorts[ i ].Visible )
-						heightEstimate += 18 + Constants.INPUT_PORT_DELTA_Y;
+						heightEstimate += Constants.PORT_ROW_HEIGHT_Y;
 				}
 
 				return heightEstimate;
@@ -3931,6 +4201,7 @@ namespace AmplifyShaderEditor
 		}
 		public bool WasDeprecated { get { return m_wasDeprecated; } set { m_wasDeprecated = value; } }
 		public bool Alive { get { return m_alive;} set { m_alive = value; } }
+		public bool WasDestroyed { get { return m_destroyed; } }
 		public string TypeName { get { if( m_nodeAttribs != null ) return m_nodeAttribs.Name;return GetType().ToString(); } }
 		public bool PreviewIsDirty { set { m_previewIsDirty = value; } get { return m_previewIsDirty; } }
 		protected bool FinishPreviewRender { get { return m_finishPreviewRender; } set { m_finishPreviewRender = value; } }

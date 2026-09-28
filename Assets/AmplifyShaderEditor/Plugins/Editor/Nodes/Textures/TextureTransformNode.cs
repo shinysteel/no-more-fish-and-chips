@@ -77,6 +77,8 @@ namespace AmplifyShaderEditor
 
 			if( !Preferences.User.DisablePreviews )
 			{
+				PreparePooledPreview();
+
 				RenderTexture temp = RenderTexture.active;
 
 				RenderTexture.active = m_outputPorts[ 0 ].OutputPreviewTexture;
@@ -146,6 +148,13 @@ namespace AmplifyShaderEditor
 				}
 				else
 				{
+					// @diogo: reference read bypasses InputPorts; the referenced property may be pooled and RT-less,
+					// so pull it and, when we are live, mark it so it settles as a persistent frontier RT (QA #5c).
+					m_referenceNode.EnsurePreviewRendered();
+					if( PreviewLive )
+					{
+						m_referenceNode.MarkFeedsLiveConsumer();
+					}
 					SetPreviewTexture( m_referenceNode.PreviewTexture );
 				}
 			}
@@ -333,6 +342,7 @@ namespace AmplifyShaderEditor
 			m_referenceSamplerId = UIUtils.GetTexturePropertyNodeRegisterId( m_referenceNodeId );
 			UpdateTitle();
 		}
+		public override int ReferencedNodeId { get { return m_referenceNodeId > -1 ? m_referenceNodeId : base.ReferencedNodeId; } }
 
 		public override void ReconnectClipboardReferences( Clipboard clipboard )
 		{

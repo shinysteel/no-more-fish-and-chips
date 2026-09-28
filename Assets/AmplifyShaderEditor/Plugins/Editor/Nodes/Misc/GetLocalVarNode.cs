@@ -82,6 +82,13 @@ namespace AmplifyShaderEditor
 				if( m_cachedPropertyId == -1 )
 					m_cachedPropertyId = Shader.PropertyToID( "_A" );
 
+				// @diogo: registry read bypasses InputPorts; the register may be pooled and RT-less, so pull
+				// it and, when we are live, mark it so it settles as a persistent frontier RT (QA #5c).
+				m_currentSelected.EnsurePreviewRendered();
+				if( PreviewLive )
+				{
+					m_currentSelected.MarkFeedsLiveConsumer();
+				}
 				PreviewMaterial.SetTexture( m_cachedPropertyId, m_currentSelected.OutputPorts[ 0 ].OutputPreviewTexture );
 			}
 		}
@@ -151,6 +158,14 @@ namespace AmplifyShaderEditor
 		{
 			if( CurrentSelected != null && UIUtils.DetectNodeLoopsFrom( CurrentSelected, new Dictionary<int, int>() ) )
 			{
+				// @diogo: mid-load the walk sees every settled getter dummy edge at once and false-positives on
+				// evaluation-dead routes; report only - the destructive disable is interactive-edit protection
+				if ( m_containerGraph.IsLoading )
+				{
+					UIUtils.ShowMessage( UniqueId, "Possible loop detected while loading, selection kept", MessageSeverity.Warning );
+					return;
+				}
+
 				CurrentSelected = UIUtils.GetLocalVarNode( m_prevReferenceId );
 				if( CurrentSelected == null || UIUtils.DetectNodeLoopsFrom( CurrentSelected, new Dictionary<int, int>() ) )
 				{
@@ -366,6 +381,12 @@ namespace AmplifyShaderEditor
 
 		public override void ActivateNode( int signalGenNodeId, int signalGenPortId, System.Type signalGenNodeType )
 		{
+			// @diogo: destroyed shells must ignore signals; destroy cascades and undo patching reach them via live neighbors
+			if ( WasDestroyed )
+			{
+				return;
+			}
+
 			base.ActivateNode( signalGenNodeId, signalGenPortId, signalGenNodeType );
 			if( m_activeConnections == 1 )
 			{
@@ -378,6 +399,12 @@ namespace AmplifyShaderEditor
 
 		public override void DeactivateNode( int deactivatedPort, bool forceComplete )
 		{
+			// @diogo: destroyed shells must ignore signals; destroy cascades and undo patching reach them via live neighbors
+			if ( WasDestroyed )
+			{
+				return;
+			}
+
 			forceComplete = forceComplete || ( m_activeConnections == 1 );
 			base.DeactivateNode( deactivatedPort, forceComplete );
 			if( forceComplete && m_currentSelected != null )

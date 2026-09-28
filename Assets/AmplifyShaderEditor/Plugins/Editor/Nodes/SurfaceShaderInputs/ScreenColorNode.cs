@@ -60,11 +60,8 @@ namespace AmplifyShaderEditor
 		private const string OpaqueTextureDefine = "REQUIRE_OPAQUE_TEXTURE 1";
 		private const string FetchVarName = "fetchOpaqueVal";
 
-		//private string LWFetchOpaqueTexture = "SAMPLE_TEXTURE2D( _CameraOpaqueTexture, sampler_CameraOpaqueTexture, {0})";
+		private string URPFetchOpaqueTexture = "float4( SHADERGRAPH_SAMPLE_SCENE_COLOR( {0}.xy ), 1.0 )";
 
-		private string LWFetchOpaqueTexture = "float4( SHADERGRAPH_SAMPLE_SCENE_COLOR( {0}.xy ), 1.0 )";
-
-#if UNITY_2021_1_OR_NEWER
 		private const string URP2DHelpBox = "For the Grab Screen Color to properly work a proper setup is required:" +
 											"\n- On the 2D Asset Renderer the \"Foremost Sorting Layer\" must be set to the last layer which is going to be caught by the Grab Screen Color" +
 											"\n- The \"Sorting Layer\" of the sprite itself which will be using the shader with the Grab Screen Color must be set to one which is above the one specified on the previous step";
@@ -79,7 +76,6 @@ namespace AmplifyShaderEditor
 			"\treturn SAMPLE_TEXTURE2D_X(_CameraSortingLayerTexture, sampler_CameraSortingLayerTexture, UnityStereoTransformScreenSpaceTex(uv)).rgb;\n"+
 			"}\n"
 		};
-#endif
 
 		private const string HDSampleSceneColorHeader5 = "ASEHDSampleSceneColor({0}.xy, {1}, {2})";
 		private readonly string[] HDSampleSceneColorFunc5 =
@@ -254,6 +250,9 @@ namespace AmplifyShaderEditor
 			{
 				m_referenceNodeId = -1;
 				m_referenceArrayId = -1;
+				// @diogo: referenced node is gone; drop its leftover title (mirrors the Object-mode switch below)
+				m_content.text = m_propertyInspectorName;
+				m_sizeIsDirty = true;
 			}
 		}
 
@@ -279,6 +278,8 @@ namespace AmplifyShaderEditor
 				}
 				UpdateHeaderColor();
 			}
+
+			UIUtils.DrawSeparator();
 
 			if( m_referenceType == TexReferenceType.Object )
 			{
@@ -336,8 +337,7 @@ namespace AmplifyShaderEditor
 				m_exposure = EditorGUILayoutToggle( "Exposure", m_exposure );
 			}
 
-#if UNITY_2021_1_OR_NEWER
-			if( ( ContainerGraph.IsURP || ContainerGraph.ParentWindow.IsShaderFunctionWindow ) && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_11_X )
+			if ( ContainerGraph.IsURP || ContainerGraph.ParentWindow.IsShaderFunctionWindow )
 			{
 				m_isURP2D = EditorGUILayoutToggle( "2D Renderer" , m_isURP2D);
 				if( m_isURP2D )
@@ -345,7 +345,6 @@ namespace AmplifyShaderEditor
 					EditorGUILayout.HelpBox( URP2DHelpBox , MessageType.Info );
 				}
 			}
-#endif
 		}
 
 		private void UpdatePort()
@@ -401,8 +400,6 @@ namespace AmplifyShaderEditor
 				string uvCoords = GetUVCoords( ref dataCollector, ignoreLocalVar, false );
 				if( dataCollector.TemplateDataCollectorInstance.IsURP )
 				{
-
-#if UNITY_2021_1_OR_NEWER
 					if( m_isURP2D )
 					{
 						dataCollector.AddToUniforms( UniqueId , URP2DDeclaration[ 0 ] );
@@ -411,9 +408,8 @@ namespace AmplifyShaderEditor
 						dataCollector.AddLocalVariable( UniqueId , CurrentPrecisionType , WirePortDataType.FLOAT4 , valueName , string.Format( URP2DFunctionHeader , uvCoords ) );
 					}
 					else
-#endif
 					{
-						dataCollector.AddLocalVariable( UniqueId , CurrentPrecisionType , WirePortDataType.FLOAT4 , valueName , string.Format( LWFetchOpaqueTexture , uvCoords ) );
+						dataCollector.AddLocalVariable( UniqueId , CurrentPrecisionType , WirePortDataType.FLOAT4 , valueName , string.Format( URPFetchOpaqueTexture , uvCoords ) );
 					}
 				}
 				else
@@ -534,6 +530,7 @@ namespace AmplifyShaderEditor
 				return false;
 			}
 		}
+		public override int ReferencedNodeId { get { return ( m_referenceType == TexReferenceType.Instance && m_referenceNodeId > -1 ) ? m_referenceNodeId : base.ReferencedNodeId; } }
 
 		public string CurrentPropertyReference
 		{

@@ -18,12 +18,8 @@ namespace AmplifyShaderEditor
 			public static Texture2D errorIcon = EditorGUIUtilityEx.LoadIcon( "console.erroricon.sml" );
 
 			public static Texture2D warningIcon = EditorGUIUtilityEx.LoadIcon( "console.warnicon.sml" );
-			#if UNITY_2020_1_OR_NEWER
 			public static GUIContent togglePreprocess = EditorGUIUtilityEx.TextContent( "Preprocess only|Show preprocessor output instead of compiled shader code" );
-			#if UNITY_2020_2_OR_NEWER
 			public static GUIContent toggleStripLineDirective = EditorGUIUtility.TrTextContent( "Strip #line directives", "Strip #line directives from preprocessor output" );
-			#endif
-			#endif
 			public static GUIContent showSurface = EditorGUIUtilityEx.TextContent( "Show generated code|Show generated code of a surface shader" );
 
 			public static GUIContent showFF = EditorGUIUtilityEx.TextContent( "Show generated code|Show generated code of a fixed function shader" );
@@ -40,12 +36,8 @@ namespace AmplifyShaderEditor
 
 			public static GUIContent arrayValuePopupButton = EditorGUIUtilityEx.TextContent( "..." );
 		}
-#if UNITY_2020_1_OR_NEWER
 		private static bool s_PreprocessOnly = false;
-#if UNITY_2020_2_OR_NEWER
 		private static bool s_StripLineDirectives = true;
-#endif
-#endif
 		private const float kSpace = 5f;
 
 		const float kValueFieldWidth = 200.0f;
@@ -184,6 +176,7 @@ namespace AmplifyShaderEditor
 
 		public void OnDisable()
 		{
+			ImporterInspectorWarningSuppressor.Arm();
 			CleanUp();
 			if( m_SrpCompatibilityCheckMaterial != null )
 			{
@@ -228,6 +221,7 @@ namespace AmplifyShaderEditor
 
 		public virtual void OnEnable()
 		{
+			ImporterInspectorWarningSuppressor.Arm();
 			Shader s = this.target as Shader;
 			if( s!= null )
 				ShaderUtilEx.FetchCachedErrors( s );
@@ -247,6 +241,7 @@ namespace AmplifyShaderEditor
 
 		public override void OnInspectorGUI()
 		{
+			ImporterInspectorWarningSuppressor.Arm();
 			Shader shader = this.target as Shader;
 			if ( shader == null )
 			{
@@ -484,18 +479,14 @@ namespace AmplifyShaderEditor
 
 		private void ShowCompiledCodeButton( Shader s )
 		{
-#if UNITY_2020_1_OR_NEWER
 			using( new EditorGUI.DisabledScope( !EditorSettings.cachingShaderPreprocessor ) )
 			{
 				s_PreprocessOnly = EditorGUILayout.Toggle( Styles.togglePreprocess, s_PreprocessOnly );
-#if UNITY_2020_2_OR_NEWER
 				if( s_PreprocessOnly )
 				{
 					s_StripLineDirectives = EditorGUILayout.Toggle( Styles.toggleStripLineDirective, s_StripLineDirectives );
 				}
-#endif
 			}
-#endif
 			EditorGUILayout.BeginHorizontal( new GUILayoutOption[ 0 ] );
 			EditorGUILayout.PrefixLabel( "Compiled code", EditorStyles.miniButton );
 
@@ -516,13 +507,7 @@ namespace AmplifyShaderEditor
 				}
 				if( GUI.Button( rect, showCurrent, EditorStyles.miniButton ) )
 				{
-#if UNITY_2020_1
-					ShaderUtilEx.OpenCompiledShader( s, ShaderInspectorPlatformsPopupEx.GetCurrentMode(), ShaderInspectorPlatformsPopupEx.GetCurrentPlatformMask(), ShaderInspectorPlatformsPopupEx.GetCurrentVariantStripping() == 0, s_PreprocessOnly );
-#elif UNITY_2020_2_OR_NEWER
 					ShaderUtilEx.OpenCompiledShader( s, ShaderInspectorPlatformsPopupEx.GetCurrentMode(), ShaderInspectorPlatformsPopupEx.GetCurrentPlatformMask(), ShaderInspectorPlatformsPopupEx.GetCurrentVariantStripping() == 0, s_PreprocessOnly, s_StripLineDirectives );
-#else
-					ShaderUtilEx.OpenCompiledShader( s, ShaderInspectorPlatformsPopupEx.GetCurrentMode(), ShaderInspectorPlatformsPopupEx.GetCurrentPlatformMask(), ShaderInspectorPlatformsPopupEx.GetCurrentVariantStripping() == 0 );
-#endif
 					GUIUtility.ExitGUI();
 				}
 			}
@@ -591,6 +576,57 @@ namespace AmplifyShaderEditor
 				GUILayout.Button( CustomShaderInspector.Styles.no, GUI.skin.label, new GUILayoutOption[ 0 ] );
 			}
 			EditorGUILayout.EndHorizontal();
+		}
+	}
+
+	// @diogo: Unity's composite Shader inspector ( its ShaderImporterInspector shown alongside this CustomShaderInspector )
+	// gets built and torn down by selection churn or a save reimport without ever painting, so Unity's
+	// AssetImporterEditor.OnDisable logs a bogus "must call ApplyRevertGUI" error. The teardown is deferred and native,
+	// so instead of pre-flagging an instance we drop that one message at the log handler for a brief window; callers
+	// Arm() it whenever an ASE shader inspector is live or a shader is being saved.
+	internal static class ImporterInspectorWarningSuppressor
+	{
+		private class LogFilter : ILogHandler
+		{
+			public ILogHandler Inner;
+
+			public void LogFormat( LogType logType, UnityEngine.Object context, string format, params object[] args )
+			{
+				ILogHandler inner = Inner;
+				if ( logType == LogType.Error && DateTime.UtcNow.Ticks < s_deadline )
+				{
+					string message = ( args != null && args.Length == 1 && args[ 0 ] is string arg ) ? arg : format;
+					if ( message != null && message.Contains( "must call ApplyRevertGUI" ) )
+					{
+						return;
+					}
+				}
+				inner.LogFormat( logType, context, format, args );
+			}
+
+			public void LogException( Exception exception, UnityEngine.Object context )
+			{
+				Inner.LogException( exception, context );
+			}
+		}
+
+		private static LogFilter s_filter = null;
+		private static long s_deadline = 0;
+
+		public static void Arm()
+		{
+			// @diogo: brief wall-clock window brackets the deferred teardown; DateTime is thread-safe unlike editor time
+			s_deadline = DateTime.UtcNow.Ticks + TimeSpan.TicksPerSecond * 2;
+			if ( s_filter == null )
+			{
+				s_filter = new LogFilter();
+			}
+			// @diogo: install once and leave it as a near-passthrough; re-wrapping a live handler could form a cycle
+			if ( s_filter.Inner == null && Debug.unityLogger.logHandler != s_filter )
+			{
+				s_filter.Inner = Debug.unityLogger.logHandler;
+				Debug.unityLogger.logHandler = s_filter;
+			}
 		}
 	}
 
@@ -740,22 +776,11 @@ namespace AmplifyShaderEditor
 			ShaderUtilEx.Type.InvokeMember( "OpenGeneratedFixedFunctionShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );
 		}
 
-#if UNITY_2020_1
-		public static void OpenCompiledShader( Shader shader, int mode, int customPlatformsMask, bool includeAllVariants, bool preprocessOnly )
-		{
-			ShaderUtilEx.Type.InvokeMember( "OpenCompiledShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, mode, customPlatformsMask, includeAllVariants, preprocessOnly } );
-		}
-#elif UNITY_2020_2_OR_NEWER
 		public static void OpenCompiledShader( Shader shader, int mode, int customPlatformsMask, bool includeAllVariants, bool preprocessOnly, bool stripLineDirectives )
 		{
 			ShaderUtilEx.Type.InvokeMember( "OpenCompiledShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, mode, customPlatformsMask, includeAllVariants, preprocessOnly, stripLineDirectives } );
 		}
-#else
-		public static void OpenCompiledShader( Shader shader, int mode, int customPlatformsMask, bool includeAllVariants )
-		{
-			ShaderUtilEx.Type.InvokeMember( "OpenCompiledShader", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { shader, mode, customPlatformsMask, includeAllVariants } );
-		}
-#endif
+
 		public static void FetchCachedErrors( Shader s )
 		{
 			ShaderUtilEx.Type.InvokeMember( "FetchCachedMessages", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, null, new object[] { s } );

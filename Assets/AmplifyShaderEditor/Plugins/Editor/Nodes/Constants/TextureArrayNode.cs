@@ -142,6 +142,13 @@ namespace AmplifyShaderEditor
 				if( (ParentNode)m_referenceSampler != m_referenceSampler.PreviewTextProp )
 				{
 					PreviewMaterial.SetInt( m_texConnectedId, 1 );
+					// @diogo: reference read bypasses InputPorts; the referenced node may be pooled and RT-less,
+					// so pull it and, when we are live, mark it so it settles as a persistent frontier RT (QA #5c).
+					m_referenceSampler.PreviewTextProp.EnsurePreviewRendered();
+					if( PreviewLive )
+					{
+						m_referenceSampler.PreviewTextProp.MarkFeedsLiveConsumer();
+					}
 					PreviewMaterial.SetTexture( "_G", m_referenceSampler.PreviewTextProp.PreviewTexture );
 				}
 				else
@@ -256,6 +263,8 @@ namespace AmplifyShaderEditor
 				}
 				UpdateHeaderColor();
 			}
+
+			UIUtils.DrawSeparator();
 
 			if( m_referenceType == TexReferenceType.Object )
 			{
@@ -602,6 +611,12 @@ namespace AmplifyShaderEditor
 			GUI.Label( newRect, string.Empty, UIUtils.GetCustomStyle( CustomStyle.SamplerFrame ) );
 		}
 
+		// @diogo: the picker path above draws the preview RT with m_drawPreview off, so root the preview pass here too
+		public override bool IsPreviewVisible
+		{
+			get { return base.IsPreviewVisible || ( m_drawPicker && ( m_materialMode ? m_materialTextureArray : m_defaultTextureArray ) != null ); }
+		}
+
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
 			if( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
@@ -939,6 +954,7 @@ namespace AmplifyShaderEditor
 
 			return m_referenceSampler != null;
 		}
+		public override int ReferencedNodeId { get { return ( m_referenceType == TexReferenceType.Instance && m_referenceNodeId > -1 ) ? m_referenceNodeId : base.ReferencedNodeId; } }
 
 		public override void SetupFromCastObject( UnityEngine.Object obj )
 		{

@@ -222,6 +222,13 @@ namespace AmplifyShaderEditor
 				else
 				{
 					usingTexture = true;
+					// @diogo: reference read bypasses InputPorts; the referenced sampler may be pooled and RT-less,
+					// so pull it and, when we are live, mark it so it settles as a persistent frontier RT (QA #5c).
+					m_referenceSampler.EnsurePreviewRendered();
+					if( PreviewLive )
+					{
+						m_referenceSampler.MarkFeedsLiveConsumer();
+					}
 					SetPreviewTexture( m_referenceSampler.PreviewTexture );
 				}
 			}
@@ -585,6 +592,26 @@ namespace AmplifyShaderEditor
 			m_headerColorModifier = ( m_referenceType == TexReferenceType.Object ) ? Color.white : ReferenceHeaderColor;
 		}
 
+		public void SetToReference( SamplerNode reference )
+		{
+			if( reference == null || reference == this )
+				return;
+
+			if( m_referenceType == TexReferenceType.Object )
+			{
+				UIUtils.UnregisterSamplerNode( this );
+				UIUtils.UnregisterPropertyNode( this );
+				if( !m_texPort.IsConnected )
+					UIUtils.UnregisterTexturePropertyNode( this );
+			}
+
+			m_referenceType = TexReferenceType.Instance;
+			m_referenceSampler = reference;
+			m_referenceNodeId = reference.UniqueId;
+			m_referenceArrayId = ContainerGraph.SamplerNodes.GetNodeRegisterIdx( reference.UniqueId );
+			UpdateHeaderColor();
+		}
+
 		void ShowSamplerUI()
 		{
 			EditorGUI.BeginDisabledGroup( m_samplerPort.IsConnected );
@@ -595,7 +622,7 @@ namespace AmplifyShaderEditor
 			{
 				arr[ i ] = contents[ i - 1 ];
 			}
-			m_useSamplerArrayIdx = EditorGUILayoutPopup( "Reference Sampler", m_useSamplerArrayIdx, arr );
+			m_useSamplerArrayIdx = EditorGUILayoutPopup( "Sampler State", m_useSamplerArrayIdx, arr );
 			EditorGUI.EndDisabledGroup();
 		}
 
@@ -633,9 +660,32 @@ namespace AmplifyShaderEditor
 			{
 				m_normalPort.FloatInternalData = EditorGUILayoutFloatField( NormalScaleStr, m_normalPort.FloatInternalData );
 			}
-
 			if( EditorGUI.EndChangeCheck() )
 			{
+				if ( m_autoUnpackNormals )
+				{
+					TexturePropertyNode textureNode = null;
+					if ( SoftValidReference )
+					{
+						if ( m_referenceSampler.TexPort.IsConnected )
+						{
+							textureNode = m_referenceSampler.TexPort.GetOutputNodeWhichIsNotRelay( 0 ) as TexturePropertyNode;
+						}
+						else
+						{
+							textureNode = m_referenceSampler;
+						}
+					}
+					else if ( m_texPort.IsConnected )
+					{
+						textureNode = m_texPort.GetOutputNodeWhichIsNotRelay( 0 ) as TexturePropertyNode;
+					}
+
+					textureNode = ( textureNode == null ) ? this : textureNode;
+					textureNode.DefaultTextureValue = TexturePropertyValues.bump;
+					textureNode.SetAttribute( "Normal", true );
+
+				}
 				ConfigureInputPorts();
 				ConfigureOutputPorts();
 				//ResizeNodeToPreview();
@@ -677,6 +727,8 @@ namespace AmplifyShaderEditor
 				}
 				UpdateHeaderColor();
 			}
+
+			UIUtils.DrawSeparator();
 
 			if( m_referenceType == TexReferenceType.Object )
 			{
@@ -910,6 +962,9 @@ namespace AmplifyShaderEditor
 			{
 				m_referenceNodeId = -1;
 				m_referenceArrayId = -1;
+				// @diogo: referenced node is gone; drop its leftover title/subtitle (repaint skips Self-state title updates)
+				SetTitleText( m_propertyInspectorName );
+				SetAdditonalTitleText( string.Format( Constants.PropertyValueLabel, GetPropertyValStr() ) );
 			}
 		}
 
@@ -2270,6 +2325,7 @@ namespace AmplifyShaderEditor
 				return false;
 			}
 		}
+		public override int ReferencedNodeId { get { return ( m_referenceType == TexReferenceType.Instance && m_referenceNodeId > -1 ) ? m_referenceNodeId : base.ReferencedNodeId; } }
 		public override void ForceUpdateFromMaterial( Material material )
 		{
 			if( UIUtils.IsProperty( m_currentParameterType ) && material.HasProperty( PropertyName ) )

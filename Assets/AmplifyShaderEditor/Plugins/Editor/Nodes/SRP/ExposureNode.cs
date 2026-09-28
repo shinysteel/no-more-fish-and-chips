@@ -10,7 +10,7 @@ namespace AmplifyShaderEditor
 	[Serializable]
 	[NodeAttributes( "Exposure", "Lighting", "Get camera exposure value." )]
 	public sealed class Exposure : ParentNode
-	{		
+	{
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -21,9 +21,9 @@ namespace AmplifyShaderEditor
 		{
 			if ( m_outputPorts[ 0 ].IsLocalValue( dataCollector.PortCategory ) )
 				return m_outputPorts[ 0 ].LocalValue( dataCollector.PortCategory );
-			
+
 			bool isHDRP = ( dataCollector.CurrentSRPType == TemplateSRPType.HDRP );
-			bool isURP17xOrAbove = ( dataCollector.CurrentSRPType == TemplateSRPType.URP && ASEPackageManagerHelper.CurrentSRPVersion >= ( int )ASESRPBaseline.ASE_SRP_17_0 );
+			bool isURP17xOrAbove = ( dataCollector.CurrentSRPType == TemplateSRPType.URP && ASEPackageManagerHelper.CurrentSRPVersion >= ( int )SRPBaseline.ASE_SRP_17_X );
 			string result;
 
 			if ( isHDRP || isURP17xOrAbove )
@@ -34,7 +34,7 @@ namespace AmplifyShaderEditor
 			{
 				result = "( 1.0 )";
 			}
-			
+
 			return CreateOutputLocalVariable( 0, result, ref dataCollector );
 		}
 	}

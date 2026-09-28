@@ -143,6 +143,9 @@ namespace AmplifyShaderEditor
 				duplicatesDict = ContainerGraph.ParentWindow.VisitedChanged;
 			}
 
+			// @diogo: accumulate preview liveness from the resolved ( outer or inner ) producer so an
+			// externally time-driven input marks this SF cone live (pooled SF previews, QA #5).
+			bool live = ContinuousPreviewRefresh;
 			for( int i = 0; i < InputPorts.Count; i++ )
 			{
 				ParentNode outNode = null;
@@ -177,6 +180,28 @@ namespace AmplifyShaderEditor
 					{
 						PreviewIsDirty = true;
 					}
+					live = live || outNode.PreviewLive;
+				}
+			}
+
+			m_previewLive = live;
+
+			// @diogo: same frontier push / RT pull as ParentNode.RecursivePreviewUpdate, on the resolved
+			// ( outer or inner ) producer - this node reads its RT out-of-band on render (pooled SF previews,
+			// QA #5).
+			if( m_previewLive || PreviewIsDirty )
+			{
+				ParentNode resolvedProducer = ResolvePreviewProducer();
+				if( resolvedProducer != null )
+				{
+					if( m_previewLive )
+					{
+						resolvedProducer.MarkFeedsLiveConsumer();
+					}
+					if( PreviewIsDirty )
+					{
+						resolvedProducer.EnsurePreviewRendered();
+					}
 				}
 			}
 
@@ -185,6 +210,36 @@ namespace AmplifyShaderEditor
 			if( !duplicatesDict.ContainsKey( OutputId ) )
 				duplicatesDict.Add( OutputId, needsUpdate );
 			return needsUpdate;
+		}
+
+		// @diogo: the producer whose preview RT this node's render actually samples - the outer FunctionNode
+		// input when available, the inner connection otherwise (pooled SF previews, QA #5).
+		private ParentNode ResolvePreviewProducer()
+		{
+			if( Fnode != null )
+			{
+				var input = Fnode.GetInput( this );
+				if( input != null && input.ExternalReferences.Count > 0 )
+				{
+					return Fnode.ContainerGraph.GetNode( input.ExternalReferences[ 0 ].NodeId );
+				}
+			}
+			if( InputPorts.Count > 0 && InputPorts[ 0 ].ExternalReferences.Count > 0 )
+			{
+				return ContainerGraph.GetNode( InputPorts[ 0 ].ExternalReferences[ 0 ].NodeId );
+			}
+			return null;
+		}
+
+		// @diogo: pull through the resolved outer producer when available - SetPreviewInputs reads its RT
+		// directly, bypassing this node's inner InputPorts (pooled SF previews, QA #5).
+		protected override void EnsureProducersRendered()
+		{
+			ParentNode outNode = ResolvePreviewProducer();
+			if( outNode != null )
+			{
+				outNode.EnsurePreviewRendered();
+			}
 		}
 
 		protected override void OnUniqueIDAssigned()

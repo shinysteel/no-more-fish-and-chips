@@ -15,7 +15,7 @@ namespace AmplifyShaderEditor
 		private const string MaxKeyword = "MATERIAL_QUALITY_HIGH";
 		private const string MedKeyword = "MATERIAL_QUALITY_MEDIUM";
 		private const string MinKeyword = "MATERIAL_QUALITY_LOW";
-		private const string MaterialPragmas = "#pragma shader_feature " + MaxKeyword + " " + MedKeyword + " " + MinKeyword;
+		private const string MaterialPragmas = "#pragma multi_compile " + MaxKeyword + " " + MedKeyword + " " + MinKeyword;
 		private readonly string[] MaterialCode =
 		{
 			"#if defined("+MaxKeyword+")",
@@ -32,6 +32,7 @@ namespace AmplifyShaderEditor
 			AddOutputPort( WirePortDataType.FLOAT, Constants.EmptyPortValue );
 			m_errorMessageTypeIsError = NodeMessageType.Error;
 			m_errorMessageTooltip = SRPError;
+			m_previewShaderGUID = "06e8f551333d4c53b98ff12d11470868";
 		}
 
 		public override void OnNodeLogicUpdate( DrawInfo drawInfo )
@@ -110,15 +111,15 @@ namespace AmplifyShaderEditor
 
 			//High
 			dataCollector.AddLocalVariable( UniqueId, MaterialCode[ 0 ], true );
-			dataCollector.AddLocalVariable( UniqueId, localVarName, maxQualityValue, false, true );
-			
+			dataCollector.AddLocalVariable( UniqueId, localVarName, maxQualityValue, true, true );
+
 			//Medium
 			dataCollector.AddLocalVariable( UniqueId, MaterialCode[ 1 ], true );
-			dataCollector.AddLocalVariable( UniqueId, localVarName, medQualityValue, false, true );
+			dataCollector.AddLocalVariable( UniqueId, localVarName, medQualityValue, true, true );
 
 			//Low
 			dataCollector.AddLocalVariable( UniqueId, MaterialCode[ 2 ], true );
-			dataCollector.AddLocalVariable( UniqueId, localVarName, minQualityValue,false,true );
+			dataCollector.AddLocalVariable( UniqueId, localVarName, minQualityValue, true, true );
 			m_outputPorts[ 0 ].SetLocalValue( localVarName, dataCollector.PortCategory );
 
 			dataCollector.AddLocalVariable( UniqueId, MaterialCode[ 3 ], true );

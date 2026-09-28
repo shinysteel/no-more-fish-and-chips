@@ -1506,6 +1506,25 @@ namespace AmplifyShaderEditor
 		public TemplateSRPType SRPtype { get { return m_subShaders[ 0 ].Modules.SRPType; } }
 		//public bool SRPIsPBRHD { get { return m_subShaders[0].Modules.SRPIsPBRHD ; } }
 		public List<TemplateSubShader> SubShaders { get { return m_subShaders; } }
+
+		// Whether a pass with the given name is defined anywhere in this template. Used to tell a genuine
+		// authoring typo apart from a pass whose master node simply isn't instantiated yet (e.g. while
+		// loading a shader saved before the pass was added to the template).
+		public bool ContainsPass( string passName )
+		{
+			for ( int i = 0; i < m_subShaders.Count; i++ )
+			{
+				List<TemplatePass> passes = m_subShaders[ i ].Passes;
+				for ( int j = 0; j < passes.Count; j++ )
+				{
+					if ( passes[ j ].PassNameContainer.Data.Equals( passName ) )
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 		public List<TemplateShaderPropertyData> AvailableShaderProperties { get { return m_availableShaderProperties; } }
 		public List<TemplateShaderPropertyData> AllShaderProperties
 		{

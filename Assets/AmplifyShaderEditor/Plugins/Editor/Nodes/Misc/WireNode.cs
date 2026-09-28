@@ -14,6 +14,11 @@ namespace AmplifyShaderEditor
 
 		bool m_forceVisualDataUpdate = false;
 
+		// True once this reroute's stored position is its final centered top-left ( set on
+		// load/deserialize ). Freshly created reroutes start false so they get centered on the
+		// drop point exactly once. Intentionally not serialized.
+		private bool m_alreadyCentered = false;
+
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -174,7 +179,12 @@ namespace AmplifyShaderEditor
 				m_position.width = m_extraSize.x + UIUtils.PortsSize.x;
 				m_position.height = m_extraSize.y + UIUtils.PortsSize.y;
 
-				Vec2Position -= Position.size * 0.5f;
+				if ( !m_alreadyCentered )
+				{
+					// center a freshly created reroute on its drop point ( one-time )
+					Vec2Position -= Position.size * 0.5f;
+					m_alreadyCentered = true;
+				}
 				if( OnNodeChangeSizeEvent != null )
 				{
 					OnNodeChangeSizeEvent( this );
@@ -404,14 +414,19 @@ namespace AmplifyShaderEditor
 			m_extraSize.Set( 20f, 20f );
 			m_position.width = m_extraSize.x + UIUtils.PortsSize.x;
 			m_position.height = m_extraSize.y + UIUtils.PortsSize.y;
-
-			Vec2Position += Position.size * 0.5f;
 		}
 
 		public override void OnAfterDeserialize()
 		{
 			base.OnAfterDeserialize();
 			m_sizeIsDirty = false;
+			m_alreadyCentered = true;
+		}
+
+		public override void ReadFromString( ref string[] nodeParams )
+		{
+			base.ReadFromString( ref nodeParams );
+			m_alreadyCentered = true;
 		}
 
 		public WireReference FindNewValidInputNode( WireNode current )

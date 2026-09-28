@@ -176,7 +176,8 @@ namespace AmplifyShaderEditor
 			m_showConsoleWindowButton.ToolButtonPressedEvt += OnButtonPressedEvent;
 			m_showConsoleWindowButton.AddState( IOUtils.ShowConsoleWindowGUID );
 
-			m_searchBarSize = new Rect( 0, TabY + 4, 110, 60 );
+			// @diogo: height must match the single-line search field; an oversized rect breaks IMGUI click-to-cursor hit-testing
+			m_searchBarSize = new Rect( 0, TabY + 4, 110, 18 );
 		}
 
 		void OnShowPortLegend()
@@ -303,6 +304,12 @@ namespace AmplifyShaderEditor
 					if ( EditorGUI.EndChangeCheck() )
 					{
 						m_refreshSearchResultList = true;
+					}
+
+					// @diogo: keep repainting while focused, otherwise the dirty-repaint gate freezes the caret blink
+					if ( currentFocus.Equals( SearchBarId ) )
+					{
+						m_parentWindow.ForceRepaint();
 					}
 				} else
 				{

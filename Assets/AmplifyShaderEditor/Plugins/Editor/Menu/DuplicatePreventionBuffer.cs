@@ -28,6 +28,9 @@ namespace AmplifyShaderEditor
 		private Dictionary<string, int> m_availableUniformNames = new Dictionary<string, int>();
 		private Dictionary<string, int> m_availableLocalVariableNames = new Dictionary<string, int>();
 
+		// Read access to the registered uniform names (name => owner node id); used for inspection panels
+		public Dictionary<string, int> AvailableUniformNames { get { return m_availableUniformNames; } }
+
 		public void ReleaseAllUVChannels()
 		{
 			for ( int i = 0; i < m_availableUVChannelsArray.Length; i++ )
@@ -241,7 +244,7 @@ namespace AmplifyShaderEditor
 			m_availableLocalVariableNames.Clear();
 		}
 
-		public void GetFirstAvailableName( int nodeId, WirePortDataType type , out string outProperty , out string outInspector, bool useCustomPrefix = false, string customPrefix = null)
+		private string ResolveDefaultBaseName( WirePortDataType type, bool useCustomPrefix, string customPrefix )
 		{
 			string name = string.Empty;
 			if ( useCustomPrefix && customPrefix != null )
@@ -284,6 +287,22 @@ namespace AmplifyShaderEditor
 					break;
 				}
 			}
+			return name;
+		}
+
+		// Read-only counterpart to GetFirstAvailableName: returns the plain default pair (count 0)
+		// without scanning for uniqueness or registering. Used by nodes that don't reserve a uniform
+		// slot (e.g. constants), so two of them may legitimately share the same default name.
+		public void GetDefaultName( WirePortDataType type, out string outProperty, out string outInspector, bool useCustomPrefix = false, string customPrefix = null )
+		{
+			string name = ResolveDefaultBaseName( type, useCustomPrefix, customPrefix );
+			outInspector = name + 0;
+			outProperty = UIUtils.GeneratePropertyName( outInspector, PropertyType.Property );
+		}
+
+		public void GetFirstAvailableName( int nodeId, WirePortDataType type , out string outProperty , out string outInspector, bool useCustomPrefix = false, string customPrefix = null)
+		{
+			string name = ResolveDefaultBaseName( type, useCustomPrefix, customPrefix );
 
 			int count = 0;
 			bool foundName = false;

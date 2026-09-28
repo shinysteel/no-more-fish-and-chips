@@ -274,6 +274,17 @@ namespace AmplifyShaderEditor
 				{
 					ContainerGraph.ParentWindow.DuplicatePrevBufferInstance.ReleaseUniformName( passUniqueId , template.AvailableShaderProperties[ i ].PropertyName );
 				}
+
+				// Reservations were just dropped, so have the first pass node re-register them on its next
+				// update; otherwise template property names would stay free for users to take until the next
+				// build (see RegisterProperties). This mirrors what the single-pass TemplateMasterNode does
+				// by calling RegisterProperties directly from within its SetTemplate
+				List<TemplateMultiPassMasterNode> passNodes = ContainerGraph.MultiPassMasterNodes.NodesList;
+				int passNodeCount = passNodes.Count;
+				for( int i = 0 ; i < passNodeCount ; i++ )
+				{
+					passNodes[ i ].m_reRegisterTemplateData = true;
+				}
 			}
 		}
 
@@ -301,31 +312,155 @@ namespace AmplifyShaderEditor
 			if( m_templateMultiPass != null )
 			{
 				m_reRegisterTemplateData = false;
+
+				// This may re-run after SetTemplate or a reservation wipe, so rebuild the internal template
+				// nodes from scratch to avoid duplicating them; ids are regenerated deterministically
+				m_containerGraph.ClearInternalTemplateNodes();
+
+				TemplateMultiPassMasterNode mainMasterNode = ContainerGraph.CurrentMasterNode as TemplateMultiPassMasterNode;
+				bool optionsReady = mainMasterNode != null && mainMasterNode.m_templateMultiPass == m_templateMultiPass;
+
+				// Settle option visibility before computing reservations. Sub-options (e.g. the Tessellation
+				// fields) start visible and are only hidden by their parent's cascade, which otherwise runs
+				// lazily on the first GUI draw; until then their active declarations would wrongly reserve
+				// commented names like _TessValue. ForceOptionsRefresh applies that cascade deterministically
+				if ( optionsReady )
+				{
+					// @diogo: during load the saved option selections aren't applied yet ( SetReadOptions runs
+					// later ), so seed them first - otherwise the cascade runs at template defaults and, for a
+					// disabled-by-default pass, wrongly excludes it, flipping pass visibility and mis-deriving
+					// reservations. Same applies to the master node replacement restore, where option items
+					// were just recreated at defaults by CrossCheckTemplateNodes and the staged selections are
+					// only re-applied afterwards. Restore-only: other re-runs must keep the user's selections.
+					if ( ContainerGraph.IsLoading || ContainerGraph.IsReplacingMasterNodes )
+					{
+						mainMasterNode.SetReadOptionSelections();
+					}
+					mainMasterNode.ForceOptionsRefresh();
+				}
+
+				// Template instances are shared across graphs, so start from the parse-time commented states
+				ResetTemplatePropertyCommentedStates();
+
+				// Apply the current option values before deciding what to reserve, so properties that options
+				// keep commented out (e.g. _AlphaClip while Alpha Clipping is off, or _TessValue while
+				// Tessellation is off) stay free for users even though they may be uncommented on the
+				// template's parse-time state
+				if ( optionsReady )
+				{
+					mainMasterNode.CheckPropertyChangesOnOptions( mainMasterNode.SubShaderOptions );
+					mainMasterNode.CheckPropertyChangesOnOptions( mainMasterNode.PassOptions );
+				}
+
 				// Register old template properties
 				int newPropertyCount = m_templateMultiPass.AvailableShaderProperties.Count;
 				for( int i = 0 ; i < newPropertyCount ; i++ )
 				{
-					m_containerGraph.AddInternalTemplateNode( m_templateMultiPass.AvailableShaderProperties[ i ] );
-					int nodeId = ContainerGraph.ParentWindow.DuplicatePrevBufferInstance.CheckUniformNameOwner( m_templateMultiPass.AvailableShaderProperties[ i ].PropertyName );
-					if( nodeId > -1 )
+					TemplateShaderPropertyData property = m_templateMultiPass.AvailableShaderProperties[ i ];
+					m_containerGraph.AddInternalTemplateNode( property );
+
+					// Unused properties are not reserved, leaving their names free for users to declare; release
+					// any stale reservation we might still hold from a previously uncommented state
+					if ( !property.NameInUse )
 					{
-						if( UniqueId != nodeId )
+						if ( ContainerGraph.ParentWindow.DuplicatePrevBufferInstance.CheckUniformNameOwner( property.PropertyName ) == UniqueId )
 						{
-							ParentNode node = m_containerGraph.GetNode( nodeId );
-							if( node != null )
-							{
-								UIUtils.ShowMessage( string.Format( "Template requires property name {0} which is currently being used by {1}. Please rename it and reload template." , m_templateMultiPass.AvailableShaderProperties[ i ].PropertyName , node.Attributes.Name ) );
-							}
-							else
-							{
-								UIUtils.ShowMessage( string.Format( "Template requires property name {0} which is currently being on your graph. Please rename it and reload template." , m_templateMultiPass.AvailableShaderProperties[ i ].PropertyName ) );
-							}
+							UIUtils.ReleaseUniformName( UniqueId , property.PropertyName );
 						}
+						continue;
 					}
-					else
+
+					// Only reserve when the name is free; a conflicting user node may be legitimate at this point
+					// since options may still comment this property out, so renaming collisions is deferred to
+					// SyncTemplatePropertyReservations, which runs after options are applied
+					if ( ContainerGraph.ParentWindow.DuplicatePrevBufferInstance.CheckUniformNameOwner( property.PropertyName ) == -1 )
 					{
-						UIUtils.RegisterUniformName( UniqueId , m_templateMultiPass.AvailableShaderProperties[ i ].PropertyName );
+						UIUtils.RegisterUniformName( UniqueId , property.PropertyName );
 					}
+				}
+			}
+		}
+
+		// Ensures the template owns propertyName; if a graph node currently holds it, the node is renamed (template has priority)
+		private void ReserveTemplatePropertyName( string propertyName , int ownerUniqueId )
+		{
+			int nodeId = ContainerGraph.ParentWindow.DuplicatePrevBufferInstance.CheckUniformNameOwner( propertyName );
+			if( nodeId > -1 && ownerUniqueId != nodeId )
+			{
+				ParentNode node = m_containerGraph.GetNode( nodeId );
+				if( node is PropertyNode propertyNode )
+				{
+					// Move the conflicting graph property to a free name to avoid duplicate declarations
+					UIUtils.ReleaseUniformName( nodeId , propertyName );
+					UIUtils.RegisterUniformName( ownerUniqueId , propertyName );
+					propertyNode.RegisterFirstAvailablePropertyName( false , true );
+					UIUtils.ShowMessage( string.Format( "Property name {0} is reserved by the template. Renamed conflicting name to {1} on node '{2}'." , propertyName , propertyNode.PropertyName , propertyNode.PropertyInspectorName ) );
+				}
+				else if( node != null )
+				{
+					UIUtils.ShowMessage( string.Format( "Template requires property name {0} which is currently being used by {1}. Please rename it and reload template." , propertyName , node.Attributes.Name ) );
+				}
+				else
+				{
+					UIUtils.ShowMessage( string.Format( "Template requires property name {0} which is currently being on your graph. Please rename it and reload template." , propertyName ) );
+				}
+			}
+			else
+			{
+				if( nodeId == -1 )
+				{
+					UIUtils.RegisterUniformName( ownerUniqueId , propertyName );
+				}
+
+				// A graph node may still hold this name without owning a registration, since the duplicates
+				// buffer is rebuilt from scratch after domain reloads and re-registration fails silently when
+				// the template re-registers first (see PropertyNode.OnNodeLayout); rename it to avoid duplicate
+				// declarations. Fetch and reference nodes don't declare properties so they may keep the name
+				PropertyNode orphan = m_containerGraph.PropertyNodes.NodesList.Find( ( x ) => x.UniqueId >= 0 &&
+					x.CurrentVariableMode == VariableMode.Create && !x.IsPropertyReference && x.PropertyName.Equals( propertyName ) );
+				if( orphan != null )
+				{
+					orphan.RegisterFirstAvailablePropertyName( false , true );
+					UIUtils.ShowMessage( string.Format( "Property name {0} is reserved by the template. Renamed conflicting name to {1} on node '{2}'." , propertyName , orphan.PropertyName , orphan.PropertyInspectorName ) );
+				}
+			}
+		}
+
+		// Restores every template property back to the commented state it had when the template was parsed,
+		// before options get a chance to override it
+		private void ResetTemplatePropertyCommentedStates()
+		{
+			int propertyCount = m_templateMultiPass.AvailableShaderProperties.Count;
+			for ( int i = 0 ; i < propertyCount ; i++ )
+			{
+				TemplateShaderPropertyData property = m_templateMultiPass.AvailableShaderProperties[ i ];
+				property.Commented = property.FullValue.TrimStart().StartsWith( "//" );
+			}
+		}
+
+		// Syncs uniform name reservations with the current state of each template property; properties in use
+		// get reserved (renaming colliding user property nodes), unused ones are released so users may declare
+		// them. Must run after options are applied and before passes collect data so renames affect the current build
+		private void SyncTemplatePropertyReservations()
+		{
+			if ( !IsLODMainMasterNode )
+			{
+				return;
+			}
+
+			// Reservations are always held by the first pass master node (see RegisterProperties)
+			int passUniqueId = ( m_passIdx == 0 ) ? UniqueId : ContainerGraph.MultiPassMasterNodes.NodesList[ 0 ].UniqueId;
+			int propertyCount = m_templateMultiPass.AvailableShaderProperties.Count;
+			for ( int i = 0 ; i < propertyCount ; i++ )
+			{
+				TemplateShaderPropertyData property = m_templateMultiPass.AvailableShaderProperties[ i ];
+				if ( property.NameInUse )
+				{
+					ReserveTemplatePropertyName( property.PropertyName , passUniqueId );
+				}
+				else if ( ContainerGraph.ParentWindow.DuplicatePrevBufferInstance.CheckUniformNameOwner( property.PropertyName ) == passUniqueId )
+				{
+					UIUtils.ReleaseUniformName( passUniqueId , property.PropertyName );
 				}
 			}
 		}
@@ -498,7 +633,7 @@ namespace AmplifyShaderEditor
 				// template is null when hot code reloading or loading from file so inspector name shouldn't be changed
 				if( !hotCodeOrRead )
 				{
-					m_customInspectorName = m_templateMultiPass.CustomInspectorContainer.Data;
+					m_customInspectorName = string.IsNullOrEmpty( Constants.PreferredCustomInspector ) ? m_templateMultiPass.CustomInspectorContainer.Data : Constants.PreferredCustomInspector;
 					CheckLegacyCustomInspectors();
 					if( m_isMainOutputNode )
 					{
@@ -543,6 +678,16 @@ namespace AmplifyShaderEditor
 
 				UpdateSubShaderPassStr();
 
+				// RegisterProperties ran above before options were set up (and during graph creation the
+				// main node may not even exist yet), so have every pass node re-register on its next update,
+				// where the first pass reserves names accounting for the current option values
+				List<TemplateMultiPassMasterNode> passNodes = ContainerGraph.MultiPassMasterNodes.NodesList;
+				int passNodeCount = passNodes.Count;
+				for( int i = 0 ; i < passNodeCount ; i++ )
+				{
+					passNodes[ i ].m_reRegisterTemplateData = true;
+				}
+
 				if( m_isMainOutputNode )
 					m_fireTemplateChange = true;
 			}
@@ -568,6 +713,13 @@ namespace AmplifyShaderEditor
 			m_passOptions.SetReadOptions();
 			if( m_isMainOutputNode )
 				m_subShaderOptions.SetReadOptions();
+		}
+
+		public void SetReadOptionSelections()
+		{
+			m_passOptions.SetReadOptionSelections();
+			if( m_isMainOutputNode )
+				m_subShaderOptions.SetReadOptionSelections();
 		}
 
 		bool UpdatePortInfo()
@@ -784,6 +936,7 @@ namespace AmplifyShaderEditor
 						if( performAction )
 						{
 							module.BlendOpHelper.CustomEdited = false;
+							module.BlendOpHelper.CurrentRGBIndex = 1;
 							module.BlendOpHelper.SourceFactorRGB = item.ActionBlendRGBSource;
 							module.BlendOpHelper.DestFactorRGB = item.ActionBlendRGBDest;
 						}
@@ -803,6 +956,7 @@ namespace AmplifyShaderEditor
 						if( performAction )
 						{
 							module.BlendOpHelper1.CustomEdited = false;
+							module.BlendOpHelper1.CurrentRGBIndex = 1;
 							module.BlendOpHelper1.SourceFactorRGB = item.ActionBlendRGBSource1;
 							module.BlendOpHelper1.DestFactorRGB = item.ActionBlendRGBDest1;
 						}
@@ -822,6 +976,7 @@ namespace AmplifyShaderEditor
 						if( performAction )
 						{
 							module.BlendOpHelper2.CustomEdited = false;
+							module.BlendOpHelper2.CurrentRGBIndex = 1;
 							module.BlendOpHelper2.SourceFactorRGB = item.ActionBlendRGBSource2;
 							module.BlendOpHelper2.DestFactorRGB = item.ActionBlendRGBDest2;
 						}
@@ -841,6 +996,7 @@ namespace AmplifyShaderEditor
 						if( performAction )
 						{
 							module.BlendOpHelper3.CustomEdited = false;
+							module.BlendOpHelper3.CurrentRGBIndex = 1;
 							module.BlendOpHelper3.SourceFactorRGB = item.ActionBlendRGBSource3;
 							module.BlendOpHelper3.DestFactorRGB = item.ActionBlendRGBDest3;
 						}
@@ -1100,18 +1256,48 @@ namespace AmplifyShaderEditor
 					module.TagsHelper.ChangeTagValue( item.ActionData , item.ActionBuffer );
 				}
 				break;
+				case PropertyActionsEnum.AddTag:
+				{
+					module.TagsHelper.AddTag( item.ActionData, item.ActionBuffer );
+				}
+				break;
+				case PropertyActionsEnum.RemoveTag:
+				{
+					module.TagsHelper.RemoveTag( item.ActionData );
+				}
+				break;
 			}
 		}
 
 		public void OnCustomPassOptionSelected( bool actionFromUser , bool isRefreshing , bool invertAction , TemplateOptionUIItem uiItem , int recursionLevel, params TemplateActionItem[] validActions )
 		{
 			m_passOptions.OnCustomOptionSelected( actionFromUser , isRefreshing , invertAction , this , uiItem , recursionLevel, validActions );
+			SyncPropertyReservationsOnOptionChange( actionFromUser , isRefreshing );
 		}
 
 		public void OnCustomSubShaderOptionSelected( bool actionFromUser , bool isRefreshing , bool invertAction , TemplateOptionUIItem uiItem , int recursionLevel, params TemplateActionItem[] validActions )
 		{
 			if( m_isMainOutputNode )
+			{
 				m_subShaderOptions.OnCustomOptionSelected( actionFromUser , isRefreshing , invertAction , this , uiItem , recursionLevel, validActions );
+				SyncPropertyReservationsOnOptionChange( actionFromUser , isRefreshing );
+			}
+		}
+
+		// Re-syncs property states and name reservations as soon as the user changes an option, instead of only
+		// on the next build; once the option callbacks return, any show/hide cascade has already been applied.
+		// Skipped while refreshing (load/template change), where the build-time sync remains the authority
+		private void SyncPropertyReservationsOnOptionChange( bool actionFromUser , bool isRefreshing )
+		{
+			if ( !actionFromUser || isRefreshing || !IsLODMainMasterNode || m_templateMultiPass == null )
+			{
+				return;
+			}
+
+			ResetTemplatePropertyCommentedStates();
+			CheckPropertyChangesOnOptions( m_subShaderOptions );
+			CheckPropertyChangesOnOptions( m_passOptions );
+			SyncTemplatePropertyReservations();
 		}
 
 		void SetupCustomOptionsFromTemplate( bool newTemplate )
@@ -1248,7 +1434,30 @@ namespace AmplifyShaderEditor
 					}
 					else
 					{
-						UIUtils.ShowMessage( "Invalid current template. Switching to Standard Surface" , MessageSeverity.Error );
+						// @diogo: try path first
+						string path = AssetDatabase.GUIDToAssetPath( m_templateGUID );
+
+						string message;
+						if ( string.IsNullOrEmpty( path ) )
+						{
+							message = "Template not found";
+						}
+						else
+						{
+							Shader shader = AssetDatabase.LoadAssetAtPath<Shader>( path );
+							if ( shader != null )
+							{
+								string shaderName = shader.name.Replace( "Hidden/", string.Empty );
+								message = $"Template \"{shaderName}\" not installed";
+							}
+							else
+							{
+								message = $"Template \"{path}\" not installed";
+							}
+						}
+
+						UIUtils.ShowMessage( $"{message}. Switching to Standard Surface.", MessageSeverity.Error );
+
 						m_shaderModelIdx = 0;
 						m_masterNodeCategory = 0;
 						m_containerGraph.ParentWindow.ReplaceMasterNode( new MasterNodeCategoriesData( AvailableShaderTypes.SurfaceShader , m_shaderName ) , false );
@@ -1356,10 +1565,18 @@ namespace AmplifyShaderEditor
 						string pathname = AssetDatabase.GUIDToAssetPath( m_templateMultiPass.GUID );
 						if( !string.IsNullOrEmpty( pathname ) )
 						{
-							Shader selectedTemplate = AssetDatabase.LoadAssetAtPath<Shader>( pathname );
-							if( selectedTemplate != null )
+							// @diogo: when a manifest overrides this template for the installed SRP version, edit the versioned .template file instead
+							if( ASEPackageManagerHelper.TryGetActiveTemplateOverridePath( m_templateMultiPass.GUID, out string overridePath ) )
 							{
-								AssetDatabase.OpenAsset( selectedTemplate , 1 );
+								UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal( overridePath, 1 );
+							}
+							else
+							{
+								Shader selectedTemplate = AssetDatabase.LoadAssetAtPath<Shader>( pathname );
+								if( selectedTemplate != null )
+								{
+									AssetDatabase.OpenAsset( selectedTemplate , 1 );
+								}
 							}
 						}
 					}
@@ -1376,7 +1593,12 @@ namespace AmplifyShaderEditor
 						string pathname = AssetDatabase.GUIDToAssetPath( m_templateMultiPass.GUID );
 						if( !string.IsNullOrEmpty( pathname ) )
 						{
-							Shader selectedTemplate = AssetDatabase.LoadAssetAtPath<Shader>( pathname );
+							// @diogo: when a manifest overrides this template for the installed SRP version, ping the versioned .template file instead
+							if( ASEPackageManagerHelper.TryGetActiveTemplateOverridePath( m_templateMultiPass.GUID, out string overridePath ) )
+							{
+								pathname = overridePath;
+							}
+							UnityEngine.Object selectedTemplate = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>( pathname );
 							if( selectedTemplate != null )
 							{
 								Event.current.Use();
@@ -2089,6 +2311,19 @@ namespace AmplifyShaderEditor
 			string excludePassName = string.Empty;
 
 			foundExcludePassName = CheckExcludeAllPassOptions( m_subShaderOptions , out excludePassName );
+
+			// Apply shader property option actions and sync template name reservations before any pass collects
+			// data, so commented/uncommented transitions (and resulting user node renames) affect this build.
+			// Hidden options don't re-apply their actions, so each build starts from the parse-time states,
+			// mirroring how IdManager replacements are reset on every build
+			if ( IsLODMainMasterNode )
+			{
+				ResetTemplatePropertyCommentedStates();
+				CheckPropertyChangesOnOptions( m_subShaderOptions );
+				CheckPropertyChangesOnOptions( m_passOptions );
+				SyncTemplatePropertyReservations();
+			}
+
 			for( int i = 0 ; i < count ; i++ )
 			{
 				bool removePass = !m_passSelector.IsVisible( i ) || ( foundExcludePassName && !list[ i ].OriginalPassName.Equals( excludePassName ) );
@@ -2260,6 +2495,14 @@ namespace AmplifyShaderEditor
 				int shaderPropertiesAmount = m_templateMultiPass.AvailableShaderProperties.Count;
 				for( int i = 0 ; i < shaderPropertiesAmount ; i++ )
 				{
+					// Unused properties have no template declarations, so let user nodes declare their own uniforms;
+					// uniforms declared unconditionally on pass bodies must still be soft registered even while
+					// their property is commented out, so user nodes reusing the name don't redeclare them
+					if ( !m_templateMultiPass.AvailableShaderProperties[ i ].NameInUse &&
+						!m_templateMultiPass.AvailableShaderProperties[ i ].UniformDeclaredUnconditionally )
+					{
+						continue;
+					}
 					m_currentDataCollector.SoftRegisterUniform( m_templateMultiPass.AvailableShaderProperties[ i ] );
 				}
 			}
@@ -2443,6 +2686,10 @@ namespace AmplifyShaderEditor
 							{
 								string newPropertyValue = data.CreatePropertyForValue( actionItems[ actionIdx ].ActionBuffer );
 								CurrentTemplate.IdManager.SetReplacementText( data.FullValue , newPropertyValue );
+
+								// The option drives whether this property is emitted commented or active; track it so
+								// SyncTemplatePropertyReservations can reserve/release its name accordingly
+								data.Commented = newPropertyValue.TrimStart().StartsWith( "//" );
 								if( CurrentMaterial != null )
 								{
 									switch( data.PropertyDataType )
@@ -2506,12 +2753,14 @@ namespace AmplifyShaderEditor
 				var masterNode = ( m_mainMasterNodeRef != null ) ? m_mainMasterNodeRef : m_containerGraph.CurrentMasterNode as TemplateMultiPassMasterNode;
 				if ( masterNode != null )
 				{
-					// @diogo: show Alpha Cutoff and/or Alpha Cutoff Shadow controls in Material when not connected
+					// @diogo: add the Alpha Cutoff / Alpha Cutoff Shadow controls to the Material when the clip
+					// threshold has no Properties entry: the port is unconnected, or a Fetch-mode property drives
+					// it (Fetch reads an external uniform without adding itself to the Properties block)
+					string cutoffPropertyName = ( m_templateMultiPass.SRPtype == TemplateSRPType.HDRP ) ? "_AlphaCutoff" : "_Cutoff";
 					var alphaClipPort = masterNode.GetInputPortByExternalLinkId( "_AlphaClip" );
-					bool autoAlphaClip = ( alphaClipPort != null && alphaClipPort.Visible && !alphaClipPort.IsConnected );
+					bool autoAlphaClip = ( alphaClipPort != null && alphaClipPort.Visible && ( !alphaClipPort.IsConnected || HasFetchProperty( cutoffPropertyName ) ) );
 					if ( autoAlphaClip && m_templateMultiPass.AvailableShaderProperties.Find( x => x.PropertyName.Equals( "_AlphaCutoff" ) ) == null )
 					{
-						string cutoffPropertyName = ( m_templateMultiPass.SRPtype == TemplateSRPType.HDRP ) ? "_AlphaCutoff" : "_Cutoff";
 						if ( !currDataCollector.ContainsProperty( cutoffPropertyName ) )
 						{
 							currDataCollector.AddToProperties( UniqueId, "[HideInInspector] " + cutoffPropertyName + "(\"Alpha Cutoff\", Range(0, 1)) = 0.5", -1 );
@@ -2521,7 +2770,7 @@ namespace AmplifyShaderEditor
 					if ( m_templateMultiPass.SRPtype == TemplateSRPType.HDRP )
 					{
 						var alphaClipShadowPort = masterNode.GetInputPortByExternalLinkId( "_AlphaClipShadow" );
-						bool autoAlphaClipShadow = ( alphaClipShadowPort != null && alphaClipShadowPort.Visible && !alphaClipShadowPort.IsConnected );
+						bool autoAlphaClipShadow = ( alphaClipShadowPort != null && alphaClipShadowPort.Visible && ( !alphaClipShadowPort.IsConnected || HasFetchProperty( "_AlphaCutoffShadow" ) ) );
 						if ( autoAlphaClipShadow && m_templateMultiPass.AvailableShaderProperties.Find( x => x.PropertyName.Equals( "_AlphaCutoffShadow" ) ) == null )
 						{
 							if ( !currDataCollector.ContainsProperty( "_AlphaCutoffShadow" ) )
@@ -2531,17 +2780,43 @@ namespace AmplifyShaderEditor
 						}
 					}
 				}
-
-				if ( m_templateMultiPass.AvailableShaderProperties.Find( x => x.PropertyName.Equals( "_EmissionColor" ) ) == null )
-				{
-					if( !currDataCollector.ContainsProperty( "_EmissionColor" ) )
-					{
-						currDataCollector.AddToProperties( UniqueId, "[HideInInspector] _EmissionColor(\"Emission Color\", Color) = (1,1,1,1)", -1 );
-					}
-				}
 			}
 
-			m_templateMultiPass.SetPropertyData( currDataCollector.BuildUnformatedPropertiesStringArr() );
+			// @diogo: drop any graph property whose name is already declared by the template,
+			// preventing duplicate entries in the Properties block (issue #568). Only active (uncommented)
+			// template properties are considered; commented ones are conditional declarations the template
+			// does not always emit, so the graph version must be kept to avoid undeclared identifiers
+			string[] graphProperties = currDataCollector.BuildUnformatedPropertiesStringArr();
+			List<string> dedupedProperties = new List<string>( graphProperties.Length );
+			for( int i = 0; i < graphProperties.Length; i++ )
+			{
+				string propertyName = TemplateHelperFunctions.GetPropertyNameFromDeclaration( graphProperties[ i ] );
+				if( !string.IsNullOrEmpty( propertyName ) )
+				{
+					TemplateShaderPropertyData templateProperty = m_templateMultiPass.GetShaderPropertyData( propertyName );
+					if( templateProperty != null && !templateProperty.Commented )
+						continue;
+				}
+
+				dedupedProperties.Add( graphProperties[ i ] );
+			}
+			m_templateMultiPass.SetPropertyData( dedupedProperties.ToArray() );
+		}
+
+		// @diogo: true when a graph property reads the given uniform in Fetch mode, which emits no
+		// Properties entry; RawPropertyNodes is used as it holds property nodes of every parameter type
+		private bool HasFetchProperty( string propertyName )
+		{
+			List<PropertyNode> rawPropertyNodes = m_containerGraph.RawPropertyNodes.NodesList;
+			for( int i = 0; i < rawPropertyNodes.Count; i++ )
+			{
+				PropertyNode node = rawPropertyNodes[ i ];
+				if( node != null && node.CurrentVariableMode == VariableMode.Fetch && node.PropertyName.Equals( propertyName ) )
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public void FillSubShaderData( /*MasterNodeDataCollector dataCollector = null */)
@@ -2578,14 +2853,108 @@ namespace AmplifyShaderEditor
 		{
 			var uniqueList = new HashSet<string>();
 			var cleanList = new List<string>();
+
+			// @diogo: the same #pragma keyword can arrive guarded by different #if conditions (e.g. a node's
+			// AddToPragmas and an Additional Directives node both declaring FORWARD_PLUS); plain text dedup misses
+			// those, so collapse them into a single pragma guarded by the OR of every condition, ensuring the
+			// keyword is never declared twice at once (which Unity flags as a duplicate keyword line)
+			var pragmaSlot = new Dictionary<string, int>();
+			var pragmaGuards = new Dictionary<string, List<string>>();
+
 			foreach ( var data in list )
 			{
-				if ( uniqueList.Add( data.PropertyName ) )
+				string directive = data.PropertyName;
+				if ( TryParseGuardedPragma( directive, out string keyword, out string guard ) )
 				{
-					cleanList.Add( data.PropertyName );
+					if ( !pragmaGuards.TryGetValue( keyword, out List<string> guards ) )
+					{
+						guards = new List<string>();
+						pragmaGuards.Add( keyword, guards );
+						pragmaSlot.Add( keyword, cleanList.Count );
+						cleanList.Add( directive );
+					}
+
+					if ( guard == null )
+					{
+						// @diogo: an unguarded occurrence is always active and subsumes every condition
+						guards.Clear();
+						guards.Add( null );
+					}
+					else if ( !( guards.Count == 1 && guards[ 0 ] == null ) && !guards.Contains( guard ) )
+					{
+						guards.Add( guard );
+					}
+					continue;
+				}
+
+				if ( uniqueList.Add( directive ) )
+				{
+					cleanList.Add( directive );
 				}
 			}
+
+			foreach ( var slot in pragmaSlot )
+			{
+				cleanList[ slot.Value ] = BuildMergedPragma( slot.Key, pragmaGuards[ slot.Key ] );
+			}
+
 			return cleanList;
+		}
+
+		// @diogo: matches a lone "#pragma X" (guard null) or an "#if C\n#pragma X\n#endif" block, extracting the
+		// keyword and its guard; only these order-insensitive pragma forms are merged, includes/defines are left as-is
+		private static bool TryParseGuardedPragma( string directive, out string keyword, out string guard )
+		{
+			const string ifPrefix = "#if ";
+			const string pragmaPrefix = "#pragma ";
+
+			keyword = null;
+			guard = null;
+
+			if ( directive.IndexOf( '\n' ) < 0 )
+			{
+				if ( directive.StartsWith( pragmaPrefix ) )
+				{
+					keyword = directive.Substring( pragmaPrefix.Length );
+					return true;
+				}
+				return false;
+			}
+
+			if ( directive.StartsWith( ifPrefix ) )
+			{
+				string[] lines = directive.Split( '\n' );
+				if ( lines.Length == 3 && lines[ 1 ].StartsWith( pragmaPrefix ) && lines[ 2 ] == "#endif" )
+				{
+					guard = lines[ 0 ].Substring( ifPrefix.Length );
+					keyword = lines[ 1 ].Substring( pragmaPrefix.Length );
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		// @diogo: rebuilds a single pragma line from the guards collected for one keyword; unguarded emits no #if,
+		// multiple distinct guards are OR-ed so the keyword stays declared across every original range
+		private static string BuildMergedPragma( string keyword, List<string> guards )
+		{
+			if ( guards.Count == 0 || ( guards.Count == 1 && guards[ 0 ] == null ) )
+			{
+				return "#pragma " + keyword;
+			}
+
+			if ( guards.Count == 1 )
+			{
+				return "#if " + guards[ 0 ] + "\n#pragma " + keyword + "\n#endif";
+			}
+
+			string condition = "( " + guards[ 0 ] + " )";
+			for ( int i = 1; i < guards.Count; i++ )
+			{
+				condition += " || ( " + guards[ i ] + " )";
+			}
+			return "#if " + condition + "\n#pragma " + keyword + "\n#endif";
 		}
 
 		private static void RemoveSharedElementsFromSecondList( ref List<string> first, ref List<string> second )
@@ -3134,6 +3503,8 @@ namespace AmplifyShaderEditor
 		public override void ReadFromString( ref string[] nodeParams )
 		{
 			base.ReadFromString( ref nodeParams );
+			// @diogo: position restored from saved data is definitive; the stacked layout must not move it
+			m_anchoredPosition = true;
 
 			string revertTemplate = string.Empty;
 			string currShaderName = string.Empty;
@@ -3284,8 +3655,7 @@ namespace AmplifyShaderEditor
 
 		void CheckLegacyCustomInspectors()
 		{
-#if UNITY_2021_2_OR_NEWER
-			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HDRP && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_11_X )
+			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HDRP )
 			{
 				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
 				{
@@ -3294,7 +3664,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.URP && ASEPackageManagerHelper.CurrentURPBaseline>= ASESRPBaseline.ASE_SRP_12_X )
+			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.URP )
 			{
 				if( Constants.CustomInspectorURP10To12.ContainsKey( m_customInspectorName ) )
 				{
@@ -3316,26 +3686,24 @@ namespace AmplifyShaderEditor
 				}
 
 			}
+		}
 
-#elif UNITY_2021_1_OR_NEWER
-			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HDRP && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_11_X )
-			{
-				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
-				{
-					UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector '{0}' in shader meta. Converting to new one '{1}'" , m_customInspectorName , Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ] ) , MessageSeverity.Warning );
-					m_customInspectorName = Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ];
-				}
-			}
-#elif UNITY_2020_2_OR_NEWER
-			if(  m_templateMultiPass.SubShaders[0].Modules.SRPType == TemplateSRPType.HDRP && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_10_X )
-			{
-				if( Constants.CustomInspectorHD7To10.ContainsKey( m_customInspectorName ) )
-				{
-					UIUtils.ShowMessage( string.Format("Detected obsolete custom inspector '{0}' in shader meta. Converting to new one '{1}'", m_customInspectorName , Constants.CustomInspectorHD7To10[ m_customInspectorName ] ), MessageSeverity.Warning );
-					m_customInspectorName = Constants.CustomInspectorHD7To10[ m_customInspectorName ];
-				}
-			}
-#endif
+		// Preserve the template-master foldouts across a snapshot-undo reload ( base already covers the
+		// Common Properties foldout ). Without this, undo collapses the SubShader/Pass/LOD sections.
+		public override void WriteUndoViewState( List<string> data )
+		{
+			base.WriteUndoViewState( data );
+			data.Add( m_subStringFoldout ? "1" : "0" );
+			data.Add( m_passFoldout ? "1" : "0" );
+			data.Add( m_lodFoldout ? "1" : "0" );
+		}
+
+		public override void ReadUndoViewState( string[] data, ref int index )
+		{
+			base.ReadUndoViewState( data, ref index );
+			m_subStringFoldout = ReadUndoViewBool( data, ref index, m_subStringFoldout );
+			m_passFoldout = ReadUndoViewBool( data, ref index, m_passFoldout );
+			m_lodFoldout = ReadUndoViewBool( data, ref index, m_lodFoldout );
 		}
 
 		public override void WriteToString( ref string nodeInfo , ref string connectionsInfo )
@@ -3382,6 +3750,8 @@ namespace AmplifyShaderEditor
 		public override void ReadFromDeprecated( ref string[] nodeParams , Type oldType = null )
 		{
 			base.ReadFromString( ref nodeParams );
+			// @diogo: position restored from saved data is definitive; the stacked layout must not move it
+			m_anchoredPosition = true;
 			try
 			{
 				string currShaderName = GetCurrentParam( ref nodeParams );
@@ -3531,9 +3901,18 @@ namespace AmplifyShaderEditor
 
 		public void ForceOptionsRefresh()
 		{
-			m_passOptions.Refresh();
-			if( m_isMainOutputNode )
-				m_subShaderOptions.Refresh();
+			// @diogo: re-applies already-saved option state - its pass-visibility DeleteConnection calls must not register undo steps
+			ContainerGraph.ParentWindow.BeginSuppressUndoRegistration();
+			try
+			{
+				m_passOptions.Refresh();
+				if( m_isMainOutputNode )
+					m_subShaderOptions.Refresh();
+			}
+			finally
+			{
+				ContainerGraph.ParentWindow.EndSuppressUndoRegistration();
+			}
 		}
 
 		public void SetPassVisible( string passName , bool visible )
@@ -3670,15 +4049,27 @@ namespace AmplifyShaderEditor
 				{
 					heightEstimate += 22;
 				}
+				// @diogo: fixed grid-aligned port row pitch (Constants.PORT_ROW_HEIGHT_Y) so the estimate matches real per-output growth and nodes don't overlap when stacked
+				float portHeight = Constants.PORT_ROW_HEIGHT_Y;
 				float internalPortSize = 0;
 				for( int i = 0 ; i < InputPorts.Count ; i++ )
 				{
 					if( InputPorts[ i ].Visible )
-						internalPortSize += 18 + Constants.INPUT_PORT_DELTA_Y;
+						internalPortSize += portHeight;
 				}
 
 				return heightEstimate + Mathf.Max( internalPortSize , m_insideSize.y );
 			}
+		}
+
+		// @diogo: true once this node owns its position ( read from file, or stacked by
+		// RepositionTemplateNodes on its first activation ); the layout must not move it anymore
+		private bool m_anchoredPosition = false;
+
+		public bool AnchoredPosition
+		{
+			get { return m_anchoredPosition; }
+			set { m_anchoredPosition = value; }
 		}
 
 		public HDSRPMaterialType CurrentHDMaterialType
@@ -3701,14 +4092,44 @@ namespace AmplifyShaderEditor
 				}
 			}
 		}
-		public TemplateSubShader SubShader { get { return m_templateMultiPass.SubShaders[ m_subShaderIdx ]; } }
-		public TemplatePass Pass { get { return m_templateMultiPass.SubShaders[ m_subShaderIdx ].Passes[ m_passIdx ]; } }
+		public TemplateSubShader SubShader
+		{
+			get
+			{
+				if ( m_templateMultiPass == null || m_subShaderIdx < 0 || m_subShaderIdx >= m_templateMultiPass.SubShaders.Count )
+				{
+					return null;
+				}
+
+				return m_templateMultiPass.SubShaders[ m_subShaderIdx ];
+			}
+		}
+		public TemplatePass Pass
+		{
+			get
+			{
+				TemplateSubShader subShader = SubShader;
+				if ( subShader == null || m_passIdx < 0 || m_passIdx >= subShader.Passes.Count )
+				{
+					return null;
+				}
+
+				return subShader.Passes[ m_passIdx ];
+			}
+		}
 		public int SubShaderIdx { get { return m_subShaderIdx; } }
 		public int PassIdx { get { return m_passIdx; } }
 		public TemplateMultiPass CurrentTemplate { get { return m_templateMultiPass; } }
 		public TemplateModulesHelper SubShaderModule { get { return m_subShaderModule; } }
 		public TemplateModulesHelper PassModule { get { return m_passModule; } }
-		public string PassName { get { return m_templateMultiPass.SubShaders[ m_subShaderIdx ].Passes[ m_passIdx ].PassNameContainer.Data; } }
+		public string PassName
+		{
+			get
+			{
+				TemplatePass pass = Pass;
+				return ( pass != null && pass.PassNameContainer != null ) ? pass.PassNameContainer.Data : string.Empty;
+			}
+		}
 		public string PassUniqueName
 		{
 			get
@@ -3727,12 +4148,39 @@ namespace AmplifyShaderEditor
 			}
 			set
 			{
-				if( m_isInvisible != InvisibilityStatus.LockedInvisible && !m_isMainOutputNode )
+				if ( m_isInvisible != InvisibilityStatus.LockedInvisible && !m_isMainOutputNode )
 				{
-					m_isInvisible = value ? InvisibilityStatus.Invisible : InvisibilityStatus.Visible;
-					if( value )
+					InvisibilityStatus newStatus = value ? InvisibilityStatus.Invisible : InvisibilityStatus.Visible;
+
+					// @diogo: mechanical flows flip visibility transiently while restoring saved state; only
+					// interactive changes may destroy connections or re-run the stacked layout, otherwise
+					// every open/template-refresh would wipe wires and stomp positions just read from file
+					bool restoringState = m_containerGraph != null && ( m_containerGraph.IsLoading || m_containerGraph.IsReplacingMasterNodes );
+
+					// @diogo: a pass activated for the first time is still parked over the main node, so run
+					// the layout pass that stacks it into place; once it owns a position ( anchored ) it must
+					// reappear where the user left it instead
+					if ( !value && m_isInvisible == InvisibilityStatus.Invisible && !m_anchoredPosition && m_containerGraph != null && !restoringState )
 					{
-						for( int i = 0 ; i < m_inputPorts.Count ; i++ )
+						m_containerGraph.ForceRepositionCheck = true;
+					}
+
+					// @diogo: a pass restored as invisible sits at a parked spot, never at a user-given
+					// position ( invisible nodes can't be moved ), so unanchor it for the rule above
+					if ( value && restoringState )
+					{
+						m_anchoredPosition = false;
+					}
+					m_isInvisible = newStatus;
+
+					// @diogo: restoring saved state must never destroy saved connections - a backstop to the
+					// SetReadOptionSelections seeding in RegisterProperties. Pass visibility is still settling
+					// here ( options apply in stages ), so a pass may be briefly flagged invisible before its
+					// saved state is applied; deleting now would wipe just-restored wires. Genuinely hidden
+					// ports are pruned by DeleteInvalidConnections once options have been applied.
+					if ( value && !restoringState )
+					{
+						for ( int i = 0 ; i < m_inputPorts.Count ; i++ )
 						{
 							m_inputPorts[ i ].FullDeleteConnections();
 						}

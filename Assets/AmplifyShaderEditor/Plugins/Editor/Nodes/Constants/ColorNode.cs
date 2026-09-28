@@ -48,6 +48,9 @@ namespace AmplifyShaderEditor
 		public ColorNode() : base() { }
 		public ColorNode( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) { }
 
+		// @diogo: preview frag returns a single constant color, independent of UV (QA #5).
+		public override bool ConstantPreview { get { return true; } }
+
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -64,6 +67,7 @@ namespace AmplifyShaderEditor
 			m_previewShaderGUID = "6cf365ccc7ae776488ae8960d6d134c3";
 			m_srpBatcherCompatible = true;
 			m_availableAttribs.Add( new PropertyAttributes( "Main Color", "[MainColor]" ) );
+			m_canBeReferenced = true;
 		}
 
 		void UpdateOutputPorts()
@@ -200,6 +204,12 @@ namespace AmplifyShaderEditor
 		{
 			base.DrawGUIControls( drawInfo );
 
+			if( IsPropertyReference )
+			{
+				m_isEditingFields = false;
+				return;
+			}
+
 			if( drawInfo.CurrentEventType != EventType.MouseDown )
 				return;
 
@@ -288,6 +298,13 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
+			PropertyNode reference = PropertyReference;
+			if( reference != null )
+			{
+				OrderIndex = reference.RawOrderIndex;
+				return reference.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
+			}
+
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 			m_precisionString = UIUtils.PrecisionWirePortToCgType( CurrentPrecisionType, m_outputPorts[ 0 ].DataType );
 
@@ -435,7 +452,7 @@ namespace AmplifyShaderEditor
 		{
 			base.UpdateMaterial( mat );
 
-			if( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
+			if( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction && !IsPropertyReference )
 			{
 				mat.SetColor( m_propertyName, m_materialValue );
 			}
@@ -502,6 +519,27 @@ namespace AmplifyShaderEditor
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_autoGammaToLinearConversion );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_useAlpha );
 			//IOUtils.AddFieldValueToString( ref nodeInfo, m_colorSpace );
+		}
+
+		protected override void CopyPropertyReferenceValues( PropertyNode reference )
+		{
+			ColorNode node = reference as ColorNode;
+			if( node == null )
+				return;
+
+			if( m_useAlpha != node.m_useAlpha )
+			{
+				m_useAlpha = node.m_useAlpha;
+				UpdateOutputPorts();
+			}
+
+			if( m_defaultValue != node.m_defaultValue || m_materialValue != node.m_materialValue || m_isHDR != node.m_isHDR )
+			{
+				m_defaultValue = node.m_defaultValue;
+				m_materialValue = node.m_materialValue;
+				m_isHDR = node.m_isHDR;
+				PreviewIsDirty = true;
+			}
 		}
 
 		public override void SetGlobalValue() { Shader.SetGlobalColor( m_propertyName, m_defaultValue ); }

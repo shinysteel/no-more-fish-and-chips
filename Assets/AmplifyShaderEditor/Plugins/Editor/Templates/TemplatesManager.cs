@@ -572,11 +572,14 @@ namespace AmplifyShaderEditor
 																//new TemplateTagData( TemplateColorMaskTag,false),
 																//new TemplateTagData( TemplateStencilOpTag,true),
 																};
+
 		public static string URPLitGUID = "94348b07e5e8bab40bd6c8a1e3df54cd";
 		public static string URPUnlitGUID = "2992e84f91cbeb14eab234972e07ea9d";
+		public static uint URPLitCRC = 4196295855;
 
 		public static string HDRPLitGUID = "53b46d85872c5b24c8f4f0a1c3fe4c87";
 		public static string HDRPUnlitGUID = "7f5cb9c3ea6481f469fdd856555439ef";
+		public static uint HDRPLitCRC = 596431725;
 
 		public static Dictionary<string, string> DeprecatedTemplates = new Dictionary<string, string>()
 		{
@@ -830,8 +833,6 @@ namespace AmplifyShaderEditor
 			int count = m_registerTemplateQueue.Count;
 			int index = 0;
 
-			EditorUtility.DisplayProgressBar( "Amplify Shader Editor", "Parsing Templates....", 0.0f );
-
 			Task task = Task.Run( () =>
 			{
 				try
@@ -851,10 +852,14 @@ namespace AmplifyShaderEditor
 
 			try
 			{
+				DateTime start = DateTime.Now;
 				while ( !task.IsCompleted )
 				{
-					EditorUtility.DisplayProgressBar( "Amplify Shader Editor", "Parsing Templates....", ++index / ( float )count );
-					Thread.Sleep( 10 );
+					if ( ( DateTime.Now - start ).TotalSeconds > 1 )
+					{
+						EditorUtility.DisplayProgressBar( "Amplify Shader Editor", "Parsing Templates....", ++index / ( float )count );
+					}
+					Thread.Sleep( 1 );
 				}
 			}
 			finally
@@ -1027,11 +1032,9 @@ namespace AmplifyShaderEditor
 
 			m_instance = this;
 
-			if ( !EditorApplication.isPlayingOrWillChangePlaymode )
-			{
-				DebugMessage( "Refreshing Available Templates" );
-				RefreshAvailableTemplates();
-			}
+			// @diogo: refresh in Play mode too; this is an in-memory sync and lets template shaders load while playing
+			DebugMessage( "Refreshing Available Templates" );
+			RefreshAvailableTemplates();
 
 			DebugMessage( "OnEnable" );
 		}

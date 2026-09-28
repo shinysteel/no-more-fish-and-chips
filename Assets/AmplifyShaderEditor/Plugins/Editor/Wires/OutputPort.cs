@@ -25,6 +25,12 @@ namespace AmplifyShaderEditor
 		//private int m_isLocalWithPortType = 0;
 
 		private RenderTexture m_outputPreview = null;
+		// @diogo: true when m_outputPreview is a borrowed pool RT (pooled SF previews, QA #5); the pool owns
+		// the GPU object, so this port must never Release/Destroy it - only detach and hand it back.
+		private bool m_pooledPreview = false;
+		// @diogo: owning node, used only to size the preview RT ( ConstantPreview -> 1x1 ). Runtime-only,
+		// re-set every time the port is reconstructed through this ctor (QA #5).
+		private ParentNode m_owner = null;
 		private Material m_outputMaskMaterial = null;
 
 		private int m_indexPreviewOffset = 0;
@@ -32,6 +38,7 @@ namespace AmplifyShaderEditor
 		public OutputPort( ParentNode owner, int nodeId, int portId, WirePortDataType dataType, string name ) : base( nodeId, portId, dataType, name )
 		{
 			LabelSize = Vector2.zero;
+			m_owner = owner;
 			OnNewPreviewRTCreatedEvent += owner.SetPreviewDirtyFromOutputs;
 		}
 
@@ -264,7 +271,9 @@ namespace AmplifyShaderEditor
 
 				if( m_outputPreview == null )
 				{
-					m_outputPreview = new RenderTexture( Preferences.User.PreviewSize , Preferences.User.PreviewSize , 0 , Preferences.User.PreviewFormat , RenderTextureReadWrite.Linear );
+					// @diogo: 1x1 for spatially-uniform previews, current ( zoom-scaled ) size otherwise (QA #5).
+					int size = ( m_owner != null && m_owner.ConstantPreview ) ? 1 : UIUtils.CurrentPreviewSize;
+					m_outputPreview = new RenderTexture( size , size , 0 , Preferences.User.PreviewFormat , RenderTextureReadWrite.Linear );
 					m_outputPreview.wrapMode = TextureWrapMode.Repeat;
 					if( OnNewPreviewRTCreatedEvent != null )
 						OnNewPreviewRTCreatedEvent();
@@ -275,6 +284,40 @@ namespace AmplifyShaderEditor
 			set { m_outputPreview = value; }
 		}
 
+		// @diogo: called right before a non-pooled render blits into this port (QA #5d). Drops an owned RT
+		// whose size no longer matches the current ( zoom-scaled ) preview size, so the OutputPreviewTexture
+		// getter re-allocates it at the right size for this render. Safe ONLY on the render path - the RT's
+		// content is rewritten immediately after - and never touches pooled or aliased RTs ( callers must not
+		// reach this through FunctionNode's aliasing ports ).
+		public void EnsureOwnedPreviewSize()
+		{
+			if( m_outputPreview != null && !m_pooledPreview )
+			{
+				int size = ( m_owner != null && m_owner.ConstantPreview ) ? 1 : UIUtils.CurrentPreviewSize;
+				if( m_outputPreview.width != size )
+				{
+					m_outputPreview.Release();
+					UnityEngine.ScriptableObject.DestroyImmediate( m_outputPreview );
+					m_outputPreview = null;
+				}
+			}
+		}
+
+		// @diogo: true when this port owns a persistent preview RT ( not borrowed from the pool ), for VRAM stats (QA #5).
+		public bool HasOwnedPreviewTexture { get { return m_outputPreview != null && !m_pooledPreview; } }
+
+		// @diogo: non-allocating peek - true when this port holds ANY preview RT ( owned or pooled ). The
+		// OutputPreviewTexture getter lazily allocates, so consumers that only need to know must use this (QA #5).
+		public bool HasPreviewTexture { get { return m_outputPreview != null; } }
+
+		// @diogo: true when this port still holds a LIVE pool RT borrowed this pass; Unity-null aware so a
+		// pool Flush ( preview size/format change ) reads as not-held (QA #5).
+		public bool HasPooledPreviewTexture { get { return m_pooledPreview && m_outputPreview != null; } }
+
+		// @diogo: the owned persistent preview RT ( null when none, or when borrowed from the pool ). Exposed so the
+		// VRAM stats can read its ACTUAL dimensions - previews are no longer uniform ( 1x1 for constants ) (QA #5).
+		public RenderTexture OwnedPreviewTexture { get { return m_pooledPreview ? null : m_outputPreview; } }
+
 		public int IndexPreviewOffset
 		{
 			get { return m_indexPreviewOffset; }
@@ -284,18 +327,48 @@ namespace AmplifyShaderEditor
 		public override void Destroy()
 		{
 			base.Destroy();
-			if( m_outputPreview != null )
+			// @diogo: never destroy a borrowed pool RT - the pool owns it (pooled SF previews, QA #5).
+			if( m_outputPreview != null && !m_pooledPreview )
 			{
 				m_outputPreview.Release();
 				UnityEngine.ScriptableObject.DestroyImmediate( m_outputPreview );
 			}
 			m_outputPreview = null;
+			m_pooledPreview = false;
 
 			if( m_outputMaskMaterial != null )
 				UnityEngine.ScriptableObject.DestroyImmediate( m_outputMaskMaterial );
 			m_outputMaskMaterial = null;
 
 			OnNewPreviewRTCreatedEvent = null;
+		}
+
+		// @diogo: borrow a pool RT as this port's preview target for the current pass (pooled SF previews,
+		// QA #5). RenderNodePreview blits into it and consumers read it, exactly like an owned RT. Frees any
+		// previously-owned persistent RT first, so switching a node to pooled ( or the first pooled render
+		// after a load-time lazy allocation ) releases its old RT instead of orphaning it.
+		public void AssignPooledPreview( RenderTexture rt )
+		{
+			if( m_outputPreview != null && !m_pooledPreview )
+			{
+				m_outputPreview.Release();
+				UnityEngine.ScriptableObject.DestroyImmediate( m_outputPreview );
+			}
+			m_outputPreview = rt;
+			m_pooledPreview = true;
+		}
+
+		// @diogo: hand the borrowed pool RT back (returns it so the caller can Return() it to the pool) and
+		// clear this port so the next pass re-checks-out. No-op / returns null for owned or empty RTs.
+		public RenderTexture DetachPooledPreview()
+		{
+			RenderTexture rt = m_pooledPreview ? m_outputPreview : null;
+			if( m_pooledPreview )
+			{
+				m_outputPreview = null;
+				m_pooledPreview = false;
+			}
+			return rt;
 		}
 
 		public Material MaskingMaterial

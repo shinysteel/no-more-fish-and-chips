@@ -32,6 +32,13 @@ Shader /*ase_name*/ "Hidden/Built-In/Wireframe" /*end*/
 				Alpha Custom:HidePort:_SurfaceColor
 		*/
 
+		/*ase_unity_cond_begin:<=10000000*/
+			// A list of master node input port IDs; will be excluded from generated shaders.
+			//  0 => Frag: Wire Color
+			//  1 => Frag: Surface Color
+			//  2 => Vert: Vertex Offset
+		/*ase_unity_cond_end*/
+
 		Tags { "RenderType"="Opaque" }
 
 		LOD 0

@@ -36,10 +36,7 @@ namespace AmplifyShaderEditor
 
 		private SerializedProperty m_allShaders;
 
-		[SerializeField]
 		private ReorderableList m_listShaders = null;
-
-		[SerializeField]
 		private ReorderableList m_listExtras = null;
 
 		public void OnEnable()
@@ -304,7 +301,7 @@ namespace AmplifyShaderEditor
 		[NonSerialized]
 		private GUIStyle m_titleStyle;
 
-		[MenuItem( "Window/Amplify Shader Editor/" + Title, false, priority: 1100 )]
+		[MenuItem( "Window/Amplify Shader Editor/" + Title, false, priority: 1101 )]
 		static void ShowWindow()
 		{
 			ASESaveBundleTool window = EditorWindow.GetWindow<ASESaveBundleTool>();
@@ -368,14 +365,14 @@ namespace AmplifyShaderEditor
 				}
 
 			}
-			AssetDatabase.ExportPackage( pathsList.ToArray() , currentAsset.PackageTargetPath + "/" + currentAsset.PackageTargetName + ".unitypackage" , ExportPackageOptions.Recurse | ExportPackageOptions.Interactive );
+			AssetUtils.ExportPackage( pathsList.ToArray() , currentAsset.PackageTargetPath + "/" + currentAsset.PackageTargetName + ".unitypackage" , ExportPackageOptions.Recurse | ExportPackageOptions.Interactive );
 		}
 
 		private void OnGUI()
 		{
 			if( m_updatingShaders )
 			{
-				m_updatingShaders = EditorPrefs.HasKey( AmplifyShaderEditorWindow.ASEFileList );
+				m_updatingShaders = AmplifyShaderEditorWindow.IsBatchProcessing;
 			}
 
 

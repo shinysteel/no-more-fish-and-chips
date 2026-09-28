@@ -220,7 +220,7 @@ Shader "Hidden/BlendOpsNode"
 				float4 src = tex2D( _A, i.uv );
 				float4 des = tex2D( _B, i.uv );
 
-				float4 c = ( 2.0f*src*des + des*des*(1.0f - 2.0f*src) );
+				float4 c = ( src > 0.5 ? ( sqrt( des ) * ( 2.0 * src - 1.0 ) + 2.0 * des * ( 1.0 - src ) ) : ( 2.0 * des * src + des * des * ( 1.0 - 2.0 * src ) ) );
 				if (_Lerp == 1)
 				{
 					float alpha = tex2D (_C, i.uv).r;
@@ -605,6 +605,260 @@ Shader "Hidden/BlendOpsNode"
 				float4 des = tex2D( _B, i.uv );
 
 				float4 c = ( ( src > 0.5 ? ( des / max( ( 1.0 - src ) * 2.0 ,0.00001) ) : ( 1.0 - ( ( ( 1.0 - des ) * 0.5 ) / max(src,0.00001) ) ) ) );
+				if (_Lerp == 1)
+				{
+					float alpha = tex2D (_C, i.uv).r;
+					c = lerp (des, c, alpha);
+				}
+				if( _Sat == 1 )
+					c = saturate( c );
+				return c;
+			}
+			ENDCG
+		}
+
+		Pass //darkercolor
+		{
+			CGPROGRAM
+			#include "UnityCG.cginc"
+			#include "Preview.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			sampler2D _A;
+			sampler2D _B;
+			sampler2D _C;
+			int _Sat;
+			int _Lerp;
+
+			float4 frag(v2f_img i) : SV_Target
+			{
+				float4 src = tex2D( _A, i.uv );
+				float4 des = tex2D( _B, i.uv );
+
+				float4 c = ( dot( src.rgb, float3( 0.3, 0.59, 0.11 ) ) < dot( des.rgb, float3( 0.3, 0.59, 0.11 ) ) ) ? src : des;
+				if (_Lerp == 1)
+				{
+					float alpha = tex2D (_C, i.uv).r;
+					c = lerp (des, c, alpha);
+				}
+				if( _Sat == 1 )
+					c = saturate( c );
+				return c;
+			}
+			ENDCG
+		}
+
+		Pass //lightercolor
+		{
+			CGPROGRAM
+			#include "UnityCG.cginc"
+			#include "Preview.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			sampler2D _A;
+			sampler2D _B;
+			sampler2D _C;
+			int _Sat;
+			int _Lerp;
+
+			float4 frag(v2f_img i) : SV_Target
+			{
+				float4 src = tex2D( _A, i.uv );
+				float4 des = tex2D( _B, i.uv );
+
+				float4 c = ( dot( src.rgb, float3( 0.3, 0.59, 0.11 ) ) > dot( des.rgb, float3( 0.3, 0.59, 0.11 ) ) ) ? src : des;
+				if (_Lerp == 1)
+				{
+					float alpha = tex2D (_C, i.uv).r;
+					c = lerp (des, c, alpha);
+				}
+				if( _Sat == 1 )
+					c = saturate( c );
+				return c;
+			}
+			ENDCG
+		}
+
+		Pass //hue
+		{
+			CGPROGRAM
+			#include "UnityCG.cginc"
+			#include "Preview.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			sampler2D _A;
+			sampler2D _B;
+			sampler2D _C;
+			int _Sat;
+			int _Lerp;
+
+			float ASEBlendLum( float3 c ) { return dot( c, float3( 0.3, 0.59, 0.11 ) ); }
+			float ASEBlendSat( float3 c ) { return max( max( c.r, c.g ), c.b ) - min( min( c.r, c.g ), c.b ); }
+			float3 ASEBlendClipColor( float3 c )
+			{
+				float l = ASEBlendLum( c );
+				float n = min( min( c.r, c.g ), c.b );
+				float x = max( max( c.r, c.g ), c.b );
+				if ( n < 0.0 ) c = l + ( ( c - l ) * l ) / ( l - n );
+				if ( x > 1.0 ) c = l + ( ( c - l ) * ( 1.0 - l ) ) / ( x - l );
+				return c;
+			}
+			float3 ASEBlendSetLum( float3 c, float l ) { c += l - ASEBlendLum( c ); return ASEBlendClipColor( c ); }
+			float3 ASEBlendSetSat( float3 c, float s )
+			{
+				float mn = min( min( c.r, c.g ), c.b );
+				float mx = max( max( c.r, c.g ), c.b );
+				return ( mx > mn ) ? ( ( c - mn ) * s / ( mx - mn ) ) : float3( 0.0, 0.0, 0.0 );
+			}
+
+			float4 frag(v2f_img i) : SV_Target
+			{
+				float4 src = tex2D( _A, i.uv );
+				float4 des = tex2D( _B, i.uv );
+
+				float4 c = float4( ASEBlendSetLum( ASEBlendSetSat( src.rgb, ASEBlendSat( des.rgb ) ), ASEBlendLum( des.rgb ) ), des.a );
+				if (_Lerp == 1)
+				{
+					float alpha = tex2D (_C, i.uv).r;
+					c = lerp (des, c, alpha);
+				}
+				if( _Sat == 1 )
+					c = saturate( c );
+				return c;
+			}
+			ENDCG
+		}
+
+		Pass //saturation
+		{
+			CGPROGRAM
+			#include "UnityCG.cginc"
+			#include "Preview.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			sampler2D _A;
+			sampler2D _B;
+			sampler2D _C;
+			int _Sat;
+			int _Lerp;
+
+			float ASEBlendLum( float3 c ) { return dot( c, float3( 0.3, 0.59, 0.11 ) ); }
+			float ASEBlendSat( float3 c ) { return max( max( c.r, c.g ), c.b ) - min( min( c.r, c.g ), c.b ); }
+			float3 ASEBlendClipColor( float3 c )
+			{
+				float l = ASEBlendLum( c );
+				float n = min( min( c.r, c.g ), c.b );
+				float x = max( max( c.r, c.g ), c.b );
+				if ( n < 0.0 ) c = l + ( ( c - l ) * l ) / ( l - n );
+				if ( x > 1.0 ) c = l + ( ( c - l ) * ( 1.0 - l ) ) / ( x - l );
+				return c;
+			}
+			float3 ASEBlendSetLum( float3 c, float l ) { c += l - ASEBlendLum( c ); return ASEBlendClipColor( c ); }
+			float3 ASEBlendSetSat( float3 c, float s )
+			{
+				float mn = min( min( c.r, c.g ), c.b );
+				float mx = max( max( c.r, c.g ), c.b );
+				return ( mx > mn ) ? ( ( c - mn ) * s / ( mx - mn ) ) : float3( 0.0, 0.0, 0.0 );
+			}
+
+			float4 frag(v2f_img i) : SV_Target
+			{
+				float4 src = tex2D( _A, i.uv );
+				float4 des = tex2D( _B, i.uv );
+
+				float4 c = float4( ASEBlendSetLum( ASEBlendSetSat( des.rgb, ASEBlendSat( src.rgb ) ), ASEBlendLum( des.rgb ) ), des.a );
+				if (_Lerp == 1)
+				{
+					float alpha = tex2D (_C, i.uv).r;
+					c = lerp (des, c, alpha);
+				}
+				if( _Sat == 1 )
+					c = saturate( c );
+				return c;
+			}
+			ENDCG
+		}
+
+		Pass //color
+		{
+			CGPROGRAM
+			#include "UnityCG.cginc"
+			#include "Preview.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			sampler2D _A;
+			sampler2D _B;
+			sampler2D _C;
+			int _Sat;
+			int _Lerp;
+
+			float ASEBlendLum( float3 c ) { return dot( c, float3( 0.3, 0.59, 0.11 ) ); }
+			float3 ASEBlendClipColor( float3 c )
+			{
+				float l = ASEBlendLum( c );
+				float n = min( min( c.r, c.g ), c.b );
+				float x = max( max( c.r, c.g ), c.b );
+				if ( n < 0.0 ) c = l + ( ( c - l ) * l ) / ( l - n );
+				if ( x > 1.0 ) c = l + ( ( c - l ) * ( 1.0 - l ) ) / ( x - l );
+				return c;
+			}
+			float3 ASEBlendSetLum( float3 c, float l ) { c += l - ASEBlendLum( c ); return ASEBlendClipColor( c ); }
+
+			float4 frag(v2f_img i) : SV_Target
+			{
+				float4 src = tex2D( _A, i.uv );
+				float4 des = tex2D( _B, i.uv );
+
+				float4 c = float4( ASEBlendSetLum( src.rgb, ASEBlendLum( des.rgb ) ), des.a );
+				if (_Lerp == 1)
+				{
+					float alpha = tex2D (_C, i.uv).r;
+					c = lerp (des, c, alpha);
+				}
+				if( _Sat == 1 )
+					c = saturate( c );
+				return c;
+			}
+			ENDCG
+		}
+
+		Pass //luminosity
+		{
+			CGPROGRAM
+			#include "UnityCG.cginc"
+			#include "Preview.cginc"
+			#pragma vertex vert_img
+			#pragma fragment frag
+
+			sampler2D _A;
+			sampler2D _B;
+			sampler2D _C;
+			int _Sat;
+			int _Lerp;
+
+			float ASEBlendLum( float3 c ) { return dot( c, float3( 0.3, 0.59, 0.11 ) ); }
+			float3 ASEBlendClipColor( float3 c )
+			{
+				float l = ASEBlendLum( c );
+				float n = min( min( c.r, c.g ), c.b );
+				float x = max( max( c.r, c.g ), c.b );
+				if ( n < 0.0 ) c = l + ( ( c - l ) * l ) / ( l - n );
+				if ( x > 1.0 ) c = l + ( ( c - l ) * ( 1.0 - l ) ) / ( x - l );
+				return c;
+			}
+			float3 ASEBlendSetLum( float3 c, float l ) { c += l - ASEBlendLum( c ); return ASEBlendClipColor( c ); }
+
+			float4 frag(v2f_img i) : SV_Target
+			{
+				float4 src = tex2D( _A, i.uv );
+				float4 des = tex2D( _B, i.uv );
+
+				float4 c = float4( ASEBlendSetLum( des.rgb, ASEBlendLum( src.rgb ) ), des.a );
 				if (_Lerp == 1)
 				{
 					float alpha = tex2D (_C, i.uv).r;

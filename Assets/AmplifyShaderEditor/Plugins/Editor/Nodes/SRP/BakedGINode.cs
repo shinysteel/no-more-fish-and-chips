@@ -163,10 +163,9 @@ namespace AmplifyShaderEditor
 				bool unityIsBeta = TemplateHelperFunctions.GetUnityBetaVersion( out int betaVersion );
 				int unityVersion = TemplateHelperFunctions.GetUnityVersion();
 
-				if ( ASEPackageManagerHelper.CurrentHDRPBaseline == ASESRPBaseline.ASE_SRP_14_X && unityVersion >= 20220326 ||
-					 ASEPackageManagerHelper.CurrentHDRPBaseline == ASESRPBaseline.ASE_SRP_16_X && unityVersion >= 20230220 ||
-					 ASEPackageManagerHelper.CurrentHDRPBaseline == ASESRPBaseline.ASE_SRP_17_0 && unityIsBeta && betaVersion >= 15 ||
-					 ASEPackageManagerHelper.CurrentSRPVersion >= ( int )170003 )
+				if ( ASEPackageManagerHelper.CurrentHDRPBaseline == SRPBaseline.ASE_SRP_14_X && unityVersion >= 20220326 ||
+					 ASEPackageManagerHelper.CurrentHDRPBaseline == SRPBaseline.ASE_SRP_16_X && unityVersion >= 20230220 ||
+					 ASEPackageManagerHelper.CurrentHDRPBaseline >= SRPBaseline.ASE_SRP_17_X )
 				{
 					dataCollector.AddToPragmas( UniqueId, "multi_compile_fragment _ PROBE_VOLUMES_L1 PROBE_VOLUMES_L2" );
 
@@ -181,7 +180,7 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				if ( ASEPackageManagerHelper.CurrentURPBaseline >= ASESRPBaseline.ASE_SRP_15_X )
+				if ( ASEPackageManagerHelper.CurrentURPBaseline >= SRPBaseline.ASE_SRP_15_X )
 				{
 					dataCollector.AddToDirectives( "#include_with_pragmas \"Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl\"", -1, AdditionalLineType.Custom );
 

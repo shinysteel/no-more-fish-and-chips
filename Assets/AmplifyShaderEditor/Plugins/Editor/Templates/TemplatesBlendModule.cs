@@ -672,7 +672,7 @@ namespace AmplifyShaderEditor
 		public string Target { get { return m_target; } }
 		public bool ValidBlendMode { get { return m_validBlendMode; } }
 		public bool ValidBlendOp { get { return m_validBlendOp; } }
-		public int CurrentRGBIndex { get { return m_currentRGBIndex; } }
+		public int CurrentRGBIndex { get { return m_currentRGBIndex; } set { m_currentRGBIndex = value; } }
 
 		public AvailableBlendFactor SourceFactorRGB
 		{

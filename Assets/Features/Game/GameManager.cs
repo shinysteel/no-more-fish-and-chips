@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         EnvironmentManager  ,
         RarityManager       ,
         VoyageManager       ,
+        RenderingManager    ,
     }
 
     public TManager Get<TManager>() where TManager : IGameSystem

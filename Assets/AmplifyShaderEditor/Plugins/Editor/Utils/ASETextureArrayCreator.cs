@@ -49,10 +49,7 @@ namespace AmplifyShaderEditor
 		SerializedProperty m_filenameChanged;
 		SerializedProperty m_allTextures;
 
-		[SerializeField]
 		private ReorderableList m_listTextures = null;
-
-		[SerializeField]
 		private int m_previewSize;
 
 
@@ -67,6 +64,8 @@ namespace AmplifyShaderEditor
 		};
 		private Texture m_lastSaved;
 		private string m_message = string.Empty;
+
+		private Material m_blitCopyMat;
 
 		public void OnEnable()
 		{
@@ -120,6 +119,11 @@ namespace AmplifyShaderEditor
 				};
 			}
 
+			if ( m_blitCopyMat == null )
+			{
+				m_blitCopyMat = new Material( Shader.Find( "Hidden/ASEBlitCopy" ) ) { hideFlags = HideFlags.HideAndDontSave };
+			}
+
 			m_dragAndDropTool = new DragAndDropTool();
 			m_dragAndDropTool.OnValidDropObjectEvt += OnValidObjectsDropped;
 		}
@@ -168,6 +172,12 @@ namespace AmplifyShaderEditor
 		{
 			m_dragAndDropTool.Destroy();
 			m_dragAndDropTool = null;
+
+			if ( m_blitCopyMat != null )
+			{
+				DestroyImmediate( m_blitCopyMat );
+				m_blitCopyMat = null;
+			}
 		}
 
 		public override void OnInspectorGUI()
@@ -349,7 +359,7 @@ namespace AmplifyShaderEditor
 			texture3D.anisoLevel = asset.AnisoLevel;
 			//texture3D.Apply( false );
 			RenderTexture cache = RenderTexture.active;
-			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default );
+			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, asset.LinearMode ? RenderTextureReadWrite.Linear : RenderTextureReadWrite.sRGB );
 			rt.Create();
 			List<Texture2D> textures = new List<Texture2D>( asset.AllTextures.Count );
 
@@ -370,7 +380,8 @@ namespace AmplifyShaderEditor
 
 				bool cachedsrgb = GL.sRGBWrite;
 				GL.sRGBWrite = !asset.LinearMode;
-				Graphics.Blit( asset.AllTextures[ i ], rt );
+				m_blitCopyMat.SetFloat( "_ColorConversion", asset.LinearMode ? 0 : 1 );
+				Graphics.Blit( asset.AllTextures[ i ], rt, m_blitCopyMat );
 				GL.sRGBWrite = cachedsrgb;
 
 				textures.Add( new Texture2D( sizeX, sizeY, TextureFormat.ARGB32, asset.MipMaps, asset.LinearMode ) );
@@ -439,7 +450,7 @@ namespace AmplifyShaderEditor
 			texture3D.anisoLevel = asset.AnisoLevel;
 			texture3D.Apply( false );
 			RenderTexture cache = RenderTexture.active;
-			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Default );
+			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, asset.LinearMode ? RenderTextureReadWrite.Linear : RenderTextureReadWrite.sRGB );
 			rt.Create();
 			List<List<Color>> mipColor = new List<List<Color>>();
 			if ( asset.MipMaps )
@@ -471,7 +482,8 @@ namespace AmplifyShaderEditor
 
 				bool cachedsrgb = GL.sRGBWrite;
 				GL.sRGBWrite = !asset.LinearMode;
-				Graphics.Blit( asset.AllTextures[ i ], rt );
+				m_blitCopyMat.SetFloat( "_ColorConversion", asset.LinearMode ? 0 : 1 );
+				Graphics.Blit( asset.AllTextures[ i ], rt, m_blitCopyMat );
 				GL.sRGBWrite = cachedsrgb;
 
 				bool isCompressed = UncompressedFormats.FindIndex( x => x.Equals( asset.SelectedFormatEnum ) ) < 0;
@@ -542,7 +554,7 @@ namespace AmplifyShaderEditor
 			texture3D.anisoLevel = asset.AnisoLevel;
 			texture3D.Apply( false );
 			RenderTexture cache = RenderTexture.active;
-			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Default );
+			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, asset.LinearMode ? RenderTextureReadWrite.Linear : RenderTextureReadWrite.sRGB);
 			rt.Create();
 			List<Color> texColors = new List<Color>();
 
@@ -563,7 +575,8 @@ namespace AmplifyShaderEditor
 
 				bool cachedsrgb = GL.sRGBWrite;
 				GL.sRGBWrite = !asset.LinearMode;
-				Graphics.Blit( asset.AllTextures[ i ], rt );
+				m_blitCopyMat.SetFloat( "_ColorConversion", asset.LinearMode ? 0 : 1 );
+				Graphics.Blit( asset.AllTextures[ i ], rt, m_blitCopyMat );
 				GL.sRGBWrite = cachedsrgb;
 
 				bool isCompressed = UncompressedFormats.FindIndex( x => x.Equals( asset.SelectedFormatEnum ) ) < 0;
@@ -617,7 +630,7 @@ namespace AmplifyShaderEditor
 			textureArray.anisoLevel = asset.AnisoLevel;
 			textureArray.Apply( false );
 			RenderTexture cache = RenderTexture.active;
-			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Default );
+			RenderTexture rt = new RenderTexture( sizeX, sizeY, 0, RenderTextureFormat.ARGBFloat, asset.LinearMode ? RenderTextureReadWrite.Linear : RenderTextureReadWrite.sRGB );
 			rt.Create();
 			for ( int i = 0; i < asset.AllTextures.Count; i++ )
 			{
@@ -636,7 +649,8 @@ namespace AmplifyShaderEditor
 
 				bool cachedsrgb = GL.sRGBWrite;
 				GL.sRGBWrite = !asset.LinearMode;
-				Graphics.Blit( asset.AllTextures[ i ], rt );
+				m_blitCopyMat.SetFloat( "_ColorConversion", asset.LinearMode ? 0 : 1 );
+				Graphics.Blit( asset.AllTextures[ i ], rt, m_blitCopyMat );
 				GL.sRGBWrite = cachedsrgb;
 
 				bool isCompressed = UncompressedFormats.FindIndex( x => x.Equals( asset.SelectedFormatEnum ) ) < 0;

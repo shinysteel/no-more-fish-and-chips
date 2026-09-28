@@ -51,12 +51,50 @@ namespace AmplifyShaderEditor
 
 		private Vector2 m_currScrollBarDims = new Vector2( 1, 1 );
 
+		private const int NodesTabIndex = 0;
+		private const int ReservedTabIndex = 1;
+		private const int AutoBackupTabIndex = 2;
+		private readonly string[] m_tabContents = { "Nodes", "Reserved", "Auto Backup" };
+		private int m_selectedTab = NodesTabIndex;
+		private Vector2 m_reservedScrollPos = Vector2.zero;
+		// @diogo: reserved-name lists are cached and rebuilt only on Layout, so the IMGUI control count stays stable across the Layout/Repaint passes
+		private bool m_reservedHasTemplate = false;
+		private List<string> m_reservedTemplateNames = new List<string>();
+		private List<string> m_reservedNodeNames = new List<string>();
+
+		// Auto Backup tab state. The history is read from disk and cached ( the palette repaints often );
+		// it refreshes on a short interval, on a key change and when forced ( after a manual backup ).
+		private Vector2 m_autoBackupScrollPos = Vector2.zero;
+		private int m_selectedBackupIndex = -1;
+		private List<AutoBackupEntry> m_backupHistory = new List<AutoBackupEntry>();
+		private string m_backupHistoryKey = null;
+		private int m_lastBackupRevision = -1;
+		private double m_nextBackupListRefresh = 0;
+
+		// @diogo: in-place rename state for backup rows ( F2 / right-click ). Transitions are deferred to the
+		// @diogo: Layout pass so a row's control count stays identical between the Layout and Repaint passes.
+		private string m_renamingBackupPath = null;
+		private string m_renameBackupText = string.Empty;
+		private bool m_focusRenameField = false;
+		private string m_pendingBeginRenamePath = null;
+		private bool m_pendingRenameCommit = false;
+		private bool m_pendingRenameCancel = false;
+		private const string BackupRenameControlName = "ASEBackupRename";
+
+		// True only when the docked palette is open on the Auto Backup tab. Lets the editor window drive a
+		// light periodic repaint ( for the relative timestamps ) without repainting the rest of the time.
+		public bool IsAutoBackupTabActive { get { return IsMaximized && SupportsReservedTab && m_selectedTab == AutoBackupTabIndex; } }
+
+		// Only the docked palette shows the Nodes/Reserved tabs; node-creation popups keep the plain list
+		protected virtual bool SupportsReservedTab { get { return false; } }
+
 		public PaletteParent( AmplifyShaderEditorWindow parentWindow, float x, float y, float width, float height, string name, MenuAnchor anchor = MenuAnchor.NONE, MenuAutoSize autoSize = MenuAutoSize.NONE ) : base( parentWindow, x, y, width, height, name, anchor, autoSize )
 		{
 			m_searchFilter = string.Empty;
 			m_currentCategories = new Dictionary<string, PaletteFilterData>();
 			//m_allItems = items;
 			m_currentItems = new List<ContextMenuItem>();
+			m_selectedTab = EditorVariablesManager.NodePaletteSelectedTab.Value;
 		}
 
 		public virtual void OnEnterPressed( int index = 0 ) { }
@@ -167,6 +205,31 @@ namespace AmplifyShaderEditor
 				for( int i = 0; i < m_initialSeparatorAmount; i++ )
 				{
 					EditorGUILayout.Separator();
+				}
+
+				if( SupportsReservedTab )
+				{
+					int selectedTab = GUILayout.Toolbar( m_selectedTab, m_tabContents );
+					if ( selectedTab != m_selectedTab )
+					{
+						m_selectedTab = selectedTab;
+						EditorVariablesManager.NodePaletteSelectedTab.Value = selectedTab;
+					}
+					EditorGUILayout.Separator();
+
+					if( m_selectedTab == ReservedTabIndex )
+					{
+						DrawReservedNames();
+						GUILayout.EndArea();
+						return;
+					}
+
+					if( m_selectedTab == AutoBackupTabIndex )
+					{
+						DrawAutoBackup();
+						GUILayout.EndArea();
+						return;
+					}
 				}
 
 				if( currenEvent.type == EventType.KeyDown )
@@ -392,6 +455,427 @@ namespace AmplifyShaderEditor
 			GUILayout.EndArea();
 
 		}
+
+		private void DrawReservedNames()
+		{
+			// @diogo: rebuild the cached lists only on Layout; reservation state can change mid-frame as nodes register uniform names
+			if( Event.current.type == EventType.Layout )
+			{
+				RefreshReservedNames();
+			}
+
+			m_reservedScrollPos = EditorGUILayout.BeginScrollView( m_reservedScrollPos );
+			{
+				// Template-reserved properties
+				EditorGUILayout.LabelField( "Template", EditorStyles.boldLabel );
+
+				if( m_reservedHasTemplate )
+				{
+					for( int i = 0; i < m_reservedTemplateNames.Count; i++ )
+					{
+						EditorGUILayout.LabelField( "    " + m_reservedTemplateNames[ i ] );
+					}
+					if( m_reservedTemplateNames.Count == 0 )
+					{
+						EditorGUILayout.LabelField( "    <none>" );
+					}
+				}
+				else
+				{
+					EditorGUILayout.LabelField( "    <no template>" );
+				}
+
+				EditorGUILayout.Separator();
+
+				// Node-owned uniform names
+				EditorGUILayout.LabelField( "Nodes", EditorStyles.boldLabel );
+
+				for( int i = 0; i < m_reservedNodeNames.Count; i++ )
+				{
+					EditorGUILayout.LabelField( "    " + m_reservedNodeNames[ i ] );
+				}
+				if( m_reservedNodeNames.Count == 0 )
+				{
+					EditorGUILayout.LabelField( "    <none>" );
+				}
+			}
+			EditorGUILayout.EndScrollView();
+		}
+
+		// @diogo: collects the reserved template properties and node-owned uniform names, sorted alphanumerically
+		private void RefreshReservedNames()
+		{
+			m_reservedTemplateNames.Clear();
+			m_reservedNodeNames.Clear();
+
+			TemplateMultiPassMasterNode templateMaster = ( ParentWindow.CurrentGraph != null ) ? ParentWindow.CurrentGraph.CurrentMasterNode as TemplateMultiPassMasterNode : null;
+			m_reservedHasTemplate = templateMaster != null && templateMaster.CurrentTemplate != null;
+			if( m_reservedHasTemplate )
+			{
+				List<TemplateShaderPropertyData> properties = templateMaster.CurrentTemplate.AvailableShaderProperties;
+				for( int i = 0; i < properties.Count; i++ )
+				{
+					// Unused properties are not reserved, so they are not listed here
+					if ( !properties[ i ].NameInUse )
+					{
+						continue;
+					}
+					m_reservedTemplateNames.Add( properties[ i ].PropertyName );
+				}
+				m_reservedTemplateNames.Sort( StringComparer.OrdinalIgnoreCase );
+			}
+
+			DuplicatePreventionBuffer buffer = ParentWindow.DuplicatePrevBufferInstance;
+			if( buffer != null )
+			{
+				foreach( var pair in buffer.AvailableUniformNames )
+				{
+					if( pair.Value < 0 )
+						continue;
+
+					ParentNode owner = ( ParentWindow.CurrentGraph != null ) ? ParentWindow.CurrentGraph.GetNode( pair.Value ) : null;
+					// Names owned by a master node are template reservations, already listed under Template
+					if( owner == null || owner is MasterNode )
+						continue;
+
+					m_reservedNodeNames.Add( pair.Key + "  (" + owner.Attributes.Name + ")" );
+				}
+				m_reservedNodeNames.Sort( StringComparer.OrdinalIgnoreCase );
+			}
+		}
+
+		// Auto Backup tab: history for the open graph, newest first. Single click selects ( highlight ),
+		// double click asks for confirmation and replaces the graph with the chosen backup.
+		private void DrawAutoBackup()
+		{
+			string key = ParentWindow.AutoBackupKey;
+			Event evt = Event.current;
+
+			if ( evt.type == EventType.Layout )
+			{
+				ApplyPendingBackupRenameTransitions();
+				RefreshBackupHistory( key, false );
+				// @diogo: the renamed row is tracked by path; if it vanished ( pruned / graph key change ) end the
+				// rename so its clear-state logic isn't stranded on a row that no longer draws.
+				if ( !string.IsNullOrEmpty( m_renamingBackupPath ) && IndexOfBackupPath( m_renamingBackupPath ) < 0 )
+				{
+					EndBackupRename();
+				}
+			}
+
+			EditorGUILayout.LabelField( ParentWindow.AutoBackupDisplayName, EditorStyles.boldLabel );
+
+			if ( !Preferences.User.AutoBackupEnabled )
+			{
+				EditorGUILayout.HelpBox( "Auto Backup is disabled. Enable it in Preferences > Amplify Shader Editor.", MessageType.Info );
+			}
+
+			EditorGUILayout.BeginHorizontal();
+			if ( GUILayout.Button( "Backup Now" ) )
+			{
+				ParentWindow.PerformAutoBackup( true );
+				// Force a re-list on the next Layout pass rather than mutating the row count mid-frame.
+				m_nextBackupListRefresh = 0;
+				m_selectedBackupIndex = -1;
+			}
+			if ( GUILayout.Button( "Open Folder" ) )
+			{
+				AutoBackup.RevealFolder( key );
+				DeselectBackup();
+			}
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.Separator();
+
+			if ( m_backupHistory.Count == 0 )
+			{
+				EditorGUILayout.LabelField( "No backups yet." );
+			}
+			else
+			{
+				EditorGUILayout.LabelField( m_backupHistory.Count + " backup(s) - double-click to restore", EditorStyles.miniLabel );
+			}
+
+			if ( evt.type == EventType.KeyDown && evt.keyCode == KeyCode.F2 && string.IsNullOrEmpty( m_renamingBackupPath )
+				&& string.IsNullOrEmpty( m_pendingBeginRenamePath ) && m_selectedBackupIndex >= 0 && m_selectedBackupIndex < m_backupHistory.Count )
+			{
+				m_pendingBeginRenamePath = m_backupHistory[ m_selectedBackupIndex ].FilePath;
+				evt.Use();
+			}
+
+			m_autoBackupScrollPos = EditorGUILayout.BeginScrollView( m_autoBackupScrollPos );
+			{
+				for ( int i = 0; i < m_backupHistory.Count; i++ )
+				{
+					AutoBackupEntry entry = m_backupHistory[ i ];
+					Rect rowRect = EditorGUILayout.GetControlRect( false, 20f );
+					bool renamingRow = !string.IsNullOrEmpty( m_renamingBackupPath ) && entry.FilePath == m_renamingBackupPath;
+
+					if ( string.IsNullOrEmpty( m_renamingBackupPath ) && evt.type == EventType.MouseDown && rowRect.Contains( evt.mousePosition ) )
+					{
+						if ( evt.button == 1 )
+						{
+							m_selectedBackupIndex = i;
+							ShowBackupContextMenu( i );
+						}
+						else if ( evt.button == 0 && evt.clickCount == 2 )
+						{
+							RequestBackupRestore( entry );
+						}
+						else if ( evt.button == 0 )
+						{
+							m_selectedBackupIndex = i;
+						}
+						evt.Use();
+					}
+
+					if ( i == m_selectedBackupIndex && evt.type == EventType.Repaint )
+					{
+						EditorGUI.DrawRect( rowRect, EditorGUIUtility.isProSkin ? new Color( 0.24f, 0.37f, 0.59f, 1f ) : new Color( 0.36f, 0.54f, 0.90f, 1f ) );
+					}
+
+					Rect nameRect = new Rect( rowRect.x + 4f, rowRect.y, Mathf.Max( 30f, rowRect.width * 0.55f ), rowRect.height );
+					Rect timeRect = new Rect( nameRect.xMax + 4f, rowRect.y, Mathf.Max( 0f, rowRect.xMax - nameRect.xMax - 4f ), rowRect.height );
+
+					if ( renamingRow )
+					{
+						// @diogo: handle commit/cancel keys before the field draws, so the text control can't swallow Return first.
+						if ( evt.type == EventType.KeyDown )
+						{
+							bool fieldFocused = GUI.GetNameOfFocusedControl() == BackupRenameControlName;
+							if ( fieldFocused && ( evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter ) )
+							{
+								m_pendingRenameCommit = true;
+								evt.Use();
+							}
+							// @diogo: Escape always cancels, even if the field never gained focus, so a rename can't strand
+							else if ( evt.keyCode == KeyCode.Escape )
+							{
+								m_pendingRenameCancel = true;
+								evt.Use();
+							}
+						}
+						// @diogo: a mouse press outside the edit field commits the pending name ( click-away to save )
+						else if ( evt.type == EventType.MouseDown && !nameRect.Contains( evt.mousePosition ) )
+						{
+							m_pendingRenameCommit = true;
+							evt.Use();
+						}
+
+						GUI.SetNextControlName( BackupRenameControlName );
+						m_renameBackupText = EditorGUI.TextField( nameRect, m_renameBackupText );
+
+						if ( m_focusRenameField )
+						{
+							EditorGUI.FocusTextInControl( BackupRenameControlName );
+							if ( evt.type == EventType.Repaint )
+							{
+								m_focusRenameField = false;
+							}
+						}
+
+						EditorGUI.LabelField( timeRect, RelativeTime( entry.Timestamp ), EditorStyles.miniLabel );
+					}
+					else if ( AutoBackup.IsDefaultName( entry.DisplayName, ParentWindow.AutoBackupDisplayName ) )
+					{
+						// @diogo: un-renamed backups keep the original date/time-only row
+						EditorGUI.LabelField( rowRect, "  " + FormatTimestamp( entry.Timestamp ) );
+					}
+					else
+					{
+						EditorGUI.LabelField( nameRect, new GUIContent( entry.DisplayName, FormatTimestamp( entry.Timestamp ) ) );
+						EditorGUI.LabelField( timeRect, RelativeTime( entry.Timestamp ), EditorStyles.miniLabel );
+					}
+				}
+			}
+			EditorGUILayout.EndScrollView();
+
+			// @diogo: any click that isn't on an entry row ( rows Use() their own click ) clears the selection. Not
+			// @diogo: consumed, so the underlying control/canvas still gets it. Skipped while renaming ( commit handles it ).
+			if ( string.IsNullOrEmpty( m_renamingBackupPath ) && evt.type == EventType.MouseDown )
+			{
+				DeselectBackup();
+			}
+
+			// @diogo: rename edits are queued during input events but only applied on the next Layout pass;
+			// @diogo: request that pass now so the commit/cancel/begin shows immediately instead of on the next click.
+			if ( m_pendingRenameCommit || m_pendingRenameCancel || !string.IsNullOrEmpty( m_pendingBeginRenamePath ) )
+			{
+				ParentWindow.Repaint();
+			}
+		}
+
+		private void RefreshBackupHistory( string key, bool force )
+		{
+			double now = EditorApplication.timeSinceStartup;
+			if ( !force && key == m_backupHistoryKey && AutoBackup.Revision == m_lastBackupRevision && now < m_nextBackupListRefresh )
+			{
+				return;
+			}
+
+			// @diogo: selection is tracked by row index, but a re-list can reorder/prune rows; capture the selected
+			// @diogo: backup by path and re-resolve its index against the new list so the highlight and F2 stay correct.
+			string selectedPath = ( m_selectedBackupIndex >= 0 && m_selectedBackupIndex < m_backupHistory.Count ) ? m_backupHistory[ m_selectedBackupIndex ].FilePath : null;
+
+			m_backupHistory = AutoBackup.GetHistory( key );
+			m_backupHistoryKey = key;
+			m_lastBackupRevision = AutoBackup.Revision;
+			m_nextBackupListRefresh = now + 2.0;
+
+			m_selectedBackupIndex = string.IsNullOrEmpty( selectedPath ) ? -1 : IndexOfBackupPath( selectedPath );
+		}
+
+		private void RequestBackupRestore( AutoBackupEntry entry )
+		{
+			bool confirmed = EditorUtility.DisplayDialog(
+				"Restore Auto Backup",
+				"Replace the current graph with the backup from " + FormatTimestamp( entry.Timestamp ) + "?\n\nThe current graph will be lost ( this can be undone ).",
+				"Restore", "Cancel" );
+			if ( !confirmed )
+			{
+				return;
+			}
+
+			string snapshot = AutoBackup.LoadSnapshot( entry.FilePath );
+			if ( string.IsNullOrEmpty( snapshot ) )
+			{
+				EditorUtility.DisplayDialog( "Restore Auto Backup", "The backup file could not be read.", "OK" );
+				return;
+			}
+
+			ParentWindow.RequestBackupRestore( snapshot );
+		}
+
+		private void ShowBackupContextMenu( int index )
+		{
+			if ( index < 0 || index >= m_backupHistory.Count )
+			{
+				return;
+			}
+			AutoBackupEntry captured = m_backupHistory[ index ];
+			GenericMenu menu = new GenericMenu();
+			menu.AddItem( new GUIContent( "Restore" ), false, () => RequestBackupRestore( captured ) );
+			menu.AddItem( new GUIContent( "Rename" ), false, () => { m_pendingBeginRenamePath = captured.FilePath; } );
+			menu.ShowAsContext();
+		}
+
+		// @diogo: the backup list is re-listed off the GUI thread, so an index captured earlier can go stale;
+		// @diogo: rename and the context menu track a backup by its file path and re-resolve the row here.
+		private int IndexOfBackupPath( string path )
+		{
+			for ( int i = 0; i < m_backupHistory.Count; i++ )
+			{
+				if ( m_backupHistory[ i ].FilePath == path )
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		// @diogo: rename-state changes are applied here ( Layout only ) so the edited row's control count is
+		// @diogo: identical across the Layout and Repaint passes of a frame.
+		private void ApplyPendingBackupRenameTransitions()
+		{
+			if ( m_pendingRenameCommit || m_pendingRenameCancel )
+			{
+				ResolveActiveBackupRename();
+			}
+
+			if ( !string.IsNullOrEmpty( m_pendingBeginRenamePath ) )
+			{
+				int idx = IndexOfBackupPath( m_pendingBeginRenamePath );
+				if ( idx >= 0 )
+				{
+					m_renamingBackupPath = m_pendingBeginRenamePath;
+					m_selectedBackupIndex = idx;
+					m_renameBackupText = m_backupHistory[ idx ].DisplayName;
+					m_focusRenameField = true;
+				}
+				m_pendingBeginRenamePath = null;
+			}
+		}
+
+		private void EndBackupRename()
+		{
+			m_renamingBackupPath = null;
+			m_focusRenameField = false;
+		}
+
+		// @diogo: resolves an in-progress rename: commit the typed name, or honor a queued Escape-cancel. Shared by the
+		// @diogo: Layout-pass flush and the window focus-loss hook, since the deferred flush can't run while unfocused.
+		private void ResolveActiveBackupRename()
+		{
+			bool cancel = m_pendingRenameCancel;
+			m_pendingRenameCommit = false;
+			m_pendingRenameCancel = false;
+
+			if ( string.IsNullOrEmpty( m_renamingBackupPath ) )
+			{
+				return;
+			}
+
+			if ( !cancel )
+			{
+				// @diogo: an empty name resets the backup to its default ( shader name ), so the row shows date/time again.
+				string trimmed = m_renameBackupText != null ? m_renameBackupText.Trim() : string.Empty;
+				string newLabel = trimmed.Length > 0 ? trimmed : ParentWindow.AutoBackupDisplayName;
+				AutoBackup.Rename( m_renamingBackupPath, newLabel );
+				m_nextBackupListRefresh = 0;
+			}
+			EndBackupRename();
+		}
+
+		// @diogo: clears the auto-backup row selection ( no entry highlighted ).
+		private void DeselectBackup()
+		{
+			if ( m_selectedBackupIndex < 0 )
+			{
+				return;
+			}
+			m_selectedBackupIndex = -1;
+			ParentWindow.Repaint();
+		}
+
+		// @diogo: the user moved away from the backup list ( clicked the canvas or another window ): commit/close any
+		// @diogo: in-progress rename and clear the selection so no entry stays highlighted.
+		public void CommitAndClearBackupSelection()
+		{
+			ResolveActiveBackupRename();
+			DeselectBackup();
+		}
+
+		// @diogo: the editor window stops repainting while unfocused, so the on-GUI commit paths never run; resolve
+		// @diogo: any active rename and clear the selection here ( the owning window forwards its OnLostFocus ).
+		public override void OnLostFocus()
+		{
+			base.OnLostFocus();
+			CommitAndClearBackupSelection();
+		}
+
+		private static string FormatTimestamp( DateTime time )
+		{
+			return time.ToString( "yyyy-MM-dd HH:mm:ss" ) + "    " + RelativeTime( time );
+		}
+
+		private static string RelativeTime( DateTime time )
+		{
+			TimeSpan span = DateTime.Now - time;
+			if ( span.TotalSeconds < 60 )
+			{
+				return "(just now)";
+			}
+			if ( span.TotalMinutes < 60 )
+			{
+				return "(" + (int)span.TotalMinutes + " min ago)";
+			}
+			if ( span.TotalHours < 24 )
+			{
+				return "(" + (int)span.TotalHours + " h ago)";
+			}
+			return "(" + (int)span.TotalDays + " d ago)";
+		}
+
 		public void CheckCommunityNodes()
 		{
 			var enumerator = m_currentCategories.GetEnumerator();

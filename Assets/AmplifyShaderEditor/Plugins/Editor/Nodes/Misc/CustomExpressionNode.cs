@@ -2,6 +2,7 @@
 // Copyright (c) Amplify Creations, Lda <info@amplify.pt>
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -248,7 +249,7 @@ namespace AmplifyShaderEditor
 		private double m_lastTimeCodeModified = 0;
 		private bool m_codeModified = false;
 
-		//Title editing 
+		//Title editing
 		private bool m_isEditing;
 		private bool m_stopEditing;
 		private bool m_startEditing;
@@ -256,7 +257,7 @@ namespace AmplifyShaderEditor
 		private double m_doubleClickTime = 0.3;
 		private Rect m_titleClickArea;
 
-		//Item Reordable List 
+		//Item Reordable List
 		private ReordableAction m_actionType = ReordableAction.None;
 		private int m_actionIndex = 0;
 		private int m_lastIndex = 0;
@@ -457,8 +458,8 @@ namespace AmplifyShaderEditor
 			//NodeUtils.DrawPropertyGroup( ref m_visibleInputsFoldout, InputsStr, DrawInputs, DrawAddRemoveInputs );
 			NodeUtils.DrawPropertyGroup( ref m_visibleInputsFoldout , InputsStr , DrawReordableInputs , DrawItemsAddRemoveInputs );
 
-			EditorGUILayout.HelpBox( CustomExpressionInfo , MessageType.Info );
-			EditorGUILayout.HelpBox( WarningText , MessageType.Warning );
+			NodeUtils.DrawHelpBox( CustomExpressionInfo , MessageType.Info );
+			NodeUtils.DrawHelpBox( WarningText , MessageType.Warning );
 		}
 
 		string WrapCodeInFunction( bool isTemplate , string functionName , bool expressionMode )
@@ -582,7 +583,12 @@ namespace AmplifyShaderEditor
 				EditorGUILayout.LabelField( CodeTitleStr );
 				EditorGUI.BeginChangeCheck();
 				{
-					m_code = EditorGUILayoutTextArea( m_code , UIUtils.MainSkin.textArea );
+					// reserve a fixed-height rect instead of using EditorGUILayout.TextArea; word-wrapped
+					// layout controls misbehave inside the parameters panel scroll view ( see
+					// NodeUtils.MeasureTextHeight )
+					float codeHeight = NodeUtils.MeasureTextHeight( m_code , UIUtils.MainSkin.textArea );
+					Rect codeRect = EditorGUILayout.GetControlRect( false , codeHeight );
+					m_code = EditorGUITextArea( codeRect , m_code , UIUtils.MainSkin.textArea );
 				}
 				if( EditorGUI.EndChangeCheck() )
 				{
@@ -742,7 +748,7 @@ namespace AmplifyShaderEditor
 				EditorGUILayout.Space();
 				if( m_dependencies.Count == 0 )
 				{
-					EditorGUILayout.HelpBox( "Your list is Empty!\nUse the plus button to add one." , MessageType.Info );
+					NodeUtils.DrawHelpBox( "Your list is Empty!\nUse the plus button to add one." , MessageType.Info );
 				}
 				else
 				{
@@ -765,6 +771,38 @@ namespace AmplifyShaderEditor
 				m_isDirty = true;
 				m_actionType = ReordableAction.None;
 				EditorGUI.FocusTextInControl( null );
+			}
+		}
+
+		bool ValidatePortName( string name )
+		{
+			return !m_usedNames.Any( p => p.Key == name ) && !string.IsNullOrEmpty( name );
+		}
+
+		string EnsureUniquePortName( string name )
+		{
+			if ( ValidatePortName( name ) )
+			{
+				return name;
+			}
+			else
+			{
+				if ( string.IsNullOrEmpty( name ) )
+				{
+					return GetFirstAvailableName();
+				}
+				else
+				{
+					int uniqueSuffix = 1;
+					string uniquePrefix = name;
+					string uniqueName = uniquePrefix + uniqueSuffix;
+					while ( !ValidatePortName( uniqueName ) )
+					{
+						uniqueSuffix++;
+						uniqueName = uniquePrefix + uniqueSuffix;
+					}
+					return uniqueName;
+				}
 			}
 		}
 
@@ -797,18 +835,21 @@ namespace AmplifyShaderEditor
 								{
 									case WirePortDataType.INT:
 									case WirePortDataType.FLOAT:
-									size += 0;// lineHeight;
+									size += 0;
 									break;
 									case WirePortDataType.FLOAT2:
 									case WirePortDataType.FLOAT3:
 									case WirePortDataType.FLOAT4:
-									size += lineHeight;//2 * lineHeight;
+									size += lineHeight;
 									break;
+									case WirePortDataType.FLOAT2x2:
+										size += 4 * lineHeight;
+										break;
 									case WirePortDataType.FLOAT3x3:
-									size += 5 * lineHeight;//6 * lineHeight;
+									size += 5 * lineHeight;
 									break;
 									case WirePortDataType.FLOAT4x4:
-									size += 6 * lineHeight;//8 * lineHeight;
+									size += 6 * lineHeight;
 									break;
 
 								}
@@ -978,11 +1019,9 @@ namespace AmplifyShaderEditor
 								{
 									m_nameModified = true;
 									m_lastTimeNameModified = EditorApplication.timeSinceStartup;
+
 									m_inputPorts[ portIdx ].Name = UIUtils.RemoveInvalidCharacters( m_inputPorts[ portIdx ].Name );
-									if( string.IsNullOrEmpty( m_inputPorts[ portIdx ].Name ) )
-									{
-										m_inputPorts[ portIdx ].Name = DefaultInputNameStr + index;
-									}
+									m_inputPorts[ portIdx ].Name = EnsureUniquePortName( m_inputPorts[ portIdx ].Name );
 
 									if( m_items[ index ].Qualifier != VariableQualifiers.In )
 									{
@@ -993,14 +1032,27 @@ namespace AmplifyShaderEditor
 
 								if( m_mode == CustomExpressionMode.Call )
 								{
-									//Is Unique 
+									//Is Unique
 									rect.y += lineSpacing;
 									m_items[ index ].IsVariable = EditorGUIToggle( rect , IsVariableStr , m_items[ index ].IsVariable );
 								}
+
 								// Port Data
 								if( !m_inputPorts[ portIdx ].IsConnected )
 								{
-									rect.y += lineSpacing;
+									switch( m_inputPorts[ m_firstAvailablePort + index ].DataType )
+									{
+										case WirePortDataType.SAMPLER1D:
+										case WirePortDataType.SAMPLER2D:
+										case WirePortDataType.SAMPLER3D:
+										case WirePortDataType.SAMPLER2DARRAY:
+										case WirePortDataType.SAMPLERCUBE:
+										case WirePortDataType.SAMPLERSTATE:
+											break;
+										default:
+											rect.y += lineSpacing;
+											break;
+									}
 									m_inputPorts[ portIdx ].ShowInternalData( rect , this , true , InputValueStr );
 								}
 
@@ -1013,22 +1065,25 @@ namespace AmplifyShaderEditor
 									{
 										case WirePortDataType.INT:
 										case WirePortDataType.FLOAT:
-										rect.y += 0;// lineSpacing;
+										rect.y += 0;
 										break;
 										case WirePortDataType.FLOAT2:
 										case WirePortDataType.FLOAT3:
 										case WirePortDataType.FLOAT4:
-										rect.y += lineSpacing;//2 * lineSpacing;
+										rect.y += lineSpacing;
 										break;
+										case WirePortDataType.FLOAT2x2:
+											rect.y += 3 * lineHeight + lineHeight / 3;
+											break;
 										case WirePortDataType.FLOAT3x3:
-										rect.y += 5 * lineSpacing;//6 * lineSpacing;
+										rect.y += 5 * lineHeight + lineHeight / 3;
 										break;
 										case WirePortDataType.FLOAT4x4:
-										rect.y += 6 * lineSpacing;//8 * lineSpacing;
+										rect.y += 6 * lineSpacing + lineHeight / 3;
 										break;
-
 									}
 								}
+
 								rect.width = AddRemoveButtonLayoutWidth;
 								if( GUI.Button( rect , string.Empty , UIUtils.PlusStyle ) )
 								{
@@ -1041,7 +1096,6 @@ namespace AmplifyShaderEditor
 									m_actionType = ReordableAction.Remove;
 									m_actionIndex = index;
 								}
-
 							}
 							else
 							{
@@ -1070,7 +1124,7 @@ namespace AmplifyShaderEditor
 				EditorGUILayout.Space();
 				if( m_items.Count == 0 )
 				{
-					EditorGUILayout.HelpBox( "Your list is Empty!\nUse the plus button to add one." , MessageType.Info );
+					NodeUtils.DrawHelpBox( "Your list is Empty!\nUse the plus button to add one." , MessageType.Info );
 				}
 				else
 				{
@@ -1570,11 +1624,15 @@ namespace AmplifyShaderEditor
 
 		public override void ReadFromString( ref string[] nodeParams )
 		{
-			// This node is, by default, created with one input port 
+			// This node is, by default, created with one input port
 			base.ReadFromString( ref nodeParams );
 			m_code = GetCurrentParam( ref nodeParams );
-			m_code = m_code.Replace( Constants.LineFeedSeparator , '\n' );
-			m_code = m_code.Replace( Constants.SemiColonSeparator , ';' );
+			if ( !JsonGraphFormat.LastInstructionFromJson )
+			{
+				// legacy lines escaped newlines/semicolons as '$'/'@'; JSON lines carry the code verbatim
+				m_code = m_code.Replace( Constants.LineFeedSeparator , '\n' );
+				m_code = m_code.Replace( Constants.SemiColonSeparator , ';' );
+			}
 			m_outputTypeIdx = UpgradeTypeIdx( Convert.ToInt32( GetCurrentParam( ref nodeParams ) ) );
 
 			if( m_outputTypeIdx >= AvailableWireTypes.Length )
@@ -1615,10 +1673,14 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
+				m_usedNames.Clear();
 				for( int i = 0 ; i < count ; i++ )
 				{
 					bool foldoutValue = Convert.ToBoolean( GetCurrentParam( ref nodeParams ) );
-					string name = GetCurrentParam( ref nodeParams );
+
+					string name = EnsureUniquePortName( GetCurrentParam( ref nodeParams ) );
+					m_usedNames.Add( name, i );
+
 					WirePortDataType type = (WirePortDataType)Enum.Parse( typeof( WirePortDataType ) , GetCurrentParam( ref nodeParams ) );
 					string internalData = GetCurrentParam( ref nodeParams );
 					VariableQualifiers qualifier = VariableQualifiers.In;
@@ -1714,14 +1776,9 @@ namespace AmplifyShaderEditor
 		{
 			base.WriteToString( ref nodeInfo , ref connectionsInfo );
 
-			m_code = m_code.Replace( Constants.LineFeedSeparator.ToString() , string.Empty );
-			m_code = m_code.Replace( Constants.SemiColonSeparator.ToString() , string.Empty );
 			m_code = UIUtils.ForceLFLineEnding( m_code );
 
-			string parsedCode = m_code.Replace( '\n' , Constants.LineFeedSeparator );
-			parsedCode = parsedCode.Replace( ';' , Constants.SemiColonSeparator );
-
-			IOUtils.AddFieldValueToString( ref nodeInfo , parsedCode );
+			IOUtils.AddFieldValueToString( ref nodeInfo , m_code );
 			IOUtils.AddFieldValueToString( ref nodeInfo , m_outputTypeIdx );
 			//IOUtils.AddFieldValueToString( ref nodeInfo, m_mode == CustomExpressionMode.Call );
 			IOUtils.AddFieldValueToString( ref nodeInfo , m_mode );

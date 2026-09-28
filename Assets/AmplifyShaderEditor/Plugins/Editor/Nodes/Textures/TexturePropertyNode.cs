@@ -744,6 +744,12 @@ namespace AmplifyShaderEditor
 			GUI.Label( newRect, string.Empty, UIUtils.GetCustomStyle( CustomStyle.SamplerFrame ) );
 		}
 
+		// @diogo: the picker path above draws the preview RT with m_drawPreview off, so root the preview pass here too
+		public override bool IsPreviewVisible
+		{
+			get { return base.IsPreviewVisible || ( m_drawPicker && Value != null ); }
+		}
+
 		public override void CheckIfAutoRegister( ref MasterNodeDataCollector dataCollector )
 		{
 			// Also testing inside shader function because node can be used indirectly over a custom expression and directly over a Function Output node

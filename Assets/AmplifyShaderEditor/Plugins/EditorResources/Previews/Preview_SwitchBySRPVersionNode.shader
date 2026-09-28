@@ -42,6 +42,7 @@ Shader "Hidden/SwitchBySRPVersion"
 					case 4: return tex2D( _E, i.uv );
 					case 5: return tex2D( _F, i.uv );
 					case 6: return tex2D( _G, i.uv );
+					case 7: return tex2D( _H, i.uv );
 				}
 				return tex2D( _A, i.uv );
 			}

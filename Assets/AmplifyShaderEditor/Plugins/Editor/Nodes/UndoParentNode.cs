@@ -17,18 +17,13 @@ namespace AmplifyShaderEditor
 
 		public void UndoRecordObject( string name )
 		{
-			UIUtils.MarkUndoAction();
-			UndoUtils.RegisterCompleteObjectUndo( UIUtils.CurrentWindow, name );
-			UndoUtils.RecordObject( this, name );
-		}
-
-		public virtual void RecordObject( string Id )
-		{
-			UndoUtils.RecordObject( this, Id );
-		}
-		public virtual void RecordObjectOnDestroy( string Id )
-		{
-			UndoUtils.RecordObject( this, Id );
+			// Snapshot-based undo: the GUI wrappers call this when a value changes, before the caller
+			// writes the new value back, so the live graph here still holds the pre-edit state. The
+			// gesture variant coalesces a continuous drag/typing into a single undo step.
+			if ( m_containerGraph != null && m_containerGraph.ParentWindow != null )
+			{
+				m_containerGraph.ParentWindow.RegisterGraphUndoGesture( name );
+			}
 		}
 
 		public string EditorGUILayoutStringField( string name, string value, params GUILayoutOption[] options )
@@ -442,6 +437,16 @@ namespace AmplifyShaderEditor
 			if( !newValue.Equals( text ) )
 			{
 				UndoRecordObject( string.Format( MessageFormat, label, ( ( m_nodeAttribs != null ) ? m_nodeAttribs.Name : GetType().ToString() ) ) );
+			}
+			return newValue;
+		}
+
+		public string EditorGUITextField( Rect position, GUIContent content, string text )
+		{
+			string newValue = EditorGUI.TextField( position, content, text );
+			if( !newValue.Equals( text ) )
+			{
+				UndoRecordObject( string.Format( MessageFormat, content, ( ( m_nodeAttribs != null ) ? m_nodeAttribs.Name : GetType().ToString() ) ) );
 			}
 			return newValue;
 		}

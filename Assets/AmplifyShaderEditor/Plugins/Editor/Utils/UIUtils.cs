@@ -222,7 +222,6 @@ namespace AmplifyShaderEditor
 	public class UIUtils
 	{
 		public static string NewTemplateGUID;
-		public static int SerializeHelperCounter = 0;
 		public static bool IgnoreDeselectAll = false;
 
 		public static bool DirtyMask = true;
@@ -397,7 +396,6 @@ namespace AmplifyShaderEditor
 		private static string NumericNamePattern = @"^\d";
 		private static System.Globalization.TextInfo m_textInfo;
 		private static string m_latestOpenedFolder = string.Empty;
-		private static Dictionary<int , UndoParentNode> m_undoHelper = new Dictionary<int , UndoParentNode>();
 
 		private static Dictionary<string , int> AvailableKeywordsDict = new Dictionary<string , int>();
 		public static readonly string[] AvailableKeywords =
@@ -984,11 +982,6 @@ namespace AmplifyShaderEditor
 
 			LinearMaterial = null;
 
-			if( m_undoHelper == null )
-			{
-				m_undoHelper.Clear();
-				m_undoHelper = null;
-			}
 			MaterialInspector.Instance = null;
 		}
 
@@ -1529,7 +1522,7 @@ namespace AmplifyShaderEditor
 
 		public static string CastPortType( ref MasterNodeDataCollector dataCollector , PrecisionType nodePrecision , object value , WirePortDataType oldType , WirePortDataType newType , string parameterName = null )
 		{
-			if( oldType == newType || newType == WirePortDataType.OBJECT )
+			if( oldType == newType || newType == WirePortDataType.OBJECT || oldType == WirePortDataType.OBJECT )
 			{
 				return ( parameterName != null ) ? parameterName : value.ToString();
 			}
@@ -2215,6 +2208,16 @@ namespace AmplifyShaderEditor
 			}
 		}
 
+		// @diogo: preview RT edge size actually in effect: the user preference, optionally halved/quartered
+		// by zoom LOD when Zoom-Scaled Previews is on. Set by the focused window's preview pass; every
+		// preview RT allocation site must read this instead of Preferences.User.PreviewSize (QA #5d).
+		private static int m_currentPreviewSize = 0;
+		public static int CurrentPreviewSize
+		{
+			get { return ( m_currentPreviewSize > 0 ) ? m_currentPreviewSize : Preferences.User.PreviewSize; }
+			set { m_currentPreviewSize = value; }
+		}
+
 		public static Shader CreateNewUnlit()
 		{
 			if( CurrentWindow == null )
@@ -2395,6 +2398,15 @@ namespace AmplifyShaderEditor
 			EditorGUIUtility.labelWidth = newLabelWidth;
 			value = owner.EditorGUIIntField( propertyDrawPos , "  " , value , UIUtils.MainSkin.textField );
 			EditorGUIUtility.labelWidth = labelWidth;
+		}
+
+		// Thin horizontal line used to visually separate the Mode dropdown from the controls below it
+		public static void DrawSeparator()
+		{
+			GUILayout.Space( 2 );
+			Color color = EditorGUIUtility.isProSkin ? new Color( 0.28f, 0.28f, 0.28f, 1.0f ) : new Color( 0.5f, 0.5f, 0.5f, 1.0f );
+			EditorGUI.DrawRect( GUILayoutUtility.GetRect( 0, 1, GUILayout.ExpandWidth( true ) ), color );
+			GUILayout.Space( 2 );
 		}
 
 		public static GUIStyle GetCustomStyle( CustomStyle style )
@@ -2610,6 +2622,16 @@ namespace AmplifyShaderEditor
 			if( CurrentWindow != null )
 			{
 				CurrentWindow.DuplicatePrevBufferInstance.GetFirstAvailableName( nodeId , type , out outProperty , out outInspector , useCustomPrefix , customPrefix );
+			}
+		}
+
+		public static void GetDefaultName( WirePortDataType type , out string outProperty , out string outInspector , bool useCustomPrefix = false , string customPrefix = null )
+		{
+			outProperty = string.Empty;
+			outInspector = string.Empty;
+			if( CurrentWindow != null )
+			{
+				CurrentWindow.DuplicatePrevBufferInstance.GetDefaultName( type , out outProperty , out outInspector , useCustomPrefix , customPrefix );
 			}
 		}
 
@@ -3069,40 +3091,6 @@ namespace AmplifyShaderEditor
 			{
 				ShaderBody += m_shaderIndentTabs + lines[ i ];
 			}
-		}
-
-		public static void ClearUndoHelper()
-		{
-			m_undoHelper.Clear();
-		}
-
-		public static bool CheckUndoNode( ParentNode node )
-		{
-			if( node == null )
-				return false;
-			if( m_undoHelper.ContainsKey( node.UniqueId ) )
-			{
-				return false;
-			}
-
-			m_undoHelper.Add( node.UniqueId , node );
-			EditorUtility.SetDirty( node );
-			return true;
-		}
-
-		public static void MarkUndoAction()
-		{
-			SerializeHelperCounter = 2;
-		}
-
-		public static bool SerializeFromUndo()
-		{
-			if( SerializeHelperCounter > 0 )
-			{
-				SerializeHelperCounter--;
-				return true;
-			}
-			return false;
 		}
 
 		public static int GetKeywordId( string keyword , TemplateSRPType type = TemplateSRPType.BiRP )

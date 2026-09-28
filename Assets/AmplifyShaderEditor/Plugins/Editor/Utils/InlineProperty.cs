@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Globalization;
 
 namespace AmplifyShaderEditor
 {
@@ -41,6 +42,7 @@ namespace AmplifyShaderEditor
 		{
 			m_nodeId = -1;
 			m_active = false;
+			m_nodePropertyName = string.Empty;
 		}
 
 		public void CopyFrom( InlineProperty other )
@@ -288,6 +290,20 @@ namespace AmplifyShaderEditor
 			if ( m_active && !string.IsNullOrEmpty( m_nodePropertyName ) )
 			{
 				m_nodeId = UIUtils.GetFloatIntNodeIdByName( m_nodePropertyName );
+				RevertIfUnresolved();
+			}
+		}
+
+		// @diogo: when an inline reference points at a property that no longer exists (e.g. it came from a node
+		//         or shader function that was since removed), revert to the template-defined value instead of
+		//         keeping a dangling reference. Relies on m_nodeId having just been resolved from the name, so a
+		//         -1 id means the property is genuinely absent from the fully-loaded graph (internal template
+		//         properties are also registered as float/int nodes, so they resolve to a valid id too).
+		public void RevertIfUnresolved()
+		{
+			if ( m_active && m_nodeId == -1 && !string.IsNullOrEmpty( m_nodePropertyName ) )
+			{
+				ResetProperty();
 			}
 		}
 
@@ -334,14 +350,19 @@ namespace AmplifyShaderEditor
 
 		public void WriteToString( ref string nodeInfo )
 		{
+			// @diogo: only persist the property name while the inline property is active; otherwise a stale
+			// name lingers in the data and gets re-read (and possibly re-activated) on the next load
+			string propertyName = m_active ? m_nodePropertyName : string.Empty;
+
 			IOUtils.AddFieldValueToString( ref nodeInfo , m_value );
 			IOUtils.AddFieldValueToString( ref nodeInfo , m_active );
-			IOUtils.AddFieldValueToString( ref nodeInfo, m_nodePropertyName );
+			IOUtils.AddFieldValueToString( ref nodeInfo, propertyName );
 		}
 
 		public string WriteToSingle()
 		{
-			return m_value.ToString( System.Globalization.CultureInfo.InvariantCulture ) + IOUtils.VECTOR_SEPARATOR + m_active + IOUtils.VECTOR_SEPARATOR + m_nodePropertyName;
+			string propertyName = m_active ? m_nodePropertyName : string.Empty;
+			return m_value.ToString( CultureInfo.InvariantCulture ) + IOUtils.VECTOR_SEPARATOR + m_active + IOUtils.VECTOR_SEPARATOR + propertyName;
 		}
 
 		public void SetInlineNodeValue()

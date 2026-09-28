@@ -8,6 +8,68 @@ namespace AmplifyShaderEditor
 {
 	public class NodeUtils
 	{
+		private const float HelpBoxIconWidth = 36;        // icon column inside the box
+		private const float ParamsWindowWidthSlack = 36;  // scroll view margins + scrollbar allowance
+
+		private static GUIStyle m_helpBoxTextStyle = null;
+		private static GUIContent m_tempTextContent = new GUIContent();
+
+		public static float ParametersWindowWidth
+		{
+			get
+			{
+				return ( UIUtils.CurrentWindow != null && UIUtils.CurrentWindow.ParametersWindow != null ) ?
+					UIUtils.CurrentWindow.ParametersWindow.TransformedArea.width : EditorGUIUtility.currentViewWidth;
+			}
+		}
+
+		// Measures the height "text" needs when wrapped inside the node parameters panel. Word-wrapped
+		// controls drawn in there must be given an explicit height; otherwise their reserved height
+		// changes with scrollbar visibility, which can lock the scrollbar on even when content fits
+		public static float MeasureTextHeight( string text, GUIStyle style, float occupiedWidth = 0 )
+		{
+			m_tempTextContent.text = text;
+			return style.CalcHeight( m_tempTextContent, ParametersWindowWidth - ParamsWindowWidthSlack - occupiedWidth );
+		}
+
+		// Stable replacement for EditorGUILayout.HelpBox inside the node parameters scroll view ( see
+		// MeasureTextHeight ); also draws the icon separately since including it in the content makes
+		// CalcHeight undershoot
+		public static void DrawHelpBox( string text, MessageType type )
+		{
+			if ( m_helpBoxTextStyle == null )
+			{
+				// Built from scratch instead of copying EditorStyles.helpBox; copies keep drawing
+				// the box background through HiDPI scaled backgrounds, even when set to none
+				m_helpBoxTextStyle = new GUIStyle();
+				m_helpBoxTextStyle.fontSize = EditorStyles.helpBox.fontSize;
+				m_helpBoxTextStyle.wordWrap = true;
+				m_helpBoxTextStyle.padding = EditorStyles.helpBox.padding;
+				m_helpBoxTextStyle.normal.textColor = EditorStyles.helpBox.normal.textColor;
+			}
+
+			float height = Mathf.Max( MeasureTextHeight( text, m_helpBoxTextStyle, HelpBoxIconWidth ), 40 );
+			Rect rect = EditorGUILayout.GetControlRect( false, height );
+
+			GUI.Label( rect, string.Empty, EditorStyles.helpBox );
+
+			Texture icon = null;
+			switch ( type )
+			{
+				case MessageType.Info: icon = EditorGUIUtility.IconContent( "console.infoicon" ).image; break;
+				case MessageType.Warning: icon = EditorGUIUtility.IconContent( "console.warnicon" ).image; break;
+				case MessageType.Error: icon = EditorGUIUtility.IconContent( "console.erroricon" ).image; break;
+			}
+			if ( icon != null )
+			{
+				Rect iconRect = new Rect( rect.x + 2, rect.y + 4, 32, 32 );
+				GUI.DrawTexture( iconRect, icon, ScaleMode.ScaleToFit );
+			}
+
+			m_tempTextContent.text = text;
+			Rect textRect = new Rect( rect.x + HelpBoxIconWidth, rect.y, rect.width - HelpBoxIconWidth, rect.height );
+			GUI.Label( textRect, m_tempTextContent, m_helpBoxTextStyle );
+		}
 
 		public delegate void DrawPropertySection();
 

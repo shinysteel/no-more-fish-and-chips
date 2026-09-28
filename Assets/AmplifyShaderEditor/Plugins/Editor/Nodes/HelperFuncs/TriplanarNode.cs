@@ -1549,23 +1549,5 @@ namespace AmplifyShaderEditor
 			//IOUtils.AddFieldValueToString( ref nodeInfo, m_arraySupport );
 			IOUtils.AddFieldValueToString( ref nodeInfo, m_normalSpace );
 		}
-		public override void RefreshOnUndo()
-		{
-			base.RefreshOnUndo();
-			if( m_topTexture != null )
-			{
-				m_topTexture.BeginPropertyFromInspectorCheck();
-			}
-
-			if( m_midTexture != null )
-			{
-				m_midTexture.BeginPropertyFromInspectorCheck();
-			}
-
-			if( m_botTexture != null )
-			{
-				m_botTexture.BeginPropertyFromInspectorCheck();
-			}
-		}
 	}
 }

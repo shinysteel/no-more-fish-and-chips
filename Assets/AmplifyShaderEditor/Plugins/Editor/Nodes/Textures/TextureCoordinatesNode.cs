@@ -344,6 +344,7 @@ namespace AmplifyShaderEditor
 				UpdatePorts();
 			}
 		}
+		public override int ReferencedNodeId { get { return m_referenceNodeId > -1 ? m_referenceNodeId : base.ReferencedNodeId; } }
 
 		public override void ReconnectClipboardReferences( Clipboard clipboard )
 		{

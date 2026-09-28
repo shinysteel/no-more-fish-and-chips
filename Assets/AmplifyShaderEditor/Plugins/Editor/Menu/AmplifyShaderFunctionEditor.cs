@@ -119,7 +119,7 @@ namespace AmplifyShaderEditor
 
 				GUILayout.Space( 3 );
 
-				if( GUILayout.Button( m_dependencies[ i ].AssetName, "minibuttonleft" ) )
+				if( GUILayout.Button( new GUIContent( m_dependencies[ i ].AssetName, m_dependencies[ i ].AssetPath ), "minibuttonleft" ) )
 				{
 					SelectAtPath( m_dependencies[ i ].AssetPath );
 				}

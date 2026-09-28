@@ -14,13 +14,12 @@ namespace AmplifyShaderEditor
 {
 	// Disabling Substance Deprecated warning
 
-	public class AmplifyShaderEditorWindow : SearchableEditorWindow, ISerializationCallbackReceiver
+	public partial class AmplifyShaderEditorWindow : SearchableEditorWindow, ISerializationCallbackReceiver
 	{
 		public const string PreviewSizeGlobalVariable = "_ASEPreviewSize";
 
 		public const double InactivitySaveTime = 1.0;
 
-		public const string ASEFileList = "ASEfileList";
 		public const string CopyCommand = "Copy";
 		public const string PasteCommand = "Paste";
 		public const string SelectAll = "SelectAll";
@@ -114,11 +113,61 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private bool m_shaderIsModified = false;
 
+		// Checksum of the graph as it was at the last save/load. The Save indicator stays green
+		// ( unmodified ) while the current graph still matches this; editing away from it - or
+		// undoing/redoing to a state that differs - turns it off. See EvaluateModifiedState.
+		[SerializeField]
+		private string m_savedGraphChecksum = string.Empty;
+
+		// Requests a one-shot re-evaluation of the modified state on the next OnGUI, set at discrete
+		// commit points ( edit-gesture end, undo/redo ) so the whole-graph checksum is computed once per
+		// commit instead of every frame.
+		private bool m_recheckModified = false;
+
+		// When an undo/redo triggers the re-evaluation, this holds the exact snapshot string the undo
+		// step restored ( the pre-reload bytes ). EvaluateModifiedState compares it directly instead of
+		// re-serializing the reloaded graph, which would not reproduce those bytes. Null for plain edits.
+		private string m_recheckSnapshot = null;
+
+		// @diogo: diagnostic only ( UndoProfiling ): the saved baseline bytes behind m_savedGraphChecksum,
+		// kept so a modified verdict on an undo/redo restore can be diffed against the baseline
+		private string m_savedGraphSnapshot = null;
+
+		// Latched after an undo/redo: the checksum verdict EvaluateModifiedState just computed is
+		// authoritative until the next real edit. The freshly reloaded graph keeps re-asserting SaveIsDirty
+		// for several frames ( node/signal churn from the rebuild ), and the OnGUI dirty path would
+		// otherwise flip the indicator back to modified frame after frame. While this is set that path
+		// consumes the dirty without overriding the verdict. Cleared by any genuine edit ( RegisterGraphUndo )
+		// and by a fresh baseline capture ( save/load ).
+		private bool m_undoVerdictActive = false;
+
+		// Auto-backup scheduling. Editor-time based and intentionally not serialized: a domain reload
+		// re-arms the timer and re-takes a first backup, which is harmless. m_lastAutoBackupChecksum lets
+		// the timer skip writing when the graph has not changed since the previous backup, so an idle
+		// graph does not fill the history with identical copies.
+		private double m_nextAutoBackupTime = 0;
+		private string m_lastAutoBackupChecksum = string.Empty;
+
+		// Throttles the periodic repaint that keeps the Auto Backup panel's relative timestamps current
+		// while that tab is open ( see UpdateNodePreviewListAndTime ).
+		private double m_nextAutoBackupRepaint = 0;
+
+		// Snapshot the backup panel asked to restore. Deferred and applied at a controlled point in OnGUI
+		// ( same place the undo reload runs ) so the graph rebuild never happens mid-draw.
+		private string m_pendingBackupSnapshot = null;
+
 		[SerializeField]
 		private string m_lastOpenedLocation = string.Empty;
 
 		[SerializeField]
 		private bool m_zoomChanged = true;
+
+		// @diogo: zoom-scaled previews debounce (QA #5d): the size the current zoom LOD asks for and when it
+		// first differed from the size in effect. Committed only after it holds for a moment AND the zoom
+		// itself stopped changing, so the full preview re-render never lands mid-gesture.
+		private int m_zoomPreviewCandidateSize = 0;
+		private double m_zoomPreviewCandidateTime = 0;
+		private float m_zoomPreviewLastZoom = -1;
 
 		[SerializeField]
 		private float m_lastWindowWidth = 0;
@@ -152,7 +201,6 @@ namespace AmplifyShaderEditor
 		private Rect m_multipleSelectionArea = new Rect( 0, 0, 0, 0 );
 		private bool m_autoPanDirActive = false;
 		private bool m_forceAutoPanDir = false;
-		private bool m_refreshOnUndo = false;
 		private bool m_loadShaderOnSelection = false;
 		private bool m_refreshAvailableNodes = false;
 		private double m_time;
@@ -169,8 +217,6 @@ namespace AmplifyShaderEditor
 		private Clipboard m_clipboard;
 
 		//Node Parameters Window
-		[SerializeField]
-		private bool m_nodeParametersWindowMaximized = true;
 		private NodeParametersWindow m_nodeParametersWindow;
 
 		// Tools Window
@@ -188,8 +234,6 @@ namespace AmplifyShaderEditor
 		private TipsWindow m_tipsWindow;
 
 		//Palette Window
-		[SerializeField]
-		private bool m_paletteWindowMaximized = true;
 		private PaletteWindow m_paletteWindow;
 
 		private ContextPalette m_contextPalette;
@@ -259,6 +303,8 @@ namespace AmplifyShaderEditor
 		//private int m_cachedProjectInLinearId = -1;
 		private int m_cachedEditorTimeId = -1;
 		private int m_cachedEditorDeltaTimeId = -1;
+		// @diogo: EMA-smoothed preview delta time, stands in for Time.smoothDeltaTime in the Time node's smoothDt preview.
+		private double m_previewSmoothDeltaTime = 0;
 		//private float m_repaintFrequency = 15;
 		//private double m_repaintTimestamp = 0;
 
@@ -282,7 +328,40 @@ namespace AmplifyShaderEditor
 		private List<Material> m_materialsToUpdate = new List<Material>();
 
 		private NodeExporterUtils m_nodeExporterUtils;
-		private bool m_performFullUndoRegister = true;
+
+		// Snapshot-based undo ( behind Preferences.User.EnableUndo ). See GraphUndoProxy.
+		// @diogo: serialized so the reference survives domain reload; Unity's undo records point at this
+		// instance, and the post-reload LoadFromDisk must clear THEM in FullCleanUndoStack — losing the
+		// reference orphans those records and leaves dead ASE entries on the undo stack
+		[SerializeField]
+		private GraphUndoProxy m_undoProxy;
+		[NonSerialized]
+		private bool m_reloadFromSnapshot = false;
+		// True once a continuous gesture ( slider drag, node move, typing ) has taken its single
+		// pre-edit snapshot. Reset on the next mouse press ( and on undo restore ) so each gesture is
+		// one undo step; a release must not reset it, its own event still carries the gesture's final
+		// value change.
+		[NonSerialized]
+		private bool m_gestureUndoActive = false;
+		// @diogo: >0 while a non-user cascade runs ( post-load/deserialize template refresh, undo restore );
+		// RegisterGraphUndo is a no-op then, so mechanical DeleteConnection calls don't pollute the undo stack
+		[NonSerialized]
+		private int m_suppressUndoRegistration = 0;
+		// @diogo: latest serialize of the live graph, handed over by the proxy whenever Unity snapshots
+		// it - including the redo-stack capture inside every undo/redo, which runs right before the
+		// restore. The patcher reuses it as its current-state capture; a stale value can only cost a
+		// verify failure ( the oracle re-serializes reality ), answered by one honest-serialize retry.
+		[NonSerialized]
+		private string m_lastLiveGraphSerialize = null;
+		// @diogo: per-phase timing from the last ReloadGraphFromSnapshot call, read by RestoreFromUndoSnapshot
+		[NonSerialized]
+		private double m_lastReloadLoadMs = 0.0;
+		[NonSerialized]
+		private double m_lastReloadRefreshMs = 0.0;
+		[NonSerialized]
+		private double m_lastReloadViewStateMs = 0.0;
+		[NonSerialized]
+		private int m_lastReloadNodeCount = 0;
 
 		//[SerializeField]
 		//private AmplifyShaderFunction m_openedShaderFunction;
@@ -299,6 +378,9 @@ namespace AmplifyShaderEditor
 		private AvailableShaderTypes m_replaceMasterNodeType;
 		private string m_replaceMasterNodeData;
 		private bool m_replaceMasterNodeDataFromCache;
+		// Section foldouts ( Common Properties / SubShader / Pass / LOD ) captured from the master
+		// node being replaced, reapplied to the new one so a template switch keeps them as-is.
+		private string[] m_replaceMasterNodeViewState = null;
 		private NodeWireReferencesUtils m_wireReferenceUtils = new NodeWireReferencesUtils();
 
 		private ParentNode m_nodeToFocus = null;
@@ -324,6 +406,14 @@ namespace AmplifyShaderEditor
 		public double m_fpsTime = 0;
 		public string m_fpsDisplay = string.Empty;
 
+		// @diogo: canvas stats overlay ( Preferences.User.ShowStats ), EMA-smoothed timings in ms (QA #5).
+		private readonly System.Diagnostics.Stopwatch m_statsStopwatch = new System.Diagnostics.Stopwatch();
+		private double m_statsFrameMs = 0;
+		private double m_statsPreviewPassMs = 0;
+		private double m_statsVramMB = 0;
+		private double m_statsVramTimer = 999;
+		private GUIStyle m_statsStyle = null;
+
 #if UNITY_EDITOR_WIN
 		// ScreenShot vars
 		IntPtr m_aseHandle;
@@ -334,9 +424,6 @@ namespace AmplifyShaderEditor
 		private bool m_takeScreenShot = false;
 #endif
 		public bool CheckFunctions = false;
-
-		private static System.Diagnostics.Stopwatch m_batchTimer = new System.Diagnostics.Stopwatch();
-		private static Action m_batchOnFinish = null;
 
 		// Unity Menu item
 		[MenuItem( "Window/Amplify Shader Editor/Open Canvas", false, 1000 )]
@@ -559,29 +646,6 @@ namespace AmplifyShaderEditor
 			}
 		}
 
-		public static void LoadAndSaveList( string[] assetList, Action onFinish = null )
-		{
-			m_batchOnFinish += onFinish;
-
-			m_batchTimer.Reset();
-			m_batchTimer.Start();
-
-			EditorPrefs.SetString( ASEFileList , string.Join( ",", assetList ) );
-			if( assetList[ 0 ].EndsWith( ".asset" ) )
-			{
-				var obj = AssetDatabase.LoadAssetAtPath<AmplifyShaderFunction>( assetList[ 0 ] );
-				AmplifyShaderEditorWindow.LoadShaderFunctionToASE( obj, false , true );
-			}
-			else
-			{
-				var obj = AssetDatabase.LoadAssetAtPath<Shader>( assetList[ 0 ] );
-				AmplifyShaderEditorWindow.ConvertShaderToASE( obj, true );
-			}
-
-			UIUtils.CurrentWindow.State = AmplifyShaderEditorWindow.OpenSaveState.OPEN;
-			UIUtils.CurrentWindow.Repaint();
-		}
-
 		public static AmplifyShaderEditorWindow OpenWindow( string title = null, Texture icon = null )
 		{
 			AmplifyShaderEditorWindow currentWindow = (AmplifyShaderEditorWindow)AmplifyShaderEditorWindow.GetWindow( typeof( AmplifyShaderEditorWindow ), false );
@@ -647,7 +711,7 @@ namespace AmplifyShaderEditor
 			ASEPackageManagerHelper.RequestInfo();
 			ASEPackageManagerHelper.Update();
 
-			Shader.SetGlobalVector( PreviewSizeGlobalVariable, new Vector4( Preferences.User.PreviewSize , Preferences.User.PreviewSize , 0, 0 ) );
+			Shader.SetGlobalVector( PreviewSizeGlobalVariable, new Vector4( UIUtils.CurrentPreviewSize , UIUtils.CurrentPreviewSize , 0, 0 ) );
 
 			if( m_innerEditorVariables == null )
 			{
@@ -662,6 +726,17 @@ namespace AmplifyShaderEditor
 				m_mainGraphInstance.ParentWindow = this;
 				m_mainGraphInstance.SetGraphId( 0 );
 			}
+
+			if ( m_undoProxy == null )
+			{
+				m_undoProxy = CreateInstance<GraphUndoProxy>();
+				m_undoProxy.hideFlags = HideFlags.HideAndDontSave;
+			}
+			m_undoProxy.Init( this );
+			// @diogo: the domain-reload deserialize sets PendingRestore; consume it so the next foreign
+			// undo pop cannot trigger a stale restore
+			m_undoProxy.PendingRestore = false;
+
 			m_mainGraphInstance.ResetEvents();
 			m_mainGraphInstance.OnNodeEvent += OnNodeStoppedMovingEvent;
 			m_mainGraphInstance.OnMaterialUpdatedEvent += OnMaterialUpdated;
@@ -719,13 +794,9 @@ namespace AmplifyShaderEditor
 			m_focusOnSelectionTimestamp = EditorApplication.timeSinceStartup;
 			m_focusOnMasterNodeTimestamp = EditorApplication.timeSinceStartup;
 
+			// @diogo: panel open/close is machine-global (EditorPrefs); no per-graph override, so it survives a full restart
 			m_nodeParametersWindow.IsMaximized = m_innerEditorVariables.NodeParametersMaximized;
-			if( DebugConsoleWindow.UseShaderPanelsInfo )
-				m_nodeParametersWindow.IsMaximized = m_nodeParametersWindowMaximized;
-
 			m_paletteWindow.IsMaximized = m_innerEditorVariables.NodePaletteMaximized;
-			if( DebugConsoleWindow.UseShaderPanelsInfo )
-				m_paletteWindow.IsMaximized = m_paletteWindowMaximized;
 
 			m_shortcutManager = new ShortcutsManager();
 			// REGISTER NODE SHORTCUTS
@@ -769,8 +840,7 @@ namespace AmplifyShaderEditor
 			{
 				// Create commentary
 				ParentNode[] selectedNodes = m_mainGraphInstance.SelectedNodes.ToArray();
-				UIUtils.MarkUndoAction();
-				UndoUtils.RegisterCompleteObjectUndo( this, "Adding Commentary Node" );
+				RegisterGraphUndo( "Adding Commentary Node" );
 				CommentaryNode node = m_mainGraphInstance.CreateNode( m_commentaryTypeNode, true, -1, false ) as CommentaryNode;
 				node.CreateFromSelectedNodes( TranformedMousePos, selectedNodes );
 				node.Focus();
@@ -929,12 +999,39 @@ namespace AmplifyShaderEditor
 			m_repaintIsDirty = true;
 			m_saveIsDirty = true;
 			m_removedKeyboardFocus = true;
-			m_refreshOnUndo = true;
+
+			// Snapshot-based undo: rebuild the live graph on the next OnGUI ( cannot do it here,
+			// mid-callback ) — but only if Unity actually restored *this* window's proxy, signalled by
+			// PendingRestore ( set in the proxy's OnAfterDeserialize ). undoRedoPerformed is a global
+			// callback, so without this gate every other open ASE window, and any unrelated Unity undo,
+			// would clobber its graph by reloading a stale snapshot.
+			if ( Preferences.User.EnableUndo && m_undoProxy != null && m_undoProxy.PendingRestore )
+			{
+				m_undoProxy.PendingRestore = false;
+				m_reloadFromSnapshot = true;
+			}
+
+			// @diogo: diagnostic: one line per Ctrl+Z/Y press; "proxy restored: no" means the popped entry was a foreign object (e.g. the material)
+			if ( Preferences.User.UndoProfiling )
+			{
+				Debug.Log( string.Format( "[ASE Undo] undo/redo performed ( proxy restored: {0}, current group: {1} \"{2}\", proxy {3}, deserialized x{4} )", m_reloadFromSnapshot ? "yes" : "no",
+					Undo.GetCurrentGroup(), Undo.GetCurrentGroupName(), m_undoProxy != null ? AssetUtils.GetEntityId( m_undoProxy ).ToString() : "0", m_undoProxy != null ? m_undoProxy.DeserializeCount : 0 ) );
+			}
 		}
 
 		void Destroy()
 		{
+			// @diogo: undoRedoPerformed is a static event; without this a closed window stays subscribed until domain reload
+			UndoUtils.UnregisterUndoRedoCallback( UndoRedoPerformed );
+
 			UndoUtils.ClearUndo( this );
+
+			if ( m_undoProxy != null )
+			{
+				UndoUtils.ClearUndo( m_undoProxy );
+				DestroyImmediate( m_undoProxy );
+				m_undoProxy = null;
+			}
 
 			m_initialized = false;
 
@@ -955,6 +1052,7 @@ namespace AmplifyShaderEditor
 			m_registeredMenus.Clear();
 			m_registeredMenus = null;
 
+			UIUtils.CurrentWindow = this;
 			m_mainGraphInstance.Destroy();
 			ScriptableObject.DestroyImmediate( m_mainGraphInstance );
 			m_mainGraphInstance = null;
@@ -1058,7 +1156,11 @@ namespace AmplifyShaderEditor
 		}
 
 		[OnOpenAsset(0)]
-		static bool OnOpenAsset( int instanceID, int line )
+	#if UNITY_6000_4_OR_NEWER
+		static bool OnOpenAsset( EntityId entityId, int line )
+	#else
+		static bool OnOpenAsset( int entityId, int line )
+	#endif
 		{
 			// This test is needed since it is what is used when we both click the button to open generated code inside the canvas
 			// ( in there we call AssetDatabase.OpenAsset with line set to 1 to let ASE know that we want to ignore normal shader opening )
@@ -1070,11 +1172,7 @@ namespace AmplifyShaderEditor
 				return false;
 			}
 
-		#if UNITY_6000_3_OR_NEWER
-			UnityEngine.Object selection = EditorUtility.EntityIdToObject( instanceID );
-		#else
-			UnityEngine.Object selection = EditorUtility.InstanceIDToObject( instanceID );
-		#endif
+			UnityEngine.Object selection = AssetUtils.EntityIdToObject( new AssetUtils.EntityId( entityId ) );
 
 			ASEPackageManagerHelper.RequestInfo();
 			ASEPackageManagerHelper.Update();
@@ -1158,24 +1256,9 @@ namespace AmplifyShaderEditor
 		[MenuItem( "Assets/Create/Shader/Amplify Surface Shader" )]
 		static void CreateConfirmationStandardShader()
 		{
-			//string path = AssetDatabase.GetAssetPath( Selection.activeObject );
-			//if( path == "" )
-			//{
-			//	path = "Assets";
-			//}
-			//else if( System.IO.Path.GetExtension( path ) != "" )
-			//{
-			//	path = path.Replace( System.IO.Path.GetFileName( AssetDatabase.GetAssetPath( Selection.activeObject ) ), "" );
-			//}
-
-			//string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( path + "/New Amplify Shader.shader" );
 			var endNameEditAction = ScriptableObject.CreateInstance<DoCreateStandardShader>();
-			ProjectWindowUtil.StartNameEditingIfProjectWindowExists( 0, endNameEditAction, "New Amplify Shader.shader"/*assetPathAndName*/, AssetPreview.GetMiniTypeThumbnail( typeof( Shader ) ), null );
+			ProjectWindowUtil.StartNameEditingIfProjectWindowExists( AssetUtils.EntityId.None, endNameEditAction, "New Amplify Shader.shader", AssetPreview.GetMiniTypeThumbnail( typeof( Shader ) ), null );
 		}
-		//static void CreateNewShader(  )
-		//{
-		//	CreateNewShader( null, null );
-		//}
 
 		static void CreateNewShader( string customPath , string customShaderName )
 		{
@@ -1234,19 +1317,8 @@ namespace AmplifyShaderEditor
 		public static void CreateConfirmationTemplateShader( string templateGuid )
 		{
 			UIUtils.NewTemplateGUID = templateGuid;
-			//string path = AssetDatabase.GetAssetPath( Selection.activeObject );
-			//if( path == "" )
-			//{
-			//	path = "Assets";
-			//}
-			//else if( System.IO.Path.GetExtension( path ) != "" )
-			//{
-			//	path = path.Replace( System.IO.Path.GetFileName( AssetDatabase.GetAssetPath( Selection.activeObject ) ), "" );
-			//}
-
-			//string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( path + "/New Amplify Shader.shader" );
 			var endNameEditAction = ScriptableObject.CreateInstance<DoCreateTemplateShader>();
-			ProjectWindowUtil.StartNameEditingIfProjectWindowExists( 0, endNameEditAction, "New Amplify Shader.shader"/*assetPathAndName*/, AssetPreview.GetMiniTypeThumbnail( typeof( Shader ) ), null );
+			ProjectWindowUtil.StartNameEditingIfProjectWindowExists( AssetUtils.EntityId.None, endNameEditAction, "New Amplify Shader.shader", AssetPreview.GetMiniTypeThumbnail( typeof( Shader ) ), null );
 		}
 
 		public static Shader CreateNewTemplateShader( string templateGUID , string customPath = null, string customShaderName = null )
@@ -1292,21 +1364,8 @@ namespace AmplifyShaderEditor
 		static void CreateNewShaderFunction()
 		{
 			AmplifyShaderFunction asset = ScriptableObject.CreateInstance<AmplifyShaderFunction>();
-
-			//string path = AssetDatabase.GetAssetPath( Selection.activeObject );
-			//if( path == "" )
-			//{
-			//	path = "Assets";
-			//}
-			//else if( System.IO.Path.GetExtension( path ) != "" )
-			//{
-			//	path = path.Replace( System.IO.Path.GetFileName( AssetDatabase.GetAssetPath( Selection.activeObject ) ), "" );
-			//}
-
-			//string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath( path + "/New ShaderFunction.asset" );
-
 			var endNameEditAction = ScriptableObject.CreateInstance<DoCreateFunction>();
-			ProjectWindowUtil.StartNameEditingIfProjectWindowExists( asset.GetInstanceID(), endNameEditAction, "New ShaderFunction.asset"/*assetPathAndName*/, AssetPreview.GetMiniThumbnail( asset ), null );
+			ProjectWindowUtil.StartNameEditingIfProjectWindowExists( AssetUtils.GetEntityId( asset), endNameEditAction, "New Shader Function.asset", AssetPreview.GetMiniThumbnail( asset ), null );
 		}
 
 		public void UpdateTabTitle( string newTitle, bool modified )
@@ -1496,7 +1555,6 @@ namespace AmplifyShaderEditor
 			GraphCount = 1;
 
 			FullCleanUndoStack();
-			m_performFullUndoRegister = true;
 			m_toolsWindow.BorderStyle = null;
 			m_selectionMode = ASESelectionMode.Shader;
 			ResetCameraSettings();
@@ -1551,6 +1609,20 @@ namespace AmplifyShaderEditor
 			//return m_mainGraphInstance.CurrentMasterNode.CurrentShader;
 		}
 
+		private void FinishedShaderLoadLog( double compileTimeInSeconds )
+		{
+			string name = string.Empty;
+			if ( m_mainGraphInstance.CurrentShader != null )
+			{
+				name = " \"" + AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShader ) + "\"";
+			}
+			else if ( m_mainGraphInstance.CurrentShaderFunction != null )
+			{
+				name = " \"" + AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction ) + "\"";
+			}
+			Debug.Log( "[AmplifyShaderEditor] Finished loading" + name + " in " + compileTimeInSeconds.ToString( "0.00" ) + " seconds." );
+		}
+
 		private void FinishedShaderCompileLog( double compileTimeInSeconds )
 		{
 			string name = string.Empty;
@@ -1580,7 +1652,10 @@ namespace AmplifyShaderEditor
 				return false;
 			}
 
-			FullCleanUndoStack();
+			// No undo-stack clear here: under the snapshot model the proxy keeps its history as
+			// serialized strings decoupled from the live nodes, so it stays valid across a save ( saving
+			// writes the shader, it does not reload the graph ). Clearing was a legacy per-object-undo
+			// safeguard; with live/auto-save ( SaveToDisk on every action ) it wiped undo every edit.
 
 			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
@@ -1704,6 +1779,14 @@ namespace AmplifyShaderEditor
 				m_lastpath = AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction );
 				//EditorPrefs.SetString( IOUtils.LAST_OPENED_OBJ_ID, AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction ) );
 				succeeded = true;
+			}
+
+			if ( succeeded )
+			{
+				// The current graph is now the persisted state; make it the baseline the Save
+				// indicator compares against.
+				CaptureSavedChecksum();
+				MigrateUnsavedBackupHistory();
 			}
 
 			s_isSavingToDisk = false;
@@ -2125,6 +2208,12 @@ namespace AmplifyShaderEditor
 		{
 			Focus();
 
+			// @diogo: a canvas click lands outside the palette; commit any in-progress backup rename and clear its selection.
+			if ( m_paletteWindow != null )
+			{
+				m_paletteWindow.CommitAndClearBackupSelection();
+			}
+
 			if( m_lastKeyPressed == KeyCode.Q )
 			{
 				m_rmbStartPos = m_currentMousePos2D;
@@ -2257,10 +2346,7 @@ namespace AmplifyShaderEditor
 
 								if( doubleTap )
 								{
-									UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoCreateConnectionId );
-									UndoUtils.RegisterCompleteObjectUndo( m_mainGraphInstance, Constants.UndoCreateConnectionId );
-									UndoUtils.RecordObject( outNode, Constants.UndoCreateConnectionId );
-									UndoUtils.RecordObject( inNode, Constants.UndoCreateConnectionId );
+									RegisterGraphUndo( Constants.UndoCreateConnectionId );
 
 									ParentNode wireNode = m_mainGraphInstance.CreateNode( typeof( WireNode ), true );
 									if( wireNode != null )
@@ -2356,16 +2442,12 @@ namespace AmplifyShaderEditor
 					ParentNode outputNode = m_mainGraphInstance.GetNode( outputPort.NodeId );
 					bool outputIsWireNode = outputNode is WireNode;
 
-					UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoCreateConnectionId );
-					node.RecordObject( Constants.UndoCreateConnectionId );
-					outputNode.RecordObject( Constants.UndoCreateConnectionId );
+					RegisterGraphUndo( Constants.UndoCreateConnectionId );
 
 					List<InputPort> inputPorts = new List<InputPort>();
 					for( int i = 0; i < node.OutputPorts[ 0 ].ConnectionCount; i++ )
 					{
 						InputPort inputPort = node.OutputPorts[ 0 ].GetInputConnection( i );
-						ParentNode inputNode = m_mainGraphInstance.GetNode( inputPort.NodeId );
-						inputNode.RecordObject( Constants.UndoCreateConnectionId );
 						inputPorts.Add( inputPort );
 					}
 
@@ -2541,10 +2623,7 @@ namespace AmplifyShaderEditor
 
 							ParentNode originNode = m_mainGraphInstance.GetNode( m_wireReferenceUtils.InputPortReference.NodeId );
 							InputPort inputPort = originNode.GetInputPortByUniqueId( m_wireReferenceUtils.InputPortReference.PortId );
-							UIUtils.MarkUndoAction();
-							UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoCreateConnectionId );
-							originNode.RecordObject( Constants.UndoCreateConnectionId );
-							targetNode.RecordObject( Constants.UndoCreateConnectionId );
+							RegisterGraphUndo( Constants.UndoCreateConnectionId );
 
 							if( inputPort.NotFreeForAllTypes && outputPort.NotFreeForAllTypes )
 							{
@@ -2613,10 +2692,7 @@ namespace AmplifyShaderEditor
 							ParentNode originNode = m_mainGraphInstance.GetNode( m_wireReferenceUtils.OutputPortReference.NodeId );
 							OutputPort outputPort = originNode.GetOutputPortByUniqueId( m_wireReferenceUtils.OutputPortReference.PortId );
 
-							UIUtils.MarkUndoAction();
-							UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoCreateConnectionId );
-							originNode.RecordObject( Constants.UndoCreateConnectionId );
-							targetNode.RecordObject( Constants.UndoCreateConnectionId );
+							RegisterGraphUndo( Constants.UndoCreateConnectionId );
 
 							if( inputPort.NotFreeForAllTypes && outputPort.NotFreeForAllTypes )
 							{
@@ -2773,10 +2849,7 @@ namespace AmplifyShaderEditor
 						ParentNode selectedNode = CurrentGraph.SelectedNodes[ 0 ];
 						if( selectedNode.InputPorts.Count > 0 && selectedNode.OutputPorts.Count > 0 )
 						{
-							UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoCreateConnectionId );
-							selectedNode.RecordObject( Constants.UndoCreateConnectionId );
-							inNode.RecordObject( Constants.UndoCreateConnectionId );
-							outNode.RecordObject( Constants.UndoCreateConnectionId );
+							RegisterGraphUndo( Constants.UndoCreateConnectionId );
 
 							m_mainGraphInstance.CreateConnection( selectedNode.UniqueId, selectedNode.InputPorts[ 0 ].PortId, outputPort.NodeId, outputPort.PortId );
 							m_mainGraphInstance.CreateConnection( inputPort.NodeId, inputPort.PortId, selectedNode.UniqueId, selectedNode.OutputPorts[ 0 ].PortId );
@@ -2805,9 +2878,7 @@ namespace AmplifyShaderEditor
 				{
 					if( registerUndo )
 					{
-						UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoCreateConnectionId );
-						inNode.RecordObject( Constants.UndoCreateConnectionId );
-						outNode.RecordObject( Constants.UndoCreateConnectionId );
+						RegisterGraphUndo( Constants.UndoCreateConnectionId );
 					}
 
 					if( inPort.ConnectTo( outNodeId, outPortId, outPort.DataType, inPort.TypeLocked ) )
@@ -2881,6 +2952,14 @@ namespace AmplifyShaderEditor
 			// Only supporting single drag&drop object selection
 			if( droppedObjs.Length == 1 )
 			{
+				// Material property dragged from the master node Material Properties list
+				PropertyNode droppedProperty = droppedObjs[ 0 ] as PropertyNode;
+				if( droppedProperty != null )
+				{
+					CreateNodeReferencingProperty( droppedProperty );
+					return;
+				}
+
 				ShaderIsModified = true;
 				SetSaveIsDirty();
 				// Check if its a shader, material or game object  and if so load the shader graph code from it
@@ -2956,6 +3035,36 @@ namespace AmplifyShaderEditor
 					}
 				}
 			}
+		}
+
+		void CreateNodeReferencingProperty( PropertyNode propertyNode )
+		{
+			// Dropped property node must belong to the currently edited graph
+			if( m_mainGraphInstance.GetNode( propertyNode.UniqueId ) != propertyNode )
+				return;
+
+			// Avoid selecting the new node so the master node properties panel stays in place,
+			// allowing other entries to be dragged from the Material Properties list in sequence
+			SamplerNode droppedSampler = propertyNode as SamplerNode;
+			if( droppedSampler != null )
+			{
+				SamplerNode newSampler = CreateNode( typeof( SamplerNode ), TranformedMousePos, selectNode: false ) as SamplerNode;
+				newSampler.SetToReference( droppedSampler );
+			}
+			else if( propertyNode.CanBeReferenced )
+			{
+				PropertyNode newProperty = CreateNode( propertyNode.GetType(), TranformedMousePos, selectNode: false ) as PropertyNode;
+				newProperty.SetPropertyReference( propertyNode );
+			}
+			else
+			{
+				ShowMessage( string.Format( "Property '{0}' doesn't support being referenced", propertyNode.PropertyInspectorName ) );
+				return;
+			}
+
+			ShaderIsModified = true;
+			SetSaveIsDirty();
+			ForceRepaint();
 		}
 
 		public bool SearchFunctionNodeRecursively( AmplifyShaderFunction function )
@@ -3259,7 +3368,6 @@ namespace AmplifyShaderEditor
 			if( m_mainGraphInstance.SelectedNodes.Count == 0 )
 				return;
 
-			UIUtils.ClearUndoHelper();
 			List<ParentNode> selectedNodeList = new List<ParentNode>( m_mainGraphInstance.SelectedNodes.Count );
 			foreach( var node in m_mainGraphInstance.SelectedNodes )
 			{
@@ -3271,73 +3379,13 @@ namespace AmplifyShaderEditor
 				//}
 
 				node.Rewire();
-				UIUtils.CheckUndoNode( node );
 				selectedNodeList.Add( node );
 			}
 
 			var selectedNodes = selectedNodeList.ToArray();
 
-			//Check nodes connected to deleted nodes to preserve connections on undo
-			List<ParentNode> extraNodes = new List<ParentNode>();
-			for( int selectedNodeIdx = 0; selectedNodeIdx < selectedNodes.Length; selectedNodeIdx++ )
-			{
-				// Check inputs
-				{
-					int inputIdxCount = selectedNodes[ selectedNodeIdx ].InputPorts.Count;
-					if( inputIdxCount > 0 )
-					{
-						for( int inputIdx = 0; inputIdx < inputIdxCount; inputIdx++ )
-						{
-							if( selectedNodes[ selectedNodeIdx ].InputPorts[ inputIdx ].IsConnected )
-							{
-								int nodeIdx = selectedNodes[ selectedNodeIdx ].InputPorts[ inputIdx ].ExternalReferences[ 0 ].NodeId;
-								if( nodeIdx > -1 )
-								{
-									ParentNode node = m_mainGraphInstance.GetNode( nodeIdx );
-									if( node != null && UIUtils.CheckUndoNode( node ) )
-									{
-										extraNodes.Add( node );
-									}
-								}
-							}
-						}
-					}
-				}
-
-				// Check outputs
-				int outputIdxCount = selectedNodes[ selectedNodeIdx ].OutputPorts.Count;
-				if( outputIdxCount > 0 )
-				{
-					for( int outputIdx = 0; outputIdx < outputIdxCount; outputIdx++ )
-					{
-						int inputIdxCount = selectedNodes[ selectedNodeIdx ].OutputPorts[ outputIdx ].ExternalReferences.Count;
-						if( inputIdxCount > 0 )
-						{
-							for( int inputIdx = 0; inputIdx < inputIdxCount; inputIdx++ )
-							{
-								int nodeIdx = selectedNodes[ selectedNodeIdx ].OutputPorts[ outputIdx ].ExternalReferences[ inputIdx ].NodeId;
-								if( nodeIdx > -1 )
-								{
-									ParentNode node = m_mainGraphInstance.GetNode( nodeIdx );
-									if( UIUtils.CheckUndoNode( node ) )
-									{
-										extraNodes.Add( node );
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			UIUtils.ClearUndoHelper();
-			//UndoUtils.IncrementCurrentGroup();
-			//Record deleted nodes
-			UIUtils.MarkUndoAction();
-			UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoDeleteNodeId );
-			UndoUtils.RegisterCompleteObjectUndo( m_mainGraphInstance, Constants.UndoDeleteNodeId );
-			UndoUtils.RecordObjects( selectedNodes, Constants.UndoDeleteNodeId );
-			UndoUtils.RecordObjects( extraNodes.ToArray(), Constants.UndoDeleteNodeId );
+			// snapshot the whole graph once before the delete; undo restores it as a unit
+			RegisterGraphUndo( Constants.UndoDeleteNodeId );
 
 
 			// @diogo: unalive all selected nodes first, so we can check against that to prevent double-deleting nodes
@@ -3355,9 +3403,6 @@ namespace AmplifyShaderEditor
 			m_mainGraphInstance.DeleteNodesOnArray( ref selectedNodes );
 
 
-			//UndoUtils.IncrementCurrentGroup();
-			extraNodes.Clear();
-			extraNodes = null;
 
 			EditorUtility.SetDirty( this );
 
@@ -3445,6 +3490,13 @@ namespace AmplifyShaderEditor
 
 		void OnKeyboardDown()
 		{
+			if ( Preferences.User.UpdateOnSceneSave && ( m_currentEvent.control || m_currentEvent.command ) && m_currentEvent.keyCode == KeyCode.S )
+			{
+				SetCtrlSCallback( false );
+				m_currentEvent.Use();
+				return;
+			}
+
 			//if( DebugConsoleWindow.DeveloperMode )
 			//{
 			//	if( OnKeyboardPress( KeyCode.F8 ) )
@@ -3491,6 +3543,46 @@ namespace AmplifyShaderEditor
 			{
 				m_lastKeyPressed = m_currentEvent.keyCode;
 			}
+
+			// MP Modification Begin
+			// Custom Horizontal Alignment
+			if (m_currentEvent.keyCode == KeyCode.Q)
+			{
+				Vector2 medianPos = Vector2.zero;
+				m_lastKeyPressed = m_currentEvent.keyCode;
+				foreach (var node in m_mainGraphInstance.SelectedNodes)
+				{
+					medianPos += node.Vec2Position;
+				}
+
+				medianPos /= m_mainGraphInstance.SelectedNodes.Count;
+
+				foreach (var node in m_mainGraphInstance.SelectedNodes)
+				{
+					Vector2 cachePos = node.Vec2Position;
+					node.Vec2Position = new Vector2(cachePos.x, medianPos.y);
+				}
+			}
+
+			// Custom Vertical Alignment
+			if (m_currentEvent.keyCode == KeyCode.E)
+			{
+				Vector2 medianPos = Vector2.zero;
+				m_lastKeyPressed = m_currentEvent.keyCode;
+				foreach (var node in m_mainGraphInstance.SelectedNodes)
+				{
+					medianPos += node.Vec2Position;
+				}
+
+				medianPos /= m_mainGraphInstance.SelectedNodes.Count;
+
+				foreach (var node in m_mainGraphInstance.SelectedNodes)
+				{
+					Vector2 cachePos = node.Vec2Position;
+					node.Vec2Position = new Vector2(medianPos.x, cachePos.y);
+				}
+			}
+			// MP Modification End
 		}
 
 		IEnumerator m_coroutine;
@@ -3529,11 +3621,7 @@ namespace AmplifyShaderEditor
 				}
 				else
 				{
-				#if UNITY_2020_1_OR_NEWER
 					if( www.result == UnityWebRequest.Result.ConnectionError )
-				#else
-					if( www.isNetworkError )
-				#endif
 					{
 						Debug.Log( "[AmplifyShaderEditor]\n" + www.error );
 					}
@@ -3642,7 +3730,7 @@ namespace AmplifyShaderEditor
 
 		ParentNode CreateNodeFromClipboardData( int clipId )
 		{
-			string[] parameters = m_clipboard.CurrentClipboardStrData[ clipId ].Data.Split( IOUtils.FIELD_SEPARATOR );
+			string[] parameters = JsonGraphFormat.SplitInstruction( m_clipboard.CurrentClipboardStrData[ clipId ].Data );
 			System.Type nodeType = System.Type.GetType( parameters[ IOUtils.NodeTypeId ] );
 			NodeAttributes attributes = m_contextMenu.GetNodeAttributesForType( nodeType );
 			if( attributes != null && !UIUtils.GetNodeAvailabilityInBitArray( attributes.NodeAvailabilityFlags, m_mainGraphInstance.CurrentCanvasMode ) && !UIUtils.GetNodeAvailabilityInBitArray( attributes.NodeAvailabilityFlags, m_currentNodeAvailability ) )
@@ -3670,7 +3758,7 @@ namespace AmplifyShaderEditor
 
 			for( int lineIdx = 0; lineIdx < lines.Length; lineIdx++ )
 			{
-				string[] parameters = lines[ lineIdx ].Split( IOUtils.FIELD_SEPARATOR );
+				string[] parameters = JsonGraphFormat.SplitInstruction( lines[ lineIdx ] );
 
 				int InNodeId = 0;
 				int InPortId = 0;
@@ -3748,11 +3836,7 @@ namespace AmplifyShaderEditor
 				}
 				else
 				{
-				#if UNITY_2020_1_OR_NEWER
 					if( www.result == UnityWebRequest.Result.ConnectionError )
-				#else
-					if( www.isNetworkError )
-				#endif
 					{
 						Debug.Log( "[AmplifyShaderEditor]\n" + www.error );
 					}
@@ -3821,74 +3905,83 @@ namespace AmplifyShaderEditor
 				EditorPrefs.SetString( Clipboard.ClipboardId, result );
 			}
 
+			// IsDuplicating gates master-node reassignment on load ( OutputNode.ReadFromString ), so it
+			// must always be cleared: a leaked true makes every later snapshot-undo reload skip
+			// AssignMasterNode and leave the graph with no master. Reset in finally to cover both the
+			// empty-clipboard early return and any exception in the paste body.
 			m_mainGraphInstance.IsDuplicating = true;
-			m_copyPasteInitialPos = m_clipboard.GetDataFromEditorPrefs();
-			if( m_clipboard.CurrentClipboardStrData.Count == 0 )
+			try
 			{
-				return;
-			}
-
-			Vector2 deltaPos = TranformedKeyEvtMousePos - m_copyPasteInitialPos;
-			if( ( m_copyPasteDeltaPos - deltaPos ).magnitude > 5.0f )
-			{
-				m_copyPasteDeltaMul = 0;
-			}
-			else
-			{
-				m_copyPasteDeltaMul += 1;
-			}
-			m_copyPasteDeltaPos = deltaPos;
-
-			m_mainGraphInstance.DeSelectAll();
-			UIUtils.InhibitMessages = true;
-
-			if( m_clipboard.CurrentClipboardStrData.Count > 0 )
-			{
-				UIUtils.MarkUndoAction();
-				UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoPasteNodeId );
-			}
-
-			List<ParentNode> createdNodes = new List<ParentNode>();
-			for( int i = 0; i < m_clipboard.CurrentClipboardStrData.Count; i++ )
-			{
-				ParentNode node = CreateNodeFromClipboardData( i );
-				if( node != null )
+				m_copyPasteInitialPos = m_clipboard.GetDataFromEditorPrefs();
+				if( m_clipboard.CurrentClipboardStrData.Count == 0 )
 				{
-					m_clipboard.CurrentClipboardStrData[ i ].NewNodeId = node.UniqueId;
-					Vector2 pos = node.Vec2Position;
-					node.Vec2Position = pos + deltaPos + m_copyPasteDeltaMul * Constants.CopyPasteDeltaPos;
-					//node.RefreshExternalReferences();
-					node.AfterDuplication();
-					createdNodes.Add( node );
-					m_mainGraphInstance.SelectNode( node, true, false );
+					return;
 				}
-			}
 
-			if( copyConnections )
-			{
+				Vector2 deltaPos = TranformedKeyEvtMousePos - m_copyPasteInitialPos;
+				if( ( m_copyPasteDeltaPos - deltaPos ).magnitude > 5.0f )
+				{
+					m_copyPasteDeltaMul = 0;
+				}
+				else
+				{
+					m_copyPasteDeltaMul += 1;
+				}
+				m_copyPasteDeltaPos = deltaPos;
+
+				m_mainGraphInstance.DeSelectAll();
+				UIUtils.InhibitMessages = true;
+
+				if( m_clipboard.CurrentClipboardStrData.Count > 0 )
+				{
+					RegisterGraphUndo( Constants.UndoPasteNodeId );
+				}
+
+				List<ParentNode> createdNodes = new List<ParentNode>();
 				for( int i = 0; i < m_clipboard.CurrentClipboardStrData.Count; i++ )
 				{
-					CreateConnectionsFromClipboardData( i );
+					ParentNode node = CreateNodeFromClipboardData( i );
+					if( node != null )
+					{
+						m_clipboard.CurrentClipboardStrData[ i ].NewNodeId = node.UniqueId;
+						Vector2 pos = node.Vec2Position;
+						node.Vec2Position = pos + deltaPos + m_copyPasteDeltaMul * Constants.CopyPasteDeltaPos;
+						//node.RefreshExternalReferences();
+						node.AfterDuplication();
+						createdNodes.Add( node );
+						m_mainGraphInstance.SelectNode( node, true, false );
+					}
 				}
 
-				ReconnectClipboardReferences( createdNodes );
-			}
+				if( copyConnections )
+				{
+					for( int i = 0; i < m_clipboard.CurrentClipboardStrData.Count; i++ )
+					{
+						CreateConnectionsFromClipboardData( i );
+					}
 
-			// Refresh external references must always be called after all nodes are created
-			for( int i = 0; i < createdNodes.Count; i++ )
+					ReconnectClipboardReferences( createdNodes );
+				}
+
+				// Refresh external references must always be called after all nodes are created
+				for( int i = 0; i < createdNodes.Count; i++ )
+				{
+					createdNodes[ i ].RefreshExternalReferences();
+				}
+				createdNodes.Clear();
+				createdNodes = null;
+				//Need to force increment on Undo because if not Undo may incorrectly group consecutive pastes
+				UndoUtils.IncrementCurrentGroup();
+
+				UIUtils.InhibitMessages = false;
+				ShaderIsModified = true;
+				SetSaveIsDirty();
+				ForceRepaint();
+			}
+			finally
 			{
-				createdNodes[ i ].RefreshExternalReferences();
+				m_mainGraphInstance.IsDuplicating = false;
 			}
-			createdNodes.Clear();
-			createdNodes = null;
-			//Need to force increment on Undo because if not Undo may incorrectly group consecutive pastes
-			UndoUtils.IncrementCurrentGroup();
-
-			UIUtils.InhibitMessages = false;
-			ShaderIsModified = true;
-			SetSaveIsDirty();
-			ForceRepaint();
-			m_mainGraphInstance.IsDuplicating = false;
 		}
 
 		public string GenerateGraphInfo()
@@ -3910,8 +4003,7 @@ namespace AmplifyShaderEditor
 
 			graphInfo += VersionInfo.FullLabel + '\n';
 
-			m_mainGraphInstance.OrderNodesByGraphDepth();
-			m_mainGraphInstance.WriteToString( ref nodesInfo, ref connectionsInfo );
+			m_mainGraphInstance.WriteToStringDepthOrdered( ref nodesInfo, ref connectionsInfo );
 
 			graphInfo += nodesInfo;
 			graphInfo += connectionsInfo;
@@ -3920,285 +4012,342 @@ namespace AmplifyShaderEditor
 			return graphInfo;
 		}
 
+		// @diogo: per-instruction node-creation interpreter, shared with the ( upcoming ) incremental undo patcher
+		private static void CreateNodeFromInstruction( ParentGraph graph, GraphContextMenu contextMenu, ref string[] parameters, System.Diagnostics.Stopwatch bucketTimer, bool fetchMaterialValues = true )
+		{
+			string typeStr = parameters[ IOUtils.NodeTypeId ];
+			typeStr = IOUtils.NodeTypeReplacer.ContainsKey( typeStr ) ? IOUtils.NodeTypeReplacer[ typeStr ] : typeStr;
+			bucketTimer.Restart();
+			System.Type type = System.Type.GetType( typeStr );
+			if( type == null )
+			{
+				try
+				{
+					var editorAssembly = System.Reflection.Assembly.Load( "Assembly-CSharp-Editor" );
+					if( editorAssembly != null )
+					{
+						type = editorAssembly.GetType( typeStr );
+					}
+				}
+				catch( Exception )
+				{
+
+				}
+				if( type == null )
+				{
+					type = IOUtils.GetAssemblyType( typeStr );
+				}
+			}
+			if( type != null )
+			{
+				System.Type oldType = type;
+				NodeAttributes attribs = contextMenu.GetNodeAttributesForType( type );
+				if( attribs == null )
+				{
+					attribs = contextMenu.GetDeprecatedNodeAttributesForType( type );
+					if( attribs != null )
+					{
+						if( attribs.Deprecated && attribs.DeprecatedAlternativeType != null )
+						{
+							type = attribs.DeprecatedAlternativeType;
+							//ShowMessage( string.Format( "Node {0} is deprecated and was replaced by {1} ", attribs.Name, attribs.DeprecatedAlternative ) );
+						}
+					}
+				}
+				bucketTimer.Stop();
+				UndoProfiler.AddLoadTypeResolve( bucketTimer.Elapsed.TotalMilliseconds );
+
+				bucketTimer.Restart();
+				ParentNode newNode = (ParentNode)ScriptableObject.CreateInstance( type );
+				bucketTimer.Stop();
+				UndoProfiler.AddLoadCreate( bucketTimer.Elapsed.TotalMilliseconds );
+				if( newNode != null )
+				{
+					try
+					{
+						newNode.ContainerGraph = graph;
+						if( oldType != type )
+						{
+							newNode.ParentReadFromString( ref parameters );
+							newNode.ReadFromDeprecated( ref parameters, oldType );
+							newNode.WasDeprecated = true;
+						}
+						else
+							newNode.ReadFromString( ref parameters );
+
+						if( oldType == type )
+						{
+							newNode.ReadInputDataFromString( ref parameters );
+							if( UIUtils.CurrentShaderVersion() > 5107 )
+							{
+								newNode.ReadOutputDataFromString( ref parameters );
+							}
+						}
+					}
+					catch( Exception e )
+					{
+						Debug.LogException( e, newNode );
+					}
+					bucketTimer.Restart();
+					graph.AddNode( newNode, false, true, false, fetchMaterialValues );
+					bucketTimer.Stop();
+					UndoProfiler.AddLoadAddNode( bucketTimer.Elapsed.TotalMilliseconds );
+					UndoProfiler.AddLoadNodes( 1 );
+				}
+			}
+			else
+			{
+				bucketTimer.Stop();
+				UndoProfiler.AddLoadTypeResolve( bucketTimer.Elapsed.TotalMilliseconds );
+				UIUtils.ShowMessage( string.Format( "{0} is not a valid ASE node ", parameters[ IOUtils.NodeTypeId ] ), MessageSeverity.Error );
+			}
+		}
+
+		// @diogo: per-instruction wire-creation interpreter, shared with the ( upcoming ) incremental undo patcher
+		private static void ApplyWireInstruction( ParentGraph graph, ref string[] parameters, System.Diagnostics.Stopwatch bucketTimer )
+		{
+			bucketTimer.Restart();
+			int InNodeId = 0;
+			int InPortId = 0;
+			int OutNodeId = 0;
+			int OutPortId = 0;
+
+			try
+			{
+				InNodeId = Convert.ToInt32( parameters[ IOUtils.InNodeId ] );
+				InPortId = Convert.ToInt32( parameters[ IOUtils.InPortId ] );
+				OutNodeId = Convert.ToInt32( parameters[ IOUtils.OutNodeId ] );
+				OutPortId = Convert.ToInt32( parameters[ IOUtils.OutPortId ] );
+			}
+			catch( Exception e )
+			{
+				Debug.LogException( e );
+			}
+
+			ParentNode inNode = graph.GetNode( InNodeId );
+			ParentNode outNode = graph.GetNode( OutNodeId );
+
+			//if ( UIUtils.CurrentShaderVersion() < 5002 )
+			//{
+			//	InPortId = inNode.VersionConvertInputPortId( InPortId );
+			//	OutPortId = outNode.VersionConvertOutputPortId( OutPortId );
+			//}
+
+			InputPort inputPort = null;
+			OutputPort outputPort = null;
+			if( inNode != null && outNode != null )
+			{
+
+				if( UIUtils.CurrentShaderVersion() < 5002 )
+				{
+					InPortId = inNode.VersionConvertInputPortId( InPortId );
+					OutPortId = outNode.VersionConvertOutputPortId( OutPortId );
+
+					if( inNode.WasDeprecated )
+						InPortId = inNode.InputIdFromDeprecated( InPortId );
+					if( outNode.WasDeprecated )
+						OutPortId = outNode.OutputIdFromDeprecated( OutPortId );
+
+					inputPort = inNode.GetInputPortByArrayId( InPortId );
+					outputPort = outNode.GetOutputPortByArrayId( OutPortId );
+				}
+				else
+				{
+					if( inNode.WasDeprecated )
+						InPortId = inNode.InputIdFromDeprecated( InPortId );
+					if( outNode.WasDeprecated )
+						OutPortId = outNode.OutputIdFromDeprecated( OutPortId );
+
+					inputPort = inNode.GetInputPortByUniqueId( InPortId );
+					outputPort = outNode.GetOutputPortByUniqueId( OutPortId );
+				}
+
+				if( inputPort != null && outputPort != null )
+				{
+					bool inputCompatible = inputPort.CheckValidType( outputPort.DataType );
+					bool outputCompatible = outputPort.CheckValidType( inputPort.DataType );
+					if( inputCompatible && outputCompatible )
+					{
+						inputPort.ConnectTo( OutNodeId, OutPortId, outputPort.DataType, false );
+						outputPort.ConnectTo( InNodeId, InPortId, inputPort.DataType, inputPort.TypeLocked );
+
+						inNode.OnInputPortConnected( InPortId, OutNodeId, OutPortId, false );
+						outNode.OnOutputPortConnected( OutPortId, InNodeId, InPortId );
+					}
+					else if( DebugConsoleWindow.DeveloperMode )
+					{
+						if( !inputCompatible )
+							UIUtils.ShowIncompatiblePortMessage( true, inNode, inputPort, outNode, outputPort );
+
+						if( !outputCompatible )
+							UIUtils.ShowIncompatiblePortMessage( true, outNode, outputPort, inNode, inputPort );
+					}
+				}
+				else if( DebugConsoleWindow.DeveloperMode )
+				{
+					if( inputPort == null )
+					{
+						UIUtils.ShowMessage( "Input Port " + InPortId + " doesn't exist on node " + InNodeId, MessageSeverity.Error );
+					}
+					else
+					{
+						UIUtils.ShowMessage( "Output Port " + OutPortId + " doesn't exist on node " + OutNodeId, MessageSeverity.Error );
+					}
+				}
+			}
+			else if( DebugConsoleWindow.DeveloperMode )
+			{
+				if( inNode == null )
+				{
+					UIUtils.ShowMessage( "Input node " + InNodeId + " doesn't exist", MessageSeverity.Error );
+				}
+				else
+				{
+					UIUtils.ShowMessage( "Output node " + OutNodeId + " doesn't exist", MessageSeverity.Error );
+				}
+			}
+			bucketTimer.Stop();
+			UndoProfiler.AddLoadWire( bucketTimer.Elapsed.TotalMilliseconds );
+		}
+
 		// TODO: this need to be fused to the main load function somehow
 		public static void LoadFromMeta( ref ParentGraph graph, GraphContextMenu contextMenu, string meta )
 		{
-			graph.IsLoading = true;
-			graph.CleanNodes();
+			// @diogo: reentrant via FunctionNode; depth tracking accumulates bucket timings across nested calls
+			UndoProfiler.BeginLoadFromMeta();
 
-			string[] cameraParams = new string[ 0 ];
-			int checksumId = meta.IndexOf( IOUtils.CHECKSUM );
-			if( checksumId > -1 )
+			// @diogo: loading is mechanical - nothing inside it may register undo steps
+			AmplifyShaderEditorWindow undoSuppressWindow = graph != null ? graph.ParentWindow : null;
+			if ( undoSuppressWindow != null )
 			{
-				string checkSumStoredValue = meta.Substring( checksumId );
-				string trimmedBuffer = meta.Remove( checksumId );
+				undoSuppressWindow.BeginSuppressUndoRegistration();
+			}
+			try
+			{
+				System.Diagnostics.Stopwatch bucketTimer = new System.Diagnostics.Stopwatch();
 
-				string[] typeValuePair = checkSumStoredValue.Split( IOUtils.VALUE_SEPARATOR );
-				if( typeValuePair != null && typeValuePair.Length == 2 )
+				graph.IsLoading = true;
+				bucketTimer.Restart();
+				graph.CleanNodes();
+				bucketTimer.Stop();
+				UndoProfiler.AddLoadClean( bucketTimer.Elapsed.TotalMilliseconds );
+
+				string[] cameraParams = new string[ 0 ];
+				int checksumId = meta.IndexOf( IOUtils.CHECKSUM );
+				if( checksumId > -1 )
 				{
-					// Check read checksum and compare with the actual shader body to detect external changes
-					string currentChecksumValue = IOUtils.CreateChecksum( trimmedBuffer );
-					if( DebugConsoleWindow.DeveloperMode && !currentChecksumValue.Equals( typeValuePair[ 1 ] ) )
-					{
-						//ShowMessage( "Wrong checksum" );
-					}
+					string checkSumStoredValue = meta.Substring( checksumId );
+					string trimmedBuffer = meta.Remove( checksumId );
 
-					trimmedBuffer = trimmedBuffer.Replace( "\r", string.Empty );
-					// find node info body
-					int shaderBodyId = trimmedBuffer.IndexOf( IOUtils.ShaderBodyBegin );
-					if( shaderBodyId > -1 )
+					string[] typeValuePair = checkSumStoredValue.Split( IOUtils.VALUE_SEPARATOR );
+					if( typeValuePair != null && typeValuePair.Length == 2 )
 					{
-						trimmedBuffer = trimmedBuffer.Substring( shaderBodyId );
-						//Find set of instructions
-						string[] instructions = trimmedBuffer.Split( IOUtils.LINE_TERMINATOR );
-						// First line is to be ignored and second line contains version
-						string[] versionParams = instructions[ 1 ].Split( IOUtils.VALUE_SEPARATOR );
-						if( versionParams.Length == 2 )
+						// Check read checksum and compare with the actual shader body to detect external changes
+						string currentChecksumValue = IOUtils.CreateChecksum( trimmedBuffer );
+						if( DebugConsoleWindow.DeveloperMode && !currentChecksumValue.Equals( typeValuePair[ 1 ] ) )
 						{
-							int version = 0;
-							try
-							{
-								version = Convert.ToInt32( versionParams[ 1 ] );
-							}
-							catch( Exception e )
-							{
-								Debug.LogException( e );
-							}
+							//ShowMessage( "Wrong checksum" );
+						}
 
-							//if( version > versionInfo.FullNumber )
-							//{
-							//ShowMessage( "This shader was created on a new ASE version\nPlease install v." + version );
-							//}
-
-							if( DebugConsoleWindow.DeveloperMode )
+						trimmedBuffer = trimmedBuffer.Replace( "\r", string.Empty );
+						// find node info body
+						int shaderBodyId = trimmedBuffer.IndexOf( IOUtils.ShaderBodyBegin );
+						if( shaderBodyId > -1 )
+						{
+							trimmedBuffer = trimmedBuffer.Substring( shaderBodyId );
+							//Find set of instructions
+							string[] instructions = trimmedBuffer.Split( IOUtils.LINE_TERMINATOR );
+							// First line is to be ignored and second line contains version
+							string[] versionParams = instructions[ 1 ].Split( IOUtils.VALUE_SEPARATOR );
+							if( versionParams.Length == 2 )
 							{
-								//if( version < versionInfo.FullNumber )
+								int version = 0;
+								try
+								{
+									version = Convert.ToInt32( versionParams[ 1 ] );
+								}
+								catch( Exception e )
+								{
+									Debug.LogException( e );
+								}
+
+								//if( version > versionInfo.FullNumber )
 								//{
-								//ShowMessage( "This shader was created on a older ASE version\nSaving will update it to the new one." );
+								//ShowMessage( "This shader was created on a new ASE version\nPlease install v." + version );
 								//}
+
+								if( DebugConsoleWindow.DeveloperMode )
+								{
+									//if( version < versionInfo.FullNumber )
+									//{
+									//ShowMessage( "This shader was created on a older ASE version\nSaving will update it to the new one." );
+									//}
+								}
+
+								graph.LoadedShaderVersion = version;
+							}
+							else
+							{
+								//ShowMessage( "Corrupted version" );
 							}
 
-							graph.LoadedShaderVersion = version;
-						}
-						else
-						{
-							//ShowMessage( "Corrupted version" );
-						}
-
-						// valid instructions are only between the line after version and the line before the last one ( which contains ShaderBodyEnd )
-						for ( int instructionIdx = 0; instructionIdx < instructions.Length - 1; instructionIdx++ )
-						{
-							//TODO: After all is working, convert string parameters to ints in order to speed up reading
-							string[] parameters = instructions[ instructionIdx ].Split( IOUtils.FIELD_SEPARATOR );
-
-							// All nodes must be created before wiring the connections ...
-							// Since all nodes on the save op are written before the wires, we can safely create them
-							// If that order is not maintained the it's because of external editing and its the users responsability
-							switch( parameters[ 0 ] )
+							// valid instructions are only between the line after version and the line before the last one ( which contains ShaderBodyEnd )
+							for ( int instructionIdx = 0; instructionIdx < instructions.Length - 1; instructionIdx++ )
 							{
-								case IOUtils.NodeParam:
+								//TODO: After all is working, convert string parameters to ints in order to speed up reading
+								string[] parameters = JsonGraphFormat.SplitInstruction( instructions[ instructionIdx ] );
+
+								// All nodes must be created before wiring the connections ...
+								// Since all nodes on the save op are written before the wires, we can safely create them
+								// If that order is not maintained the it's because of external editing and its the users responsability
+								switch( parameters[ 0 ] )
 								{
-									string typeStr = parameters[ IOUtils.NodeTypeId ];
-									typeStr = IOUtils.NodeTypeReplacer.ContainsKey( typeStr ) ? IOUtils.NodeTypeReplacer[ typeStr ] : typeStr;
-									System.Type type = System.Type.GetType( typeStr );
-									if( type == null )
+									case IOUtils.NodeParam:
 									{
-										try
-										{
-											var editorAssembly = System.Reflection.Assembly.Load( "Assembly-CSharp-Editor" );
-											if( editorAssembly != null )
-											{
-												type = editorAssembly.GetType( typeStr );
-											}
-										}
-										catch( Exception )
-										{
-
-										}
-										if( type == null )
-										{
-											type = IOUtils.GetAssemblyType( typeStr );
-										}
+										CreateNodeFromInstruction( graph, contextMenu, ref parameters, bucketTimer );
 									}
-									if( type != null )
+									break;
+									case IOUtils.WireConnectionParam:
 									{
-										System.Type oldType = type;
-										NodeAttributes attribs = contextMenu.GetNodeAttributesForType( type );
-										if( attribs == null )
-										{
-											attribs = contextMenu.GetDeprecatedNodeAttributesForType( type );
-											if( attribs != null )
-											{
-												if( attribs.Deprecated && attribs.DeprecatedAlternativeType != null )
-												{
-													type = attribs.DeprecatedAlternativeType;
-													//ShowMessage( string.Format( "Node {0} is deprecated and was replaced by {1} ", attribs.Name, attribs.DeprecatedAlternative ) );
-												}
-											}
-										}
-
-										ParentNode newNode = (ParentNode)ScriptableObject.CreateInstance( type );
-										if( newNode != null )
-										{
-											try
-											{
-												newNode.ContainerGraph = graph;
-												if( oldType != type )
-												{
-													newNode.ParentReadFromString( ref parameters );
-													newNode.ReadFromDeprecated( ref parameters, oldType );
-													newNode.WasDeprecated = true;
-												}
-												else
-													newNode.ReadFromString( ref parameters );
-
-												if( oldType == type )
-												{
-													newNode.ReadInputDataFromString( ref parameters );
-													if( UIUtils.CurrentShaderVersion() > 5107 )
-													{
-														newNode.ReadOutputDataFromString( ref parameters );
-													}
-												}
-											}
-											catch( Exception e )
-											{
-												Debug.LogException( e, newNode );
-											}
-											graph.AddNode( newNode, false, true, false );
-										}
+										ApplyWireInstruction( graph, ref parameters, bucketTimer );
 									}
-									else
-									{
-										UIUtils.ShowMessage( string.Format( "{0} is not a valid ASE node ", parameters[ IOUtils.NodeTypeId ] ), MessageSeverity.Error );
-									}
+									break;
 								}
-								break;
-								case IOUtils.WireConnectionParam:
-								{
-									int InNodeId = 0;
-									int InPortId = 0;
-									int OutNodeId = 0;
-									int OutPortId = 0;
-
-									try
-									{
-										InNodeId = Convert.ToInt32( parameters[ IOUtils.InNodeId ] );
-										InPortId = Convert.ToInt32( parameters[ IOUtils.InPortId ] );
-										OutNodeId = Convert.ToInt32( parameters[ IOUtils.OutNodeId ] );
-										OutPortId = Convert.ToInt32( parameters[ IOUtils.OutPortId ] );
-									}
-									catch( Exception e )
-									{
-										Debug.LogException( e );
-									}
-
-									ParentNode inNode = graph.GetNode( InNodeId );
-									ParentNode outNode = graph.GetNode( OutNodeId );
-
-									//if ( UIUtils.CurrentShaderVersion() < 5002 )
-									//{
-									//	InPortId = inNode.VersionConvertInputPortId( InPortId );
-									//	OutPortId = outNode.VersionConvertOutputPortId( OutPortId );
-									//}
-
-									InputPort inputPort = null;
-									OutputPort outputPort = null;
-									if( inNode != null && outNode != null )
-									{
-
-										if( UIUtils.CurrentShaderVersion() < 5002 )
-										{
-											InPortId = inNode.VersionConvertInputPortId( InPortId );
-											OutPortId = outNode.VersionConvertOutputPortId( OutPortId );
-
-											if( inNode.WasDeprecated )
-												InPortId = inNode.InputIdFromDeprecated( InPortId );
-											if( outNode.WasDeprecated )
-												OutPortId = outNode.OutputIdFromDeprecated( OutPortId );
-
-											inputPort = inNode.GetInputPortByArrayId( InPortId );
-											outputPort = outNode.GetOutputPortByArrayId( OutPortId );
-										}
-										else
-										{
-											if( inNode.WasDeprecated )
-												InPortId = inNode.InputIdFromDeprecated( InPortId );
-											if( outNode.WasDeprecated )
-												OutPortId = outNode.OutputIdFromDeprecated( OutPortId );
-
-											inputPort = inNode.GetInputPortByUniqueId( InPortId );
-											outputPort = outNode.GetOutputPortByUniqueId( OutPortId );
-										}
-
-										if( inputPort != null && outputPort != null )
-										{
-											bool inputCompatible = inputPort.CheckValidType( outputPort.DataType );
-											bool outputCompatible = outputPort.CheckValidType( inputPort.DataType );
-											if( inputCompatible && outputCompatible )
-											{
-												inputPort.ConnectTo( OutNodeId, OutPortId, outputPort.DataType, false );
-												outputPort.ConnectTo( InNodeId, InPortId, inputPort.DataType, inputPort.TypeLocked );
-
-												inNode.OnInputPortConnected( InPortId, OutNodeId, OutPortId, false );
-												outNode.OnOutputPortConnected( OutPortId, InNodeId, InPortId );
-											}
-											else if( DebugConsoleWindow.DeveloperMode )
-											{
-												if( !inputCompatible )
-													UIUtils.ShowIncompatiblePortMessage( true, inNode, inputPort, outNode, outputPort );
-
-												if( !outputCompatible )
-													UIUtils.ShowIncompatiblePortMessage( true, outNode, outputPort, inNode, inputPort );
-											}
-										}
-										else if( DebugConsoleWindow.DeveloperMode )
-										{
-											if( inputPort == null )
-											{
-												UIUtils.ShowMessage( "Input Port " + InPortId + " doesn't exist on node " + InNodeId, MessageSeverity.Error );
-											}
-											else
-											{
-												UIUtils.ShowMessage( "Output Port " + OutPortId + " doesn't exist on node " + OutNodeId, MessageSeverity.Error );
-											}
-										}
-									}
-									else if( DebugConsoleWindow.DeveloperMode )
-									{
-										if( inNode == null )
-										{
-											UIUtils.ShowMessage( "Input node " + InNodeId + " doesn't exist", MessageSeverity.Error );
-										}
-										else
-										{
-											UIUtils.ShowMessage( "Output node " + OutNodeId + " doesn't exist", MessageSeverity.Error );
-										}
-									}
-								}
-								break;
 							}
 						}
 					}
 				}
-			}
 
-			graph.CheckForDuplicates();
-			graph.UpdateRegisters();
-			graph.RefreshExternalReferences();
-			graph.ForceSignalPropagationOnMasterNode();
-			graph.LoadedShaderVersion = VersionInfo.FullNumber;
-			//Reset();
-			graph.IsLoading = false;
+				bucketTimer.Restart();
+				graph.CheckForDuplicates();
+				graph.UpdateRegisters();
+				graph.RefreshExternalReferences();
+				graph.ForceSignalPropagationOnMasterNode();
+				bucketTimer.Stop();
+				UndoProfiler.AddLoadPost( bucketTimer.Elapsed.TotalMilliseconds );
+				graph.LoadedShaderVersion = VersionInfo.FullNumber;
+				//Reset();
+				graph.IsLoading = false;
+			}
+			finally
+			{
+				if ( undoSuppressWindow != null )
+				{
+					undoSuppressWindow.EndSuppressUndoRegistration();
+				}
+				UndoProfiler.EndLoadFromMeta();
+			}
 		}
 
 		public ShaderLoadResult LoadFromDisk( string pathname, AmplifyShaderFunction shaderFunction = null )
 		{
+			var timer = new System.Diagnostics.Stopwatch();
+			timer.Start();
+
 			m_mainGraphInstance.IsLoading = true;
 			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
 			FullCleanUndoStack();
-			m_performFullUndoRegister = true;
 
 			InlinePropertyTable.Initialize();
 
@@ -4306,7 +4455,7 @@ namespace AmplifyShaderEditor
 						for ( int instructionIdx = 0; instructionIdx < instructions.Length - 1; instructionIdx++ )
 						{
 							//TODO: After all is working, convert string parameters to ints in order to speed up reading
-							string[] parameters = instructions[ instructionIdx ].Split( IOUtils.FIELD_SEPARATOR );
+							string[] parameters = JsonGraphFormat.SplitInstruction( instructions[ instructionIdx ] );
 
 							// All nodes must be created before wiring the connections ...
 							// Since all nodes on the save op are written before the wires, we can safely create them
@@ -4394,6 +4543,18 @@ namespace AmplifyShaderEditor
 											{
 												Debug.LogException( e, newNode );
 											}
+
+											if ( newNode is FunctionNode )
+											{
+												var functionNode = newNode as FunctionNode;
+												if ( functionNode.IsEligibleForConversion )
+												{
+													var previousName = functionNode.Filename;
+													newNode = ShaderFunctionToNode.Convert( functionNode );
+													ShowMessage( $"Automatically converted \"{previousName}\" SF to internal \"{newNode.GetType().Name}\"", MessageSeverity.Normal );
+												}
+											}
+
 											m_mainGraphInstance.AddNode( newNode, false, true, false );
 										}
 									}
@@ -4543,41 +4704,50 @@ namespace AmplifyShaderEditor
 			}
 
 			//m_mainGraphInstance.LoadedShaderVersion = m_versionInfo.FullNumber;
-			if( UIUtils.CurrentMasterNode() )
-				UIUtils.CurrentMasterNode().ForcePortType();
-
-			UIUtils.DirtyMask = true;
-			m_checkInvalidConnections = true;
-
-			m_mainGraphInstance.CheckForDuplicates();
-			m_mainGraphInstance.UpdateRegisters();
-			m_mainGraphInstance.RefreshExternalReferences();
-			m_mainGraphInstance.ForceSignalPropagationOnMasterNode();
-
-			InlinePropertyTable.ResolveDependencies();
-
-			if( shaderFunction != null )
+			// @diogo: post-load refresh is mechanical - hiding invisible passes deletes their connections and must not register undo steps
+			BeginSuppressUndoRegistration();
+			try
 			{
-				//if( CurrentGraph.CurrentFunctionOutput == null )
-				//{
-				//	//Fix in case a function output node is not marked as main node
-				//	CurrentGraph.AssignMasterNode( UIUtils.FunctionOutputList()[ 0 ], false );
-				//}
-				shaderFunction.ResetDirectivesOrigin();
-				CurrentGraph.CurrentShaderFunction = shaderFunction;
-			}
-			else
-			{
-				if( shader != null )
+				if( UIUtils.CurrentMasterNode() )
+					UIUtils.CurrentMasterNode().ForcePortType();
+
+				UIUtils.DirtyMask = true;
+				m_checkInvalidConnections = true;
+
+				m_mainGraphInstance.CheckForDuplicates();
+				m_mainGraphInstance.UpdateRegisters();
+				m_mainGraphInstance.RefreshExternalReferences();
+				m_mainGraphInstance.ForceSignalPropagationOnMasterNode();
+
+				InlinePropertyTable.ResolveDependencies();
+
+				if( shaderFunction != null )
 				{
-					m_mainGraphInstance.UpdateShaderOnMasterNode( shader );
-					if( m_mainGraphInstance.CurrentCanvasMode == NodeAvailability.TemplateShader )
+					//if( CurrentGraph.CurrentFunctionOutput == null )
+					//{
+					//	//Fix in case a function output node is not marked as main node
+					//	CurrentGraph.AssignMasterNode( UIUtils.FunctionOutputList()[ 0 ], false );
+					//}
+					shaderFunction.ResetDirectivesOrigin();
+					CurrentGraph.CurrentShaderFunction = shaderFunction;
+				}
+				else
+				{
+					if( shader != null )
 					{
-						m_mainGraphInstance.RefreshLinkedMasterNodes( false );
-						m_mainGraphInstance.OnRefreshLinkedPortsComplete();
-						//m_mainGraphInstance.SetLateOptionsRefresh();
+						m_mainGraphInstance.UpdateShaderOnMasterNode( shader );
+						if( m_mainGraphInstance.CurrentCanvasMode == NodeAvailability.TemplateShader )
+						{
+							m_mainGraphInstance.RefreshLinkedMasterNodes( false );
+							m_mainGraphInstance.OnRefreshLinkedPortsComplete();
+							//m_mainGraphInstance.SetLateOptionsRefresh();
+						}
 					}
 				}
+			}
+			finally
+			{
+				EndSuppressUndoRegistration();
 			}
 
 			// @diogo: set camera parameters
@@ -4602,18 +4772,10 @@ namespace AmplifyShaderEditor
 						cameraOffset.x += centerWidth;
 						cameraOffset.y += centerHeight;
 
-						bool nodeParametersWindowMaximized = Convert.ToBoolean( cameraParams[ 7 ] );
-						bool paletteWindowMaximized = Convert.ToBoolean( cameraParams[ 8 ] );
-
 						m_cameraInfo = cameraInfo;
 						m_cameraOffset = cameraOffset;
 						CameraZoom = cameraZoom;
-
-						if ( DebugConsoleWindow.UseShaderPanelsInfo )
-						{
-							m_nodeParametersWindowMaximized = m_nodeParametersWindow.IsMaximized = nodeParametersWindowMaximized;
-							m_paletteWindowMaximized = m_paletteWindow.IsMaximized = paletteWindowMaximized;
-						}
+						// @diogo: camera-info fields 7-8 (panel maximized) are intentionally not applied; panel open/close is machine-global, not per-graph
 					}
 					catch ( Exception )
 					{
@@ -4631,22 +4793,953 @@ namespace AmplifyShaderEditor
 			System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 
 			m_mainGraphInstance.IsLoading = false;
+
+			// @diogo: disk load is a manual parse (no OnAfterDeserialize), so schedule the frame reorder explicitly
+			m_mainGraphInstance.ScheduleFrameReorder();
+
+			// The freshly loaded graph is the on-disk baseline the Save indicator compares against.
+			CaptureSavedChecksum();
+
 			//Remove focus from UI elements so no UI is incorrectly selected from previous loads
 			//Shader Name textfield was sometimes incorrectly selected
 			GUI.FocusControl( null );
+
+			timer.Stop();
+			if ( Preferences.User.LogShaderLoad )
+			{
+				FinishedShaderLoadLog( timer.Elapsed.TotalSeconds );
+			}
 			return loadResult;
 		}
 
 		public void FullCleanUndoStack()
 		{
 			UndoUtils.ClearUndo( this );
+			// @diogo: snapshot undo entries live on the proxy; stale ones surviving a load would let an
+			// undo walk past the load boundary and apply a previous graph's state
+			if ( m_undoProxy != null )
+			{
+				UndoUtils.ClearUndo( m_undoProxy );
+			}
 			m_mainGraphInstance.FullCleanUndoStack();
+			UndoProfiler.ResetHistory();
 		}
 
-		public void FullRegisterOnUndoStack()
+		// === Snapshot-based undo ( behind Preferences.User.EnableUndo ). See GraphUndoProxy. ===
+
+		// Stored byte size of the live undo snapshot, raw or compressed depending on the current
+		// preference ( 0 when undo is unavailable ). Surfaced in the Preferences Developer section as a
+		// per-step memory-footprint gauge. Reads the already-stored bytes ( no decompression ) since this
+		// is polled every prefs GUI frame.
+		public int CurrentUndoSnapshotStoredBytes { get { return m_undoProxy != null ? m_undoProxy.StoredSnapshotBytes : 0; } }
+
+		// Full-graph meta string used as an undo snapshot. Mirrors the save body but skips the
+		// EditorPrefs camera write GenerateGraphInfo performs, so it is cheap enough to call per
+		// edit. Returns null when the graph cannot be safely serialized ( e.g. mid-load ).
+		public string GenerateGraphSnapshot()
 		{
-			UndoUtils.RegisterCompleteObjectUndo( this, Constants.UndoRegisterFullGrapId );
-			m_mainGraphInstance.FullRegisterOnUndoStack();
+			if ( m_mainGraphInstance == null || m_mainGraphInstance.IsLoading )
+			{
+				return null;
+			}
+
+			// @diogo: proxy captures run inside Unity's undo processing, outside OnGUI's per-frame culture pin;
+			// a comma-decimal OS locale would otherwise serialize floats that break VECTOR_SEPARATOR fields
+			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
+			try
+			{
+				string nodesInfo = string.Empty;
+				string connectionsInfo = string.Empty;
+				m_mainGraphInstance.WriteToStringDepthOrdered( ref nodesInfo, ref connectionsInfo );
+
+				string body = IOUtils.ShaderBodyBegin + '\n' + VersionInfo.FullLabel + '\n' +
+					nodesInfo + connectionsInfo + IOUtils.ShaderBodyEnd + '\n';
+				return IOUtils.AddAdditionalInfo( body );
+			}
+			catch ( Exception e )
+			{
+				// A graph whose master node could not resolve its template ( e.g. the template package is
+				// still loading ) cannot be serialized - its Pass getter throws. Honor the null contract
+				// above so the checksum/undo/backup callers degrade gracefully instead of crashing the load.
+				if ( DebugConsoleWindow.DeveloperMode )
+					Debug.LogWarning( "[AmplifyShaderEditor] Undo snapshot skipped: the graph is not currently serializable (a master node has no resolvable template Pass). " + e );
+
+				return null;
+			}
+		}
+
+		// @diogo: called by the undo proxy with every fresh live-graph serialize ( see m_lastLiveGraphSerialize )
+		public void NotifyLiveGraphSerialized( string snapshot )
+		{
+			m_lastLiveGraphSerialize = snapshot;
+		}
+
+		// Order-independent checksum of an already-serialized graph snapshot. The order nodes are written
+		// in is derived from graph depth and differs between the disk-load and snapshot-reload paths for
+		// the same graph ( not a meaningful change ), so the lines are sorted before hashing: the checksum
+		// then reflects *what* the graph contains, not the order it happens to serialize in. The snapshot's
+		// own trailing //CHKSM line is dropped first - it is a hash of the *ordered* body, so it differs
+		// whenever node order differs and would reintroduce the very order dependence the sort removes.
+		// Returns empty for an empty/null snapshot.
+		private string ChecksumOfSnapshot( string snapshot )
+		{
+			if ( string.IsNullOrEmpty( snapshot ) )
+			{
+				return string.Empty;
+			}
+
+			string[] lines = snapshot.Split( '\n' );
+
+			// @diogo: mask session-ordered fields (the master-node category index) so the checksum compares
+			// persistent state only - the value is re-derived from the template GUID on load and drifts
+			// across domain reloads; shared by the patch oracle, the Save indicator and its saved baseline
+			for ( int i = 0; i < lines.Length; i++ )
+			{
+				lines[ i ] = UndoSnapshotDiff.NormalizeForComparison( lines[ i ] );
+			}
+
+			Array.Sort( lines, StringComparer.Ordinal );
+
+			List<string> contentLines = new List<string>( lines.Length );
+			for ( int i = 0; i < lines.Length; i++ )
+			{
+				if ( !lines[ i ].StartsWith( IOUtils.CHECKSUM, StringComparison.Ordinal ) )
+				{
+					contentLines.Add( lines[ i ] );
+				}
+			}
+
+			return IOUtils.CreateChecksum( string.Join( "\n", contentLines ) );
+		}
+
+		// Checksum of the current live graph. Used to capture the saved baseline.
+		private string ComputeGraphChecksum()
+		{
+			return ChecksumOfSnapshot( GenerateGraphSnapshot() );
+		}
+
+		// Captures the current graph as the "saved" baseline. Called on save and on disk load so the
+		// Save indicator reads as unmodified ( green ) for the freshly persisted state.
+		private void CaptureSavedChecksum()
+		{
+			// Fresh baseline: any prior post-undo verdict latch no longer applies.
+			m_undoVerdictActive = false;
+			string snapshot = GenerateGraphSnapshot();
+			m_savedGraphChecksum = ChecksumOfSnapshot( snapshot );
+			// @diogo: diagnostic only: keep the baseline bytes so a suspect indicator verdict can be diffed
+			m_savedGraphSnapshot = Preferences.User.UndoProfiling ? snapshot : null;
+		}
+
+		// Sets the modified indicator by comparing the current graph against the last saved/loaded
+		// state: green when they match. Computes a whole-graph checksum, so it is only called at
+		// discrete commit points ( gesture end, undo/redo ), never per frame. With no baseline yet
+		// ( e.g. a brand-new unsaved graph ) the existing flag behavior is left untouched.
+		//
+		// For an undo/redo, m_recheckSnapshot holds the exact bytes the undo step restored, and that is
+		// what gets compared. Re-serializing the *reloaded* graph instead does not reproduce those bytes
+		// ( node listing order and sub-graph ids shift on the LoadFromMeta path ), so the baseline -
+		// itself captured from a non-reloaded graph - would never match and the indicator would stay
+		// stuck as modified. Comparing the restored bytes keeps both sides on the same ( non-reloaded )
+		// footing. For a plain edit there is no restored snapshot and the live graph is serialized.
+		private void EvaluateModifiedState()
+		{
+			string recheckSnapshot = m_recheckSnapshot;
+			m_recheckSnapshot = null;
+
+			if ( string.IsNullOrEmpty( m_savedGraphChecksum ) )
+			{
+				return;
+			}
+
+			string current = recheckSnapshot != null ? ChecksumOfSnapshot( recheckSnapshot ) : ComputeGraphChecksum();
+			if ( string.IsNullOrEmpty( current ) )
+			{
+				// Graph not serializable right now ( e.g. mid-load ); leave the indicator as-is.
+				return;
+			}
+
+			ShaderIsModified = ( current != m_savedGraphChecksum );
+
+			// @diogo: diagnostic only: a modified verdict on a restore logs which lines drifted from the saved baseline
+			if ( ShaderIsModified && recheckSnapshot != null && !string.IsNullOrEmpty( m_savedGraphSnapshot ) )
+			{
+				UndoProfiler.RecordIndicatorMismatch( UndoSnapshotDiff.Diff( recheckSnapshot, m_savedGraphSnapshot ) );
+			}
+
+			// An undo/redo's verdict stands until the next edit; latch it so the post-reload SaveIsDirty
+			// churn cannot override it on following frames. A plain edit needs no latch ( and clears any
+			// stale one ) - its mid-edit "colored" feedback should keep flowing through the dirty path.
+			m_undoVerdictActive = ( recheckSnapshot != null );
+		}
+
+		// Auto-backup timer tick. Called from UpdateNodePreviewListAndTime ( focused window only ), so
+		// backups track the graph the user is actively editing. The first tick after open/enable only arms
+		// the timer; later ticks take a backup once the interval elapses.
+		private void AutoBackupTick()
+		{
+			if ( !Preferences.User.AutoBackupEnabled || IsBatchProcessing )
+			{
+				return;
+			}
+
+			double now = EditorApplication.timeSinceStartup;
+			double interval = Mathf.Max( 1, Preferences.User.AutoBackupFrequency );
+			if ( m_nextAutoBackupTime <= 0 )
+			{
+				m_nextAutoBackupTime = now + interval;
+				return;
+			}
+
+			if ( now < m_nextAutoBackupTime )
+			{
+				return;
+			}
+
+			m_nextAutoBackupTime = now + interval;
+			PerformAutoBackup( false );
+		}
+
+		// Writes a backup of the current graph. force=true ( the panel's Backup Now button ) writes even
+		// when the graph is unchanged; the scheduled path skips an unchanged graph so the history is not
+		// filled with identical copies.
+		public void PerformAutoBackup( bool force )
+		{
+			string snapshot = GenerateGraphSnapshot();
+			if ( string.IsNullOrEmpty( snapshot ) )
+			{
+				return;
+			}
+
+			MigrateUnsavedBackupHistory();
+
+			string checksum = ChecksumOfSnapshot( snapshot );
+			if ( !force && checksum == m_lastAutoBackupChecksum )
+			{
+				return;
+			}
+
+			AutoBackup.SaveBackup( AutoBackupKey, AutoBackupDisplayName, snapshot );
+			m_lastAutoBackupChecksum = checksum;
+
+			// The write happens off the GUI ( timer in the update loop ); repaint so the Auto Backup panel
+			// reflects the new entry right away instead of waiting for the next input event.
+			Repaint();
+		}
+
+		// Queues a backup restore from the panel. The actual reload is deferred to OnGUI ( see
+		// m_pendingBackupSnapshot ) so it does not run in the middle of the palette's draw.
+		public void RequestBackupRestore( string snapshot )
+		{
+			m_pendingBackupSnapshot = snapshot;
+		}
+
+		// Replaces the live graph with a stored backup snapshot. Registers an undo first so the load is
+		// reversible, then reuses the snapshot reload path ( see ReloadGraphFromSnapshot ).
+		public void LoadFromBackup( string snapshot )
+		{
+			if ( string.IsNullOrEmpty( snapshot ) )
+			{
+				return;
+			}
+
+			RegisterGraphUndo( "Load Auto Backup" );
+			ReloadGraphFromSnapshot( snapshot, null );
+		}
+
+		private const string UnsavedBackupKeyPrefix = "unsaved-";
+
+		// Stable per-graph key for grouping backups: the asset GUID once saved, else a per-window id while
+		// the graph has never been written to disk.
+		public string AutoBackupKey
+		{
+			get
+			{
+				string path = CurrentBackupAssetPath();
+				if ( !string.IsNullOrEmpty( path ) )
+				{
+					string guid = AssetDatabase.AssetPathToGUID( path );
+					if ( !string.IsNullOrEmpty( guid ) )
+					{
+						return guid;
+					}
+				}
+
+				return UnsavedBackupKeyPrefix + AssetUtils.GetEntityId( this );
+			}
+		}
+
+		// @diogo: once an unsaved graph is saved, carry its backup history from the per-session folder into the GUID folder.
+		private void MigrateUnsavedBackupHistory()
+		{
+			string key = AutoBackupKey;
+			if ( !key.StartsWith( UnsavedBackupKeyPrefix ) )
+			{
+				AutoBackup.MigrateKey( UnsavedBackupKeyPrefix + AssetUtils.GetEntityId( this ), key );
+			}
+		}
+
+		// Human-readable name for the backup file and history header.
+		public string AutoBackupDisplayName
+		{
+			get
+			{
+				if ( IsShaderFunctionWindow )
+				{
+					return m_mainGraphInstance.CurrentShaderFunction != null ? m_mainGraphInstance.CurrentShaderFunction.FunctionName : "Unsaved Function";
+				}
+
+				MasterNode masterNode = m_mainGraphInstance.CurrentMasterNode;
+				if ( masterNode != null && !string.IsNullOrEmpty( masterNode.ShaderName ) )
+				{
+					return masterNode.ShaderName;
+				}
+
+				return "Unsaved Shader";
+			}
+		}
+
+		private string CurrentBackupAssetPath()
+		{
+			if ( IsShaderFunctionWindow )
+			{
+				return m_mainGraphInstance.CurrentShaderFunction != null ? AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction ) : string.Empty;
+			}
+
+			// @diogo: key off the shader, not the material, so editing a shader via a material reuses one backup folder.
+			Shader shader = m_mainGraphInstance.CurrentShader;
+			if ( shader != null )
+			{
+				return AssetDatabase.GetAssetPath( shader );
+			}
+
+			if ( m_selectionMode == ASESelectionMode.Material && m_mainGraphInstance.CurrentMaterial != null )
+			{
+				return AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentMaterial );
+			}
+
+			return string.Empty;
+		}
+
+		public int[] GetSelectedNodeIds()
+		{
+			if ( m_mainGraphInstance == null )
+			{
+				return new int[ 0 ];
+			}
+
+			List<ParentNode> selected = m_mainGraphInstance.SelectedNodes;
+			if ( selected == null || selected.Count == 0 )
+			{
+				return new int[ 0 ];
+			}
+
+			int[] ids = new int[ selected.Count ];
+			for ( int i = 0; i < selected.Count; i++ )
+			{
+				ids[ i ] = selected[ i ].UniqueId;
+			}
+			return ids;
+		}
+
+		// @diogo: brackets for mechanical cascades ( post-load template refresh, undo restore ) whose
+		// mutations must not register undo steps; counter because brackets can nest
+		public void BeginSuppressUndoRegistration() { m_suppressUndoRegistration++; }
+		public void EndSuppressUndoRegistration() { m_suppressUndoRegistration--; }
+
+		// Call this *before* a graph mutation to push the pre-edit state onto Unity's undo stack.
+		public void RegisterGraphUndo( string name )
+		{
+			if ( m_suppressUndoRegistration > 0 )
+			{
+				return;
+			}
+
+			// A genuine edit is about to mutate the graph: drop the post-undo verdict latch so the
+			// indicator resumes normal modified tracking ( both real-edit paths route through here ).
+			m_undoVerdictActive = false;
+
+			if ( Preferences.User.EnableUndo && m_undoProxy != null && !IsBatchProcessing )
+			{
+				m_undoProxy.RegisterUndo( name );
+			}
+		}
+
+		// Coalesced variant for continuous gestures ( slider drags, node moves, typing ). Takes a
+		// single pre-edit snapshot per gesture; further calls are ignored until the gesture ends on
+		// the next mouse press ( see the rawType reset in OnGUI ). Without this, one drag would push
+		// a separate undo step per frame.
+		public void RegisterGraphUndoGesture( string name )
+		{
+			if ( !Preferences.User.EnableUndo || m_undoProxy == null || m_gestureUndoActive || m_suppressUndoRegistration > 0 )
+			{
+				return;
+			}
+
+			RegisterGraphUndo( name );
+			m_gestureUndoActive = true;
+		}
+
+		// Rebuilds the live graph from the proxy's snapshot string, either by patching only the changed
+		// nodes/wires or through the normal load path, then restores the recorded selection. Driven by
+		// the Undo.undoRedoPerformed callback.
+		public void RestoreFromUndoSnapshot()
+		{
+			if ( m_undoProxy == null )
+			{
+				return;
+			}
+
+			// @diogo: a restore invalidates any in-flight gesture; the next edit must take its own pre-edit snapshot
+			m_gestureUndoActive = false;
+
+			// @diogo: undoRedoPerformed fires outside OnGUI's per-frame culture pin; parse and serialize of
+			// snapshot floats must run invariant like every other load path ( see LoadFromDisk )
+			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
+			string snapshot = m_undoProxy.SerializedGraph;
+			if ( string.IsNullOrEmpty( snapshot ) )
+			{
+				return;
+			}
+
+			// @diogo: Stage 1 shadow mode only runs when incremental undo is OFF - the live patcher logs its own diff
+			if ( !Preferences.User.IncrementalUndo && Preferences.User.UndoProfiling )
+			{
+				System.Diagnostics.Stopwatch shadowTimer = System.Diagnostics.Stopwatch.StartNew();
+				string currentMeta = GenerateGraphSnapshot();
+				UndoSnapshotDiff.SnapshotDiffResult diffResult = UndoSnapshotDiff.Diff( currentMeta, snapshot );
+				shadowTimer.Stop();
+				UndoProfiler.RecordShadowDiff( diffResult, shadowTimer.Elapsed.TotalMilliseconds );
+			}
+
+			// @diogo: Stage 2 live patching; any bail, exception or oracle mismatch falls through to the full reload below
+			if ( Preferences.User.IncrementalUndo )
+			{
+				// @diogo: first attempt reuses the redo-stack serialize Unity captured moments ago in this
+				// same undo event; if that capture was stale in any way, the failed attempt is retried once
+				// with an honest serialize before conceding to the full reload
+				bool cachedCurrent = !string.IsNullOrEmpty( m_lastLiveGraphSerialize );
+				bool patched = TryPatchGraphFromSnapshot( snapshot, m_undoProxy.SelectedNodeIds, cachedCurrent );
+				if ( !patched && cachedCurrent )
+				{
+					patched = TryPatchGraphFromSnapshot( snapshot, m_undoProxy.SelectedNodeIds, false );
+				}
+				if ( patched )
+				{
+					PushRestoredValuesToMaterial();
+					return;
+				}
+			}
+
+			System.Diagnostics.Stopwatch restoreTimer = System.Diagnostics.Stopwatch.StartNew();
+			ReloadGraphFromSnapshot( snapshot, m_undoProxy.SelectedNodeIds );
+			restoreTimer.Stop();
+			UndoProfiler.RecordRestore( restoreTimer.Elapsed.TotalMilliseconds, m_lastReloadLoadMs, m_lastReloadRefreshMs, m_lastReloadViewStateMs, m_lastReloadNodeCount );
+			PushRestoredValuesToMaterial();
+		}
+
+		// @diogo: an undo restore sets node values from the snapshot only; push them into the bound material
+		// too, or it keeps the pre-undo values and the next refetch ( e.g. _ASEDirtyCheck ) re-imposes them
+		private void PushRestoredValuesToMaterial()
+		{
+			Material material = m_mainGraphInstance.CurrentMaterial;
+			if ( material != null )
+			{
+				m_mainGraphInstance.UpdateMaterialOnPropertyNodes( material );
+				if ( MaterialInspector.Instance != null )
+				{
+					MaterialInspector.Instance.Repaint();
+				}
+			}
+		}
+
+		// Rebuilds the live graph from a snapshot meta string through the normal load path, preserving
+		// transient editor view state and re-linking the runtime asset references the snapshot does not
+		// carry. Shared by undo/redo ( RestoreFromUndoSnapshot ) and backup loads ( LoadFromBackup );
+		// selectedNodeIds is the selection to restore afterward ( null for none ).
+		private void ReloadGraphFromSnapshot( string snapshot, int[] selectedNodeIds )
+		{
+			// @diogo: backup restores can also arrive outside OnGUI's per-frame culture pin
+			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
+			AmplifyShaderEditorWindow cached = UIUtils.CurrentWindow;
+			UIUtils.CurrentWindow = this;
+
+			System.Diagnostics.Stopwatch viewStateTimer = new System.Diagnostics.Stopwatch();
+
+			viewStateTimer.Start();
+			// Capture transient editor-only view state ( foldouts, etc. ) keyed by node id. The reload
+			// below recreates every node fresh and would otherwise reset it, so undoing a value edit
+			// would also collapse foldouts the user had open. Reapplied after the reload.
+			Dictionary<int, string[]> viewState = new Dictionary<int, string[]>();
+			List<ParentNode> preReloadNodes = m_mainGraphInstance.AllNodes;
+			for ( int i = 0; i < preReloadNodes.Count; i++ )
+			{
+				ParentNode node = preReloadNodes[ i ];
+				List<string> state = new List<string>();
+				node.WriteUndoViewState( state );
+				viewState[ node.UniqueId ] = state.ToArray();
+			}
+
+			// A shader-function window keeps its function-asset link on the FunctionOutput node
+			// ( CurrentShaderFunction => CurrentFunctionOutput.Function ), a runtime reference that is
+			// not carried in the snapshot meta. Capture it so the reload can re-link it; otherwise it
+			// comes back null and the function-window self-close guard ( IsShaderFunctionWindow &&
+			// CurrentShaderFunction == null ) fires, closing the window on undo.
+			AmplifyShaderFunction cachedShaderFunction = m_mainGraphInstance.CurrentShaderFunction;
+
+			// Likewise the output Shader asset is a runtime reference on the master node
+			// ( CurrentShader ), not carried in the snapshot meta. Capture it so Save still targets the
+			// existing shader after an undo instead of prompting for a save location.
+			Shader cachedShader = m_mainGraphInstance.CurrentShader;
+
+			// @diogo: the bound material is a runtime reference on the master node too; capture it or a material-mode window silently drops to shader mode after undo
+			Material cachedMaterial = m_mainGraphInstance.CurrentMaterial;
+
+			// The master node's section foldouts are restored by node id below, but a template change
+			// replaces the master node with a *new* id, so undoing one would miss it. Capture the
+			// current master node's view state by role too and reapply it to whatever master node the
+			// reload produces.
+			string[] cachedMasterViewState = null;
+			if ( m_mainGraphInstance.CurrentMasterNode != null )
+			{
+				List<string> masterState = new List<string>();
+				m_mainGraphInstance.CurrentMasterNode.WriteUndoViewState( masterState );
+				cachedMasterViewState = masterState.ToArray();
+			}
+			viewStateTimer.Stop();
+
+			// Clear the name-dedup registry so the fully-recreated nodes re-register from a clean
+			// slate. The in-place reload recreates every node, so nothing needs the old entries,
+			// and this prevents a stale uniform-name registration leaking across the rebuild.
+			m_duplicatePreventionBuffer.ReleaseAllData();
+
+			// Reset the sub-graph id counter the same way a disk load ( Reset ) does, so Function nodes
+			// re-derive the *same* m_functionGraphId on every reload. Without this the counter keeps
+			// climbing ( id = Max( saved, GraphCount ) ), so a reloaded Function node serializes a
+			// different id each undo - which never matches the saved baseline and leaves the graph
+			// looking permanently modified.
+			GraphCount = 1;
+
+			System.Diagnostics.Stopwatch loadTimer = System.Diagnostics.Stopwatch.StartNew();
+			LoadFromMeta( ref m_mainGraphInstance, m_contextMenu, snapshot );
+			loadTimer.Stop();
+
+			System.Diagnostics.Stopwatch refreshTimer = System.Diagnostics.Stopwatch.StartNew();
+			// @diogo: the refresh below is mechanical - its DeleteConnection calls must not push undo steps
+			BeginSuppressUndoRegistration();
+			try
+			{
+				// LoadFromMeta is a manual parse ( no Unity deserialize callback ), so the post-load
+				// master-node options/port reconfiguration that normally runs on m_afterDeserializeFlag
+				// never fires. Trigger it explicitly so reloaded master nodes don't show every port and
+				// option expanded. Mirrors the RefreshLinkedMasterNodes pass the disk load performs.
+				if ( UIUtils.CurrentMasterNode() != null )
+				{
+					UIUtils.CurrentMasterNode().ForcePortType();
+				}
+
+				// Apply the staged template-option values ( OnRefreshLinkedPortsComplete -> SetReadOptions )
+				// BEFORE the deferred cascade runs. SetLateOptionsRefresh's deferred pass executes the option
+				// cascade ( RefreshLinkedMasterNodes( true ) ) *before* OnRefreshLinkedPortsComplete re-applies
+				// the saved option values, so without applying them here first the cascade re-derives
+				// port/option visibility from defaults - leaving e.g. Surface Type = Transparent but its
+				// dependent options and Distortion ports hidden. Mirrors the LoadFromDisk template branch.
+				if ( m_mainGraphInstance.CurrentCanvasMode == NodeAvailability.TemplateShader )
+				{
+					m_mainGraphInstance.RefreshLinkedMasterNodes( false );
+					m_mainGraphInstance.OnRefreshLinkedPortsComplete();
+				}
+			}
+			finally
+			{
+				EndSuppressUndoRegistration();
+			}
+			m_mainGraphInstance.SetLateOptionsRefresh();
+
+			// @diogo: LoadFromMeta is a manual parse too, so schedule the frame reorder like the disk load does
+			m_mainGraphInstance.ScheduleFrameReorder();
+			refreshTimer.Stop();
+
+			// Re-link the function asset onto the recreated FunctionOutput node ( see capture above )
+			// so a function window does not self-close after an undo.
+			if ( cachedShaderFunction != null )
+			{
+				m_mainGraphInstance.CurrentShaderFunction = cachedShaderFunction;
+			}
+
+			// Re-link the output shader asset onto the recreated master node ( see capture above ) so
+			// Save writes over the existing shader instead of opening the save-location browser.
+			if ( cachedShader != null && m_mainGraphInstance.CurrentMasterNode != null )
+			{
+				m_mainGraphInstance.CurrentMasterNode.CurrentShader = cachedShader;
+			}
+
+			// @diogo: re-bind the material and re-enter material mode without fetching - restored values must come from the snapshot, not the material
+			if ( cachedMaterial != null && m_mainGraphInstance.CurrentMasterNode != null )
+			{
+				m_mainGraphInstance.UpdateMaterialOnMasterNode( cachedMaterial );
+				m_mainGraphInstance.SetMaterialModeOnGraph( cachedMaterial, false );
+			}
+
+			viewStateTimer.Start();
+			m_mainGraphInstance.SelectNodesFromIds( selectedNodeIds );
+
+			// Reapply the captured view state to the recreated nodes ( ids survive the snapshot ).
+			List<ParentNode> reloadedNodes = m_mainGraphInstance.AllNodes;
+			for ( int i = 0; i < reloadedNodes.Count; i++ )
+			{
+				ParentNode node = reloadedNodes[ i ];
+				if ( viewState.TryGetValue( node.UniqueId, out string[] state ) )
+				{
+					int index = 0;
+					node.ReadUndoViewState( state, ref index );
+				}
+			}
+
+			// Reapply the master node's foldouts by role: across a template-switch undo its id changes,
+			// so the per-id pass above misses it.
+			if ( cachedMasterViewState != null && m_mainGraphInstance.CurrentMasterNode != null )
+			{
+				int masterIndex = 0;
+				m_mainGraphInstance.CurrentMasterNode.ReadUndoViewState( cachedMasterViewState, ref masterIndex );
+			}
+			viewStateTimer.Stop();
+
+			m_lastReloadLoadMs = loadTimer.Elapsed.TotalMilliseconds;
+			m_lastReloadRefreshMs = refreshTimer.Elapsed.TotalMilliseconds;
+			m_lastReloadViewStateMs = viewStateTimer.Elapsed.TotalMilliseconds;
+			m_lastReloadNodeCount = m_mainGraphInstance.AllNodes.Count;
+
+			UIUtils.CurrentWindow = cached;
+			m_repaintIsDirty = true;
+			m_saveIsDirty = true;
+
+			// Re-evaluate the Save indicator against the saved baseline: undoing/redoing back to the
+			// saved state turns it green again, landing on a different state keeps it colored. Hand the
+			// recheck the exact snapshot the undo step restored so it compares those bytes rather than
+			// re-serializing the freshly reloaded graph ( see EvaluateModifiedState ).
+			m_recheckSnapshot = snapshot;
+			m_recheckModified = true;
+
+			// @diogo: the reloaded graph does not re-serialize to the snapshot bytes ( node listing order
+			// and sub-graph ids shift on the LoadFromMeta path ), so drop the capture instead of trusting it
+			m_lastLiveGraphSerialize = null;
+		}
+
+		// @diogo: incremental patch bail threshold: above this fraction of changed node lines a full reload is comparable anyway ( see docs/undo-incremental-restore.md )
+		private const double PatchNodeBudgetRatio = 0.25;
+
+		// @diogo: Stage 2 incremental undo: destroy/recreate only the nodes whose lines differ from the target
+		// snapshot, set-diff the wires, then verify the patched graph against the target checksum; returns false
+		// on any doubt and the caller runs the full reload ( normative procedure in docs/undo-incremental-restore.md )
+		private bool TryPatchGraphFromSnapshot( string targetSnapshot, int[] selectedNodeIds, bool useCachedCurrent )
+		{
+			UndoProfiler.RecordPatchAttempt();
+			System.Diagnostics.Stopwatch totalTimer = System.Diagnostics.Stopwatch.StartNew();
+			System.Diagnostics.Stopwatch phaseTimer = System.Diagnostics.Stopwatch.StartNew();
+
+			// @diogo: current state captures BEFORE any patch state is touched; IsLoading is false here.
+			// The cached capture is the serialize Unity forced during this undo event ( see
+			// m_lastLiveGraphSerialize ) - if it is stale the oracle fails and the caller retries honest.
+			string currentMeta = useCachedCurrent ? m_lastLiveGraphSerialize : GenerateGraphSnapshot();
+			double serializeMs = phaseTimer.Elapsed.TotalMilliseconds;
+			phaseTimer.Restart();
+			if ( string.IsNullOrEmpty( currentMeta ) )
+			{
+				UndoProfiler.RecordPatchBail( "no current snapshot" );
+				return false;
+			}
+
+			UndoSnapshotDiff.SnapshotDiffResult diff = UndoSnapshotDiff.Diff( currentMeta, targetSnapshot );
+			double diffMs = phaseTimer.Elapsed.TotalMilliseconds;
+
+			if ( diff.Bailed )
+			{
+				UndoProfiler.RecordPatchBail( diff.BailReason );
+				return false;
+			}
+			if ( diff.MasterNodeTouched )
+			{
+				UndoProfiler.RecordPatchBail( "master node touched", diff );
+				return false;
+			}
+			if ( diff.FunctionNodeRecreated )
+			{
+				UndoProfiler.RecordPatchBail( "function node changed/added", diff );
+				return false;
+			}
+			if ( !int.TryParse( diff.Version, out int targetVersion ) || targetVersion != VersionInfo.FullNumber )
+			{
+				UndoProfiler.RecordPatchBail( "target version is not the running version", diff );
+				return false;
+			}
+			int patchSize = diff.ChangedIds.Count + diff.AddedIds.Count + diff.RemovedIds.Count;
+			if ( patchSize > ( int )( PatchNodeBudgetRatio * Mathf.Max( diff.CurrentNodeCount, diff.TargetNodeCount ) ) )
+			{
+				UndoProfiler.RecordPatchBail( "patch exceeds node budget", diff );
+				return false;
+			}
+
+			AmplifyShaderEditorWindow cachedWindow = UIUtils.CurrentWindow;
+			UIUtils.CurrentWindow = this;
+			bool isLoadingSet = false;
+			try
+			{
+				phaseTimer.Restart();
+
+				// @diogo: commentary closure, transitive: recreating or removing a framed node detaches it from its
+				// kept frame via NodeDestroyed, so the frame ( and any outer frames ) must be recreated from the target
+				HashSet<int> recreateIds = new HashSet<int>( diff.ChangedIds );
+				Queue<int> commentaryScan = new Queue<int>( diff.ChangedIds );
+				for ( int i = 0; i < diff.RemovedIds.Count; i++ )
+				{
+					commentaryScan.Enqueue( diff.RemovedIds[ i ] );
+				}
+				while ( commentaryScan.Count > 0 )
+				{
+					ParentNode scanNode = m_mainGraphInstance.GetNode( commentaryScan.Dequeue() );
+					if ( scanNode != null && scanNode.CommentaryParent > -1 && recreateIds.Add( scanNode.CommentaryParent ) )
+					{
+						commentaryScan.Enqueue( scanNode.CommentaryParent );
+					}
+				}
+
+				// @diogo: pre-validate every id we are about to destroy so most bails leave the graph untouched
+				HashSet<int> destroyIds = new HashSet<int>( recreateIds );
+				destroyIds.UnionWith( diff.RemovedIds );
+				foreach ( int id in destroyIds )
+				{
+					if ( m_mainGraphInstance.GetNode( id ) == null )
+					{
+						UndoProfiler.RecordPatchBail( "live node " + id + " not found" );
+						return false;
+					}
+				}
+
+				// @diogo: position-only nodes are patched in place, so they must exist live too
+				for ( int i = 0; i < diff.PositionOnlyIds.Count; i++ )
+				{
+					if ( m_mainGraphInstance.GetNode( diff.PositionOnlyIds[ i ] ) == null )
+					{
+						UndoProfiler.RecordPatchBail( "live node " + diff.PositionOnlyIds[ i ] + " not found" );
+						return false;
+					}
+				}
+
+				// @diogo: transient editor view state survives on kept nodes natively; capture it for recreated ones only
+				Dictionary<int, string[]> viewState = new Dictionary<int, string[]>();
+				foreach ( int id in recreateIds )
+				{
+					ParentNode node = m_mainGraphInstance.GetNode( id );
+					if ( node != null )
+					{
+						List<string> state = new List<string>();
+						node.WriteUndoViewState( state );
+						viewState[ id ] = state.ToArray();
+					}
+				}
+
+				// @diogo: DestroyNode does not deselect; clear selection before destroying, reapply from the proxy at the end
+				m_mainGraphInstance.DeSelectAll();
+
+				m_mainGraphInstance.IsLoading = true;
+				isLoadingSet = true;
+
+				// @diogo: destroy quietly ( propagateCallbacks:false ): neighbor disconnect callbacks trim ports and
+				// reset types on kept adaptive nodes, state their unchanged lines must keep; mirrors CleanNodes semantics
+				foreach ( int id in destroyIds )
+				{
+					m_mainGraphInstance.DestroyNode( m_mainGraphInstance.GetNode( id ), false, false, false );
+				}
+
+				// @diogo: dev-only fault injection: blow up mid-surgery (destroys done, nothing recreated yet)
+				// to exercise the catch -> full-reload recovery from a half-applied patch
+				if ( UndoProfiler.InjectPatchException )
+				{
+					UndoProfiler.InjectPatchException = false;
+					throw new Exception( "injected patch exception (developer toggle)" );
+				}
+
+				// @diogo: recreate in target line order through the exact load interpreter; never fetch material values,
+				// matching the full reload where CurrentMaterial is unavailable mid-load
+				HashSet<int> addedSet = new HashSet<int>( diff.AddedIds );
+				System.Diagnostics.Stopwatch bucketTimer = new System.Diagnostics.Stopwatch();
+				foreach ( int id in diff.TargetNodeOrder )
+				{
+					if ( recreateIds.Contains( id ) || addedSet.Contains( id ) )
+					{
+						string[] parameters = JsonGraphFormat.SplitInstruction( diff.TargetNodeLines[ id ] );
+						CreateNodeFromInstruction( m_mainGraphInstance, m_contextMenu, ref parameters, bucketTimer, false );
+					}
+				}
+
+				// @diogo: position-only fast path: write the target position onto the kept live node instead
+				// of destroy+recreate - keeps bulk moves proportional and spares moved master/function nodes
+				// their policy bails; reads the pos field off the raw line, and the oracle verify still covers it
+				foreach ( int id in diff.PositionOnlyIds )
+				{
+					// @diogo: a commentary swept into the recreate closure was already rebuilt from its
+					// target line, position included
+					if ( recreateIds.Contains( id ) )
+					{
+						continue;
+					}
+					if ( !UndoSnapshotDiff.TryGetNodePosition( diff.TargetNodeLines[ id ], out Vector2 targetPosition ) )
+					{
+						UndoProfiler.RecordPatchBail( "bad position line on id " + id );
+						return false;
+					}
+					ParentNode positionNode = m_mainGraphInstance.GetNode( id );
+					positionNode.Vec2Position = targetPosition;
+				}
+
+				// @diogo: disconnect from the input side only - pair-exact, one wire line per connected input port -
+				// and quietly ( propagateCallback:false ): both endpoints are kept nodes whose lines must stay identical
+				foreach ( string wireLine in diff.WiresToDisconnect )
+				{
+					string[] parameters = JsonGraphFormat.SplitInstruction( wireLine );
+					int inNodeId = Convert.ToInt32( parameters[ IOUtils.InNodeId ] );
+					int inPortId = Convert.ToInt32( parameters[ IOUtils.InPortId ] );
+					m_mainGraphInstance.DeleteConnection( true, inNodeId, inPortId, false, false, false );
+				}
+
+				foreach ( string wireLine in diff.WiresToConnect )
+				{
+					string[] parameters = JsonGraphFormat.SplitInstruction( wireLine );
+
+					// @diogo: a wire that cannot fully resolve means the patched graph shape is already wrong -
+					// bail to the full reload instead of silently skipping the wire and leaving it to the oracle
+					ParentNode wireInNode = m_mainGraphInstance.GetNode( Convert.ToInt32( parameters[ IOUtils.InNodeId ] ) );
+					ParentNode wireOutNode = m_mainGraphInstance.GetNode( Convert.ToInt32( parameters[ IOUtils.OutNodeId ] ) );
+					if ( wireInNode == null || wireOutNode == null ||
+						wireInNode.GetInputPortByUniqueId( Convert.ToInt32( parameters[ IOUtils.InPortId ] ) ) == null ||
+						wireOutNode.GetOutputPortByUniqueId( Convert.ToInt32( parameters[ IOUtils.OutPortId ] ) ) == null )
+					{
+						UndoProfiler.RecordPatchBail( "unresolvable wire " + wireLine );
+						return false;
+					}
+
+					ApplyWireInstruction( m_mainGraphInstance, ref parameters, bucketTimer );
+				}
+
+				// @diogo: recreated frames hold pending member ids; resolve them eagerly in target order ( outer frames
+				// first ) so membership serializes correctly for the oracle instead of waiting for the next layout
+				foreach ( int id in diff.TargetNodeOrder )
+				{
+					if ( m_mainGraphInstance.GetNode( id ) is CommentaryNode commentary )
+					{
+						commentary.ResolvePendingMemberIds();
+					}
+				}
+
+				double applyMs = phaseTimer.Elapsed.TotalMilliseconds;
+				phaseTimer.Restart();
+
+				// @diogo: scoped post-passes: RefreshExternalReferences is a run-once load contract, recreated nodes only
+				m_mainGraphInstance.CheckForDuplicates();
+				m_mainGraphInstance.UpdateRegisters();
+				foreach ( int id in diff.TargetNodeOrder )
+				{
+					if ( recreateIds.Contains( id ) || addedSet.Contains( id ) )
+					{
+						ParentNode node = m_mainGraphInstance.GetNode( id );
+						if ( node != null )
+						{
+							node.RefreshExternalReferences();
+						}
+					}
+				}
+
+				// @diogo: activation counters are increment-only and non-serialized: reset to the fresh-load precondition,
+				// then re-propagate from the master node, then drop any WireNode auto-delete marks the disconnects queued
+				m_mainGraphInstance.ResetActivationStates();
+				m_mainGraphInstance.ForceSignalPropagationOnMasterNode();
+				m_mainGraphInstance.ClearMarkedForDeletion();
+
+				m_mainGraphInstance.IsLoading = false;
+				isLoadingSet = false;
+
+				m_mainGraphInstance.ScheduleFrameReorder();
+
+				double postMs = phaseTimer.Elapsed.TotalMilliseconds;
+				phaseTimer.Restart();
+
+				// @diogo: dev-only fault injection: consume the one-shot toggle and force the oracle to miss
+				bool injectVerifyFailure = UndoProfiler.InjectVerifyFailure;
+				UndoProfiler.InjectVerifyFailure = false;
+
+				// @diogo: the oracle: the patched graph must serialize to the exact target state, order aside
+				string patchedMeta = GenerateGraphSnapshot();
+				double verifyMs = phaseTimer.Elapsed.TotalMilliseconds;
+				phaseTimer.Restart();
+				bool verifyPassed = !injectVerifyFailure && !string.IsNullOrEmpty( patchedMeta ) &&
+					ChecksumOfSnapshot( patchedMeta ).Equals( ChecksumOfSnapshot( targetSnapshot ) );
+				double checksumMs = phaseTimer.Elapsed.TotalMilliseconds;
+				phaseTimer.Restart();
+				if ( !verifyPassed )
+				{
+					if ( injectVerifyFailure && Preferences.User.UndoProfiling )
+					{
+						Debug.Log( "[ASE Undo] verify failure injected via developer toggle" );
+					}
+
+					// @diogo: diagnostic only: diff the patched serialize against the target so the log names the drifting lines
+					UndoSnapshotDiff.SnapshotDiffResult verifyDiff = null;
+					if ( Preferences.User.UndoProfiling && !string.IsNullOrEmpty( patchedMeta ) )
+					{
+						verifyDiff = UndoSnapshotDiff.Diff( patchedMeta, targetSnapshot );
+					}
+					UndoProfiler.RecordPatchVerifyFail( totalTimer.Elapsed.TotalMilliseconds, recreateIds.Count + addedSet.Count, verifyDiff );
+					return false;
+				}
+
+				foreach ( KeyValuePair<int, string[]> entry in viewState )
+				{
+					ParentNode node = m_mainGraphInstance.GetNode( entry.Key );
+					if ( node != null )
+					{
+						int index = 0;
+						node.ReadUndoViewState( entry.Value, ref index );
+					}
+				}
+
+				m_mainGraphInstance.SelectNodesFromIds( selectedNodeIds );
+				double selectMs = phaseTimer.Elapsed.TotalMilliseconds;
+
+				m_repaintIsDirty = true;
+				m_saveIsDirty = true;
+
+				// @diogo: same recheck contract as the full reload: compare the restored bytes, not a re-serialize
+				m_recheckSnapshot = targetSnapshot;
+				m_recheckModified = true;
+
+				// @diogo: the oracle just proved the live graph serializes to the target, so the target is
+				// now the freshest live-state capture
+				m_lastLiveGraphSerialize = targetSnapshot;
+
+				UndoProfiler.RecordPatchSuccess( totalTimer.Elapsed.TotalMilliseconds, serializeMs, diffMs, applyMs, postMs, verifyMs, checksumMs, selectMs,
+					diff.ChangedIds.Count, diff.PositionOnlyIds.Count, diff.AddedIds.Count, diff.RemovedIds.Count, diff.WiresToConnect.Count, diff.WiresToDisconnect.Count );
+				return true;
+			}
+			catch ( Exception e )
+			{
+				if ( DebugConsoleWindow.DeveloperMode )
+				{
+					Debug.LogException( e );
+				}
+				UndoProfiler.RecordPatchBail( "exception: " + e.GetType().Name );
+				return false;
+			}
+			finally
+			{
+				if ( isLoadingSet )
+				{
+					m_mainGraphInstance.IsLoading = false;
+				}
+				UIUtils.CurrentWindow = cachedWindow;
+			}
 		}
 
 		public void ShowPortInfo()
@@ -4690,6 +5783,41 @@ namespace AmplifyShaderEditor
 					case MessageSeverity.Error:
 					{
 						Debug.LogError( message );
+					}
+					break;
+				}
+			}
+
+			if ( Preferences.User.GraphLogToConsole )
+			{
+				string shaderPath = string.Empty;
+				if ( m_mainGraphInstance != null )
+				{
+					if ( m_mainGraphInstance.CurrentShader != null )
+					{
+						shaderPath = " [" + AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShader ) + "]";
+					}
+					else if ( m_mainGraphInstance.CurrentShaderFunction != null )
+					{
+						shaderPath = " [" + AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction ) + "]";
+					}
+				}
+				string fullMessage = "[AmplifyShaderEditor]" + shaderPath + " " + message;
+				switch ( severity )
+				{
+					case MessageSeverity.Normal:
+					{
+						Debug.Log( fullMessage );
+					}
+					break;
+					case MessageSeverity.Warning:
+					{
+						Debug.LogWarning( fullMessage );
+					}
+					break;
+					case MessageSeverity.Error:
+					{
+						Debug.LogError( fullMessage );
 					}
 					break;
 				}
@@ -4776,10 +5904,37 @@ namespace AmplifyShaderEditor
 
 			MouseInteracted = false;
 
-			if( m_refreshOnUndo )
+			// End the gesture-coalescing window on a mouse press so the next drag/edit takes a fresh
+			// pre-edit snapshot. rawType is used because a slider/field that consumes the event would
+			// otherwise hide it from this top-level pass. Only a press ends the gesture: a slider
+			// commits its final value change during the MouseUp pass itself, so resetting on release
+			// ( before that change is processed ) split one drag into two undo steps.
+			EventType undoGestureRawType = m_currentEvent.rawType;
+			if ( undoGestureRawType == EventType.MouseUp || undoGestureRawType == EventType.MouseDown )
 			{
-				m_refreshOnUndo = false;
-				m_mainGraphInstance.RefreshOnUndo();
+				if ( m_gestureUndoActive )
+				{
+					// An edit gesture ( node move, slider/value drag ) just ended; re-check whether the
+					// graph still matches the last saved state so the Save indicator can return to green.
+					m_recheckModified = true;
+				}
+				if ( undoGestureRawType == EventType.MouseDown )
+				{
+					m_gestureUndoActive = false;
+				}
+			}
+
+			if( m_reloadFromSnapshot )
+			{
+				m_reloadFromSnapshot = false;
+				RestoreFromUndoSnapshot();
+			}
+
+			if( m_pendingBackupSnapshot != null )
+			{
+				string backupSnapshot = m_pendingBackupSnapshot;
+				m_pendingBackupSnapshot = null;
+				LoadFromBackup( backupSnapshot );
 			}
 
 			if( m_refreshAvailableNodes )
@@ -4811,7 +5966,16 @@ namespace AmplifyShaderEditor
 			if( m_checkInvalidConnections )
 			{
 				m_checkInvalidConnections = false;
-				m_mainGraphInstance.DeleteInvalidConnections();
+				// @diogo: deferred post-load cleanup, not a user edit: its DeleteConnection calls must not register undo steps
+				BeginSuppressUndoRegistration();
+				try
+				{
+					m_mainGraphInstance.DeleteInvalidConnections();
+				}
+				finally
+				{
+					EndSuppressUndoRegistration();
+				}
 			}
 
 			//if ( m_repaintIsDirty )
@@ -5017,9 +6181,15 @@ namespace AmplifyShaderEditor
 
 			m_toolsWindow.InitialX = m_nodeParametersWindow.RealWidth;
 			m_toolsWindow.Width = m_cameraInfo.width - ( m_nodeParametersWindow.RealWidth + m_paletteWindow.RealWidth );
-			m_toolsWindow.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, false );
+			// @diogo: skip interactive side panels during a batch resave: the save state machine ( end of OnGUI )
+			// swaps/closes the graph mid-frame, so a panel's control count can differ between Layout and Repaint.
+			// IsBatchProcessing is stable across a frame; each Draw is self-balanced, so skipping it can't unbalance layout.
+			if ( !IsBatchProcessing )
+			{
+				m_toolsWindow.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, false );
 
-			m_tipsWindow.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, false );
+				m_tipsWindow.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, false );
+			}
 
 			bool autoMinimize = false;
 			if( position.width < m_lastWindowWidth && position.width < Constants.MINIMIZE_WINDOW_LOCK_SIZE )
@@ -5031,7 +6201,15 @@ namespace AmplifyShaderEditor
 				m_nodeParametersWindow.IsMaximized = false;
 
 			ParentNode selectedNode = ( m_mainGraphInstance.SelectedNodes.Count == 1 ) ? m_mainGraphInstance.SelectedNodes[ 0 ] : m_mainGraphInstance.CurrentMasterNode;
-			m_repaintIsDirty = m_nodeParametersWindow.Draw( m_cameraInfo, selectedNode, m_currentMousePos2D, m_currentEvent.button, false ) || m_repaintIsDirty; //TODO: If multiple nodes from the same type are selected also show a parameters window which modifies all of them
+
+			// @diogo: the node parameters panel draws ( and consumes its click ) before the palette, so a click there never
+			// @diogo: reaches the palette's deselect; clear the backup selection ( and commit any rename ) here first.
+			if ( m_currentEvent.type == EventType.MouseDown && m_paletteWindow != null && m_nodeParametersWindow.IsInside( m_currentMousePos2D ) )
+			{
+				m_paletteWindow.CommitAndClearBackupSelection();
+			}
+
+			m_repaintIsDirty = ( State == OpenSaveState.NONE && m_nodeParametersWindow.Draw( m_cameraInfo, selectedNode, m_currentMousePos2D, m_currentEvent.button, false ) ) || m_repaintIsDirty; //TODO: If multiple nodes from the same type are selected also show a parameters window which modifies all of them
 			if( m_nodeParametersWindow.IsResizing )
 				m_repaintIsDirty = true;
 
@@ -5045,7 +6223,11 @@ namespace AmplifyShaderEditor
 			if( autoMinimize )
 				m_paletteWindow.IsMaximized = false;
 
-			m_paletteWindow.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, !m_contextPalette.IsActive );
+			// @diogo: palette skipped during batch resave for the same reason as the tools/tips panels above.
+			if ( !IsBatchProcessing )
+			{
+				m_paletteWindow.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, !m_contextPalette.IsActive );
+			}
 			if( m_paletteWindow.IsResizing )
 			{
 				m_repaintIsDirty = true;
@@ -5060,14 +6242,24 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			m_consoleLogWindow.Draw( m_graphArea, m_currentMousePos2D, m_currentEvent.button, false, m_paletteWindow.IsMaximized ? m_paletteWindow.RealWidth : 0 );
+			// @diogo: console log skipped during batch resave for the same reason as the tools/tips/palette panels above.
+			if ( !IsBatchProcessing )
+			{
+				m_consoleLogWindow.Draw( m_graphArea, m_currentMousePos2D, m_currentEvent.button, false, m_paletteWindow.IsMaximized ? m_paletteWindow.RealWidth : 0 );
+			}
 
-			if( m_contextPalette.IsActive )
+			if( Preferences.User.ShowStats && m_currentEvent.type == EventType.Repaint )
+			{
+				DrawStatsOverlay();
+			}
+
+			// @diogo: context palette / palette popup skipped during batch resave, same rationale as the panels above.
+			if( m_contextPalette.IsActive && !IsBatchProcessing )
 			{
 				m_contextPalette.Draw( m_cameraInfo, m_currentMousePos2D, m_currentEvent.button, m_contextPalette.IsActive );
 			}
 
-			if( m_palettePopup.IsActive )
+			if( m_palettePopup.IsActive && !IsBatchProcessing )
 			{
 				m_palettePopup.Draw( m_currentMousePos2D );
 				m_repaintIsDirty = true;
@@ -5188,7 +6380,12 @@ namespace AmplifyShaderEditor
 			}
 			else if( m_saveIsDirty )
 			{
-				ShaderIsModified = true;
+				// While an undo/redo verdict is latched, the dirty here is post-reload churn, not a user
+				// edit: consume it but leave the checksum verdict ( set in EvaluateModifiedState ) intact.
+				if( !m_undoVerdictActive )
+				{
+					ShaderIsModified = true;
+				}
 				m_saveIsDirty = false;
 			}
 
@@ -5199,6 +6396,15 @@ namespace AmplifyShaderEditor
 				{
 					ShaderIsModified = false;
 				}
+			}
+
+			// One-shot accurate re-evaluation requested by a finished edit gesture or an undo/redo:
+			// the flag set above only ever turns the indicator on; this compares against the saved
+			// baseline so it can also turn back to green when the graph matches what was last saved.
+			if( m_recheckModified )
+			{
+				m_recheckModified = false;
+				EvaluateModifiedState();
 			}
 
 			if( m_cacheSaveOp )
@@ -5223,11 +6429,6 @@ namespace AmplifyShaderEditor
 			{
 				m_markedToSave = false;
 				SaveToDisk( false );
-			}
-			if( m_performFullUndoRegister )
-			{
-				m_performFullUndoRegister = false;
-				FullRegisterOnUndoStack();
 			}
 
 			if( CheckFunctions )
@@ -5257,87 +6458,10 @@ namespace AmplifyShaderEditor
 				TakeScreenShot();
 #endif
 
-			if( Event.current.type == EventType.Layout )
-			{
-				switch( State )
-				{
-					default:
-					case OpenSaveState.NONE:
-					break;
-					case OpenSaveState.OPEN:
-					{
-						State = OpenSaveState.WAIT;
-						string list = EditorPrefs.GetString( ASEFileList , "" );
-						m_assetPaths = new List<string>( list.Split( ',' ) );
-						Repaint();
-					}
-					break;
-					case OpenSaveState.WAIT:
-					{
-						// we wait one frame to give time for the editor to properly initialize everything
-						State = OpenSaveState.SAVE;
-						Repaint();
-					}
-					break;
-					case OpenSaveState.SAVE:
-					{
-						State = OpenSaveState.CLOSE;
-						try
-						{
-							SaveToDisk( false );
-						}
-						catch( Exception e )
-						{
-							State = OpenSaveState.NONE;
-							EditorPrefs.DeleteKey( ASEFileList );
-							throw e;
-						}
-
-						Repaint();
-					}
-					break;
-					case OpenSaveState.CLOSE:
-					{
-						State = OpenSaveState.NONE;
-						m_assetPaths.RemoveAt( 0 );
-						if( m_assetPaths.Count > 0 )
-						{
-							AmplifyShaderEditorWindow.LoadAndSaveList( m_assetPaths.ToArray() );
-						}
-						else
-						{
-							EditorPrefs.DeleteKey( ASEFileList );
-
-							if ( m_batchOnFinish != null )
-							{
-								m_batchOnFinish();
-								m_batchOnFinish = null;
-							}
-
-							m_batchTimer.Stop();
-							if ( Preferences.User.LogBatchCompile )
-							{
-								Debug.Log( "[AmplifyShaderEditor] Finished batch compilation in " + m_batchTimer.Elapsed.TotalSeconds.ToString( "0.00" ) + " seconds." );
-							}
-						}
-						this.Close();
-					}
-					break;
-				}
-			}
+			ProcessSaveStateMachine();
 		}
 
 		bool m_markToClose = false;
-		private List<string> m_assetPaths = new List<string>();
-		public OpenSaveState State = OpenSaveState.NONE;
-		public enum OpenSaveState
-		{
-			NONE,
-			OPEN,
-			WAIT,
-			SAVE,
-			CLOSE
-		}
 
 		void OnInspectorUpdate()
 		{
@@ -5538,18 +6662,45 @@ namespace AmplifyShaderEditor
 
 		private double m_previewUpdateLimiterTime = 0;
 
+		// @diogo: per-window transient preview-RT pool (pooled SF previews, QA #5). SF-internal nodes borrow
+		// RTs from here during a preview pass and hand them back when their SF finishes computing.
+		private ASEPreviewRTPool m_previewRTPool = new ASEPreviewRTPool();
+		public ASEPreviewRTPool PreviewRTPool { get { return m_previewRTPool; } }
+
 		public void UpdateNodePreviewListAndTime()
 		{
-		#if UNITY_2020_1_OR_NEWER
-			bool hasFocus = UIUtils.CurrentWindow.hasFocus;
-		#else
-			bool hasFocus = ( EditorWindow.focusedWindow == UIUtils.CurrentWindow );
-		#endif
-			if( UIUtils.CurrentWindow != this || !hasFocus )
+			if( UIUtils.CurrentWindow != this || !UIUtils.CurrentWindow.hasFocus )
 				return;
+
+			AutoBackupTick();
+
+			// While the Auto Backup tab is open, repaint at a low rate so its relative timestamps stay
+			// current ( the panel otherwise only redraws on input ). Gated on the tab being visible.
+			if( m_paletteWindow != null && m_paletteWindow.IsAutoBackupTabActive )
+			{
+				double repaintNow = EditorApplication.timeSinceStartup;
+				if( repaintNow >= m_nextAutoBackupRepaint )
+				{
+					m_nextAutoBackupRepaint = repaintNow + 1.0;
+					Repaint();
+				}
+			}
 
 			double deltaTime = Time.realtimeSinceStartup - m_time;
 			m_time = Time.realtimeSinceStartup;
+
+			// @diogo: skip absurd deltas ( first tick / regaining focus ) so the smoothed reading does not spike.
+			if ( deltaTime < 1.0 )
+			{
+				m_previewSmoothDeltaTime += ( deltaTime - m_previewSmoothDeltaTime ) * 0.1;
+			}
+
+			// @diogo: EMA-smoothed frame time for the stats overlay ( Preferences.User.ShowStats ). Skip absurd
+			// deltas ( first tick / regaining focus ) so the reading does not momentarily crater.
+			if( Preferences.User.ShowStats && deltaTime < 1.0 )
+			{
+				m_statsFrameMs += ( deltaTime * 1000.0 - m_statsFrameMs ) * 0.1;
+			}
 
 			if ( DebugConsoleWindow.DeveloperMode )
 			{
@@ -5635,6 +6786,8 @@ namespace AmplifyShaderEditor
 			// New
 			Shader.SetGlobalFloat( "preview_EditorTime", (float)m_time );
 			Shader.SetGlobalFloat( "preview_EditorDeltaTime", (float)deltaTime );
+			Shader.SetGlobalFloat( "preview_EditorSmoothDeltaTime", (float)m_previewSmoothDeltaTime );
+			Shader.SetGlobalFloat( "preview_EditorLastTime", (float)( m_time - deltaTime ) );
 
 			// @diogo: limit preview update frequency to keep the CPU usage under control
 			m_previewUpdateLimiterTime += deltaTime;
@@ -5644,17 +6797,32 @@ namespace AmplifyShaderEditor
 			}
 			m_previewUpdateLimiterTime = 0;
 
-			if ( !Preferences.User.DisablePreviews )
+			// @diogo: skip the preview pass during a batch resave - the graph is loaded only to resave and is
+			// never displayed, so re-rendering every ( all-dirty ) node's preview is wasted GPU work that floods
+			// the graphics ring buffer ( interactive drawing is already gated the same way ).
+			if ( !Preferences.User.DisablePreviews && !IsBatchProcessing )
 			{
+				UpdateZoomScaledPreviewSize();
+
+				bool statsMeasure = Preferences.User.ShowStats;
+				if( statsMeasure )
+				{
+					m_statsStopwatch.Restart();
+				}
+
 				/////////// UPDATE PREVIEWS //////////////
 				UIUtils.CheckNullMaterials();
 				UIUtils.SetPreviewShaderConstants();
+				ParentNode.BeginPreviewPass();
 				//CurrentGraph.AllNodes.Sort( ( x, y ) => { return x.Depth.CompareTo( y.Depth ); } );
 				int nodeCount = CurrentGraph.AllNodes.Count;
 				for( int i = nodeCount - 1; i >= 0; i-- )
 				{
 					ParentNode node = CurrentGraph.AllNodes[ i ];
-					if( node != null && !VisitedChanged.ContainsKey( node.OutputId ) )
+					// @diogo: root only on nodes whose preview is actually shown; RecursivePreviewUpdate walks
+					// upstream, so this renders just the visible previews and their producer cones. Nothing shown
+					// ( all collapsed / zoomed out ) renders nothing.
+					if( node != null && node.IsPreviewVisible && !VisitedChanged.ContainsKey( node.OutputId ) )
 					{
 						bool result = node.RecursivePreviewUpdate();
 						if( result )
@@ -5663,11 +6831,49 @@ namespace AmplifyShaderEditor
 				}
 
 				VisitedChanged.Clear();
+				// @diogo: every SF hands its pool RTs back when it finishes computing, so the pool must be
+				// fully free here. Deliberately NO blanket ReturnAll(): that would re-free a stray un-returned
+				// RT while its port still references it ( another node would then be handed the same RT ->
+				// corruption ). Leaving a leak checked out instead surfaces it as visible pool growth, and the
+				// developer-mode check below flags it (pooled SF previews, QA #5).
+				if( DebugConsoleWindow.DeveloperMode && m_previewRTPool.InUse != 0 )
+				{
+					Debug.LogWarning( "[ASE] Preview RT pool leak: " + m_previewRTPool.InUse + " RT(s) not returned this pass." );
+				}
+
+				if( statsMeasure )
+				{
+					m_statsStopwatch.Stop();
+					m_statsPreviewPassMs += ( m_statsStopwatch.Elapsed.TotalMilliseconds - m_statsPreviewPassMs ) * 0.1;
+				}
+
 				if( m_repaintIsDirty )
 				{
 					m_repaintIsDirty = false;
 					Repaint();
 				}
+			}
+
+			// @diogo: stats overlay upkeep ( Preferences.User.ShowStats ). Runs regardless of DisablePreviews so the
+			// overlay stays live; 'Preview pass' decays toward zero when previews are disabled ( no compute pass ).
+			if( Preferences.User.ShowStats )
+			{
+				if( Preferences.User.DisablePreviews )
+				{
+					m_statsPreviewPassMs += ( 0.0 - m_statsPreviewPassMs ) * 0.1;
+				}
+
+				// @diogo: throttled ( ~1 Hz ) preview-RT VRAM estimate: owned per-port RTs ( ACTUAL sizes - constants
+				// are 1x1 ) + transient pool ( always full size ).
+				m_statsVramTimer += deltaTime;
+				if( m_statsVramTimer >= 1.0 )
+				{
+					m_statsVramTimer = 0.0;
+					long bytes = SumOwnedPreviewBytes( CurrentGraph ) + m_previewRTPool.Allocated * PreviewRTBytes();
+					m_statsVramMB = bytes / ( 1024.0 * 1024.0 );
+				}
+
+				Repaint();
 			}
 		}
 
@@ -5676,6 +6882,194 @@ namespace AmplifyShaderEditor
 			m_repaintCount += 1;
 			m_repaintIsDirty = true;
 			//Repaint();
+		}
+
+		// @diogo: zoom-scaled previews (QA #5d). Maps the canvas zoom LOD to a preview RT size ( base, /2
+		// or /4 of the Preview Quality size ) and, once the target size holds for a moment ( debounce ),
+		// commits it: allocation sites read UIUtils.CurrentPreviewSize, the pool flushes itself on the next
+		// checkout, and a recursive dirty makes every preview ( including SF-internal frontier RTs ) re-render
+		// and re-allocate at the new size on this same pass. Swatches never upsample: each LOD band's size
+		// stays at or above the on-screen pixel size of a node preview in that band.
+		private void UpdateZoomScaledPreviewSize()
+		{
+			int baseSize = Preferences.User.PreviewSize;
+			int size = baseSize;
+			if( Preferences.User.ZoomScaledPreviews && CurrentGraph != null )
+			{
+				switch( CurrentGraph.LodLevel )
+				{
+					case ParentGraph.NodeLOD.LOD0:
+					case ParentGraph.NodeLOD.LOD1:
+					{
+						size = baseSize;
+					}
+					break;
+					case ParentGraph.NodeLOD.LOD2:
+					case ParentGraph.NodeLOD.LOD3:
+					{
+						size = baseSize / 2;
+					}
+					break;
+					default:
+					{
+						size = baseSize / 4;
+					}
+					break;
+				}
+			}
+
+			if( size == UIUtils.CurrentPreviewSize )
+			{
+				m_zoomPreviewCandidateSize = 0;
+				return;
+			}
+
+			// @diogo: hold the commit while the user is still zooming ( including smooth-zoom animation ) so
+			// the re-render burst only happens once movement settles.
+			double now = EditorApplication.timeSinceStartup;
+			if( CameraZoom != m_zoomPreviewLastZoom || m_smoothZoom )
+			{
+				m_zoomPreviewLastZoom = CameraZoom;
+				m_zoomPreviewCandidateSize = size;
+				m_zoomPreviewCandidateTime = now;
+				return;
+			}
+
+			if( size != m_zoomPreviewCandidateSize )
+			{
+				m_zoomPreviewCandidateSize = size;
+				m_zoomPreviewCandidateTime = now;
+				return;
+			}
+
+			if( now - m_zoomPreviewCandidateTime < 0.25 )
+			{
+				return;
+			}
+
+			m_zoomPreviewCandidateSize = 0;
+			UIUtils.CurrentPreviewSize = size;
+			Shader.SetGlobalVector( PreviewSizeGlobalVariable, new Vector4( size, size, 0, 0 ) );
+			ActivatePreviewsRecursive( CurrentGraph );
+		}
+
+		// @diogo: dirties every preview in the graph AND inside nested Shader Functions, so a preview-size
+		// change re-renders ( and thus re-allocates ) every RT, including SF-internal frontier RTs that a
+		// plain main-graph dirty would leave at the old size (QA #5d).
+		private void ActivatePreviewsRecursive( ParentGraph graph )
+		{
+			List<ParentNode> nodes = graph.AllNodes;
+			for( int i = 0; i < nodes.Count; i++ )
+			{
+				ParentNode node = nodes[ i ];
+				if( node == null )
+				{
+					continue;
+				}
+
+				node.PreviewIsDirty = true;
+				if( node is FunctionNode fn && fn.FunctionGraph != null )
+				{
+					ActivatePreviewsRecursive( fn.FunctionGraph );
+				}
+			}
+		}
+
+		// @diogo: optional perf overlay ( Preferences.User.ShowStats ), top-left of the canvas. Shows the
+		// EMA-smoothed frame time and preview compute time plus node count, preview-RT pool usage and zoom LOD
+		// - handy for comparing preview settings ( e.g. pooled SF previews ) OFF vs ON (QA #5).
+		private void DrawStatsOverlay()
+		{
+			double fps = m_statsFrameMs > 0.0001 ? 1000.0 / m_statsFrameMs : 0.0;
+			int nodeCount = CurrentGraph != null ? CurrentGraph.AllNodes.Count : 0;
+			int lod = CurrentGraph != null ? ( int )CurrentGraph.LodLevel : 0;
+			string text = string.Format(
+				"Frame: {0:0.0} ms ({1:0} fps)\nPreview pass: {2:0.00} ms\nNodes: {3}\nPool RTs: {4} / {5}\nEst. VRAM: {6:0.0} MB\nZoom LOD: {7}",
+				m_statsFrameMs, fps, m_statsPreviewPassMs, nodeCount, m_previewRTPool.InUse, m_previewRTPool.Allocated, m_statsVramMB, lod );
+
+			if( m_statsStyle == null )
+			{
+				m_statsStyle = new GUIStyle( EditorStyles.label );
+				m_statsStyle.normal.textColor = Color.white;
+				m_statsStyle.alignment = TextAnchor.UpperLeft;
+				m_statsStyle.padding = new RectOffset( 6, 6, 4, 4 );
+				m_statsStyle.richText = false;
+			}
+
+			float x = m_nodeParametersWindow.RealWidth + 10;
+			float y = m_toolsWindow.Height + 2;
+			Rect box = new Rect( x, y, 200, 112 );
+
+			Color prevColor = GUI.color;
+			GUI.color = new Color( 0f, 0f, 0f, 0.65f );
+			GUI.DrawTexture( box, Texture2D.whiteTexture );
+			GUI.color = prevColor;
+
+			GUI.Label( box, text, m_statsStyle );
+		}
+
+		// @diogo: sums the ACTUAL byte size of the preview RTs owned by output ports across the graph and its shader
+		// functions, for the VRAM estimate ( Preferences.User.ShowStats ). Reads each RT's real dimensions so 1x1
+		// constant previews are counted at their true size. FunctionNode output ports alias their inner FunctionOutput
+		// RTs, so they are skipped here and summed once via recursion (QA #5).
+		private long SumOwnedPreviewBytes( ParentGraph graph )
+		{
+			if( graph == null )
+			{
+				return 0;
+			}
+
+			long bytes = 0;
+			List<ParentNode> nodes = graph.AllNodes;
+			for( int i = 0; i < nodes.Count; i++ )
+			{
+				ParentNode node = nodes[ i ];
+				if( node == null )
+				{
+					continue;
+				}
+
+				if( node is FunctionNode fn )
+				{
+					bytes += SumOwnedPreviewBytes( fn.FunctionGraph );
+					continue;
+				}
+
+				List<OutputPort> outputs = node.OutputPorts;
+				if( outputs != null )
+				{
+					for( int p = 0; p < outputs.Count; p++ )
+					{
+						RenderTexture rt = outputs[ p ].OwnedPreviewTexture;
+						if( rt != null )
+						{
+							bytes += ( long )rt.width * rt.height * PreviewRTBytesPerPixel( rt.format );
+						}
+					}
+				}
+			}
+			return bytes;
+		}
+
+		// @diogo: bytes-per-pixel for a preview RT format, for the actual-size VRAM estimate (QA #5).
+		private long PreviewRTBytesPerPixel( RenderTextureFormat format )
+		{
+			switch( format )
+			{
+				case RenderTextureFormat.ARGBFloat: return 16;
+				case RenderTextureFormat.ARGBHalf: return 8;
+				case RenderTextureFormat.ARGB32:
+				case RenderTextureFormat.Default: return 4;
+				default: return 8;
+			}
+		}
+
+		// @diogo: byte size of a single full-size preview RT at the current ( zoom-scaled ) size, for the
+		// pool's VRAM estimate ( pool RTs are always allocated at the current preview size ) (QA #5).
+		private long PreviewRTBytes()
+		{
+			long side = UIUtils.CurrentPreviewSize;
+			return side * side * PreviewRTBytesPerPixel( Preferences.User.PreviewFormat );
 		}
 
 		public void ForceUpdateFromMaterial() { m_forceUpdateFromMaterialFlag = true; }
@@ -5688,19 +7082,6 @@ namespace AmplifyShaderEditor
 
 		public void OnBeforeSerialize()
 		{
-			//if ( !UIUtils.SerializeFromUndo() )
-			//{
-			//	m_mainGraphInstance.DeSelectAll();
-			//}
-
-			if( DebugConsoleWindow.UseShaderPanelsInfo )
-			{
-				if( m_nodeParametersWindow != null )
-					m_nodeParametersWindowMaximized = m_nodeParametersWindow.IsMaximized;
-
-				if( m_paletteWindow != null )
-					m_paletteWindowMaximized = m_paletteWindow.IsMaximized;
-			}
 		}
 
 		public void OnAfterDeserialize()
@@ -5708,19 +7089,12 @@ namespace AmplifyShaderEditor
 			m_afterDeserializeFlag = true;
 
 			//m_customGraph = null;
-			if( DebugConsoleWindow.UseShaderPanelsInfo )
-			{
-				if( m_nodeParametersWindow != null )
-					m_nodeParametersWindow.IsMaximized = m_nodeParametersWindowMaximized;
-
-				if( m_paletteWindow != null )
-					m_paletteWindow.IsMaximized = m_paletteWindowMaximized;
-			}
 		}
 
 		void OnDestroy()
 		{
 			m_ctrlSCallback = false;
+			AbortBatchOnWindowClose();
 			Destroy();
 		}
 
@@ -5730,6 +7104,9 @@ namespace AmplifyShaderEditor
 			m_ctrlSCallback = false;
 			//EditorApplication.update -= UpdateTime;
 			EditorApplication.update -= UpdateNodePreviewListAndTime;
+
+			// @diogo: release the transient preview-RT pool's GPU memory (pooled SF previews, QA #5).
+			m_previewRTPool.Flush();
 
 			EditorApplication.update -= IOUtils.UpdateIO;
 
@@ -5809,6 +7186,15 @@ namespace AmplifyShaderEditor
 
 		public void ReplaceMasterNode( MasterNodeCategoriesData data, bool cacheMasterNodes )
 		{
+			// Capture the current master node's section foldouts so the new master node ( built next
+			// frame in CheckNodeReplacement ) keeps them as-is instead of resetting to defaults.
+			if ( m_mainGraphInstance.CurrentMasterNode != null )
+			{
+				List<string> masterViewState = new List<string>();
+				m_mainGraphInstance.CurrentMasterNode.WriteUndoViewState( masterViewState );
+				m_replaceMasterNodeViewState = masterViewState.ToArray();
+			}
+
 			// save connection list before switching
 			m_savedList.Clear();
 			int count = m_mainGraphInstance.CurrentMasterNode.InputPorts.Count;
@@ -5867,21 +7253,31 @@ namespace AmplifyShaderEditor
 						TemplateDataParent templateData = TemplatesManager.Instance.GetTemplate( m_replaceMasterNodeData );
 						if( m_replaceMasterNodeDataFromCache )
 						{
-							m_mainGraphInstance.CrossCheckTemplateNodes( templateData, m_mainGraphInstance.MultiPassMasterNodes.NodesList , -1 );
-							for( int i = 0; i < m_mainGraphInstance.LodMultiPassMasternodes.Count; i++ )
+							// @diogo: while restoring, cascades run before the cached option selections are
+							// re-applied; flag it so they can't wipe the surviving nodes' wires or positions
+							m_mainGraphInstance.IsReplacingMasterNodes = true;
+							try
 							{
-								if( m_mainGraphInstance.LodMultiPassMasternodes[ i ].Count > 0 )
-									m_mainGraphInstance.CrossCheckTemplateNodes( templateData, m_mainGraphInstance.LodMultiPassMasternodes[ i ].NodesList, i );
-							}
+								m_mainGraphInstance.CrossCheckTemplateNodes( templateData, m_mainGraphInstance.MultiPassMasterNodes.NodesList , -1 );
+								for( int i = 0; i < m_mainGraphInstance.LodMultiPassMasternodes.Count; i++ )
+								{
+									if( m_mainGraphInstance.LodMultiPassMasternodes[ i ].Count > 0 )
+										m_mainGraphInstance.CrossCheckTemplateNodes( templateData, m_mainGraphInstance.LodMultiPassMasternodes[ i ].NodesList, i );
+								}
 
-							//Getting data from clipboard must be done after cross check all lists
-							m_clipboard.GetMultiPassNodesFromClipboard( m_mainGraphInstance.MultiPassMasterNodes.NodesList,-1 );
-							for( int i = 0; i < m_mainGraphInstance.LodMultiPassMasternodes.Count; i++ )
-							{
-								if( m_mainGraphInstance.LodMultiPassMasternodes[ i ].Count > 0 )
-									m_clipboard.GetMultiPassNodesFromClipboard( m_mainGraphInstance.LodMultiPassMasternodes[i].NodesList,  i );
+								//Getting data from clipboard must be done after cross check all lists
+								m_clipboard.GetMultiPassNodesFromClipboard( m_mainGraphInstance.MultiPassMasterNodes.NodesList,-1 );
+								for( int i = 0; i < m_mainGraphInstance.LodMultiPassMasternodes.Count; i++ )
+								{
+									if( m_mainGraphInstance.LodMultiPassMasternodes[ i ].Count > 0 )
+										m_clipboard.GetMultiPassNodesFromClipboard( m_mainGraphInstance.LodMultiPassMasternodes[i].NodesList,  i );
+								}
+								m_clipboard.ResetMultipassNodesData();
 							}
-							m_clipboard.ResetMultipassNodesData();
+							finally
+							{
+								m_mainGraphInstance.IsReplacingMasterNodes = false;
+							}
 						}
 						else
 						{
@@ -5894,6 +7290,17 @@ namespace AmplifyShaderEditor
 						}
 					}
 					break;
+				}
+				// Reapply the captured section foldouts to the freshly built master node ( see capture in
+				// ReplaceMasterNode ) so switching template keeps the sections open/closed as they were.
+				if ( m_replaceMasterNodeViewState != null )
+				{
+					if ( m_mainGraphInstance.CurrentMasterNode != null )
+					{
+						int viewStateIdx = 0;
+						m_mainGraphInstance.CurrentMasterNode.ReadUndoViewState( m_replaceMasterNodeViewState, ref viewStateIdx );
+					}
+					m_replaceMasterNodeViewState = null;
 				}
 			}
 			else if( m_outdatedShaderFromTemplateLoaded )

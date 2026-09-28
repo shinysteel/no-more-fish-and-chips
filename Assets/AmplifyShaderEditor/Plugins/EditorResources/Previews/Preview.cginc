@@ -17,6 +17,8 @@ float preview_EditorLightIntensity;
 
 float preview_EditorTime;
 float preview_EditorDeltaTime;
+float preview_EditorSmoothDeltaTime;
+float preview_EditorLastTime;
 
 inline float3 PreviewFragmentPositionOS( float2 uv )
 {

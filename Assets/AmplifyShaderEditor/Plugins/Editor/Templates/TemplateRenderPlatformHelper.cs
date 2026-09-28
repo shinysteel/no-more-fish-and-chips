@@ -55,8 +55,14 @@ namespace AmplifyShaderEditor
 		{
 			if ( Enum.TryParse<RenderPlatforms>( platformStr, out RenderPlatforms platform ) )
 			{
-				int index = -1;
-				if( RenderingPlatformOpHelper.PlatformToIndex.TryGetValue( platform , out index ) )
+				if( platform == RenderPlatforms.playstation )
+				{
+					// @diogo: the "playstation" token stands in for both ps4 and ps5
+					m_renderingPlatforms[ RenderingPlatformOpHelper.PlatformToIndex[ RenderPlatforms.playstation ] ] = value;
+					m_renderingPlatforms[ RenderingPlatformOpHelper.PlatformToIndex[ RenderPlatforms.ps4 ] ] = value;
+					m_renderingPlatforms[ RenderingPlatformOpHelper.PlatformToIndex[ RenderPlatforms.ps5 ] ] = value;
+				}
+				else if( RenderingPlatformOpHelper.PlatformToIndex.TryGetValue( platform , out int index ) )
 				{
 					m_renderingPlatforms[ index ] = value;
 				}

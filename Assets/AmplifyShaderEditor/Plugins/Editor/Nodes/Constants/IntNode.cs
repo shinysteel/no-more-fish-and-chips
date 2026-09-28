@@ -42,6 +42,10 @@ namespace AmplifyShaderEditor
 
 		public IntNode() : base() { }
 		public IntNode( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) { }
+
+		// @diogo: preview frag returns a single constant value, independent of UV (QA #5).
+		public override bool ConstantPreview { get { return true; } }
+
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -54,6 +58,7 @@ namespace AmplifyShaderEditor
 			m_availableAttribs.Add( new PropertyAttributes( "Enum", "[Enum]" ) );
 			m_previewShaderGUID = "0f64d695b6ffacc469f2dd31432a232a";
 			m_srpBatcherCompatible = true;
+			m_canBeReferenced = true;
 		}
 		protected override void OnUniqueIDAssigned()
 		{
@@ -203,6 +208,12 @@ namespace AmplifyShaderEditor
 		public override void DrawGUIControls( DrawInfo drawInfo )
 		{
 			base.DrawGUIControls( drawInfo );
+
+			if( IsPropertyReference )
+			{
+				m_isEditingFields = false;
+				return;
+			}
 
 			if( drawInfo.CurrentEventType != EventType.MouseDown )
 				return;
@@ -433,6 +444,13 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
+			PropertyNode reference = PropertyReference;
+			if( reference != null )
+			{
+				OrderIndex = reference.RawOrderIndex;
+				return reference.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
+			}
+
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 
 			if( m_currentParameterType != PropertyType.Constant )
@@ -463,7 +481,7 @@ namespace AmplifyShaderEditor
 		public override void UpdateMaterial( Material mat )
 		{
 			base.UpdateMaterial( mat );
-			if( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
+			if( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction && !IsPropertyReference )
 			{
 				mat.SetInt( m_propertyName, m_materialValue );
 			}
@@ -521,6 +539,23 @@ namespace AmplifyShaderEditor
 			return ( m_materialMode && m_currentParameterType != PropertyType.Constant ) ?
 				m_materialValue.ToString( Mathf.Abs( m_materialValue ) > 1000 ? Constants.PropertyBigIntFormatLabel : Constants.PropertyIntFormatLabel ) :
 				m_defaultValue.ToString( Mathf.Abs( m_defaultValue ) > 1000 ? Constants.PropertyBigIntFormatLabel : Constants.PropertyIntFormatLabel );
+		}
+
+		protected override void CopyPropertyReferenceValues( PropertyNode reference )
+		{
+			IntNode node = reference as IntNode;
+			if( node == null )
+				return;
+
+			if( m_defaultValue != node.m_defaultValue || m_materialValue != node.m_materialValue || m_min != node.m_min || m_max != node.m_max )
+			{
+				m_defaultValue = node.m_defaultValue;
+				m_materialValue = node.m_materialValue;
+				m_min = node.m_min;
+				m_max = node.m_max;
+				SetIntMode( m_min == m_max );
+				PreviewIsDirty = true;
+			}
 		}
 
 		public override void SetGlobalValue() { Shader.SetGlobalInt( m_propertyName, m_defaultValue ); }

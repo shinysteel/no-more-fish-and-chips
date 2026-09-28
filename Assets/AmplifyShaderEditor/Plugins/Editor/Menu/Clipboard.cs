@@ -62,6 +62,7 @@ namespace AmplifyShaderEditor
 					string connection = string.Empty;
 					System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 					masterNodes[ i ].FullWriteToString( ref data, ref connection );
+					JsonGraphFormat.EndNodeLine( ref data );
 					System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 					ClipboardData clipboardData = new ClipboardData( data, connection, masterNodes[ i ].UniqueId );
 					m_multiPassMasterNodeData.Add( masterNodes[ i ].PassUniqueName + lodId, clipboardData );
@@ -78,7 +79,7 @@ namespace AmplifyShaderEditor
 				if( m_multiPassMasterNodeData.ContainsKey( clipboardDataId ) )
 				{
 					ClipboardData nodeData = m_multiPassMasterNodeData[ clipboardDataId ];
-					string[] nodeParams = nodeData.Data.Split( IOUtils.FIELD_SEPARATOR );
+					string[] nodeParams = JsonGraphFormat.SplitInstruction( nodeData.Data );
 					System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 					masterNodes[ i ].FullReadFromString( ref nodeParams );
 					System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
@@ -112,6 +113,7 @@ namespace AmplifyShaderEditor
 					string nodeData = string.Empty;
 					string connections = string.Empty;
 					selectedNodes[ i ].ClipboardFullWriteToString( ref nodeData, ref connections );
+					JsonGraphFormat.EndNodeLine( ref nodeData );
 					clipboardData += nodeData;
 					if ( !string.IsNullOrEmpty( connections ) )
 					{
@@ -173,7 +175,7 @@ namespace AmplifyShaderEditor
 							nodeData = clipboardDataArray[ i ].Substring( 0, wiresIndex );
 							connections = clipboardDataArray[ i ].Substring( wiresIndex + 1 );
 						}
-						string[] nodeDataArr = nodeData.Split( IOUtils.FIELD_SEPARATOR );
+						string[] nodeDataArr = JsonGraphFormat.SplitInstruction( nodeData );
 						if ( nodeDataArr.Length > 2 )
 						{
 							int nodeId = Convert.ToInt32( nodeDataArr[ 2 ] );

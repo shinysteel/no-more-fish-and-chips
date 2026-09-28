@@ -14,6 +14,7 @@ using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.Voyages;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Rendering;
 
 namespace NoMoreFishAndChips.Networking
 {
@@ -34,6 +35,7 @@ namespace NoMoreFishAndChips.Networking
         protected StateManager _stateManager;
         protected VoyageManager _voyageManager;
         protected EnvironmentManager _environmentManager;
+        protected RenderingManager _renderingManager;
 
         protected virtual void Awake()
         {
@@ -52,6 +54,7 @@ namespace NoMoreFishAndChips.Networking
             _stateManager = GameManager.Instance.Get<StateManager>();
             _voyageManager = GameManager.Instance.Get<VoyageManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _renderingManager = GameManager.Instance.Get<RenderingManager>();
         }
 
         protected override void OnSpawned()

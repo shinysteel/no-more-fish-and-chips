@@ -42,6 +42,9 @@ namespace AmplifyShaderEditor
 		public RangedFloatNode() : base() { }
 		public RangedFloatNode( int uniqueId, float x, float y, float width, float height ) : base( uniqueId, x, y, width, height ) {}
 
+		// @diogo: preview frag returns a single constant value, independent of UV (QA #5).
+		public override bool ConstantPreview { get { return true; } }
+
 		protected override void CommonInit( int uniqueId )
 		{
 			base.CommonInit( uniqueId );
@@ -57,6 +60,7 @@ namespace AmplifyShaderEditor
 			m_availableAttribs.Add( new PropertyAttributes( "Enum", "[Enum]" ) );
 			m_previewShaderGUID = "d9ca47581ac157145bff6f72ac5dd73e";
 			m_srpBatcherCompatible = true;
+			m_canBeReferenced = true;
 		}
 
 		protected override void OnUniqueIDAssigned()
@@ -195,6 +199,12 @@ namespace AmplifyShaderEditor
 		public override void DrawGUIControls( DrawInfo drawInfo )
 		{
 			base.DrawGUIControls( drawInfo );
+
+			if ( IsPropertyReference )
+			{
+				m_isEditingFields = false;
+				return;
+			}
 
 			if ( drawInfo.CurrentEventType != EventType.MouseDown )
 				return;
@@ -425,6 +435,13 @@ namespace AmplifyShaderEditor
 
 		public override string GenerateShaderForOutput( int outputId, ref MasterNodeDataCollector dataCollector, bool ignoreLocalvar )
 		{
+			PropertyNode reference = PropertyReference;
+			if ( reference != null )
+			{
+				OrderIndex = reference.RawOrderIndex;
+				return reference.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
+			}
+
 			base.GenerateShaderForOutput( outputId, ref dataCollector, ignoreLocalvar );
 			m_precisionString = UIUtils.PrecisionWirePortToCgType( CurrentPrecisionType, m_outputPorts[ 0 ].DataType );
 
@@ -458,7 +475,7 @@ namespace AmplifyShaderEditor
 		public override void UpdateMaterial( Material mat )
 		{
 			base.UpdateMaterial( mat );
-			if ( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction )
+			if ( UIUtils.IsProperty( m_currentParameterType ) && !InsideShaderFunction && !IsPropertyReference )
 			{
 				mat.SetFloat( m_propertyName, m_materialValue );
 			}
@@ -510,6 +527,23 @@ namespace AmplifyShaderEditor
 			return ( m_materialMode && m_currentParameterType != PropertyType.Constant ) ?
 				m_materialValue.ToString( Mathf.Abs( m_materialValue ) > 1000 ? Constants.PropertyBigFloatFormatLabel : Constants.PropertyFloatFormatLabel ) :
 				m_defaultValue.ToString( Mathf.Abs( m_defaultValue ) > 1000 ? Constants.PropertyBigFloatFormatLabel : Constants.PropertyFloatFormatLabel );
+		}
+
+		protected override void CopyPropertyReferenceValues( PropertyNode reference )
+		{
+			RangedFloatNode node = reference as RangedFloatNode;
+			if ( node == null )
+				return;
+
+			if ( m_defaultValue != node.m_defaultValue || m_materialValue != node.m_materialValue || m_min != node.m_min || m_max != node.m_max )
+			{
+				m_defaultValue = node.m_defaultValue;
+				m_materialValue = node.m_materialValue;
+				m_min = node.m_min;
+				m_max = node.m_max;
+				SetFloatMode( m_min == m_max );
+				PreviewIsDirty = true;
+			}
 		}
 
 		public override void SetGlobalValue() { Shader.SetGlobalFloat( m_propertyName, m_defaultValue ); }

@@ -28,6 +28,10 @@ namespace AmplifyShaderEditor
 		private ReorderableList m_propertyReordableList = null;
 		private int m_lastCount = 0;
 
+		// @diogo: support for dragging entries from the Material Properties list into the canvas
+		private Rect m_propertyReordableListRect;
+		private int m_propertyDragSourceIndex = -1;
+
 		private bool m_forceUpdate = false;
 
 		[SerializeField]
@@ -138,7 +142,9 @@ namespace AmplifyShaderEditor
 
 							EditorGUILayout.Separator();
 							//UIUtils.RecordObject( selectedNode , "Changing properties on node " + selectedNode.UniqueId);
-							m_currentScrollPos = EditorGUILayout.BeginScrollView( m_currentScrollPos, GUILayout.Width( 0 ), GUILayout.Height( 0 ) );
+							// expand instead of sizing to content; a content-sized scroll view makes the scrollbar
+							// trigger on sub-pixel rounding of the zoom-compensated area, locking it visible
+							m_currentScrollPos = EditorGUILayout.BeginScrollView( m_currentScrollPos, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
 							float labelWidth = EditorGUIUtility.labelWidth;
 							//if( selectedNode.TextLabelWidth > 0 )
 							//	EditorGUIUtility.labelWidth = selectedNode.TextLabelWidth;
@@ -166,7 +172,7 @@ namespace AmplifyShaderEditor
 							EditorGUILayout.LabelField( "Graph Properties", m_nodePropertiesStyle );
 							EditorGUILayout.Separator();
 
-							m_currentScrollPos = EditorGUILayout.BeginScrollView( m_currentScrollPos, GUILayout.Width( 0 ), GUILayout.Height( 0 ) );
+							m_currentScrollPos = EditorGUILayout.BeginScrollView( m_currentScrollPos, GUILayout.ExpandWidth( true ), GUILayout.ExpandHeight( true ) );
 							float labelWidth = EditorGUIUtility.labelWidth;
 							EditorGUIUtility.labelWidth = 90;
 
@@ -438,6 +444,11 @@ namespace AmplifyShaderEditor
 
 					drawElementCallback = ( Rect rect, int index, bool isActive, bool isFocused ) =>
 					{
+						if ( Event.current.type == EventType.MouseDown && Event.current.button == 0 && rect.Contains( Event.current.mousePosition ) )
+						{
+							m_propertyDragSourceIndex = index;
+						}
+
 						var first = rect;
 						first.width *= 0.60f;
 						EditorGUI.LabelField( first, m_propertyReordableNodes[ index ].PropertyInspectorName );
@@ -458,6 +469,12 @@ namespace AmplifyShaderEditor
 				ReorderList( ref nodes );
 			}
 
+			if ( m_propertyReordableList != null )
+			{
+				// May abort an ongoing reorder operation by recreating the list
+				HandlePropertyDragToCanvas();
+			}
+
 			if( m_propertyReordableList != null )
 			{
 				if( m_propertyAdjustment == null )
@@ -468,6 +485,48 @@ namespace AmplifyShaderEditor
 				EditorGUILayout.BeginVertical( m_propertyAdjustment );
 				m_propertyReordableList.DoLayoutList();
 				EditorGUILayout.EndVertical();
+				if ( Event.current.type == EventType.Repaint )
+				{
+					m_propertyReordableListRect = GUILayoutUtility.GetLastRect();
+				}
+			}
+		}
+
+		// @diogo: mirrors MasterNode.HandlePropertyDragToCanvas so the shader function Material Properties list
+		// can also seed reference nodes when an entry is dragged out into the canvas
+		private void HandlePropertyDragToCanvas()
+		{
+			Event currentEvent = Event.current;
+			switch ( currentEvent.type )
+			{
+				case EventType.MouseDrag:
+				{
+					// Only start a drag&drop operation once the cursor leaves the list sideways, to keep
+					// the list's own vertical reordering working
+					bool draggedOutOfList = currentEvent.mousePosition.x < m_propertyReordableListRect.xMin ||
+											currentEvent.mousePosition.x > m_propertyReordableListRect.xMax;
+					if ( m_propertyDragSourceIndex > -1 && draggedOutOfList )
+					{
+						if ( m_propertyDragSourceIndex < m_propertyReordableNodes.Count )
+						{
+							DragAndDrop.PrepareStartDrag();
+							DragAndDrop.objectReferences = new UnityEngine.Object[] { m_propertyReordableNodes[ m_propertyDragSourceIndex ] };
+							DragAndDrop.StartDrag( "Dragging Material Property" );
+							// Recreate the list to abort any reorder operation in progress
+							m_propertyReordableList = null;
+							GUIUtility.hotControl = 0;
+							currentEvent.Use();
+						}
+						m_propertyDragSourceIndex = -1;
+					}
+				}
+				break;
+				case EventType.MouseUp:
+				case EventType.DragExited:
+				{
+					m_propertyDragSourceIndex = -1;
+				}
+				break;
 			}
 		}
 

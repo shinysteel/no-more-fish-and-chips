@@ -400,6 +400,24 @@ namespace AmplifyShaderEditor
 				tag.TagValue = value;
 		}
 
+		public void AddTag( string name, string value )
+		{
+			CustomTagData tag = m_availableTags.Find( x => x.TagName.Equals( name ) );
+			if ( tag != null )
+			{
+				tag.TagValue = value;
+			}
+			else
+			{
+				m_availableTags.Add( new CustomTagData( name, value, m_availableTags.Count ) );
+			}
+		}
+
+		public void RemoveTag( string name )
+		{
+			m_availableTags.RemoveAll( x => x.TagName.Equals( name ) );
+		}
+
 		public string GenerateTags()
 		{
 			int tagsCount = m_availableTags.Count;

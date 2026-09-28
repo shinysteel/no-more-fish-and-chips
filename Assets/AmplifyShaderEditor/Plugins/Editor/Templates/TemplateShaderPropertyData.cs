@@ -20,6 +20,20 @@ namespace AmplifyShaderEditor
 		public string ReplacementValueHelper;
 		public string Identation;
 
+		// True when the property is commented out in the template (a conditional/optional declaration),
+		// meaning the template does not currently emit it on the Properties block
+		public bool Commented;
+
+		// True when a pass body declares this property's uniform outside any preprocessor conditional,
+		// meaning the uniform exists even while the property is commented out on the Properties block.
+		// Such uniforms must always be soft registered so user properties reusing the name don't
+		// redeclare them; it does not reserve the name (users may alias these, e.g. _AlphaClip)
+		public bool UniformDeclaredUnconditionally;
+
+		// The template holds this name only while the property is active on the Properties block;
+		// commented properties leave their names free for users to declare
+		public bool NameInUse { get { return !Commented; } }
+
 		public bool IsMacro;
 
 		public int SubShaderId;

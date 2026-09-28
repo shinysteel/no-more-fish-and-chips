@@ -212,8 +212,6 @@ namespace AmplifyShaderEditor
 			string shaderName = userData as string;
 			if( !string.IsNullOrEmpty( shaderName ) )
 			{
-				UIUtils.MarkUndoAction();
-				UndoUtils.RecordObject( m_owner, "Selected Use Pass shader" );
 				m_items[ m_currentUsePassIdx ].Value = shaderName;
 			}
 		}

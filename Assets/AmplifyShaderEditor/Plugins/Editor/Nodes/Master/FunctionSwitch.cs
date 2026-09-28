@@ -200,6 +200,12 @@ namespace AmplifyShaderEditor
 
 		public override void ActivateNode( int signalGenNodeId, int signalGenPortId, Type signalGenNodeType )
 		{
+			// @diogo: destroyed shells must ignore signals; destroy cascades and undo patching reach them via live neighbors
+			if ( WasDestroyed )
+			{
+				return;
+			}
+
 			if( m_selfPowered )
 				return;
 
@@ -213,7 +219,8 @@ namespace AmplifyShaderEditor
 				if( m_inputPorts[ m_currentSelectedInput ].IsConnected )
 					m_inputPorts[ m_currentSelectedInput ].GetOutputNode().ActivateNode( signalGenNodeId, signalGenPortId, signalGenNodeType );
 
-			SetSaveIsDirty();
+			// @diogo: activation is signal propagation ( re-runs on load / graph refresh ), not a user edit; dirtying
+			// here flagged the graph modified on open. Base ParentNode omits it; real edits dirty via the change checks.
 		}
 
 		public override void DeactivateInputPortNode( int deactivatedPort, bool forceComplete )
@@ -225,10 +232,16 @@ namespace AmplifyShaderEditor
 
 		public override void DeactivateNode( int deactivatedPort, bool forceComplete )
 		{
+			// @diogo: destroyed shells must ignore signals; destroy cascades and undo patching reach them via live neighbors
+			if ( WasDestroyed )
+			{
+				return;
+			}
+
 			if( m_selfPowered )
 				return;
 
-			SetSaveIsDirty();
+			// @diogo: see ActivateNode - no save-dirty on deactivation ( propagation, not a user edit )
 			m_activeConnections -= 1;
 
 			if( ( forceComplete || m_activeConnections <= 0 ) )
@@ -402,6 +415,8 @@ namespace AmplifyShaderEditor
 						UIUtils.RegisterFunctionSwitchCopyNode( this );
 					}
 				}
+
+				UIUtils.DrawSeparator();
 
 				if( m_referenceType == TexReferenceType.Instance )
 				{
@@ -671,6 +686,7 @@ namespace AmplifyShaderEditor
 					{
 						if( GUI.Button( m_varRect, GUIContent.none, UIUtils.GraphButton ) )
 						{
+							UndoRecordObject( "Changing value Option on node Function Switch" );
 							PreviewIsDirty = true;
 							int prevVal = m_currentSelectedInput;
 							m_currentSelectedInput = m_currentSelectedInput == 1 ? 0 : 1;
@@ -849,5 +865,6 @@ namespace AmplifyShaderEditor
 			get { return m_validReference ? m_functionSwitchReference.OptionNames : m_optionNames; }
 		}
 		public bool DirtySettings { get { return m_dirtySettings; } }
+		public override int ReferencedNodeId { get { return ( m_referenceType == TexReferenceType.Instance && m_referenceUniqueId > -1 ) ? m_referenceUniqueId : base.ReferencedNodeId; } }
 	}
 }

@@ -190,12 +190,16 @@ namespace AmplifyShaderEditor
 						string tempocclusion = m_inputPorts[ 2 ].GeneratePortInstructions( ref dataCollector );
 
 						dataCollector.AddLocalVariable( UniqueId, "half3 reflectVector" + OutputId + " = reflect( -" + worldViewDir + ", " + worldNormal + " );" );
-						if ( ASEPackageManagerHelper.PackageSRPVersion >= ( int )ASESRPBaseline.ASE_SRP_14_X )
+						if ( ASEPackageManagerHelper.PackageSRPVersion >= ( int )SRPBaseline.ASE_SRP_14_X )
 						{
-							if ( ASEPackageManagerHelper.PackageSRPVersion >= ( int )ASESRPBaseline.ASE_SRP_17_1 )
+							if ( ASEPackageManagerHelper.PackageSRPVersion >= ( int )SRPBaseline.ASE_SRP_17_X )
 							{
-								dataCollector.AddToPragmas( UniqueId, "multi_compile _ _CLUSTER_LIGHT_LOOP" );
-								dataCollector.AddToPragmas( UniqueId, "multi_compile_fragment _ _REFLECTION_PROBE_ATLAS" );
+								// @diogo: note the conditions; this pragma is only valid for 6000.0
+								dataCollector.AddToPragmas( UniqueId, "multi_compile _ _FORWARD_PLUS", "UNITY_VERSION < 60010000" );
+
+								// @diogo: this pragma is valid for 6000.1 and above
+								dataCollector.AddToPragmas( UniqueId, "multi_compile _ _CLUSTER_LIGHT_LOOP", "UNITY_VERSION >= 60010000" );
+								dataCollector.AddToPragmas( UniqueId, "multi_compile_fragment _ _REFLECTION_PROBE_ATLAS", "UNITY_VERSION >= 60010000" );
 							}
 							else
 							{

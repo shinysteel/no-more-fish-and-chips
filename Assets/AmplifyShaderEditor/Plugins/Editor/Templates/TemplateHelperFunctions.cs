@@ -1030,7 +1030,7 @@ namespace AmplifyShaderEditor
 		//public static readonly string PropertiesPatternF = "^(\\/\\/)*\\s*(\\[[\\[\\]\\w\\s\\(\\)\\_\\,]*\\])*\\s*(\\w*)\\s*\\(\\s*\"([\\w\\(\\)\\+\\-\\\\* ]*)\"\\s*\\,\\s*(\\w*)\\s*.*\\)\\s*=\\s*[\\w,()\" {}]*";
 		//public static readonly string PropertiesPatternG = "^(\\s*)(\\[[\\[\\]\\w\\s\\(\\)\\_\\,]*\\])*\\s*(\\w*)\\s*\\(\\s*\"([\\w\\(\\)\\+\\-\\\\* ]*)\"\\s*\\,\\s*(\\w*)\\s*.*\\)\\s*=\\s*[\\w,()\" {}]*";
 		//public static readonly string PropertiesPatternH = @"^(\s*)(\[[\[\]\w\s\(\)_,\.]*\])*[\s\/]*(\w*)\s*\(\s*""([\w\(\)\+\-\\* ]*)""\s*\,\s*(\w*)\s*.*\)\s*=\s*[\w,()"" {}\.]*";
-		public static readonly string PropertiesPatternI = @"^(\s*)(\[[\[\]\w\s\(\)_,\.]*\])*[\s\/]*(\w*)\s*\(\s*""([\w\(\)\+\-\\* ]*)""\s*\,\s*(\w*)\s*.*\)\s*=\s*[\w,()"" {}\.]*";
+		public static readonly string PropertiesPatternI = @"^(\s*)[\s\/]*(\[[\[\]\w\s\(\)_,\.]*\])*[\s\/]*(\w*)\s*\(\s*""([\w\(\)\+\-\\* ]*)""\s*\,\s*(\w*)\s*.*\)\s*=\s*[\w,()"" {}\.]*";
 		public static readonly string CullModePattern = @"^\s*Cull\s+(\[*\w+\]*)";
 
 		public static readonly string ColorMaskPatternFirst = @"\bColorMask\s+([\d\w\[\]]+)(\s+0)*";
@@ -1213,12 +1213,27 @@ namespace AmplifyShaderEditor
 																								PropertyType.Property,
 																								subShaderId,
 																								passId);
+						newData.Commented = match.Value.TrimStart().StartsWith( "//" );
 						propertiesList.Add( newData );
 						duplicatesHelper.Add( newData.PropertyName, newData );
 					}
 				}
 			}
 		}
+
+		// Extracts the shader property name from a full property declaration line, e.g. "[HideInInspector] _AlphaClip(\"__clip\", Float) = 0.0" returns "_AlphaClip"
+		public static string GetPropertyNameFromDeclaration( string declaration )
+		{
+			if( string.IsNullOrEmpty( declaration ) )
+				return string.Empty;
+
+			Match match = Regex.Match( declaration, PropertiesPatternI, RegexOptions.Multiline );
+			if( match.Success && match.Groups.Count > (int)TemplateShaderPropertiesIdx.Name )
+				return match.Groups[ (int)TemplateShaderPropertiesIdx.Name ].Value;
+
+			return string.Empty;
+		}
+
 		public const string DepthMacroDeclRegex = @"UNITY_DECLARE_DEPTH_TEXTURE\(\s*_CameraDepthTexture";
 		public static void CheckUnityBuiltinGlobalMacros( string propertyData, ref List<TemplateShaderPropertyData> propertiesList, ref Dictionary<string, TemplateShaderPropertyData> duplicatesHelper, int subShaderId, int passId )
 		{
@@ -1240,6 +1255,25 @@ namespace AmplifyShaderEditor
 			}
 		}
 
+		// Returns true when the given position inside data is wrapped by an #if/#ifdef/#ifndef block,
+		// meaning any declaration there only exists for certain preprocessor states
+		private static bool IsInsidePreprocessorConditional( string data, int position )
+		{
+			int depth = 0;
+			foreach ( Match match in Regex.Matches( data.Substring( 0, position ), @"#\s*(if|endif)" ) )
+			{
+				if ( match.Groups[ 1 ].Value == "if" )
+				{
+					depth++;
+				}
+				else if ( depth > 0 )
+				{
+					depth--;
+				}
+			}
+			return depth > 0;
+		}
+
 		public static void CreateShaderGlobalsList( string propertyData, ref List<TemplateShaderPropertyData> propertiesList, ref Dictionary<string, TemplateShaderPropertyData> duplicatesHelper,int subShaderId, int passId )
 		{
 			int typeIdx = (int)TemplateShaderGlobalsIdx.Type;
@@ -1253,7 +1287,17 @@ namespace AmplifyShaderEditor
 			{
 				if( lineMatch.Groups.Count > 1 )
 				{
-					if( !duplicatesHelper.ContainsKey( lineMatch.Groups[ nameIdx ].Value ) && CgToWirePortType.ContainsKey( lineMatch.Groups[ typeIdx ].Value ) )
+					if ( duplicatesHelper.TryGetValue( lineMatch.Groups[ nameIdx ].Value, out TemplateShaderPropertyData declaredData ) )
+					{
+						// Properties block entry redeclared as a uniform on a pass body; when that declaration sits
+						// outside all preprocessor conditionals the uniform always exists, so its name must remain
+						// reserved even while the property is commented out on the Properties block
+						if ( !declaredData.UniformDeclaredUnconditionally && !IsInsidePreprocessorConditional( value, lineMatch.Index ) )
+						{
+							declaredData.UniformDeclaredUnconditionally = true;
+						}
+					}
+					else if( CgToWirePortType.ContainsKey( lineMatch.Groups[ typeIdx ].Value ) )
 					{
 						TemplateShaderPropertyData newData = new TemplateShaderPropertyData( -1,
 																								string.Empty,

@@ -319,6 +319,8 @@ namespace AmplifyShaderEditor
 				UpdatePorts();
 			}
 
+			UIUtils.DrawSeparator();
+
 			if( m_referenceType == TexReferenceType.Object )
 				DrawObjectProperties();
 			else
@@ -492,6 +494,7 @@ namespace AmplifyShaderEditor
 
 		public int ArrayLengthX { get { return ( m_referenceNode != null ) ? m_referenceNode.ArrayLengthX : m_arrayLengthX; } }
 		public int ArrayLengthY { get { return ( m_referenceNode != null ) ? m_referenceNode.ArrayLengthY : m_arrayLengthY; } }
+		public override int ReferencedNodeId { get { return ( m_referenceType == TexReferenceType.Instance && m_referenceNodeId > -1 ) ? m_referenceNodeId : base.ReferencedNodeId; } }
 
 		public bool AutoRegister { get { return m_autoRegister; } }
 		public bool IsJagged { get { return m_isJagged; } }

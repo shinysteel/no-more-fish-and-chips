@@ -98,7 +98,7 @@ namespace AmplifyShaderEditor
 			m_useInternalPortData = true;
 			m_previewShaderGUID = "beeb138daeb592a4887454f81dba2b3f";
 
-			m_allowPropertyDuplicates = true;
+			m_allowPropertyDuplicates = false;
 			m_showAutoRegisterUI = false;
 
 			m_srpBatcherCompatible = true;
@@ -577,6 +577,8 @@ namespace AmplifyShaderEditor
 		}
 
 		public bool IsToggleSwitchDirty { get { return m_isToggleSwitchDirty; } }
+		// @diogo: m_referenceNodeId is only cleared on entering Reference mode, not on leaving it, so also gate on mode
+		public override int ReferencedNodeId { get { return ( m_toggleSwitchVarMode == ToggleSwitchVariableMode.Reference && m_referenceNodeId > -1 ) ? m_referenceNodeId : base.ReferencedNodeId; } }
 		ToggleSwitchVariableMode CurrentVarMode
 		{
 			get { return m_toggleSwitchVarMode; }
