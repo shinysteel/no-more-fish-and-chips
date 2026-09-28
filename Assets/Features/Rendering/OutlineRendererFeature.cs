@@ -15,10 +15,12 @@ namespace NoMoreFishAndChips.Rendering
         {
             private IReadOnlyList<Renderer> _renderers;
             private Material _maskMaterial;
-            private Material _outlineMaterial;
+            private Material _horizontalMaterial;
+            private Material _verticalMaterial;
 
             private const string MaskName = "Outline Mask";
-            private const string OutlineName = "Outline";
+            private const string HorizontalName = "Outline Horizontal";
+            private const string VerticalName = "Outline Vertical";
 
             private class MaskData
             {
@@ -35,26 +37,12 @@ namespace NoMoreFishAndChips.Rendering
                 }
             }
 
-            private class OutlineData
-            {
-                private TextureHandle _handle;
-                private Material _material;
-
-                public TextureHandle Handle => _handle;
-                public Material Material => _material;
-
-                public void Set(TextureHandle handle, Material material)
-                {
-                    _handle = handle;
-                    _material = material;
-                }
-            }
-
-            public void Set(IReadOnlyList<Renderer> renderers, Material maskMaterial, Material outlineMaterial)
+            public void Set(IReadOnlyList<Renderer> renderers, Material maskMaterial, Material horizontalMaterial, Material verticalMaterial)
             {
                 _renderers = renderers;
                 _maskMaterial = maskMaterial;
-                _outlineMaterial = outlineMaterial;
+                _horizontalMaterial = horizontalMaterial;
+                _verticalMaterial = verticalMaterial;
             }
             
             public override void RecordRenderGraph(RenderGraph graph, ContextContainer container)
@@ -71,7 +59,7 @@ namespace NoMoreFishAndChips.Rendering
                 descriptor.depthBufferBits = 0;
                 descriptor.msaaSamples = 1;
 
-                TextureHandle handle = graph.CreateTexture(new TextureDesc(descriptor)
+                TextureHandle maskHandle = graph.CreateTexture(new TextureDesc(descriptor)
                 {
                     name = MaskName,
                     clearBuffer = true,
@@ -83,12 +71,20 @@ namespace NoMoreFishAndChips.Rendering
                 {
                     maskData.Set(_renderers, _maskMaterial);
 
-                    maskBuilder.SetRenderAttachment(handle, 0, AccessFlags.Write);
+                    maskBuilder.SetRenderAttachment(maskHandle, 0, AccessFlags.Write);
                     maskBuilder.SetRenderFunc<MaskData>(Mask);
                 };
 
-                RenderGraphUtils.BlitMaterialParameters parameters = new RenderGraphUtils.BlitMaterialParameters(handle, resourceData.activeColorTexture, _outlineMaterial, 0);
-                graph.AddBlitPass(parameters, OutlineName);
+                TextureHandle horizontalHandle = graph.CreateTexture(new TextureDesc(descriptor)
+                {
+                    name = HorizontalName
+                });
+
+                RenderGraphUtils.BlitMaterialParameters horizontalParameters = new RenderGraphUtils.BlitMaterialParameters(maskHandle, horizontalHandle, _horizontalMaterial, 0);
+                graph.AddBlitPass(horizontalParameters, HorizontalName);
+
+                RenderGraphUtils.BlitMaterialParameters verticalParameters = new RenderGraphUtils.BlitMaterialParameters(horizontalHandle, resourceData.activeColorTexture, _verticalMaterial, 0);
+                graph.AddBlitPass(verticalParameters, VerticalName);
             }
 
             private void Mask(MaskData data, UnsafeGraphContext context)
@@ -117,7 +113,7 @@ namespace NoMoreFishAndChips.Rendering
 
             RenderingManager renderingManager = GameManager.Instance.Get<RenderingManager>();
             
-            _pass.Set(renderingManager.OutlineRenderers, renderingManager.Config.OutlineMaskMaterial, renderingManager.Config.OutlineMaterial);
+            _pass.Set(renderingManager.OutlineRenderers, renderingManager.Config.OutlineMaskMaterial, renderingManager.Config.OutlineHorizontalMaterial, renderingManager.Config.OutlineVerticalMaterial);
 
             renderer.EnqueuePass(_pass);
         }

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: RenderingManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Rendering.RenderingManagerConfig
   _outlineMaskMaterial: {fileID: 2100000, guid: c8c4d11fa570eb946b27a076bb118b11, type: 2}
-  _outlineMaterial: {fileID: 2100000, guid: 16154186043b03b43b5d7ba4c42ace52, type: 2}
+  _outlineHorizontalMaterial: {fileID: 2100000, guid: 16154186043b03b43b5d7ba4c42ace52, type: 2}
+  _outlineVerticalMaterial: {fileID: 2100000, guid: a1e002e1451da6947a63eae3fae41467, type: 2}
