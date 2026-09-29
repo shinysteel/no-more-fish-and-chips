@@ -117,9 +117,14 @@ namespace ShinyOwl.Common.Utils
                 return (int)(value ^ (value >> 32));
             }
 
+            public static int ManhattanDistance(Vector2Int cellA, Vector2Int cellB)
+            {
+                return Mathf.Abs(cellA.x - cellB.x) + Mathf.Abs(cellA.y - cellB.y);
+            }
+
             public static bool IsAdjacent(Vector2Int cellA, Vector2Int cellB)
             {
-                return Mathf.Abs(cellA.x - cellB.x) + Mathf.Abs(cellA.y - cellB.y) == 1;
+                return ManhattanDistance(cellA, cellB) == 1;
             }
 
             public static bool HasAdjacency<T>(IReadOnlyDictionary<Vector2Int, T> dictionary, Vector2Int cell, Func<T, bool> condition)

@@ -254,7 +254,7 @@ namespace ShinyOwl.Common
             }
 
             byte[] bytes = _previewTexture.EncodeToPNG();
-            string path = Path.Combine(_destination, $"{_prefab.name}{_suffix}.png");
+            string path = System.IO.Path.Combine(_destination, $"{_prefab.name}{_suffix}.png");
             File.WriteAllBytes(path, bytes);
 
             AssetDatabase.Refresh();

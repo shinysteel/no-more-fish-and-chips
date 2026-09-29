@@ -6,7 +6,7 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using Steamworks;
 using System;
-using Unity.VisualScripting;
+using System.Xml.XPath;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -511,17 +511,17 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            // _idleDuration = _settings.IdleRange.RandomRange();
+            _idleDuration = _settings.IdleRange.RandomRange();
         }
 
         public override void Tick()
         {
             base.Tick();
 
-            //if (_stateTimer >= _idleDuration)
-            //{
-            //    _parentStateMachine.ChangeState(ESeagullGroundState.Roam);
-            //}
+            if (_stateTimer >= _idleDuration)
+            {
+                _parentStateMachine.ChangeState(ESeagullGroundState.Roam);
+            }
         }
     }
 
@@ -529,9 +529,56 @@ namespace NoMoreFishAndChips.Entities
     {
         private SeagullGroundRoamSettings _settings;
 
+        private Vector2Int _roamCell;
+        private PathNavigator _pathNavigator;
+
         public SeagullGroundRoamState(StateMachine<ESeagullGroundState> parent, Seagull seagull) : base(parent, seagull)
         {
             _settings = _seagull.DefinitionData.GroundSettings.RoamSettings;
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            _pathNavigator = new PathNavigator(_context.Raft);
+            
+            _roamCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+
+            Vector2Int cell = _context.Raft.Queries.WorldPositionToStructureCell(_seagull.transform.position);
+
+            if (!_pathNavigator.HasPath() || !_pathNavigator.AtIndex(cell))
+            {
+                if (!_pathNavigator.TrySetPath(cell, _roamCell))
+                {
+                    _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
+                    return;
+                }
+            }
+
+            _pathNavigator.Tick(cell);
+
+            if (_pathNavigator.AtDestination())
+            {
+                _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
+            }
+        }
+
+        public override void FixedTick()
+        {
+            base.FixedTick();
+
+            if (_pathNavigator.HasPath())
+            {
+                Vector2Int direction = _pathNavigator.GetDirection();
+
+                _seagull.CharacterPhysicsLogic.Move(new Vector3(direction.x, 0f, direction.y), 2f, 10f);
+            }
         }
     }
 

@@ -8,6 +8,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Path = System.IO.Path;
+
 public class SaveEntry : MonoBehaviour, ITypedPoolable
 {
     [SerializeField] private Button _button;

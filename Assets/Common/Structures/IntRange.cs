@@ -3,7 +3,7 @@ using UnityEngine;
 
 using Random = UnityEngine.Random;
 
-namespace ShinyOwl.Common
+namespace ShinyOwl.Common.Structures
 {
     [Serializable]
     public class IntRange

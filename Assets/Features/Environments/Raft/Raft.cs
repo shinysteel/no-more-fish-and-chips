@@ -16,7 +16,7 @@ using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class Raft : GameplayBehaviour, IEntityManagerListener
+    public class Raft : GameplayBehaviour, IEntityManagerListener, IPathFindable
     {
         private SyncDictionaryWrapper<Vector2Int, RaftTile> _netTiles = new SyncDictionaryWrapper<Vector2Int, RaftTile>(ownerAuth: true);
         private SyncDictionaryWrapper<Vector2Int, Structure> _netStructures = new SyncDictionaryWrapper<Vector2Int, Structure>(ownerAuth: true);
@@ -72,6 +72,19 @@ namespace NoMoreFishAndChips.Environments
             _netStructures.onChanged -= HandleNetStructuresChanged;
              
             _entityManager.RemoveListener(this);
+        }
+
+        // The structure grid is used for pathfinding
+        bool IPathFindable.IsTraversable(Vector2Int structureCell)
+        {
+            if (_structures.ContainsKey(structureCell))
+            {
+                return false;
+            }
+
+            Vector2Int tileCell = _queries.StructureCellToTileCell(structureCell);
+
+            return _tiles.ContainsKey(tileCell);
         }
 
         private void RaiseTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)

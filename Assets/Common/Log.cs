@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.IO;
 
 using Debug = UnityEngine.Debug;
 
@@ -37,7 +36,7 @@ namespace ShinyOwl.Common
 
         private static string GetClassName(string filePath)
         {
-            return Path.GetFileNameWithoutExtension(filePath.Replace('\\', Path.DirectorySeparatorChar));
+            return System.IO.Path.GetFileNameWithoutExtension(filePath.Replace('\\', System.IO.Path.DirectorySeparatorChar));
         }
     }
 }

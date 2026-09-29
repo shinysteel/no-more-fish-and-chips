@@ -35,6 +35,15 @@ namespace NoMoreFishAndChips.Entities
             _settings = _character.CharacterDefinitionData.CharacterPhysicsSettings;
         }
 
+        public void Move(Vector3 direction, float speed, float acceleration)
+        {
+            Vector3 targetVelocity = direction * speed;
+
+            targetVelocity.y = _rigidbody.linearVelocity.y;
+
+            _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+        }
+
         public override void FixedTick()
         {
             IsGroundedFixedTick();

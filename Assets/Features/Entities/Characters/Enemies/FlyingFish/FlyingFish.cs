@@ -4,7 +4,7 @@ using ShinyOwl.Common.Framework;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
 using PrimeTween;
-using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.Audio;

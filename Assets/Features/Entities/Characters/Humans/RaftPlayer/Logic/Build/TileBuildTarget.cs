@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using NoMoreFishAndChips.Networking;
 using ShinyOwl.Common.Utils;
-using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using NoMoreFishAndChips.Environments;
 
 namespace NoMoreFishAndChips.Entities

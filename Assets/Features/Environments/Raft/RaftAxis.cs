@@ -1,5 +1,5 @@
 using NoMoreFishAndChips.Entities;
-using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Utils;

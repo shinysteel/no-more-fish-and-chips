@@ -19,6 +19,8 @@ using System.Linq;
 using ParrelSync;
 #endif
 
+using Path = System.IO.Path;
+
 namespace NoMoreFishAndChips.Saving
 {
     public interface ISaveable

@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Hitboxes;
 using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using System;
 using UnityEngine;
 

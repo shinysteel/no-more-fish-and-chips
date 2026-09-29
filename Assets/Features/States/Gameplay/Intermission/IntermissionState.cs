@@ -5,7 +5,7 @@ using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.Scenes;
 using NoMoreFishAndChips.UI;
 using PrimeTween;
-using ShinyOwl.Common;
+using ShinyOwl.Common.Structures;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System.Threading.Tasks;
