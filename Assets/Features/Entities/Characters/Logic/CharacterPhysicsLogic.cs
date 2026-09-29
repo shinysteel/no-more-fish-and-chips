@@ -44,6 +44,13 @@ namespace NoMoreFishAndChips.Entities
             _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
         }
 
+        public void Look(Vector3 direction, float speed)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+
+            _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
+        }
+
         public override void FixedTick()
         {
             IsGroundedFixedTick();

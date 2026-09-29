@@ -21,6 +21,7 @@ namespace NoMoreFishAndChips.Entities
 
         private const string EnvironmentStateIntName = "EnvironmentState";
         public const string IsFlappingBoolName = "IsFlapping";
+        public const string IsWalkingBoolName = "IsWalking";
 
         public const string AttackTriggerName = "Attack";
 

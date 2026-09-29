@@ -544,6 +544,8 @@ namespace NoMoreFishAndChips.Entities
             _pathNavigator = new PathNavigator(_context.Raft);
             
             _roamCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
+
+            _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, true);
         }
 
         public override void Tick()
@@ -575,10 +577,19 @@ namespace NoMoreFishAndChips.Entities
 
             if (_pathNavigator.HasPath())
             {
-                Vector2Int direction = _pathNavigator.GetDirection();
+                Vector2Int cellDirection = _pathNavigator.GetDirection();
+                Vector3 worldDirection = new Vector3(cellDirection.x, 0f, cellDirection.y);
 
-                _seagull.CharacterPhysicsLogic.Move(new Vector3(direction.x, 0f, direction.y), 2f, 10f);
+                _seagull.CharacterPhysicsLogic.Move(worldDirection, 1f, 10f);
+                _seagull.CharacterPhysicsLogic.Look(worldDirection, 7.5f);
             }
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, false);
         }
     }
 
