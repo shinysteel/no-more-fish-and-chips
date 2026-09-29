@@ -170,7 +170,7 @@ namespace NoMoreFishAndChips.Rendering
         public override void Create()
         {   
             _pass = new Pass();
-            _pass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
+            _pass.renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
