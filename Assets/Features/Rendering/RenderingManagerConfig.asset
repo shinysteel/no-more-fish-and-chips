@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d45957a6283cc14e972c7ae1da76d12, type: 3}
   m_Name: RenderingManagerConfig
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Rendering.RenderingManagerConfig
-  _outlineMaskMaterial: {fileID: 2100000, guid: c8c4d11fa570eb946b27a076bb118b11, type: 2}
-  _outlineHorizontalMaterial: {fileID: 2100000, guid: 16154186043b03b43b5d7ba4c42ace52, type: 2}
-  _outlineVerticalMaterial: {fileID: 2100000, guid: a1e002e1451da6947a63eae3fae41467, type: 2}
+  _outlineConfig:
+    _maskMaterial: {fileID: 2100000, guid: c8c4d11fa570eb946b27a076bb118b11, type: 2}
+    _occlusionMaterial: {fileID: 2100000, guid: ca6359e621dcdf943ab8c0a8d3b8a658, type: 2}
+    _combineMaterial: {fileID: 2100000, guid: 4acd25bd33e1f4344bd91edf36723412, type: 2}
+    _horizontalMaterial: {fileID: 2100000, guid: 16154186043b03b43b5d7ba4c42ace52, type: 2}
+    _verticalMaterial: {fileID: 2100000, guid: a1e002e1451da6947a63eae3fae41467, type: 2}
