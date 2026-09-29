@@ -27,13 +27,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.RenderObjects
   m_Active: 1
   settings:
-    passTag: RenderObjects
-    Event: 300
+    passTag: WorldCanvas
+    Event: 600
     filterSettings:
-      RenderQueueType: 0
+      RenderQueueType: 1
       LayerMask:
         serializedVersion: 2
-        m_Bits: 0
+        m_Bits: 32
       PassNames: []
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
