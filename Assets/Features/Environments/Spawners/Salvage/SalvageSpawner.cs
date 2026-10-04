@@ -100,7 +100,7 @@ namespace NoMoreFishAndChips.Environments
 
             int y = verticalBounds.Max + forwardDist;
 
-            Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(new Vector2(x, y));
+            Vector3 position = _context.Raft.Queries.TilePositionToWorldPosition(new Vector2(x, y));
 
             _itemManager.SpawnDrops(position, DroppedItemType.Salvage, _dropTable);
         }

@@ -41,7 +41,7 @@ namespace NoMoreFishAndChips.Entities
                 _colliderProxies.Add(proxy);
             });
 
-            Vector3 position = _context.Raft.Queries.StructureCellToWorldPosition(_netCell.value + _shape.TrueBounds.center - Vector2.one * 0.5f);
+            Vector3 position = _context.Raft.Queries.StructurePositionToWorldPosition(_netCell.value + _shape.TrueBounds.center - Vector2.one * 0.5f);
             position.y = transform.position.y;
             _iInteractablePositionOffset = position - transform.position;
         }

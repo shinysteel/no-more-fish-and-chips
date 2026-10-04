@@ -95,15 +95,24 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        // Uses Vector2 to allow for floating-point cells
-        public Vector3 TileCellToWorldPosition(Vector2 cell)
+        public Vector3 TilePositionToWorldPosition(Vector2 position)
         {
-            return new Vector3(cell.x, 0f, cell.y);
+            return new Vector3(position.x, 0f, position.y);
         }
 
-        public Vector3 StructureCellToWorldPosition(Vector2 cell)
+        public Vector3 TileCellToWorldPosition(Vector2Int cell)
         {
-            return TileCellToWorldPosition(cell * 0.5f - Vector2.one * 0.25f);
+            return TilePositionToWorldPosition(cell);
+        }
+
+        public Vector3 StructurePositionToWorldPosition(Vector2 position)
+        {
+            return TilePositionToWorldPosition(position * 0.5f - Vector2.one * 0.25f);
+        }
+
+        public Vector3 StructureCellToWorldPosition(Vector2Int cell)
+        {
+            return StructurePositionToWorldPosition(cell);
         }
 
         public Vector2Int WorldPositionToTileCell(Vector3 position)
@@ -116,11 +125,6 @@ namespace NoMoreFishAndChips.Environments
             return WorldPositionToTileCell(position * 2f + new Vector3(0.5f, 0f, 0.5f));
         }
 
-        public Vector2Int TileCellToStructureCell(Vector2Int cell)
-        {
-            return cell * 2;
-        }
-
         public Vector2Int StructureCellToTileCell(Vector2Int cell)
         {
             return new Vector2Int(Mathf.FloorToInt(cell.x / 2f), Mathf.FloorToInt(cell.y / 2f));
@@ -128,7 +132,7 @@ namespace NoMoreFishAndChips.Environments
 
         public Vector3 GetCenterPosition()
         {
-            return TileCellToWorldPosition(_tileCellTotal / _raft.Tiles.Count);
+            return TilePositionToWorldPosition(_tileCellTotal / _raft.Tiles.Count);
         }
 
         // Retrieves a random tile that fulfills a predicate

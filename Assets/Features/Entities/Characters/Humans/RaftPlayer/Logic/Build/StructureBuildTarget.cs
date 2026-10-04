@@ -195,8 +195,8 @@ namespace NoMoreFishAndChips.Entities
         {   
             // A refresh involves recalculating the positions and colors of both the previewModel and previewProps
 
-            Vector2 centerCell = _shape.TrueBounds.center - Vector2.one * 0.5f;
-            Vector3 modelPosition = _context.Raft.Queries.StructureCellToWorldPosition(_cell + centerCell);
+            Vector2 centerPosition = _shape.TrueBounds.center - Vector2.one * 0.5f;
+            Vector3 modelPosition = _context.Raft.Queries.StructurePositionToWorldPosition(_cell + centerPosition);
             modelPosition.y = _previewModel.transform.position.y;
             _previewModel.transform.position = modelPosition;
 
