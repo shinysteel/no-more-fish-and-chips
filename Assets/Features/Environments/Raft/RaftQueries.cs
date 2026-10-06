@@ -95,6 +95,7 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
+        // x -> WorldPosition
         public Vector3 TilePositionToWorldPosition(Vector2 position)
         {
             return new Vector3(position.x, 0f, position.y);
@@ -115,19 +116,26 @@ namespace NoMoreFishAndChips.Environments
             return StructurePositionToWorldPosition(cell);
         }
 
+        // x -> Tile
         public Vector2Int WorldPositionToTileCell(Vector3 position)
         {
             return new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.z));
         }
 
-        public Vector2Int WorldPositionToStructureCell(Vector3 position)
-        {
-            return WorldPositionToTileCell(position * 2f + new Vector3(0.5f, 0f, 0.5f));
-        }
-
         public Vector2Int StructureCellToTileCell(Vector2Int cell)
         {
             return new Vector2Int(Mathf.FloorToInt(cell.x / 2f), Mathf.FloorToInt(cell.y / 2f));
+        }
+
+        // x -> Structure
+        public Vector2 WorldPositionToStructurePosition(Vector3 position)
+        {
+            return new Vector2(position.x * 2f + 0.5f, position.z * 2f + 0.5f);
+        }
+
+        public Vector2Int WorldPositionToStructureCell(Vector3 position)
+        {
+            return new Vector2Int(Mathf.RoundToInt(position.x * 2f + 0.5f), Mathf.RoundToInt(position.z * 2f + 0.5f));
         }
 
         public Vector3 GetCenterPosition()

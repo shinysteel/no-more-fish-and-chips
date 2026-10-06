@@ -50,22 +50,22 @@ namespace ShinyOwl.Common
 
                 if (closestCell == endCell)
                 {
-                    List<Vector2Int> cells = ListPool<Vector2Int>.Get();
+                    List<Vector2> positions = ListPool<Vector2>.Get();
 
-                    Vector2Int cell = endCell;
+                    Vector2 cell = endCell;
 
                     while (cell != startCell)
                     {
-                        cells.Add(cell);
-                        cell = parentCells[cell];
+                        positions.Add(cell);
+                        cell = parentCells[Vector2Int.FloorToInt(cell)];
                     }
 
-                    cells.Add(startCell);
-                    cells.Reverse();
+                    positions.Add(startCell);
+                    positions.Reverse();
 
-                    path = new Path(cells.ToArray());
+                    path = new Path(positions.ToArray());
 
-                    ListPool<Vector2Int>.Release(cells);
+                    ListPool<Vector2>.Release(positions);
 
                     break;
                 }

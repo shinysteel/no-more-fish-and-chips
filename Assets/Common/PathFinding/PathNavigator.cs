@@ -5,15 +5,24 @@ namespace ShinyOwl.Common
     public class PathNavigator
     {
         private IPathFindable _pathFindable;
-        private GreedyPathFinder _pathFinder;
+        private float _radius;
+
+        private ContinuousPathFinder _pathFinder;
 
         private Path _path;
         private int _index;
 
-        public PathNavigator(IPathFindable findable)
+        public PathNavigator(IPathFindable findable, float radius)
         {
             _pathFindable = findable;
-            _pathFinder = new GreedyPathFinder(_pathFindable);
+            _radius = radius;
+
+            _pathFinder = new ContinuousPathFinder(_pathFindable);
+        }
+
+        public void OnDrawGizmos()
+        {
+            _pathFinder.OnDrawGizmos();
         }
 
         public bool HasPath()
@@ -21,9 +30,9 @@ namespace ShinyOwl.Common
             return _path != null;
         }
 
-        public bool TrySetPath(Vector2Int startCell, Vector2Int endCell)
+        public bool TrySetPath(Vector2 startPosition, Vector2 endPosition)
         {
-            if (!_pathFinder.TryFindPath(startCell, endCell, out Path path))
+            if (!_pathFinder.TryFindPath(startPosition, endPosition, _radius, out Path path))
             {
                 return false;
             }
@@ -34,14 +43,14 @@ namespace ShinyOwl.Common
             return true;
         }
 
-        public void Tick(Vector2Int cell)
-        {
+        public void Tick(Vector2 position)
+        {   
             if (AtDestination())
             {
                 return;
             }
 
-            if (_path.Cells[_index + 1] == cell)
+            if (Vector2.Distance(position, _path.Positions[_index + 1]) < _radius)
             {
                 _index++;
             }
@@ -49,22 +58,15 @@ namespace ShinyOwl.Common
 
         public bool AtDestination()
         {
-            return _index == _path.Cells.Length - 1;
+            return _index == _path.Positions.Length - 1;
         }
 
-        public bool AtIndex(Vector2Int cell)
+        public Vector2 GetNextPosition()
         {
-            return cell == _path.Cells[_index];
-        }
+            int index = _index + 1;
+            index = Mathf.Min(index, _path.Positions.Length - 1);
 
-        public Vector2Int GetDirection()
-        {
-            if (AtDestination())
-            {
-                return Vector2Int.zero;
-            }
-
-            return (_path.Cells[_index + 1] - _path.Cells[_index]);
+            return _path.Positions[index];
         }
     }
 }

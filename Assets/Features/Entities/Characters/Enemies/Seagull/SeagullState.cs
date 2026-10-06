@@ -529,7 +529,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private SeagullGroundRoamSettings _settings;
 
-        private Vector2Int _roamCell;
+        private Vector2 _roamPosition;
         private PathNavigator _pathNavigator;
 
         public SeagullGroundRoamState(StateMachine<ESeagullGroundState> parent, Seagull seagull) : base(parent, seagull)
@@ -541,9 +541,9 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            _pathNavigator = new PathNavigator(_context.Raft);
+            _pathNavigator = new PathNavigator(_context.Raft, 0.25f);
             
-            _roamCell = _context.Raft.Queries.WorldPositionToStructureCell(_context.LocalPlayer.transform.position);
+            _roamPosition = _context.Raft.Queries.WorldPositionToStructurePosition(_context.LocalPlayer.transform.position);
 
             _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, true);
         }
@@ -552,18 +552,20 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Tick();
 
-            Vector2Int cell = _context.Raft.Queries.WorldPositionToStructureCell(_seagull.transform.position);
+            Vector2 position = _context.Raft.Queries.WorldPositionToStructurePosition(_seagull.transform.position);
 
-            if (!_pathNavigator.HasPath() || !_pathNavigator.AtIndex(cell))
+            if (!_pathNavigator.HasPath())
             {
-                if (!_pathNavigator.TrySetPath(cell, _roamCell))
+                Log.Info($"making a request to navigate from structure position {position} to {_roamPosition}");
+
+                if (!_pathNavigator.TrySetPath(position, _roamPosition))
                 {
                     _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
                     return;
                 }
             }
 
-            _pathNavigator.Tick(cell);
+            _pathNavigator.Tick(position);
 
             if (_pathNavigator.AtDestination())
             {
@@ -577,12 +579,23 @@ namespace NoMoreFishAndChips.Entities
 
             if (_pathNavigator.HasPath())
             {
-                Vector2Int cellDirection = _pathNavigator.GetDirection();
-                Vector3 worldDirection = new Vector3(cellDirection.x, 0f, cellDirection.y);
+                Vector2 cellPosition = _pathNavigator.GetNextPosition();
+                Vector3 worldPosition = _context.Raft.Queries.StructurePositionToWorldPosition(cellPosition);
 
-                _seagull.CharacterPhysicsLogic.Move(worldDirection, 1f, 10f);
-                _seagull.CharacterPhysicsLogic.Look(worldDirection, 7.5f);
+                Vector3 direction = (worldPosition - _seagull.transform.position);
+                direction.y = 0f;
+                direction.Normalize();
+
+                _seagull.CharacterPhysicsLogic.Move(direction, 1f, 10f);
+                _seagull.CharacterPhysicsLogic.Look(direction, 7.5f);
             }
+        }
+
+        public override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+
+            _pathNavigator.OnDrawGizmos();
         }
 
         public override void Exit()

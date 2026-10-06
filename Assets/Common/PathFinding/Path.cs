@@ -4,13 +4,13 @@ namespace ShinyOwl.Common
 {
     public class Path
     {
-        [SerializeField] private Vector2Int[] _cells;
+        [SerializeField] private Vector2[] _positions;
 
-        public Vector2Int[] Cells => _cells;
+        public Vector2[] Positions => _positions;
 
-        public Path(Vector2Int[] cells)
+        public Path(Vector2[] positions)
         {
-            _cells = cells;
+            _positions = positions;
         }
     }
 }

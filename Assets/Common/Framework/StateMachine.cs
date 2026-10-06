@@ -18,6 +18,7 @@ namespace ShinyOwl.Common.Framework
         void Enter();
         void Tick();
         void FixedTick();
+        void OnDrawGizmos();
         void Exit();
     }
 
@@ -65,6 +66,11 @@ namespace ShinyOwl.Common.Framework
         public virtual void FixedTick()
         {
             _subStateMachine?.FixedTick();
+        }
+
+        public virtual void OnDrawGizmos()
+        {
+            _subStateMachine?.OnDrawGizmos();
         }
 
         public virtual void Exit()
@@ -176,6 +182,11 @@ namespace ShinyOwl.Common.Framework
         public void FixedTick()
         {
             CurrentState?.FixedTick();
+        }
+
+        public void OnDrawGizmos()
+        {
+            CurrentState?.OnDrawGizmos();
         }
 
         public void Exit()
