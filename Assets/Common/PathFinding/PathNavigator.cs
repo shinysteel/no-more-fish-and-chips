@@ -25,6 +25,12 @@ namespace ShinyOwl.Common
             return _path != null;
         }
 
+        public void ClearPath()
+        {
+            _path = null;
+            _index = 0;
+        }
+
         public bool TrySetPath(Vector2 startPosition, Vector2 endPosition)
         {
             if (!_pathFinder.TryFindPath(startPosition, endPosition, _radius, out Path path))

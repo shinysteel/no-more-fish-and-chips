@@ -546,6 +546,19 @@ namespace NoMoreFishAndChips.Entities
             _roamPosition = _context.Raft.Queries.WorldPositionToStructurePosition(_context.LocalPlayer.transform.position);
 
             _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, true);
+
+            _context.Raft.OnTileChanged += HandleTileChanged;
+            _context.Raft.OnStructureChanged += HandleStructureChanged;
+        }
+
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
+        {
+            _pathNavigator.ClearPath();
+        }
+
+        private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
+        {
+            _pathNavigator.ClearPath();
         }
 
         public override void Tick()
@@ -584,8 +597,8 @@ namespace NoMoreFishAndChips.Entities
                 direction.y = 0f;
                 direction.Normalize();
 
-                _seagull.CharacterPhysicsLogic.Move(direction, 1f, 10f);
-                _seagull.CharacterPhysicsLogic.Look(direction, 7.5f);
+                _seagull.CharacterPhysicsLogic.Move(direction, _settings.MoveSpeed, _settings.MoveAcceleration);
+                _seagull.CharacterPhysicsLogic.Look(direction, _settings.RotateSpeed);
             }
         }
 
@@ -594,6 +607,9 @@ namespace NoMoreFishAndChips.Entities
             base.Exit();
 
             _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, false);
+
+            _context.Raft.OnTileChanged -= HandleTileChanged;
+            _context.Raft.OnStructureChanged -= HandleStructureChanged;
         }
     }
 

@@ -77,14 +77,19 @@ namespace NoMoreFishAndChips.Environments
         // The structure grid is used for pathfinding
         bool IPathFindable.IsTraversable(Vector2Int structureCell)
         {
-            if (_structures.ContainsKey(structureCell))
+            if (_structures.TryGetValue(structureCell, out Structure structure) && structure.StructureDefinitionData.IsScaffold)
             {
                 return false;
             }
 
             Vector2Int tileCell = _queries.StructureCellToTileCell(structureCell);
+            
+            if (!_tiles.TryGetValue(tileCell, out RaftTile tile))
+            {
+                return false;
+            }
 
-            return _tiles.ContainsKey(tileCell);
+            return !tile.TileDefinitionData.IsScaffold;
         }
 
         private void RaiseTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
