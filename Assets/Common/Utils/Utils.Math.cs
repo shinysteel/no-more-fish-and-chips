@@ -24,6 +24,8 @@ namespace ShinyOwl.Common.Utils
     {
         public static class Math
         {
+            public static float SquareRootOfTwo = Mathf.Sqrt(2f);
+
             public static Vector2Int DirectionToVector2Int(Direction direction)
             {
                 return direction switch

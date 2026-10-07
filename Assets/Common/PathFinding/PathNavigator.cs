@@ -7,7 +7,7 @@ namespace ShinyOwl.Common
         private IPathFindable _pathFindable;
         private float _radius;
 
-        private ContinuousPathFinder _pathFinder;
+        private WaypointPathFinder _pathFinder;
 
         private Path _path;
         private int _index;
@@ -17,12 +17,7 @@ namespace ShinyOwl.Common
             _pathFindable = findable;
             _radius = radius;
 
-            _pathFinder = new ContinuousPathFinder(_pathFindable);
-        }
-
-        public void OnDrawGizmos()
-        {
-            _pathFinder.OnDrawGizmos();
+            _pathFinder = new WaypointPathFinder(_pathFindable);
         }
 
         public bool HasPath()

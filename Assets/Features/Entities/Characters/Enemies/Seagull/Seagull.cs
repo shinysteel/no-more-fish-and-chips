@@ -152,14 +152,6 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            if (isOwner && isFullySpawned)
-            {
-                _stateMachine.OnDrawGizmos();
-            }
-        }
-
         public void StabiliseAltitude(float dampingStrength)
         {
             if (EntityPhysicsLogic.Rigidbody.linearVelocity.y <= 0f)

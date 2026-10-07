@@ -556,8 +556,6 @@ namespace NoMoreFishAndChips.Entities
 
             if (!_pathNavigator.HasPath())
             {
-                Log.Info($"making a request to navigate from structure position {position} to {_roamPosition}");
-
                 if (!_pathNavigator.TrySetPath(position, _roamPosition))
                 {
                     _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
@@ -589,13 +587,6 @@ namespace NoMoreFishAndChips.Entities
                 _seagull.CharacterPhysicsLogic.Move(direction, 1f, 10f);
                 _seagull.CharacterPhysicsLogic.Look(direction, 7.5f);
             }
-        }
-
-        public override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-
-            _pathNavigator.OnDrawGizmos();
         }
 
         public override void Exit()

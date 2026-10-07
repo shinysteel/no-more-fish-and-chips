@@ -122,7 +122,6 @@ namespace NoMoreFishAndChips.Entities
             }
 
             bool dip = Physics.CheckSphere(_rigidbody.position, TileDefinitionData.DipSettings.Radius, TileDefinitionData.DipSettings.Mask);
-            dip = true;
 
             // Sit just above the water
             float targetY = 0.125f;
