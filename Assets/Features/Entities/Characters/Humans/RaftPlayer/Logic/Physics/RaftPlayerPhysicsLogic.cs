@@ -79,14 +79,23 @@ namespace NoMoreFishAndChips.Entities
 
         private void MoveFixedTick()
         {
-            Vector3 direction = _player.CharacterActLogic.CanAct ? _player.InputLogic.MoveDirection : Vector3.zero;
-            Vector3 targetVelocity = direction * _settings.Move.Speed;
+            if (_player.CharacterActLogic.CanAct && _player.InputLogic.MoveDirection != Vector3.zero)
+            {
+                float acceleration = _settings.Move.Acceleration;
 
-            targetVelocity.y = _rigidbody.linearVelocity.y;
+                if (InAir)
+                {
+                    acceleration *= _settings.Move.AirMultiplier;
+                }
 
-            float speed = direction != Vector3.zero ? _settings.Move.Acceleration : _settings.Move.Deceleration;
-
-            _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, speed * Time.fixedDeltaTime);
+                Move(_player.InputLogic.MoveDirection, _settings.Move.Speed, acceleration);
+            }
+            else if (!InAir)
+            {
+                Vector3 velocity = Vector3.zero;
+                velocity.y = _rigidbody.linearVelocity.y;
+                _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, velocity, _settings.Move.Deceleration * Time.fixedDeltaTime);
+            }
         }
 
         private void LookFixedTick()
