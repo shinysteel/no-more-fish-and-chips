@@ -544,9 +544,7 @@ namespace NoMoreFishAndChips.Entities
             _pathNavigator = new PathNavigator(_context.Raft, _seagull.CharacterPhysicsLogic.CapsuleCollider.radius);
             
             _roamPosition = _context.Raft.Queries.WorldPositionToStructurePosition(_context.LocalPlayer.transform.position);
-
-            _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, true);
-
+            
             _context.Raft.OnTileChanged += HandleTileChanged;
             _context.Raft.OnStructureChanged += HandleStructureChanged;
         }
@@ -569,7 +567,11 @@ namespace NoMoreFishAndChips.Entities
 
             if (!_pathNavigator.HasPath())
             {
-                if (!_pathNavigator.TrySetPath(position, _roamPosition))
+                if (_pathNavigator.TrySetPath(position, _roamPosition))
+                {
+                    _seagull.EntityModel.Animator.SetBool(Seagull.IsWalkingBoolName, true);
+                }
+                else
                 {
                     _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
                     return;
