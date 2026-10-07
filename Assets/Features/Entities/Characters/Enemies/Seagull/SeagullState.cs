@@ -4,10 +4,12 @@ using NoMoreFishAndChips.States;
 using PrimeTween;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
-using Steamworks;
+using ShinyOwl.Common.Utils;
 using System;
-using System.Xml.XPath;
 using UnityEngine;
+using UnityEngine.Pool;
+using System.Collections.Generic;
+
 using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
@@ -541,12 +543,64 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            _pathNavigator = new PathNavigator(_context.Raft, _seagull.CharacterPhysicsLogic.CapsuleCollider.radius);
-            
-            _roamPosition = _context.Raft.Queries.WorldPositionToStructurePosition(_context.LocalPlayer.transform.position);
-            
-            _context.Raft.OnTileChanged += HandleTileChanged;
-            _context.Raft.OnStructureChanged += HandleStructureChanged;
+            Vector2Int tileCell = _context.Raft.Queries.WorldPositionToTileCell(_seagull.transform.position);
+
+            int size = 1;
+
+            List<Vector2Int> structureCells = ListPool<Vector2Int>.Get();
+
+            try
+            {
+                // Choose tiles that are nearby and have at least one structure cell available
+                for (int i = -size; i <= size; i++)
+                {
+                    for (int j = -size; j <= size; j++)
+                    {
+                        if (!_context.Raft.Tiles.TryGetValue(tileCell + new Vector2Int(i, j), out RaftTile tile))
+                        {
+                            continue;
+                        }
+
+                        if (tile.TileDefinitionData.IsScaffold)
+                        {
+                            continue;
+                        }
+
+                        Vector2Int structureCell = _context.Raft.Queries.TileCellToStructureCell(tile.Cell);
+
+                        for (int k = 0; k <= 1; k++)
+                        {
+                            for (int l = 0; l <= 1; l++)
+                            {
+                                Vector2Int cell = structureCell + new Vector2Int(k, l);
+
+                                if (!_context.Raft.Structures.TryGetValue(cell, out Structure structure) || structure.StructureDefinitionData.IsScaffold)
+                                {
+                                    structureCells.Add(cell);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (structureCells.Count == 0)
+                {
+                    _parentStateMachine.ChangeState(ESeagullGroundState.Idle);
+                    return;
+                }
+
+                _roamPosition = structureCells[Random.Range(0, structureCells.Count)];
+                _roamPosition += new Vector2(Random.value - 0.75f, Random.value - 0.75f);
+
+                _pathNavigator = new PathNavigator(_context.Raft, _seagull.CharacterPhysicsLogic.CapsuleCollider.radius);
+
+                _context.Raft.OnTileChanged += HandleTileChanged;
+                _context.Raft.OnStructureChanged += HandleStructureChanged;
+            }
+            finally
+            {
+                ListPool<Vector2Int>.Release(structureCells);
+            }
         }
 
         private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)

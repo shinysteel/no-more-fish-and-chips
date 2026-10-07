@@ -128,6 +128,11 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // x -> Structure
+        public Vector2Int TileCellToStructureCell(Vector2Int cell)
+        {
+            return cell * 2;
+        }
+
         public Vector2 WorldPositionToStructurePosition(Vector3 position)
         {
             return new Vector2(position.x * 2f + 0.5f, position.z * 2f + 0.5f);
