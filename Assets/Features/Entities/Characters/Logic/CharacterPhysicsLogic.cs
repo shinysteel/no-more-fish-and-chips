@@ -41,11 +41,16 @@ namespace NoMoreFishAndChips.Entities
 
         public void Move(Vector3 direction, float speed, float acceleration)
         {
-            Vector3 targetVelocity = direction * speed;
+            Vector3 velocity = _rigidbody.linearVelocity;
+            velocity.y = 0f;
 
-            targetVelocity.y = _rigidbody.linearVelocity.y;
+            float dot = Vector3.Dot(velocity, direction);
+            float maxDelta = -dot + Mathf.Sqrt(dot * dot + speed * speed - velocity.sqrMagnitude);
 
-            _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            float delta = acceleration * Time.fixedDeltaTime;
+            delta = Mathf.Min(delta, Mathf.Max(0f, maxDelta));
+
+            _rigidbody.AddForce(direction * (delta / Time.fixedDeltaTime), ForceMode.Acceleration);
         }
 
         public void Look(Vector3 direction, float speed)

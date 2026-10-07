@@ -77,7 +77,7 @@ namespace NoMoreFishAndChips.Environments
         // The structure grid is used for pathfinding
         bool IPathFindable.IsTraversable(Vector2Int structureCell)
         {
-            if (_structures.TryGetValue(structureCell, out Structure structure) && structure.StructureDefinitionData.IsScaffold)
+            if (_structures.TryGetValue(structureCell, out Structure structure) && !structure.StructureDefinitionData.IsScaffold)
             {
                 return false;
             }

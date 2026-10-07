@@ -58,6 +58,14 @@ MonoBehaviour:
     _attackMask:
       serializedVersion: 2
       m_Bits: 64
+    _idleSettings:
+      _idleRange:
+        _min: 2
+        _max: 3
+    _roamSettings:
+      _moveSpeed: 1
+      _moveAcceleration: 20
+      _rotateSpeed: 7.5
     _attackSettings:
       _hitboxData: {fileID: 11400000, guid: 57098d4ca57a1394e92017fcc2c88605, type: 2}
   _waterSettings:
