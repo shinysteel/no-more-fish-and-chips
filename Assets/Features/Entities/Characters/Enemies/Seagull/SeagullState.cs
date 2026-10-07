@@ -541,7 +541,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            _pathNavigator = new PathNavigator(_context.Raft, 0.25f);
+            _pathNavigator = new PathNavigator(_context.Raft, _seagull.CharacterPhysicsLogic.CapsuleCollider.radius);
             
             _roamPosition = _context.Raft.Queries.WorldPositionToStructurePosition(_context.LocalPlayer.transform.position);
 

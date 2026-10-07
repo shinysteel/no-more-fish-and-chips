@@ -13,7 +13,6 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayerPhysicsLogic : CharacterPhysicsLogic
     {
         private RaftPlayer _player;
-        private CapsuleCollider _capsuleCollider;
         private RaftPlayerPhysicsSettings _settings;
 
         private float _jumpTimer;
@@ -23,10 +22,10 @@ namespace NoMoreFishAndChips.Entities
 
         private RaycastHit[] _climbHitsNonAlloc = new RaycastHit[5];
 
-        public RaftPlayerPhysicsLogic(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider capsuleCollider) : base(player, rigidbody, capsuleCollider)
+        public RaftPlayerPhysicsLogic(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider collider) : base(player, rigidbody, collider)
         {
             _player = player;
-            _capsuleCollider = capsuleCollider;
+
             _settings = _player.DefinitionData.RaftPlayerPhysicsSettings;
         }
 

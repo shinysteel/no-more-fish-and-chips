@@ -10,6 +10,9 @@ namespace NoMoreFishAndChips.Entities
     public class CharacterPhysicsLogic : EntityPhysicsLogic
     {
         private Character _character;
+        protected CapsuleCollider _capsuleCollider;
+        public CapsuleCollider CapsuleCollider => _capsuleCollider;
+
         private CharacterPhysicsSettings _settings;
 
         protected ISurface _groundSurface;
@@ -29,9 +32,10 @@ namespace NoMoreFishAndChips.Entities
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
         protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
 
-        public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, Collider collider) : base(character, rigidbody, collider)
+        public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, CapsuleCollider collider) : base(character, rigidbody, collider)
         {
             _character = character;
+            _capsuleCollider = collider;
             _settings = _character.CharacterDefinitionData.CharacterPhysicsSettings;
         }
 

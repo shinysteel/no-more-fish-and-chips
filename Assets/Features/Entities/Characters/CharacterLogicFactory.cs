@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override EntityPhysicsLogic CreatePhysicsLogic(Entity entity, Rigidbody rigidbody, Collider collider)
         {
-            return new CharacterPhysicsLogic((Character)entity, rigidbody, collider);
+            return new CharacterPhysicsLogic((Character)entity, rigidbody, (CapsuleCollider)collider);
         }
 
         public virtual CharacterRagdollLogic CreateRagdollLogic(Character character)
