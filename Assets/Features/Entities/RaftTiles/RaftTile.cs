@@ -145,7 +145,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected virtual bool CanPrompt()
         {
-            return isSpawned && _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.CharacterActLogic.CanAct && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         protected virtual WorldUI CreatePromptUI()

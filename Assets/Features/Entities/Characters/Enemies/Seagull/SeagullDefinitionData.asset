@@ -64,7 +64,7 @@ MonoBehaviour:
         _max: 3
     _roamSettings:
       _moveSpeed: 1
-      _moveAcceleration: 15
+      _moveAcceleration: 20
       _rotateSpeed: 7.5
     _attackSettings:
       _hitboxData: {fileID: 11400000, guid: 57098d4ca57a1394e92017fcc2c88605, type: 2}

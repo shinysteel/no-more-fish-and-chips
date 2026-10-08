@@ -15,7 +15,7 @@ MonoBehaviour:
   _hit:
     _healthDamage: 1
     _poiseDamage: 0.2
-    _forceStrength: 50
+    _forceStrength: 25
     _torqueStrength: 0.5
   _alliance: 1
   _mask:
