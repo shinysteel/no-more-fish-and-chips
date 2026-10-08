@@ -43,19 +43,26 @@ namespace NoMoreFishAndChips.Items
         public ActionData[] ActionDatas => _actionDatas;
         public Vector3 HoldOffset => _holdOffset;
 
-        bool ICraftable.TryCraft(GameplayContext context)
+        void ICraftable.Craft(GameplayContext context)
         {
-            List<InventoryChangeParams> parameters = _recipe.ToChangeParams();
-
-            if (!context.LocalPlayer.Inventory.TryRemoveItems(parameters))
+            if (!context.LocalPlayer.CharacterActLogic.CanAct)
             {
-                return false;
+                return;
             }
 
-            NetItemInstance netItemInstance = new NetItemInstance(null, _itemId, 1);
-            context.LocalPlayer.Inventory.TryAddItem(InventoryChangeParams.Create(netItemInstance), false, out _, out _, out _);
+            List<InventoryChangeParams> parameters = _recipe.ToChangeParams();
 
-            return true;
+            if (!context.LocalPlayer.Inventory.CanRemoveItems(parameters, out _))
+            {
+                return;
+            }
+
+            context.LocalPlayer.RaftPlayerActLogic.StartChannel(_recipe.Duration, ChannelAnimation.Craft, () =>
+            {
+                context.LocalPlayer.Inventory.TryRemoveItems(parameters);
+                NetItemInstance netItemInstance = new NetItemInstance(null, _itemId, 1);
+                context.LocalPlayer.Inventory.TryAddItem(InventoryChangeParams.Create(netItemInstance), false, out _, out _, out _);
+            });
         }
     }
 }

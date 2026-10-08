@@ -27,6 +27,7 @@ MonoBehaviour:
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
   _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
   _buildRecipe:
+    _duration: 1
     _requirements:
     - _itemId: 4
       _count: 4
@@ -39,6 +40,7 @@ MonoBehaviour:
     - 0.4
     - 0.6
     - 0.8
+    _pitchMultiplier: 0.25
   _electrocuteSettings:
     _radius: 2
     _mask:

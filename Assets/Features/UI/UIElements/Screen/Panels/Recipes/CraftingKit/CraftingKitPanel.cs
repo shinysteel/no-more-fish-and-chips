@@ -15,7 +15,7 @@ namespace NoMoreFishAndChips.UI
 
         protected override void CreatePressed(ICraftable craftable)
         {
-            craftable.TryCraft(_context);
+            craftable.Craft(_context);
         }
     }
 }

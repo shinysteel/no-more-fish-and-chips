@@ -2,10 +2,16 @@ using NoMoreFishAndChips.UI;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using static ShinyOwl.Common.Utils.Utils;
 
 namespace NoMoreFishAndChips.Entities
 {
+    public enum ChannelAnimation
+    {
+        None,
+        Build,
+        Craft
+    }
+
     public class RaftPlayerActLogic : CharacterActLogic
     {
         private UIManager _uiManager;
@@ -19,12 +25,14 @@ namespace NoMoreFishAndChips.Entities
         private class Channel
         {
             public float Duration { get; private set; }
+            public ChannelAnimation Animation { get; private set; }
             public Action Action { get; private set; }
             public ProgressBarUI UI { get; private set; }
 
-            public Channel(float duration, Action action, ProgressBarUI ui)
+            public Channel(float duration, ChannelAnimation animation, Action action, ProgressBarUI ui)
             {
                 Duration = duration;
+                Animation = animation;
                 Action = action;
                 UI = ui;
             }
@@ -40,7 +48,7 @@ namespace NoMoreFishAndChips.Entities
             _inCutscene = cutscene;
         }
 
-        public void StartChannel(float duration, Action action)
+        public void StartChannel(float duration, ChannelAnimation animation, Action action)
         {
             if (_channel != null)
             {
@@ -49,9 +57,11 @@ namespace NoMoreFishAndChips.Entities
 
             ProgressBarUI ui = _uiManager.CreateWorldUI(_uiManager.Config.ProgressBarUIPrefab, Vector3.zero);
 
-            _channel = new Channel(duration, action, ui);
+            _channel = new Channel(duration, animation, action, ui);
 
             _channelTimer = 0f;
+
+            _character.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.ChannelAnimationIntNmae, (int)animation);
         }
 
         public override void Tick()
@@ -81,6 +91,7 @@ namespace NoMoreFishAndChips.Entities
                 _uiManager.DestroyWorldUI(_channel.UI);
                 _channel.Action?.Invoke();
                 _channel = null;
+                _character.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.ChannelAnimationIntNmae, 0);
             }
         }
     }

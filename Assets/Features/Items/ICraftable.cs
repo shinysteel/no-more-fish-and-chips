@@ -7,6 +7,6 @@ namespace NoMoreFishAndChips.Items
 {
     public interface ICraftable : ICreatable
     {
-        bool TryCraft(GameplayContext context);
+        void Craft(GameplayContext context);
     }
 }

@@ -18,8 +18,10 @@ namespace NoMoreFishAndChips.Items
     [Serializable]
     public class Recipe
     {
+        [SerializeField] private float _duration = 0.5f;
         [SerializeField] private RecipeRequirement[] _requirements;
 
+        public float Duration => _duration;
         public RecipeRequirement[] Requirements => _requirements;
 
         public List<InventoryChangeParams> ToChangeParams()

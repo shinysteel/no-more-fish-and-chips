@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected override bool CanPrompt()
         {
-            return isSpawned && _context != null && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && _context != null && _context.LocalPlayer.CharacterActLogic.CanAct && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         protected override WorldUI CreatePromptUI()
@@ -40,9 +40,9 @@ namespace NoMoreFishAndChips.Entities
 
         protected override void Interact()
         {
-            Entity prefab = _entityManager.GetPrefab(_netBuildId.value);
-            
-            _context.Raft.SetTileRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value);
+            RaftTile prefab = (RaftTile)_entityManager.GetPrefab(_netBuildId.value);
+
+            _context.LocalPlayer.RaftPlayerActLogic.StartChannel(prefab.TileDefinitionData.BuildRecipe.Duration, ChannelAnimation.Build, () => _context.Raft.SetTileRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value));
         }
     }
 }

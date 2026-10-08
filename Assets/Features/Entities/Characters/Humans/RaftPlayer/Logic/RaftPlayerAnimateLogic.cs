@@ -33,6 +33,7 @@ namespace NoMoreFishAndChips.Entities
 
         public const string AttackWeaponTypeIntName = "AttackWeaponType";
         public const string AttackStateIntName = "AttackState";
+        public const string ChannelAnimationIntNmae = "ChannelAnimation";
 
         private const string JumpTriggerName = "Jump";
 

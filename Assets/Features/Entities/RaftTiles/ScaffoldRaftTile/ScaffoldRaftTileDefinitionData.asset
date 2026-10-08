@@ -26,6 +26,7 @@ MonoBehaviour:
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
   _buildRecipe:
+    _duration: 0
     _requirements: []
   _bobSettings:
     _amplitude: 0.125
@@ -40,5 +41,6 @@ MonoBehaviour:
   _iInteractableSettings: {fileID: 11400000, guid: df81e83ef372b034187474af1ebbe473, type: 2}
   _damagedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
   _repairRecipe:
+    _duration: 0.5
     _requirements: []
   _isScaffold: 1
