@@ -14,6 +14,7 @@ namespace NoMoreFishAndChips.Entities
         private StateAnimationEvents _waterIdleStateAnimationEvents;
         private StateAnimationEvents _waterSwimStateAnimationEvents;
         private StateAnimationEvents _jumpStateAnimationEvents;
+        private StateAnimationEvents _buildStateAnimationEvents;
         private StateAnimationEvents _paddleSwingStateAnimationEvents;
         private StateAnimationEvents _spearJab1StateAnimationEvents;
         private StateAnimationEvents _spearJab2StateAnimationEvents;
@@ -24,6 +25,7 @@ namespace NoMoreFishAndChips.Entities
 
         private const string BaseLayerName = "Base Layer";
         private const string AttackLayerName = "Attack Layer";
+        private const string ChannelLayerName = "Channel Layer";
 
         private const string IsMovingBoolName = "IsMoving";
         private const string InWaterBoolName = "InWater";
@@ -33,7 +35,7 @@ namespace NoMoreFishAndChips.Entities
 
         public const string AttackWeaponTypeIntName = "AttackWeaponType";
         public const string AttackStateIntName = "AttackState";
-        public const string ChannelAnimationIntNmae = "ChannelAnimation";
+        public const string ChannelAnimationIntName = "ChannelAnimation";
 
         private const string JumpTriggerName = "Jump";
 
@@ -44,6 +46,7 @@ namespace NoMoreFishAndChips.Entities
         private const string PaddleSwingStateName = AttackLayerName + ".Paddle.Swing";
         private const string SpearJab1StateName = AttackLayerName + ".Spear.Jab1";
         private const string SpearJab2StateName = AttackLayerName + ".Spear.Jab2";
+        private const string BuildStateName = ChannelLayerName + ".Build";
 
         public RaftPlayerAnimateLogic(RaftPlayer player) : base(player)
         {
@@ -105,6 +108,11 @@ namespace NoMoreFishAndChips.Entities
                     _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
                 }),
                 new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
+            };
+
+            _buildStateAnimationEvents = new StateAnimationEvents(BuildStateName, true)
+            {
+                new StateAnimationEvent(0.5f, () => _audioManager.PlaySound(SoundId.HammerBuild, 0f))
             };
         }
 
@@ -185,6 +193,10 @@ namespace NoMoreFishAndChips.Entities
             _paddleSwingStateAnimationEvents.Tick(attackLayerInfo);
             _spearJab1StateAnimationEvents.Tick(attackLayerInfo);
             _spearJab2StateAnimationEvents.Tick(attackLayerInfo);
+
+            AnimatorStateInfo channelLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(3);
+
+            _buildStateAnimationEvents.Tick(channelLayerInfo);
         }
 
         public void Jump()

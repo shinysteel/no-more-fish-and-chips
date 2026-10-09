@@ -61,7 +61,7 @@ namespace NoMoreFishAndChips.Entities
 
             _channelTimer = 0f;
 
-            _character.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.ChannelAnimationIntNmae, (int)animation);
+            _character.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.ChannelAnimationIntName, (int)animation);
         }
 
         public override void Tick()
@@ -91,7 +91,7 @@ namespace NoMoreFishAndChips.Entities
                 _uiManager.DestroyWorldUI(_channel.UI);
                 _channel.Action?.Invoke();
                 _channel = null;
-                _character.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.ChannelAnimationIntNmae, 0);
+                _character.EntityModel.Animator.SetInteger(RaftPlayerAnimateLogic.ChannelAnimationIntName, 0);
             }
         }
     }

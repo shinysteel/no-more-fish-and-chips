@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ShinyOwl.Common.Utils;
+using NoMoreFishAndChips.Audio;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -91,6 +92,8 @@ namespace NoMoreFishAndChips.Entities
             if (CanBuild())
             {
                 _context.Raft.AddStructureScaffoldRpc(_cell, _entityId, _rotations);
+
+                AudioManager.PlaySoundRpc(SoundId.StructureScaffoldPlace, 0f);
             }
         }
 

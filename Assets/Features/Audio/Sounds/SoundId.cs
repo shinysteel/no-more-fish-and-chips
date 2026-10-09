@@ -32,6 +32,8 @@ namespace NoMoreFishAndChips.Audio
         HumanFootstepMetal,
         TeslaCharge,
         TeslaCharged,
-        TeslaElectrocute    
+        TeslaElectrocute,
+        HammerBuild,
+        StructureScaffoldPlace
     }
 }
