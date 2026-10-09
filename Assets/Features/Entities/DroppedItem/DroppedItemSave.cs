@@ -30,9 +30,9 @@ namespace NoMoreFishAndChips.Entities
         public DroppedItemSave(DroppedItem droppedItem)
         {
             Type = droppedItem.Type;
-            InstanceId = droppedItem.NetItemInstance.value.InstanceId;
-            ItemId = droppedItem.NetItemInstance.value.ItemId;
-            Count = droppedItem.NetItemInstance.value.Count;
+            InstanceId = droppedItem.NetItemInstance.InstanceId;
+            ItemId = droppedItem.NetItemInstance.ItemId;
+            Count = droppedItem.NetItemInstance.Count;
             Position = Utils.Math.RoundVector3(droppedItem.transform.position, Precision);
         }
     }

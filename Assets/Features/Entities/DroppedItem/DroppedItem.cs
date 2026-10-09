@@ -9,6 +9,7 @@ using ShinyOwl.Common.Utils;
 using NUnit.Framework;
 using System.Collections.Generic;
 using NoMoreFishAndChips.UI;
+using NoMoreFishAndChips.Audio;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -23,7 +24,7 @@ namespace NoMoreFishAndChips.Entities
         private List<ItemModel> _itemModels = new();
 
         private SyncVar<NetItemInstance> _netItemInstance = new SyncVar<NetItemInstance>(ownerAuth: true);
-        public SyncVar<NetItemInstance> NetItemInstance => _netItemInstance;
+        public NetItemInstance NetItemInstance => _netItemInstance.value;
 
         private DroppedItemType _type;
         public DroppedItemType Type => _type;
@@ -116,7 +117,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return true;
+            return _context.LocalPlayer.CharacterActLogic.CanAct;
         }
         
         WorldUI IInteractable.CreatePromptUI()
@@ -135,6 +136,8 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_context.LocalPlayer.Inventory.TryAddItem(InventoryChangeParams.Create(_netItemInstance), false, out _, out _, out _))
             {
+                _audioManager.PlaySound(SoundId.DroppedItemPickup, 0f);
+
                 DespawnRpc();
             }
         }

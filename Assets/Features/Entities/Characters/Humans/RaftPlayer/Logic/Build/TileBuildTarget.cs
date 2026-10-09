@@ -5,6 +5,7 @@ using NoMoreFishAndChips.Networking;
 using ShinyOwl.Common.Utils;
 using ShinyOwl.Common.Structures;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Audio;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -61,6 +62,8 @@ namespace NoMoreFishAndChips.Entities
             if (CanBuild())
             {
                 _context.Raft.AddTileScaffoldRpc(_cell, _entityId, _rotations);
+
+                AudioManager.PlaySoundRpc(SoundId.ScaffoldRaftTilePlace, 0f);
             }
         } 
 

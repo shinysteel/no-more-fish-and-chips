@@ -34,6 +34,8 @@ namespace NoMoreFishAndChips.Audio
         TeslaCharged,
         TeslaElectrocute,
         HammerBuild,
-        StructureScaffoldPlace
+        StructureScaffoldPlace,
+        ScaffoldRaftTilePlace,
+        DroppedItemPickup
     }
 }

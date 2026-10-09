@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f8aba0a96e05554ebeb138d5678ae37, type: 3}
-  m_Name: StructureScaffoldPlaceCueData
+  m_Name: ScaffoldRaftTilePlaceCueData
   m_EditorClassIdentifier: Assembly-CSharp::SoundCueData
-  _id: 30
+  _id: 31
   _volume: 1
   _minPitch: 0.9
   _maxPitch: 1.1
   _audioClips:
-  - {fileID: 8300000, guid: 35eb3f2d3afd95949be0ca171f77fcad, type: 3}
-  - {fileID: 8300000, guid: 27ecf346c5a582f4b9edde89953665fa, type: 3}
+  - {fileID: 8300000, guid: 3709160e66599b741a32d2713a05e73b, type: 3}
+  - {fileID: 8300000, guid: 05894bd5a8c210b4dad82f4a9b046066, type: 3}
