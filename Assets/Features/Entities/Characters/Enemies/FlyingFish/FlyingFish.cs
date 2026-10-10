@@ -12,28 +12,11 @@ using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class FlyingFish : Enemy<FlyingFishDefinitionData, FlyingFishSpawnInfo>
+    public class FlyingFish : Character<FlyingFishDefinitionData>
     {
         private StateMachine<EFlyingFishState> _stateMachine;
 
         public const string IsFlyingBoolName = "IsFlying";
-
-        public override bool TrySpawn(SpawnParams parameters, GameplayContext context, out Enemy enemy)
-        {
-            enemy = default;
-
-            if (!context.Raft.Queries.TryGetRandomLine(out RaftLine line))
-            {
-                return false;
-            }
-
-            EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
-            enemy = (Enemy)entityManager.Spawn(DefinitionData.Id, parameters);
-
-            ((FlyingFish)enemy).SetSpawnInfo(new FlyingFishSpawnInfo(line));
-
-            return true;
-        }
         
         protected override void Awake()
         {

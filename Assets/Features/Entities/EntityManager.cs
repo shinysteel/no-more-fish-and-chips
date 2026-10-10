@@ -104,24 +104,6 @@ namespace NoMoreFishAndChips.Entities
             return entities.OfType<T>();
         }
 
-        // Some conditions may fail an enemy spawn request
-        public bool TrySpawnEnemy(EntityId id, SpawnParams parameters, GameplayContext context, out Enemy enemy)
-        {
-            enemy = default;
-
-            if (!_idPrefabMap.TryGetValue(id, out Entity entityPrefab))
-            {   
-                return false;
-            }
-
-            if (entityPrefab is not Enemy enemyPrefab)
-            {
-                return false;
-            }
-
-            return enemyPrefab.TrySpawn(parameters, context, out enemy);
-        }
-
         // Centralised spawn method for entities, handling NetEntity, Entity + Poolable and Entity all in one
         public Entity Spawn(EntityId id, SpawnParams parameters)
         {

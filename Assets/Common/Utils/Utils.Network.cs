@@ -39,18 +39,18 @@ namespace ShinyOwl.Common.Utils
                 {
                     case SyncDictionaryOperation.Added:
                         cache.Add(change.key, add());
-                        raiseChanged(change.key, previous, cache[change.key]);
+                        raiseChanged?.Invoke(change.key, previous, cache[change.key]);
                         break;
 
                     case SyncDictionaryOperation.Set:
                         cache[change.key] = set();
-                        raiseChanged(change.key, previous, cache[change.key]);
+                        raiseChanged?.Invoke(change.key, previous, cache[change.key]);
                         break;
 
                     case SyncDictionaryOperation.Removed:
                         remove?.Invoke();
                         cache.Remove(change.key);
-                        raiseChanged(change.key, previous, null);
+                        raiseChanged?.Invoke(change.key, previous, null);
                         break;
 
                     case SyncDictionaryOperation.Cleared:
@@ -65,7 +65,7 @@ namespace ShinyOwl.Common.Utils
 
                         foreach (KeyValuePair<TKey, TCacheValue> kvp in dictionary)
                         {
-                            raiseChanged(kvp.Key, kvp.Value, null);
+                            raiseChanged?.Invoke(kvp.Key, kvp.Value, null);
 
                             clear?.Invoke(kvp.Value);
                         }

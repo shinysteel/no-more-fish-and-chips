@@ -17,7 +17,7 @@ MonoBehaviour:
     _poiseDamage: 0.2
     _forceStrength: 25
     _torqueStrength: 0.5
-  _alliance: 1
+  _alliance: 2
   _mask:
     serializedVersion: 2
     m_Bits: 4294967295

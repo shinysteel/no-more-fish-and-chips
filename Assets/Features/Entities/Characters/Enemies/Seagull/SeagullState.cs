@@ -6,10 +6,10 @@ using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
 using System;
+using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.Pool;
-using System.Collections.Generic;
-
 using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
@@ -58,7 +58,9 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            Vector3 position = _seagull.SpawnInfo.Tile.transform.position;
+            _context.Raft.Queries.TryGetRandomTile(_ => true, out RaftTile tile);
+
+            Vector3 position = tile.transform.position;
             position += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
             position += Vector3.up * _settings.StartAltitude;
 

@@ -8,7 +8,7 @@ using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class Seagull : Enemy<SeagullDefinitionData, SeagullSpawnInfo>
+    public class Seagull : Character<SeagullDefinitionData>
     {
         private StateMachine<ESeagullState> _stateMachine;
 
@@ -27,23 +27,6 @@ namespace NoMoreFishAndChips.Entities
 
         private const string SquawkStateName = "Squawk";
         private const string AirFlapStateName = "Base Layer.Air.Flap";
-
-        public override bool TrySpawn(SpawnParams parameters, GameplayContext context, out Enemy enemy)
-        {
-            enemy = default;
-
-            if (!context.Raft.Queries.TryGetRandomTile(_ => true, out RaftTile tile))
-            {
-                return false;
-            }
-
-            EntityManager entityManager = GameManager.Instance.Get<EntityManager>();
-            enemy = (Enemy)entityManager.Spawn(DefinitionData.Id, parameters);
-
-            ((Seagull)enemy).SetSpawnInfo(new SeagullSpawnInfo(tile));
-
-            return true;
-        }
 
         protected override void Awake()
         {

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -64,7 +65,9 @@ namespace NoMoreFishAndChips.Entities
         // Surface away from the edge
         private void Surface()
         {
-            _edge = Random.value <= 0.5f ? _fish.SpawnInfo.Line.MinEdge : _fish.SpawnInfo.Line.MaxEdge;
+            _context.Raft.Queries.TryGetRandomLine(out RaftLine line);
+
+            _edge = Random.value <= 0.5f ? line.MinEdge : line.MaxEdge;
 
             Vector2Int cell = _edge.Node.Cell;
             cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();
@@ -277,7 +280,7 @@ namespace NoMoreFishAndChips.Entities
                 
                 if (delta != Vector3.zero)
                 {
-                    int hits = Physics.SphereCastNonAlloc(nextPosition, ((SphereCollider)_fish.EntityPhysicsLogic.Collider).radius, delta.normalized, _markerHitsNonAlloc, delta.magnitude, _settings.MarkerMask);
+                    int hits = Physics.SphereCastNonAlloc(nextPosition, _fish.CharacterPhysicsLogic.CapsuleCollider.radius, delta.normalized, _markerHitsNonAlloc, delta.magnitude, _settings.MarkerMask);
 
                     if (hits > 0)
                     {
