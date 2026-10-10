@@ -8,9 +8,9 @@ using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class Seagull : Character<SeagullDefinitionData>
+    public class Seabird : Character<SeabirdDefinitionData>
     {
-        private StateMachine<ESeagullState> _stateMachine;
+        private StateMachine<ESeabirdState> _stateMachine;
 
         private RaycastHit[] _glideHitsNonAlloc = new RaycastHit[2];
 
@@ -41,23 +41,23 @@ namespace NoMoreFishAndChips.Entities
 
             _stateMachine = new();
 
-            SeagullAirState airState = new SeagullAirState(_stateMachine, this);
+            SeabirdAirState airState = new SeabirdAirState(_stateMachine, this);
 
-            airState.SubStateMachine.AddState(ESeagullAirState.Takeoff, new SeagullAirTakeoffState(airState.SubStateMachine, this));
-            airState.SubStateMachine.AddState(ESeagullAirState.Strafe, new SeagullAirStrafeState(airState.SubStateMachine, this));
-            airState.SubStateMachine.AddState(ESeagullAirState.Land, new SeagullAirLandState(airState.SubStateMachine, this));
+            airState.SubStateMachine.AddState(ESeabirdAirState.Takeoff, new SeabirdAirTakeoffState(airState.SubStateMachine, this));
+            airState.SubStateMachine.AddState(ESeabirdAirState.Strafe, new SeabirdAirStrafeState(airState.SubStateMachine, this));
+            airState.SubStateMachine.AddState(ESeabirdAirState.Land, new SeabirdAirLandState(airState.SubStateMachine, this));
 
-            SeagullGroundState groundState = new SeagullGroundState(_stateMachine, this);
+            SeabirdGroundState groundState = new SeabirdGroundState(_stateMachine, this);
 
-            groundState.SubStateMachine.AddState(ESeagullGroundState.Idle, new SeagullGroundIdleState(groundState.SubStateMachine, this));
-            groundState.SubStateMachine.AddState(ESeagullGroundState.Roam, new SeagullGroundRoamState(groundState.SubStateMachine, this));
-            groundState.SubStateMachine.AddState(ESeagullGroundState.Squawk, new SeagullGroundSquawkState(groundState.SubStateMachine, this));
+            groundState.SubStateMachine.AddState(ESeabirdGroundState.Idle, new SeabirdGroundIdleState(groundState.SubStateMachine, this));
+            groundState.SubStateMachine.AddState(ESeabirdGroundState.Roam, new SeabirdGroundRoamState(groundState.SubStateMachine, this));
+            groundState.SubStateMachine.AddState(ESeabirdGroundState.Squawk, new SeabirdGroundSquawkState(groundState.SubStateMachine, this));
 
-            _stateMachine.AddState(ESeagullState.Arrive, new SeagullArriveState(_stateMachine, this));
-            _stateMachine.AddState(ESeagullState.Air, airState);
-            _stateMachine.AddState(ESeagullState.Ground, groundState);
-            _stateMachine.AddState(ESeagullState.Water, new SeagullWaterState(_stateMachine, this));
-            _stateMachine.AddState(ESeagullState.Stun, new SeagullStunState(_stateMachine, this));
+            _stateMachine.AddState(ESeabirdState.Arrive, new SeabirdArriveState(_stateMachine, this));
+            _stateMachine.AddState(ESeabirdState.Air, airState);
+            _stateMachine.AddState(ESeabirdState.Ground, groundState);
+            _stateMachine.AddState(ESeabirdState.Water, new SeabirdWaterState(_stateMachine, this));
+            _stateMachine.AddState(ESeabirdState.Stun, new SeabirdStunState(_stateMachine, this));
         }
 
         protected override void OnDestroy()
@@ -75,7 +75,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _stateMachine.ChangeState(ESeagullState.Arrive);
+                _stateMachine.ChangeState(ESeabirdState.Arrive);
             }
         }
 
@@ -83,7 +83,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.InitialiseContext(context);
 
-            foreach (ISeagullState state in _stateMachine)
+            foreach (ISeabirdState state in _stateMachine)
             {
                 state.InitialiseContext(_context);
             }
@@ -107,9 +107,9 @@ namespace NoMoreFishAndChips.Entities
 
             int environmentState = _stateMachine.CurrentStateEnum switch
             {
-                ESeagullState.Ground => 0,
-                ESeagullState.Air or ESeagullState.Arrive => 1,
-                ESeagullState.Water => 2,
+                ESeabirdState.Ground => 0,
+                ESeabirdState.Air or ESeabirdState.Arrive => 1,
+                ESeabirdState.Water => 2,
                 _ => -1
             };
 
@@ -164,20 +164,20 @@ namespace NoMoreFishAndChips.Entities
 
         public void EvaluateState()
         {
-            if (CharacterPhysicsLogic.InAir && _stateMachine.CurrentStateEnum != ESeagullState.Air)
+            if (CharacterPhysicsLogic.InAir && _stateMachine.CurrentStateEnum != ESeabirdState.Air)
             {
                 if (CanGlide())
                 {
-                    _stateMachine.ChangeState(ESeagullState.Air);
+                    _stateMachine.ChangeState(ESeabirdState.Air);
                 }
             }
-            else if (CharacterPhysicsLogic.IsGrounded && _stateMachine.CurrentStateEnum != ESeagullState.Ground)
+            else if (CharacterPhysicsLogic.IsGrounded && _stateMachine.CurrentStateEnum != ESeabirdState.Ground)
             {
-                _stateMachine.ChangeState(ESeagullState.Ground);
+                _stateMachine.ChangeState(ESeabirdState.Ground);
             }
-            else if (CharacterPhysicsLogic.InWater && _stateMachine.CurrentStateEnum != ESeagullState.Water)
+            else if (CharacterPhysicsLogic.InWater && _stateMachine.CurrentStateEnum != ESeabirdState.Water)
             {
-                _stateMachine.ChangeState(ESeagullState.Water);
+                _stateMachine.ChangeState(ESeabirdState.Water);
             }
         }
 
@@ -191,9 +191,9 @@ namespace NoMoreFishAndChips.Entities
 
         private void Cleanup()
         {
-            if (_stateMachine.CurrentStateEnum != ESeagullState.None)
+            if (_stateMachine.CurrentStateEnum != ESeabirdState.None)
             {
-                _stateMachine.ChangeState(ESeagullState.None);
+                _stateMachine.ChangeState(ESeabirdState.None);
             }
         }
     }
