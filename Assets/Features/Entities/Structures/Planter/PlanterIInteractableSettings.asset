@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: PlanterIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.InteractableSettings
   _hotkey: 2
-  _priority: 1
+  _priority: 0
   _maxAngle: 45
   _maxDistance: 0.5
-  _previewId: 3
-  _previewPosition: {x: 0, y: 0.1875, z: 0}

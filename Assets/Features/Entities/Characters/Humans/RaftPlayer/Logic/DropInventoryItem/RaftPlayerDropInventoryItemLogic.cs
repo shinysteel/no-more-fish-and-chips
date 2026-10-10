@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Cameras;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Inventories;
@@ -28,6 +29,8 @@ namespace NoMoreFishAndChips.Entities
             direction = Quaternion.AngleAxis(_settings.Pitch, Vector3.Cross(Vector3.up, direction)) * direction;
 
             SpawnDroppedItemRpc(NetItemInstance.Create(itemInstance), _player.transform.position, direction, _settings.Strength);
+
+            AudioManager.PlaySoundRpc(SoundId.DroppedItemDrop, 0f);
         }
 
         [ServerRpc(requireOwnership: false)]

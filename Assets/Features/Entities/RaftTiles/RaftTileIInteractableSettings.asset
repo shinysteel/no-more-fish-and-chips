@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: RaftTileIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.InteractableSettings
   _hotkey: 2
-  _priority: 1
+  _priority: 0
   _maxAngle: 360
   _maxDistance: 1
-  _previewId: 2
-  _previewPosition: {x: 0, y: -0.125, z: 0}
-  _previewScale: {x: 1.01, y: 0.26, z: 1.01}

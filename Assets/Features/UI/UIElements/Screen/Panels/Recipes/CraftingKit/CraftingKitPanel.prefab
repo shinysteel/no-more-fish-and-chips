@@ -196,4 +196,5 @@ MonoBehaviour:
   _rectTransform: {fileID: 2283601769392648316}
   _canvasGroup: {fileID: 5396997276205562856}
   _closeButton: {fileID: 5546950344080377900}
+  _openSoundId: 35
   _blueprintsScrollRect: {fileID: 6404920729127443565}

@@ -36,6 +36,10 @@ namespace NoMoreFishAndChips.Audio
         HammerBuild,
         StructureScaffoldPlace,
         ScaffoldRaftTilePlace,
-        DroppedItemPickup
+        DroppedItemPickup,
+        DroppedItemDrop,
+        FishingBagPanelOpen,
+        CraftingKitPanelOpen,
+        BuildingKitPanelOpen
     }
 }

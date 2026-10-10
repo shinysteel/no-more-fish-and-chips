@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Audio;
 using NoMoreFishAndChips.Networking;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
@@ -61,11 +62,26 @@ namespace NoMoreFishAndChips.UI
 
     public abstract class Panel : ScreenUI
     {
+        private AudioManager _audioManager;
+
         [SerializeField] protected Button _closeButton;
+        [SerializeField] private SoundId _openSoundId;
 
         protected virtual void Awake()
         {
+            _audioManager = GameManager.Instance.Get<AudioManager>();
+
             _closeButton.onClick.AddListener(ClosePressed);
+        }
+
+        public override void Show(Action onComplete)
+        {
+            base.Show(onComplete);
+
+            if (_openSoundId != SoundId.None)
+            {
+                _audioManager.PlaySound(_openSoundId, 0f);
+            }
         }
 
         protected void ClosePressed()
