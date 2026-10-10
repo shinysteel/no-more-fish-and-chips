@@ -8,7 +8,7 @@ namespace NoMoreFishAndChips.Audio
         HumanJumpWood,
         HumanFootstepWood,
         PaddleSwing,
-        SeagullAttack,
+        SeagullSquawk,
         HumanSwim,
         WaterSplash,
         ClamChestOpen,

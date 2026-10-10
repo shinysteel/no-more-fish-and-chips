@@ -54,8 +54,8 @@ MonoBehaviour:
       _rotateSpeed: 5
       _flapStrength: 5
   _groundSettings:
-    _attackRange: 0.5
-    _attackMask:
+    _squawkRange: 0.5
+    _squawkMask:
       serializedVersion: 2
       m_Bits: 64
     _idleSettings:
@@ -66,7 +66,7 @@ MonoBehaviour:
       _moveSpeed: 1
       _moveAcceleration: 20
       _rotateSpeed: 7.5
-    _attackSettings:
+    _squawkSettings:
       _hitboxData: {fileID: 11400000, guid: 57098d4ca57a1394e92017fcc2c88605, type: 2}
   _waterSettings:
     _idleRange:

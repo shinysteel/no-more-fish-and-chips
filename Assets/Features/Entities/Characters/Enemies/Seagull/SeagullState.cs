@@ -410,14 +410,14 @@ namespace NoMoreFishAndChips.Entities
         None,
         Idle,
         Roam,
-        Attack
+        Squawk
     }
 
     public class SeagullGroundState : SeagullState<ESeagullGroundState>
     {
         private SeagullGroundSettings _settings;
 
-        private Collider[] _attackCollidersNonAlloc = new Collider[1];
+        private Collider[] _squawkCollidersNonAlloc = new Collider[1];
 
         public SeagullGroundState(StateMachine<ESeagullState> parent, Seagull seagull) : base(parent, seagull)
         {
@@ -445,7 +445,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Tick();
 
-            if (_subStateMachine.CurrentStateEnum == ESeagullGroundState.Attack)
+            if (_subStateMachine.CurrentStateEnum == ESeagullGroundState.Squawk)
             {
                 return;
             }
@@ -455,22 +455,22 @@ namespace NoMoreFishAndChips.Entities
             // EvaluateState can exit this state
             if (_parentStateMachine.CurrentState == this)
             {
-                AttackTick();
+                SquawkTick();
             }
         }
 
-        private void AttackTick()
+        private void SquawkTick()
         {
-            if (Physics.OverlapSphereNonAlloc(_seagull.transform.position, _settings.AttackRange, _attackCollidersNonAlloc, _settings.AttackMask) > 0)
+            if (Physics.OverlapSphereNonAlloc(_seagull.transform.position, _settings.SquawkRange, _squawkCollidersNonAlloc, _settings.SquawkMask) > 0)
             {
-                Vector3 direction = _attackCollidersNonAlloc[0].transform.position - _seagull.transform.position;
+                Vector3 direction = _squawkCollidersNonAlloc[0].transform.position - _seagull.transform.position;
                 direction.y = 0f;
                 direction.Normalize();
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
 
                 Tween.RigidbodyMoveRotation(_seagull.EntityPhysicsLogic.Rigidbody, endValue: rotation, duration: 0.2f);
 
-                _subStateMachine.ChangeState(ESeagullGroundState.Attack);
+                _subStateMachine.ChangeState(ESeagullGroundState.Squawk);
             }
         }
 
@@ -669,21 +669,21 @@ namespace NoMoreFishAndChips.Entities
         }
     }
 
-    public class SeagullGroundAttackState : SeagullGroundSubState
+    public class SeagullGroundSquawkState : SeagullGroundSubState
     {
         private HitboxManager _hitboxManager;
         private AudioManager _audioManager;
 
-        private SeagullGroundAttackSettings _settings;
+        private SeagullGroundSquawkSettings _settings;
 
-        public SeagullGroundAttackState(StateMachine<ESeagullGroundState> parent, Seagull seagull) : base(parent, seagull)
+        public SeagullGroundSquawkState(StateMachine<ESeagullGroundState> parent, Seagull seagull) : base(parent, seagull)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
             _audioManager = GameManager.Instance.Get<AudioManager>();
 
-            _settings = _seagull.DefinitionData.GroundSettings.AttackSettings;
+            _settings = _seagull.DefinitionData.GroundSettings.SquawkSettings;
 
-            _seagull.AttackStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () =>
+            _seagull.SquawkStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () =>
             {
                 if (_seagull.isOwner)
                 {
@@ -691,10 +691,10 @@ namespace NoMoreFishAndChips.Entities
                     _seagull.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
                 }
 
-                _audioManager.PlaySound(SoundId.SeagullAttack, 0f);
+                _audioManager.PlaySound(SoundId.SeagullSquawk, 0f);
             }));
 
-            _seagull.AttackStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
+            _seagull.SquawkStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
             {
                 if (_seagull.isOwner)
                 {
@@ -705,7 +705,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override void Enter()
         {
-            _seagull.EntityModel.SetAnimatorTrigger(Seagull.AttackTriggerName);
+            _seagull.EntityModel.SetAnimatorTrigger(Seagull.SquawkTriggerName);
         }
     }
 

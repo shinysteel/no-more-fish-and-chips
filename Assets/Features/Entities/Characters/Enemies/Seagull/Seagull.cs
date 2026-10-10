@@ -14,18 +14,18 @@ namespace NoMoreFishAndChips.Entities
 
         private RaycastHit[] _glideHitsNonAlloc = new RaycastHit[2];
 
-        private StateAnimationEvents _attackStateAnimationEvents;
+        private StateAnimationEvents _squawkStateAnimationEvents;
         private StateAnimationEvents _airFlapStateAnimationEvents;
 
-        public StateAnimationEvents AttackStateAnimationEvents => _attackStateAnimationEvents;
+        public StateAnimationEvents SquawkStateAnimationEvents => _squawkStateAnimationEvents;
 
         private const string EnvironmentStateIntName = "EnvironmentState";
         public const string IsFlappingBoolName = "IsFlapping";
         public const string IsWalkingBoolName = "IsWalking";
 
-        public const string AttackTriggerName = "Attack";
+        public const string SquawkTriggerName = "Squawk";
 
-        private const string AttackStateName = "Attack";
+        private const string SquawkStateName = "Squawk";
         private const string AirFlapStateName = "Base Layer.Air.Flap";
 
         public override bool TrySpawn(SpawnParams parameters, GameplayContext context, out Enemy enemy)
@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Awake();
 
-            _attackStateAnimationEvents = new StateAnimationEvents(AttackStateName, false);
+            _squawkStateAnimationEvents = new StateAnimationEvents(SquawkStateName, false);
 
             _airFlapStateAnimationEvents = new StateAnimationEvents(AirFlapStateName, true)
             {
@@ -68,7 +68,7 @@ namespace NoMoreFishAndChips.Entities
 
             groundState.SubStateMachine.AddState(ESeagullGroundState.Idle, new SeagullGroundIdleState(groundState.SubStateMachine, this));
             groundState.SubStateMachine.AddState(ESeagullGroundState.Roam, new SeagullGroundRoamState(groundState.SubStateMachine, this));
-            groundState.SubStateMachine.AddState(ESeagullGroundState.Attack, new SeagullGroundAttackState(groundState.SubStateMachine, this));
+            groundState.SubStateMachine.AddState(ESeagullGroundState.Squawk, new SeagullGroundSquawkState(groundState.SubStateMachine, this));
 
             _stateMachine.AddState(ESeagullState.Arrive, new SeagullArriveState(_stateMachine, this));
             _stateMachine.AddState(ESeagullState.Air, airState);
@@ -133,7 +133,7 @@ namespace NoMoreFishAndChips.Entities
             _entityModel.Animator.SetInteger(EnvironmentStateIntName, environmentState);
             
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
-            _attackStateAnimationEvents.Tick(info);
+            _squawkStateAnimationEvents.Tick(info);
             _airFlapStateAnimationEvents.Tick(info);
 
             if (isOwner && isFullySpawned)

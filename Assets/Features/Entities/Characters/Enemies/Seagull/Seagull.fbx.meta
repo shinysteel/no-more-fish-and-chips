@@ -94,8 +94,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Seagull_GroundAttack
-      takeName: Seagull_GroundAttack
+      name: Seagull_GroundSquawk
+      takeName: Seagull_GroundSquawk
       internalID: 687031115433103243
       firstFrame: 0
       lastFrame: 22

@@ -10,14 +10,14 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 9
+		Month: 10
 		Day: 10
-		Hour: 19
-		Minute: 40
-		Second: 3
-		Millisecond: 465
+		Hour: 12
+		Minute: 27
+		Second: 16
+		Millisecond: 94
 	}
-	Creator: "Blockbench 5.1.6"
+	Creator: "Blockbench 5.2.1"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "5.1.6"
+			P: "Original|ApplicationVersion", "KString", "", "", "5.2.1"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.1.6"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.2.1"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-09-10 09:40:03:465"
+CreationTime: "2026-10-10 02:27:16:094"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1101815523 {
+	Document: 1158820617 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -307,7 +307,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 76330244, "Model::seagull", "Null" {
+	Model: 78422626, "Model::seagull", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -321,7 +321,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79868771, "Model::body", "Null" {
+	Model: 76172656, "Model::body", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -335,7 +335,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 77741339, "Model::neck", "Null" {
+	Model: 75071403, "Model::neck", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -349,7 +349,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79534915, "Model::head", "Null" {
+	Model: 74357917, "Model::head", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74826722, "Model::leg_right", "Null" {
+	Model: 72463310, "Model::leg_right", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -377,7 +377,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72761835, "Model::leg_left", "Null" {
+	Model: 76341191, "Model::leg_left", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -391,7 +391,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74282120, "Model::wing_closed_right", "Null" {
+	Model: 79361845, "Model::wing_closed_right", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -405,7 +405,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 73062705, "Model::foot_left", "Null" {
+	Model: 71383170, "Model::foot_left", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -419,7 +419,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70870048, "Model::foot_right", "Null" {
+	Model: 78468228, "Model::foot_right", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -433,7 +433,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70063064, "Model::wing_closed_left", "Null" {
+	Model: 70830215, "Model::wing_closed_left", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -447,7 +447,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 77616312, "Model::wings_closed", "Null" {
+	Model: 74996406, "Model::wings_closed", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -461,7 +461,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76597934, "Model::jaw", "Null" {
+	Model: 74825714, "Model::jaw", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -475,7 +475,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79890712, "Model::leg_right2", "Null" {
+	Model: 72650994, "Model::leg_right2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -489,7 +489,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70047945, "Model::leg_left2", "Null" {
+	Model: 78570566, "Model::leg_left2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -503,7 +503,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72853541, "Model::torso", "Null" {
+	Model: 76937928, "Model::torso", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -517,7 +517,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76291315, "Model::tail", "Null" {
+	Model: 78056136, "Model::tail", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -531,7 +531,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79417596, "Model::tail2_left", "Null" {
+	Model: 77532576, "Model::tail2_left", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -545,7 +545,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70385414, "Model::tail2_right", "Null" {
+	Model: 71029917, "Model::tail2_right", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -559,7 +559,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72316233, "Model::tail2", "Null" {
+	Model: 70412564, "Model::tail2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -573,7 +573,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 71234324, "Model::wings_open", "Null" {
+	Model: 70880813, "Model::wings_open", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -587,7 +587,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 73363190, "Model::wing_open_right", "Null" {
+	Model: 72243085, "Model::wing_open_right", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -601,7 +601,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76916963, "Model::wing_open_right2", "Null" {
+	Model: 72105539, "Model::wing_open_right2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -615,7 +615,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 70886405, "Model::wing_open_left", "Null" {
+	Model: 72725476, "Model::wing_open_left", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -629,7 +629,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 73204884, "Model::wing_open_left2", "Null" {
+	Model: 71924747, "Model::wing_open_left2", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -643,7 +643,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 74119454, "Model::eyelid_right", "Null" {
+	Model: 70815183, "Model::eyelid_right", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -657,7 +657,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75089299, "Model::eyelid_left", "Null" {
+	Model: 76316637, "Model::eyelid_left", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -671,7 +671,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72171199, "Model::body_1", "Mesh" {
+	Model: 79029664, "Model::body_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -686,7 +686,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75462688, "Geometry::body_1", "Mesh" {
+	Geometry: 70014378, "Geometry::body_1", "Mesh" {
 		Vertices: *24 {
 			a: 4.6875,7.8125,14.0625,4.6875,7.8125,1.5625,4.6875,-7.8125,14.0625,4.6875,-7.8125,1.5625,-7.8125,7.8125,1.5625,-7.8125,7.8125,14.0625,-7.8125,-7.8125,1.5625,-7.8125,-7.8125,14.0625
 		}
@@ -737,7 +737,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75453273, "Model::neck_1", "Mesh" {
+	Model: 75473679, "Model::neck_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -752,7 +752,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77482932, "Geometry::neck_1", "Mesh" {
+	Geometry: 70171266, "Geometry::neck_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.15625,12.531249999999998,6.281249999999999,3.15625,12.531249999999998,-3.156249999999999,3.15625,-3.156249999999999,6.281249999999999,3.15625,-3.156249999999999,-3.156249999999999,-6.281249999999999,12.531249999999998,-3.156249999999999,-6.281249999999999,12.531249999999998,6.281249999999999,-6.281249999999999,-3.156249999999999,-3.156249999999999,-6.281249999999999,-3.156249999999999,6.281249999999999
 		}
@@ -803,7 +803,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75373126, "Model::head_1", "Mesh" {
+	Model: 72859066, "Model::head_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -818,7 +818,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71335609, "Geometry::head_1", "Mesh" {
+	Geometry: 78095444, "Geometry::head_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.156249999999999,12.531249999999993,6.281249999999999,3.156249999999999,12.531249999999993,-6.281249999999999,3.156249999999999,-0.031249999999999334,6.281249999999999,3.156249999999999,-0.031249999999999334,-6.281249999999999,-9.40625,12.531249999999993,-6.281249999999999,-9.40625,12.531249999999993,6.281249999999999,-9.40625,-0.031249999999999334,-6.281249999999999,-9.40625,-0.031249999999999334,6.281249999999999
 		}
@@ -869,7 +869,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74675357, "Model::jaw_1", "Mesh" {
+	Model: 79339326, "Model::jaw_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -884,7 +884,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74644390, "Geometry::jaw_1", "Mesh" {
+	Geometry: 70067207, "Geometry::jaw_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,3.125,3.125,3.125,3.125,-3.125,3.125,0,3.125,3.125,0,-3.125,0,3.125,-3.125,0,3.125,3.125,0,0,-3.125,0,0,3.125
 		}
@@ -935,7 +935,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73175623, "Model::leg_right_1", "Mesh" {
+	Model: 72200403, "Model::leg_right_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -950,7 +950,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72358127, "Geometry::leg_right_1", "Mesh" {
+	Geometry: 75370517, "Geometry::leg_right_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.156249999999999,9.40625,0.03125000000000003,3.156249999999999,9.40625,-3.15625,3.156249999999999,3.0937500000000004,0.03125000000000003,3.156249999999999,3.0937500000000004,-3.15625,-0.03125000000000003,9.40625,-3.15625,-0.03125000000000003,9.40625,0.03125000000000003,-0.03125000000000003,3.0937500000000004,-3.15625,-0.03125000000000003,3.0937500000000004,0.03125000000000003
 		}
@@ -1001,7 +1001,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72406353, "Model::leg_left_1", "Mesh" {
+	Model: 76550828, "Model::leg_left_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1016,7 +1016,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72151731, "Geometry::leg_left_1", "Mesh" {
+	Geometry: 76781458, "Geometry::leg_left_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.15625,9.40625,0.03125000000000003,3.15625,9.40625,-3.15625,3.15625,3.0937500000000004,0.03125000000000003,3.15625,3.0937500000000004,-3.15625,-0.031249999999999334,9.40625,-3.15625,-0.031249999999999334,9.40625,0.03125000000000003,-0.031249999999999334,3.0937500000000004,-3.15625,-0.031249999999999334,3.0937500000000004,0.03125000000000003
 		}
@@ -1067,7 +1067,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78577667, "Model::tail_1", "Mesh" {
+	Model: 77866787, "Model::tail_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1082,7 +1082,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71078964, "Geometry::tail_1", "Mesh" {
+	Geometry: 77405236, "Geometry::tail_1", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,12.5,6.25,6.25,12.5,-6.25,6.25,0,6.25,6.25,0,-6.25,-3.125,12.5,-6.25,-3.125,12.5,6.25,-3.125,0,-6.25,-3.125,0,6.25
 		}
@@ -1133,7 +1133,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72801257, "Model::tail2_1", "Mesh" {
+	Model: 75807775, "Model::tail2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1148,7 +1148,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75524648, "Geometry::tail2_1", "Mesh" {
+	Geometry: 77549246, "Geometry::tail2_1", "Mesh" {
 		Vertices: *24 {
 			a: 0,9.375,6.25,0,9.375,-6.25,0,0,6.25,0,0,-6.25,0,9.375,-6.25,0,9.375,6.25,0,0,-6.25,0,0,6.25
 		}
@@ -1199,7 +1199,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75817360, "Model::wing_closed_right_1", "Mesh" {
+	Model: 75129673, "Model::wing_closed_right_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1214,7 +1214,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77398139, "Geometry::wing_closed_right_1", "Mesh" {
+	Geometry: 72205293, "Geometry::wing_closed_right_1", "Mesh" {
 		Vertices: *24 {
 			a: 0,6.25,12.5,0,6.25,-3.125,0,-9.375,12.5,0,-9.375,-3.125,-3.125,6.25,-3.125,-3.125,6.25,12.5,-3.125,-9.375,-3.125,-3.125,-9.375,12.5
 		}
@@ -1265,7 +1265,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78712386, "Model::foot_left_1", "Mesh" {
+	Model: 74552831, "Model::foot_left_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1280,7 +1280,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78223237, "Geometry::foot_left_1", "Mesh" {
+	Geometry: 70882731, "Geometry::foot_left_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,0.03125,6.25,3.125,0.03125,-6.25,3.125,0.03125,6.25,3.125,0.03125,-6.25,-6.25,0.03125,-6.25,-6.25,0.03125,6.25,-6.25,0.03125,-6.25,-6.25,0.03125,6.25
 		}
@@ -1331,7 +1331,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72864765, "Model::foot_right_1", "Mesh" {
+	Model: 79393748, "Model::foot_right_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1346,7 +1346,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77409782, "Geometry::foot_right_1", "Mesh" {
+	Geometry: 79460182, "Geometry::foot_right_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,0.03125,6.25,3.125,0.03125,-6.25,3.125,0.03125,6.25,3.125,0.03125,-6.25,-6.25,0.03125,-6.25,-6.25,0.03125,6.25,-6.25,0.03125,-6.25,-6.25,0.03125,6.25
 		}
@@ -1397,7 +1397,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70301084, "Model::wing_closed_right_2", "Mesh" {
+	Model: 74491133, "Model::wing_closed_right_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1412,7 +1412,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78512607, "Geometry::wing_closed_right_2", "Mesh" {
+	Geometry: 71661169, "Geometry::wing_closed_right_2", "Mesh" {
 		Vertices: *24 {
 			a: -3.125,6.25,12.5,-3.125,6.25,-6.25,-3.125,-9.375,12.5,-3.125,-9.375,-6.25,-3.125,6.25,-6.25,-3.125,6.25,12.5,-3.125,-9.375,-6.25,-3.125,-9.375,12.5
 		}
@@ -1463,7 +1463,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71667111, "Model::wing_closed_left_1", "Mesh" {
+	Model: 73804232, "Model::wing_closed_left_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1478,7 +1478,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79541219, "Geometry::wing_closed_left_1", "Mesh" {
+	Geometry: 78422695, "Geometry::wing_closed_left_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,6.25,12.5,3.125,6.25,-3.125,3.125,-9.375,12.5,3.125,-9.375,-3.125,0,6.25,-3.125,0,6.25,12.5,0,-9.375,-3.125,0,-9.375,12.5
 		}
@@ -1529,7 +1529,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74892891, "Model::wing_closed_left_2", "Mesh" {
+	Model: 73623144, "Model::wing_closed_left_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1544,7 +1544,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76651574, "Geometry::wing_closed_left_2", "Mesh" {
+	Geometry: 75758443, "Geometry::wing_closed_left_2", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,6.25,15.625,3.125,6.25,-3.125,3.125,-9.375,15.625,3.125,-9.375,-3.125,3.125,6.25,-3.125,3.125,6.25,15.625,3.125,-9.375,-3.125,3.125,-9.375,15.625
 		}
@@ -1595,7 +1595,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71735717, "Model::torso_1", "Mesh" {
+	Model: 70261487, "Model::torso_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1610,7 +1610,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71197311, "Geometry::torso_1", "Mesh" {
+	Geometry: 72275240, "Geometry::torso_1", "Mesh" {
 		Vertices: *24 {
 			a: 7.875,7.874999999999998,1.625,7.875,7.874999999999998,-14.124999999999998,7.875,-11,1.625,7.875,-11,-14.124999999999998,-7.875,7.874999999999998,-14.124999999999998,-7.875,7.874999999999998,1.625,-7.875,-11,-14.124999999999998,-7.875,-11,1.625
 		}
@@ -1661,7 +1661,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79658159, "Model::beak", "Mesh" {
+	Model: 78569440, "Model::beak", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1676,7 +1676,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78718616, "Geometry::beak", "Mesh" {
+	Geometry: 75695609, "Geometry::beak", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,3.125,3.125,3.125,3.125,-3.125,3.125,0,3.125,3.125,0,-3.125,-3.125,3.125,-3.125,-3.125,3.125,3.125,-3.125,0,-3.125,-3.125,0,3.125
 		}
@@ -1727,7 +1727,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76881015, "Model::beak_1", "Mesh" {
+	Model: 77784931, "Model::beak_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1742,7 +1742,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77626776, "Geometry::beak_1", "Mesh" {
+	Geometry: 79589165, "Geometry::beak_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,6.25,6.25,3.125,6.25,-3.125,3.125,0,6.25,3.125,0,-3.125,3.125,6.25,-3.125,3.125,6.25,6.25,3.125,0,-3.125,3.125,0,6.25
 		}
@@ -1793,7 +1793,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75891477, "Model::leg_right2_1", "Mesh" {
+	Model: 74083349, "Model::leg_right2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1808,7 +1808,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78374299, "Geometry::leg_right2_1", "Mesh" {
+	Geometry: 77830252, "Geometry::leg_right2_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.1875,9.4375,0.06250000000000006,3.1875,9.4375,-3.1875,3.1875,-0.06250000000000006,0.06250000000000006,3.1875,-0.06250000000000006,-3.1875,-0.06250000000000006,9.4375,-3.1875,-0.06250000000000006,9.4375,0.06250000000000006,-0.06250000000000006,-0.06250000000000006,-3.1875,-0.06250000000000006,-0.06250000000000006,0.06250000000000006
 		}
@@ -1859,7 +1859,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79964619, "Model::leg_left2_1", "Mesh" {
+	Model: 75249094, "Model::leg_left2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1874,7 +1874,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70776025, "Geometry::leg_left2_1", "Mesh" {
+	Geometry: 73799768, "Geometry::leg_left2_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.1875,9.4375,0.06250000000000006,3.1875,9.4375,-3.1875,3.1875,-0.06250000000000006,0.06250000000000006,3.1875,-0.06250000000000006,-3.1875,-0.06250000000000006,9.4375,-3.1875,-0.06250000000000006,9.4375,0.06250000000000006,-0.06250000000000006,-0.06250000000000006,-3.1875,-0.06250000000000006,-0.06250000000000006,0.06250000000000006
 		}
@@ -1925,7 +1925,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77765691, "Model::tail_left", "Mesh" {
+	Model: 70604707, "Model::tail_left", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1940,7 +1940,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78081896, "Geometry::tail_left", "Mesh" {
+	Geometry: 74217805, "Geometry::tail_left", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,0,9.375,3.125,0,-6.25,3.125,0,9.375,3.125,0,-6.25,-3.125,0,-6.25,-3.125,0,9.375,-3.125,0,-6.25,-3.125,0,9.375
 		}
@@ -1991,7 +1991,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71676556, "Model::tail2_2", "Mesh" {
+	Model: 76080267, "Model::tail2_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2006,7 +2006,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79847884, "Geometry::tail2_2", "Mesh" {
+	Geometry: 75569651, "Geometry::tail2_2", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,0.031249999999999334,9.375,3.125,0.031249999999999334,-3.125,3.125,0.031249999999999334,9.375,3.125,0.031249999999999334,-3.125,-3.125,0.031249999999999334,-3.125,-3.125,0.031249999999999334,9.375,-3.125,0.031249999999999334,-3.125,-3.125,0.031249999999999334,9.375
 		}
@@ -2057,7 +2057,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74380032, "Model::tail_right", "Mesh" {
+	Model: 72345099, "Model::tail_right", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2072,7 +2072,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76750634, "Geometry::tail_right", "Mesh" {
+	Geometry: 76339690, "Geometry::tail_right", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,0,9.375,3.125,0,-6.25,3.125,0,9.375,3.125,0,-6.25,-3.125,0,-6.25,-3.125,0,9.375,-3.125,0,-6.25,-3.125,0,9.375
 		}
@@ -2123,7 +2123,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78841672, "Model::wing_open_right_1", "Mesh" {
+	Model: 70480609, "Model::wing_open_right_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2138,7 +2138,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74720871, "Geometry::wing_open_right_1", "Mesh" {
+	Geometry: 72060994, "Geometry::wing_open_right_1", "Mesh" {
 		Vertices: *24 {
 			a: 9.375,6.25,6.25,9.375,6.25,-3.125,9.375,3.125,6.25,9.375,3.125,-3.125,-6.25,6.25,-3.125,-6.25,6.25,6.25,-6.25,3.125,-3.125,-6.25,3.125,6.25
 		}
@@ -2189,7 +2189,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75737055, "Model::wing_open_right_2", "Mesh" {
+	Model: 72907406, "Model::wing_open_right_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2204,7 +2204,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79742870, "Geometry::wing_open_right_2", "Mesh" {
+	Geometry: 79640798, "Geometry::wing_open_right_2", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,6.25,6.25,6.25,6.25,-3.125,6.25,3.125,6.25,6.25,3.125,-3.125,-3.125,6.25,-3.125,-3.125,6.25,6.25,-3.125,3.125,-3.125,-3.125,3.125,6.25
 		}
@@ -2255,7 +2255,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75928441, "Model::wing_open_right_3", "Mesh" {
+	Model: 75269859, "Model::wing_open_right_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2270,7 +2270,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78336411, "Geometry::wing_open_right_3", "Mesh" {
+	Geometry: 78345471, "Geometry::wing_open_right_3", "Mesh" {
 		Vertices: *24 {
 			a: -9.375,3.125,15.625,-9.375,3.125,3.125,-9.375,3.125,15.625,-9.375,3.125,3.125,-34.375,3.125,3.125,-34.375,3.125,15.625,-34.375,3.125,3.125,-34.375,3.125,15.625
 		}
@@ -2321,7 +2321,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70663662, "Model::wing_open_right2_1", "Mesh" {
+	Model: 72404591, "Model::wing_open_right2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2336,7 +2336,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70228684, "Geometry::wing_open_right2_1", "Mesh" {
+	Geometry: 75410801, "Geometry::wing_open_right2_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,0,12.5,18.75,0,-9.375,18.75,0,12.5,18.75,0,-9.375,-3.125,0,-9.375,-3.125,0,12.5,-3.125,0,-9.375,-3.125,0,12.5
 		}
@@ -2387,7 +2387,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78960098, "Model::wing_open_left_1", "Mesh" {
+	Model: 79199998, "Model::wing_open_left_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2402,7 +2402,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76153134, "Geometry::wing_open_left_1", "Mesh" {
+	Geometry: 73646039, "Geometry::wing_open_left_1", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,6.25,6.25,6.25,6.25,-3.125,6.25,3.125,6.25,6.25,3.125,-3.125,-9.375,6.25,-3.125,-9.375,6.25,6.25,-9.375,3.125,-3.125,-9.375,3.125,6.25
 		}
@@ -2453,7 +2453,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78498065, "Model::wing_open_left_2", "Mesh" {
+	Model: 70531906, "Model::wing_open_left_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2468,7 +2468,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76454216, "Geometry::wing_open_left_2", "Mesh" {
+	Geometry: 74306777, "Geometry::wing_open_left_2", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,6.25,6.25,3.125,6.25,-3.125,3.125,3.125,6.25,3.125,3.125,-3.125,-6.25,6.25,-3.125,-6.25,6.25,6.25,-6.25,3.125,-3.125,-6.25,3.125,6.25
 		}
@@ -2519,7 +2519,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75913377, "Model::wing_open_left_3", "Mesh" {
+	Model: 78653598, "Model::wing_open_left_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2534,7 +2534,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73835143, "Geometry::wing_open_left_3", "Mesh" {
+	Geometry: 74393746, "Geometry::wing_open_left_3", "Mesh" {
 		Vertices: *24 {
 			a: 34.375,3.125,15.625,34.375,3.125,3.125,34.375,3.125,15.625,34.375,3.125,3.125,9.375,3.125,3.125,9.375,3.125,15.625,9.375,3.125,3.125,9.375,3.125,15.625
 		}
@@ -2585,7 +2585,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78915944, "Model::wing_open_left2_1", "Mesh" {
+	Model: 77300868, "Model::wing_open_left2_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2600,7 +2600,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73370109, "Geometry::wing_open_left2_1", "Mesh" {
+	Geometry: 76936811, "Geometry::wing_open_left2_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,0,12.5,3.125,0,-9.375,3.125,0,12.5,3.125,0,-9.375,-18.75,0,-9.375,-18.75,0,12.5,-18.75,0,-9.375,-18.75,0,12.5
 		}
@@ -2651,7 +2651,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70922624, "Model::eyelid_right_1", "Mesh" {
+	Model: 79426174, "Model::eyelid_right_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2666,7 +2666,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70071793, "Geometry::eyelid_right_1", "Mesh" {
+	Geometry: 77812570, "Geometry::eyelid_right_1", "Mesh" {
 		Vertices: *24 {
 			a: 0.06250000000000006,3.125,0,0.06250000000000006,3.125,-6.25,0.06250000000000006,0,0,0.06250000000000006,0,-6.25,0.06250000000000006,3.125,-6.25,0.06250000000000006,3.125,0,0.06250000000000006,0,-6.25,0.06250000000000006,0,0
 		}
@@ -2717,7 +2717,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73133825, "Model::eyelid_left_1", "Mesh" {
+	Model: 78984612, "Model::eyelid_left_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2732,7 +2732,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77852944, "Geometry::eyelid_left_1", "Mesh" {
+	Geometry: 72624921, "Geometry::eyelid_left_1", "Mesh" {
 		Vertices: *24 {
 			a: -0.06250000000000006,3.125,0,-0.06250000000000006,3.125,-6.25,-0.06250000000000006,0,0,-0.06250000000000006,0,-6.25,-0.06250000000000006,3.125,-6.25,-0.06250000000000006,3.125,0,-0.06250000000000006,0,-6.25,-0.06250000000000006,0,0
 		}
@@ -2783,7 +2783,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 74335099, "Material::Seagull.png", "" {
+	Material: 79339067, "Material::Seagull.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -2794,7 +2794,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 70056688, "Texture::Seagull.png", "" {
+	Texture: 76652053, "Texture::Seagull.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::Seagull.png"
@@ -2806,7 +2806,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 72639383, "Video::Seagull.png", "Clip" {
+	Video: 76698874, "Video::Seagull.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\Enemies\Seagull\Seagull.png"
@@ -2815,22 +2815,22 @@ Objects:  {
 		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Characters\Enemies\Seagull\Seagull.png"
 		RelativeFilename: "Seagull.png"
 	}
-	AnimationStack: 72022946, "AnimStack::Seagull_GroundIdle", "" {
+	AnimationStack: 75541100, "AnimStack::Seagull_GroundIdle", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",92372316000
 			P: "ReferenceStop", "KTime", "Time", "",92372316000
 		}
 	}
-	AnimationLayer: 79999835, "AnimLayer::Seagull_GroundIdle", "" {
+	AnimationLayer: 71326575, "AnimLayer::Seagull_GroundIdle", "" {
 	}
-	AnimationCurveNode: 77109673, "AnimCurveNode::Seagull_GroundIdle.R", "" {
+	AnimationCurveNode: 76503128, "AnimCurveNode::Seagull_GroundIdle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75030204, "AnimCurve::Seagull_GroundIdle.RX", "" {
+	AnimationCurve: 76803194, "AnimCurve::Seagull_GroundIdle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -2849,7 +2849,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 73816143, "AnimCurve::Seagull_GroundIdle.RY", "" {
+	AnimationCurve: 77156716, "AnimCurve::Seagull_GroundIdle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -2868,7 +2868,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 76968358, "AnimCurve::Seagull_GroundIdle.RZ", "" {
+	AnimationCurve: 70933297, "AnimCurve::Seagull_GroundIdle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -2887,14 +2887,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 75087049, "AnimCurveNode::Seagull_GroundIdle.S", "" {
+	AnimationCurveNode: 73138904, "AnimCurveNode::Seagull_GroundIdle.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77517616, "AnimCurve::Seagull_GroundIdle.SX", "" {
+	AnimationCurve: 71922009, "AnimCurve::Seagull_GroundIdle.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -2913,7 +2913,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 74508892, "AnimCurve::Seagull_GroundIdle.SY", "" {
+	AnimationCurve: 79489341, "AnimCurve::Seagull_GroundIdle.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -2932,7 +2932,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 74836828, "AnimCurve::Seagull_GroundIdle.SZ", "" {
+	AnimationCurve: 75146153, "AnimCurve::Seagull_GroundIdle.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -2951,22 +2951,22 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationStack: 70935558, "AnimStack::Seagull_GroundWalk", "" {
+	AnimationStack: 78358287, "AnimStack::Seagull_GroundWalk", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",46186158000
 			P: "ReferenceStop", "KTime", "Time", "",46186158000
 		}
 	}
-	AnimationLayer: 72253237, "AnimLayer::Seagull_GroundWalk", "" {
+	AnimationLayer: 72042175, "AnimLayer::Seagull_GroundWalk", "" {
 	}
-	AnimationCurveNode: 71503172, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 77056836, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75815208, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 71514611, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -2985,7 +2985,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 71426422, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 70880907, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3004,7 +3004,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 78836062, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 79089512, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3023,14 +3023,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 78546608, "AnimCurveNode::Seagull_GroundWalk.P", "" {
+	AnimationCurveNode: 78353869, "AnimCurveNode::Seagull_GroundWalk.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77343570, "AnimCurve::Seagull_GroundWalk.PX", "" {
+	AnimationCurve: 74783005, "AnimCurve::Seagull_GroundWalk.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *9 {
@@ -3049,7 +3049,7 @@ Objects:  {
 			a: 9
 		}
 	}
-	AnimationCurve: 71696770, "AnimCurve::Seagull_GroundWalk.PY", "" {
+	AnimationCurve: 75991268, "AnimCurve::Seagull_GroundWalk.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *9 {
@@ -3068,7 +3068,7 @@ Objects:  {
 			a: 9
 		}
 	}
-	AnimationCurve: 79096975, "AnimCurve::Seagull_GroundWalk.PZ", "" {
+	AnimationCurve: 71681496, "AnimCurve::Seagull_GroundWalk.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *9 {
@@ -3087,14 +3087,14 @@ Objects:  {
 			a: 9
 		}
 	}
-	AnimationCurveNode: 77512733, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 73749301, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74251696, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 79252724, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3113,7 +3113,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 74363142, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 71109116, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3132,7 +3132,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 72465785, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 77947886, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3151,14 +3151,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 71329680, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 71976221, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74549029, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 75981532, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3177,7 +3177,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 71834157, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 79860313, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3196,7 +3196,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 70598626, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 75159792, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3215,14 +3215,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 76414865, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 70137853, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72994544, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 74999838, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3241,7 +3241,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 75169931, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 77586046, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3260,7 +3260,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 70065614, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 75161934, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3279,14 +3279,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 72499361, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 79311433, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78558587, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 71836821, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3305,7 +3305,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 76085746, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 74619984, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3324,7 +3324,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 79110089, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 79335115, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3343,14 +3343,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 74379636, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 74848077, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78585274, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 74994978, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3369,7 +3369,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 77526533, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 73569707, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3388,7 +3388,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 70851943, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 75484678, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3407,14 +3407,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 74457275, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 74443867, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70438530, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 78963845, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3433,7 +3433,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 79329175, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 79101950, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3452,7 +3452,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 74061069, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 71069965, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3471,14 +3471,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 72476083, "AnimCurveNode::Seagull_GroundWalk.R", "" {
+	AnimationCurveNode: 75841117, "AnimCurveNode::Seagull_GroundWalk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72100299, "AnimCurve::Seagull_GroundWalk.RX", "" {
+	AnimationCurve: 70185846, "AnimCurve::Seagull_GroundWalk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3497,7 +3497,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 78970237, "AnimCurve::Seagull_GroundWalk.RY", "" {
+	AnimationCurve: 72239010, "AnimCurve::Seagull_GroundWalk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3516,7 +3516,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 70728779, "AnimCurve::Seagull_GroundWalk.RZ", "" {
+	AnimationCurve: 70774077, "AnimCurve::Seagull_GroundWalk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3535,14 +3535,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 72851431, "AnimCurveNode::Seagull_GroundWalk.S", "" {
+	AnimationCurveNode: 72688835, "AnimCurveNode::Seagull_GroundWalk.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70433415, "AnimCurve::Seagull_GroundWalk.SX", "" {
+	AnimationCurve: 76460109, "AnimCurve::Seagull_GroundWalk.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -3561,7 +3561,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 71433872, "AnimCurve::Seagull_GroundWalk.SY", "" {
+	AnimationCurve: 74047930, "AnimCurve::Seagull_GroundWalk.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -3580,7 +3580,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 76611425, "AnimCurve::Seagull_GroundWalk.SZ", "" {
+	AnimationCurve: 70306704, "AnimCurve::Seagull_GroundWalk.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -3599,22 +3599,22 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationStack: 74963905, "AnimStack::Seagull_GroundAttack", "" {
+	AnimationStack: 70722775, "AnimStack::Seagull_GroundSquawk", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",34639618500
 			P: "ReferenceStop", "KTime", "Time", "",34639618500
 		}
 	}
-	AnimationLayer: 70134525, "AnimLayer::Seagull_GroundAttack", "" {
+	AnimationLayer: 72221858, "AnimLayer::Seagull_GroundSquawk", "" {
 	}
-	AnimationCurveNode: 75630484, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 73817949, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71157916, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 79740285, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -3633,7 +3633,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 73532159, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 72114015, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -3652,7 +3652,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 73066235, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 76621905, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -3671,14 +3671,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 79982965, "AnimCurveNode::Seagull_GroundAttack.P", "" {
+	AnimationCurveNode: 75695660, "AnimCurveNode::Seagull_GroundSquawk.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72242753, "AnimCurve::Seagull_GroundAttack.PX", "" {
+	AnimationCurve: 74530524, "AnimCurve::Seagull_GroundSquawk.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3697,7 +3697,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 79340544, "AnimCurve::Seagull_GroundAttack.PY", "" {
+	AnimationCurve: 76998962, "AnimCurve::Seagull_GroundSquawk.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3716,7 +3716,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 75647167, "AnimCurve::Seagull_GroundAttack.PZ", "" {
+	AnimationCurve: 76163131, "AnimCurve::Seagull_GroundSquawk.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -3735,14 +3735,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 77384254, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 70378446, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76884174, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 71265339, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -3761,7 +3761,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 73923679, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 76312258, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -3780,7 +3780,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 78459935, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 75432034, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -3799,14 +3799,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 74738867, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 79128108, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70842799, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 73766602, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -3825,7 +3825,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 76681928, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 74296802, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -3844,7 +3844,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 73899687, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 75972270, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -3863,14 +3863,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 72271543, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 73338870, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74834374, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 73029484, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *2 {
@@ -3889,7 +3889,7 @@ Objects:  {
 			a: 2
 		}
 	}
-	AnimationCurve: 74517492, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 73288476, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *2 {
@@ -3908,7 +3908,7 @@ Objects:  {
 			a: 2
 		}
 	}
-	AnimationCurve: 76536101, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 77788758, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *2 {
@@ -3927,14 +3927,14 @@ Objects:  {
 			a: 2
 		}
 	}
-	AnimationCurveNode: 75820283, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 78489069, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75910347, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 75492385, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *2 {
@@ -3953,7 +3953,7 @@ Objects:  {
 			a: 2
 		}
 	}
-	AnimationCurve: 71062345, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 76960875, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *2 {
@@ -3972,7 +3972,7 @@ Objects:  {
 			a: 2
 		}
 	}
-	AnimationCurve: 71565102, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 75146038, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *2 {
@@ -3991,14 +3991,14 @@ Objects:  {
 			a: 2
 		}
 	}
-	AnimationCurveNode: 77440516, "AnimCurveNode::Seagull_GroundAttack.S", "" {
+	AnimationCurveNode: 73796607, "AnimCurveNode::Seagull_GroundSquawk.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72405103, "AnimCurve::Seagull_GroundAttack.SX", "" {
+	AnimationCurve: 73736451, "AnimCurve::Seagull_GroundSquawk.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4017,7 +4017,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77950477, "AnimCurve::Seagull_GroundAttack.SY", "" {
+	AnimationCurve: 77548397, "AnimCurve::Seagull_GroundSquawk.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4036,7 +4036,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78439908, "AnimCurve::Seagull_GroundAttack.SZ", "" {
+	AnimationCurve: 79727884, "AnimCurve::Seagull_GroundSquawk.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4055,14 +4055,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 73429883, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 72385697, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75550869, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 75720371, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4081,7 +4081,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 78583356, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 71392394, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4100,7 +4100,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 73911258, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 75663125, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4119,14 +4119,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 70616958, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 72720964, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70034057, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 71902906, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4145,7 +4145,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 78376384, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 75779476, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4164,7 +4164,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 71031131, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 73859512, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4183,14 +4183,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 78428296, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 74752504, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71937162, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 71048617, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4209,7 +4209,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 72218966, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 71080491, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4228,7 +4228,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 72364754, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 71812699, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4247,14 +4247,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 77514862, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 79784352, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72961048, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 73242777, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4273,7 +4273,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 74167096, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 79309873, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4292,7 +4292,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 79943909, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 73324713, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4311,14 +4311,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 75810851, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 77861816, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76832217, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 73221767, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4337,7 +4337,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 75092490, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 76913482, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4356,7 +4356,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 76720813, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 71059179, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4375,14 +4375,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 79482699, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 77911477, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76762592, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 70218184, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4401,7 +4401,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 71373814, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 72420115, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4420,7 +4420,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 70621751, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 73768302, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4439,14 +4439,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 76644382, "AnimCurveNode::Seagull_GroundAttack.S", "" {
+	AnimationCurveNode: 79270425, "AnimCurveNode::Seagull_GroundSquawk.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74691125, "AnimCurve::Seagull_GroundAttack.SX", "" {
+	AnimationCurve: 76265902, "AnimCurve::Seagull_GroundSquawk.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4465,7 +4465,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 72727188, "AnimCurve::Seagull_GroundAttack.SY", "" {
+	AnimationCurve: 71694665, "AnimCurve::Seagull_GroundSquawk.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4484,7 +4484,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 73214540, "AnimCurve::Seagull_GroundAttack.SZ", "" {
+	AnimationCurve: 73164156, "AnimCurve::Seagull_GroundSquawk.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4503,14 +4503,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 71662171, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 74088140, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72249271, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 72597182, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4529,7 +4529,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 70810919, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 79852045, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4548,7 +4548,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 78805597, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 72744750, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4567,14 +4567,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 77846228, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 70062247, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71823681, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 76899609, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4593,7 +4593,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 79130439, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 72932421, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4612,7 +4612,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 79126721, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 72592989, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4631,14 +4631,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 70458028, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 76482110, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77893189, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 72846647, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4657,7 +4657,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 74646827, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 76970849, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4676,7 +4676,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 75233164, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 71230591, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4695,14 +4695,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 73821107, "AnimCurveNode::Seagull_GroundAttack.R", "" {
+	AnimationCurveNode: 75035696, "AnimCurveNode::Seagull_GroundSquawk.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70639320, "AnimCurve::Seagull_GroundAttack.RX", "" {
+	AnimationCurve: 78382804, "AnimCurve::Seagull_GroundSquawk.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4721,7 +4721,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 73892047, "AnimCurve::Seagull_GroundAttack.RY", "" {
+	AnimationCurve: 73237163, "AnimCurve::Seagull_GroundSquawk.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4740,7 +4740,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 76549003, "AnimCurve::Seagull_GroundAttack.RZ", "" {
+	AnimationCurve: 78691814, "AnimCurve::Seagull_GroundSquawk.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -4759,14 +4759,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 72582533, "AnimCurveNode::Seagull_GroundAttack.P", "" {
+	AnimationCurveNode: 77086266, "AnimCurveNode::Seagull_GroundSquawk.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77151770, "AnimCurve::Seagull_GroundAttack.PX", "" {
+	AnimationCurve: 75139675, "AnimCurve::Seagull_GroundSquawk.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -4785,7 +4785,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 71629211, "AnimCurve::Seagull_GroundAttack.PY", "" {
+	AnimationCurve: 77173688, "AnimCurve::Seagull_GroundSquawk.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -4804,7 +4804,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 79074113, "AnimCurve::Seagull_GroundAttack.PZ", "" {
+	AnimationCurve: 79340192, "AnimCurve::Seagull_GroundSquawk.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -4823,14 +4823,14 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurveNode: 76781105, "AnimCurveNode::Seagull_GroundAttack.P", "" {
+	AnimationCurveNode: 75973366, "AnimCurveNode::Seagull_GroundSquawk.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77482396, "AnimCurve::Seagull_GroundAttack.PX", "" {
+	AnimationCurve: 75490880, "AnimCurve::Seagull_GroundSquawk.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -4849,7 +4849,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 73170644, "AnimCurve::Seagull_GroundAttack.PY", "" {
+	AnimationCurve: 71149765, "AnimCurve::Seagull_GroundSquawk.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -4868,7 +4868,7 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationCurve: 78125090, "AnimCurve::Seagull_GroundAttack.PZ", "" {
+	AnimationCurve: 77714315, "AnimCurve::Seagull_GroundSquawk.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *5 {
@@ -4887,22 +4887,22 @@ Objects:  {
 			a: 5
 		}
 	}
-	AnimationStack: 77777668, "AnimStack::Seagull_AirFlap", "" {
+	AnimationStack: 70052346, "AnimStack::Seagull_AirFlap", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",23093079000
 			P: "ReferenceStop", "KTime", "Time", "",23093079000
 		}
 	}
-	AnimationLayer: 71891057, "AnimLayer::Seagull_AirFlap", "" {
+	AnimationLayer: 72281697, "AnimLayer::Seagull_AirFlap", "" {
 	}
-	AnimationCurveNode: 70020199, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 76814849, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75076494, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 76435276, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -4921,7 +4921,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 79414729, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 70994472, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -4940,7 +4940,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75604846, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 73447077, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -4959,14 +4959,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 76930181, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 78685343, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71623343, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 71344020, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -4985,7 +4985,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 76568848, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 71536064, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5004,7 +5004,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 70292262, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 73472747, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5023,14 +5023,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 72650486, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 73153871, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72582012, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 76625983, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5049,7 +5049,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 76640438, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 70716615, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5068,7 +5068,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 72755079, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 70910670, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5087,14 +5087,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 75036282, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 76053553, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79099317, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 74125168, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -5113,7 +5113,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 79922143, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 71680486, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -5132,7 +5132,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 72279381, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 72804729, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -5151,14 +5151,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 74843344, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 74539235, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72769223, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 79432373, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -5177,7 +5177,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 75022205, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 72681915, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -5196,7 +5196,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 74274324, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 70030778, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -5215,14 +5215,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 70390350, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 74596792, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72857914, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 79395618, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5241,7 +5241,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 74019557, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 75031992, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5260,7 +5260,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75950388, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 72245561, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5279,14 +5279,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 79861176, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 73816698, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71454236, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 72851573, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5305,7 +5305,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 74927145, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 76274345, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5324,7 +5324,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78453535, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 77901035, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5343,14 +5343,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 73623227, "AnimCurveNode::Seagull_AirFlap.S", "" {
+	AnimationCurveNode: 75801783, "AnimCurveNode::Seagull_AirFlap.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78203980, "AnimCurve::Seagull_AirFlap.SX", "" {
+	AnimationCurve: 76375374, "AnimCurve::Seagull_AirFlap.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5369,7 +5369,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 76623817, "AnimCurve::Seagull_AirFlap.SY", "" {
+	AnimationCurve: 78417624, "AnimCurve::Seagull_AirFlap.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5388,7 +5388,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75068720, "AnimCurve::Seagull_AirFlap.SZ", "" {
+	AnimationCurve: 72627296, "AnimCurve::Seagull_AirFlap.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5407,14 +5407,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 70046271, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 78118456, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78403740, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 73278167, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5433,7 +5433,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 79358388, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 79002922, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5452,7 +5452,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77340909, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 73239275, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5471,14 +5471,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 74463182, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 71031263, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71034770, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 71691977, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5497,7 +5497,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78156317, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 75009216, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5516,7 +5516,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 72236188, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 76806130, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5535,14 +5535,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 76648812, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 75114133, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78491686, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 72931481, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5561,7 +5561,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75440665, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 76929497, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5580,7 +5580,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 70092260, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 75797316, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5599,14 +5599,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 75472847, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 72400798, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71059892, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 78951646, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5625,7 +5625,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 72637257, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 79226252, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5644,7 +5644,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 78978021, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 72989660, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5663,14 +5663,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 79838798, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 76682368, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76469801, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 74852196, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5689,7 +5689,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 70897160, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 71805782, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5708,7 +5708,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78328475, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 75714194, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5727,14 +5727,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 74825821, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 79367020, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70941948, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 76011509, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5753,7 +5753,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 79228364, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 77852177, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5772,7 +5772,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 73145408, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 77809172, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5791,14 +5791,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 78580598, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 71045724, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75127333, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 79956774, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5817,7 +5817,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 71487393, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 77673470, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5836,7 +5836,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 74638806, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 76397302, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -5855,14 +5855,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 73496243, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 76569904, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72388742, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 73053805, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5881,7 +5881,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 72418992, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 75534385, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5900,7 +5900,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78746186, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 78701544, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5919,14 +5919,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 76917805, "AnimCurveNode::Seagull_AirFlap.S", "" {
+	AnimationCurveNode: 74873486, "AnimCurveNode::Seagull_AirFlap.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72973066, "AnimCurve::Seagull_AirFlap.SX", "" {
+	AnimationCurve: 71487514, "AnimCurve::Seagull_AirFlap.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5945,7 +5945,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 71955384, "AnimCurve::Seagull_AirFlap.SY", "" {
+	AnimationCurve: 76152528, "AnimCurve::Seagull_AirFlap.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5964,7 +5964,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 76587549, "AnimCurve::Seagull_AirFlap.SZ", "" {
+	AnimationCurve: 74320962, "AnimCurve::Seagull_AirFlap.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -5983,14 +5983,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 70666420, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 75320862, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75823120, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 78087925, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -6009,7 +6009,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75447744, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 76798210, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -6028,7 +6028,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 77683426, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 73174061, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -6047,14 +6047,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 71021576, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 70574302, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79836807, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 75954371, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6073,7 +6073,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 76296819, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 79832119, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6092,7 +6092,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 76397409, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 76476395, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6111,14 +6111,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 73092083, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 72649055, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72326012, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 76283506, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -6137,7 +6137,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 77330302, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 73540153, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -6156,7 +6156,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 71309531, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 72718130, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -6175,14 +6175,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 71074138, "AnimCurveNode::Seagull_AirFlap.R", "" {
+	AnimationCurveNode: 75709857, "AnimCurveNode::Seagull_AirFlap.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78316922, "AnimCurve::Seagull_AirFlap.RX", "" {
+	AnimationCurve: 79611395, "AnimCurve::Seagull_AirFlap.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6201,7 +6201,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 77348166, "AnimCurve::Seagull_AirFlap.RY", "" {
+	AnimationCurve: 72215255, "AnimCurve::Seagull_AirFlap.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6220,7 +6220,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 72447671, "AnimCurve::Seagull_AirFlap.RZ", "" {
+	AnimationCurve: 79312380, "AnimCurve::Seagull_AirFlap.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6239,22 +6239,22 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationStack: 71219583, "AnimStack::Seagull_AirGlide", "" {
+	AnimationStack: 71726566, "AnimStack::Seagull_AirGlide", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",92372316000
 			P: "ReferenceStop", "KTime", "Time", "",92372316000
 		}
 	}
-	AnimationLayer: 70033924, "AnimLayer::Seagull_AirGlide", "" {
+	AnimationLayer: 78715041, "AnimLayer::Seagull_AirGlide", "" {
 	}
-	AnimationCurveNode: 72594415, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 78488153, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70259202, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 75051333, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -6273,7 +6273,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 76076990, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 76952117, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -6292,7 +6292,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 76203151, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 70250349, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -6311,14 +6311,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 75288951, "AnimCurveNode::Seagull_AirGlide.P", "" {
+	AnimationCurveNode: 76339120, "AnimCurveNode::Seagull_AirGlide.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76562738, "AnimCurve::Seagull_AirGlide.PX", "" {
+	AnimationCurve: 75160360, "AnimCurve::Seagull_AirGlide.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -6337,7 +6337,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 72916858, "AnimCurve::Seagull_AirGlide.PY", "" {
+	AnimationCurve: 70290893, "AnimCurve::Seagull_AirGlide.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -6356,7 +6356,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 71109265, "AnimCurve::Seagull_AirGlide.PZ", "" {
+	AnimationCurve: 78919394, "AnimCurve::Seagull_AirGlide.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -6375,14 +6375,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 73474168, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 72140717, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75020490, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 77861192, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6401,7 +6401,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75138076, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 77942218, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6420,7 +6420,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78793782, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 74086685, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6439,14 +6439,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 75248167, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 77336181, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73373005, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 71796849, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6465,7 +6465,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75515709, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 78919584, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6484,7 +6484,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77803586, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 79921124, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6503,14 +6503,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 79192225, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 77935200, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73435566, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 72865351, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6529,7 +6529,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 79691031, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 72321603, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6548,7 +6548,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 76081006, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 77361237, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6567,14 +6567,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 78530873, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 72679037, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72355164, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 71829896, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6593,7 +6593,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77100247, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 73417022, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6612,7 +6612,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77273485, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 72865063, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6631,14 +6631,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 73550765, "AnimCurveNode::Seagull_AirGlide.S", "" {
+	AnimationCurveNode: 78550277, "AnimCurveNode::Seagull_AirGlide.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79598039, "AnimCurve::Seagull_AirGlide.SX", "" {
+	AnimationCurve: 71935390, "AnimCurve::Seagull_AirGlide.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6657,7 +6657,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78585059, "AnimCurve::Seagull_AirGlide.SY", "" {
+	AnimationCurve: 78265583, "AnimCurve::Seagull_AirGlide.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6676,7 +6676,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 72476099, "AnimCurve::Seagull_AirGlide.SZ", "" {
+	AnimationCurve: 75942532, "AnimCurve::Seagull_AirGlide.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6695,14 +6695,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 79678460, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 75564317, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79069132, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 72316785, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6721,7 +6721,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78022001, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 74474925, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6740,7 +6740,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78480565, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 73308633, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6759,14 +6759,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 74773284, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 72722415, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79061804, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 70782045, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6785,7 +6785,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77409086, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 77542241, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6804,7 +6804,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 73199428, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 78404822, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6823,14 +6823,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 76282016, "AnimCurveNode::Seagull_AirGlide.S", "" {
+	AnimationCurveNode: 72312895, "AnimCurveNode::Seagull_AirGlide.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71791813, "AnimCurve::Seagull_AirGlide.SX", "" {
+	AnimationCurve: 76351257, "AnimCurve::Seagull_AirGlide.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6849,7 +6849,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75655312, "AnimCurve::Seagull_AirGlide.SY", "" {
+	AnimationCurve: 79245138, "AnimCurve::Seagull_AirGlide.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6868,7 +6868,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75993239, "AnimCurve::Seagull_AirGlide.SZ", "" {
+	AnimationCurve: 78191464, "AnimCurve::Seagull_AirGlide.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -6887,14 +6887,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 72327172, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 77468222, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79456303, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 79294536, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *38 {
@@ -6913,7 +6913,7 @@ Objects:  {
 			a: 38
 		}
 	}
-	AnimationCurve: 72223645, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 73258281, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *38 {
@@ -6932,7 +6932,7 @@ Objects:  {
 			a: 38
 		}
 	}
-	AnimationCurve: 79710727, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 74056306, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *38 {
@@ -6951,14 +6951,14 @@ Objects:  {
 			a: 38
 		}
 	}
-	AnimationCurveNode: 79507234, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 73086420, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74556251, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 73872127, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6977,7 +6977,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 73740365, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 77144148, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -6996,7 +6996,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 71161122, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 74412882, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -7015,14 +7015,14 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurveNode: 70869199, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 70027545, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75923997, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 77389884, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *38 {
@@ -7041,7 +7041,7 @@ Objects:  {
 			a: 38
 		}
 	}
-	AnimationCurve: 75525949, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 75616199, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *38 {
@@ -7060,7 +7060,7 @@ Objects:  {
 			a: 38
 		}
 	}
-	AnimationCurve: 71713828, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 73103846, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *38 {
@@ -7079,14 +7079,14 @@ Objects:  {
 			a: 38
 		}
 	}
-	AnimationCurveNode: 72049546, "AnimCurveNode::Seagull_AirGlide.R", "" {
+	AnimationCurveNode: 73333812, "AnimCurveNode::Seagull_AirGlide.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77623888, "AnimCurve::Seagull_AirGlide.RX", "" {
+	AnimationCurve: 78000770, "AnimCurve::Seagull_AirGlide.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -7105,7 +7105,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 72955384, "AnimCurve::Seagull_AirGlide.RY", "" {
+	AnimationCurve: 71826643, "AnimCurve::Seagull_AirGlide.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -7124,7 +7124,7 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationCurve: 77439880, "AnimCurve::Seagull_AirGlide.RZ", "" {
+	AnimationCurve: 77290192, "AnimCurve::Seagull_AirGlide.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *4 {
@@ -7143,22 +7143,22 @@ Objects:  {
 			a: 4
 		}
 	}
-	AnimationStack: 74915783, "AnimStack::Seagull_WaterIdle", "" {
+	AnimationStack: 79913634, "AnimStack::Seagull_WaterIdle", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",92372316000
 			P: "ReferenceStop", "KTime", "Time", "",92372316000
 		}
 	}
-	AnimationLayer: 71535943, "AnimLayer::Seagull_WaterIdle", "" {
+	AnimationLayer: 75528709, "AnimLayer::Seagull_WaterIdle", "" {
 	}
-	AnimationCurveNode: 79833732, "AnimCurveNode::Seagull_WaterIdle.R", "" {
+	AnimationCurveNode: 78436472, "AnimCurveNode::Seagull_WaterIdle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75239708, "AnimCurve::Seagull_WaterIdle.RX", "" {
+	AnimationCurve: 72762080, "AnimCurve::Seagull_WaterIdle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -7177,7 +7177,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 72784229, "AnimCurve::Seagull_WaterIdle.RY", "" {
+	AnimationCurve: 75174849, "AnimCurve::Seagull_WaterIdle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -7196,7 +7196,7 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurve: 77599892, "AnimCurve::Seagull_WaterIdle.RZ", "" {
+	AnimationCurve: 78778417, "AnimCurve::Seagull_WaterIdle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *39 {
@@ -7215,14 +7215,14 @@ Objects:  {
 			a: 39
 		}
 	}
-	AnimationCurveNode: 77302215, "AnimCurveNode::Seagull_WaterIdle.R", "" {
+	AnimationCurveNode: 76152521, "AnimCurveNode::Seagull_WaterIdle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74330079, "AnimCurve::Seagull_WaterIdle.RX", "" {
+	AnimationCurve: 72708527, "AnimCurve::Seagull_WaterIdle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7241,7 +7241,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 75370828, "AnimCurve::Seagull_WaterIdle.RY", "" {
+	AnimationCurve: 74746939, "AnimCurve::Seagull_WaterIdle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7260,7 +7260,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 77969144, "AnimCurve::Seagull_WaterIdle.RZ", "" {
+	AnimationCurve: 72791495, "AnimCurve::Seagull_WaterIdle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7279,14 +7279,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 74242307, "AnimCurveNode::Seagull_WaterIdle.R", "" {
+	AnimationCurveNode: 71237854, "AnimCurveNode::Seagull_WaterIdle.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 71320383, "AnimCurve::Seagull_WaterIdle.RX", "" {
+	AnimationCurve: 73920902, "AnimCurve::Seagull_WaterIdle.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7305,7 +7305,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 76952616, "AnimCurve::Seagull_WaterIdle.RY", "" {
+	AnimationCurve: 75965627, "AnimCurve::Seagull_WaterIdle.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7324,7 +7324,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 79113295, "AnimCurve::Seagull_WaterIdle.RZ", "" {
+	AnimationCurve: 72736136, "AnimCurve::Seagull_WaterIdle.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7343,14 +7343,14 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurveNode: 71415688, "AnimCurveNode::Seagull_WaterIdle.S", "" {
+	AnimationCurveNode: 78297681, "AnimCurveNode::Seagull_WaterIdle.S", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73515425, "AnimCurve::Seagull_WaterIdle.SX", "" {
+	AnimationCurve: 71323275, "AnimCurve::Seagull_WaterIdle.SX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7369,7 +7369,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 78658851, "AnimCurve::Seagull_WaterIdle.SY", "" {
+	AnimationCurve: 79258461, "AnimCurve::Seagull_WaterIdle.SY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7388,7 +7388,7 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationCurve: 70514552, "AnimCurve::Seagull_WaterIdle.SZ", "" {
+	AnimationCurve: 76885384, "AnimCurve::Seagull_WaterIdle.SZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *1 {
@@ -7407,22 +7407,22 @@ Objects:  {
 			a: 1
 		}
 	}
-	AnimationStack: 77525487, "AnimStack::Seagull_Blink", "" {
+	AnimationStack: 78615198, "AnimStack::Seagull_Blink", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",7697846954
 			P: "ReferenceStop", "KTime", "Time", "",7697846954
 		}
 	}
-	AnimationLayer: 73317314, "AnimLayer::Seagull_Blink", "" {
+	AnimationLayer: 70024578, "AnimLayer::Seagull_Blink", "" {
 	}
-	AnimationCurveNode: 70995311, "AnimCurveNode::Seagull_Blink.P", "" {
+	AnimationCurveNode: 73788688, "AnimCurveNode::Seagull_Blink.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 70248843, "AnimCurve::Seagull_Blink.PX", "" {
+	AnimationCurve: 74801858, "AnimCurve::Seagull_Blink.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7441,7 +7441,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75348962, "AnimCurve::Seagull_Blink.PY", "" {
+	AnimationCurve: 77374962, "AnimCurve::Seagull_Blink.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7460,7 +7460,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 70825600, "AnimCurve::Seagull_Blink.PZ", "" {
+	AnimationCurve: 72504047, "AnimCurve::Seagull_Blink.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7479,14 +7479,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 72096024, "AnimCurveNode::Seagull_Blink.P", "" {
+	AnimationCurveNode: 75742761, "AnimCurveNode::Seagull_Blink.P", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 77133408, "AnimCurve::Seagull_Blink.PX", "" {
+	AnimationCurve: 71618457, "AnimCurve::Seagull_Blink.PX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7505,7 +7505,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 71152425, "AnimCurve::Seagull_Blink.PY", "" {
+	AnimationCurve: 79860189, "AnimCurve::Seagull_Blink.PY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7524,7 +7524,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 73123138, "AnimCurve::Seagull_Blink.PZ", "" {
+	AnimationCurve: 74060483, "AnimCurve::Seagull_Blink.PZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7543,22 +7543,22 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationStack: 77776225, "AnimStack::Seagull_Hurt", "" {
+	AnimationStack: 72294420, "AnimStack::Seagull_Hurt", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",23093079000
 			P: "ReferenceStop", "KTime", "Time", "",23093079000
 		}
 	}
-	AnimationLayer: 76118397, "AnimLayer::Seagull_Hurt", "" {
+	AnimationLayer: 78032562, "AnimLayer::Seagull_Hurt", "" {
 	}
-	AnimationCurveNode: 78703676, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 79001045, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 72164006, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 75189527, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7577,7 +7577,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 73901607, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 74875068, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7596,7 +7596,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 71648006, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 77332349, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7615,14 +7615,14 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 70031595, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 75460268, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73988131, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 71409642, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7641,7 +7641,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 74176374, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 79269654, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7660,7 +7660,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 74935411, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 77285331, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7679,14 +7679,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 78925505, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 79173578, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73941244, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 72600022, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7705,7 +7705,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 71612954, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 73600743, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7724,7 +7724,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75035738, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 79659828, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7743,14 +7743,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 72815354, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 75555972, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 73275270, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 74200912, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7769,7 +7769,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 76459988, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 76862444, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7788,7 +7788,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 78147760, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 73213437, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7807,14 +7807,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 71390666, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 73498542, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78451639, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 73563690, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7833,7 +7833,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 72691901, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 73269655, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7852,7 +7852,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 77207114, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 71628274, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -7871,14 +7871,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 74964617, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 79282018, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74102430, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 70103682, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7897,7 +7897,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 79768981, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 73881043, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7916,7 +7916,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 73143106, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 76538313, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7935,14 +7935,14 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 72775169, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 70923210, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 76274659, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 72225903, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7961,7 +7961,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 71952478, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 77485483, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7980,7 +7980,7 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurve: 75209917, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 73346204, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *10 {
@@ -7999,14 +7999,14 @@ Objects:  {
 			a: 10
 		}
 	}
-	AnimationCurveNode: 78033704, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 78678082, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78961126, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 74679964, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8025,7 +8025,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 74232217, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 71076078, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8044,7 +8044,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 78105530, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 78239416, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8063,14 +8063,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 72290992, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 70772676, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 75483146, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 70664682, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8089,7 +8089,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 70777572, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 78148726, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8108,7 +8108,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 71255271, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 76771836, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8127,14 +8127,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 71294418, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 73703895, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79410008, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 75959150, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8153,7 +8153,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 72013676, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 73541256, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8172,7 +8172,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 76414408, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 74682153, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8191,14 +8191,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 78662494, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 75856579, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 79047810, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 70698554, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8217,7 +8217,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 70455198, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 72877659, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8236,7 +8236,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75158933, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 74752767, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8255,14 +8255,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 76585976, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 73272704, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 78637660, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 77265191, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8281,7 +8281,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 75908755, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 73794815, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8300,7 +8300,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 79960389, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 75490350, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8319,14 +8319,14 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurveNode: 75424465, "AnimCurveNode::Seagull_Hurt.R", "" {
+	AnimationCurveNode: 74175105, "AnimCurveNode::Seagull_Hurt.R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",1
 			P: "d|Y", "Number", "", "A",1
 			P: "d|Z", "Number", "", "A",1
 		}
 	}
-	AnimationCurve: 74046607, "AnimCurve::Seagull_Hurt.RX", "" {
+	AnimationCurve: 71118989, "AnimCurve::Seagull_Hurt.RX", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8345,7 +8345,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 72315680, "AnimCurve::Seagull_Hurt.RY", "" {
+	AnimationCurve: 78647976, "AnimCurve::Seagull_Hurt.RY", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8364,7 +8364,7 @@ Objects:  {
 			a: 3
 		}
 	}
-	AnimationCurve: 70415068, "AnimCurve::Seagull_Hurt.RZ", "" {
+	AnimationCurve: 73859415, "AnimCurve::Seagull_Hurt.RZ", "" {
 		Default: 0
 		KeyVer: 4008
 		KeyTime: *3 {
@@ -8391,1690 +8391,1690 @@ Objects:  {
 Connections:  {
 
 	;Model::seagull, Model::RootNode
-	C: "OO",76330244,0
+	C: "OO",78422626,0
 
 	;Model::body, Model::seagull
-	C: "OO",79868771,76330244
+	C: "OO",76172656,78422626
 
 	;Model::neck, Model::torso
-	C: "OO",77741339,72853541
+	C: "OO",75071403,76937928
 
 	;Model::head, Model::neck
-	C: "OO",79534915,77741339
+	C: "OO",74357917,75071403
 
 	;Model::leg_right, Model::body
-	C: "OO",74826722,79868771
+	C: "OO",72463310,76172656
 
 	;Model::leg_left, Model::body
-	C: "OO",72761835,79868771
+	C: "OO",76341191,76172656
 
 	;Model::wing_closed_right, Model::wings_closed
-	C: "OO",74282120,77616312
+	C: "OO",79361845,74996406
 
 	;Model::foot_left, Model::leg_left2
-	C: "OO",73062705,70047945
+	C: "OO",71383170,78570566
 
 	;Model::foot_right, Model::leg_right2
-	C: "OO",70870048,79890712
+	C: "OO",78468228,72650994
 
 	;Model::wing_closed_left, Model::wings_closed
-	C: "OO",70063064,77616312
+	C: "OO",70830215,74996406
 
 	;Model::wings_closed, Model::torso
-	C: "OO",77616312,72853541
+	C: "OO",74996406,76937928
 
 	;Model::jaw, Model::head
-	C: "OO",76597934,79534915
+	C: "OO",74825714,74357917
 
 	;Model::leg_right2, Model::leg_right
-	C: "OO",79890712,74826722
+	C: "OO",72650994,72463310
 
 	;Model::leg_left2, Model::leg_left
-	C: "OO",70047945,72761835
+	C: "OO",78570566,76341191
 
 	;Model::torso, Model::body
-	C: "OO",72853541,79868771
+	C: "OO",76937928,76172656
 
 	;Model::tail, Model::body
-	C: "OO",76291315,79868771
+	C: "OO",78056136,76172656
 
 	;Model::tail2_left, Model::tail2
-	C: "OO",79417596,72316233
+	C: "OO",77532576,70412564
 
 	;Model::tail2_right, Model::tail2
-	C: "OO",70385414,72316233
+	C: "OO",71029917,70412564
 
 	;Model::tail2, Model::tail
-	C: "OO",72316233,76291315
+	C: "OO",70412564,78056136
 
 	;Model::wings_open, Model::torso
-	C: "OO",71234324,72853541
+	C: "OO",70880813,76937928
 
 	;Model::wing_open_right, Model::wings_open
-	C: "OO",73363190,71234324
+	C: "OO",72243085,70880813
 
 	;Model::wing_open_right2, Model::wing_open_right
-	C: "OO",76916963,73363190
+	C: "OO",72105539,72243085
 
 	;Model::wing_open_left, Model::wings_open
-	C: "OO",70886405,71234324
+	C: "OO",72725476,70880813
 
 	;Model::wing_open_left2, Model::wing_open_left
-	C: "OO",73204884,70886405
+	C: "OO",71924747,72725476
 
 	;Model::eyelid_right, Model::head
-	C: "OO",74119454,79534915
+	C: "OO",70815183,74357917
 
 	;Model::eyelid_left, Model::head
-	C: "OO",75089299,79534915
+	C: "OO",76316637,74357917
 
 	;Model::body_1, Model::body
-	C: "OO",72171199,79868771
+	C: "OO",79029664,76172656
 
 	;Geometry::body_1, Model::body_1
-	C: "OO",75462688,72171199
+	C: "OO",70014378,79029664
 
 	;Material::Seagull.png, Model::body_1
-	C: "OO",74335099,72171199
+	C: "OO",79339067,79029664
 
 	;Model::neck_1, Model::neck
-	C: "OO",75453273,77741339
+	C: "OO",75473679,75071403
 
 	;Geometry::neck_1, Model::neck_1
-	C: "OO",77482932,75453273
+	C: "OO",70171266,75473679
 
 	;Material::Seagull.png, Model::neck_1
-	C: "OO",74335099,75453273
+	C: "OO",79339067,75473679
 
 	;Model::head_1, Model::head
-	C: "OO",75373126,79534915
+	C: "OO",72859066,74357917
 
 	;Geometry::head_1, Model::head_1
-	C: "OO",71335609,75373126
+	C: "OO",78095444,72859066
 
 	;Material::Seagull.png, Model::head_1
-	C: "OO",74335099,75373126
+	C: "OO",79339067,72859066
 
 	;Model::jaw_1, Model::jaw
-	C: "OO",74675357,76597934
+	C: "OO",79339326,74825714
 
 	;Geometry::jaw_1, Model::jaw_1
-	C: "OO",74644390,74675357
+	C: "OO",70067207,79339326
 
 	;Material::Seagull.png, Model::jaw_1
-	C: "OO",74335099,74675357
+	C: "OO",79339067,79339326
 
 	;Model::leg_right_1, Model::leg_right
-	C: "OO",73175623,74826722
+	C: "OO",72200403,72463310
 
 	;Geometry::leg_right_1, Model::leg_right_1
-	C: "OO",72358127,73175623
+	C: "OO",75370517,72200403
 
 	;Material::Seagull.png, Model::leg_right_1
-	C: "OO",74335099,73175623
+	C: "OO",79339067,72200403
 
 	;Model::leg_left_1, Model::leg_left
-	C: "OO",72406353,72761835
+	C: "OO",76550828,76341191
 
 	;Geometry::leg_left_1, Model::leg_left_1
-	C: "OO",72151731,72406353
+	C: "OO",76781458,76550828
 
 	;Material::Seagull.png, Model::leg_left_1
-	C: "OO",74335099,72406353
+	C: "OO",79339067,76550828
 
 	;Model::tail_1, Model::tail
-	C: "OO",78577667,76291315
+	C: "OO",77866787,78056136
 
 	;Geometry::tail_1, Model::tail_1
-	C: "OO",71078964,78577667
+	C: "OO",77405236,77866787
 
 	;Material::Seagull.png, Model::tail_1
-	C: "OO",74335099,78577667
+	C: "OO",79339067,77866787
 
 	;Model::tail2_1, Model::tail2
-	C: "OO",72801257,72316233
+	C: "OO",75807775,70412564
 
 	;Geometry::tail2_1, Model::tail2_1
-	C: "OO",75524648,72801257
+	C: "OO",77549246,75807775
 
 	;Material::Seagull.png, Model::tail2_1
-	C: "OO",74335099,72801257
+	C: "OO",79339067,75807775
 
 	;Model::wing_closed_right_1, Model::wing_closed_right
-	C: "OO",75817360,74282120
+	C: "OO",75129673,79361845
 
 	;Geometry::wing_closed_right_1, Model::wing_closed_right_1
-	C: "OO",77398139,75817360
+	C: "OO",72205293,75129673
 
 	;Material::Seagull.png, Model::wing_closed_right_1
-	C: "OO",74335099,75817360
+	C: "OO",79339067,75129673
 
 	;Model::foot_left_1, Model::foot_left
-	C: "OO",78712386,73062705
+	C: "OO",74552831,71383170
 
 	;Geometry::foot_left_1, Model::foot_left_1
-	C: "OO",78223237,78712386
+	C: "OO",70882731,74552831
 
 	;Material::Seagull.png, Model::foot_left_1
-	C: "OO",74335099,78712386
+	C: "OO",79339067,74552831
 
 	;Model::foot_right_1, Model::foot_right
-	C: "OO",72864765,70870048
+	C: "OO",79393748,78468228
 
 	;Geometry::foot_right_1, Model::foot_right_1
-	C: "OO",77409782,72864765
+	C: "OO",79460182,79393748
 
 	;Material::Seagull.png, Model::foot_right_1
-	C: "OO",74335099,72864765
+	C: "OO",79339067,79393748
 
 	;Model::wing_closed_right_2, Model::wing_closed_right
-	C: "OO",70301084,74282120
+	C: "OO",74491133,79361845
 
 	;Geometry::wing_closed_right_2, Model::wing_closed_right_2
-	C: "OO",78512607,70301084
+	C: "OO",71661169,74491133
 
 	;Material::Seagull.png, Model::wing_closed_right_2
-	C: "OO",74335099,70301084
+	C: "OO",79339067,74491133
 
 	;Model::wing_closed_left_1, Model::wing_closed_left
-	C: "OO",71667111,70063064
+	C: "OO",73804232,70830215
 
 	;Geometry::wing_closed_left_1, Model::wing_closed_left_1
-	C: "OO",79541219,71667111
+	C: "OO",78422695,73804232
 
 	;Material::Seagull.png, Model::wing_closed_left_1
-	C: "OO",74335099,71667111
+	C: "OO",79339067,73804232
 
 	;Model::wing_closed_left_2, Model::wing_closed_left
-	C: "OO",74892891,70063064
+	C: "OO",73623144,70830215
 
 	;Geometry::wing_closed_left_2, Model::wing_closed_left_2
-	C: "OO",76651574,74892891
+	C: "OO",75758443,73623144
 
 	;Material::Seagull.png, Model::wing_closed_left_2
-	C: "OO",74335099,74892891
+	C: "OO",79339067,73623144
 
 	;Model::torso_1, Model::torso
-	C: "OO",71735717,72853541
+	C: "OO",70261487,76937928
 
 	;Geometry::torso_1, Model::torso_1
-	C: "OO",71197311,71735717
+	C: "OO",72275240,70261487
 
 	;Material::Seagull.png, Model::torso_1
-	C: "OO",74335099,71735717
+	C: "OO",79339067,70261487
 
 	;Model::beak, Model::head
-	C: "OO",79658159,79534915
+	C: "OO",78569440,74357917
 
 	;Geometry::beak, Model::beak
-	C: "OO",78718616,79658159
+	C: "OO",75695609,78569440
 
 	;Material::Seagull.png, Model::beak
-	C: "OO",74335099,79658159
+	C: "OO",79339067,78569440
 
 	;Model::beak_1, Model::head
-	C: "OO",76881015,79534915
+	C: "OO",77784931,74357917
 
 	;Geometry::beak_1, Model::beak_1
-	C: "OO",77626776,76881015
+	C: "OO",79589165,77784931
 
 	;Material::Seagull.png, Model::beak_1
-	C: "OO",74335099,76881015
+	C: "OO",79339067,77784931
 
 	;Model::leg_right2_1, Model::leg_right2
-	C: "OO",75891477,79890712
+	C: "OO",74083349,72650994
 
 	;Geometry::leg_right2_1, Model::leg_right2_1
-	C: "OO",78374299,75891477
+	C: "OO",77830252,74083349
 
 	;Material::Seagull.png, Model::leg_right2_1
-	C: "OO",74335099,75891477
+	C: "OO",79339067,74083349
 
 	;Model::leg_left2_1, Model::leg_left2
-	C: "OO",79964619,70047945
+	C: "OO",75249094,78570566
 
 	;Geometry::leg_left2_1, Model::leg_left2_1
-	C: "OO",70776025,79964619
+	C: "OO",73799768,75249094
 
 	;Material::Seagull.png, Model::leg_left2_1
-	C: "OO",74335099,79964619
+	C: "OO",79339067,75249094
 
 	;Model::tail_left, Model::tail2_left
-	C: "OO",77765691,79417596
+	C: "OO",70604707,77532576
 
 	;Geometry::tail_left, Model::tail_left
-	C: "OO",78081896,77765691
+	C: "OO",74217805,70604707
 
 	;Material::Seagull.png, Model::tail_left
-	C: "OO",74335099,77765691
+	C: "OO",79339067,70604707
 
 	;Model::tail2_2, Model::tail2
-	C: "OO",71676556,72316233
+	C: "OO",76080267,70412564
 
 	;Geometry::tail2_2, Model::tail2_2
-	C: "OO",79847884,71676556
+	C: "OO",75569651,76080267
 
 	;Material::Seagull.png, Model::tail2_2
-	C: "OO",74335099,71676556
+	C: "OO",79339067,76080267
 
 	;Model::tail_right, Model::tail2_right
-	C: "OO",74380032,70385414
+	C: "OO",72345099,71029917
 
 	;Geometry::tail_right, Model::tail_right
-	C: "OO",76750634,74380032
+	C: "OO",76339690,72345099
 
 	;Material::Seagull.png, Model::tail_right
-	C: "OO",74335099,74380032
+	C: "OO",79339067,72345099
 
 	;Model::wing_open_right_1, Model::wing_open_right
-	C: "OO",78841672,73363190
+	C: "OO",70480609,72243085
 
 	;Geometry::wing_open_right_1, Model::wing_open_right_1
-	C: "OO",74720871,78841672
+	C: "OO",72060994,70480609
 
 	;Material::Seagull.png, Model::wing_open_right_1
-	C: "OO",74335099,78841672
+	C: "OO",79339067,70480609
 
 	;Model::wing_open_right_2, Model::wing_open_right
-	C: "OO",75737055,73363190
+	C: "OO",72907406,72243085
 
 	;Geometry::wing_open_right_2, Model::wing_open_right_2
-	C: "OO",79742870,75737055
+	C: "OO",79640798,72907406
 
 	;Material::Seagull.png, Model::wing_open_right_2
-	C: "OO",74335099,75737055
+	C: "OO",79339067,72907406
 
 	;Model::wing_open_right_3, Model::wing_open_right
-	C: "OO",75928441,73363190
+	C: "OO",75269859,72243085
 
 	;Geometry::wing_open_right_3, Model::wing_open_right_3
-	C: "OO",78336411,75928441
+	C: "OO",78345471,75269859
 
 	;Material::Seagull.png, Model::wing_open_right_3
-	C: "OO",74335099,75928441
+	C: "OO",79339067,75269859
 
 	;Model::wing_open_right2_1, Model::wing_open_right2
-	C: "OO",70663662,76916963
+	C: "OO",72404591,72105539
 
 	;Geometry::wing_open_right2_1, Model::wing_open_right2_1
-	C: "OO",70228684,70663662
+	C: "OO",75410801,72404591
 
 	;Material::Seagull.png, Model::wing_open_right2_1
-	C: "OO",74335099,70663662
+	C: "OO",79339067,72404591
 
 	;Model::wing_open_left_1, Model::wing_open_left
-	C: "OO",78960098,70886405
+	C: "OO",79199998,72725476
 
 	;Geometry::wing_open_left_1, Model::wing_open_left_1
-	C: "OO",76153134,78960098
+	C: "OO",73646039,79199998
 
 	;Material::Seagull.png, Model::wing_open_left_1
-	C: "OO",74335099,78960098
+	C: "OO",79339067,79199998
 
 	;Model::wing_open_left_2, Model::wing_open_left
-	C: "OO",78498065,70886405
+	C: "OO",70531906,72725476
 
 	;Geometry::wing_open_left_2, Model::wing_open_left_2
-	C: "OO",76454216,78498065
+	C: "OO",74306777,70531906
 
 	;Material::Seagull.png, Model::wing_open_left_2
-	C: "OO",74335099,78498065
+	C: "OO",79339067,70531906
 
 	;Model::wing_open_left_3, Model::wing_open_left
-	C: "OO",75913377,70886405
+	C: "OO",78653598,72725476
 
 	;Geometry::wing_open_left_3, Model::wing_open_left_3
-	C: "OO",73835143,75913377
+	C: "OO",74393746,78653598
 
 	;Material::Seagull.png, Model::wing_open_left_3
-	C: "OO",74335099,75913377
+	C: "OO",79339067,78653598
 
 	;Model::wing_open_left2_1, Model::wing_open_left2
-	C: "OO",78915944,73204884
+	C: "OO",77300868,71924747
 
 	;Geometry::wing_open_left2_1, Model::wing_open_left2_1
-	C: "OO",73370109,78915944
+	C: "OO",76936811,77300868
 
 	;Material::Seagull.png, Model::wing_open_left2_1
-	C: "OO",74335099,78915944
+	C: "OO",79339067,77300868
 
 	;Model::eyelid_right_1, Model::eyelid_right
-	C: "OO",70922624,74119454
+	C: "OO",79426174,70815183
 
 	;Geometry::eyelid_right_1, Model::eyelid_right_1
-	C: "OO",70071793,70922624
+	C: "OO",77812570,79426174
 
 	;Material::Seagull.png, Model::eyelid_right_1
-	C: "OO",74335099,70922624
+	C: "OO",79339067,79426174
 
 	;Model::eyelid_left_1, Model::eyelid_left
-	C: "OO",73133825,75089299
+	C: "OO",78984612,76316637
 
 	;Geometry::eyelid_left_1, Model::eyelid_left_1
-	C: "OO",77852944,73133825
+	C: "OO",72624921,78984612
 
 	;Material::Seagull.png, Model::eyelid_left_1
-	C: "OO",74335099,73133825
+	C: "OO",79339067,78984612
 
 	;Texture::Seagull.png, Material::Seagull.png
-	C: "OP",70056688,74335099, "DiffuseColor"
+	C: "OP",76652053,79339067, "DiffuseColor"
 
 	;Video::Seagull.png, Texture::Seagull.png
-	C: "OO",72639383,70056688
+	C: "OO",76698874,76652053
 
 	;AnimLayer::Seagull_GroundIdle, AnimStack::Seagull_GroundIdle
-	C: "OO",79999835,72022946
+	C: "OO",71326575,75541100
 
 	;AnimCurveNode::Seagull_GroundIdle.R, Model::torso
-	C: "OP",77109673,72853541, "Lcl Rotation"
+	C: "OP",76503128,76937928, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundIdle.R, AnimLayer::Seagull_GroundIdle
-	C: "OO",77109673,79999835
+	C: "OO",76503128,71326575
 
 	;AnimCurve::Seagull_GroundIdle.RX, AnimCurveNode::Seagull_GroundIdle.R
-	C: "OP",75030204,77109673, "d|X"
+	C: "OP",76803194,76503128, "d|X"
 
 	;AnimCurve::Seagull_GroundIdle.RY, AnimCurveNode::Seagull_GroundIdle.R
-	C: "OP",73816143,77109673, "d|Y"
+	C: "OP",77156716,76503128, "d|Y"
 
 	;AnimCurve::Seagull_GroundIdle.RZ, AnimCurveNode::Seagull_GroundIdle.R
-	C: "OP",76968358,77109673, "d|Z"
+	C: "OP",70933297,76503128, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundIdle.S, Model::wings_open
-	C: "OP",75087049,71234324, "Lcl Scaling"
+	C: "OP",73138904,70880813, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_GroundIdle.S, AnimLayer::Seagull_GroundIdle
-	C: "OO",75087049,79999835
+	C: "OO",73138904,71326575
 
 	;AnimCurve::Seagull_GroundIdle.SX, AnimCurveNode::Seagull_GroundIdle.S
-	C: "OP",77517616,75087049, "d|X"
+	C: "OP",71922009,73138904, "d|X"
 
 	;AnimCurve::Seagull_GroundIdle.SY, AnimCurveNode::Seagull_GroundIdle.S
-	C: "OP",74508892,75087049, "d|Y"
+	C: "OP",79489341,73138904, "d|Y"
 
 	;AnimCurve::Seagull_GroundIdle.SZ, AnimCurveNode::Seagull_GroundIdle.S
-	C: "OP",74836828,75087049, "d|Z"
+	C: "OP",75146153,73138904, "d|Z"
 
 	;AnimLayer::Seagull_GroundWalk, AnimStack::Seagull_GroundWalk
-	C: "OO",72253237,70935558
+	C: "OO",72042175,78358287
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::body
-	C: "OP",71503172,79868771, "Lcl Rotation"
+	C: "OP",77056836,76172656, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",71503172,72253237
+	C: "OO",77056836,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",75815208,71503172, "d|X"
+	C: "OP",71514611,77056836, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",71426422,71503172, "d|Y"
+	C: "OP",70880907,77056836, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",78836062,71503172, "d|Z"
+	C: "OP",79089512,77056836, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.P, Model::body
-	C: "OP",78546608,79868771, "Lcl Translation"
+	C: "OP",78353869,76172656, "Lcl Translation"
 
 	;AnimCurveNode::Seagull_GroundWalk.P, AnimLayer::Seagull_GroundWalk
-	C: "OO",78546608,72253237
+	C: "OO",78353869,72042175
 
 	;AnimCurve::Seagull_GroundWalk.PX, AnimCurveNode::Seagull_GroundWalk.P
-	C: "OP",77343570,78546608, "d|X"
+	C: "OP",74783005,78353869, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.PY, AnimCurveNode::Seagull_GroundWalk.P
-	C: "OP",71696770,78546608, "d|Y"
+	C: "OP",75991268,78353869, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.PZ, AnimCurveNode::Seagull_GroundWalk.P
-	C: "OP",79096975,78546608, "d|Z"
+	C: "OP",71681496,78353869, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::head
-	C: "OP",77512733,79534915, "Lcl Rotation"
+	C: "OP",73749301,74357917, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",77512733,72253237
+	C: "OO",73749301,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",74251696,77512733, "d|X"
+	C: "OP",79252724,73749301, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",74363142,77512733, "d|Y"
+	C: "OP",71109116,73749301, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",72465785,77512733, "d|Z"
+	C: "OP",77947886,73749301, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::leg_right
-	C: "OP",71329680,74826722, "Lcl Rotation"
+	C: "OP",71976221,72463310, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",71329680,72253237
+	C: "OO",71976221,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",74549029,71329680, "d|X"
+	C: "OP",75981532,71976221, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",71834157,71329680, "d|Y"
+	C: "OP",79860313,71976221, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",70598626,71329680, "d|Z"
+	C: "OP",75159792,71976221, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::leg_left
-	C: "OP",76414865,72761835, "Lcl Rotation"
+	C: "OP",70137853,76341191, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",76414865,72253237
+	C: "OO",70137853,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",72994544,76414865, "d|X"
+	C: "OP",74999838,70137853, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",75169931,76414865, "d|Y"
+	C: "OP",77586046,70137853, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",70065614,76414865, "d|Z"
+	C: "OP",75161934,70137853, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::foot_left
-	C: "OP",72499361,73062705, "Lcl Rotation"
+	C: "OP",79311433,71383170, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",72499361,72253237
+	C: "OO",79311433,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",78558587,72499361, "d|X"
+	C: "OP",71836821,79311433, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",76085746,72499361, "d|Y"
+	C: "OP",74619984,79311433, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",79110089,72499361, "d|Z"
+	C: "OP",79335115,79311433, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::foot_right
-	C: "OP",74379636,70870048, "Lcl Rotation"
+	C: "OP",74848077,78468228, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",74379636,72253237
+	C: "OO",74848077,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",78585274,74379636, "d|X"
+	C: "OP",74994978,74848077, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",77526533,74379636, "d|Y"
+	C: "OP",73569707,74848077, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",70851943,74379636, "d|Z"
+	C: "OP",75484678,74848077, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::leg_right2
-	C: "OP",74457275,79890712, "Lcl Rotation"
+	C: "OP",74443867,72650994, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",74457275,72253237
+	C: "OO",74443867,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",70438530,74457275, "d|X"
+	C: "OP",78963845,74443867, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",79329175,74457275, "d|Y"
+	C: "OP",79101950,74443867, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",74061069,74457275, "d|Z"
+	C: "OP",71069965,74443867, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, Model::leg_left2
-	C: "OP",72476083,70047945, "Lcl Rotation"
+	C: "OP",75841117,78570566, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_GroundWalk.R, AnimLayer::Seagull_GroundWalk
-	C: "OO",72476083,72253237
+	C: "OO",75841117,72042175
 
 	;AnimCurve::Seagull_GroundWalk.RX, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",72100299,72476083, "d|X"
+	C: "OP",70185846,75841117, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.RY, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",78970237,72476083, "d|Y"
+	C: "OP",72239010,75841117, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.RZ, AnimCurveNode::Seagull_GroundWalk.R
-	C: "OP",70728779,72476083, "d|Z"
+	C: "OP",70774077,75841117, "d|Z"
 
 	;AnimCurveNode::Seagull_GroundWalk.S, Model::wings_open
-	C: "OP",72851431,71234324, "Lcl Scaling"
+	C: "OP",72688835,70880813, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_GroundWalk.S, AnimLayer::Seagull_GroundWalk
-	C: "OO",72851431,72253237
+	C: "OO",72688835,72042175
 
 	;AnimCurve::Seagull_GroundWalk.SX, AnimCurveNode::Seagull_GroundWalk.S
-	C: "OP",70433415,72851431, "d|X"
+	C: "OP",76460109,72688835, "d|X"
 
 	;AnimCurve::Seagull_GroundWalk.SY, AnimCurveNode::Seagull_GroundWalk.S
-	C: "OP",71433872,72851431, "d|Y"
+	C: "OP",74047930,72688835, "d|Y"
 
 	;AnimCurve::Seagull_GroundWalk.SZ, AnimCurveNode::Seagull_GroundWalk.S
-	C: "OP",76611425,72851431, "d|Z"
+	C: "OP",70306704,72688835, "d|Z"
 
-	;AnimLayer::Seagull_GroundAttack, AnimStack::Seagull_GroundAttack
-	C: "OO",70134525,74963905
+	;AnimLayer::Seagull_GroundSquawk, AnimStack::Seagull_GroundSquawk
+	C: "OO",72221858,70722775
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::body
-	C: "OP",75630484,79868771, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::body
+	C: "OP",73817949,76172656, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",75630484,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",73817949,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71157916,75630484, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",79740285,73817949, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",73532159,75630484, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72114015,73817949, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",73066235,75630484, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",76621905,73817949, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.P, Model::body
-	C: "OP",79982965,79868771, "Lcl Translation"
+	;AnimCurveNode::Seagull_GroundSquawk.P, Model::body
+	C: "OP",75695660,76172656, "Lcl Translation"
 
-	;AnimCurveNode::Seagull_GroundAttack.P, AnimLayer::Seagull_GroundAttack
-	C: "OO",79982965,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.P, AnimLayer::Seagull_GroundSquawk
+	C: "OO",75695660,72221858
 
-	;AnimCurve::Seagull_GroundAttack.PX, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",72242753,79982965, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.PX, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",74530524,75695660, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.PY, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",79340544,79982965, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.PY, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",76998962,75695660, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.PZ, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",75647167,79982965, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.PZ, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",76163131,75695660, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::neck
-	C: "OP",77384254,77741339, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::neck
+	C: "OP",70378446,75071403, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",77384254,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",70378446,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76884174,77384254, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71265339,70378446, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",73923679,77384254, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",76312258,70378446, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",78459935,77384254, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75432034,70378446, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::head
-	C: "OP",74738867,79534915, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::head
+	C: "OP",79128108,74357917, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",74738867,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",79128108,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",70842799,74738867, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73766602,79128108, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76681928,74738867, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",74296802,79128108, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",73899687,74738867, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75972270,79128108, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::leg_right
-	C: "OP",72271543,74826722, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::leg_right
+	C: "OP",73338870,72463310, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",72271543,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",73338870,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",74834374,72271543, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73029484,73338870, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",74517492,72271543, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73288476,73338870, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76536101,72271543, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",77788758,73338870, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::leg_left
-	C: "OP",75820283,72761835, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::leg_left
+	C: "OP",78489069,76341191, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",75820283,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",78489069,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",75910347,75820283, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75492385,78489069, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71062345,75820283, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",76960875,78489069, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71565102,75820283, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75146038,78489069, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.S, Model::wings_closed
-	C: "OP",77440516,77616312, "Lcl Scaling"
+	;AnimCurveNode::Seagull_GroundSquawk.S, Model::wings_closed
+	C: "OP",73796607,74996406, "Lcl Scaling"
 
-	;AnimCurveNode::Seagull_GroundAttack.S, AnimLayer::Seagull_GroundAttack
-	C: "OO",77440516,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.S, AnimLayer::Seagull_GroundSquawk
+	C: "OO",73796607,72221858
 
-	;AnimCurve::Seagull_GroundAttack.SX, AnimCurveNode::Seagull_GroundAttack.S
-	C: "OP",72405103,77440516, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.SX, AnimCurveNode::Seagull_GroundSquawk.S
+	C: "OP",73736451,73796607, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.SY, AnimCurveNode::Seagull_GroundAttack.S
-	C: "OP",77950477,77440516, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.SY, AnimCurveNode::Seagull_GroundSquawk.S
+	C: "OP",77548397,73796607, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.SZ, AnimCurveNode::Seagull_GroundAttack.S
-	C: "OP",78439908,77440516, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.SZ, AnimCurveNode::Seagull_GroundSquawk.S
+	C: "OP",79727884,73796607, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::jaw
-	C: "OP",73429883,76597934, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::jaw
+	C: "OP",72385697,74825714, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",73429883,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",72385697,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",75550869,73429883, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75720371,72385697, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",78583356,73429883, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71392394,72385697, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",73911258,73429883, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75663125,72385697, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::leg_right2
-	C: "OP",70616958,79890712, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::leg_right2
+	C: "OP",72720964,72650994, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",70616958,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",72720964,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",70034057,70616958, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71902906,72720964, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",78376384,70616958, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",75779476,72720964, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71031131,70616958, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73859512,72720964, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::leg_left2
-	C: "OP",78428296,70047945, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::leg_left2
+	C: "OP",74752504,78570566, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",78428296,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",74752504,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71937162,78428296, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71048617,74752504, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",72218966,78428296, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71080491,74752504, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",72364754,78428296, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71812699,74752504, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::torso
-	C: "OP",77514862,72853541, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::torso
+	C: "OP",79784352,76937928, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",77514862,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",79784352,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",72961048,77514862, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73242777,79784352, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",74167096,77514862, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",79309873,79784352, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",79943909,77514862, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73324713,79784352, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::tail
-	C: "OP",75810851,76291315, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::tail
+	C: "OP",77861816,78056136, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",75810851,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",77861816,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76832217,75810851, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73221767,77861816, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",75092490,75810851, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",76913482,77861816, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76720813,75810851, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71059179,77861816, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::tail2
-	C: "OP",79482699,72316233, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::tail2
+	C: "OP",77911477,70412564, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",79482699,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",77911477,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76762592,79482699, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",70218184,77911477, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71373814,79482699, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72420115,77911477, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",70621751,79482699, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73768302,77911477, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.S, Model::wings_open
-	C: "OP",76644382,71234324, "Lcl Scaling"
+	;AnimCurveNode::Seagull_GroundSquawk.S, Model::wings_open
+	C: "OP",79270425,70880813, "Lcl Scaling"
 
-	;AnimCurveNode::Seagull_GroundAttack.S, AnimLayer::Seagull_GroundAttack
-	C: "OO",76644382,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.S, AnimLayer::Seagull_GroundSquawk
+	C: "OO",79270425,72221858
 
-	;AnimCurve::Seagull_GroundAttack.SX, AnimCurveNode::Seagull_GroundAttack.S
-	C: "OP",74691125,76644382, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.SX, AnimCurveNode::Seagull_GroundSquawk.S
+	C: "OP",76265902,79270425, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.SY, AnimCurveNode::Seagull_GroundAttack.S
-	C: "OP",72727188,76644382, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.SY, AnimCurveNode::Seagull_GroundSquawk.S
+	C: "OP",71694665,79270425, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.SZ, AnimCurveNode::Seagull_GroundAttack.S
-	C: "OP",73214540,76644382, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.SZ, AnimCurveNode::Seagull_GroundSquawk.S
+	C: "OP",73164156,79270425, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::wing_open_right
-	C: "OP",71662171,73363190, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::wing_open_right
+	C: "OP",74088140,72243085, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",71662171,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",74088140,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",72249271,71662171, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72597182,74088140, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",70810919,71662171, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",79852045,74088140, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",78805597,71662171, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72744750,74088140, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::wing_open_right2
-	C: "OP",77846228,76916963, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::wing_open_right2
+	C: "OP",70062247,72105539, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",77846228,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",70062247,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",71823681,77846228, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",76899609,70062247, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",79130439,77846228, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72932421,70062247, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",79126721,77846228, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72592989,70062247, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::wing_open_left
-	C: "OP",70458028,70886405, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::wing_open_left
+	C: "OP",76482110,72725476, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",70458028,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",76482110,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",77893189,70458028, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",72846647,76482110, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",74646827,70458028, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",76970849,76482110, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",75233164,70458028, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",71230591,76482110, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, Model::wing_open_left2
-	C: "OP",73821107,73204884, "Lcl Rotation"
+	;AnimCurveNode::Seagull_GroundSquawk.R, Model::wing_open_left2
+	C: "OP",75035696,71924747, "Lcl Rotation"
 
-	;AnimCurveNode::Seagull_GroundAttack.R, AnimLayer::Seagull_GroundAttack
-	C: "OO",73821107,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.R, AnimLayer::Seagull_GroundSquawk
+	C: "OO",75035696,72221858
 
-	;AnimCurve::Seagull_GroundAttack.RX, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",70639320,73821107, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.RX, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",78382804,75035696, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.RY, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",73892047,73821107, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.RY, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",73237163,75035696, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.RZ, AnimCurveNode::Seagull_GroundAttack.R
-	C: "OP",76549003,73821107, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.RZ, AnimCurveNode::Seagull_GroundSquawk.R
+	C: "OP",78691814,75035696, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.P, Model::eyelid_right
-	C: "OP",72582533,74119454, "Lcl Translation"
+	;AnimCurveNode::Seagull_GroundSquawk.P, Model::eyelid_right
+	C: "OP",77086266,70815183, "Lcl Translation"
 
-	;AnimCurveNode::Seagull_GroundAttack.P, AnimLayer::Seagull_GroundAttack
-	C: "OO",72582533,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.P, AnimLayer::Seagull_GroundSquawk
+	C: "OO",77086266,72221858
 
-	;AnimCurve::Seagull_GroundAttack.PX, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",77151770,72582533, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.PX, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",75139675,77086266, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.PY, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",71629211,72582533, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.PY, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",77173688,77086266, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.PZ, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",79074113,72582533, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.PZ, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",79340192,77086266, "d|Z"
 
-	;AnimCurveNode::Seagull_GroundAttack.P, Model::eyelid_left
-	C: "OP",76781105,75089299, "Lcl Translation"
+	;AnimCurveNode::Seagull_GroundSquawk.P, Model::eyelid_left
+	C: "OP",75973366,76316637, "Lcl Translation"
 
-	;AnimCurveNode::Seagull_GroundAttack.P, AnimLayer::Seagull_GroundAttack
-	C: "OO",76781105,70134525
+	;AnimCurveNode::Seagull_GroundSquawk.P, AnimLayer::Seagull_GroundSquawk
+	C: "OO",75973366,72221858
 
-	;AnimCurve::Seagull_GroundAttack.PX, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",77482396,76781105, "d|X"
+	;AnimCurve::Seagull_GroundSquawk.PX, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",75490880,75973366, "d|X"
 
-	;AnimCurve::Seagull_GroundAttack.PY, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",73170644,76781105, "d|Y"
+	;AnimCurve::Seagull_GroundSquawk.PY, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",71149765,75973366, "d|Y"
 
-	;AnimCurve::Seagull_GroundAttack.PZ, AnimCurveNode::Seagull_GroundAttack.P
-	C: "OP",78125090,76781105, "d|Z"
+	;AnimCurve::Seagull_GroundSquawk.PZ, AnimCurveNode::Seagull_GroundSquawk.P
+	C: "OP",77714315,75973366, "d|Z"
 
 	;AnimLayer::Seagull_AirFlap, AnimStack::Seagull_AirFlap
-	C: "OO",71891057,77777668
+	C: "OO",72281697,70052346
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::body
-	C: "OP",70020199,79868771, "Lcl Rotation"
+	C: "OP",76814849,76172656, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",70020199,71891057
+	C: "OO",76814849,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75076494,70020199, "d|X"
+	C: "OP",76435276,76814849, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",79414729,70020199, "d|Y"
+	C: "OP",70994472,76814849, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75604846,70020199, "d|Z"
+	C: "OP",73447077,76814849, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::neck
-	C: "OP",76930181,77741339, "Lcl Rotation"
+	C: "OP",78685343,75071403, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",76930181,71891057
+	C: "OO",78685343,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",71623343,76930181, "d|X"
+	C: "OP",71344020,78685343, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",76568848,76930181, "d|Y"
+	C: "OP",71536064,78685343, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",70292262,76930181, "d|Z"
+	C: "OP",73472747,78685343, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::head
-	C: "OP",72650486,79534915, "Lcl Rotation"
+	C: "OP",73153871,74357917, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",72650486,71891057
+	C: "OO",73153871,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72582012,72650486, "d|X"
+	C: "OP",76625983,73153871, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",76640438,72650486, "d|Y"
+	C: "OP",70716615,73153871, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72755079,72650486, "d|Z"
+	C: "OP",70910670,73153871, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::leg_right
-	C: "OP",75036282,74826722, "Lcl Rotation"
+	C: "OP",76053553,72463310, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",75036282,71891057
+	C: "OO",76053553,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",79099317,75036282, "d|X"
+	C: "OP",74125168,76053553, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",79922143,75036282, "d|Y"
+	C: "OP",71680486,76053553, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72279381,75036282, "d|Z"
+	C: "OP",72804729,76053553, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::leg_left
-	C: "OP",74843344,72761835, "Lcl Rotation"
+	C: "OP",74539235,76341191, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",74843344,71891057
+	C: "OO",74539235,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72769223,74843344, "d|X"
+	C: "OP",79432373,74539235, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75022205,74843344, "d|Y"
+	C: "OP",72681915,74539235, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",74274324,74843344, "d|Z"
+	C: "OP",70030778,74539235, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::foot_left
-	C: "OP",70390350,73062705, "Lcl Rotation"
+	C: "OP",74596792,71383170, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",70390350,71891057
+	C: "OO",74596792,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72857914,70390350, "d|X"
+	C: "OP",79395618,74596792, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",74019557,70390350, "d|Y"
+	C: "OP",75031992,74596792, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75950388,70390350, "d|Z"
+	C: "OP",72245561,74596792, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::foot_right
-	C: "OP",79861176,70870048, "Lcl Rotation"
+	C: "OP",73816698,78468228, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",79861176,71891057
+	C: "OO",73816698,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",71454236,79861176, "d|X"
+	C: "OP",72851573,73816698, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",74927145,79861176, "d|Y"
+	C: "OP",76274345,73816698, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78453535,79861176, "d|Z"
+	C: "OP",77901035,73816698, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.S, Model::wings_closed
-	C: "OP",73623227,77616312, "Lcl Scaling"
+	C: "OP",75801783,74996406, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_AirFlap.S, AnimLayer::Seagull_AirFlap
-	C: "OO",73623227,71891057
+	C: "OO",75801783,72281697
 
 	;AnimCurve::Seagull_AirFlap.SX, AnimCurveNode::Seagull_AirFlap.S
-	C: "OP",78203980,73623227, "d|X"
+	C: "OP",76375374,75801783, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.SY, AnimCurveNode::Seagull_AirFlap.S
-	C: "OP",76623817,73623227, "d|Y"
+	C: "OP",78417624,75801783, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.SZ, AnimCurveNode::Seagull_AirFlap.S
-	C: "OP",75068720,73623227, "d|Z"
+	C: "OP",72627296,75801783, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::leg_right2
-	C: "OP",70046271,79890712, "Lcl Rotation"
+	C: "OP",78118456,72650994, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",70046271,71891057
+	C: "OO",78118456,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78403740,70046271, "d|X"
+	C: "OP",73278167,78118456, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",79358388,70046271, "d|Y"
+	C: "OP",79002922,78118456, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",77340909,70046271, "d|Z"
+	C: "OP",73239275,78118456, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::leg_left2
-	C: "OP",74463182,70047945, "Lcl Rotation"
+	C: "OP",71031263,78570566, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",74463182,71891057
+	C: "OO",71031263,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",71034770,74463182, "d|X"
+	C: "OP",71691977,71031263, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78156317,74463182, "d|Y"
+	C: "OP",75009216,71031263, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72236188,74463182, "d|Z"
+	C: "OP",76806130,71031263, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::torso
-	C: "OP",76648812,72853541, "Lcl Rotation"
+	C: "OP",75114133,76937928, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",76648812,71891057
+	C: "OO",75114133,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78491686,76648812, "d|X"
+	C: "OP",72931481,75114133, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75440665,76648812, "d|Y"
+	C: "OP",76929497,75114133, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",70092260,76648812, "d|Z"
+	C: "OP",75797316,75114133, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::tail
-	C: "OP",75472847,76291315, "Lcl Rotation"
+	C: "OP",72400798,78056136, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",75472847,71891057
+	C: "OO",72400798,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",71059892,75472847, "d|X"
+	C: "OP",78951646,72400798, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72637257,75472847, "d|Y"
+	C: "OP",79226252,72400798, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78978021,75472847, "d|Z"
+	C: "OP",72989660,72400798, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::tail2_left
-	C: "OP",79838798,79417596, "Lcl Rotation"
+	C: "OP",76682368,77532576, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",79838798,71891057
+	C: "OO",76682368,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",76469801,79838798, "d|X"
+	C: "OP",74852196,76682368, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",70897160,79838798, "d|Y"
+	C: "OP",71805782,76682368, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78328475,79838798, "d|Z"
+	C: "OP",75714194,76682368, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::tail2_right
-	C: "OP",74825821,70385414, "Lcl Rotation"
+	C: "OP",79367020,71029917, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",74825821,71891057
+	C: "OO",79367020,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",70941948,74825821, "d|X"
+	C: "OP",76011509,79367020, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",79228364,74825821, "d|Y"
+	C: "OP",77852177,79367020, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",73145408,74825821, "d|Z"
+	C: "OP",77809172,79367020, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::tail2
-	C: "OP",78580598,72316233, "Lcl Rotation"
+	C: "OP",71045724,70412564, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",78580598,71891057
+	C: "OO",71045724,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75127333,78580598, "d|X"
+	C: "OP",79956774,71045724, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",71487393,78580598, "d|Y"
+	C: "OP",77673470,71045724, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",74638806,78580598, "d|Z"
+	C: "OP",76397302,71045724, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::wings_open
-	C: "OP",73496243,71234324, "Lcl Rotation"
+	C: "OP",76569904,70880813, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",73496243,71891057
+	C: "OO",76569904,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72388742,73496243, "d|X"
+	C: "OP",73053805,76569904, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72418992,73496243, "d|Y"
+	C: "OP",75534385,76569904, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78746186,73496243, "d|Z"
+	C: "OP",78701544,76569904, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.S, Model::wings_open
-	C: "OP",76917805,71234324, "Lcl Scaling"
+	C: "OP",74873486,70880813, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_AirFlap.S, AnimLayer::Seagull_AirFlap
-	C: "OO",76917805,71891057
+	C: "OO",74873486,72281697
 
 	;AnimCurve::Seagull_AirFlap.SX, AnimCurveNode::Seagull_AirFlap.S
-	C: "OP",72973066,76917805, "d|X"
+	C: "OP",71487514,74873486, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.SY, AnimCurveNode::Seagull_AirFlap.S
-	C: "OP",71955384,76917805, "d|Y"
+	C: "OP",76152528,74873486, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.SZ, AnimCurveNode::Seagull_AirFlap.S
-	C: "OP",76587549,76917805, "d|Z"
+	C: "OP",74320962,74873486, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::wing_open_right
-	C: "OP",70666420,73363190, "Lcl Rotation"
+	C: "OP",75320862,72243085, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",70666420,71891057
+	C: "OO",75320862,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75823120,70666420, "d|X"
+	C: "OP",78087925,75320862, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",75447744,70666420, "d|Y"
+	C: "OP",76798210,75320862, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",77683426,70666420, "d|Z"
+	C: "OP",73174061,75320862, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::wing_open_right2
-	C: "OP",71021576,76916963, "Lcl Rotation"
+	C: "OP",70574302,72105539, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",71021576,71891057
+	C: "OO",70574302,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",79836807,71021576, "d|X"
+	C: "OP",75954371,70574302, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",76296819,71021576, "d|Y"
+	C: "OP",79832119,70574302, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",76397409,71021576, "d|Z"
+	C: "OP",76476395,70574302, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::wing_open_left
-	C: "OP",73092083,70886405, "Lcl Rotation"
+	C: "OP",72649055,72725476, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",73092083,71891057
+	C: "OO",72649055,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72326012,73092083, "d|X"
+	C: "OP",76283506,72649055, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",77330302,73092083, "d|Y"
+	C: "OP",73540153,72649055, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",71309531,73092083, "d|Z"
+	C: "OP",72718130,72649055, "d|Z"
 
 	;AnimCurveNode::Seagull_AirFlap.R, Model::wing_open_left2
-	C: "OP",71074138,73204884, "Lcl Rotation"
+	C: "OP",75709857,71924747, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirFlap.R, AnimLayer::Seagull_AirFlap
-	C: "OO",71074138,71891057
+	C: "OO",75709857,72281697
 
 	;AnimCurve::Seagull_AirFlap.RX, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",78316922,71074138, "d|X"
+	C: "OP",79611395,75709857, "d|X"
 
 	;AnimCurve::Seagull_AirFlap.RY, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",77348166,71074138, "d|Y"
+	C: "OP",72215255,75709857, "d|Y"
 
 	;AnimCurve::Seagull_AirFlap.RZ, AnimCurveNode::Seagull_AirFlap.R
-	C: "OP",72447671,71074138, "d|Z"
+	C: "OP",79312380,75709857, "d|Z"
 
 	;AnimLayer::Seagull_AirGlide, AnimStack::Seagull_AirGlide
-	C: "OO",70033924,71219583
+	C: "OO",78715041,71726566
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::body
-	C: "OP",72594415,79868771, "Lcl Rotation"
+	C: "OP",78488153,76172656, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",72594415,70033924
+	C: "OO",78488153,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",70259202,72594415, "d|X"
+	C: "OP",75051333,78488153, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",76076990,72594415, "d|Y"
+	C: "OP",76952117,78488153, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",76203151,72594415, "d|Z"
+	C: "OP",70250349,78488153, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.P, Model::body
-	C: "OP",75288951,79868771, "Lcl Translation"
+	C: "OP",76339120,76172656, "Lcl Translation"
 
 	;AnimCurveNode::Seagull_AirGlide.P, AnimLayer::Seagull_AirGlide
-	C: "OO",75288951,70033924
+	C: "OO",76339120,78715041
 
 	;AnimCurve::Seagull_AirGlide.PX, AnimCurveNode::Seagull_AirGlide.P
-	C: "OP",76562738,75288951, "d|X"
+	C: "OP",75160360,76339120, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.PY, AnimCurveNode::Seagull_AirGlide.P
-	C: "OP",72916858,75288951, "d|Y"
+	C: "OP",70290893,76339120, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.PZ, AnimCurveNode::Seagull_AirGlide.P
-	C: "OP",71109265,75288951, "d|Z"
+	C: "OP",78919394,76339120, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::neck
-	C: "OP",73474168,77741339, "Lcl Rotation"
+	C: "OP",72140717,75071403, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",73474168,70033924
+	C: "OO",72140717,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",75020490,73474168, "d|X"
+	C: "OP",77861192,72140717, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",75138076,73474168, "d|Y"
+	C: "OP",77942218,72140717, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",78793782,73474168, "d|Z"
+	C: "OP",74086685,72140717, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::head
-	C: "OP",75248167,79534915, "Lcl Rotation"
+	C: "OP",77336181,74357917, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",75248167,70033924
+	C: "OO",77336181,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",73373005,75248167, "d|X"
+	C: "OP",71796849,77336181, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",75515709,75248167, "d|Y"
+	C: "OP",78919584,77336181, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",77803586,75248167, "d|Z"
+	C: "OP",79921124,77336181, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::leg_right
-	C: "OP",79192225,74826722, "Lcl Rotation"
+	C: "OP",77935200,72463310, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",79192225,70033924
+	C: "OO",77935200,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",73435566,79192225, "d|X"
+	C: "OP",72865351,77935200, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",79691031,79192225, "d|Y"
+	C: "OP",72321603,77935200, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",76081006,79192225, "d|Z"
+	C: "OP",77361237,77935200, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::leg_left
-	C: "OP",78530873,72761835, "Lcl Rotation"
+	C: "OP",72679037,76341191, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",78530873,70033924
+	C: "OO",72679037,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",72355164,78530873, "d|X"
+	C: "OP",71829896,72679037, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",77100247,78530873, "d|Y"
+	C: "OP",73417022,72679037, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",77273485,78530873, "d|Z"
+	C: "OP",72865063,72679037, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.S, Model::wings_closed
-	C: "OP",73550765,77616312, "Lcl Scaling"
+	C: "OP",78550277,74996406, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_AirGlide.S, AnimLayer::Seagull_AirGlide
-	C: "OO",73550765,70033924
+	C: "OO",78550277,78715041
 
 	;AnimCurve::Seagull_AirGlide.SX, AnimCurveNode::Seagull_AirGlide.S
-	C: "OP",79598039,73550765, "d|X"
+	C: "OP",71935390,78550277, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.SY, AnimCurveNode::Seagull_AirGlide.S
-	C: "OP",78585059,73550765, "d|Y"
+	C: "OP",78265583,78550277, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.SZ, AnimCurveNode::Seagull_AirGlide.S
-	C: "OP",72476099,73550765, "d|Z"
+	C: "OP",75942532,78550277, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::torso
-	C: "OP",79678460,72853541, "Lcl Rotation"
+	C: "OP",75564317,76937928, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",79678460,70033924
+	C: "OO",75564317,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",79069132,79678460, "d|X"
+	C: "OP",72316785,75564317, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",78022001,79678460, "d|Y"
+	C: "OP",74474925,75564317, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",78480565,79678460, "d|Z"
+	C: "OP",73308633,75564317, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::wings_open
-	C: "OP",74773284,71234324, "Lcl Rotation"
+	C: "OP",72722415,70880813, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",74773284,70033924
+	C: "OO",72722415,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",79061804,74773284, "d|X"
+	C: "OP",70782045,72722415, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",77409086,74773284, "d|Y"
+	C: "OP",77542241,72722415, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",73199428,74773284, "d|Z"
+	C: "OP",78404822,72722415, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.S, Model::wings_open
-	C: "OP",76282016,71234324, "Lcl Scaling"
+	C: "OP",72312895,70880813, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_AirGlide.S, AnimLayer::Seagull_AirGlide
-	C: "OO",76282016,70033924
+	C: "OO",72312895,78715041
 
 	;AnimCurve::Seagull_AirGlide.SX, AnimCurveNode::Seagull_AirGlide.S
-	C: "OP",71791813,76282016, "d|X"
+	C: "OP",76351257,72312895, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.SY, AnimCurveNode::Seagull_AirGlide.S
-	C: "OP",75655312,76282016, "d|Y"
+	C: "OP",79245138,72312895, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.SZ, AnimCurveNode::Seagull_AirGlide.S
-	C: "OP",75993239,76282016, "d|Z"
+	C: "OP",78191464,72312895, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::wing_open_right
-	C: "OP",72327172,73363190, "Lcl Rotation"
+	C: "OP",77468222,72243085, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",72327172,70033924
+	C: "OO",77468222,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",79456303,72327172, "d|X"
+	C: "OP",79294536,77468222, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",72223645,72327172, "d|Y"
+	C: "OP",73258281,77468222, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",79710727,72327172, "d|Z"
+	C: "OP",74056306,77468222, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::wing_open_right2
-	C: "OP",79507234,76916963, "Lcl Rotation"
+	C: "OP",73086420,72105539, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",79507234,70033924
+	C: "OO",73086420,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",74556251,79507234, "d|X"
+	C: "OP",73872127,73086420, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",73740365,79507234, "d|Y"
+	C: "OP",77144148,73086420, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",71161122,79507234, "d|Z"
+	C: "OP",74412882,73086420, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::wing_open_left
-	C: "OP",70869199,70886405, "Lcl Rotation"
+	C: "OP",70027545,72725476, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",70869199,70033924
+	C: "OO",70027545,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",75923997,70869199, "d|X"
+	C: "OP",77389884,70027545, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",75525949,70869199, "d|Y"
+	C: "OP",75616199,70027545, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",71713828,70869199, "d|Z"
+	C: "OP",73103846,70027545, "d|Z"
 
 	;AnimCurveNode::Seagull_AirGlide.R, Model::wing_open_left2
-	C: "OP",72049546,73204884, "Lcl Rotation"
+	C: "OP",73333812,71924747, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_AirGlide.R, AnimLayer::Seagull_AirGlide
-	C: "OO",72049546,70033924
+	C: "OO",73333812,78715041
 
 	;AnimCurve::Seagull_AirGlide.RX, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",77623888,72049546, "d|X"
+	C: "OP",78000770,73333812, "d|X"
 
 	;AnimCurve::Seagull_AirGlide.RY, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",72955384,72049546, "d|Y"
+	C: "OP",71826643,73333812, "d|Y"
 
 	;AnimCurve::Seagull_AirGlide.RZ, AnimCurveNode::Seagull_AirGlide.R
-	C: "OP",77439880,72049546, "d|Z"
+	C: "OP",77290192,73333812, "d|Z"
 
 	;AnimLayer::Seagull_WaterIdle, AnimStack::Seagull_WaterIdle
-	C: "OO",71535943,74915783
+	C: "OO",75528709,79913634
 
 	;AnimCurveNode::Seagull_WaterIdle.R, Model::body
-	C: "OP",79833732,79868771, "Lcl Rotation"
+	C: "OP",78436472,76172656, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_WaterIdle.R, AnimLayer::Seagull_WaterIdle
-	C: "OO",79833732,71535943
+	C: "OO",78436472,75528709
 
 	;AnimCurve::Seagull_WaterIdle.RX, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",75239708,79833732, "d|X"
+	C: "OP",72762080,78436472, "d|X"
 
 	;AnimCurve::Seagull_WaterIdle.RY, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",72784229,79833732, "d|Y"
+	C: "OP",75174849,78436472, "d|Y"
 
 	;AnimCurve::Seagull_WaterIdle.RZ, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",77599892,79833732, "d|Z"
+	C: "OP",78778417,78436472, "d|Z"
 
 	;AnimCurveNode::Seagull_WaterIdle.R, Model::leg_right
-	C: "OP",77302215,74826722, "Lcl Rotation"
+	C: "OP",76152521,72463310, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_WaterIdle.R, AnimLayer::Seagull_WaterIdle
-	C: "OO",77302215,71535943
+	C: "OO",76152521,75528709
 
 	;AnimCurve::Seagull_WaterIdle.RX, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",74330079,77302215, "d|X"
+	C: "OP",72708527,76152521, "d|X"
 
 	;AnimCurve::Seagull_WaterIdle.RY, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",75370828,77302215, "d|Y"
+	C: "OP",74746939,76152521, "d|Y"
 
 	;AnimCurve::Seagull_WaterIdle.RZ, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",77969144,77302215, "d|Z"
+	C: "OP",72791495,76152521, "d|Z"
 
 	;AnimCurveNode::Seagull_WaterIdle.R, Model::leg_left
-	C: "OP",74242307,72761835, "Lcl Rotation"
+	C: "OP",71237854,76341191, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_WaterIdle.R, AnimLayer::Seagull_WaterIdle
-	C: "OO",74242307,71535943
+	C: "OO",71237854,75528709
 
 	;AnimCurve::Seagull_WaterIdle.RX, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",71320383,74242307, "d|X"
+	C: "OP",73920902,71237854, "d|X"
 
 	;AnimCurve::Seagull_WaterIdle.RY, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",76952616,74242307, "d|Y"
+	C: "OP",75965627,71237854, "d|Y"
 
 	;AnimCurve::Seagull_WaterIdle.RZ, AnimCurveNode::Seagull_WaterIdle.R
-	C: "OP",79113295,74242307, "d|Z"
+	C: "OP",72736136,71237854, "d|Z"
 
 	;AnimCurveNode::Seagull_WaterIdle.S, Model::wings_open
-	C: "OP",71415688,71234324, "Lcl Scaling"
+	C: "OP",78297681,70880813, "Lcl Scaling"
 
 	;AnimCurveNode::Seagull_WaterIdle.S, AnimLayer::Seagull_WaterIdle
-	C: "OO",71415688,71535943
+	C: "OO",78297681,75528709
 
 	;AnimCurve::Seagull_WaterIdle.SX, AnimCurveNode::Seagull_WaterIdle.S
-	C: "OP",73515425,71415688, "d|X"
+	C: "OP",71323275,78297681, "d|X"
 
 	;AnimCurve::Seagull_WaterIdle.SY, AnimCurveNode::Seagull_WaterIdle.S
-	C: "OP",78658851,71415688, "d|Y"
+	C: "OP",79258461,78297681, "d|Y"
 
 	;AnimCurve::Seagull_WaterIdle.SZ, AnimCurveNode::Seagull_WaterIdle.S
-	C: "OP",70514552,71415688, "d|Z"
+	C: "OP",76885384,78297681, "d|Z"
 
 	;AnimLayer::Seagull_Blink, AnimStack::Seagull_Blink
-	C: "OO",73317314,77525487
+	C: "OO",70024578,78615198
 
 	;AnimCurveNode::Seagull_Blink.P, Model::eyelid_right
-	C: "OP",70995311,74119454, "Lcl Translation"
+	C: "OP",73788688,70815183, "Lcl Translation"
 
 	;AnimCurveNode::Seagull_Blink.P, AnimLayer::Seagull_Blink
-	C: "OO",70995311,73317314
+	C: "OO",73788688,70024578
 
 	;AnimCurve::Seagull_Blink.PX, AnimCurveNode::Seagull_Blink.P
-	C: "OP",70248843,70995311, "d|X"
+	C: "OP",74801858,73788688, "d|X"
 
 	;AnimCurve::Seagull_Blink.PY, AnimCurveNode::Seagull_Blink.P
-	C: "OP",75348962,70995311, "d|Y"
+	C: "OP",77374962,73788688, "d|Y"
 
 	;AnimCurve::Seagull_Blink.PZ, AnimCurveNode::Seagull_Blink.P
-	C: "OP",70825600,70995311, "d|Z"
+	C: "OP",72504047,73788688, "d|Z"
 
 	;AnimCurveNode::Seagull_Blink.P, Model::eyelid_left
-	C: "OP",72096024,75089299, "Lcl Translation"
+	C: "OP",75742761,76316637, "Lcl Translation"
 
 	;AnimCurveNode::Seagull_Blink.P, AnimLayer::Seagull_Blink
-	C: "OO",72096024,73317314
+	C: "OO",75742761,70024578
 
 	;AnimCurve::Seagull_Blink.PX, AnimCurveNode::Seagull_Blink.P
-	C: "OP",77133408,72096024, "d|X"
+	C: "OP",71618457,75742761, "d|X"
 
 	;AnimCurve::Seagull_Blink.PY, AnimCurveNode::Seagull_Blink.P
-	C: "OP",71152425,72096024, "d|Y"
+	C: "OP",79860189,75742761, "d|Y"
 
 	;AnimCurve::Seagull_Blink.PZ, AnimCurveNode::Seagull_Blink.P
-	C: "OP",73123138,72096024, "d|Z"
+	C: "OP",74060483,75742761, "d|Z"
 
 	;AnimLayer::Seagull_Hurt, AnimStack::Seagull_Hurt
-	C: "OO",76118397,77776225
+	C: "OO",78032562,72294420
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::neck
-	C: "OP",78703676,77741339, "Lcl Rotation"
+	C: "OP",79001045,75071403, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",78703676,76118397
+	C: "OO",79001045,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",72164006,78703676, "d|X"
+	C: "OP",75189527,79001045, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",73901607,78703676, "d|Y"
+	C: "OP",74875068,79001045, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",71648006,78703676, "d|Z"
+	C: "OP",77332349,79001045, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::head
-	C: "OP",70031595,79534915, "Lcl Rotation"
+	C: "OP",75460268,74357917, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",70031595,76118397
+	C: "OO",75460268,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",73988131,70031595, "d|X"
+	C: "OP",71409642,75460268, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",74176374,70031595, "d|Y"
+	C: "OP",79269654,75460268, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",74935411,70031595, "d|Z"
+	C: "OP",77285331,75460268, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::wing_closed_right
-	C: "OP",78925505,74282120, "Lcl Rotation"
+	C: "OP",79173578,79361845, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",78925505,76118397
+	C: "OO",79173578,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",73941244,78925505, "d|X"
+	C: "OP",72600022,79173578, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",71612954,78925505, "d|Y"
+	C: "OP",73600743,79173578, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",75035738,78925505, "d|Z"
+	C: "OP",79659828,79173578, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::wing_closed_left
-	C: "OP",72815354,70063064, "Lcl Rotation"
+	C: "OP",75555972,70830215, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",72815354,76118397
+	C: "OO",75555972,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",73275270,72815354, "d|X"
+	C: "OP",74200912,75555972, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",76459988,72815354, "d|Y"
+	C: "OP",76862444,75555972, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",78147760,72815354, "d|Z"
+	C: "OP",73213437,75555972, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::jaw
-	C: "OP",71390666,76597934, "Lcl Rotation"
+	C: "OP",73498542,74825714, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",71390666,76118397
+	C: "OO",73498542,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",78451639,71390666, "d|X"
+	C: "OP",73563690,73498542, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",72691901,71390666, "d|Y"
+	C: "OP",73269655,73498542, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",77207114,71390666, "d|Z"
+	C: "OP",71628274,73498542, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::torso
-	C: "OP",74964617,72853541, "Lcl Rotation"
+	C: "OP",79282018,76937928, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",74964617,76118397
+	C: "OO",79282018,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",74102430,74964617, "d|X"
+	C: "OP",70103682,79282018, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",79768981,74964617, "d|Y"
+	C: "OP",73881043,79282018, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",73143106,74964617, "d|Z"
+	C: "OP",76538313,79282018, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::tail
-	C: "OP",72775169,76291315, "Lcl Rotation"
+	C: "OP",70923210,78056136, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",72775169,76118397
+	C: "OO",70923210,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",76274659,72775169, "d|X"
+	C: "OP",72225903,70923210, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",71952478,72775169, "d|Y"
+	C: "OP",77485483,70923210, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",75209917,72775169, "d|Z"
+	C: "OP",73346204,70923210, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::tail2_left
-	C: "OP",78033704,79417596, "Lcl Rotation"
+	C: "OP",78678082,77532576, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",78033704,76118397
+	C: "OO",78678082,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",78961126,78033704, "d|X"
+	C: "OP",74679964,78678082, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",74232217,78033704, "d|Y"
+	C: "OP",71076078,78678082, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",78105530,78033704, "d|Z"
+	C: "OP",78239416,78678082, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::tail2_right
-	C: "OP",72290992,70385414, "Lcl Rotation"
+	C: "OP",70772676,71029917, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",72290992,76118397
+	C: "OO",70772676,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",75483146,72290992, "d|X"
+	C: "OP",70664682,70772676, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",70777572,72290992, "d|Y"
+	C: "OP",78148726,70772676, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",71255271,72290992, "d|Z"
+	C: "OP",76771836,70772676, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::wing_open_right
-	C: "OP",71294418,73363190, "Lcl Rotation"
+	C: "OP",73703895,72243085, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",71294418,76118397
+	C: "OO",73703895,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",79410008,71294418, "d|X"
+	C: "OP",75959150,73703895, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",72013676,71294418, "d|Y"
+	C: "OP",73541256,73703895, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",76414408,71294418, "d|Z"
+	C: "OP",74682153,73703895, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::wing_open_right2
-	C: "OP",78662494,76916963, "Lcl Rotation"
+	C: "OP",75856579,72105539, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",78662494,76118397
+	C: "OO",75856579,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",79047810,78662494, "d|X"
+	C: "OP",70698554,75856579, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",70455198,78662494, "d|Y"
+	C: "OP",72877659,75856579, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",75158933,78662494, "d|Z"
+	C: "OP",74752767,75856579, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::wing_open_left
-	C: "OP",76585976,70886405, "Lcl Rotation"
+	C: "OP",73272704,72725476, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",76585976,76118397
+	C: "OO",73272704,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",78637660,76585976, "d|X"
+	C: "OP",77265191,73272704, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",75908755,76585976, "d|Y"
+	C: "OP",73794815,73272704, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",79960389,76585976, "d|Z"
+	C: "OP",75490350,73272704, "d|Z"
 
 	;AnimCurveNode::Seagull_Hurt.R, Model::wing_open_left2
-	C: "OP",75424465,73204884, "Lcl Rotation"
+	C: "OP",74175105,71924747, "Lcl Rotation"
 
 	;AnimCurveNode::Seagull_Hurt.R, AnimLayer::Seagull_Hurt
-	C: "OO",75424465,76118397
+	C: "OO",74175105,78032562
 
 	;AnimCurve::Seagull_Hurt.RX, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",74046607,75424465, "d|X"
+	C: "OP",71118989,74175105, "d|X"
 
 	;AnimCurve::Seagull_Hurt.RY, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",72315680,75424465, "d|Y"
+	C: "OP",78647976,74175105, "d|Y"
 
 	;AnimCurve::Seagull_Hurt.RZ, AnimCurveNode::Seagull_Hurt.R
-	C: "OP",70415068,75424465, "d|Z"
+	C: "OP",73859415,74175105, "d|Z"
 }
 
 ; Takes section
@@ -10092,8 +10092,8 @@ Takes:  {
 		LocalTime: 0,46186158000
 		ReferenceTime: 0,46186158000
 	}
-	Take: "Seagull_GroundAttack" {
-		FileName: "Seagull_GroundAttack.tak"
+	Take: "Seagull_GroundSquawk" {
+		FileName: "Seagull_GroundSquawk.tak"
 		LocalTime: 0,34639618500
 		ReferenceTime: 0,34639618500
 	}

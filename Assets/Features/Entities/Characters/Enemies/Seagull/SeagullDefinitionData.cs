@@ -97,17 +97,17 @@ namespace NoMoreFishAndChips.Entities
     [Serializable]
     public class SeagullGroundSettings
     {
-        [SerializeField] private float _attackRange = 0.5f;
-        [SerializeField] private LayerMask _attackMask;
+        [SerializeField] private float _squawkRange = 0.5f;
+        [SerializeField] private LayerMask _squawkMask;
         [SerializeField] private SeagullGroundIdleSettings _idleSettings;
         [SerializeField] private SeagullGroundRoamSettings _roamSettings;
-        [SerializeField] private SeagullGroundAttackSettings _attackSettings;
+        [SerializeField] private SeagullGroundSquawkSettings _squawkSettings;
 
-        public float AttackRange => _attackRange;
-        public LayerMask AttackMask => _attackMask;
+        public float SquawkRange => _squawkRange;
+        public LayerMask SquawkMask => _squawkMask;
         public SeagullGroundIdleSettings IdleSettings => _idleSettings;
         public SeagullGroundRoamSettings RoamSettings => _roamSettings;
-        public SeagullGroundAttackSettings AttackSettings => _attackSettings;
+        public SeagullGroundSquawkSettings SquawkSettings => _squawkSettings;
     }
 
     [Serializable]
@@ -131,7 +131,7 @@ namespace NoMoreFishAndChips.Entities
     }
 
     [Serializable]
-    public class SeagullGroundAttackSettings
+    public class SeagullGroundSquawkSettings
     {
         [SerializeField] private HitboxData _hitboxData;
 
