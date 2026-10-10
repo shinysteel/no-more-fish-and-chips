@@ -1,6 +1,7 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
+using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
 using PurrNet;
 using ShinyOwl.Common.Utils;
@@ -11,10 +12,19 @@ namespace NoMoreFishAndChips.Effects
 {
     public class EnvironmentMarker : GameplayBehaviour
     {
+        private PoolManager _poolManager;
+
         private SyncDictionaryWrapper<int, NetMarker> _netMarkers = new SyncDictionaryWrapper<int, NetMarker>(ownerAuth: true);
         private Dictionary<int, Marker> _markers = new();
 
         private int _idCounter;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+        }
 
         public override void InitialiseContext(GameplayContext context)
         {

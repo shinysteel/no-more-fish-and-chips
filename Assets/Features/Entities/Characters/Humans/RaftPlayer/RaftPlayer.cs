@@ -18,7 +18,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
+
 using Random = UnityEngine.Random;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -26,6 +28,9 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private Inventory _inventory;
         [SerializeField] private Hotbar _hotbar;
+
+        private UIManager _uiManager;
+        private NetworkManager _networkManager;
 
         // SyncVars
         private SyncVar<NetInventoryItem> _netGrabbedInventoryItem = new SyncVar<NetInventoryItem>(ownerAuth: true);
@@ -87,6 +92,14 @@ namespace NoMoreFishAndChips.Entities
         protected override EntityLogicFactory CreateLogicFactory()
         {
             return new RaftPlayerLogicFactory(_netInBarrel);
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
         }
 
         protected override void OnInitializeModules()

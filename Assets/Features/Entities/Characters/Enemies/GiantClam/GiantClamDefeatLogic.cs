@@ -3,14 +3,20 @@ using PurrNet;
 using System;
 using UnityEngine;
 
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+
 namespace NoMoreFishAndChips.Entities
 {
     public class GiantClamDefeatLogic : CharacterDefeatLogic
     {
+        private NetworkManager _networkManager;
+
         private GiantClam _clam;
 
         public GiantClamDefeatLogic(GiantClam clam, SyncVar<bool> netIsDefeated) : base(clam, netIsDefeated)
         {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+
             _clam = clam;
         }
 

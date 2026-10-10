@@ -15,8 +15,6 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] protected Animator _animator;
         [SerializeField] private NetworkAnimator _networkAnimator;
 
-        protected ItemManager _itemManager;
-
         private MeshRenderer[] _meshRenderers;
 
         private Dictionary<Material, Material> _sharedMaterialMap = new();
@@ -25,10 +23,8 @@ namespace NoMoreFishAndChips.Entities
         public Animator Animator => _animator;
         public MeshRenderer[] MeshRenderers => _meshRenderers;
 
-        private void Awake()
+        protected virtual void Awake()
         {
-            _itemManager = GameManager.Instance.Get<ItemManager>();
-
             _meshRenderers = transform.GetComponentsInChildren<MeshRenderer>();
 
             foreach (MeshRenderer renderer in _meshRenderers)

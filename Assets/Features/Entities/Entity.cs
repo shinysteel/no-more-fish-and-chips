@@ -14,6 +14,8 @@ namespace NoMoreFishAndChips.Entities
     // Maybe it's not so obvious that Entity is linked to the GameplayState, but for now they aren't used in any other state
     public abstract class Entity : GameplayBehaviour, ISurface
     {
+        private EntityManager _entityManager;
+
         [SerializeField] protected EntityDefinitionData _entityDefinitionData;
         [SerializeField] protected EntityModel _entityModel;
         [SerializeField] protected Rigidbody _rigidbody;
@@ -35,6 +37,13 @@ namespace NoMoreFishAndChips.Entities
         public EntityPhysicsLogic EntityPhysicsLogic => GetLogic<EntityPhysicsLogic>();
 
         SurfaceType ISurface.SurfaceType => _entityDefinitionData.SurfaceType;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+        }
 
         protected override void OnInitializeModules()
         {

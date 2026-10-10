@@ -8,8 +8,19 @@ namespace NoMoreFishAndChips.Entities
 {
     public class ScaffoldRaftTile : RaftTile
     {
+        private UIManager _uiManager;
+        private EntityManager _entityManager;
+
         private SyncVar<EntityId> _netBuildId = new SyncVar<EntityId>(ownerAuth: true);
         private SyncVar<int> _netBuildRotations = new SyncVar<int>(ownerAuth: true);
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+        }
 
         public void SetNetBuildId(EntityId id)
         {

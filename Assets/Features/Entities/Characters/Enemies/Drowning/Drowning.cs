@@ -14,6 +14,8 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private AnimationCurve _scaleCurve;
 
+        private EntityManager _entityManager;
+
         private RaftPlayer _targetPlayer;
         private EntityModel _finisherModel;
 
@@ -163,6 +165,8 @@ namespace NoMoreFishAndChips.Entities
         protected override void Awake()
         {
             base.Awake();
+
+            _entityManager = GameManager.Instance.Get<EntityManager>();
 
             _stateMachine = new();
 

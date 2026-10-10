@@ -18,6 +18,10 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private Transform _hingeTransform;
         [SerializeField] private Inventory _inventory;
 
+        private UIManager _uiManager;
+        private NetworkManager _networkManager;
+        private AudioManager _audioManager;
+
         private PanelInstance<ClamChestPanel> _clamChestPanelInstance;
 
         // The count of players who have this chest open
@@ -38,6 +42,10 @@ namespace NoMoreFishAndChips.Entities
         protected override void Awake()
         {
             base.Awake();
+
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _audioManager = GameManager.Instance.Get<AudioManager>();
 
             _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
         }

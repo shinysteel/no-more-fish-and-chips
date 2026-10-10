@@ -12,6 +12,11 @@ namespace NoMoreFishAndChips.Entities
 {
     public class StructureScaffold : Structure<StructureScaffoldDefinitionData>, IInteractable
     {
+        private PoolManager _poolManager;
+        private EntityManager _entityManager;
+        private EnvironmentManager _environmentManager;
+        private UIManager _uiManager;
+
         private SyncVar<EntityId> _netBuildId = new SyncVar<EntityId>(ownerAuth: true);
         private SyncVar<int> _netBuildRotations = new SyncVar<int>(ownerAuth: true);
 
@@ -23,6 +28,16 @@ namespace NoMoreFishAndChips.Entities
         private Vector3 _iInteractablePositionOffset;
         Vector3 IInteractable.Position => transform.position + _iInteractablePositionOffset;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
+        }
 
         protected override void OnSpawned()
         {

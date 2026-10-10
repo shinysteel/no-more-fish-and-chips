@@ -4,10 +4,15 @@ using ShinyOwl.Common;
 using System;
 using UnityEngine;
 
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+
 namespace NoMoreFishAndChips.Entities
 {
     public class RaftTileDefeatLogic : EntityDefeatLogic
     {
+        private NetworkManager _networkManager;
+        private EntityManager _entityManager;
+
         private RaftTile _tile;
         private RaftTileDefeatSettings _settings;
 
@@ -15,6 +20,9 @@ namespace NoMoreFishAndChips.Entities
 
         public RaftTileDefeatLogic(RaftTile tile, SyncVar<bool> netIsDefeated) : base(tile, netIsDefeated)
         {
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+
             _tile = tile;
 
             _settings = _tile.TileDefinitionData.TileDefeatSettings;

@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Instantiating;
 using NoMoreFishAndChips.Saving;
 using PurrNet;
 using ShinyOwl.Common;
@@ -12,6 +13,12 @@ namespace NoMoreFishAndChips.Networking
 {
     public class PurrnetPlayer : NetBehaviour, ISaveable
     {
+        private InstantiateManager _instantiateManager;
+        private SaveManager _saveManager;
+        private LobbyManager _lobbyManager;
+        private NetworkManager _networkManager;
+        private EntityManager _entityManager;
+
         private SyncVar<string> _netGuid = new SyncVar<string>(ownerAuth: true);
         private SyncVar<int> _netSaveId = new SyncVar<int>(ownerAuth: true);
         private SyncVar<int> _netItemInstanceIdCounter = new SyncVar<int>(ownerAuth: true);
@@ -26,11 +33,20 @@ namespace NoMoreFishAndChips.Networking
         public event Action<string> OnUsernameChanged;
         public event Action<RaftPlayer, RaftPlayer> OnRaftPlayerChanged;
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _instantiateManager = GameManager.Instance.Get<InstantiateManager>();
+            _saveManager = GameManager.Instance.Get<SaveManager>();
+            _lobbyManager = GameManager.Instance.Get<LobbyManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+        }
+
         protected override void OnSpawned()
         {
             base.OnSpawned();
-
-            Log.Info($"purrnet player created");
 
             _instantiateManager.RaiseComponentInstantiated(this);
 

@@ -21,6 +21,11 @@ namespace NoMoreFishAndChips.Entities
 
     public class DroppedItem : Entity, IInteractable
     {
+        private ItemManager _itemManager;
+        private UIManager _uiManager;
+        private AudioManager _audioManager;
+        private EntityManager _entityManager;
+
         private List<ItemModel> _itemModels = new();
 
         private SyncVar<NetItemInstance> _netItemInstance = new SyncVar<NetItemInstance>(ownerAuth: true);
@@ -49,6 +54,16 @@ namespace NoMoreFishAndChips.Entities
                     }
                 }
             }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _audioManager = GameManager.Instance.Get<AudioManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
         }
 
         protected override void OnSpawned()

@@ -10,6 +10,8 @@ namespace NoMoreFishAndChips.Entities
 {
     public class Seabird : Character<SeabirdDefinitionData>
     {
+        private AudioManager _audioManager;
+
         private StateMachine<ESeabirdState> _stateMachine;
 
         private RaycastHit[] _glideHitsNonAlloc = new RaycastHit[2];
@@ -31,6 +33,8 @@ namespace NoMoreFishAndChips.Entities
         protected override void Awake()
         {
             base.Awake();
+
+            _audioManager = GameManager.Instance.Get<AudioManager>();
 
             _squawkStateAnimationEvents = new StateAnimationEvents(SquawkStateName, false);
 

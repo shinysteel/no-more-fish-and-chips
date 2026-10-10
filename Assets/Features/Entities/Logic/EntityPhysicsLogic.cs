@@ -10,9 +10,6 @@ namespace NoMoreFishAndChips.Entities
 {
     public class EntityPhysicsLogic : EntityLogic
     {
-        protected CameraManager _cameraManager;
-        protected AudioManager _audioManager;
-
         protected Rigidbody _rigidbody;
         protected Collider _collider;
 
@@ -23,9 +20,6 @@ namespace NoMoreFishAndChips.Entities
 
         public EntityPhysicsLogic(Entity entity, Rigidbody rigidbody, Collider collider) : base(entity)
         {
-            _cameraManager = GameManager.Instance.Get<CameraManager>();
-            _audioManager = GameManager.Instance.Get<AudioManager>();
-
             _rigidbody = rigidbody;
             _collider = collider;
 

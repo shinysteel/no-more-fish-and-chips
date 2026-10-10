@@ -14,12 +14,18 @@ namespace NoMoreFishAndChips.Environments
     {
         [SerializeField] private float _spawnDuration = 2.5f;
 
+        private EntityManager _entityManager;
+        private StateManager _stateManager;
+
         private Dictionary<RaftPlayer, Drowning> _playerDrowningMap = new();
 
         private bool _isSpawning;
 
         protected override void OnSpawned()
         {
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+            _stateManager = GameManager.Instance.Get<StateManager>();
+
             _entityManager.AddListener(this);
             _stateManager.AddListener(this);
 

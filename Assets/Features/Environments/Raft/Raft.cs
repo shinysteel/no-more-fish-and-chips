@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Instantiating;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PurrNet;
@@ -8,7 +9,6 @@ using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.Pool;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
@@ -18,6 +18,9 @@ namespace NoMoreFishAndChips.Environments
 {
     public class Raft : GameplayBehaviour, IEntityManagerListener, IPathFindable
     {
+        private InstantiateManager _instantiateManager;
+        private EntityManager _entityManager;
+
         private SyncDictionaryWrapper<Vector2Int, RaftTile> _netTiles = new SyncDictionaryWrapper<Vector2Int, RaftTile>(ownerAuth: true);
         private SyncDictionaryWrapper<Vector2Int, Structure> _netStructures = new SyncDictionaryWrapper<Vector2Int, Structure>(ownerAuth: true);
 
@@ -32,6 +35,14 @@ namespace NoMoreFishAndChips.Environments
 
         public event Action<Vector2Int, RaftTile, RaftTile> OnTileChanged;
         public event Action<Vector2Int, Structure, Structure> OnStructureChanged;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _instantiateManager = GameManager.Instance.Get<InstantiateManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+        }
 
         public override void InitialiseContext(GameplayContext context)
         {

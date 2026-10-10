@@ -7,6 +7,15 @@ namespace NoMoreFishAndChips.UI
 {
     public class EquipmentWidget : RegisterWidget<EquipmentSlotView>
     {
+        private PoolManager _poolManager;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+        }
+
         protected override EquipmentSlotView[] CreateSlots()
         {
             EquipmentSlotView[] slots = new EquipmentSlotView[2];

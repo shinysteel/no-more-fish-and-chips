@@ -24,6 +24,8 @@ namespace NoMoreFishAndChips.Voyages
     {
         [SerializeField] private VoyageData _temperateSeaVoyageData;
 
+        private VoyageManager _voyageManager;
+
         // Voyage only exists for the host
         private Voyage _voyage;
 
@@ -44,6 +46,13 @@ namespace NoMoreFishAndChips.Voyages
         public event Action<StageData> OnStageDataChanged;
         public event Action<int> OnWaveIndexChanged;
         public event Action OnStageComplete;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _voyageManager = GameManager.Instance.Get<VoyageManager>();
+        }
 
         protected override void OnDestroy()
         {

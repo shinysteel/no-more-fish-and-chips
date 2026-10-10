@@ -12,6 +12,9 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private LineRenderer _electrocuteLineRenderer;
 
+        private EffectManager _effectManager;
+        private AudioManager _audioManager;
+
         private SyncVar<float> _netChargeBlend = new SyncVar<float>(ownerAuth: true);
         private SyncVar<Entity> _netElectrocuteEntity = new SyncVar<Entity>(ownerAuth: true);
 
@@ -27,6 +30,9 @@ namespace NoMoreFishAndChips.Entities
         protected override void Awake()
         {
             base.Awake();
+
+            _effectManager = GameManager.Instance.Get<EffectManager>();
+            _audioManager = GameManager.Instance.Get<AudioManager>();
 
             _electrocuteMaterial = _electrocuteLineRenderer.material;
         }

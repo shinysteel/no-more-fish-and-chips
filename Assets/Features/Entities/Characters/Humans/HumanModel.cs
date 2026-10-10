@@ -7,9 +7,18 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private Transform _rightArmItemLocator;
 
+        private ItemManager _itemManager;
+
         private ItemModel _rightArmItemModel;
 
         public ItemModel RightArmItemModel => _rightArmItemModel;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+        }
 
         public void HoldItem(ItemId id)
         {

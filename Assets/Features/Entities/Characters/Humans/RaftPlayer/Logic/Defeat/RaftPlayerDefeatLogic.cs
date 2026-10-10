@@ -9,11 +9,15 @@ using UnityEngine;
 using ShinyOwl.Common;
 
 using Random = UnityEngine.Random;
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerDefeatLogic : CharacterDefeatLogic
     {
+        private EnvironmentManager _environmentManager;
+        private NetworkManager _networkManager;
+
         private RaftPlayerDefeatSettings _settings;
 
         private RaftPlayer _player;
@@ -28,7 +32,10 @@ namespace NoMoreFishAndChips.Entities
         private Collider[] _reviveCollidersNonAlloc = new Collider[1];
         
         public RaftPlayerDefeatLogic(RaftPlayer player, SyncVar<bool> netIsDefeated, SyncVar<bool> netInBarrel) : base(player, netIsDefeated)
-        {   
+        {
+            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+
             _player = player;
             _netInBarrel = netInBarrel;
 

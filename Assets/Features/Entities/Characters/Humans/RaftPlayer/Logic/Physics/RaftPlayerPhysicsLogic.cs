@@ -12,6 +12,8 @@ namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerPhysicsLogic : CharacterPhysicsLogic
     {
+        private CameraManager _cameraManager;
+
         private RaftPlayer _player;
         private RaftPlayerPhysicsSettings _settings;
 
@@ -24,6 +26,8 @@ namespace NoMoreFishAndChips.Entities
 
         public RaftPlayerPhysicsLogic(RaftPlayer player, Rigidbody rigidbody, CapsuleCollider collider) : base(player, rigidbody, collider)
         {
+            _cameraManager = GameManager.Instance.Get<CameraManager>();
+
             _player = player;
 
             _settings = _player.DefinitionData.RaftPlayerPhysicsSettings;

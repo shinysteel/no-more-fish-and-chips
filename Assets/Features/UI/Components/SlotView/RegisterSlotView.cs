@@ -1,13 +1,21 @@
 using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Pools;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.UI
 {
     public abstract class RegisterSlotView : SlotView
     {
+        private PoolManager _poolManager;
+
         private UnitItemView _unitItemView;
 
         private const float SlotSizeScalar = 0.9f;
+
+        protected virtual void Awake()
+        {
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+        }
 
         public override void SetInventoryItem(InventoryItem item)
         {

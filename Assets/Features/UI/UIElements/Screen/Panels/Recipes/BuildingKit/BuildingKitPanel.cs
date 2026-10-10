@@ -11,6 +11,15 @@ namespace NoMoreFishAndChips.UI
 {
     public class BuildingKitPanel : RecipesPanel<IBuildable>
     {
+        private EntityManager _entityManager;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+        }
+
         public override void Setup(GameplayContext context)
         {
             base.Setup(context);

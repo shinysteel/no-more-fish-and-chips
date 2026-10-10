@@ -24,9 +24,6 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private Color _unlockableColor; 
         [SerializeField] private Color _lockedColor;
         
-        protected PoolManager _poolManager;
-        protected ItemManager _itemManager;
-
         protected GameplayContext _context;
 
         private int _hotbarIndex = -1;
@@ -36,12 +33,6 @@ namespace NoMoreFishAndChips.UI
 
         public RectTransform RectTransform => _rectTransform;
         public CellOutline CellOutline => _cellOutline;
-
-        private void Awake()
-        {
-            _poolManager = GameManager.Instance.Get<PoolManager>();
-            _itemManager = GameManager.Instance.Get<ItemManager>();
-        }
 
         public void Setup(GameplayContext context)
         {

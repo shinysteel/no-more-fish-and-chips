@@ -20,41 +20,11 @@ namespace NoMoreFishAndChips.Networking
 {
     public abstract class NetBehaviour : NetworkBehaviour
     {
-        protected NetworkManager _networkManager;
-        protected EntityManager _entityManager;
-        protected LobbyManager _lobbyManager;
-        protected ItemManager _itemManager;
-        protected CameraManager _cameraManager;
-        protected UIManager _uiManager;
-        protected SaveManager _saveManager;
-        protected InstantiateManager _instantiateManager;
-        protected PoolManager _poolManager;
-        protected AudioManager _audioManager;
-        protected HitboxManager _hitboxManager;
-        protected EffectManager _effectManager;
-        protected StateManager _stateManager;
-        protected VoyageManager _voyageManager;
-        protected EnvironmentManager _environmentManager;
-        protected RenderingManager _renderingManager;
+        private NetworkManager _networkManager;
 
         protected virtual void Awake()
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
-            _entityManager = GameManager.Instance.Get<EntityManager>();
-            _lobbyManager = GameManager.Instance.Get<LobbyManager>();
-            _itemManager = GameManager.Instance.Get<ItemManager>();
-            _cameraManager = GameManager.Instance.Get<CameraManager>();
-            _uiManager = GameManager.Instance.Get<UIManager>();
-            _saveManager = GameManager.Instance.Get<SaveManager>();
-            _instantiateManager = GameManager.Instance.Get<InstantiateManager>();
-            _poolManager = GameManager.Instance.Get<PoolManager>();
-            _audioManager = GameManager.Instance.Get<AudioManager>();
-            _hitboxManager = GameManager.Instance.Get<HitboxManager>();
-            _effectManager = GameManager.Instance.Get<EffectManager>();
-            _stateManager = GameManager.Instance.Get<StateManager>();
-            _voyageManager = GameManager.Instance.Get<VoyageManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
-            _renderingManager = GameManager.Instance.Get<RenderingManager>();
         }
 
         protected override void OnSpawned()

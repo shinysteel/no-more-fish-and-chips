@@ -13,6 +13,9 @@ using System.Linq;
 using UnityEngine;
 using NoMoreFishAndChips.Items;
 using System.Threading.Tasks;
+using NoMoreFishAndChips.Hitboxes;
+
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -27,8 +30,14 @@ namespace NoMoreFishAndChips.Entities
     public class GiantClam : Character<GiantClamDefinitionData>, IInteractable, IHasInventory, INetworkManagerListener
     {
         [SerializeField] private Inventory _inventory;
-
         public Inventory Inventory => _inventory;
+
+        private EntityManager _entityManager;
+        private HitboxManager _hitboxManager;
+        private AudioManager _audioManager;
+        private NetworkManager _networkManager;
+        private UIManager _uiManager;
+        private ItemManager _itemManager;
 
         private StateMachine<EState> _stateMachine;
 
@@ -211,6 +220,13 @@ namespace NoMoreFishAndChips.Entities
         protected override void Awake()
         {
             base.Awake();
+
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+            _hitboxManager = GameManager.Instance.Get<HitboxManager>();
+            _audioManager = GameManager.Instance.Get<AudioManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _itemManager = GameManager.Instance.Get<ItemManager>();
 
             _closedStateAnimationEvents = new StateAnimationEvents(ClosedStateName, false)
             {

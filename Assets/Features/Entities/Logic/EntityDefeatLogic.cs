@@ -19,11 +19,9 @@ namespace NoMoreFishAndChips.Entities
     /// </summary>
     public class EntityDefeatLogic : EntityLogic
     {
-        protected EntityManager _entityManager;
-        protected ItemManager _itemManager;
-        protected NetworkManager _networkManager;
-        protected PoolManager _poolManager;
-        protected EnvironmentManager _environmentManager;
+        private EntityManager _entityManager;
+        private ItemManager _itemManager;
+        private NetworkManager _networkManager;
 
         private EntityDefeatSettings _settings;
 
@@ -38,8 +36,6 @@ namespace NoMoreFishAndChips.Entities
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();
             _networkManager = GameManager.Instance.Get<NetworkManager>();
-            _poolManager = GameManager.Instance.Get<PoolManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
 
             _entity = entity;
             _netIsDefeated = netIsDefeated;

@@ -17,9 +17,7 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] private ScrollRect _blueprintsScrollRect;
 
-        protected EntityManager _entityManager;
-        protected PoolManager _poolManager;
-        protected ItemManager _itemManager;
+        private PoolManager _poolManager;
 
         protected GameplayContext _context;
 
@@ -29,9 +27,7 @@ namespace NoMoreFishAndChips.UI
         {
             base.Awake();
 
-            _entityManager = GameManager.Instance.Get<EntityManager>();
             _poolManager = GameManager.Instance.Get<PoolManager>();
-            _itemManager = GameManager.Instance.Get<ItemManager>();
         }
 
         public virtual void Setup(GameplayContext context)

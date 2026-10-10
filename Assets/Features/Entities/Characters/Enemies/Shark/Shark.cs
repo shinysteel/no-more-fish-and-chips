@@ -13,6 +13,9 @@ namespace NoMoreFishAndChips.Entities
 {
     public class Shark : Character<SharkDefinitionData>
     {
+        private EntityManager _entityManager;
+        private HitboxManager _hitboxManager;
+
         private StateMachine<EState> _stateMachine;
 
         private RaftLine[] _targetLines = new RaftLine[2];
@@ -311,7 +314,10 @@ namespace NoMoreFishAndChips.Entities
         protected override void Awake()
         {
             base.Awake();
-            
+
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+            _hitboxManager = GameManager.Instance.Get<HitboxManager>();
+
             _stateMachine = new();
 
             SurfaceState surfaceState = new SurfaceState(_stateMachine);

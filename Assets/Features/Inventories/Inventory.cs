@@ -15,6 +15,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Threading.Tasks;
 
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+
 namespace NoMoreFishAndChips.Inventories
 {
     public static class InventoryItemUtils
@@ -336,6 +338,9 @@ namespace NoMoreFishAndChips.Inventories
 
     public class Inventory : NetBehaviour, IEnumerable<KeyValuePair<Vector2Int, NetInventorySlot>>
     {
+        private ItemManager _itemManager;
+        private NetworkManager _networkManager;
+
         private SyncDictionaryWrapper<Vector2Int, NetInventorySlot> _netInventorySlots = new SyncDictionaryWrapper<Vector2Int, NetInventorySlot>(ownerAuth: true);
         private SyncDictionaryWrapper<string, NetInventoryItem> _netInventoryItems = new SyncDictionaryWrapper<string, NetInventoryItem>(ownerAuth: true);
 
@@ -360,6 +365,14 @@ namespace NoMoreFishAndChips.Inventories
         // then you could also consider using EventArgs
         public delegate void InventoryItemChangedDelegate(string instanceId, InventoryItem previous, InventoryItem current);
         public event InventoryItemChangedDelegate OnInventoryItemChanged;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+        }
 
         protected override void OnSpawned()
         {

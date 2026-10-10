@@ -13,10 +13,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+
 namespace NoMoreFishAndChips.Entities
 {
     public abstract class RaftTile : Entity, IInteractable
     {
+        private NetworkManager _networkManager;
+        private UIManager _uiManager;
+        private EnvironmentManager _environmentManager;
+
         protected SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
         private SyncVar<int> _netRotations = new SyncVar<int>(ownerAuth: true);
 
@@ -35,6 +41,15 @@ namespace NoMoreFishAndChips.Entities
         protected override EntityLogicFactory CreateLogicFactory()
         {
             return new RaftTileLogicFactory();
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
         }
 
         protected override void OnSpawned()

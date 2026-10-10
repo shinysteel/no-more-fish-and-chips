@@ -15,8 +15,17 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] private Image _assignmentImage;
 
+        private ItemManager _itemManager;
+
         private int _index = -1;
         public int Index => _index;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _itemManager = GameManager.Instance.Get<ItemManager>();
+        }
 
         public void SetIndex(int index)
         {

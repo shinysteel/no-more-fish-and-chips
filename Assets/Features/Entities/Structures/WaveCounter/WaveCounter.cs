@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.States;
 using PrimeTween;
 using PurrNet;
@@ -15,9 +16,18 @@ namespace NoMoreFishAndChips.Entities
     {
         [SerializeField] private TextMeshPro _countText;
 
+        private HitboxManager _hitboxManager;
+
         private SyncVar<int> _netCount = new SyncVar<int>(ownerAuth: true);
 
         private Sequence _sequence;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _hitboxManager = GameManager.Instance.Get<HitboxManager>();
+        }
 
         public override void InitialiseContext(GameplayContext context)
         {

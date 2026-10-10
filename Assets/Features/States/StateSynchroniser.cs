@@ -9,8 +9,17 @@ namespace NoMoreFishAndChips.States
 {
     public class StateSynchroniser : GameplayBehaviour, IStateManagerListener
     {
+        private StateManager _stateManager;
+
         private SyncList<int> _netStatePathEnumValues = new SyncList<int>(ownerAuth: true);
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _stateManager = GameManager.Instance.Get<StateManager>();
+        }
+
         public override void InitialiseContext(GameplayContext context)
         {
             base.InitialiseContext(context);

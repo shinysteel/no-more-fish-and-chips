@@ -11,10 +11,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using ShinyOwl.Common.Utils;
 
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+
 namespace NoMoreFishAndChips.Environments
 {
     public class SalvageSpawner : GameplayBehaviour, IEntityManagerListener, IStateManagerListener
     {
+        private StateManager _stateManager;
+        private EntityManager _entityManager;
+        private NetworkManager _networkManager;
+        private ItemManager _itemManager;
+
         [SerializeField] private float _spawnInterval = 5f;
         [SerializeField] private DropTable _dropTable;
 
@@ -29,6 +36,11 @@ namespace NoMoreFishAndChips.Environments
         protected override void Awake()
         {
             base.Awake();
+
+            _stateManager = GameManager.Instance.Get<StateManager>();
+            _entityManager = GameManager.Instance.Get<EntityManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+            _itemManager = GameManager.Instance.Get<ItemManager>();
 
             _weightedPicker.Set(_dropTable.Entries);
         }

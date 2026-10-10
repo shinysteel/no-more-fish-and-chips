@@ -11,7 +11,7 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] protected RectTransform _slotsRectTransform;
 
-        protected PoolManager _poolManager;
+        private PoolManager _poolManager;
 
         protected GameplayContext _context;
 
@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.UI
 
         public T[] Slots => _slots;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
         }

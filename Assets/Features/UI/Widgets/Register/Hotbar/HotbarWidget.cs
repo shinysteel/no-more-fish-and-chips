@@ -9,7 +9,16 @@ namespace NoMoreFishAndChips.UI
 {
     public class HotbarWidget : RegisterWidget<HotbarWidgetSlot>
     {
+        private PoolManager _poolManager;
+
         private Hotbar _hotbar;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _poolManager = GameManager.Instance.Get<PoolManager>();
+        }
 
         protected override HotbarWidgetSlot[] CreateSlots()
         {

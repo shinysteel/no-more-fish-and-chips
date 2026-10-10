@@ -7,10 +7,21 @@ namespace NoMoreFishAndChips.Entities
 {
     public class Planter : Structure<PlanterDefinitionData>, IInteractable
     {
+        private UIManager _uiManager;
+        private EnvironmentManager _environmentManager;
+
         private Prop _previewProp;
 
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _uiManager = GameManager.Instance.Get<UIManager>();
+            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+        }
 
         bool IInteractable.CanPrompt()
         {
