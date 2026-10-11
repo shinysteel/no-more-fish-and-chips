@@ -61,8 +61,8 @@ namespace NoMoreFishAndChips.Environments
             RaftLineNode minNode = _nodes.First().Value;
             RaftLineNode maxNode = _nodes.Last().Value;
 
-            _minEdge = new RaftEdge(minNode, _raftAxis.Type == Axis.Horizontal ? Direction.Left : Direction.Down);
-            _maxEdge = new RaftEdge(maxNode, _raftAxis.Type == Axis.Horizontal ? Direction.Right : Direction.Up);
+            _minEdge = new RaftEdge(minNode, _raftAxis.Type == Axis.Horizontal ? Vector2Int.left : Vector2Int.down);
+            _maxEdge = new RaftEdge(maxNode, _raftAxis.Type == Axis.Horizontal ? Vector2Int.right : Vector2Int.up);
         }
 
         public RaftEdge GetEdge(int direction)

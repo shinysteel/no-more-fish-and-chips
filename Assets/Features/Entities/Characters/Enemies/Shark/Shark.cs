@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.Entities
 
         private RaftLine[] _targetLines = new RaftLine[2];
         private RaftLineNode[] _targetNodes = new RaftLineNode[2];
-        private Direction _swimDirectionEnum;
+        // private Direction _swimDirectionEnum;
         private int _swimDirectionFlat;
         private Vector3 _shiftDirection;
 
@@ -77,18 +77,18 @@ namespace NoMoreFishAndChips.Entities
                 int edgeDirection = Random.value <= 0.5f ? -1 : 1;
                 RaftEdge[] edges = new RaftEdge[] { _shark._targetLines[0].GetEdge(edgeDirection), _shark._targetLines[1].GetEdge(edgeDirection) };
                 RaftEdge furthestEdge = edges.OrderByDescending(edge => edge?.Node.AxisIndex ?? int.MinValue).First();
-                _shark.transform.position = _shark._context.Raft.Queries.TileCellToWorldPosition(furthestEdge.Node.Cell) + Utils.Math.DirectionToVector3(furthestEdge.Direction) * _surfaceOffset;
+                // _shark.transform.position = _shark._context.Raft.Queries.TileCellToWorldPosition(furthestEdge.Node.Cell) + Utils.Math.DirectionToVector3(furthestEdge.Direction) * _surfaceOffset;
 
                 // Store directions
-                _shark._swimDirectionEnum = Utils.Math.FlipDirection(furthestEdge.Direction);
+                // _shark._swimDirectionEnum = Utils.Math.FlipDirection(furthestEdge.Direction);
                 _shark._swimDirectionFlat = -edgeDirection;
 
                 // Sit in between the two lines
-                _shark._shiftDirection = Utils.Math.DirectionToVector3(_shark._targetLines[0].RaftAxis.GetDirection()) * adjacentDirection;
+                // _shark._shiftDirection = Utils.Math.DirectionToVector3(_shark._targetLines[0].RaftAxis.GetDirection()) * adjacentDirection;
                 _shark.transform.position += _shark._shiftDirection * 0.5f;
 
                 // Face the raft, and submerge so that only the fin is showing
-                _shark.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(_shark._swimDirectionEnum), Vector3.up);
+                // _shark.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(_shark._swimDirectionEnum), Vector3.up);
                 _shark.transform.position += Vector3.down * _submergeDistance;
 
                 // Tween a surface animation where the shark comes from below
@@ -149,7 +149,7 @@ namespace NoMoreFishAndChips.Entities
                     .OrderBy(node => Mathf.Abs(node.AxisIndex - axisIndex))
                     .FirstOrDefault();
 
-                Vector3 forward = Utils.Math.DirectionToVector3( _shark._swimDirectionEnum);
+                Vector3 forward = Vector3.zero; // Utils.Math.DirectionToVector3( _shark._swimDirectionEnum);
 
                 if (closestNode == null)
                 {
@@ -270,7 +270,7 @@ namespace NoMoreFishAndChips.Entities
                     _cooldownTimer -= _cooldownDuration;
                     _biteTimer -= _biteInterval;
 
-                    Vector3 hitboxDirection = Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
+                    Vector3 hitboxDirection = Vector3.zero; // Utils.Math.DirectionToVector3(_shark._swimDirectionEnum);
                     Vector3 hitboxPosition = _shark._targetLines[0].AxisIndexToWorldPosition(axisIndex) + _shark._shiftDirection * 0.5f + hitboxDirection;
                     _shark._hitboxManager.SpawnHitbox(_shark.DefinitionData.BiteHitboxData, _shark, new SpawnParams() { Position = hitboxPosition, Rotation = Quaternion.LookRotation(hitboxDirection, Vector3.up) });
 

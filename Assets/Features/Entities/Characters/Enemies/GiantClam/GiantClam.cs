@@ -107,9 +107,9 @@ namespace NoMoreFishAndChips.Entities
 
                 RaftEdge edge = Random.value <= 0.5f ? line.MinEdge : line.MaxEdge;
 
-                _clam.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(Utils.Math.FlipDirection(edge.Direction)), Vector3.up);
+                // _clam.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(Utils.Math.FlipDirection(edge.Direction)), Vector3.up);
 
-                Vector2Int edgeDirection = Utils.Math.DirectionToVector2Int(edge.Direction);
+                Vector2Int edgeDirection = Vector2Int.zero; // Utils.Math.DirectionToVector2Int(edge.Direction);
                 Vector3 startPosition = _clam._context.Raft.Queries.TileCellToWorldPosition(edge.Node.Cell + edgeDirection);
                 Vector3 endPosition = _clam._context.Raft.Queries.TileCellToWorldPosition(edge.Node.Cell);
 

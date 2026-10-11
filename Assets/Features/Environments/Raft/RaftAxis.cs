@@ -100,10 +100,5 @@ namespace NoMoreFishAndChips.Environments
         {
             return CellToAxisIndex(_raft.Queries.WorldPositionToTileCell(position));
         }
-
-        public Direction GetDirection()
-        {
-            return _type == Axis.Horizontal ? Direction.Up : Direction.Right;
-        }
     }
 }

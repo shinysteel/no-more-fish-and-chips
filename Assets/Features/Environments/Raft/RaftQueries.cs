@@ -281,14 +281,20 @@ namespace NoMoreFishAndChips.Environments
                 return false;
             }
 
-            List<Direction> openDirections = new();
+            List<Vector3> openDirections = new();
 
-            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            for (int i = -1; i <= 1; i += 2)
             {
-                if (!_raft.Tiles.ContainsKey(cell + Utils.Math.DirectionToVector2Int(direction)))
+                void add(Vector2Int offset)
                 {
-                    openDirections.Add(direction);
+                    if (!_raft.Tiles.ContainsKey(cell + offset))
+                    {
+                        openDirections.Add(new Vector3(cell.x + offset.x, 0f, cell.y + offset.y));
+                    }
                 }
+
+                add(new Vector2Int(i, 0));
+                add(new Vector2Int(0, i));
             }
 
             if (openDirections.Count > 0)

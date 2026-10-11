@@ -8,15 +8,18 @@ namespace NoMoreFishAndChips.Environments
     public class RaftEdge
     {
         private RaftLineNode _node;
-        private Direction _direction;
+        private Vector2Int _direction2d;
+        private Vector3 _direction3d;
 
         public RaftLineNode Node => _node;
-        public Direction Direction => _direction;
+        public Vector2Int Direction2d => _direction2d;
+        public Vector3 Direction3d => _direction3d;
 
-        public RaftEdge(RaftLineNode node, Direction direction)
+        public RaftEdge(RaftLineNode node, Vector2Int direction2d)
         {
             _node = node;
-            _direction = direction;
+            _direction2d = direction2d;
+            _direction3d = new Vector3(direction2d.x, 0f, direction2d.y);
         }
     }
 }

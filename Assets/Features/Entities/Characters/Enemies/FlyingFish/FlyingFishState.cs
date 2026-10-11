@@ -70,7 +70,7 @@ namespace NoMoreFishAndChips.Entities
             _edge = line.GetRandomEdge();
 
             Vector2Int cell = _edge.Node.Cell;
-            cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();
+            cell += _edge.Direction2d * _settings.OffsetRange.RandomRange();
 
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(cell);
             position += new Vector3(Random.value - 0.5f, 0f, Random.value - 0.5f);
@@ -88,7 +88,7 @@ namespace NoMoreFishAndChips.Entities
 
             tiles.Add(_context.Raft.Tiles[_edge.Node.Cell]);
 
-            if (_context.Raft.Tiles.TryGetValue(_edge.Node.Cell - Utils.Math.DirectionToVector2Int(_edge.Direction), out RaftTile tile))
+            if (_context.Raft.Tiles.TryGetValue(_edge.Node.Cell - _edge.Direction2d, out RaftTile tile))
             {
                 tiles.Add(tile);
             }
