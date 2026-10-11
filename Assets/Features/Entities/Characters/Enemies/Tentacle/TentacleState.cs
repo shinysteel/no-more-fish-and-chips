@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.States;
 using ShinyOwl.Common.Framework;
 using UnityEngine;
@@ -33,6 +34,20 @@ namespace NoMoreFishAndChips.Entities
     {
         public TentacleArriveState(StateMachine<ETentacleState> parent, Tentacle tentacle) : base(parent, tentacle)
         { }
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            Surface();
+        }
+
+        private void Surface()
+        {
+            // _context.Raft.Queries.TryGetRandomLine(out RaftLine line);
+
+            // RaftEdge edge = line.GetRandomEdge();
+        }
     }
 
     public class TentacleSlamState : TentacleState

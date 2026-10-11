@@ -105,7 +105,7 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                RaftEdge edge = Random.value < 0.5f ? line.MinEdge : line.MaxEdge;
+                RaftEdge edge = Random.value <= 0.5f ? line.MinEdge : line.MaxEdge;
 
                 _clam.transform.rotation = Quaternion.LookRotation(Utils.Math.DirectionToVector3(Utils.Math.FlipDirection(edge.Direction)), Vector3.up);
 

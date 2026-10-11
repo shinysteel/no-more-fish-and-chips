@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Hitboxes;
+using System;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -6,8 +7,20 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "TentacleDefinitionData", menuName = "Data/Entities/Characters/TentacleDefinitionData")]
     public class TentacleDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private HitboxData _slamHitboxData;
+        [Serializable]
+        private class TentacleArriveSettings
+        { }
 
-        public HitboxData SlamHitboxData => _slamHitboxData;
+        [Serializable]
+        private class TentacleSlamSettings
+        {
+            [SerializeField] private HitboxData _hitboxData;
+
+            public HitboxData HitboxData => _hitboxData;
+        }
+
+        [Serializable]
+        private class TentacleApproachSettings
+        { }
     }
 }

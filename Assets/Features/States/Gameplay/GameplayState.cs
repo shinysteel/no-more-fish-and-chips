@@ -35,7 +35,7 @@ namespace NoMoreFishAndChips.States
         public Raft Raft { get; private set; }
         public VoyageRunner VoyageRunner { get; private set; }
         public EnvironmentMarker EnvironmentMarker { get; private set; }
-        public EnvironmentGameplayReferences References { get; private set; }
+        public EnvironmentGameplayReferences EnvironmentGameplayReferences { get; private set; }
         public GameplayScreen GameplayScreen { get; private set; }
         
         public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Raft raft, VoyageRunner voyageRunner, EnvironmentMarker environmentMarker, EnvironmentGameplayReferences references, GameplayScreen gameplayScreen)
@@ -45,7 +45,7 @@ namespace NoMoreFishAndChips.States
             Raft = raft;
             VoyageRunner = voyageRunner;
             EnvironmentMarker = environmentMarker;
-            References = references;
+            EnvironmentGameplayReferences = references;
             GameplayScreen = gameplayScreen;
         }
     }
@@ -208,8 +208,6 @@ namespace NoMoreFishAndChips.States
                     }
                 }
 
-                Log.Info($"trying to access local purrent player");
-
                 _players = new();
                 RaftPlayer localPlayer = _networkManager.LocalPurrnetPlayer.CreateRaftPlayer();
 
@@ -219,6 +217,8 @@ namespace NoMoreFishAndChips.States
 
                 // Manually initialise context components to dictate order
                 InitialiseComponent(raft);
+                InitialiseComponent(references.Ocean);
+
                 InitialiseComponent(voyageRunner);
                 InitialiseComponent(environmentMarker);
 

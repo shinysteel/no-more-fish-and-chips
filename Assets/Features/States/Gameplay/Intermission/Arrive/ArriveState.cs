@@ -31,7 +31,7 @@ namespace NoMoreFishAndChips.States
 
         private void Arrive()
         {
-            _context.References.Ocean.SetCurrent(false, Ocean.DefaultSetCurrentDuration);
+            _context.EnvironmentGameplayReferences.Ocean.SetCurrent(false, Ocean.DefaultSetCurrentDuration);
 
             if (_networkManager.IsServer)
             {

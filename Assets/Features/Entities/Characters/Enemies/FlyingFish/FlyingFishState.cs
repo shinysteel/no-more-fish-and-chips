@@ -67,7 +67,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _context.Raft.Queries.TryGetRandomLine(out RaftLine line);
 
-            _edge = Random.value <= 0.5f ? line.MinEdge : line.MaxEdge;
+            _edge = line.GetRandomEdge();
 
             Vector2Int cell = _edge.Node.Cell;
             cell += Utils.Math.DirectionToVector2Int(_edge.Direction) * _settings.OffsetRange.RandomRange();

@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Instantiating;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
 using PrimeTween;
@@ -9,10 +10,8 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class Ocean : MonoBehaviour
+    public class Ocean : MonoBehaviour, IRequiresGameplayContext, IPathFindable
     {
-        private StateManager _stateManager;
-
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private BoxCollider _boxCollider;
 
@@ -20,7 +19,9 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private Vector3 _linearDrag = new Vector3(5f, 1f, 5f);
         [SerializeField] private float _angularDrag = 2.5f;
         [SerializeField] private float _currentSpeed = 0.5f;
-        
+
+        private GameplayContext _context;
+
         private Material _material;
 
         private float _defaultCurrentSpeed;
@@ -31,15 +32,32 @@ namespace NoMoreFishAndChips.Environments
 
         public const float DefaultSetCurrentDuration = 2.5f;
 
+        bool IRequiresGameplayContext.IsContextInitialised => _context != null;
+
         private void Awake()
         {
-            _stateManager = GameManager.Instance.Get<StateManager>();
-
             _material = _meshRenderer.material;
 
             _defaultCurrentSpeed = _currentSpeed;
         }
-        
+
+        void IRequiresGameplayContext.InitialiseContext(GameplayContext context)
+        {
+            _context = context;
+        }
+
+        bool IPathFindable.IsTraversable(Vector2Int cell)
+        {
+            Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(cell);
+
+            if (_context.Raft.Tiles.ContainsKey(tileCell))
+            {
+                return false;
+            }
+
+            return !_context.Raft.Structures.ContainsKey(cell);
+        }
+
         private void Update()
         {
             FoamTileTimeUpdate();

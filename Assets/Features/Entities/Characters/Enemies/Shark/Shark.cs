@@ -74,7 +74,7 @@ namespace NoMoreFishAndChips.Entities
                 }
 
                 // Choose a random direction along the line, and select the edge with the bigge st index. Surface away from it 
-                int edgeDirection = Random.value < 0.5f ? -1 : 1;
+                int edgeDirection = Random.value <= 0.5f ? -1 : 1;
                 RaftEdge[] edges = new RaftEdge[] { _shark._targetLines[0].GetEdge(edgeDirection), _shark._targetLines[1].GetEdge(edgeDirection) };
                 RaftEdge furthestEdge = edges.OrderByDescending(edge => edge?.Node.AxisIndex ?? int.MinValue).First();
                 _shark.transform.position = _shark._context.Raft.Queries.TileCellToWorldPosition(furthestEdge.Node.Cell) + Utils.Math.DirectionToVector3(furthestEdge.Direction) * _surfaceOffset;

@@ -110,7 +110,7 @@ namespace NoMoreFishAndChips.States
 
             if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
             {
-                _context.References.Ocean.SetCurrent(false, 0f);
+                _context.EnvironmentGameplayReferences.Ocean.SetCurrent(false, 0f);
 
                 _subStateMachine.ChangeState(EIntermissionState.Dock);
             }

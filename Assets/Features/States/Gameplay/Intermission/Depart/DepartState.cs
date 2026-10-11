@@ -29,7 +29,7 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _context.References.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
+            _context.EnvironmentGameplayReferences.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
         }
 
         public override void Tick()

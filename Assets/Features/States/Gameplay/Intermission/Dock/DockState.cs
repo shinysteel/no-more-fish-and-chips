@@ -78,7 +78,7 @@ namespace NoMoreFishAndChips.States
             base.Enter();
 
             // Understand that clients can join at any point
-            _context.References.Ocean.SetCurrent(false, 0f);
+            _context.EnvironmentGameplayReferences.Ocean.SetCurrent(false, 0f);
 
             _startTimer = 0f;
 

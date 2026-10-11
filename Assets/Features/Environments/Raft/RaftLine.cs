@@ -72,7 +72,7 @@ namespace NoMoreFishAndChips.Environments
 
         public RaftEdge GetRandomEdge()
         {
-            return Random.value < 0.5f ? _minEdge : _maxEdge;
+            return Random.value <= 0.5f ? _minEdge : _maxEdge;
         }
 
         public RaftLineNode GetNextNode(int axisIndex, int direction)
