@@ -268,7 +268,7 @@ namespace NoMoreFishAndChips.Environments
             return true;
         }
 
-        public bool TryGetClosestPerimeterNode(Vector3 position, out RaftPerimeterNode node)
+        public bool TryGetClosestPerimeterNode(Vector3 position, Func<RaftPerimeterNode, bool> predicate, out RaftPerimeterNode node)
         {
             node = null;
 
@@ -277,7 +277,10 @@ namespace NoMoreFishAndChips.Environments
                 return false;
             }
 
-            node = _perimeter.Values.OrderBy(node => Vector3.Distance(node.Tile.transform.position, position)).First();
+            node = _perimeter.Values
+                .Where(node => predicate(node))
+                .OrderBy(node => Vector3.Distance(node.Tile.transform.position, position))
+                .First();
 
             return true;
         }

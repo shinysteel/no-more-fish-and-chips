@@ -29,11 +29,15 @@ MonoBehaviour:
   _actSettings: {fileID: 11400000, guid: 1c135009443135c48b9ef778e0500303, type: 2}
   _arriveSettings:
     _depth: 2
-    _duration: 1
+    _duration: 2
   _approachSettings:
-    _moveSpeed: 1
+    _tileMask:
+      serializedVersion: 2
+      m_Bits: 256
+    _moveSpeed: 0.5
     _moveAcceleration: 10
-    _rotateSpeed: 7.5
+    _rotateSpeed: 2.5
   _slamSettings:
-    _chargeDuration: 3
+    _rotateSpeed: 5
+    _chargeDuration: 4
     _hitboxData: {fileID: 11400000, guid: 043fd8627d0acff45ab9ad49baccb5d7, type: 2}

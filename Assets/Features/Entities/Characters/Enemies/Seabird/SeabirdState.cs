@@ -656,7 +656,7 @@ namespace NoMoreFishAndChips.Entities
                 direction.Normalize();
 
                 _seabird.CharacterPhysicsLogic.Move(direction, _settings.MoveSpeed, _settings.MoveAcceleration);
-                _seabird.CharacterPhysicsLogic.Look(direction, _settings.RotateSpeed);
+                _seabird.CharacterPhysicsLogic.Rotate(direction, _settings.RotateSpeed);
             }
         }
 

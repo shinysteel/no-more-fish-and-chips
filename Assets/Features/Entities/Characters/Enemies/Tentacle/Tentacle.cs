@@ -15,6 +15,9 @@ namespace NoMoreFishAndChips.Entities
         private StateAnimationEvents _slamImpactStateAnimationEvents;
         public StateAnimationEvents SlamImpactStateAnimationEvents => _slamImpactStateAnimationEvents;
 
+        private Vector3 _slamDirection;
+        public Vector3 SlamDirection => _slamDirection;
+
         private const string BaseLayerName = "Base Layer";
 
         public const string IsChargingBoolName = "IsCharging";
@@ -99,6 +102,11 @@ namespace NoMoreFishAndChips.Entities
             {
                 _stateMachine.FixedTick();
             }
+        }
+
+        public void SetSlamDirection(Vector3 direction)
+        {
+            _slamDirection = direction;
         }
 
         private void HandleDefeatedChanged(bool defeated)

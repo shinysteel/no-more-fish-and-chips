@@ -7,12 +7,12 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayerPhysicsSettings : CharacterPhysicsSettings
     {
         [SerializeField] private RaftPlayerMoveSettings _move;
-        [SerializeField] private RaftPlayerLookSettings _look;
+        [SerializeField] private RaftPlayerRotateSettings _rotate;
         [SerializeField] private RaftPlayerJumpSettings _jump;
         [SerializeField] private RaftPlayerClimbSettings _climb;
 
         public RaftPlayerMoveSettings Move => _move;
-        public RaftPlayerLookSettings Look => _look;
+        public RaftPlayerRotateSettings Rotate => _rotate;
         public RaftPlayerJumpSettings Jump => _jump;
         public RaftPlayerClimbSettings Climb => _climb;
     }
@@ -32,13 +32,11 @@ namespace NoMoreFishAndChips.Entities
     }
 
     [Serializable]
-    public class RaftPlayerLookSettings
+    public class RaftPlayerRotateSettings
     {
         [SerializeField] private float _speed = 7.5f;
-        [SerializeField] private float _attackImpactMultiplier = 0.25f;
 
         public float Speed => _speed;
-        public float AttackImpactMultiplier => _attackImpactMultiplier;
     }
 
     [Serializable]

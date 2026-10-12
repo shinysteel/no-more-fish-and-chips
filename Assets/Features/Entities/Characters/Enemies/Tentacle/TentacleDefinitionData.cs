@@ -20,7 +20,7 @@ namespace NoMoreFishAndChips.Entities
     public class TentacleArriveSettings
     {
         [SerializeField] private float _depth = 2f;
-        [SerializeField] private float _duration = 1f;
+        [SerializeField] private float _duration = 2f;
 
         public float Depth => _depth;
         public float Duration => _duration;
@@ -29,10 +29,12 @@ namespace NoMoreFishAndChips.Entities
     [Serializable]
     public class TentacleApproachSettings
     {
+        [SerializeField] private LayerMask _tileMask;
         [SerializeField] private float _moveSpeed = 1f;
         [SerializeField] private float _moveAcceleration = 10f;
         [SerializeField] private float _rotateSpeed = 7.5f;
 
+        public LayerMask TileMask => _tileMask;
         public float MoveSpeed => _moveSpeed;
         public float MoveAcceleration => _moveAcceleration;
         public float RotateSpeed => _rotateSpeed;
@@ -41,9 +43,11 @@ namespace NoMoreFishAndChips.Entities
     [Serializable]
     public class TentacleSlamSettings
     {
+        [SerializeField] private float _rotateSpeed = 7.5f;
         [SerializeField] private float _chargeDuration = 3f;
         [SerializeField] private HitboxData _hitboxData;
 
+        public float RotateSpeed => _rotateSpeed;
         public float ChargeDuration => _chargeDuration;
         public HitboxData HitboxData => _hitboxData;
     }

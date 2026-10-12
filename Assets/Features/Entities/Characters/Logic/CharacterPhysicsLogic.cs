@@ -54,7 +54,7 @@ namespace NoMoreFishAndChips.Entities
             _rigidbody.AddForce(delta / Time.fixedDeltaTime, ForceMode.Acceleration);
         }
 
-        public void Look(Vector3 direction, float speed)
+        public void Rotate(Vector3 direction, float speed)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 

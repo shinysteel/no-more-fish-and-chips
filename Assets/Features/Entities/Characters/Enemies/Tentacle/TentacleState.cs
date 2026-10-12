@@ -3,6 +3,7 @@ using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Framework;
+using ShinyOwl.Common.Utils;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,8 +64,10 @@ namespace NoMoreFishAndChips.Entities
             position += perpendicular * (Random.value - 0.5f);
 
             position += Vector3.down * _settings.Depth;
-
+            
             _tentacle.EntityPhysicsLogic.Rigidbody.position = position;
+
+            _tentacle.EntityPhysicsLogic.Rigidbody.rotation = Quaternion.LookRotation(-edge.Direction3d, Vector3.up);
         }
 
         public override void Tick()
@@ -82,6 +85,8 @@ namespace NoMoreFishAndChips.Entities
     {
         private TentacleApproachSettings _settings;
 
+        private Collider[] _tileOverlapsNonAlloc = new Collider[4];
+
         private Vector2 _approachPosition;
         private PathNavigator _pathNavigator;
 
@@ -95,8 +100,25 @@ namespace NoMoreFishAndChips.Entities
             base.Enter();
 
             _context.Raft.OnTileChanged += HandleTileChanged;
+            
+            int overlaps = Physics.OverlapBoxNonAlloc(_tentacle.transform.position + _tentacle.transform.forward * 0.5f + Vector3.up * 0.25f, new Vector3(0.25f, 0.5f, 0.5f), _tileOverlapsNonAlloc, _tentacle.transform.rotation, _settings.TileMask);
 
-            _context.Raft.Queries.TryGetClosestPerimeterNode(_tentacle.transform.position, out RaftPerimeterNode node);
+            for (int i = 0; i < overlaps; i++)
+            {
+                if (!Utils.Physics.ColliderTryGetComponent(_tileOverlapsNonAlloc[i], out RaftTile tile))
+                {
+                    continue;
+                }
+
+                if (!tile.EntityDefeatLogic.IsDefeated)
+                {
+                    _tentacle.SetSlamDirection(_tentacle.transform.forward);
+                    _parentStateMachine.ChangeState(ETentacleState.Slam);
+                    return;
+                }
+            }
+
+            _context.Raft.Queries.TryGetClosestPerimeterNode(_tentacle.transform.position, (RaftPerimeterNode node) => !node.Tile.EntityDefeatLogic.IsDefeated, out RaftPerimeterNode node);
 
             float closestDistance = Mathf.Infinity;
             Vector3 closestDirection3d = Vector3.zero;
@@ -126,28 +148,30 @@ namespace NoMoreFishAndChips.Entities
             Vector3 perpendicularDirection3d = Vector3.Cross(closestDirection3d, Vector3.up);
             Vector2Int perpendicularDirection2d = new Vector2Int((int)perpendicularDirection3d.x, (int)perpendicularDirection3d.z);
 
-            float min = -0.5f;
+            float perpendicularMin = -0.5f;
 
             if (_context.Raft.Tiles.ContainsKey(approachCell - perpendicularDirection2d))
             {
-                min += _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
+                perpendicularMin += _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
             }
 
-            float max = 0.5f;
+            float perpendicularMax = 0.5f;
 
             if (_context.Raft.Tiles.ContainsKey(approachCell + perpendicularDirection2d))
             {
-                max -= _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
+                perpendicularMax -= _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
             }
 
-            min = Mathf.Min(min, 0f);
-            max = Mathf.Max(max, 0f);
+            perpendicularMin = Mathf.Min(perpendicularMin, 0f);
+            perpendicularMax = Mathf.Max(perpendicularMax, 0f);
 
-            targetPosition += perpendicularDirection3d * Random.Range(min, max);
+            targetPosition += perpendicularDirection3d * Random.Range(perpendicularMin, perpendicularMax);
 
             _approachPosition = _context.Raft.Queries.WorldPositionToStructurePosition(targetPosition);
 
             _pathNavigator = new PathNavigator(_context.EnvironmentGameplayReferences.Ocean, _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius);
+
+            _tentacle.SetSlamDirection(-closestDirection3d);
         }
 
         private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
@@ -188,7 +212,7 @@ namespace NoMoreFishAndChips.Entities
                 direction.Normalize();
 
                 _tentacle.CharacterPhysicsLogic.Move(direction, _settings.MoveSpeed, _settings.MoveAcceleration);
-                _tentacle.CharacterPhysicsLogic.Look(direction, _settings.RotateSpeed);
+                _tentacle.CharacterPhysicsLogic.Rotate(direction, _settings.RotateSpeed);
             }
         }
 
@@ -212,7 +236,7 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _tentacle.DefinitionData.SlamSettings;
 
-            _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.HitboxData, _tentacle, new SpawnParams() { Position = _tentacle.transform.position + _tentacle.transform.forward * 1.5f, Rotation = _tentacle.transform.rotation })));
+            _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_settings.HitboxData, _tentacle, new SpawnParams() { Position = _tentacle.transform.position + _tentacle.transform.forward, Rotation = _tentacle.transform.rotation })));
             _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(ETentacleState.Approach)));
         }
 
@@ -232,6 +256,13 @@ namespace NoMoreFishAndChips.Entities
                 _tentacle.EntityModel.SetAnimatorTrigger(Tentacle.SlamTriggerName);
                 _tentacle.EntityModel.Animator.SetBool(Tentacle.IsChargingBoolName, false);
             }
+        }
+
+        public override void FixedTick()
+        {
+            base.FixedTick();
+
+            _tentacle.CharacterPhysicsLogic.Rotate(_tentacle.SlamDirection, _settings.RotateSpeed);
         }
     }
 

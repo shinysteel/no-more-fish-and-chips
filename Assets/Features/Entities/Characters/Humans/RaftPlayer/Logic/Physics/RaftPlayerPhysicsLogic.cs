@@ -76,7 +76,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             MoveFixedTick();
-            LookFixedTick();
+            RotateFixedTick();
             JumpFixedTick();
             ClimbFixedTick();
         }
@@ -102,7 +102,7 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void LookFixedTick()
+        private void RotateFixedTick()
         {
             Vector3 direction;
 
@@ -134,7 +134,7 @@ namespace NoMoreFishAndChips.Entities
 
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            float speed = _settings.Look.Speed;
+            float speed = _settings.Rotate.Speed;
 
             _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
         }
