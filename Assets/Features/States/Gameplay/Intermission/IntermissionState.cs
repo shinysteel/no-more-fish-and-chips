@@ -101,7 +101,7 @@ namespace NoMoreFishAndChips.States
             }
 
             Vector2Int cell = _context.Raft.Queries.Axes[Axis.Vertical].TryGetLinesBounds(out IntRange bounds)
-                ? _context.Raft.Queries.Axes[Axis.Vertical].Lines[bounds.Min].MinEdge.Node.Cell
+                ? _context.Raft.Queries.Axes[Axis.Vertical].Lines[bounds.Min].MinEdge.Node.Tile.Cell
                 : -Vector2Int.one;
 
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;

@@ -29,13 +29,13 @@ namespace ShinyOwl.Common.Utils
                 }
             }
 
-            public static void RemoveDictionaryKeys<T, U>(Dictionary<T, U> dictionary, Func<KeyValuePair<T, U>, bool> condition)
+            public static void RemoveDictionaryKeys<T, U>(Dictionary<T, U> dictionary, Func<KeyValuePair<T, U>, bool> predicate)
             {
                 List<T> list = ListPool<T>.Get();
 
                 foreach (KeyValuePair<T, U> kvp in dictionary)
                 {
-                    if (condition(kvp))
+                    if (predicate(kvp))
                     {
                         list.Add(kvp.Key);
                     }

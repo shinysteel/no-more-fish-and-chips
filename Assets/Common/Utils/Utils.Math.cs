@@ -81,11 +81,11 @@ namespace ShinyOwl.Common.Utils
                 return ManhattanDistance(cellA, cellB) == 1;
             }
 
-            public static bool HasAdjacency<T>(IReadOnlyDictionary<Vector2Int, T> dictionary, Vector2Int cell, Func<T, bool> condition)
+            public static bool HasAdjacency<T>(IReadOnlyDictionary<Vector2Int, T> dictionary, Vector2Int cell, Func<T, bool> predicate)
             {
                 bool adjacent(Vector2Int cell)
                 {
-                    return dictionary.TryGetValue(cell, out T value) && (condition?.Invoke(value) ?? true);
+                    return dictionary.TryGetValue(cell, out T value) && (predicate?.Invoke(value) ?? true);
                 }
 
                 for (int i = -1; i <= 1; i += 2)

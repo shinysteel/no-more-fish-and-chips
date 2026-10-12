@@ -1,3 +1,4 @@
+using NoMoreFishAndChips.Entities;
 using ShinyOwl.Common.Utils;
 using System;
 using System.Collections.Generic;
@@ -34,9 +35,9 @@ namespace NoMoreFishAndChips.Environments
             _nodes = new();
         }
 
-        public void AddNode(int axisIndex)
+        public void AddNode(int axisIndex, RaftTile tile)
         {
-            _nodes.Add(axisIndex, new RaftLineNode(axisIndex, this));
+            _nodes.Add(axisIndex, new RaftLineNode(this, axisIndex, tile));
 
             RefreshEdges();
         }

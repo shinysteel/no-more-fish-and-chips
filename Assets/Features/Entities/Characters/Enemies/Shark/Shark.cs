@@ -238,7 +238,7 @@ namespace NoMoreFishAndChips.Entities
                 {
                     foreach (RaftLineNode node in _shark._targetNodes)
                     {
-                        if (node != null && _shark._context.Raft.Tiles.TryGetValue(node.Cell, out RaftTile tile))
+                        if (node != null && _shark._context.Raft.Tiles.TryGetValue(node.Tile.Cell, out RaftTile tile))
                         {
                             tiles.Add(tile);
                         }

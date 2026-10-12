@@ -58,7 +58,7 @@ namespace NoMoreFishAndChips.Environments
                     RefreshLinesBounds();
                 }
 
-                _lines[lineIndex].AddNode(axisIndex);
+                _lines[lineIndex].AddNode(axisIndex, tile);
             }
             else
             {

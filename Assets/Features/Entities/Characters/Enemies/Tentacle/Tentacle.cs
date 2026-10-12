@@ -13,25 +13,27 @@ namespace NoMoreFishAndChips.Entities
         private StateMachine<ETentacleState> _stateMachine;
 
         private StateAnimationEvents _slamImpactStateAnimationEvents;
+        public StateAnimationEvents SlamImpactStateAnimationEvents => _slamImpactStateAnimationEvents;
 
         private const string BaseLayerName = "Base Layer";
 
-        private const string IsChargingBoolName = "IsCharging";
+        public const string IsChargingBoolName = "IsCharging";
 
-        private const string SlamTriggerName = "Slam";
-        private const string RetreatTriggerName = "Retreat";
+        public const string SlamTriggerName = "Slam";
 
         private const string SlamImpactStateName = BaseLayerName + ".Slam.Impact";
 
         protected override void Awake()
         {
             base.Awake();
+
+            _slamImpactStateAnimationEvents = new StateAnimationEvents(SlamImpactStateName, false);
             
             _stateMachine = new();
 
             _stateMachine.AddState(ETentacleState.Arrive, new TentacleArriveState(_stateMachine, this));
-            _stateMachine.AddState(ETentacleState.Slam, new TentacleSlamState(_stateMachine, this));
             _stateMachine.AddState(ETentacleState.Approach, new TentacleApproachState(_stateMachine, this));
+            _stateMachine.AddState(ETentacleState.Slam, new TentacleSlamState(_stateMachine, this));
             _stateMachine.AddState(ETentacleState.Stun, new TentacleStunState(_stateMachine, this));
         }
 
@@ -47,11 +49,6 @@ namespace NoMoreFishAndChips.Entities
             base.OnSpawned();
 
             EntityDefeatLogic.OnIsDefeatedChanged += HandleDefeatedChanged;
-
-            if (isOwner)
-            {
-                _stateMachine.ChangeState(ETentacleState.Arrive);
-            }
         }
 
         public override void InitialiseContext(GameplayContext context)
@@ -61,6 +58,11 @@ namespace NoMoreFishAndChips.Entities
             foreach (TentacleState state in _stateMachine)
             {
                 state.InitialiseContext(_context);
+            }
+
+            if (isOwner)
+            {
+                _stateMachine.ChangeState(ETentacleState.Arrive);
             }
         }
 
@@ -86,6 +88,16 @@ namespace NoMoreFishAndChips.Entities
             if (isOwner && isFullySpawned)
             {
                 _stateMachine.Tick();
+            }
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (isOwner && isFullySpawned)
+            {
+                _stateMachine.FixedTick();
             }
         }
 

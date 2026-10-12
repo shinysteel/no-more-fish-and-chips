@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Environments
 
         public IReadOnlyDictionary<Axis, RaftAxis> Axes => _axes;
 
-        private Dictionary<Vector2Int, RaftPerimeterCell> _perimeter = new();
+        private Dictionary<Vector2Int, RaftPerimeterNode> _perimeter = new();
 
         private Vector2 _tileCellTotal;
 
@@ -66,13 +66,13 @@ namespace NoMoreFishAndChips.Environments
             void processCell(Vector2Int offset)
             {
                 Vector2Int cell = tileCell + offset;
-                bool on = OnPerimeter(cell, out RaftPerimeterCell perimeterCell);
+                bool on = TryCreatePerimeterNode(cell, out RaftPerimeterNode node);
 
                 if (!_perimeter.ContainsKey(cell))
                 {
                     if (on)
                     {
-                        _perimeter.Add(cell, perimeterCell);
+                        _perimeter.Add(cell, node);
                     }
                 }
                 else
@@ -87,10 +87,6 @@ namespace NoMoreFishAndChips.Environments
             for (int i = -1; i <= 1; i++)
             {
                 processCell(new Vector2Int(i, 0));
-            }
-
-            for (int i = -1; i <= 1; i += 2)
-            {
                 processCell(new Vector2Int(0, i));
             }
         }
@@ -262,21 +258,36 @@ namespace NoMoreFishAndChips.Environments
                 verticalLine.MaxEdge
             };
 
-            int minDistance = edges.Min(edge => (cell - edge.Node.Cell).sqrMagnitude);
+            int minDistance = edges.Min(edge => (cell - edge.Node.Tile.Cell).sqrMagnitude);
 
             closestEdge = edges
-                .Where(edge => (cell - edge.Node.Cell).sqrMagnitude == minDistance)
+                .Where(edge => (cell - edge.Node.Tile.Cell).sqrMagnitude == minDistance)
                 .OrderBy(_ => Random.value)
                 .First();
 
             return true;
         }
 
-        private bool OnPerimeter(Vector2Int cell, out RaftPerimeterCell perimeterCell)
+        public bool TryGetClosestPerimeterNode(Vector3 position, out RaftPerimeterNode node)
         {
-            perimeterCell = null;
+            node = null;
 
-            if (!_raft.Tiles.ContainsKey(cell))
+            if (_perimeter.Count == 0)
+            {
+                return false;
+            }
+
+            node = _perimeter.Values.OrderBy(node => Vector3.Distance(node.Tile.transform.position, position)).First();
+
+            return true;
+        }
+
+        // Creates a perimeter node if the given cell is on the perimeter
+        private bool TryCreatePerimeterNode(Vector2Int cell, out RaftPerimeterNode node)
+        {
+            node = null;
+
+            if (!_raft.Tiles.TryGetValue(cell, out RaftTile tile))
             {
                 return false;
             }
@@ -289,7 +300,7 @@ namespace NoMoreFishAndChips.Environments
                 {
                     if (!_raft.Tiles.ContainsKey(cell + offset))
                     {
-                        openDirections.Add(new Vector3(cell.x + offset.x, 0f, cell.y + offset.y));
+                        openDirections.Add(new Vector3(offset.x, 0f, offset.y));
                     }
                 }
 
@@ -299,10 +310,10 @@ namespace NoMoreFishAndChips.Environments
 
             if (openDirections.Count > 0)
             {
-                perimeterCell = new RaftPerimeterCell(cell, openDirections);
+                node = new RaftPerimeterNode(tile, openDirections);
             }
                 
-            return perimeterCell != null;
+            return node != null;
         }
     }
 }
