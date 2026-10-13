@@ -12,6 +12,9 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<ETentacleState> _stateMachine;
 
+        private StateAnimationEvents _slamChargeStateAnimationEvents;
+        public StateAnimationEvents SlamChargeStateAnimationEvents => _slamChargeStateAnimationEvents;
+
         private StateAnimationEvents _slamImpactStateAnimationEvents;
         public StateAnimationEvents SlamImpactStateAnimationEvents => _slamImpactStateAnimationEvents;
 
@@ -24,11 +27,15 @@ namespace NoMoreFishAndChips.Entities
 
         public const string SlamTriggerName = "Slam";
 
+        private const string SlamChargeStateName = BaseLayerName + ".Slam.Charge";
         private const string SlamImpactStateName = BaseLayerName + ".Slam.Impact";
 
         protected override void Awake()
         {
             base.Awake();
+            
+            // canLoop is set to false so that an SFX only plays once
+            _slamChargeStateAnimationEvents = new StateAnimationEvents(SlamChargeStateName, false);
 
             _slamImpactStateAnimationEvents = new StateAnimationEvents(SlamImpactStateName, false);
             
@@ -86,6 +93,8 @@ namespace NoMoreFishAndChips.Entities
             base.Update();
 
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
+
+            _slamChargeStateAnimationEvents.Tick(info);
             _slamImpactStateAnimationEvents.Tick(info);
 
             if (isOwner && isFullySpawned)

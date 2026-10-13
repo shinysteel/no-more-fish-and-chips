@@ -40,6 +40,8 @@ namespace NoMoreFishAndChips.Audio
         DroppedItemDrop,
         FishingBagPanelOpen,
         CraftingKitPanelOpen,
-        BuildingKitPanelOpen
+        BuildingKitPanelOpen,
+        TentacleCharge,
+        TentacleSlam
     }
 }

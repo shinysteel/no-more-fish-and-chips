@@ -280,9 +280,9 @@ namespace NoMoreFishAndChips.Environments
             node = _perimeter.Values
                 .Where(node => predicate(node))
                 .OrderBy(node => Vector3.Distance(node.Tile.transform.position, position))
-                .First();
+                .FirstOrDefault();
 
-            return true;
+            return node != null;
         }
 
         // Creates a perimeter node if the given cell is on the perimeter
