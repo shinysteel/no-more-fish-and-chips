@@ -179,8 +179,16 @@ namespace NoMoreFishAndChips.Hitboxes
                 Physics.ComputePenetration(collision.Collider, collision.Collider.transform.position, collision.Collider.transform.rotation, 
                     collision.OtherCollider, collision.OtherCollider.transform.position, collision.OtherCollider.transform.rotation, out Vector3 direction, out _);
 
-                // Inverting penetration will produce the best direction to separate collider from otherColider
-                direction = -direction;
+                if (direction != Vector3.down)
+                {
+                    // Inverting penetration will produce the best direction to separate collider from otherColider
+                    direction = -direction;
+                }
+                else
+                {
+                    // An alternative direction is needed when penetrating a cuboid from above
+                    direction = (collision.OtherCollider.transform.position - collision.Collider.transform.position).normalized;
+                }
 
                 collision.Entity.HitRpc(collision.Entity.owner.Value, _data.Hit, direction);
 

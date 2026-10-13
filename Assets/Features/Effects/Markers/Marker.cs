@@ -42,6 +42,7 @@ namespace NoMoreFishAndChips.Effects
             SetNetMarker(netMarker);
 
             PositionUpdate(1f);
+            RotationUpdate(1f);
 
             _scaleTween = Tween.Custom(startValue: 0f, endValue: 1f, duration: 0.5f, ease: Ease.OutBack, onValueChange: (float value) =>
             {
@@ -61,6 +62,7 @@ namespace NoMoreFishAndChips.Effects
         private void Update()
         {
             PositionUpdate(Time.deltaTime);
+            RotationUpdate(Time.deltaTime);
             ScaleUpdate();
             BlendUpdate(Time.deltaTime);
         }
@@ -72,7 +74,7 @@ namespace NoMoreFishAndChips.Effects
             Vector3 overlapPosition = _netMarker.GetPosition();
             overlapPosition.y = 0.0625f;
             
-            int overlaps = Physics.OverlapBoxNonAlloc(overlapPosition, _netMarker.GetScale() * 0.5f, _tileCollidersNonAlloc, Quaternion.identity, _tileMask);
+            int overlaps = Physics.OverlapBoxNonAlloc(overlapPosition, _netMarker.GetScale() * 0.5f, _tileCollidersNonAlloc, _netMarker.GetRotation(), _tileMask);
 
             for (int i = 0; i < overlaps; i++)
             {
@@ -83,6 +85,11 @@ namespace NoMoreFishAndChips.Effects
             targetPosition.y = y;
 
             transform.position = Vector3.Lerp(transform.position, targetPosition, _transformSpeed * deltaTime);
+        }
+
+        private void RotationUpdate(float deltaTime)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _netMarker.GetRotation(), _transformSpeed * deltaTime);
         }
 
         private void ScaleUpdate()

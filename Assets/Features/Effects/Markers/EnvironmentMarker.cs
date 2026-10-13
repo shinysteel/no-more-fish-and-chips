@@ -69,10 +69,10 @@ namespace NoMoreFishAndChips.Effects
                 clear: (Marker marker) => _poolManager.ReturnTypedPoolable(marker));
         }
 
-        public NetMarkerHandle CreateNetMarker(Vector3 position, Vector3 scale, float blend)
+        public NetMarkerHandle CreateNetMarker(Vector3 position, Quaternion rotation, Vector3 scale, float blend)
         {
             int id = _idCounter++;
-            NetMarker marker = new NetMarker(position, scale, blend);
+            NetMarker marker = new NetMarker(position, rotation, scale, blend);
 
             _netMarkers.Add(id, marker);
 

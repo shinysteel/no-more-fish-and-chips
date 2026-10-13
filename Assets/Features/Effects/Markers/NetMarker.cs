@@ -1,4 +1,5 @@
 using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Effects
@@ -6,13 +7,15 @@ namespace NoMoreFishAndChips.Effects
     public class NetMarker
     {
         private Vector2 _position;
+        private float _rotation;
         private Vector2 _scale;
 
         public float Blend { get; private set; }
 
-        public NetMarker(Vector3 position, Vector3 scale, float blend)
+        public NetMarker(Vector3 position, Quaternion rotation, Vector3 scale, float blend)
         {
             SetPosition(position);
+            SetRotation(rotation);
             SetScale(scale);
             SetBlend(blend);
         }
@@ -20,6 +23,11 @@ namespace NoMoreFishAndChips.Effects
         public Vector3 GetPosition()
         {
             return new Vector3(_position.x, 0f, _position.y);
+        }
+
+        public Quaternion GetRotation()
+        {
+            return Quaternion.AngleAxis(_rotation, Vector3.up);
         }
 
         public Vector3 GetScale()
@@ -30,6 +38,20 @@ namespace NoMoreFishAndChips.Effects
         public void SetPosition(Vector3 position)
         {
             _position = new Vector2(position.x, position.z);
+        }
+
+        public void SetRotation(Quaternion rotation)
+        {
+            Vector3 direction = rotation * Vector3.forward;
+
+            float degrees = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+            if (degrees < 0f)
+            {
+                degrees += 360f;
+            }
+
+            _rotation = degrees;
         }
 
         public void SetScale(Vector3 scale)

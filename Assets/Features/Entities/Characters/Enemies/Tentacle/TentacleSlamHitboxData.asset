@@ -21,17 +21,19 @@ MonoBehaviour:
   _mask:
     serializedVersion: 2
     m_Bits: 4294967295
-  _limits: []
+  _limits:
+  - _layer: 8
+    _count: 2
   _steps:
   - _shape: 0
-    _offset: {x: 0, y: 0.25, z: -0.5}
-    _size: {x: 0.5, y: 1, z: 1}
+    _offset: {x: 0, y: 0.25, z: -0.375}
+    _size: {x: 0.5, y: 1, z: 0.75}
     _radius: 0
-    _startTime: 0.1
+    _startTime: 0
     _duration: 0.1
   - _shape: 0
-    _offset: {x: 0, y: 0.25, z: 0.5}
-    _size: {x: 0.5, y: 1, z: 1}
+    _offset: {x: 0, y: 0.25, z: 0.375}
+    _size: {x: 0.5, y: 1, z: 0.75}
     _radius: 0
-    _startTime: 0.2
+    _startTime: 0.1
     _duration: 0.1

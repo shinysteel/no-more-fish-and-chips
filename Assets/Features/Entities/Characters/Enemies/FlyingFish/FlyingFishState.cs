@@ -192,7 +192,7 @@ namespace NoMoreFishAndChips.Entities
 
             await Utils.Tasks.WaitForFixedUpdateAsync();
 
-            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), _settings.MarkerScale, 0f);
+            _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(CalculateMarkerPosition(), Quaternion.identity, _settings.MarkerScale, 0f);
         }
 
         public override void Exit()

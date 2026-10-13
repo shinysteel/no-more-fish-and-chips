@@ -1,4 +1,5 @@
 using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Effects;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Hitboxes;
 using NoMoreFishAndChips.States;
@@ -263,6 +264,8 @@ namespace NoMoreFishAndChips.Entities
 
         private TentacleSlamSettings _settings;
 
+        private NetMarkerHandle _netMarkerHandle;
+
         public TentacleSlamState(StateMachine<ETentacleState> parent, Tentacle tentacle) : base(parent, tentacle)
         {
             _hitboxManager = GameManager.Instance.Get<HitboxManager>();
@@ -270,15 +273,35 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _tentacle.DefinitionData.SlamSettings;
 
-            _tentacle.SlamChargeStateAnimationEvents.Add(new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.TentacleCharge, 0f)));
+            _tentacle.SlamChargeStateAnimationEvents.Add(new StateAnimationEvent(0f, () =>
+            {
+                if (_tentacle.isOwner)
+                {
+                    _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(_tentacle.transform.position + _tentacle.transform.forward * 1.25f, _tentacle.transform.rotation, new Vector3(0.5f, 1f, 1.5f), 0f);
+                }
+
+                _audioManager.PlaySound(SoundId.TentacleCharge, 0f);
+            }));
 
             _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(0.33f, () =>
             {
-                _hitboxManager.SpawnHitbox(_settings.HitboxData, _tentacle, new SpawnParams() { Position = _tentacle.transform.position + _tentacle.transform.forward, Rotation = _tentacle.transform.rotation });
+                if (_tentacle.isOwner)
+                {
+                    _hitboxManager.SpawnHitbox(_settings.HitboxData, _tentacle, new SpawnParams() { Position = _tentacle.transform.position + _tentacle.transform.forward, Rotation = _tentacle.transform.rotation });
+
+                    RemoveMarker();
+                }
+
                 _audioManager.PlaySound(SoundId.TentacleSlam, 0f);
             }));
 
-            _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(ETentacleState.Approach)));
+            _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
+            {
+                if (_tentacle.isOwner)
+                {
+                    _parentStateMachine.ChangeState(ETentacleState.Approach);
+                }
+            }));
         }
 
         public override void Enter()
@@ -292,6 +315,9 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Tick();
 
+            _netMarkerHandle?.SetPosition(_tentacle.transform.position + _tentacle.transform.forward);
+            _netMarkerHandle?.SetRotation(_tentacle.transform.rotation);
+
             if (_stateTimer - Time.deltaTime < _settings.ChargeDuration && _stateTimer >= _settings.ChargeDuration)
             {
                 _tentacle.EntityModel.SetAnimatorTrigger(Tentacle.SlamTriggerName);
@@ -304,6 +330,19 @@ namespace NoMoreFishAndChips.Entities
             base.FixedTick();
 
             _tentacle.CharacterPhysicsLogic.Rotate(_tentacle.SlamDirection, _settings.RotateSpeed);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            RemoveMarker();
+        }
+
+        private void RemoveMarker()
+        {
+            _netMarkerHandle?.Remove();
+            _netMarkerHandle = null;
         }
     }
 

@@ -28,6 +28,17 @@ namespace NoMoreFishAndChips.Effects
             SetDirty();
         }
 
+        public void SetRotation(Quaternion rotation)
+        {
+            if (rotation == _netMarker.GetRotation())
+            {
+                return;
+            }
+
+            _netMarker.SetRotation(rotation);
+            SetDirty();
+        }
+
         public void SetScale(Vector3 scale)
         {
             if (scale == _netMarker.GetScale())
