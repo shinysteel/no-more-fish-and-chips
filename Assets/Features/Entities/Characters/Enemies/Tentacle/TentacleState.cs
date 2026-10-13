@@ -107,7 +107,16 @@ namespace NoMoreFishAndChips.Entities
             // Otherwise, determine how to approach the raft
             else
             {
-                DetermineApproach();
+                _tentacle.CharacterNavigateLogic.StartNavigation(_context.EnvironmentGameplayReferences.Ocean, DetermineTargetPosition(),
+                    onTrySetPath: (bool set) =>
+                    {
+                        if (!set)
+                        {
+                            _tentacle.CharacterNavigateLogic.SetTargetPosition(DetermineTargetPosition());
+                        }
+                    },
+                    onPathStale: () => _tentacle.CharacterNavigateLogic.SetTargetPosition(DetermineTargetPosition()),
+                    onDestinationReached: () => _parentStateMachine.ChangeState(ETentacleState.Slam));
             }
         }
 
@@ -137,12 +146,12 @@ namespace NoMoreFishAndChips.Entities
             return false;
         }
 
-        private void DetermineApproach()
+        private Vector2 DetermineTargetPosition()
         {
             // Find the closest perimeter node. Note: there is a scenario where all remaining tiles are 'defeated'
             if (!_context.Raft.Queries.TryGetClosestPerimeterNode(_tentacle.transform.position, (RaftPerimeterNode node) => !node.Tile.EntityDefeatLogic.IsDefeated, out RaftPerimeterNode node))
             {
-                return;
+                return Vector2.zero;
             }
 
             // Find the closest side
@@ -166,9 +175,9 @@ namespace NoMoreFishAndChips.Entities
             _tentacle.SetSlamDirection(-closestDirection3d);
 
             // Approach from that side
-            Vector3 targetPosition3d = _context.Raft.Queries.TileCellToWorldPosition(node.Tile.Cell);
-            targetPosition3d += closestDirection3d * 0.5f;
-            targetPosition3d += closestDirection3d * _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
+            Vector3 targetPosition = _context.Raft.Queries.TileCellToWorldPosition(node.Tile.Cell);
+            targetPosition += closestDirection3d * 0.5f;
+            targetPosition += closestDirection3d * _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
 
             // Add some perpendicular randomness
             Vector2Int closestDirection2d = new Vector2Int((int)closestDirection3d.x, (int)closestDirection3d.z);
@@ -182,14 +191,8 @@ namespace NoMoreFishAndChips.Entities
             perpendicularMin = Mathf.Min(perpendicularMin, 0f);
             perpendicularMax = Mathf.Max(perpendicularMax, 0f);
 
-            targetPosition3d += perpendicularDirection3d * Random.Range(perpendicularMin, perpendicularMax);
-
-            Vector3 targetPosition2d = _context.Raft.Queries.WorldPositionToStructurePosition(targetPosition3d);
-
-            _tentacle.CharacterNavigateLogic.StartNavigation(_context.EnvironmentGameplayReferences.Ocean, targetPosition2d,
-                onTrySetPath: null,
-                onPathStale: () => DetermineApproach(),
-                onDestinationReached: () => _parentStateMachine.ChangeState(ETentacleState.Slam));
+            targetPosition += perpendicularDirection3d * Random.Range(perpendicularMin, perpendicularMax);
+            return _context.Raft.Queries.WorldPositionToStructurePosition(targetPosition);
         }
     }
 

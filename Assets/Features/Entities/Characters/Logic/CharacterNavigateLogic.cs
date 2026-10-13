@@ -19,10 +19,10 @@ namespace NoMoreFishAndChips.Entities
             _settings = character.CharacterDefinitionData.NavigateSettings;
         }
 
-        public void StartNavigation(IPathFindable findable, Vector3 targetPosition, Action<bool> onTrySetPath, Action onPathStale, Action onDestinationReached)
+        public void StartNavigation(IPathFindable findable, Vector2 targetPosition, Action<bool> onTrySetPath, Action onPathStale, Action onDestinationReached)
         {
             _pathNavigator = new PathNavigator(findable, _character.CharacterPhysicsLogic.CapsuleCollider.radius);
-            _targetPosition = targetPosition;
+            SetTargetPosition(targetPosition);
             _onTrySetPath = onTrySetPath;
             _onPathStale = onPathStale;
             _onDestinationReached = onDestinationReached;
@@ -34,13 +34,18 @@ namespace NoMoreFishAndChips.Entities
         public void StopNavigation()
         {
             _pathNavigator = null;
-            _targetPosition = Vector3.zero;
+            SetTargetPosition(Vector2.zero);
             _onTrySetPath = null;
             _onPathStale = null;
             _onDestinationReached = null;
 
             _context.Raft.OnTileChanged -= HandleTileChanged;
             _context.Raft.OnStructureChanged -= HandleStructureChanged;
+        }
+
+        public void SetTargetPosition(Vector2 position)
+        {
+            _targetPosition = position;
         }
 
         private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
@@ -55,9 +60,12 @@ namespace NoMoreFishAndChips.Entities
 
         private void ClearPath()
         {
-            _pathNavigator.ClearPath();
+            if (_pathNavigator != null)
+            {
+                _pathNavigator.ClearPath();
 
-            _onPathStale?.Invoke();
+                _onPathStale?.Invoke();
+            }
         }
 
         public override void Tick()
