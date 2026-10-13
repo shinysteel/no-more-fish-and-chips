@@ -27,6 +27,7 @@ MonoBehaviour:
   _entityLifecycleSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
   _entityPhysicsSettings: {fileID: 11400000, guid: 4b5bf818b8bf9aa4ebab2db38fe36cf7, type: 2}
   _actSettings: {fileID: 11400000, guid: 1c135009443135c48b9ef778e0500303, type: 2}
+  _navigateSettings: {fileID: 11400000, guid: 811a3a8e1ee2f324a9191ed5f9856b8b, type: 2}
   _glideDistance: 2
   _glideMask:
     serializedVersion: 2
@@ -62,10 +63,6 @@ MonoBehaviour:
       _idleRange:
         _min: 2
         _max: 3
-    _roamSettings:
-      _moveSpeed: 1
-      _moveAcceleration: 20
-      _rotateSpeed: 7.5
     _squawkSettings:
       _hitboxData: {fileID: 11400000, guid: 57098d4ca57a1394e92017fcc2c88605, type: 2}
   _waterSettings:

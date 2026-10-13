@@ -100,13 +100,11 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private float _squawkRange = 0.5f;
         [SerializeField] private LayerMask _squawkMask;
         [SerializeField] private SeabirdGroundIdleSettings _idleSettings;
-        [SerializeField] private SeabirdGroundRoamSettings _roamSettings;
         [SerializeField] private SeabirdGroundSquawkSettings _squawkSettings;
 
         public float SquawkRange => _squawkRange;
         public LayerMask SquawkMask => _squawkMask;
         public SeabirdGroundIdleSettings IdleSettings => _idleSettings;
-        public SeabirdGroundRoamSettings RoamSettings => _roamSettings;
         public SeabirdGroundSquawkSettings SquawkSettings => _squawkSettings;
     }
 
@@ -116,18 +114,6 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private FloatRange _idleRange = new FloatRange(2f, 3f);
 
         public FloatRange IdleRange => _idleRange;
-    }
-
-    [Serializable]
-    public class SeabirdGroundRoamSettings
-    {
-        [SerializeField] private float _moveSpeed = 1f;
-        [SerializeField] private float _moveAcceleration = 10f;
-        [SerializeField] private float _rotateSpeed = 7.5f;
-
-        public float MoveSpeed => _moveSpeed;
-        public float MoveAcceleration => _moveAcceleration;
-        public float RotateSpeed => _rotateSpeed;
     }
 
     [Serializable]

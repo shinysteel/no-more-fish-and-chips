@@ -32,5 +32,10 @@ namespace NoMoreFishAndChips.Entities
         {
             return new CharacterActLogic(character);
         }
+
+        public CharacterNavigateLogic CreateNavigateLogic(Character character)
+        {
+            return new CharacterNavigateLogic(character);
+        }
     }
 }

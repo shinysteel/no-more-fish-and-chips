@@ -531,15 +531,8 @@ namespace NoMoreFishAndChips.Entities
 
     public class SeabirdGroundRoamState : SeabirdGroundSubState
     {
-        private SeabirdGroundRoamSettings _settings;
-
-        private Vector2 _roamPosition;
-        private PathNavigator _pathNavigator;
-
         public SeabirdGroundRoamState(StateMachine<ESeabirdGroundState> parent, Seabird seabird) : base(parent, seabird)
-        {
-            _settings = _seabird.DefinitionData.GroundSettings.RoamSettings;
-        }
+        { }
 
         public override void Enter()
         {
@@ -591,13 +584,23 @@ namespace NoMoreFishAndChips.Entities
                     return;
                 }
 
-                _roamPosition = structureCells[Random.Range(0, structureCells.Count)];
-                _roamPosition += new Vector2(Random.value - 0.75f, Random.value - 0.75f);
+                Vector2 targetPosition = structureCells[Random.Range(0, structureCells.Count)];
+                targetPosition += new Vector2(Random.value - 0.5f, Random.value - 0.5f);
 
-                _pathNavigator = new PathNavigator(_context.Raft, _seabird.CharacterPhysicsLogic.CapsuleCollider.radius);
-
-                _context.Raft.OnTileChanged += HandleTileChanged;
-                _context.Raft.OnStructureChanged += HandleStructureChanged;
+                _seabird.CharacterNavigateLogic.StartNavigation(_context.Raft, targetPosition,
+                    onTrySetPath: (bool set) =>
+                    {
+                        if (set)
+                        {
+                            _seabird.EntityModel.Animator.SetBool(Seabird.IsWalkingBoolName, true);
+                        }
+                        else
+                        {
+                            _parentStateMachine.ChangeState(ESeabirdGroundState.Idle);
+                        }
+                    },
+                    onPathStale: null,
+                    onDestinationReached: () => _parentStateMachine.ChangeState(ESeabirdGroundState.Idle));
             }
             finally
             {
@@ -605,69 +608,13 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
-        {
-            _pathNavigator.ClearPath();
-        }
-
-        private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
-        {
-            _pathNavigator.ClearPath();
-        }
-
-        public override void Tick()
-        {
-            base.Tick();
-
-            Vector2 position = _context.Raft.Queries.WorldPositionToStructurePosition(_seabird.transform.position);
-
-            if (!_pathNavigator.HasPath())
-            {
-                if (_pathNavigator.TrySetPath(position, _roamPosition))
-                {
-                    _seabird.EntityModel.Animator.SetBool(Seabird.IsWalkingBoolName, true);
-                }
-                else
-                {
-                    _parentStateMachine.ChangeState(ESeabirdGroundState.Idle);
-                    return;
-                }
-            }
-
-            _pathNavigator.Tick(position);
-
-            if (_pathNavigator.AtDestination())
-            {
-                _parentStateMachine.ChangeState(ESeabirdGroundState.Idle);
-            }
-        }
-
-        public override void FixedTick()
-        {
-            base.FixedTick();
-
-            if (_pathNavigator.HasPath())
-            {
-                Vector2 cellPosition = _pathNavigator.GetNextPosition();
-                Vector3 worldPosition = _context.Raft.Queries.StructurePositionToWorldPosition(cellPosition);
-
-                Vector3 direction = (worldPosition - _seabird.transform.position);
-                direction.y = 0f;
-                direction.Normalize();
-
-                _seabird.CharacterPhysicsLogic.Move(direction, _settings.MoveSpeed, _settings.MoveAcceleration);
-                _seabird.CharacterPhysicsLogic.Rotate(direction, _settings.RotateSpeed);
-            }
-        }
-
         public override void Exit()
         {
             base.Exit();
 
-            _seabird.EntityModel.Animator.SetBool(Seabird.IsWalkingBoolName, false);
+            _seabird.CharacterNavigateLogic.StopNavigation();
 
-            _context.Raft.OnTileChanged -= HandleTileChanged;
-            _context.Raft.OnStructureChanged -= HandleStructureChanged;
+            _seabird.EntityModel.Animator.SetBool(Seabird.IsWalkingBoolName, false);
         }
     }
 

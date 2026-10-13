@@ -89,10 +89,6 @@ namespace NoMoreFishAndChips.Entities
 
         private Collider[] _tileOverlapsNonAlloc = new Collider[4];
 
-        private Vector2 _approachPosition;
-
-        private PathNavigator _pathNavigator;
-
         public TentacleApproachState(StateMachine<ETentacleState> parent, Tentacle tentacle) : base(parent, tentacle)
         {
             _settings = _tentacle.DefinitionData.ApproachSettings;
@@ -102,9 +98,6 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Enter();
 
-            _context.Raft.OnTileChanged += HandleTileChanged;
-            _context.Raft.OnStructureChanged += HandleStructureChanged;
-            
             // If we are already facing a tile, go straight to slam state
             if (CanSlam())
             {
@@ -173,87 +166,30 @@ namespace NoMoreFishAndChips.Entities
             _tentacle.SetSlamDirection(-closestDirection3d);
 
             // Approach from that side
-            Vector3 approachPosition = _context.Raft.Queries.TileCellToWorldPosition(node.Tile.Cell);
-            approachPosition += closestDirection3d * 0.5f;
-            approachPosition += closestDirection3d * _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
+            Vector3 targetPosition3d = _context.Raft.Queries.TileCellToWorldPosition(node.Tile.Cell);
+            targetPosition3d += closestDirection3d * 0.5f;
+            targetPosition3d += closestDirection3d * _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
 
             // Add some perpendicular randomness
             Vector2Int closestDirection2d = new Vector2Int((int)closestDirection3d.x, (int)closestDirection3d.z);
-            Vector2Int approachCell = node.Tile.Cell + closestDirection2d;
+            Vector2Int targetCell = node.Tile.Cell + closestDirection2d;
             Vector3 perpendicularDirection3d = Vector3.Cross(closestDirection3d, Vector3.up);
             Vector2Int perpendicularDirection2d = new Vector2Int((int)perpendicularDirection3d.x, (int)perpendicularDirection3d.z);
 
-            float perpendicularMin = !_context.Raft.Tiles.ContainsKey(approachCell - perpendicularDirection2d) ? -0.5f : -0.5f + _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
-            float perpendicularMax = !_context.Raft.Tiles.ContainsKey(approachCell + perpendicularDirection2d) ? 0.5f : 0.5f - _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
+            float perpendicularMin = !_context.Raft.Tiles.ContainsKey(targetCell - perpendicularDirection2d) ? -0.5f : -0.5f + _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
+            float perpendicularMax = !_context.Raft.Tiles.ContainsKey(targetCell + perpendicularDirection2d) ? 0.5f : 0.5f - _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius;
 
             perpendicularMin = Mathf.Min(perpendicularMin, 0f);
             perpendicularMax = Mathf.Max(perpendicularMax, 0f);
 
-            approachPosition += perpendicularDirection3d * Random.Range(perpendicularMin, perpendicularMax);
+            targetPosition3d += perpendicularDirection3d * Random.Range(perpendicularMin, perpendicularMax);
 
-            _approachPosition = _context.Raft.Queries.WorldPositionToStructurePosition(approachPosition);
-            _pathNavigator = new PathNavigator(_context.EnvironmentGameplayReferences.Ocean, _tentacle.CharacterPhysicsLogic.CapsuleCollider.radius);
-        }
+            Vector3 targetPosition2d = _context.Raft.Queries.WorldPositionToStructurePosition(targetPosition3d);
 
-        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
-        {
-            RefreshApproach();
-        }
-
-        private void HandleStructureChanged(Vector2Int cell, Structure previous, Structure current)
-        {
-            RefreshApproach();
-        }
-
-        private void RefreshApproach()
-        {
-            _pathNavigator.ClearPath();
-            DetermineApproach();
-        }
-
-        public override void Tick()
-        {
-            base.Tick();
-
-            Vector2 position = _context.Raft.Queries.WorldPositionToStructurePosition(_tentacle.transform.position);
-
-            if (!_pathNavigator.HasPath())
-            {
-                _pathNavigator.TrySetPath(position, _approachPosition);
-            }
-
-            _pathNavigator.Tick(position);
-
-            if (_pathNavigator.AtDestination())
-            {
-                _parentStateMachine.ChangeState(ETentacleState.Slam);
-            }
-        }
-
-        public override void FixedTick()
-        {
-            base.FixedTick();
-
-            if (_pathNavigator.HasPath())
-            {
-                Vector2 cellPosition = _pathNavigator.GetNextPosition();
-                Vector3 worldPosition = _context.Raft.Queries.StructurePositionToWorldPosition(cellPosition);
-
-                Vector3 direction = (worldPosition - _tentacle.transform.position);
-                direction.y = 0f;
-                direction.Normalize();
-
-                _tentacle.CharacterPhysicsLogic.Move(direction, _settings.MoveSpeed, _settings.MoveAcceleration);
-                _tentacle.CharacterPhysicsLogic.Rotate(direction, _settings.RotateSpeed);
-            }
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            _context.Raft.OnTileChanged -= HandleTileChanged;
-            _context.Raft.OnStructureChanged -= HandleStructureChanged;
+            _tentacle.CharacterNavigateLogic.StartNavigation(_context.EnvironmentGameplayReferences.Ocean, targetPosition2d,
+                onTrySetPath: null,
+                onPathStale: () => DetermineApproach(),
+                onDestinationReached: () => _parentStateMachine.ChangeState(ETentacleState.Slam));
         }
     }
 

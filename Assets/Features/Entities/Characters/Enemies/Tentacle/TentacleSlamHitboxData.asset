@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Hitboxes.HitboxData
   _hit:
     _healthDamage: 1
-    _poiseDamage: 0.2
-    _forceStrength: 50
+    _poiseDamage: 1
+    _forceStrength: 30
     _torqueStrength: 0.5
-  _alliance: 1
+  _alliance: 2
   _mask:
     serializedVersion: 2
     m_Bits: 4294967295

@@ -15,6 +15,7 @@ namespace NoMoreFishAndChips.Entities
         public CharacterPhysicsLogic CharacterPhysicsLogic => (CharacterPhysicsLogic)EntityPhysicsLogic;
         public CharacterRagdollLogic CharacterRagdollLogic => GetLogic<CharacterRagdollLogic>();
         public CharacterActLogic CharacterActLogic => GetLogic<CharacterActLogic>();
+        public CharacterNavigateLogic CharacterNavigateLogic => GetLogic<CharacterNavigateLogic>();
 
         protected override EntityLogicFactory CreateLogicFactory()
         {
@@ -29,6 +30,7 @@ namespace NoMoreFishAndChips.Entities
 
             AddLogic(typeof(CharacterRagdollLogic), factory.CreateRagdollLogic(this));
             AddLogic(typeof(CharacterActLogic), factory.CreateActLogic(this));
+            AddLogic(typeof(CharacterNavigateLogic), factory.CreateNavigateLogic(this));
         }
 
         public override void HitRpc(PlayerID id, Hit hit, Vector3 direction)
