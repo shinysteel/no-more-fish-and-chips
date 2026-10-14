@@ -18,7 +18,7 @@ MonoBehaviour:
   _rarity: 0
   _id: 301
   _health: 1
-  _isDamageable: 0
+  _isDamageable: 1
   _alliance: 0
   _surfaceType: 0
   _dropTables:

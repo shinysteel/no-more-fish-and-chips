@@ -178,7 +178,7 @@ namespace NoMoreFishAndChips.Entities
         {
             Vector3 position = transform.position + DefinitionData.ElectrocuteSettings.Offset;
 
-            entity.HitRpc(entity.owner.Value, DefinitionData.ElectrocuteSettings.Hit, (entity.transform.position - position).normalized);
+            entity.Hit(DefinitionData.ElectrocuteSettings.Hit, (entity.transform.position - position).normalized);
 
             _audioManager.PlaySound(SoundId.TeslaElectrocute, 0f);
 

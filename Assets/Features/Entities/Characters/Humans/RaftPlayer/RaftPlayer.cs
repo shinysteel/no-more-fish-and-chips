@@ -147,9 +147,9 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        public override void HitRpc(PlayerID id, Hit hit, Vector3 direction)
+        protected override void HitLocal(Hit hit, Vector3 direction)
         {
-            base.HitRpc(id, hit, direction);
+            base.HitLocal(hit, direction);
 
             // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
             if (isSpawned)
@@ -158,35 +158,120 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public void SetPosition(Vector3 position)
+        {
+            if (isOwner)
+            {
+                SetPositionLocal(position);
+            }
+            else
+            {
+                SetPositionRpc(owner.Value, position);
+            }
+        }
+
         [TargetRpc]
-        public void SetPositionRpc(PlayerID id, Vector3 position)
+        private void SetPositionRpc(PlayerID id, Vector3 position)
+        {
+            SetPositionLocal(position);
+        }
+
+        private void SetPositionLocal(Vector3 position)
         {
             // Since interpolation is enabled, we need to teleport via rigidbody.position
             _rigidbody.position = new Vector3(Random.Range(-4f, 4f), 0.5f, 5f);
         }
 
+        public void SetNetInBarrel(bool barrel)
+        {
+            if (isOwner)
+            {
+                SetNetInBarrelLocal(barrel);
+            }
+            else
+            {
+                SetNetInBarrelRpc(owner.Value, barrel);
+            }
+        }
+
         [TargetRpc]
-        public void SetNetInBarrelRpc(PlayerID id, bool barrel)
+        private void SetNetInBarrelRpc(PlayerID id, bool barrel)
+        {
+            SetNetInBarrelLocal(barrel);
+        }
+
+        private void SetNetInBarrelLocal(bool barrel)
         {
             _netInBarrel.value = barrel;
         }
 
+        public async Task<AddInventoryItemResponse> AddInventoryItem(Inventory inventory, InventoryChangeParams parameters)
+        {
+            if (inventory.isOwner)
+            {
+                return await AddInventoryItemLocal(inventory, parameters);
+            }
+            else
+            {
+                return await AddInventoryItemRpc(inventory.owner.Value, inventory, parameters);
+            }
+        }
+
         [TargetRpc]
-        public async Task<AddInventoryItemResponse> AddInventoryItemRpc(PlayerID playerId, Inventory inventory, InventoryChangeParams parameters)
+        private async Task<AddInventoryItemResponse> AddInventoryItemRpc(PlayerID playerId, Inventory inventory, InventoryChangeParams parameters)
+        {
+            return await AddInventoryItemLocal(inventory, parameters);
+        }
+
+        private async Task<AddInventoryItemResponse> AddInventoryItemLocal(Inventory inventory, InventoryChangeParams parameters)
         {
             bool success = inventory.TryAddItem(parameters, true, out int overflow, out _, out _);
             return new AddInventoryItemResponse(success, overflow);
         }
 
+        public async Task<PlaceInventoryItemResponse> PlaceInventoryItem(Inventory inventory, InventoryPlaceParams placeParams)
+        {
+            if (inventory.isOwner)
+            {
+                return await PlaceInventoryItemLocal(inventory, placeParams);
+            }
+            else
+            {
+                return await PlaceInventoryItemRpc(inventory.owner.Value, inventory, placeParams);
+            }
+        }
+
         [TargetRpc]
-        public async Task<PlaceInventoryItemResponse> PlaceInventoryItemRpc(PlayerID playerId, Inventory inventory, InventoryPlaceParams placeParams)
+        private async Task<PlaceInventoryItemResponse> PlaceInventoryItemRpc(PlayerID playerId, Inventory inventory, InventoryPlaceParams placeParams)
+        {
+            return await PlaceInventoryItemLocal(inventory, placeParams);
+        }
+
+        private async Task<PlaceInventoryItemResponse> PlaceInventoryItemLocal(Inventory inventory, InventoryPlaceParams placeParams)
         {
             bool success = inventory.TryPlaceItem(placeParams, true, out int overflow, out _, out NetInventoryItemsChange change);
             return new PlaceInventoryItemResponse(success, overflow, change.IsValid);
         }
 
+        public async Task SetInventoryItemCount(Inventory inventory, string instanceId, int count, bool canRemove)
+        {
+            if (inventory.isOwner)
+            {
+                await SetInventoryItemCountLocal(inventory, instanceId, count, canRemove);
+            }
+            else
+            {
+                await SetInventoryItemCountRpc(inventory.owner.Value, inventory, instanceId, count, canRemove);
+            }
+        }
+
         [TargetRpc]
-        public async Task SetInventoryItemCountRpc(PlayerID playerId, Inventory inventory, string instanceId, int count, bool canRemove)
+        private async Task SetInventoryItemCountRpc(PlayerID playerId, Inventory inventory, string instanceId, int count, bool canRemove)
+        {
+            await SetInventoryItemCountLocal(inventory, instanceId, count, canRemove);
+        }
+
+        private async Task SetInventoryItemCountLocal(Inventory inventory, string instanceId, int count, bool canRemove)
         {
             // No overflow indicates the item has no count left
             if (count > 0)
@@ -201,14 +286,48 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public async Task<bool> RemoveInventoryItem(Inventory inventory, string instanceId)
+        {
+            if (inventory.isOwner)
+            {
+                return await RemoveInventoryItemLocal(inventory, instanceId);
+            }
+            else
+            {
+                return await RemoveInventoryItemRpc(inventory.owner.Value, inventory, instanceId);
+            }
+        }
+
         [TargetRpc]
-        public async Task<bool> RemoveInventoryItemRpc(PlayerID playerId, Inventory inventory, string instanceId)
+        private async Task<bool> RemoveInventoryItemRpc(PlayerID playerId, Inventory inventory, string instanceId)
+        {
+            return await RemoveInventoryItemLocal(inventory, instanceId);
+        }
+
+        private async Task<bool> RemoveInventoryItemLocal(Inventory inventory, string instanceId)
         {
             return inventory.TryRemoveItem(instanceId);
         }
 
+        public async Task MoveInventoryItem(Inventory fromInventory, Inventory toInventory, string instanceId)
+        {
+            if (fromInventory.isOwner)
+            {
+                await MoveInventoryItemLocal(fromInventory, toInventory, instanceId);
+            }
+            else
+            {
+                await MoveInventoryItemRpc(fromInventory.owner.Value, fromInventory, toInventory, instanceId);
+            }
+        }
+
         [TargetRpc]
-        public async Task MoveInventoryItemRpc(PlayerID playerId, Inventory fromInventory, Inventory toInventory, string instanceId)
+        private async Task MoveInventoryItemRpc(PlayerID playerId, Inventory fromInventory, Inventory toInventory, string instanceId)
+        {
+            await MoveInventoryItemLocal(fromInventory, toInventory, instanceId);
+        }
+
+        private async Task MoveInventoryItemLocal(Inventory fromInventory, Inventory toInventory, string instanceId)
         {
             if (!fromInventory.InventoryItems.TryGetValue(instanceId, out InventoryItem inventoryItem))
             {
@@ -242,8 +361,25 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public async Task<NetInventoryItem> GrabInventoryItem(Inventory inventory, string instanceId, Vector2Int cell)
+        {
+            if (inventory.isOwner)
+            {
+                return await GrabInventoryItemLocal(inventory, instanceId, cell);
+            }
+            else
+            {
+                return await GrabInventoryItemRpc(inventory.owner.Value, inventory, instanceId, cell);
+            }
+        }
+
         [TargetRpc]
-        public async Task<NetInventoryItem> GrabInventoryItemRpc(PlayerID playerId, Inventory inventory, string instanceId, Vector2Int cell)
+        private async Task<NetInventoryItem> GrabInventoryItemRpc(PlayerID playerId, Inventory inventory, string instanceId, Vector2Int cell)
+        {
+            return await GrabInventoryItemLocal(inventory, instanceId, cell);
+        }
+
+        private async Task<NetInventoryItem> GrabInventoryItemLocal(Inventory inventory, string instanceId, Vector2Int cell)
         {
             if (!inventory.InventoryItems.TryGetValue(instanceId, out InventoryItem inventoryItem))
             {
@@ -266,8 +402,25 @@ namespace NoMoreFishAndChips.Entities
             return grabbedNetInventoryItem;
         }
 
+        public async Task ReleaseInventoryItem(Inventory inventory, string instanceId)
+        {
+            if (inventory.isOwner)
+            {
+                await ReleaseInventoryItemLocal(inventory, instanceId);
+            }
+            else
+            {
+                await ReleaseInventoryItemRpc(inventory.owner.Value, inventory, instanceId);
+            }
+        }
+
         [TargetRpc]
-        public async Task ReleaseInventoryItemRpc(PlayerID playerId, Inventory inventory, string instanceId)
+        private async Task ReleaseInventoryItemRpc(PlayerID playerId, Inventory inventory, string instanceId)
+        {
+            await ReleaseInventoryItemLocal(inventory, instanceId);
+        }
+        
+        private async Task ReleaseInventoryItemLocal(Inventory inventory, string instanceId)
         {
             // There's scenarios where you release an item, and it no longer exists in the inventory since it was moved to another
             if (inventory.InventoryItems.ContainsKey(instanceId))

@@ -158,6 +158,9 @@ namespace NoMoreFishAndChips.Hitboxes
 
         private void CollisionsLateUpdate()
         {
+            // Currently hits are target rpcs, meaning they aren't instant even for the host. This is important, as it seems rpcs are executed after OnTriggerSTay and before LateUpdate. There is a window where
+            // a collider that is collected becomes null following an rpc that defeats it, and so we need to account for that.
+            
             _entityCollisions.Sort((a, b) => Vector3.Distance(a.Collider.transform.position, a.OtherCollider.transform.position).CompareTo(Vector3.Distance(b.Collider.transform.position, b.OtherCollider.transform.position)));
 
             foreach (EntityCollision collision in _entityCollisions)
@@ -190,7 +193,7 @@ namespace NoMoreFishAndChips.Hitboxes
                     direction = (collision.OtherCollider.transform.position - collision.Collider.transform.position).normalized;
                 }
 
-                collision.Entity.HitRpc(collision.Entity.owner.Value, _data.Hit, direction);
+                collision.Entity.Hit(_data.Hit, direction);
 
                 _hitEntities.Add(collision.Entity);
             }

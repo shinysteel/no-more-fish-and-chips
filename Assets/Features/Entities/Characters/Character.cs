@@ -33,9 +33,9 @@ namespace NoMoreFishAndChips.Entities
             AddLogic(typeof(CharacterNavigateLogic), factory.CreateNavigateLogic(this));
         }
 
-        public override void HitRpc(PlayerID id, Hit hit, Vector3 direction)
+        protected override void HitLocal(Hit hit, Vector3 direction)
         {
-            base.HitRpc(id, hit, direction);
+            base.HitLocal(hit, direction);
 
             if (isSpawned)
             {

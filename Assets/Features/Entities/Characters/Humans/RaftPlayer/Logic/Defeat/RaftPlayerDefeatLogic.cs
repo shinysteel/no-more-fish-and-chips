@@ -131,7 +131,7 @@ namespace NoMoreFishAndChips.Entities
             }
 
             SetIsDefeated(false);
-            _player.SetNetInBarrelRpc(_player.owner.Value, false);
+            _player.SetNetInBarrel(false);
 
             _player.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
         }
@@ -184,9 +184,9 @@ namespace NoMoreFishAndChips.Entities
         {
             _player.Inventory.DropAllItems(_player.transform.position);
 
-            _player.SetPositionRpc(_player.owner.Value, new Vector3(Random.Range(-2f, 2f), 0.5f, 5f));
+            _player.SetPosition(new Vector3(Random.Range(-2f, 2f), 0.5f, 5f));
 
-            _player.SetNetInBarrelRpc(_player.owner.Value, true);
+            _player.SetNetInBarrel(true);
         }
     }
 }

@@ -131,20 +131,71 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        public void SetNetHealth(int health)
+        {
+            if (isOwner)
+            {
+                SetNetHealthLocal(health);
+            }
+            else
+            {
+                SetNetHealthRpc(owner.Value, health);
+            }
+        }
+
         [TargetRpc]
-        public void SetNetHealthRpc(PlayerID id, int health)
+        private void SetNetHealthRpc(PlayerID id, int health)
+        {
+            SetNetHealthLocal(health);
+        }
+
+        private void SetNetHealthLocal(int health)
         {
             _netHealth.value = health;
+        }
+
+        public void SetNetIsDefeated(bool defeated)
+        {
+            if (isOwner)
+            {
+                SetNetIsDefeatedLocal(defeated);
+            }
+            else
+            {
+                SetNetIsDefeatedRpc(owner.Value, defeated);
+            }
         }
 
         [TargetRpc]
         public void SetNetIsDefeatedRpc(PlayerID id, bool defeated)
         {
+            SetNetIsDefeatedLocal(defeated);
+        }
+
+        private void SetNetIsDefeatedLocal(bool defeated)
+        {
             _netIsDefeated.value = defeated;
         }
 
+        public void Hit(Hit hit, Vector3 direction)
+        {
+            if (isOwner)
+            {
+                HitLocal(hit, direction);
+            }
+            else
+            {
+                HitRpc(owner.Value, hit, direction);
+            }
+        }
+
         [TargetRpc]
-        public virtual void HitRpc(PlayerID id, Hit hit, Vector3 direction)
+        private void HitRpc(PlayerID id, Hit hit, Vector3 direction)
+        {
+            HitLocal(hit, direction);
+        }
+
+        protected virtual void HitLocal(Hit hit, Vector3 direction)
         {
             EntityHealthLogic.ChangeHealth(-hit.HealthDamage);
 

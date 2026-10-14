@@ -35,6 +35,8 @@ namespace NoMoreFishAndChips.Entities
 
             _netCell.onChanged += HandleNetCellChanged;
             _netRotations.onChanged += HandleNetRotationsChanged;
+
+            _context.Raft.OnTileChanged += HandleTileChanged;
         }
 
         protected override void OnDespawned()
@@ -43,6 +45,8 @@ namespace NoMoreFishAndChips.Entities
 
             _netCell.onChanged -= HandleNetCellChanged;
             _netRotations.onChanged -= HandleNetRotationsChanged;
+
+            _context.Raft.OnTileChanged -= HandleTileChanged;
         }
 
         protected virtual void RefreshShape()
@@ -106,6 +110,29 @@ namespace NoMoreFishAndChips.Entities
             {
                 HandleNetRotationsChanged(_netRotations.value);
             }
+        }
+
+        private void HandleTileChanged(Vector2Int cell, RaftTile previous, RaftTile current)
+        {
+            if (current != null)
+            {
+                return;
+            }
+
+            foreach (KeyValuePair<Vector2Int, bool> kvp in _shape)
+            {
+                if (!kvp.Value)
+                {
+                    continue;
+                }
+
+                if (_context.Raft.Tiles.ContainsKey(_context.Raft.Queries.StructureCellToTileCell(_netCell.value + kvp.Key)))
+                {
+                    return;
+                }
+            }
+
+            EntityDefeatLogic.SetIsDefeated(true);
         }
 
         public virtual string GetJsonData()

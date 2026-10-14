@@ -42,12 +42,12 @@ namespace NoMoreFishAndChips.Entities
 
         protected override void OnDespawned()
         {
+            base.OnDespawned();
+
             _netCount.onChanged -= HandleNetCountChanged;
 
             _context.VoyageRunner.OnWaveIndexChanged -= HandleWaveIndexChanged;
             _context.VoyageRunner.OnStageComplete -= HandleStageComplete;
-
-            base.OnDespawned();
         }
 
         private void HandleNetCountChanged(int count)

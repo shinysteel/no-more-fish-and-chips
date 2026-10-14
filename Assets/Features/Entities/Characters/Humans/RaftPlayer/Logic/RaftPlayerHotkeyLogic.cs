@@ -192,7 +192,7 @@ namespace NoMoreFishAndChips.Entities
                 toInventory = _player.Inventory;
             }
 
-            _ = _player.MoveInventoryItemRpc(fromInventory.owner.Value, fromInventory, toInventory, itemView.InventoryItem.ItemInstance.InstanceId);
+            _ = _player.MoveInventoryItem(fromInventory, toInventory, itemView.InventoryItem.ItemInstance.InstanceId);
         }
 
         private void GrabItem(InventoryItemView itemView, InventorySlotView inventorySlot)

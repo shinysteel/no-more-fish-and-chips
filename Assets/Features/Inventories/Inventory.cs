@@ -971,13 +971,25 @@ namespace NoMoreFishAndChips.Inventories
             return _netInventoryItems[instanceId].DeepClone();
         }
 
+        public void ClearNetInventoryItems()
+        {
+            if (isOwner)
+            {
+                ClearNetInventoryItemsLocal();
+            }
+            else
+            {
+                ClearNetInventoryItemsRpc(owner.Value);
+            }
+        }
+
         [TargetRpc]
         private void ClearNetInventoryItemsRpc(PlayerID id)
         {
-            ClearNetInventoryItems();
+            ClearNetInventoryItemsLocal();
         }
 
-        public void ClearNetInventoryItems()
+        private void ClearNetInventoryItemsLocal()
         {
             foreach (string instanceId in _netInventoryItems.Keys)
             {
