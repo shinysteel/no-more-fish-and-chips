@@ -52,39 +52,46 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        private void HandleTileChanged(Vector2Int tileCell, RaftTile previous, RaftTile current)
+        private void HandleTileChanged(Vector2Int changeCell, RaftTile previous, RaftTile current)
         {
             if (previous == null && current != null)
             {
-                _tileCellTotal += tileCell;
+                _tileCellTotal += changeCell;
             }
             else if (previous != null && current == null)
             {
-                _tileCellTotal -= tileCell;
+                _tileCellTotal -= changeCell;
             }
 
             void processCell(Vector2Int offset)
             {
-                Vector2Int cell = tileCell + offset;
-                bool on = TryCreatePerimeterNode(cell, out RaftPerimeterNode node);
+                Vector2Int cell = changeCell + offset;
 
-                if (!_perimeter.ContainsKey(cell))
+                bool on = OnPerimeter(cell, out RaftTile tile);
+
+                if (on)
                 {
-                    if (on)
+                    if (!_perimeter.ContainsKey(cell))
                     {
-                        _perimeter.Add(cell, node);
+                        _perimeter.Add(cell, new RaftPerimeterNode(_raft, tile));
+                    }
+                    else
+                    {
+                        _perimeter[cell].RefreshOpenDirections();
                     }
                 }
                 else
                 {
-                    if (!on)
+                    if (_perimeter.ContainsKey(cell))
                     {
                         _perimeter.Remove(cell);
                     }
                 }
             }
 
-            for (int i = -1; i <= 1; i++)
+            processCell(Vector2Int.zero);
+
+            for (int i = -1; i <= 1; i += 2)
             {
                 processCell(new Vector2Int(i, 0));
                 processCell(new Vector2Int(0, i));
@@ -286,37 +293,24 @@ namespace NoMoreFishAndChips.Environments
         }
 
         // Creates a perimeter node if the given cell is on the perimeter
-        private bool TryCreatePerimeterNode(Vector2Int cell, out RaftPerimeterNode node)
+        private bool OnPerimeter(Vector2Int cell, out RaftTile tile)
         {
-            node = null;
+            tile = null;
 
-            if (!_raft.Tiles.TryGetValue(cell, out RaftTile tile))
+            if (!_raft.Tiles.TryGetValue(cell, out tile))
             {
                 return false;
             }
 
-            List<Vector3> openDirections = new();
-
             for (int i = -1; i <= 1; i += 2)
             {
-                void add(Vector2Int offset)
+                if (!_raft.Tiles.ContainsKey(tile.Cell + new Vector2Int(i, 0)) || !_raft.Tiles.ContainsKey(tile.Cell + new Vector2Int(0, i)))
                 {
-                    if (!_raft.Tiles.ContainsKey(cell + offset))
-                    {
-                        openDirections.Add(new Vector3(offset.x, 0f, offset.y));
-                    }
+                    return true;
                 }
-
-                add(new Vector2Int(i, 0));
-                add(new Vector2Int(0, i));
             }
 
-            if (openDirections.Count > 0)
-            {
-                node = new RaftPerimeterNode(tile, openDirections);
-            }
-                
-            return node != null;
+            return false;
         }
     }
 }

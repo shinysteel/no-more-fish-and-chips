@@ -192,6 +192,7 @@ namespace NoMoreFishAndChips.Entities
             perpendicularMax = Mathf.Max(perpendicularMax, 0f);
 
             targetPosition += perpendicularDirection3d * Random.Range(perpendicularMin, perpendicularMax);
+
             return _context.Raft.Queries.WorldPositionToStructurePosition(targetPosition);
         }
     }
