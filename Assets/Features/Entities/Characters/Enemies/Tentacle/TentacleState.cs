@@ -195,6 +195,13 @@ namespace NoMoreFishAndChips.Entities
 
             return _context.Raft.Queries.WorldPositionToStructurePosition(targetPosition);
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            _tentacle.CharacterNavigateLogic.StopNavigation();
+        }
     }
 
     public class TentacleSlamState : TentacleState
