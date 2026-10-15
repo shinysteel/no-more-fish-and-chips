@@ -14,6 +14,9 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private Image _image;
         [SerializeField] private TextMeshProUGUI _countText;
 
+        [SerializeField] private Color _validColor;
+        [SerializeField] private Color _invalidColor;
+        
         private ItemManager _itemManager;
 
         private GameplayContext _context;
@@ -55,7 +58,10 @@ namespace NoMoreFishAndChips.UI
                 .Where(item => item.ItemInstance.Data.ItemId == _requirement.ItemId)
                 .Sum(item => item.ItemInstance.Count);
 
-            _countText.text = $"{count}/{_requirement.Count}";
+            Color color = count >= _requirement.Count ? _validColor : _invalidColor;
+            string code = ColorUtility.ToHtmlStringRGB(color);
+
+            _countText.text = $"<color=#{code}>{count}</color>/{_requirement.Count}";
         }
 
         public void OnTakenFromPool()

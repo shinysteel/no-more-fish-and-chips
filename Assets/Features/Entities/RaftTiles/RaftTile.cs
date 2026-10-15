@@ -1,6 +1,7 @@
 using LiteNetLib;
 using Newtonsoft.Json;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Saving;
 using NoMoreFishAndChips.States;
@@ -178,10 +179,18 @@ namespace NoMoreFishAndChips.Entities
 
         protected virtual void Interact()
         {
-            if (_context.LocalPlayer.Inventory.TryRemoveItems(TileDefinitionData.RepairRecipe.ToChangeParams()))
+            List<InventoryChangeParams> parameters = TileDefinitionData.RepairRecipe.ToChangeParams();
+
+            if (!_context.LocalPlayer.Inventory.CanRemoveItems(parameters, out _))
             {
-                EntityHealthLogic.ChangeHealth(1);
+                return;
             }
+
+            _context.LocalPlayer.RaftPlayerActLogic.StartChannel(TileDefinitionData.RepairRecipe.Duration, ChannelAnimation.Build, () =>
+            {
+                _context.LocalPlayer.Inventory.TryRemoveItems(parameters);
+                EntityHealthLogic.ChangeHealth(1);
+            });
         }
 
         void IInteractable.ShowPreview()

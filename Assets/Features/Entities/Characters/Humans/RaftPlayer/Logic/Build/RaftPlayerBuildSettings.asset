@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca216aebdd8b3ad449fdfad175aaa116, type: 3}
   m_Name: RaftPlayerBuildSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.RaftPlayerTileTargetSettings
+  _range: 0.75
   _actionDatas:
   - {fileID: 11400000, guid: 2e4706ea0ced18f4990c758b12efc35b, type: 2}
   - {fileID: 11400000, guid: cfa72f9b0e474254db45e989eb2b6559, type: 2}
