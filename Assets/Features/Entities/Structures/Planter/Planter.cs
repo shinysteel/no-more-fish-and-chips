@@ -31,7 +31,7 @@ namespace NoMoreFishAndChips.Entities
         WorldUI IInteractable.CreatePromptUI()
         {
             RequirementPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.RequirementPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey);
+            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey, DefinitionData.IInteractableSettings.Text);
             ui.SetupRequirement(_context, DefinitionData.PlantRecipe);
             return ui;
         }

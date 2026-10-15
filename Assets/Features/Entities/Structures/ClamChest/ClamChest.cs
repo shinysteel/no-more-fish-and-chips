@@ -89,7 +89,7 @@ namespace NoMoreFishAndChips.Entities
         WorldUI IInteractable.CreatePromptUI()
         {
             InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey);
+            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey, DefinitionData.IInteractableSettings.Text);
             return ui;
         }
 

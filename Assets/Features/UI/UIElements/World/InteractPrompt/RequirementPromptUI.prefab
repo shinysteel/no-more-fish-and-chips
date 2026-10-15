@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1758988583030062371, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
+      propertyPath: m_fontSize
+      value: 9.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517923793585823782, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517923793585823782, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2910386987264458563, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -105,6 +117,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4868999494863032274, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3091229756143824627}
+    - targetCorrespondingSourceObject: {fileID: 494265502961049373, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7608796330229213134}
   m_SourcePrefab: {fileID: 100100000, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
 --- !u!114 &142833369053754301 stripped
 MonoBehaviour:
@@ -117,6 +132,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa80cf68aad95184caad18e9efd748c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.UI.ActionHotkeyView
+--- !u!114 &158576234514729611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1758988583030062371, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
+  m_PrefabInstance: {fileID: 1898917007993649064}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054122114361960629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &2054122114361960629 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 494265502961049373, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
+  m_PrefabInstance: {fileID: 1898917007993649064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7608796330229213134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054122114361960629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!224 &3790279683204971996 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3369688401575365236, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
@@ -143,6 +194,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 3790279683204971996}
   _canvasGroup: {fileID: 7932830004915189050}
   _actionHotkeyView: {fileID: 142833369053754301}
+  _actionText: {fileID: 158576234514729611}
 --- !u!114 &2062171825128258264
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlanterIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.InteractableSettings
   _hotkey: 2
+  _text: Plant
   _priority: 0
   _maxAngle: 45
   _maxDistance: 0.5
