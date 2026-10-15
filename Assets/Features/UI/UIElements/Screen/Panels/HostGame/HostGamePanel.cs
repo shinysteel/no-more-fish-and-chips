@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.UI
             base.Show(onComplete);
 
             Utils.Collections.ResizeList(_saveEntries, _saveManager.SaveFiles.Count + 1,
-                createElement: () => _poolManager.GetTypedPoolable<SaveEntry>(new SpawnParams() { Parent = _saveEntryContainer.transform }),
+                createElement: () => _poolManager.GetTypedPoolable<SaveEntry>(new SpawnParams() { Parent = _saveEntryContainer }),
                 removeElement: (SaveEntry entry) => _poolManager.ReturnTypedPoolable(entry),
                 processElement: (SaveEntry entry, int index) => entry.Setup(_saveManager.SaveFiles.ElementAtOrDefault(index)));
         }
