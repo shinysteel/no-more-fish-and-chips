@@ -93,6 +93,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-TW
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abd0a92a54db84c43bd55459b3c6fdaf
+    m_Address: ActionsTable_zh-TW
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-TW
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bfc8519705e178142ae8fd25a12bd856
     m_Address: FishingBagPanelTable_zh-TW
     m_ReadOnly: 1

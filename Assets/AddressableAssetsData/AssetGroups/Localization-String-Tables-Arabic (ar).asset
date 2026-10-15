@@ -87,6 +87,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ar
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 974dc1de2784e074c86a77d69a10cb3c
+    m_Address: ActionsTable_ar
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ar
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b8f6caa53e1b7eb4fb169e9c27bd4824
     m_Address: CharactersTable_ar
     m_ReadOnly: 1

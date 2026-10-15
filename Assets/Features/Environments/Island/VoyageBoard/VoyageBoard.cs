@@ -41,7 +41,7 @@ namespace NoMoreFishAndChips.Environments
         WorldUI IInteractable.CreatePromptUI()
         {
             InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(_iInteractableSettings.Hotkey, _iInteractableSettings.Text);
+            ui.SetupInteract(_iInteractableSettings.Hotkey, _iInteractableSettings.Term);
             return ui;
         }
 

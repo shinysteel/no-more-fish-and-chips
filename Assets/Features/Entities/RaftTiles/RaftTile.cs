@@ -166,7 +166,7 @@ namespace NoMoreFishAndChips.Entities
         protected virtual WorldUI CreatePromptUI()
         {
             RequirementPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.RequirementPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey, TileDefinitionData.IInteractableSettings.Text);
+            ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey, TileDefinitionData.IInteractableSettings.Term);
             ui.SetupRequirement(_context, TileDefinitionData.RepairRecipe);
             return ui;
         }

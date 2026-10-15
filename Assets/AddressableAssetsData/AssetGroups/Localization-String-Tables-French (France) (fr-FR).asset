@@ -81,6 +81,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fr-FR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7779fe84a6189dd4199f8ffdb078a682
+    m_Address: ActionsTable_fr-FR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fr-FR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7f604fac6cea3d5449b0d47ad3cb4fc4
     m_Address: MainMenuScreenTable_fr-FR
     m_ReadOnly: 1

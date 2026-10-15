@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ko-KR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 233772a411c4b994db10ad5c4039ab51
+    m_Address: ActionsTable_ko-KR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko-KR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 369d25ea69460de4485f099e9bda95b9
     m_Address: BuildingKitPanelTable_ko-KR
     m_ReadOnly: 1

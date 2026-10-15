@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DockBellIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.IInteractableSettings
   _hotkey: 1
-  _text: Ring
+  _term: 1906667850
   _priority: 0
   _maxAngle: 45
   _maxDistance: 0.5

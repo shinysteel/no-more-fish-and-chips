@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using NoMoreFishAndChips.Entities;
+using NoMoreFishAndChips.Localisation;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -11,17 +12,17 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private ActionHotkeyView _actionHotkeyView;
         [SerializeField] private TextMeshProUGUI _actionText;
 
-        private PoolManager _poolManager;
+        private LocalisationManager _localisationManager;
 
         protected virtual void Awake()
         {
-            _poolManager = GameManager.Instance.Get<PoolManager>();
+            _localisationManager = GameManager.Instance.Get<LocalisationManager>();
         }
 
-        public void SetupInteract(ActionHotkey hotkey, string text)
+        public void SetupInteract(ActionHotkey hotkey, LocalisationTerm term)
         {
             _actionHotkeyView.Set(hotkey);
-            _actionText.text = text;
+            _actionText.text = _localisationManager.GetString(term);
         }
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ClamChestIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.InteractableSettings
   _hotkey: 1
-  _text: Open
+  _term: 1902473546
   _priority: 0
   _maxAngle: 45
   _maxDistance: 0.5

@@ -40,7 +40,7 @@ namespace NoMoreFishAndChips.Entities
         protected override WorldUI CreatePromptUI()
         {
             InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey, TileDefinitionData.IInteractableSettings.Text);
+            ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey, TileDefinitionData.IInteractableSettings.Term);
             return ui;
         }
 

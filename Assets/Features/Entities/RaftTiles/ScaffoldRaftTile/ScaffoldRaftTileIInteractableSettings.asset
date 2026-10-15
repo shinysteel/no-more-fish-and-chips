@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ScaffoldRaftTileIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.IInteractableSettings
   _hotkey: 2
-  _text: Build
+  _term: 1898279243
   _priority: 0
   _maxAngle: 90
   _maxDistance: 0.5

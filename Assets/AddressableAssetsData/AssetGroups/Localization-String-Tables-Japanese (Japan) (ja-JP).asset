@@ -105,6 +105,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ja-JP
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae283043c61abd941817e566806bf88d
+    m_Address: ActionsTable_ja-JP
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja-JP
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ae58e1180388ab74785437a9f16bc51a
     m_Address: WorldPanelTable_ja-JP
     m_ReadOnly: 1

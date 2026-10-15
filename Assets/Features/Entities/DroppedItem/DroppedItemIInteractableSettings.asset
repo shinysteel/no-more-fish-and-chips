@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DroppedItemIInteractableSettings
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.InteractableSettings
   _hotkey: 1
-  _text: Pickup
+  _term: 1860530507
   _priority: 0
   _maxAngle: 45
   _maxDistance: 0.5

@@ -51,6 +51,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pl-PL
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5961fdb50d00fd340a6ee9174d4278b7
+    m_Address: ActionsTable_pl-PL
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pl-PL
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6e8db3d7c0b8afc408742ed232cc3b72
     m_Address: VoyagesTable_pl-PL
     m_ReadOnly: 1

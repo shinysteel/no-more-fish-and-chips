@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt-BR
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 155cee0c160993d4dbab0354b5da3cf5
+    m_Address: ActionsTable_pt-BR
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-pt-BR
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2839e5d216de5dd42b05c883ab483977
     m_Address: VoyageBoardPanelTable_pt-BR
     m_ReadOnly: 1

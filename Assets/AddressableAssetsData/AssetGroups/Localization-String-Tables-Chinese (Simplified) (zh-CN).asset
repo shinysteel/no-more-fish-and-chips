@@ -75,6 +75,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-zh-CN
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a5a49563be8ee8f41a5378051f98c88b
+    m_Address: ActionsTable_zh-CN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-zh-CN
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c72a9bbb7f08b9a4db4ad125be31df45
     m_Address: GiantClamsMouthPanelTable_zh-CN
     m_ReadOnly: 1

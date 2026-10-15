@@ -105,6 +105,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-ru-RU
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2c9af1c205259447bdbfae298aa8d44
+    m_Address: ActionsTable_ru-RU
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ru-RU
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d525f791f98c1bf42b6546bff5410ae1
     m_Address: HostGamePanelTable_ru-RU
     m_ReadOnly: 1
