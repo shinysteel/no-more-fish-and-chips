@@ -28,7 +28,7 @@ MonoBehaviour:
     _health: 4
     _isDamageable: 1
   _characterHealthSettings:
-    _healthBarOffset: 1
+    _healthBarOffset: 1.75
   _actSharedSettings: {fileID: 11400000, guid: 1c135009443135c48b9ef778e0500303, type: 2}
   _actSettings:
     _poise: 1

@@ -12,6 +12,7 @@ namespace NoMoreFishAndChips.Environments
         SurfaceType ISurface.SurfaceType => _surfaceType;
 
         private Material _material;
+        private Material _sharedMaterial;
         private Color _defaultColor;
 
         private void Awake()
@@ -21,8 +22,9 @@ namespace NoMoreFishAndChips.Environments
                 if (_material == null)
                 {
                     _material = renderer.material;
+                    _sharedMaterial = renderer.sharedMaterial;
                 }
-                else
+                else if (renderer.sharedMaterial == _sharedMaterial)
                 {
                     renderer.material = _material;
                 }
