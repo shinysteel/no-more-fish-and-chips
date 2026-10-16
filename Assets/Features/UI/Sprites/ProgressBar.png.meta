@@ -145,7 +145,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ProgessBarFill
+      name: ProgressBarFill
       rect:
         serializedVersion: 2
         x: 1
@@ -180,8 +180,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ProgessBarFill: 1946431358
       ProgressBarBackground: 1512109794
+      ProgressBarFill: 1946431358
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

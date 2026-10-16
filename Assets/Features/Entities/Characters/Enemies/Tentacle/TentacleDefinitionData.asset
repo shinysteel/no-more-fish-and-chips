@@ -17,7 +17,7 @@ MonoBehaviour:
   _sprite: {fileID: 0}
   _rarity: 3
   _id: 107
-  _health: 2
+  _health: 4
   _isDamageable: 1
   _alliance: 1
   _surfaceType: 0

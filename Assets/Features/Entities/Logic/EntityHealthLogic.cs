@@ -12,9 +12,9 @@ namespace NoMoreFishAndChips.Entities
     {
         private UIManager _uiManager;
 
-        private SyncVar<int> _netHealth;
+        protected SyncVar<int> _netHealth;
 
-        private int _maxHealth;
+        protected int _maxHealth;
         public int MaxHealth => _maxHealth;
 
         public int CurrentHealth => _netHealth.value;
@@ -45,7 +45,7 @@ namespace NoMoreFishAndChips.Entities
             _netHealth.onChangedWithOld -= HandleNetHealthChanged;
         }
 
-        private void HandleNetHealthChanged(int previous, int current)
+        protected virtual void HandleNetHealthChanged(int previous, int current)
         {
             if (current < previous)
             {

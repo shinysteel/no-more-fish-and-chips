@@ -73,6 +73,7 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private UsernameUI _usernameUIPrefab;
         [SerializeField] private FloatingTextUI _floatingTextUIPrefab;
         [SerializeField] private ContextActionsUI _contextActionsUIPrefab;
+        [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
         public InteractPromptUI InteractPromptUIPrefab => _interactPromptUIPrefab;
         public RequirementPromptUI RequirementPromptUIPrefab => _requirementPromptUIPrefab;
@@ -80,5 +81,6 @@ namespace NoMoreFishAndChips.UI
         public UsernameUI UsernameUIPrefab => _usernameUIPrefab;
         public FloatingTextUI FloatingTextUIPrefab => _floatingTextUIPrefab;
         public ContextActionsUI ContextActionsUIPrefab => _contextActionsUIPrefab;
+        public HealthBarUI HealthBarUIPrefab => _healthBarUIPrefab;
     }
 }

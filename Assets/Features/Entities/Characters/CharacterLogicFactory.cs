@@ -8,6 +8,11 @@ namespace NoMoreFishAndChips.Entities
         public CharacterLogicFactory() : base()
         { }
 
+        public override EntityHealthLogic CreateHealthLogic(Entity entity, SyncVar<int> netHealth)
+        {
+            return new CharacterHealthLogic((Character)entity, netHealth);
+        }
+
         public override EntityDefeatLogic CreateDefeatLogic(Entity entity, SyncVar<bool> netIsDefeated)
         {
             return new CharacterDefeatLogic((Character)entity, netIsDefeated);
