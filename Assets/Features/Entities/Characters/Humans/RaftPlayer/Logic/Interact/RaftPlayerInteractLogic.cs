@@ -157,6 +157,11 @@ namespace NoMoreFishAndChips.Entities
 
         private void AddTick()
         {
+            if (!_player.CharacterActLogic.CanAct)
+            {
+                return;
+            }
+
             int overlaps = Physics.OverlapSphereNonAlloc(_player.transform.position, _settings.Radius, _interactableCollidersNonAlloc, _settings.Mask);
 
             // Track new interactables that match our hotkey and are nearby
@@ -183,6 +188,12 @@ namespace NoMoreFishAndChips.Entities
 
         private void RecalculateTick(List<NearbyInteractable> elementsToRemove)
         {
+            if (!_player.CharacterActLogic.CanAct)
+            {
+                elementsToRemove.AddRange(_nearbyInteractables);
+                return;
+            }
+            
             // Recalculate angles and distances, and remove any that are no longer 'nearby'
             foreach (NearbyInteractable nearbyInteractable in _nearbyInteractables)
             {

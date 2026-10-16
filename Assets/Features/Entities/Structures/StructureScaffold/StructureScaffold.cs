@@ -190,7 +190,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return isSpawned && _context != null && _context.LocalPlayer.CharacterActLogic.CanAct && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isSpawned && _context != null && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         WorldUI IInteractable.CreatePromptUI()

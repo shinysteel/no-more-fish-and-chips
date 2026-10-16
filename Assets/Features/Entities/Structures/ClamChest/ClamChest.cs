@@ -83,7 +83,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IInteractable.CanPrompt()
         {
-            return _context.LocalPlayer.CharacterActLogic.CanAct;
+            return true;
         }
 
         WorldUI IInteractable.CreatePromptUI()
