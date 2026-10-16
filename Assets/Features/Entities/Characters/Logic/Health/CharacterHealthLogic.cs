@@ -10,6 +10,8 @@ namespace NoMoreFishAndChips.Entities
 
         private Character _character;
 
+        private CharacterHealthSettings _settings;
+
         private HealthBarUI _healthBarUI;
 
         public CharacterHealthLogic(Character character, SyncVar<int> netHealth) : base(character, netHealth)
@@ -17,6 +19,8 @@ namespace NoMoreFishAndChips.Entities
             _uiManager = GameManager.Instance.Get<UIManager>();
 
             _character = character;
+
+            _settings = _character.CharacterDefinitionData.CharacterHealthSettings;
         }
 
         protected override void HandleNetHealthChanged(int previous, int current)
@@ -57,7 +61,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (_healthBarUI != null)
             {
-                _healthBarUI.transform.position = _character.transform.position + Vector3.up * 0.75f;
+                _healthBarUI.transform.position = _character.transform.position + Vector3.up * _settings.HealthBarOffset;
             }
         }
     }
