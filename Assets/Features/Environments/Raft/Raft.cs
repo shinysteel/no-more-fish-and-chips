@@ -143,7 +143,7 @@ namespace NoMoreFishAndChips.Environments
             }
 
             Entity prefab = _entityManager.GetPrefab(EntityId.ScaffoldRaftTile);
-            ScaffoldRaftTile tile = (ScaffoldRaftTile)CreateTile(cell, EntityId.ScaffoldRaftTile, prefab.EntityDefinitionData.Health, 0);
+            ScaffoldRaftTile tile = (ScaffoldRaftTile)CreateTile(cell, EntityId.ScaffoldRaftTile, prefab.EntityDefinitionData.EntityHealthSettings.Health, 0);
 
             tile.SetNetBuildId(buildId);
             tile.SetNetBuildRotations(buildRotations);
@@ -203,7 +203,7 @@ namespace NoMoreFishAndChips.Environments
                 }
             }
 
-            StructureScaffold structure = (StructureScaffold)CreateStructure(cell, EntityId.StructureScaffold, prefab.EntityDefinitionData.Health, 0);
+            StructureScaffold structure = (StructureScaffold)CreateStructure(cell, EntityId.StructureScaffold, prefab.EntityDefinitionData.EntityHealthSettings.Health, 0);
 
             structure.SetNetBuildId(buildId);
             structure.SetNetBuildRotations(buildRotations);

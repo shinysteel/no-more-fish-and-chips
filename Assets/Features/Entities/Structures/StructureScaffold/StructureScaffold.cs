@@ -209,7 +209,7 @@ namespace NoMoreFishAndChips.Entities
         {
             Structure prefab = (Structure)_entityManager.GetPrefab(_netBuildId.value);
 
-            _context.LocalPlayer.RaftPlayerActLogic.StartChannel(prefab.StructureDefinitionData.BuildRecipe.Duration, ChannelAnimation.Build, () => _context.Raft.SetStructureRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.Health, _netBuildRotations.value));
+            _context.LocalPlayer.RaftPlayerActLogic.StartChannel(prefab.StructureDefinitionData.BuildRecipe.Duration, ChannelAnimation.Build, () => _context.Raft.SetStructureRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.EntityHealthSettings.Health, _netBuildRotations.value));
         }
 
         void IInteractable.ShowPreview()

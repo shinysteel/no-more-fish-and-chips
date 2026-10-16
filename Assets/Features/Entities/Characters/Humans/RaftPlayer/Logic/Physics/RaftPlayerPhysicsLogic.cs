@@ -15,7 +15,7 @@ namespace NoMoreFishAndChips.Entities
         private CameraManager _cameraManager;
 
         private RaftPlayer _player;
-        private RaftPlayerPhysicsSettings _settings;
+        private RaftPlayerPhysicsSharedSettings _sharedSettings;
 
         private float _jumpTimer;
         private bool _jumpRequest;
@@ -30,7 +30,7 @@ namespace NoMoreFishAndChips.Entities
 
             _player = player;
 
-            _settings = _player.DefinitionData.RaftPlayerPhysicsSettings;
+            _sharedSettings = _player.DefinitionData.RaftPlayerPhysicsSharedSettings;
         }
 
         public override void Tick()
@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            if (_jumpTimer < _settings.Jump.Cooldown)
+            if (_jumpTimer < _sharedSettings.Jump.Cooldown)
             {
                 return;
             }
@@ -85,20 +85,20 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_player.CharacterActLogic.CanAct && _player.InputLogic.MoveDirection != Vector3.zero)
             {
-                float acceleration = _settings.Move.Acceleration;
+                float acceleration = _sharedSettings.Move.Acceleration;
 
                 if (InAir)
                 {
-                    acceleration *= _settings.Move.AirMultiplier;
+                    acceleration *= _sharedSettings.Move.AirMultiplier;
                 }
 
-                Move(_player.InputLogic.MoveDirection, _settings.Move.Speed, acceleration);
+                Move(_player.InputLogic.MoveDirection, _sharedSettings.Move.Speed, acceleration);
             }
             else if (!InAir)
             {
                 Vector3 velocity = Vector3.zero;
                 velocity.y = _rigidbody.linearVelocity.y;
-                _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, velocity, _settings.Move.Deceleration * Time.fixedDeltaTime);
+                _rigidbody.linearVelocity = Vector3.MoveTowards(_rigidbody.linearVelocity, velocity, _sharedSettings.Move.Deceleration * Time.fixedDeltaTime);
             }
         }
 
@@ -134,7 +134,7 @@ namespace NoMoreFishAndChips.Entities
 
             Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
 
-            float speed = _settings.Rotate.Speed;
+            float speed = _sharedSettings.Rotate.Speed;
 
             _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, targetRotation, speed * Time.fixedDeltaTime));
         }
@@ -162,7 +162,7 @@ namespace NoMoreFishAndChips.Entities
 
             // Cancel out gravity
             _rigidbody.linearVelocity = new Vector3(_rigidbody.linearVelocity.x, 0f, _rigidbody.linearVelocity.z);
-            _rigidbody.AddForce(Vector3.up * _settings.Jump.Strength, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * _sharedSettings.Jump.Strength, ForceMode.Impulse);
 
             _player.AnimateLogic.Jump();
         }
@@ -180,10 +180,10 @@ namespace NoMoreFishAndChips.Entities
             if (!InWater)
             {
                 // A minimum launch force guarentees the player can climb back up even if they haven't built up much acceleration
-                if (_isClimbing && _rigidbody.linearVelocity.y < _settings.Climb.LaunchStrength)
+                if (_isClimbing && _rigidbody.linearVelocity.y < _sharedSettings.Climb.LaunchStrength)
                 {
                     Vector3 velocity = _rigidbody.linearVelocity;
-                    velocity.y = _settings.Climb.LaunchStrength;
+                    velocity.y = _sharedSettings.Climb.LaunchStrength;
                     _rigidbody.linearVelocity = velocity;
                 }
 
@@ -191,14 +191,14 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _isClimbing = Utils.Physics.CapsuleCastNonAlloc(_capsuleCollider, Vector3.zero, Quaternion.identity, direction, _climbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _settings.Climb.Mask) > 0;
+            _isClimbing = Utils.Physics.CapsuleCastNonAlloc(_capsuleCollider, Vector3.zero, Quaternion.identity, direction, _climbHitsNonAlloc, _capsuleCollider.radius * 0.5f, _sharedSettings.Climb.Mask) > 0;
 
             if (!_isClimbing)
             {
                 return;
             }
 
-            _rigidbody.AddForce(Vector3.up * _settings.Climb.ClimbSpeed, ForceMode.Acceleration);
+            _rigidbody.AddForce(Vector3.up * _sharedSettings.Climb.ClimbSpeed, ForceMode.Acceleration);
         }
     }
 }

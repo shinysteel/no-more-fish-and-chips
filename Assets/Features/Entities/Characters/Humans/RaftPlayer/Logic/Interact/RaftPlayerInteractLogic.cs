@@ -19,10 +19,9 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayerInteractLogic : RaftPlayerLogic
     {
         private UIManager _uiManager;
-        private EnvironmentManager _environmentManager;
         private RenderingManager _renderingManager;
 
-        private RaftPlayerInteractSettings _settings;
+        private RaftPlayerInteractSharedSettings _sharedSettings;
 
         private float _animateTimer;
 
@@ -81,10 +80,9 @@ namespace NoMoreFishAndChips.Entities
         public RaftPlayerInteractLogic(RaftPlayer player) : base(player)
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
             _renderingManager = GameManager.Instance.Get<RenderingManager>();
 
-            _settings = _player.DefinitionData.InteractSettings;
+            _sharedSettings = _player.DefinitionData.InteractSharedSettings;
         }
 
         public override void OnDespawned()
@@ -162,7 +160,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            int overlaps = Physics.OverlapSphereNonAlloc(_player.transform.position, _settings.Radius, _interactableCollidersNonAlloc, _settings.Mask);
+            int overlaps = Physics.OverlapSphereNonAlloc(_player.transform.position, _sharedSettings.Radius, _interactableCollidersNonAlloc, _sharedSettings.Mask);
 
             // Track new interactables that match our hotkey and are nearby
             for (int i = 0; i < overlaps; i++)
@@ -232,7 +230,7 @@ namespace NoMoreFishAndChips.Entities
                     _promptUI = _promptInteractable.CreatePromptUI();
 
                     _promptInteractable.ShowPreview();
-                    _promptInteractable.SetPreviewColor(_promptInteractable.CanInteract() ? _settings.ValidColor : _settings.InvalidColor);
+                    _promptInteractable.SetPreviewColor(_promptInteractable.CanInteract() ? _sharedSettings.ValidColor : _sharedSettings.InvalidColor);
 
                     if (_promptInteractable.Renderers != null)
                     {
@@ -283,7 +281,7 @@ namespace NoMoreFishAndChips.Entities
 
             distance = Vector3.Distance(_player.transform.position, collider.transform.position);
 
-            if (distance > _settings.Radius)
+            if (distance > _sharedSettings.Radius)
             {
                 return false;
             }

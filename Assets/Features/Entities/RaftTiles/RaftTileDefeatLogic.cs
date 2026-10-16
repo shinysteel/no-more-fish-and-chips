@@ -14,7 +14,7 @@ namespace NoMoreFishAndChips.Entities
         private EntityManager _entityManager;
 
         private RaftTile _tile;
-        private RaftTileDefeatSettings _settings;
+        private RaftTileDefeatSharedSettings _sharedSettings;
 
         private float _sinkTimer;
 
@@ -25,7 +25,7 @@ namespace NoMoreFishAndChips.Entities
 
             _tile = tile;
 
-            _settings = _tile.TileDefinitionData.TileDefeatSettings;
+            _sharedSettings = _tile.TileDefinitionData.TileDefeatSharedSettings;
             
             _tile.EntityHealthLogic.OnChanged += HandleHealthChanged;
         }
@@ -68,14 +68,14 @@ namespace NoMoreFishAndChips.Entities
             {
                 _sinkTimer += Time.fixedDeltaTime;
 
-                if (_sinkTimer >= _settings.Duration)
+                if (_sinkTimer >= _sharedSettings.Duration)
                 {
                     _entityManager.Despawn(_entity);
                     return;
                 }
             }
 
-            _tile.EntityPhysicsLogic.Rigidbody.MovePosition(_tile.EntityPhysicsLogic.Rigidbody.position + Vector3.down * _settings.Speed * Time.fixedDeltaTime);
+            _tile.EntityPhysicsLogic.Rigidbody.MovePosition(_tile.EntityPhysicsLogic.Rigidbody.position + Vector3.down * _sharedSettings.Speed * Time.fixedDeltaTime);
         }
 
         protected override void HandleNetIsDefeatedChanged(bool defeated)

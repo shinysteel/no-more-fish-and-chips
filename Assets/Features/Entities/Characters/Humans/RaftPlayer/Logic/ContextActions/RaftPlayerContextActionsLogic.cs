@@ -6,7 +6,7 @@ namespace NoMoreFishAndChips.Entities
     public class RaftPlayerContextActionsLogic : RaftPlayerLogic
     {
         private UIManager _uiManager;
-        private RaftPlayerContextActionsSettings _settings;
+        private RaftPlayerContextActionsSharedSettings _sharedSettings;
 
         private ActionData[] _actionDatas;
         private ContextActionsUI _actionsUI;
@@ -17,7 +17,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _uiManager = GameManager.Instance.Get<UIManager>();
 
-            _settings = _player.DefinitionData.ContextActionsSettings;
+            _sharedSettings = _player.DefinitionData.ContextActionsSharedSettings;
         }
 
         public void SetActionDatas(ActionData[] datas)
@@ -40,7 +40,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_actionsUI != null)
             {
-                _actionsUI.transform.position = _player.transform.position + Vector3.up * _settings.Offset;
+                _actionsUI.transform.position = _player.transform.position + Vector3.up * _sharedSettings.Offset;
             }
         }
 

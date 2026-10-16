@@ -57,7 +57,7 @@ namespace NoMoreFishAndChips.Environments
 
                     EntityDefinitionData data = entityManager.GetPrefab(id).EntityDefinitionData;
 
-                    int health = data.Health;
+                    int health = data.EntityHealthSettings.Health;
 
                     // 33% chance to have one less health
                     if (Random.value < 1f / 3f)
@@ -73,7 +73,7 @@ namespace NoMoreFishAndChips.Environments
 
             // Start with a wave sign
             Entity prefab = entityManager.GetPrefab(EntityId.WaveCounter);
-            Structures.Add(new StructureSave(new Vector2Int(0, 3), EntityId.WaveCounter, prefab.EntityDefinitionData.Health, 0, string.Empty));
+            Structures.Add(new StructureSave(new Vector2Int(0, 3), EntityId.WaveCounter, prefab.EntityDefinitionData.EntityHealthSettings.Health, 0, string.Empty));
         }
     }
 }

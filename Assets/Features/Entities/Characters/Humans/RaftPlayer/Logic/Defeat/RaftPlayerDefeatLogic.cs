@@ -18,7 +18,7 @@ namespace NoMoreFishAndChips.Entities
         private EnvironmentManager _environmentManager;
         private NetworkManager _networkManager;
 
-        private RaftPlayerDefeatSettings _settings;
+        private RaftPlayerDefeatSharedSettings _sharedSettings;
 
         private RaftPlayer _player;
         private SyncVar<bool> _netInBarrel;
@@ -39,7 +39,7 @@ namespace NoMoreFishAndChips.Entities
             _player = player;
             _netInBarrel = netInBarrel;
 
-            _settings = _player.DefinitionData.RaftPlayerDefeatSettings;
+            _sharedSettings = _player.DefinitionData.RaftPlayerDefeatSharedSettings;
 
             _netInBarrel.onChanged += HandleNetInBarrelChanged;
         }
@@ -71,9 +71,9 @@ namespace NoMoreFishAndChips.Entities
         private void MoveFixedTick()
         {
             _moveTimer += Time.fixedDeltaTime;
-            _moveTimer = Mathf.Min(_moveTimer, _settings.MoveInterval);
+            _moveTimer = Mathf.Min(_moveTimer, _sharedSettings.MoveInterval);
             
-            if (_moveTimer < _settings.MoveInterval)
+            if (_moveTimer < _sharedSettings.MoveInterval)
             {
                 return;
             }
@@ -90,13 +90,13 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
             
-            forcedirection = Quaternion.AngleAxis(_settings.MovePitch, Vector3.Cross(forcedirection, Vector3.up)) * forcedirection;
+            forcedirection = Quaternion.AngleAxis(_sharedSettings.MovePitch, Vector3.Cross(forcedirection, Vector3.up)) * forcedirection;
             
-            _player.EntityPhysicsLogic.Rigidbody.AddForce(forcedirection * _settings.MoveLinearStrength, ForceMode.Impulse);
+            _player.EntityPhysicsLogic.Rigidbody.AddForce(forcedirection * _sharedSettings.MoveLinearStrength, ForceMode.Impulse);
 
             Vector3 torqueDirection = Vector3.Cross(forcedirection, Vector3.up);
 
-            _player.EntityPhysicsLogic.Rigidbody.AddTorque(torqueDirection * _settings.MoveAngularStrength, ForceMode.Impulse);
+            _player.EntityPhysicsLogic.Rigidbody.AddTorque(torqueDirection * _sharedSettings.MoveAngularStrength, ForceMode.Impulse);
 
             _moveTimer = 0f;
         }
@@ -118,14 +118,14 @@ namespace NoMoreFishAndChips.Entities
             }
 
             Vector3 direction = axis.normalized * angle * Mathf.Deg2Rad;
-            Vector3 torque = direction * _settings.StabalisationStrength - _player.EntityPhysicsLogic.Rigidbody.angularVelocity * _settings.StabalisationDamping;
+            Vector3 torque = direction * _sharedSettings.StabalisationStrength - _player.EntityPhysicsLogic.Rigidbody.angularVelocity * _sharedSettings.StabalisationDamping;
 
             _player.EntityPhysicsLogic.Rigidbody.AddTorque(torque, ForceMode.Acceleration);
         }
 
         private void ReviveFixedTick()
         {
-            if (Physics.OverlapSphereNonAlloc(_player.EntityPhysicsLogic.Rigidbody.position, _settings.ReviveRadius, _reviveCollidersNonAlloc, _settings.ReviveMask) == 0)
+            if (Physics.OverlapSphereNonAlloc(_player.EntityPhysicsLogic.Rigidbody.position, _sharedSettings.ReviveRadius, _reviveCollidersNonAlloc, _sharedSettings.ReviveMask) == 0)
             {
                 return;
             }
@@ -133,7 +133,7 @@ namespace NoMoreFishAndChips.Entities
             SetIsDefeated(false);
             _player.SetNetInBarrel(false);
 
-            _player.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * _settings.ReviveStrength, ForceMode.Impulse);
+            _player.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * _sharedSettings.ReviveStrength, ForceMode.Impulse);
         }
 
         protected override void HandleNetIsDefeatedChanged(bool defeated)
@@ -153,7 +153,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 _barrelProp = _environmentManager.GetProp(PropId.Barrel, new SpawnParams() { Parent = _player.transform });
                 _player.EntityModel.transform.localPosition = Vector3.up * 0.1f;
-                _moveTimer = _settings.MoveInterval;
+                _moveTimer = _sharedSettings.MoveInterval;
 
                 if (_player.isOwner)
                 {

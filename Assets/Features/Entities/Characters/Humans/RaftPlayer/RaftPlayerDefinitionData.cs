@@ -7,23 +7,23 @@ namespace NoMoreFishAndChips.Entities
     [CreateAssetMenu(fileName = "RaftPlayerDefinitionData", menuName = "Data/Entities/Characters/RaftPlayer/RaftPlayerDefinitionData")]
     public class RaftPlayerDefinitionData : CharacterDefinitionData
     {
-        [SerializeField] private RaftPlayerInteractSettings _interactSettings;
-        [SerializeField] private RaftPlayerDropInventoryItemSettings _dropInventoryItemSettings;
-        [SerializeField] private RaftPlayerAttackSettings _attackSettings;
-        [SerializeField] private RaftPlayerBuildSettings _buildSettings;
-        [SerializeField] private RaftPlayerContextActionsSettings _contextActionsSettings;
+        [SerializeField] private RaftPlayerInteractSharedSettings _interactSharedSettings;
+        [SerializeField] private RaftPlayerDropInventoryItemSharedSettings _dropInventoryItemSharedSettings;
+        [SerializeField] private RaftPlayerAttackSharedSettings _attackSharedSettings;
+        [SerializeField] private RaftPlayerBuildSharedSettings _buildSharedSettings;
+        [SerializeField] private RaftPlayerContextActionsSharedSettings _contextActionsSharedSettings;
         [SerializeField] private BoolGrid _unlockableInventoryLayout;
         [SerializeField] private BoolGrid _defaultUnlockedInventoryLayout;
 
-        public RaftPlayerInteractSettings InteractSettings => _interactSettings;
-        public RaftPlayerDropInventoryItemSettings DropInventoryItemSettings => _dropInventoryItemSettings;
-        public RaftPlayerAttackSettings AttackSettings => _attackSettings;
-        public RaftPlayerBuildSettings BuildSettings => _buildSettings;
-        public RaftPlayerContextActionsSettings ContextActionsSettings => _contextActionsSettings;
+        public RaftPlayerInteractSharedSettings InteractSharedSettings => _interactSharedSettings;
+        public RaftPlayerDropInventoryItemSharedSettings DropInventoryItemSharedSettings => _dropInventoryItemSharedSettings;
+        public RaftPlayerAttackSharedSettings AttackSharedSettings => _attackSharedSettings;
+        public RaftPlayerBuildSharedSettings BuildSharedSettings => _buildSharedSettings;
+        public RaftPlayerContextActionsSharedSettings ContextActionsSharedSettings => _contextActionsSharedSettings;
         public BoolGrid UnlockableInventoryLayout => _unlockableInventoryLayout;
         public BoolGrid DefaultUnlockedInventoryLayout => _defaultUnlockedInventoryLayout;
 
-        public RaftPlayerDefeatSettings RaftPlayerDefeatSettings => (RaftPlayerDefeatSettings)_entityDefeatSettings;
-        public RaftPlayerPhysicsSettings RaftPlayerPhysicsSettings => (RaftPlayerPhysicsSettings)_entityPhysicsSettings;
+        public RaftPlayerDefeatSharedSettings RaftPlayerDefeatSharedSettings => (RaftPlayerDefeatSharedSettings)_entityDefeatSharedSettings;
+        public RaftPlayerPhysicsSharedSettings RaftPlayerPhysicsSharedSettings => (RaftPlayerPhysicsSharedSettings)_entityPhysicsSharedSettings;
     }
 }

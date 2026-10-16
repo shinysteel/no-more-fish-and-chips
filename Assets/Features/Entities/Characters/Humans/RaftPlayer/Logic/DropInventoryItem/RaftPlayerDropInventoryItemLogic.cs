@@ -10,11 +10,11 @@ namespace NoMoreFishAndChips.Entities
 { 
     public class RaftPlayerDropInventoryItemLogic : RaftPlayerLogic
     {
-        private RaftPlayerDropInventoryItemSettings _settings;
+        private RaftPlayerDropInventoryItemSharedSettings _sharedSettings;
 
         public RaftPlayerDropInventoryItemLogic(RaftPlayer player) : base(player)
         {
-            _settings = _player.DefinitionData.DropInventoryItemSettings;
+            _sharedSettings = _player.DefinitionData.DropInventoryItemSharedSettings;
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace NoMoreFishAndChips.Entities
             direction.y = 0f;
             direction.Normalize();
             
-            direction = Quaternion.AngleAxis(_settings.Pitch, Vector3.Cross(Vector3.up, direction)) * direction;
+            direction = Quaternion.AngleAxis(_sharedSettings.Pitch, Vector3.Cross(Vector3.up, direction)) * direction;
 
-            SpawnDroppedItemRpc(NetItemInstance.Create(itemInstance), _player.transform.position, direction, _settings.Strength);
+            SpawnDroppedItemRpc(NetItemInstance.Create(itemInstance), _player.transform.position, direction, _sharedSettings.Strength);
 
             AudioManager.PlaySoundRpc(SoundId.DroppedItemDrop, 0f);
         }

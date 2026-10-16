@@ -17,11 +17,9 @@ namespace NoMoreFishAndChips.Entities
 {
     public class RaftPlayerBuildLogic : RaftPlayerLogic
     {
-        private CameraManager _cameraManager;
-        private EnvironmentManager _environmentManager;
         private EntityManager _entityManager;
 
-        private RaftPlayerBuildSettings _settings;
+        private RaftPlayerBuildSharedSettings _sharedSettings;
 
         private BuildTarget _buildTarget;
 
@@ -29,11 +27,9 @@ namespace NoMoreFishAndChips.Entities
 
         public RaftPlayerBuildLogic(RaftPlayer player) : base(player)
         {
-            _cameraManager = GameManager.Instance.Get<CameraManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
 
-            _settings = _player.DefinitionData.BuildSettings;
+            _sharedSettings = _player.DefinitionData.BuildSharedSettings;
         }
 
         public override void Dispose()
@@ -49,8 +45,8 @@ namespace NoMoreFishAndChips.Entities
 
             _buildTarget = entity switch
             {
-                RaftTile => new TileBuildTarget(_context, _settings.TargetSettings, buildableId),
-                Structure => new StructureBuildTarget(_context, _settings.TargetSettings, buildableId),
+                RaftTile => new TileBuildTarget(_context, _sharedSettings.TargetSettings, buildableId),
+                Structure => new StructureBuildTarget(_context, _sharedSettings.TargetSettings, buildableId),
                 _ => null
             };
 
@@ -66,9 +62,9 @@ namespace NoMoreFishAndChips.Entities
                 _buildTarget.SetRotations(rotations);
             }
 
-            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _settings.Range);
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _sharedSettings.Range);
 
-            _player.ContextActionsLogic.SetActionDatas(_buildTarget != null ? _settings.ActionDatas : null);
+            _player.ContextActionsLogic.SetActionDatas(_buildTarget != null ? _sharedSettings.ActionDatas : null);
         }
 
         public override void Tick()
@@ -78,7 +74,7 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _settings.Range);
+            _buildTarget?.SetPosition(_player.transform.position + _player.transform.forward * _sharedSettings.Range);
             _buildTarget?.Tick();            
         }
 

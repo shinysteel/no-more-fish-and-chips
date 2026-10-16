@@ -50,7 +50,7 @@ namespace NoMoreFishAndChips.Entities
         public Recipe RepairRecipe => _repairRecipe;
         public bool IsScaffold => _isScaffold;
 
-        public RaftTileDefeatSettings TileDefeatSettings => (RaftTileDefeatSettings)_entityDefeatSettings;
+        public RaftTileDefeatSharedSettings TileDefeatSharedSettings => (RaftTileDefeatSharedSettings)_entityDefeatSharedSettings;
 
         DefinitionData ICreatable.DefinitionData => this;
         EntityDefinitionData IBuildable.EntityDefinitionData => this;
