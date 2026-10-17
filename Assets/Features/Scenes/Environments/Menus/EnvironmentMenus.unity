@@ -657,37 +657,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Scenes.EnvironmentMenusReferences
   _raftTransform: {fileID: 2012949517}
---- !u!1001 &1443218709
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3104977455531796210, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3104977455531796210, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3104977455531796210, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8790631604006918522, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
-      propertyPath: m_Name
-      value: Ocean
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 947135079996998337, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
-    - {fileID: 6793918336966280118, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
 --- !u!1001 &1929581476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -981,12 +950,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7400538562236863949, guid: 9d1a7e0ed9c651d488ca320d436631b1, type: 3}
   m_PrefabInstance: {fileID: 2129987683}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7771886451301460237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3922304769445995124, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: _boxCollider
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682948518461971846, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8233837041012130507, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+      propertyPath: m_Name
+      value: Ocean
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3658764556947136265, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+    - {fileID: 3922304769445995124, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb815ceb7b88f694babace7b908e1e52, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1406713160}
   - {fileID: 1169085401}
-  - {fileID: 1443218709}
+  - {fileID: 7771886451301460237}
   - {fileID: 2098759706}
   - {fileID: 2012949517}

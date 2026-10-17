@@ -1,20 +1,13 @@
-using NoMoreFishAndChips.Cameras;
-using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Networking;
-using NoMoreFishAndChips.Scenes;
-using NoMoreFishAndChips.UI;
-using PrimeTween;
 using ShinyOwl.Common.Structures;
 using ShinyOwl.Common.Framework;
 using ShinyOwl.Common.Utils;
-using System.Threading.Tasks;
 using UnityEngine;
-using System;
-using NoMoreFishAndChips.Items;
 
 using Object = UnityEngine.Object;
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
+using ShinyOwl.Common;
 
 namespace NoMoreFishAndChips.States
 {
@@ -92,7 +85,7 @@ namespace NoMoreFishAndChips.States
         public override void Enter()
         {
             base.Enter();
-
+            
             _context.LocalPlayer.ReadyLogic.SetNetIsReady(false);
             
             if (!_networkManager.IsServer)
