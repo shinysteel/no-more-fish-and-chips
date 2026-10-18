@@ -91,7 +91,7 @@ namespace NoMoreFishAndChips.Environments
             _speedTween = Tween.Custom(startValue: startCurrentSpeed, endValue: endCurrentSpeed, duration: duration, ease: Ease.Linear, onValueChange: (float value) => _currentSpeed = value);
         }
 
-        private float SampleHeight(Vector3 position)
+        public float SampleHeight(Vector3 position)
         {
             Vector3 localPosition = transform.InverseTransformPoint(position);
             Vector2 targetPosition = new Vector2(localPosition.x, localPosition.z);

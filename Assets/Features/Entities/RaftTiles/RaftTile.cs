@@ -121,7 +121,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.FixedUpdate();
 
-            if (!isSpawned)
+            if (!isSpawned || _context == null)
             {
                 return;
             }
@@ -137,21 +137,9 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            bool dip = Physics.CheckSphere(_rigidbody.position, TileDefinitionData.DipSettings.Radius, TileDefinitionData.DipSettings.Mask);
-
-            // Sit just above the water
-            float targetY = 0.125f;
-
-            if (!dip)
-            {
-                // Bob up and down
-                targetY = 0.125f + TileDefinitionData.BobSettings.Amplitude * Mathf.PerlinNoise(
-                    _netCell.value.x * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale,
-                    _netCell.value.y * TileDefinitionData.BobSettings.NoiseScale + _networkManager.ServerTime * TileDefinitionData.BobSettings.TimeScale);
-            }
-
-            Vector3 targetPosition = new Vector3(_rigidbody.position.x, targetY, _rigidbody.position.z);
-            _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.DipSettings.Speed * Time.fixedDeltaTime));
+            Vector3 targetPosition = _rigidbody.position;
+            targetPosition.y = _context.EnvironmentGameplayReferences.Ocean.SampleHeight(_rigidbody.position) + 0.125f;
+            _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.BobSpeed * Time.fixedDeltaTime));
         }
 
         bool IInteractable.CanPrompt() => CanPrompt();

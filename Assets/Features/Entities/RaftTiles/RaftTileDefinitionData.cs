@@ -7,45 +7,19 @@ using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
 {
-    [Serializable]
-    public class RaftTileBobSettings
-    {
-        [SerializeField] private float _amplitude = 0.125f;
-        [SerializeField] private float _noiseScale = 0.5f;
-        [SerializeField] private float _timeScale = 0.25f;
-
-        public float Amplitude => _amplitude;
-        public float NoiseScale => _noiseScale;
-        public float TimeScale => _timeScale;
-    }
-
-    [Serializable]
-    public class RaftTileDipSettings
-    {
-        [SerializeField] private LayerMask _mask;
-        [SerializeField] private float _radius = 1f;
-        [SerializeField] private float _speed = 0.25f;
-
-        public LayerMask Mask => _mask;
-        public float Radius => _radius;
-        public float Speed => _speed;
-    }
-
     [CreateAssetMenu(fileName = "RaftTileDefinitionData", menuName = "Data/Entities/RaftTileDefinitionData")]
     public class RaftTileDefinitionData : EntityDefinitionData, IBuildable
     {
         [SerializeField] private Recipe _buildRecipe;
-        [SerializeField] private RaftTileBobSettings _bobSettings;
-        [SerializeField] private RaftTileDipSettings _dipSettings;
         [SerializeField] private IInteractableSettings _iInteractableSettings;
+        [SerializeField] private float _bobSpeed = 0.25f;
         [SerializeField] private Color _damagedColor;
         [SerializeField] private Recipe _repairRecipe;
         [SerializeField] private bool _isScaffold;
 
         public Recipe BuildRecipe => _buildRecipe;
-        public RaftTileBobSettings BobSettings => _bobSettings;
-        public RaftTileDipSettings DipSettings => _dipSettings;
         public IInteractableSettings IInteractableSettings => _iInteractableSettings;
+        public float BobSpeed => _bobSpeed;
         public Color DamagedColor => _damagedColor;
         public Recipe RepairRecipe => _repairRecipe;
         public bool IsScaffold => _isScaffold;
