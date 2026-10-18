@@ -19,9 +19,17 @@ Shader "Custom/Ocean2"
 		_Wave1Speed( "Wave1Speed", Float ) = 0.5
 		_Wave2Speed( "Wave2Speed", Float ) = 1
 		_Wave3Speed( "Wave3Speed", Float ) = 1.5
-		_OceanRadius( "OceanRadius", Float ) = 50
+		_PixelDensity( "PixelDensity", Float ) = 1800
+		_ShadowColor( "ShadowColor", Color ) = ( 0.3137255, 0.5764706, 0.6588235, 0 )
+		_ShadowTileSpeed( "ShadowTileSpeed", Float ) = 0.001
+		_FoamColor( "FoamColor", Color ) = ( 0.5960785, 0.8431373, 0.8156863, 0 )
+		_FoamScale( "FoamScale", Float ) = 100
+		_FoamTileTime( "FoamTileTime", Float ) = 0
+		_FoamTileSpeed( "FoamTileSpeed", Float ) = 0.001
+		_FoamRotateSpeed( "FoamRotateSpeed", Float ) = 0.1
 		_DepthColor( "DepthColor", Color ) = ( 0.7764706, 0.8745098, 0.8862745, 0 )
 		_DepthDistance( "DepthDistance", Float ) = 0.5
+		_OceanRadius( "OceanRadius", Float ) = 50
 		_HorizonColor( "HorizonColor", Color ) = ( 0.9098039, 1, 0.5803922, 0 )
 		_HorizonPower( "HorizonPower", Float ) = 3
 		_HorizonEmission( "HorizonEmission", Range( 0, 1 ) ) = 1
@@ -329,6 +337,8 @@ Shader "Custom/Ocean2"
 			#endif
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
@@ -379,31 +389,40 @@ Shader "Custom/Ocean2"
 					float4 probeOcclusion : TEXCOORD6;
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
+				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -439,7 +458,73 @@ Shader "Custom/Ocean2"
 
 			
 
+					float2 voronoihash578( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
 			
+					float voronoi578( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash578( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+					float2 voronoihash590( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi590( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash590( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.707 * sqrt(dot( r, r ));
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+
 			PackedVaryings VertexFunction( Attributes input  )
 			{
 				PackedVaryings output = (PackedVaryings)0;
@@ -451,7 +536,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -461,7 +547,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -471,7 +558,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -496,8 +584,12 @@ Shader "Custom/Ocean2"
 				float3 vertexPos545 = ( input.positionOS.xyz + vertexOffset537 );
 				float4 ase_positionCS545 = TransformObjectToHClip( ( vertexPos545 ).xyz );
 				float4 screenPos545 = ComputeScreenPos( ase_positionCS545 );
-				output.ase_texcoord7 = screenPos545;
+				output.ase_texcoord8 = screenPos545;
 				
+				output.ase_texcoord7.xy = input.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				output.ase_texcoord7.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = input.positionOS.xyz;
@@ -709,12 +801,54 @@ Shader "Custom/Ocean2"
 				#endif
 
 				float4 color54 = IsGammaSpace() ? float4( 0.3921569, 0.7294118, 0.7686275, 0 ) : float4( 0.1274377, 0.4910209, 0.5520116, 0 );
-				float4 screenPos545 = input.ase_texcoord7;
+				float time578 = 1.7;
+				float2 voronoiSmoothId578 = 0;
+				float2 texCoord576 = input.ase_texcoord7.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime583 = _TimeParameters.x * _ShadowTileSpeed;
+				float2 appendResult575 = (float2(0.0 , mulTime583));
+				float2 coords578 = ( texCoord576 - appendResult575 ) * 25.0;
+				float2 id578 = 0;
+				float2 uv578 = 0;
+				float fade578 = 0.5;
+				float voroi578 = 0;
+				float rest578 = 0;
+				for( int it578 = 0; it578 <2; it578++ ){
+				voroi578 += fade578 * voronoi578( coords578, time578, id578, uv578, 0,voronoiSmoothId578 );
+				rest578 += fade578;
+				coords578 *= 2;
+				fade578 *= 0.5;
+				}//Voronoi578
+				voroi578 /= rest578;
+				float smoothstepResult581 = smoothstep( 0.2 , 0.0 , voroi578);
+				float shadowBlend584 = smoothstepResult581;
+				float3 lerpResult609 = lerp( color54.rgb , _ShadowColor.rgb , shadowBlend584);
+				float time590 = ( ( _TimeParameters.x * _FoamRotateSpeed ) % ( 2.0 * PI ) );
+				float2 voronoiSmoothId590 = 0;
+				float2 texCoord587 = input.ase_texcoord7.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult597 = (float2(0.0 , ( _FoamTileTime * _FoamTileSpeed )));
+				float2 coords590 = ( ( floor( ( texCoord587 * _PixelDensity ) ) / _PixelDensity ) - appendResult597 ) * _FoamScale;
+				float2 id590 = 0;
+				float2 uv590 = 0;
+				float fade590 = 0.5;
+				float voroi590 = 0;
+				float rest590 = 0;
+				for( int it590 = 0; it590 <2; it590++ ){
+				voroi590 += fade590 * voronoi590( coords590, time590, id590, uv590, 0,voronoiSmoothId590 );
+				rest590 += fade590;
+				coords590 *= 2;
+				fade590 *= 0.5;
+				}//Voronoi590
+				voroi590 /= rest590;
+				float smoothstepResult591 = smoothstep( 0.25 , 0.55 , voroi590);
+				float foamBlend607 = smoothstepResult591;
+				float3 lerpResult611 = lerp( lerpResult609 , _FoamColor.rgb , foamBlend607);
+				float4 screenPos545 = input.ase_texcoord8;
 				float4 ase_positionSSNorm = screenPos545 / screenPos545.w;
 				ase_positionSSNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_positionSSNorm.z : ase_positionSSNorm.z * 0.5 + 0.5;
 				float screenDepth545 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_positionSSNorm.xy ),_ZBufferParams);
 				float distanceDepth545 = saturate( abs( ( screenDepth545 - LinearEyeDepth( ase_positionSSNorm.z,_ZBufferParams ) ) / ( _DepthDistance ) ) );
-				float3 lerpResult550 = lerp( _DepthColor.rgb , color54.rgb , distanceDepth545);
+				float depthBlend569 = distanceDepth545;
+				float3 lerpResult550 = lerp( _DepthColor.rgb , lerpResult611 , depthBlend569);
 				float emission562 = ( pow( ( length( PositionWS ) / _OceanRadius ) , _HorizonPower ) * _HorizonEmission );
 				float3 lerpResult565 = lerp( lerpResult550 , _HorizonColor.rgb , emission562);
 				float3 baseColor551 = lerpResult565;
@@ -1082,25 +1216,33 @@ Shader "Custom/Ocean2"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -1148,7 +1290,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -1158,7 +1301,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -1168,7 +1312,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -1402,6 +1547,8 @@ Shader "Custom/Ocean2"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
@@ -1427,31 +1574,40 @@ Shader "Custom/Ocean2"
 					float4 LightCoord : TEXCOORD2;
 				#endif
 				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -1487,7 +1643,73 @@ Shader "Custom/Ocean2"
 
 			
 
+					float2 voronoihash578( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
 			
+					float voronoi578( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash578( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+					float2 voronoihash590( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi590( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash590( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.707 * sqrt(dot( r, r ));
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+
 			PackedVaryings VertexFunction( Attributes input  )
 			{
 				PackedVaryings output = (PackedVaryings)0;
@@ -1499,7 +1721,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -1509,7 +1732,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -1519,7 +1743,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -1544,8 +1769,12 @@ Shader "Custom/Ocean2"
 				float3 vertexPos545 = ( input.positionOS.xyz + vertexOffset537 );
 				float4 ase_positionCS545 = TransformObjectToHClip( ( vertexPos545 ).xyz );
 				float4 screenPos545 = ComputeScreenPos( ase_positionCS545 );
-				output.ase_texcoord3 = screenPos545;
+				output.ase_texcoord4 = screenPos545;
 				
+				output.ase_texcoord3.xy = input.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				output.ase_texcoord3.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = input.positionOS.xyz;
@@ -1684,12 +1913,54 @@ Shader "Custom/Ocean2"
 				float4 ShadowCoord = shadowCoord;
 
 				float4 color54 = IsGammaSpace() ? float4( 0.3921569, 0.7294118, 0.7686275, 0 ) : float4( 0.1274377, 0.4910209, 0.5520116, 0 );
-				float4 screenPos545 = input.ase_texcoord3;
+				float time578 = 1.7;
+				float2 voronoiSmoothId578 = 0;
+				float2 texCoord576 = input.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime583 = _TimeParameters.x * _ShadowTileSpeed;
+				float2 appendResult575 = (float2(0.0 , mulTime583));
+				float2 coords578 = ( texCoord576 - appendResult575 ) * 25.0;
+				float2 id578 = 0;
+				float2 uv578 = 0;
+				float fade578 = 0.5;
+				float voroi578 = 0;
+				float rest578 = 0;
+				for( int it578 = 0; it578 <2; it578++ ){
+				voroi578 += fade578 * voronoi578( coords578, time578, id578, uv578, 0,voronoiSmoothId578 );
+				rest578 += fade578;
+				coords578 *= 2;
+				fade578 *= 0.5;
+				}//Voronoi578
+				voroi578 /= rest578;
+				float smoothstepResult581 = smoothstep( 0.2 , 0.0 , voroi578);
+				float shadowBlend584 = smoothstepResult581;
+				float3 lerpResult609 = lerp( color54.rgb , _ShadowColor.rgb , shadowBlend584);
+				float time590 = ( ( _TimeParameters.x * _FoamRotateSpeed ) % ( 2.0 * PI ) );
+				float2 voronoiSmoothId590 = 0;
+				float2 texCoord587 = input.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult597 = (float2(0.0 , ( _FoamTileTime * _FoamTileSpeed )));
+				float2 coords590 = ( ( floor( ( texCoord587 * _PixelDensity ) ) / _PixelDensity ) - appendResult597 ) * _FoamScale;
+				float2 id590 = 0;
+				float2 uv590 = 0;
+				float fade590 = 0.5;
+				float voroi590 = 0;
+				float rest590 = 0;
+				for( int it590 = 0; it590 <2; it590++ ){
+				voroi590 += fade590 * voronoi590( coords590, time590, id590, uv590, 0,voronoiSmoothId590 );
+				rest590 += fade590;
+				coords590 *= 2;
+				fade590 *= 0.5;
+				}//Voronoi590
+				voroi590 /= rest590;
+				float smoothstepResult591 = smoothstep( 0.25 , 0.55 , voroi590);
+				float foamBlend607 = smoothstepResult591;
+				float3 lerpResult611 = lerp( lerpResult609 , _FoamColor.rgb , foamBlend607);
+				float4 screenPos545 = input.ase_texcoord4;
 				float4 ase_positionSSNorm = screenPos545 / screenPos545.w;
 				ase_positionSSNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_positionSSNorm.z : ase_positionSSNorm.z * 0.5 + 0.5;
 				float screenDepth545 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_positionSSNorm.xy ),_ZBufferParams);
 				float distanceDepth545 = saturate( abs( ( screenDepth545 - LinearEyeDepth( ase_positionSSNorm.z,_ZBufferParams ) ) / ( _DepthDistance ) ) );
-				float3 lerpResult550 = lerp( _DepthColor.rgb , color54.rgb , distanceDepth545);
+				float depthBlend569 = distanceDepth545;
+				float3 lerpResult550 = lerp( _DepthColor.rgb , lerpResult611 , depthBlend569);
 				float emission562 = ( pow( ( length( PositionWS ) / _OceanRadius ) , _HorizonPower ) * _HorizonEmission );
 				float3 lerpResult565 = lerp( lerpResult550 , _HorizonColor.rgb , emission562);
 				float3 baseColor551 = lerpResult565;
@@ -1779,6 +2050,8 @@ Shader "Custom/Ocean2"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
@@ -1788,7 +2061,7 @@ Shader "Custom/Ocean2"
 				float4 positionOS : POSITION;
 				half3 normalOS : NORMAL;
 				half4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1797,31 +2070,40 @@ Shader "Custom/Ocean2"
 				float4 positionCS : SV_POSITION;
 				float3 positionWS : TEXCOORD0;
 				float4 ase_texcoord1 : TEXCOORD1;
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -1857,7 +2139,73 @@ Shader "Custom/Ocean2"
 
 			
 
+					float2 voronoihash578( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
 			
+					float voronoi578( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash578( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+					float2 voronoihash590( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi590( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash590( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.707 * sqrt(dot( r, r ));
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+
 			PackedVaryings VertexFunction( Attributes input  )
 			{
 				PackedVaryings output = (PackedVaryings)0;
@@ -1869,7 +2217,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -1879,7 +2228,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -1889,7 +2239,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -1914,8 +2265,12 @@ Shader "Custom/Ocean2"
 				float3 vertexPos545 = ( input.positionOS.xyz + vertexOffset537 );
 				float4 ase_positionCS545 = TransformObjectToHClip( ( vertexPos545 ).xyz );
 				float4 screenPos545 = ComputeScreenPos( ase_positionCS545 );
-				output.ase_texcoord1 = screenPos545;
+				output.ase_texcoord2 = screenPos545;
 				
+				output.ase_texcoord1.xy = input.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				output.ase_texcoord1.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = input.positionOS.xyz;
@@ -1947,7 +2302,8 @@ Shader "Custom/Ocean2"
 				float4 positionOS : INTERNALTESSPOS;
 				half3 normalOS : NORMAL;
 				half4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1965,7 +2321,7 @@ Shader "Custom/Ocean2"
 				output.positionOS = input.positionOS;
 				output.normalOS = input.normalOS;
 				output.tangentOS = input.tangentOS;
-				
+				output.ase_texcoord = input.ase_texcoord;
 				return output;
 			}
 
@@ -2005,7 +2361,7 @@ Shader "Custom/Ocean2"
 				output.positionOS = patch[0].positionOS * bary.x + patch[1].positionOS * bary.y + patch[2].positionOS * bary.z;
 				output.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
 				output.tangentOS = patch[0].tangentOS * bary.x + patch[1].tangentOS * bary.y + patch[2].tangentOS * bary.z;
-				
+				output.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -2039,12 +2395,54 @@ Shader "Custom/Ocean2"
 				float4 ShadowCoord = shadowCoord;
 
 				float4 color54 = IsGammaSpace() ? float4( 0.3921569, 0.7294118, 0.7686275, 0 ) : float4( 0.1274377, 0.4910209, 0.5520116, 0 );
-				float4 screenPos545 = input.ase_texcoord1;
+				float time578 = 1.7;
+				float2 voronoiSmoothId578 = 0;
+				float2 texCoord576 = input.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime583 = _TimeParameters.x * _ShadowTileSpeed;
+				float2 appendResult575 = (float2(0.0 , mulTime583));
+				float2 coords578 = ( texCoord576 - appendResult575 ) * 25.0;
+				float2 id578 = 0;
+				float2 uv578 = 0;
+				float fade578 = 0.5;
+				float voroi578 = 0;
+				float rest578 = 0;
+				for( int it578 = 0; it578 <2; it578++ ){
+				voroi578 += fade578 * voronoi578( coords578, time578, id578, uv578, 0,voronoiSmoothId578 );
+				rest578 += fade578;
+				coords578 *= 2;
+				fade578 *= 0.5;
+				}//Voronoi578
+				voroi578 /= rest578;
+				float smoothstepResult581 = smoothstep( 0.2 , 0.0 , voroi578);
+				float shadowBlend584 = smoothstepResult581;
+				float3 lerpResult609 = lerp( color54.rgb , _ShadowColor.rgb , shadowBlend584);
+				float time590 = ( ( _TimeParameters.x * _FoamRotateSpeed ) % ( 2.0 * PI ) );
+				float2 voronoiSmoothId590 = 0;
+				float2 texCoord587 = input.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult597 = (float2(0.0 , ( _FoamTileTime * _FoamTileSpeed )));
+				float2 coords590 = ( ( floor( ( texCoord587 * _PixelDensity ) ) / _PixelDensity ) - appendResult597 ) * _FoamScale;
+				float2 id590 = 0;
+				float2 uv590 = 0;
+				float fade590 = 0.5;
+				float voroi590 = 0;
+				float rest590 = 0;
+				for( int it590 = 0; it590 <2; it590++ ){
+				voroi590 += fade590 * voronoi590( coords590, time590, id590, uv590, 0,voronoiSmoothId590 );
+				rest590 += fade590;
+				coords590 *= 2;
+				fade590 *= 0.5;
+				}//Voronoi590
+				voroi590 /= rest590;
+				float smoothstepResult591 = smoothstep( 0.25 , 0.55 , voroi590);
+				float foamBlend607 = smoothstepResult591;
+				float3 lerpResult611 = lerp( lerpResult609 , _FoamColor.rgb , foamBlend607);
+				float4 screenPos545 = input.ase_texcoord2;
 				float4 ase_positionSSNorm = screenPos545 / screenPos545.w;
 				ase_positionSSNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_positionSSNorm.z : ase_positionSSNorm.z * 0.5 + 0.5;
 				float screenDepth545 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_positionSSNorm.xy ),_ZBufferParams);
 				float distanceDepth545 = saturate( abs( ( screenDepth545 - LinearEyeDepth( ase_positionSSNorm.z,_ZBufferParams ) ) / ( _DepthDistance ) ) );
-				float3 lerpResult550 = lerp( _DepthColor.rgb , color54.rgb , distanceDepth545);
+				float depthBlend569 = distanceDepth545;
+				float3 lerpResult550 = lerp( _DepthColor.rgb , lerpResult611 , depthBlend569);
 				float emission562 = ( pow( ( length( PositionWS ) / _OceanRadius ) , _HorizonPower ) * _HorizonEmission );
 				float3 lerpResult565 = lerp( lerpResult550 , _HorizonColor.rgb , emission562);
 				float3 baseColor551 = lerpResult565;
@@ -2169,25 +2567,33 @@ Shader "Custom/Ocean2"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -2235,7 +2641,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -2245,7 +2652,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -2255,7 +2663,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -2610,6 +3019,8 @@ Shader "Custom/Ocean2"
 			#endif
 
 			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#define ASE_NEEDS_WORLD_POSITION
 			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
@@ -2655,31 +3066,40 @@ Shader "Custom/Ocean2"
 					float4 probeOcclusion : TEXCOORD6;
 				#endif
 				float4 ase_texcoord7 : TEXCOORD7;
+				float4 ase_texcoord8 : TEXCOORD8;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -2721,7 +3141,73 @@ Shader "Custom/Ocean2"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 			#endif
 
+					float2 voronoihash578( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
 			
+					float voronoi578( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash578( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.5 * dot( r, r );
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+					float2 voronoihash590( float2 p )
+					{
+						
+						p = float2( dot( p, float2( 127.1, 311.7 ) ), dot( p, float2( 269.5, 183.3 ) ) );
+						return frac( sin( p ) *43758.5453);
+					}
+			
+					float voronoi590( float2 v, float time, inout float2 id, inout float2 mr, float smoothness, inout float2 smoothId )
+					{
+						float2 n = floor( v );
+						float2 f = frac( v );
+						float F1 = 8.0;
+						float F2 = 8.0; float2 mg = 0; int i, j;
+						for ( j = -1; j <= 1; j++ )
+						{
+							for ( i = -1; i <= 1; i++ )
+						 	{
+						 		float2 g = float2( i, j );
+						 		float2 o = voronoihash590( n + g );
+								o = ( sin( time + o * 6.2831 ) * 0.5 + 0.5 ); float2 r = f - g - o;
+								float d = 0.707 * sqrt(dot( r, r ));
+						 		if( d<F1 ) {
+						 			F2 = F1;
+						 			F1 = d; mg = g; mr = r; id = o;
+						 		} else if( d<F2 ) {
+						 			F2 = d;
+						
+						 		}
+						 	}
+						}
+						return F1;
+					}
+			
+
 			PackedVaryings VertexFunction( Attributes input  )
 			{
 				PackedVaryings output = (PackedVaryings)0;
@@ -2733,7 +3219,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -2743,7 +3230,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -2753,7 +3241,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -2778,8 +3267,12 @@ Shader "Custom/Ocean2"
 				float3 vertexPos545 = ( input.positionOS.xyz + vertexOffset537 );
 				float4 ase_positionCS545 = TransformObjectToHClip( ( vertexPos545 ).xyz );
 				float4 screenPos545 = ComputeScreenPos( ase_positionCS545 );
-				output.ase_texcoord7 = screenPos545;
+				output.ase_texcoord8 = screenPos545;
 				
+				output.ase_texcoord7.xy = input.texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				output.ase_texcoord7.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = input.positionOS.xyz;
 				#else
@@ -2982,12 +3475,54 @@ Shader "Custom/Ocean2"
 				#endif
 
 				float4 color54 = IsGammaSpace() ? float4( 0.3921569, 0.7294118, 0.7686275, 0 ) : float4( 0.1274377, 0.4910209, 0.5520116, 0 );
-				float4 screenPos545 = input.ase_texcoord7;
+				float time578 = 1.7;
+				float2 voronoiSmoothId578 = 0;
+				float2 texCoord576 = input.ase_texcoord7.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime583 = _TimeParameters.x * _ShadowTileSpeed;
+				float2 appendResult575 = (float2(0.0 , mulTime583));
+				float2 coords578 = ( texCoord576 - appendResult575 ) * 25.0;
+				float2 id578 = 0;
+				float2 uv578 = 0;
+				float fade578 = 0.5;
+				float voroi578 = 0;
+				float rest578 = 0;
+				for( int it578 = 0; it578 <2; it578++ ){
+				voroi578 += fade578 * voronoi578( coords578, time578, id578, uv578, 0,voronoiSmoothId578 );
+				rest578 += fade578;
+				coords578 *= 2;
+				fade578 *= 0.5;
+				}//Voronoi578
+				voroi578 /= rest578;
+				float smoothstepResult581 = smoothstep( 0.2 , 0.0 , voroi578);
+				float shadowBlend584 = smoothstepResult581;
+				float3 lerpResult609 = lerp( color54.rgb , _ShadowColor.rgb , shadowBlend584);
+				float time590 = ( ( _TimeParameters.x * _FoamRotateSpeed ) % ( 2.0 * PI ) );
+				float2 voronoiSmoothId590 = 0;
+				float2 texCoord587 = input.ase_texcoord7.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 appendResult597 = (float2(0.0 , ( _FoamTileTime * _FoamTileSpeed )));
+				float2 coords590 = ( ( floor( ( texCoord587 * _PixelDensity ) ) / _PixelDensity ) - appendResult597 ) * _FoamScale;
+				float2 id590 = 0;
+				float2 uv590 = 0;
+				float fade590 = 0.5;
+				float voroi590 = 0;
+				float rest590 = 0;
+				for( int it590 = 0; it590 <2; it590++ ){
+				voroi590 += fade590 * voronoi590( coords590, time590, id590, uv590, 0,voronoiSmoothId590 );
+				rest590 += fade590;
+				coords590 *= 2;
+				fade590 *= 0.5;
+				}//Voronoi590
+				voroi590 /= rest590;
+				float smoothstepResult591 = smoothstep( 0.25 , 0.55 , voroi590);
+				float foamBlend607 = smoothstepResult591;
+				float3 lerpResult611 = lerp( lerpResult609 , _FoamColor.rgb , foamBlend607);
+				float4 screenPos545 = input.ase_texcoord8;
 				float4 ase_positionSSNorm = screenPos545 / screenPos545.w;
 				ase_positionSSNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_positionSSNorm.z : ase_positionSSNorm.z * 0.5 + 0.5;
 				float screenDepth545 = LinearEyeDepth(SHADERGRAPH_SAMPLE_SCENE_DEPTH( ase_positionSSNorm.xy ),_ZBufferParams);
 				float distanceDepth545 = saturate( abs( ( screenDepth545 - LinearEyeDepth( ase_positionSSNorm.z,_ZBufferParams ) ) / ( _DepthDistance ) ) );
-				float3 lerpResult550 = lerp( _DepthColor.rgb , color54.rgb , distanceDepth545);
+				float depthBlend569 = distanceDepth545;
+				float3 lerpResult550 = lerp( _DepthColor.rgb , lerpResult611 , depthBlend569);
 				float emission562 = ( pow( ( length( PositionWS ) / _OceanRadius ) , _HorizonPower ) * _HorizonEmission );
 				float3 lerpResult565 = lerp( lerpResult550 , _HorizonColor.rgb , emission562);
 				float3 baseColor551 = lerpResult565;
@@ -3233,25 +3768,33 @@ Shader "Custom/Ocean2"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -3307,7 +3850,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -3317,7 +3861,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -3327,7 +3872,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -3581,25 +4127,33 @@ Shader "Custom/Ocean2"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _HorizonColor;
+			float4 _FoamColor;
+			float4 _ShadowColor;
 			float4 _DepthColor;
 			float2 _Wave1Direction;
 			float2 _Wave2Direction;
 			float2 _Wave3Direction;
-			float _Wave1Amplitude;
-			float _Wave2Length;
-			float _Wave2Speed;
-			float _Wave2Amplitude;
-			float _Wave2Steepness;
-			float _HorizonPower;
-			float _Wave3Length;
-			float _Wave3Speed;
-			float _Wave3Amplitude;
-			float _Wave3Steepness;
-			float _Wave1Speed;
-			float _DepthDistance;
-			float _Wave1Length;
 			float _OceanRadius;
+			float _DepthDistance;
+			float _FoamTileSpeed;
+			float _FoamTileTime;
+			float _PixelDensity;
+			float _FoamRotateSpeed;
+			float _FoamScale;
+			float _ShadowTileSpeed;
+			float _Wave3Steepness;
+			float _Wave3Amplitude;
+			float _Wave3Speed;
+			float _Wave3Length;
+			float _Wave2Steepness;
+			float _Wave2Amplitude;
+			float _Wave2Speed;
+			float _Wave2Length;
 			float _Wave1Steepness;
+			float _Wave1Amplitude;
+			float _Wave1Speed;
+			float _Wave1Length;
+			float _HorizonPower;
 			float _HorizonEmission;
 			float _AlphaClip;
 			float _Cutoff;
@@ -3655,7 +4209,8 @@ Shader "Custom/Ocean2"
 				float2 wave1Direction85 = _Wave1Direction;
 				float dotResult16 = dot( appendResult14 , wave1Direction85 );
 				float wave1Number96 = ( ( 2.0 * PI ) / _Wave1Length );
-				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - ( _TimeParameters.x * _Wave1Speed ) );
+				float mulTime21 = _TimeParameters.x * _Wave1Speed;
+				float wave1Phase91 = ( ( dotResult16 * wave1Number96 ) - mulTime21 );
 				float wave1Amplitude88 = _Wave1Amplitude;
 				float wave1Steepness94 = _Wave1Steepness;
 				float2 break53 = ( ( ( cos( wave1Phase91 ) * wave1Amplitude88 ) * wave1Steepness94 ) * wave1Direction85 );
@@ -3665,7 +4220,8 @@ Shader "Custom/Ocean2"
 				float2 wave2Direction100 = _Wave2Direction;
 				float dotResult142 = dot( appendResult140 , wave2Direction100 );
 				float wave2Number143 = ( ( 2.0 * PI ) / _Wave2Length );
-				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - ( _TimeParameters.x * _Wave2Speed ) );
+				float mulTime166 = _TimeParameters.x * _Wave2Speed;
+				float wave2Phase149 = ( ( dotResult142 * wave2Number143 ) - mulTime166 );
 				float wave2Amplitude101 = _Wave2Amplitude;
 				float wave2Steepness102 = _Wave2Steepness;
 				float2 break156 = ( ( ( cos( wave2Phase149 ) * wave2Amplitude101 ) * wave2Steepness102 ) * wave2Direction100 );
@@ -3675,7 +4231,8 @@ Shader "Custom/Ocean2"
 				float2 wave3Direction105 = _Wave3Direction;
 				float dotResult260 = dot( appendResult259 , wave3Direction105 );
 				float wave3Number277 = ( ( 2.0 * PI ) / _Wave3Length );
-				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - ( _TimeParameters.x * _Wave3Speed ) );
+				float mulTime274 = _TimeParameters.x * _Wave3Speed;
+				float wave3Phase280 = ( ( dotResult260 * wave3Number277 ) - mulTime274 );
 				float wave3Amplitude107 = _Wave3Amplitude;
 				float wave3Steepness108 = _Wave3Steepness;
 				float2 break269 = ( ( ( cos( wave3Phase280 ) * wave3Amplitude107 ) * wave3Steepness108 ) * wave3Direction105 );
@@ -3853,12 +4410,8 @@ Shader "Custom/Ocean2"
 }
 /*ASEBEGIN
 Version=19912
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":536,"pos":[-4016,-128],"params":["Inherit","False","1516","419","Wave Properties","18","85","100","105","26","97","45","88","98","101","106","94","102","103","107","108","13","99","104","","1,1,1,1","0","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":137,"pos":[-4018,334],"params":["Inherit","False","3036","483","Wave1 Offset","29","14","86","16","96","19","18","20","17","24","91","0","40","41","90","46","49","87","53","28","27","93","55","25","89","95","23","22","21","12","","1,1,1,1","0","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":139,"pos":[-4016,856],"params":["Inherit","False","3036","483","Wave2 Offset","28","167","166","165","164","163","162","161","160","159","158","157","156","155","154","153","152","151","150","149","148","147","146","145","144","143","142","141","140","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.Vector2Node, AmplifyShaderEditor","id":13,"pos":[-3968,-80],"params":["Inherit","False","Property","_Wave1Direction","Wave1Direction","3","0","Create","True","0","0","0","False","0","False","Object","-1","","0,-1","1,0","0","3","FLOAT2","0","FLOAT","1","FLOAT","2"]}
 {"type":"AmplifyShaderEditor.Vector2Node, AmplifyShaderEditor","id":99,"pos":[-3472,-80],"params":["Inherit","False","Property","_Wave2Direction","Wave2Direction","4","0","Create","True","0","0","0","False","0","False","Object","-1","","0.866,0.5","1,0","0","3","FLOAT2","0","FLOAT","1","FLOAT","2"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":258,"pos":[-4016,1384],"params":["Inherit","False","3036","483","Wave3 Offset","28","286","285","284","283","282","281","280","279","278","277","276","275","274","273","272","271","270","269","268","267","266","265","264","263","262","261","260","259","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.PiNode, AmplifyShaderEditor","id":19,"pos":[-3968,592],"params":["Inherit","False","1","0","FLOAT","2","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.PiNode, AmplifyShaderEditor","id":144,"pos":[-3968,1112],"params":["Inherit","False","1","0","FLOAT","2","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.PosVertexDataNode, AmplifyShaderEditor","id":12,"pos":[-3968,384],"params":["Inherit","False","0","0","5","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
@@ -3868,7 +4421,6 @@ Version=19912
 {"type":"AmplifyShaderEditor.Vector2Node, AmplifyShaderEditor","id":104,"pos":[-2976,-80],"params":["Inherit","False","Property","_Wave3Direction","Wave3Direction","5","0","Create","True","0","0","0","False","0","False","Object","-1","","-0.866,0.5","1,0","0","3","FLOAT2","0","FLOAT","1","FLOAT","2"]}
 {"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":18,"pos":[-3968,672],"params":["Inherit","False","Property","_Wave1Length","Wave1Length","6","0","Create","True","0","0","0","False","0","False","Object","-1","","2","5","0","0","0","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":145,"pos":[-3968,1192],"params":["Inherit","False","Property","_Wave2Length","Wave2Length","7","0","Create","True","0","0","0","False","0","False","Object","-1","","1","5","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":478,"pos":[168,1912],"params":["Inherit","False","2236","803","TangentZ","44","446","447","448","436","433","434","437","438","439","432","435","444","445","440","441","442","450","451","454","456","457","458","460","461","463","464","467","469","470","473","474","455","449","452","453","459","468","462","465","466","471","472","475","477","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":14,"pos":[-3672,384],"params":["Inherit","False","FLOAT2","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT2","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":86,"pos":[-3736,496],"params":["Inherit","False","85","wave1Direction","1","0","OBJECT","","False","1","FLOAT2","0"]}
 {"type":"AmplifyShaderEditor.SimpleDivideOpNode, AmplifyShaderEditor","id":20,"pos":[-3768,592],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
@@ -3879,12 +4431,9 @@ Version=19912
 {"type":"AmplifyShaderEditor.PosVertexDataNode, AmplifyShaderEditor","id":275,"pos":[-3968,1432],"params":["Inherit","False","0","0","5","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":105,"pos":[-2744,-80],"params":["Inherit","False","wave3Direction","-1","True","1","0","FLOAT2","0,0","False","1","FLOAT2","0"]}
 {"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":278,"pos":[-3968,1720],"params":["Inherit","False","Property","_Wave3Length","Wave3Length","8","0","Create","True","0","0","0","False","0","False","Object","-1","","0.5","5","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":333,"pos":[-4016,1912],"params":["Inherit","False","2268","811","TangentX","41","289","290","299","300","291","292","293","294","295","297","296","302","315","304","305","306","310","311","313","314","303","307","308","309","312","316","317","318","319","320","321","322","323","324","325","326","327","328","329","330","332","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.DotProductOpNode, AmplifyShaderEditor","id":16,"pos":[-3504,384],"params":["Inherit","False","2","0","FLOAT2","0,0","False","1","FLOAT2","0,0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":96,"pos":[-3600,592],"params":["Inherit","False","wave1Number","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":21,"pos":[-3192,496],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.DotProductOpNode, AmplifyShaderEditor","id":142,"pos":[-3504,904],"params":["Inherit","False","2","0","FLOAT2","0,0","False","1","FLOAT2","0,0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":166,"pos":[-3192,1016],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":143,"pos":[-3600,1112],"params":["Inherit","False","wave2Number","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":259,"pos":[-3672,1432],"params":["Inherit","False","FLOAT2","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT2","0"]}
 {"type":"AmplifyShaderEditor.SimpleDivideOpNode, AmplifyShaderEditor","id":262,"pos":[-3768,1640],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
@@ -3895,14 +4444,11 @@ Version=19912
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":449,"pos":[216,2336],"params":["Inherit","False","101","wave2Amplitude","1","0","OBJECT","","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":468,"pos":[216,2464],"params":["Inherit","False","108","wave3Steepness","1","0","OBJECT","","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":462,"pos":[216,2584],"params":["Inherit","False","107","wave3Amplitude","1","0","OBJECT","","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":22,"pos":[-3168,680],"params":["Inherit","False","Property","_Wave1Speed","Wave1Speed","12","0","Create","True","0","0","0","False","0","False","Object","-1","","0.5","1","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":165,"pos":[-3168,1200],"params":["Inherit","False","Property","_Wave2Speed","Wave2Speed","13","0","Create","True","0","0","0","False","0","False","Object","-1","","1","1","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":165,"pos":[-3224,1016],"params":["Inherit","False","Property","_Wave2Speed","Wave2Speed","13","0","Create","True","0","0","0","False","0","False","Object","-1","","1","1","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":22,"pos":[-3224,496],"params":["Inherit","False","Property","_Wave1Speed","Wave1Speed","12","0","Create","True","0","0","0","False","0","False","Object","-1","","0.5","1","0","0","0","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":17,"pos":[-3368,384],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":23,"pos":[-2968,496],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":147,"pos":[-3368,904],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":164,"pos":[-2968,1016],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.DotProductOpNode, AmplifyShaderEditor","id":260,"pos":[-3504,1432],"params":["Inherit","False","2","0","FLOAT2","0,0","False","1","FLOAT2","0,0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":274,"pos":[-3192,1544],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":277,"pos":[-3600,1640],"params":["Inherit","False","wave3Number","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":303,"pos":[-3968,2216],"params":["Inherit","False","102","wave2Steepness","1","0","OBJECT","","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":307,"pos":[-3968,2336],"params":["Inherit","False","101","wave2Amplitude","1","0","OBJECT","","False","1","FLOAT","0"]}
@@ -3922,12 +4468,12 @@ Version=19912
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":453,"pos":[680,2336],"params":["Inherit","False","100","wave2Direction","1","0","OBJECT","","False","1","FLOAT2","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":465,"pos":[448,2584],"params":["Inherit","False","277","wave3Number","1","0","OBJECT","","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":466,"pos":[680,2584],"params":["Inherit","False","105","wave3Direction","1","0","OBJECT","","False","1","FLOAT2","0"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":279,"pos":[-3168,1728],"params":["Inherit","False","Property","_Wave3Speed","Wave3Speed","14","0","Create","True","0","0","0","False","0","False","Object","-1","","1.5","1","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":431,"pos":[-1704,1912],"params":["Inherit","False","1836","811","TangentY","31","391","395","396","398","400","394","392","402","403","404","393","406","408","410","412","413","418","420","422","424","425","416","411","407","409","430","405","428","423","419","421","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":166,"pos":[-3032,1016],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":279,"pos":[-3224,1544],"params":["Inherit","False","Property","_Wave3Speed","Wave3Speed","14","0","Create","True","0","0","0","False","0","False","Object","-1","","1.5","1","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":21,"pos":[-3032,496],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.SimpleSubtractOpNode, AmplifyShaderEditor","id":24,"pos":[-2800,384],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleSubtractOpNode, AmplifyShaderEditor","id":148,"pos":[-2800,904],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":263,"pos":[-3368,1432],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":273,"pos":[-2968,1544],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":304,"pos":[-3736,2216],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":310,"pos":[-3272,2336],"params":["Inherit","False","FLOAT2","1","0","FLOAT2","0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":308,"pos":[-3736,2336],"params":["Inherit","False","143","wave2Number","1","0","OBJECT","","False","1","FLOAT","0"]}
@@ -3945,6 +4491,7 @@ Version=19912
 {"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":467,"pos":[912,2584],"params":["Inherit","False","FLOAT2","1","0","FLOAT2","0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
 {"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":26,"pos":[-3968,72],"params":["Inherit","False","Property","_Wave1Amplitude","Wave1Amplitude","0","0","Create","True","0","0","0","False","0","False","Object","-1","","0.025","0.5","0","0","0","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":97,"pos":[-3472,72],"params":["Inherit","False","Property","_Wave2Amplitude","Wave2Amplitude","1","0","Create","True","0","0","0","False","0","False","Object","-1","","0.0125","0.5","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":274,"pos":[-3032,1544],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":91,"pos":[-2632,384],"params":["Inherit","False","wave1Phase","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":149,"pos":[-2632,904],"params":["Inherit","False","wave2Phase","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleSubtractOpNode, AmplifyShaderEditor","id":264,"pos":[-2800,1432],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
@@ -4067,7 +4614,6 @@ Version=19912
 {"type":"AmplifyShaderEditor.OneMinusNode, AmplifyShaderEditor","id":330,"pos":[-2168,1960],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":404,"pos":[-248,1960],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.NegateNode, AmplifyShaderEditor","id":448,"pos":[1992,1968],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":542,"pos":[-4016,-1144],"params":["Inherit","False","1004","651","Vertex Normal","11","533","531","530","525","526","527","532","528","534","535","540","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":28,"pos":[-1392,384],"params":["Inherit","False","FLOAT3","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":157,"pos":[-1392,904],"params":["Inherit","False","FLOAT3","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":269,"pos":[-1528,1432],"params":["Inherit","False","FLOAT2","1","0","FLOAT2","0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
@@ -4075,7 +4621,6 @@ Version=19912
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":332,"pos":[-1992,1960],"params":["Inherit","False","tangentX","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":405,"pos":[-112,1960],"params":["Inherit","False","tangentY","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":477,"pos":[2160,1968],"params":["Inherit","False","tangentZ","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":539,"pos":[-4016,-456],"params":["Inherit","False","836","283","Vertex Offset","6","56","168","287","288","537","169","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":55,"pos":[-1224,384],"params":["Inherit","False","wave1Offset","-1","True","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":160,"pos":[-1224,904],"params":["Inherit","False","wave2Offset","-1","True","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":270,"pos":[-1392,1432],"params":["Inherit","False","FLOAT3","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT3","0"]}
@@ -4095,33 +4640,82 @@ Version=19912
 {"type":"AmplifyShaderEditor.CrossProductOpNode, AmplifyShaderEditor","id":534,"pos":[-3584,-1096],"params":["Inherit","False","2","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":288,"pos":[-3560,-400],"params":["Inherit","False","2","2","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.NormalizeNode, AmplifyShaderEditor","id":535,"pos":[-3416,-1096],"params":["Inherit","False","False","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":566,"pos":[-4016,-2152],"params":["Inherit","False","2076","963","Base Color","20","549","547","546","545","54","550","548","544","551","565","564","554","562","555","557","561","560","559","556","558","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":608,"pos":[-4016,-3104],"params":["Inherit","False","1612","795","Foam","20","587","601","595","602","603","606","598","590","591","607","597","596","600","599","604","605","588","589","593","594","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":585,"pos":[-4016,-2272],"params":["Inherit","False","1532","403","Shadow","8","576","575","583","578","581","577","573","584","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":537,"pos":[-3424,-400],"params":["Inherit","False","vertexOffset","-1","True","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":540,"pos":[-3248,-1096],"params":["Inherit","False","vertexNormal","-1","True","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":571,"pos":[-4016,-1832],"params":["Inherit","False","956","323","Depth Fade","6","549","547","546","545","548","569","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":568,"pos":[-4016,-1472],"params":["Inherit","False","1668","283","Horizon Emission","9","554","562","555","557","561","560","559","556","558","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":536,"pos":[-4016,-128],"params":["Inherit","False","1516","419","Wave Properties","18","85","100","105","26","97","45","88","98","101","106","94","102","103","107","108","13","99","104","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":137,"pos":[-4018,334],"params":["Inherit","False","3036","483","Wave1 Offset","28","14","86","16","96","19","18","20","17","24","91","0","40","41","90","46","49","87","53","28","27","93","55","25","89","95","22","21","12","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":139,"pos":[-4016,856],"params":["Inherit","False","3036","483","Wave2 Offset","27","167","166","165","163","162","161","160","159","158","157","156","155","154","153","152","151","150","149","148","147","146","145","144","143","142","141","140","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":258,"pos":[-4016,1384],"params":["Inherit","False","3036","483","Wave3 Offset","27","286","285","284","283","282","281","280","279","278","277","276","275","274","272","271","270","269","268","267","266","265","264","263","262","261","260","259","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":478,"pos":[168,1912],"params":["Inherit","False","2236","803","TangentZ","44","446","447","448","436","433","434","437","438","439","432","435","444","445","440","441","442","450","451","454","456","457","458","460","461","463","464","467","469","470","473","474","455","449","452","453","459","468","462","465","466","471","472","475","477","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":333,"pos":[-4016,1912],"params":["Inherit","False","2268","811","TangentX","41","289","290","299","300","291","292","293","294","295","297","296","302","315","304","305","306","310","311","313","314","303","307","308","309","312","316","317","318","319","320","321","322","323","324","325","326","327","328","329","330","332","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":431,"pos":[-1704,1912],"params":["Inherit","False","1836","811","TangentY","31","391","395","396","398","400","394","392","402","403","404","393","406","408","410","412","413","418","420","422","424","425","416","411","407","409","430","405","428","423","419","421","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":542,"pos":[-4016,-1144],"params":["Inherit","False","1004","651","Vertex Normal","11","533","531","530","525","526","527","532","528","534","535","540","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":539,"pos":[-4016,-456],"params":["Inherit","False","836","283","Vertex Offset","6","56","168","287","288","537","169","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":552,"pos":[0,-8],"params":["Inherit","False","551","baseColor","1","0","OBJECT","","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":563,"pos":[0,112],"params":["Inherit","False","562","emission","1","0","OBJECT","","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":538,"pos":[0,160],"params":["Inherit","False","537","vertexOffset","1","0","OBJECT","","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":541,"pos":[-32,184],"params":["Inherit","False","540","vertexNormal","1","0","OBJECT","","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.PosVertexDataNode, AmplifyShaderEditor","id":549,"pos":[-3408,-1680],"params":["Inherit","False","0","0","5","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
-{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":547,"pos":[-3208,-1680],"params":["Inherit","False","2","2","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":546,"pos":[-3208,-1520],"params":["Inherit","False","Property","_DepthDistance","DepthDistance","17","0","Create","True","0","0","0","False","0","False","Object","-1","","0.5","1","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.DepthFade, AmplifyShaderEditor","id":545,"pos":[-3008,-1680],"params":["Inherit","False","True","True","True","2","1","FLOAT3","0,0,0","False","0","FLOAT","1","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":54,"pos":[-2976,-1896],"params":["Inherit","False","Constant","_WaterColor","WaterColor","1","0","Create","True","0","0","0","False","0","False","Object","-1","","0.3921569,0.7294118,0.7686275,0","0.3921569,0.7294118,0.7686275,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
-{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":550,"pos":[-2736,-2104],"params":["Inherit","False","3","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","2","FLOAT","0","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":548,"pos":[-3408,-1520],"params":["Inherit","False","537","vertexOffset","1","0","OBJECT","","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":544,"pos":[-2976,-2104],"params":["Inherit","False","Property","_DepthColor","DepthColor","16","0","Create","True","0","0","0","False","0","False","Object","-1","","0.7764706,0.8745098,0.8862745,0","1,1,1,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
-{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":551,"pos":[-2184,-2104],"params":["Inherit","False","baseColor","-1","True","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":565,"pos":[-2352,-2104],"params":["Inherit","False","3","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","2","FLOAT","0","False","1","FLOAT3","0"]}
-{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":554,"pos":[-2760,-1424],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":562,"pos":[-2592,-1424],"params":["Inherit","False","emission","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SimpleDivideOpNode, AmplifyShaderEditor","id":555,"pos":[-3576,-1424],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.PowerNode, AmplifyShaderEditor","id":557,"pos":[-3224,-1424],"params":["Inherit","False","False","2","0","FLOAT","0","False","1","FLOAT","3","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.LengthOpNode, AmplifyShaderEditor","id":561,"pos":[-3752,-1424],"params":["Inherit","False","1","0","FLOAT3","0,0,0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor","id":560,"pos":[-3968,-1424],"params":["Inherit","False","0","4","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":559,"pos":[-3784,-1304],"params":["Inherit","False","Property","_OceanRadius","OceanRadius","15","0","Create","True","0","0","0","False","0","False","Object","-1","","50","50","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":556,"pos":[-3416,-1304],"params":["Inherit","False","Property","_HorizonPower","HorizonPower","19","0","Create","True","0","0","0","False","0","False","Object","-1","","3","0","0","0","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":558,"pos":[-3064,-1304],"params":["Inherit","False","Property","_HorizonEmission","HorizonEmission","20","0","Create","True","0","0","0","False","0","False","Object","-1","","1","0","0","1","0","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":564,"pos":[-2592,-1896],"params":["Inherit","False","Property","_HorizonColor","HorizonColor","18","0","Create","True","0","0","0","False","0","False","Object","-1","","0.9098039,1,0.5803922,0","1,0.9817406,0.4858491,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":554,"pos":[-2760,-1416],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":562,"pos":[-2592,-1416],"params":["Inherit","False","emission","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleDivideOpNode, AmplifyShaderEditor","id":555,"pos":[-3576,-1416],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.PowerNode, AmplifyShaderEditor","id":557,"pos":[-3224,-1416],"params":["Inherit","False","False","2","0","FLOAT","0","False","1","FLOAT","3","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.LengthOpNode, AmplifyShaderEditor","id":561,"pos":[-3752,-1416],"params":["Inherit","False","1","0","FLOAT3","0,0,0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.WorldPosInputsNode, AmplifyShaderEditor","id":560,"pos":[-3968,-1416],"params":["Inherit","False","0","4","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":559,"pos":[-3784,-1296],"params":["Inherit","False","Property","_OceanRadius","OceanRadius","25","0","Create","True","0","0","0","False","0","False","Object","-1","","50","50","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":556,"pos":[-3416,-1296],"params":["Inherit","False","Property","_HorizonPower","HorizonPower","27","0","Create","True","0","0","0","False","0","False","Object","-1","","3","0","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":558,"pos":[-3064,-1296],"params":["Inherit","False","Property","_HorizonEmission","HorizonEmission","28","0","Create","True","0","0","0","False","0","False","Object","-1","","1","0","0","1","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.PosVertexDataNode, AmplifyShaderEditor","id":549,"pos":[-3960,-1776],"params":["Inherit","False","0","0","5","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":547,"pos":[-3760,-1776],"params":["Inherit","False","2","2","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":546,"pos":[-3760,-1616],"params":["Inherit","False","Property","_DepthDistance","DepthDistance","24","0","Create","True","0","0","0","False","0","False","Object","-1","","0.5","1","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.DepthFade, AmplifyShaderEditor","id":545,"pos":[-3560,-1776],"params":["Inherit","False","True","True","True","2","1","FLOAT3","0,0,0","False","0","FLOAT","1","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":548,"pos":[-3960,-1616],"params":["Inherit","False","537","vertexOffset","1","0","OBJECT","","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":569,"pos":[-3296,-1776],"params":["Inherit","False","depthBlend","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.TextureCoordinatesNode, AmplifyShaderEditor","id":576,"pos":[-3568,-2216],"params":["Inherit","False","0","-1","2","3","2","SAMPLER2D","","False","0","FLOAT2","1,1","False","1","FLOAT2","0,0","False","5","FLOAT2","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":575,"pos":[-3504,-2072],"params":["Inherit","False","FLOAT2","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":583,"pos":[-3736,-2072],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.VoronoiNode, AmplifyShaderEditor","id":578,"pos":[-3168,-2216],"params":["Inherit","True","0","0","1","0","2","False","1","False","False","False","4","0","FLOAT2","0,0","False","1","FLOAT","1.7","False","2","FLOAT","25","False","3","FLOAT","0","False","3","FLOAT","0","FLOAT2","1","FLOAT2","2"]}
+{"type":"AmplifyShaderEditor.SmoothstepOpNode, AmplifyShaderEditor","id":581,"pos":[-2968,-2216],"params":["Inherit","True","3","0","FLOAT","0","False","1","FLOAT","0.2","False","2","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleSubtractOpNode, AmplifyShaderEditor","id":577,"pos":[-3336,-2216],"params":["Inherit","False","2","0","FLOAT2","0,0","False","1","FLOAT2","0,0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":573,"pos":[-3968,-2072],"params":["Inherit","False","Property","_ShadowTileSpeed","ShadowTileSpeed","17","0","Create","True","0","0","0","False","0","False","Object","-1","","0.001","0","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":584,"pos":[-2728,-2216],"params":["Inherit","False","shadowBlend","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.TextureCoordinatesNode, AmplifyShaderEditor","id":587,"pos":[-3968,-3056],"params":["Inherit","False","0","-1","2","3","2","SAMPLER2D","","False","0","FLOAT2","1,1","False","1","FLOAT2","0,0","False","5","FLOAT2","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":601,"pos":[-3736,-3056],"params":["Inherit","False","2","2","0","FLOAT2","0,0","False","1","FLOAT","0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":595,"pos":[-3936,-2912],"params":["Inherit","False","Property","_PixelDensity","PixelDensity","15","0","Create","True","0","0","0","False","0","False","Object","-1","","1800","0","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.FloorOpNode, AmplifyShaderEditor","id":602,"pos":[-3568,-3056],"params":["Inherit","False","1","0","FLOAT2","0,0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.SimpleDivideOpNode, AmplifyShaderEditor","id":603,"pos":[-3440,-3056],"params":["Inherit","False","2","0","FLOAT2","0,0","False","1","FLOAT","0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.RelayNode, AmplifyShaderEditor","id":606,"pos":[-3568,-2912],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleSubtractOpNode, AmplifyShaderEditor","id":598,"pos":[-3264,-3056],"params":["Inherit","False","2","0","FLOAT2","0,0","False","1","FLOAT2","0,0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.VoronoiNode, AmplifyShaderEditor","id":590,"pos":[-3096,-3056],"params":["Inherit","True","0","1","1","0","2","False","1","False","False","False","4","0","FLOAT2","0,0","False","1","FLOAT","45","False","2","FLOAT","100","False","3","FLOAT","0","False","3","FLOAT","0","FLOAT2","1","FLOAT2","2"]}
+{"type":"AmplifyShaderEditor.SmoothstepOpNode, AmplifyShaderEditor","id":591,"pos":[-2896,-3056],"params":["Inherit","True","3","0","FLOAT","0","False","1","FLOAT","0.25","False","2","FLOAT","0.55","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":607,"pos":[-2648,-3056],"params":["Inherit","False","foamBlend","-1","True","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":597,"pos":[-3440,-2800],"params":["Inherit","False","FLOAT2","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT2","0"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":596,"pos":[-3600,-2800],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":599,"pos":[-3800,-2704],"params":["Inherit","False","Property","_FoamTileSpeed","FoamTileSpeed","21","0","Create","True","0","0","0","False","0","False","Object","-1","","0.001","0","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":604,"pos":[-3864,-2608],"params":["Inherit","False","1","0","FLOAT","1","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":605,"pos":[-3864,-2424],"params":["Inherit","False","Property","_FoamRotateSpeed","FoamRotateSpeed","22","0","Create","True","0","0","0","False","0","False","Object","-1","","0.1","0","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":588,"pos":[-3632,-2608],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleRemainderNode, AmplifyShaderEditor","id":589,"pos":[-3264,-2608],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.PiNode, AmplifyShaderEditor","id":593,"pos":[-3464,-2496],"params":["Inherit","False","1","0","FLOAT","2","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":594,"pos":[-3264,-2496],"params":["Inherit","False","Property","_FoamScale","FoamScale","19","0","Create","True","0","0","0","False","0","False","Object","-1","","100","100","0","0","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":54,"pos":[-2256,-2168],"params":["Inherit","False","Constant","_WaterColor","WaterColor","1","0","Create","True","0","0","0","False","0","False","Object","-1","","0.3921569,0.7294118,0.7686275,0","0.3921569,0.7294118,0.7686275,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":550,"pos":[-1256,-2680],"params":["Inherit","False","3","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","2","FLOAT","0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":551,"pos":[-688,-2680],"params":["Inherit","False","baseColor","-1","True","1","0","FLOAT3","0,0,0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":565,"pos":[-856,-2680],"params":["Inherit","False","3","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","2","FLOAT","0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":567,"pos":[-1056,-2256],"params":["Inherit","False","562","emission","1","0","OBJECT","","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":544,"pos":[-1496,-2680],"params":["Inherit","False","Property","_DepthColor","DepthColor","23","0","Create","True","0","0","0","False","0","False","Object","-1","","0.7764706,0.8745098,0.8862745,0","1,1,1,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":564,"pos":[-1096,-2472],"params":["Inherit","False","Property","_HorizonColor","HorizonColor","26","0","Create","True","0","0","0","False","0","False","Object","-1","","0.9098039,1,0.5803922,0","1,0.9817406,0.4858491,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":570,"pos":[-1464,-2256],"params":["Inherit","False","569","depthBlend","1","0","OBJECT","","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":580,"pos":[-2264,-1960],"params":["Inherit","False","Property","_ShadowColor","ShadowColor","16","0","Create","True","0","0","0","False","0","False","Object","-1","","0.3137255,0.5764706,0.6588235,0","0.2352652,0.6053795,0.6528301,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":610,"pos":[-2240,-1736],"params":["Inherit","False","584","shadowBlend","1","0","OBJECT","","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":609,"pos":[-2000,-2160],"params":["Inherit","False","3","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","2","FLOAT","0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":611,"pos":[-1672,-2152],"params":["Inherit","False","3","0","FLOAT3","0,0,0","False","1","FLOAT3","0,0,0","False","2","FLOAT","0","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":592,"pos":[-1952,-1952],"params":["Inherit","False","Property","_FoamColor","FoamColor","18","0","Create","True","0","0","0","False","0","False","Object","-1","","0.5960785,0.8431373,0.8156863,0","0.5145389,0.7958222,0.8339623,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":612,"pos":[-1920,-1736],"params":["Inherit","False","607","foamBlend","1","0","OBJECT","","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":600,"pos":[-3800,-2800],"params":["Inherit","False","Property","_FoamTileTime","FoamTileTime","20","0","Create","True","0","0","0","False","0","False","Object","-1","","0","0","0","0","0","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":1,"pos":[200,-8],"params":["Float","False","True","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","Custom/Ocean2","94348b07e5e8bab40bd6c8a1e3df54cd","True","Forward","0","1","Forward","22","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","2","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Transparent=RenderType","Queue=Transparent=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","5","False","","10","False","","1","1","False","","10","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","1","LightMode=UniversalForward","False","False","0","","0","0","Standard","52","Category","0","0","  Instanced Terrain Normals","1","0","Lighting Model","0","0","Workflow","1","0","Surface","1","639278976688766176","  Keep Alpha","0","0","  Refraction Model","0","0","  Blend","0","0","Two Sided","1","0","Alpha Clipping","0","0","  Use Shadow Threshold","0","0","Fragment Normal Space","0","0","Forward Only","0","0","Transmission","0","0","  Transmission Shadow","0.5,False,","0","Translucency","0","0","  Translucency Strength","1,False,","0","  Normal Distortion","0.5,False,","0","  Scattering","2,False,","0","  Direct","0.9,False,","0","  Ambient","0.1,False,","0","  Shadow","0.5,False,","0","Cast Shadows","0","639278904560964071","Receive Shadows","2","0","Specular Highlights","2","0","Environment Reflections","2","0","Receive SSAO","1","0","Motion Vectors","0","0","  Additional Motion Vectors","1","0","  Alembic Motion Vectors","0","0","  XR Motion Vectors","0","0","GPU Instancing","1","0","LOD CrossFade","1","0","Built-in Fog","1","0","_FinalColorxAlpha","0","0","Meta Pass","1","0","Override Baked GI","0","0","Extra Pre Pass","0","0","Tessellation","1","639278201039166366","  Phong","1","639278903198082745","  Strength","0.5,False,","0","  Type","0","639278955187925925","  Tess","8,False,","0","  Min","10,False,","0","  Max","25,False,","0","  Edge Length","16,False,","0","  Max Displacement","25,False,","0","Write Depth","0","0","  Conservative","0","0","Vertex Position","1","0","Debug Display","1","0","Clear Coat","0","0","0","12","False","True","False","True","True","True","True","True","True","True","False","False","False","","False","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":2,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ShadowCaster","0","2","ShadowCaster","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","True","False","False","False","False","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","True","3","False","","False","False","True","1","LightMode=ShadowCaster","False","False","0","","0","0","Standard","0","False","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":3,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","DepthOnly","0","3","DepthOnly","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","True","True","False","False","False","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","False","False","False","True","1","LightMode=DepthOnly","False","False","0","","0","0","Standard","0","False","0"]}
@@ -4157,12 +4751,8 @@ Version=19912
 {"wire":[262,1,278,0]}
 {"wire":[17,0,16,0]}
 {"wire":[17,1,96,0]}
-{"wire":[23,0,21,0]}
-{"wire":[23,1,22,0]}
 {"wire":[147,0,142,0]}
 {"wire":[147,1,143,0]}
-{"wire":[164,0,166,0]}
-{"wire":[164,1,165,0]}
 {"wire":[260,0,259,0]}
 {"wire":[260,1,276,0]}
 {"wire":[277,0,262,0]}
@@ -4172,14 +4762,14 @@ Version=19912
 {"wire":[450,1,449,0]}
 {"wire":[463,0,468,0]}
 {"wire":[463,1,462,0]}
+{"wire":[166,0,165,0]}
+{"wire":[21,0,22,0]}
 {"wire":[24,0,17,0]}
-{"wire":[24,1,23,0]}
+{"wire":[24,1,21,0]}
 {"wire":[148,0,147,0]}
-{"wire":[148,1,164,0]}
+{"wire":[148,1,166,0]}
 {"wire":[263,0,260,0]}
 {"wire":[263,1,277,0]}
-{"wire":[273,0,274,0]}
-{"wire":[273,1,279,0]}
 {"wire":[304,0,303,0]}
 {"wire":[304,1,307,0]}
 {"wire":[310,0,309,0]}
@@ -4198,10 +4788,11 @@ Version=19912
 {"wire":[464,0,463,0]}
 {"wire":[464,1,465,0]}
 {"wire":[467,0,466,0]}
+{"wire":[274,0,279,0]}
 {"wire":[91,0,24,0]}
 {"wire":[149,0,148,0]}
 {"wire":[264,0,263,0]}
-{"wire":[264,1,273,0]}
+{"wire":[264,1,274,0]}
 {"wire":[88,0,26,0]}
 {"wire":[101,0,97,0]}
 {"wire":[305,0,304,0]}
@@ -4361,17 +4952,6 @@ Version=19912
 {"wire":[535,0,534,0]}
 {"wire":[537,0,288,0]}
 {"wire":[540,0,535,0]}
-{"wire":[547,0,549,0]}
-{"wire":[547,1,548,0]}
-{"wire":[545,1,547,0]}
-{"wire":[545,0,546,0]}
-{"wire":[550,0,544,5]}
-{"wire":[550,1,54,5]}
-{"wire":[550,2,545,0]}
-{"wire":[551,0,565,0]}
-{"wire":[565,0,550,0]}
-{"wire":[565,1,564,5]}
-{"wire":[565,2,562,0]}
 {"wire":[554,0,557,0]}
 {"wire":[554,1,558,0]}
 {"wire":[562,0,554,0]}
@@ -4380,9 +4960,54 @@ Version=19912
 {"wire":[557,0,555,0]}
 {"wire":[557,1,556,0]}
 {"wire":[561,0,560,0]}
+{"wire":[547,0,549,0]}
+{"wire":[547,1,548,0]}
+{"wire":[545,1,547,0]}
+{"wire":[545,0,546,0]}
+{"wire":[569,0,545,0]}
+{"wire":[575,1,583,0]}
+{"wire":[583,0,573,0]}
+{"wire":[578,0,577,0]}
+{"wire":[581,0,578,0]}
+{"wire":[577,0,576,0]}
+{"wire":[577,1,575,0]}
+{"wire":[584,0,581,0]}
+{"wire":[601,0,587,0]}
+{"wire":[601,1,595,0]}
+{"wire":[602,0,601,0]}
+{"wire":[603,0,602,0]}
+{"wire":[603,1,606,0]}
+{"wire":[606,0,595,0]}
+{"wire":[598,0,603,0]}
+{"wire":[598,1,597,0]}
+{"wire":[590,0,598,0]}
+{"wire":[590,1,589,0]}
+{"wire":[590,2,594,0]}
+{"wire":[591,0,590,0]}
+{"wire":[607,0,591,0]}
+{"wire":[597,1,596,0]}
+{"wire":[596,0,600,0]}
+{"wire":[596,1,599,0]}
+{"wire":[588,0,604,0]}
+{"wire":[588,1,605,0]}
+{"wire":[589,0,588,0]}
+{"wire":[589,1,593,0]}
+{"wire":[550,0,544,5]}
+{"wire":[550,1,611,0]}
+{"wire":[550,2,570,0]}
+{"wire":[551,0,565,0]}
+{"wire":[565,0,550,0]}
+{"wire":[565,1,564,5]}
+{"wire":[565,2,567,0]}
+{"wire":[609,0,54,5]}
+{"wire":[609,1,580,5]}
+{"wire":[609,2,610,0]}
+{"wire":[611,0,609,0]}
+{"wire":[611,1,592,5]}
+{"wire":[611,2,612,0]}
 {"wire":[1,0,552,0]}
 {"wire":[1,2,563,0]}
 {"wire":[1,8,538,0]}
 {"wire":[1,10,541,0]}
 ASEEND*/
-//CHKSM=33D9CA5F98FFC0CA19B1A8C62C62280D9AA60017
+//CHKSM=05111231E6B8ABED976CD5AD8A3FE60EE8B65779
