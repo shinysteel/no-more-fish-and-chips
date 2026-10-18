@@ -25,7 +25,7 @@ namespace NoMoreFishAndChips.Voyages
 
         private int _waveIndex;
 
-        private WaveStep _waveStep;
+        private EnemyWaveStep _waveStep;
         private int _waveStepIndex;
         private bool _areWavesDefeated;
 

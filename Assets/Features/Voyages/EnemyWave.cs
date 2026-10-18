@@ -5,10 +5,10 @@ using UnityEngine;
 namespace NoMoreFishAndChips.Voyages
 {
     [Serializable]
-    public class Wave
+    public class EnemyWave
     {
-        [SerializeField] private WaveStep[] _steps;
+        [SerializeField] private EnemyWaveStep[] _steps;
 
-        public WaveStep[] Steps => _steps;
+        public EnemyWaveStep[] Steps => _steps;
     }
 }

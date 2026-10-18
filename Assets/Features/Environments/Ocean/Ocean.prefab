@@ -179,6 +179,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ocean
   _meshRenderer: {fileID: 2425779133854559662}
   _boxCollider: {fileID: 3658764556947136265}
+  _waveDatas:
+  - _direction: {x: 0, y: -1}
+    _length: 2
+    _amplitude: 0.025
+    _speed: 0.5
+    _steepness: 8
+  - _direction: {x: 0.866, y: 0.5}
+    _length: 1
+    _amplitude: 0.0125
+    _speed: 1
+    _steepness: 4
+  - _direction: {x: -0.866, y: 0.5}
+    _length: 0.5
+    _amplitude: 0.00625
+    _speed: 1.5
+    _steepness: 2
   _submergePercent: 0.5
   _linearDrag: {x: 6, y: 4, z: 6}
   _angularDrag: 2.5
@@ -202,8 +218,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 5, z: 10}
-  m_Center: {x: 0, y: -2.5, z: 0}
+  m_Size: {x: 10, y: 0.175, z: 10}
+  m_Center: {x: 0, y: -0.04375, z: 0}
 --- !u!33 &372357591314843154
 MeshFilter:
   m_ObjectHideFlags: 0

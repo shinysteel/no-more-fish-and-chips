@@ -10,11 +10,11 @@ namespace NoMoreFishAndChips.Voyages
         [SerializeField] private StageId _id;
         [SerializeField] private LocalisationTerm _nameTerm;
         [SerializeField] private Sprite _sprite;
-        [SerializeField] private Wave[] _waves;
+        [SerializeField] private EnemyWave[] _waves;
 
         public StageId Id => _id;
         public LocalisationTerm NameTerm => _nameTerm;
         public Sprite Sprite => _sprite;
-        public Wave[] Waves => _waves;
+        public EnemyWave[] Waves => _waves;
     }
 }

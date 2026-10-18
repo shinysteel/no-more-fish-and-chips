@@ -15,6 +15,7 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private BoxCollider _boxCollider;
 
+        [SerializeField] private OceanWaveData[] _waveDatas;
         [SerializeField, Range(0f, 1f)] private float _submergePercent = 0.5f;
         [SerializeField] private Vector3 _linearDrag = new Vector3(5f, 1f, 5f);
         [SerializeField] private float _angularDrag = 2.5f;
@@ -60,7 +61,7 @@ namespace NoMoreFishAndChips.Environments
 
         private void Update()
         {
-            FoamTileTimeUpdate();
+            // FoamTileTimeUpdate();
         }
 
         private void FoamTileTimeUpdate()
@@ -90,6 +91,51 @@ namespace NoMoreFishAndChips.Environments
             _speedTween = Tween.Custom(startValue: startCurrentSpeed, endValue: endCurrentSpeed, duration: duration, ease: Ease.Linear, onValueChange: (float value) => _currentSpeed = value);
         }
 
+        private float SampleHeight(Vector3 position)
+        {
+            Vector3 localPosition = transform.InverseTransformPoint(position);
+            Vector2 targetPosition = new Vector2(localPosition.x, localPosition.z);
+
+            // Since Gerstner waves offset vertices horizontally, we need to use fixed-point iteration to approximate the original position
+            Vector2 originalPosition = targetPosition;
+            int iterations = 3;
+
+            for (int i = 0; i < iterations; i++)
+            {
+                Vector2 offset = Vector2.zero;
+
+                foreach (OceanWaveData data in _waveDatas)
+                {
+                    float number = 2f * Mathf.PI / data.Length;
+                    float phase = Vector2.Dot(originalPosition, data.Direction) * number - Time.time * data.Speed;
+                    offset += data.Direction * data.Steepness * data.Amplitude * Mathf.Cos(phase);
+                }
+
+                originalPosition = targetPosition - offset;
+            }
+
+            float height = transform.position.y;
+
+            foreach (OceanWaveData data in _waveDatas)
+            {
+                float number = 2f * Mathf.PI / data.Length;
+                float phase = Vector2.Dot(originalPosition, data.Direction) * number - Time.time * data.Speed;
+                height += data.Amplitude * Mathf.Sin(phase) * transform.lossyScale.y;
+            }
+
+            return height;
+        }
+
+        public bool InWater(Collider collider)
+        {
+            if (!Physics.ComputePenetration(_boxCollider, _boxCollider.transform.position, _boxCollider.transform.rotation, collider, collider.transform.position, collider.transform.rotation, out _, out _))
+            {
+                return false;
+            }
+
+            return collider.bounds.min.y <= SampleHeight(collider.transform.position);
+        }
+
         private void OnTriggerStay(Collider collider)
         {
             if (Utils.Physics.ColliderTryGetComponent(collider, out Entity entity))
@@ -104,7 +150,14 @@ namespace NoMoreFishAndChips.Environments
                     return;
                 }
 
-                BuoyancyOnTriggerStay(collider, entity);
+                float height = SampleHeight(collider.transform.position);
+
+                if (collider.bounds.min.y > height)
+                {
+                    return;
+                }
+
+                BuoyancyOnTriggerStay(collider, height, entity);
                 CurrentEntityOnTriggerStay(entity);
                 DragOnTriggerStay(collider, entity);
             }
@@ -124,18 +177,17 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
-        private float GetBuoyancyFactor(Collider collider)
+        private float GetBuoyancyFactor(Collider collider, float height)
         {
-            float surfaceY = _boxCollider.bounds.max.y;
-            float depth = surfaceY - collider.bounds.min.y;
+            float depth = height - collider.bounds.min.y;
             return Mathf.Clamp01(depth / collider.bounds.size.y);
         }
 
-        private void BuoyancyOnTriggerStay(Collider collider, Entity entity)
-        { 
+        private void BuoyancyOnTriggerStay(Collider collider, float height, Entity entity)
+        {
             // More mass = more force
             float strength = entity.EntityPhysicsLogic.Rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
-            float factor = GetBuoyancyFactor(collider);
+            float factor = GetBuoyancyFactor(collider, height);
             Vector3 force = Vector3.up * strength * factor;
 
             // Push the entity upwards to simulate floating

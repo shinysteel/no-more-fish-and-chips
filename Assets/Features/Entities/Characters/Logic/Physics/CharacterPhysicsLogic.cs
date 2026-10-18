@@ -30,7 +30,6 @@ namespace NoMoreFishAndChips.Entities
         public bool InAir => _groundSurface == null && _timeInWater == 0f;
 
         private RaycastHit[] _isGroundedHitsNonAlloc = new RaycastHit[2];
-        protected Collider[] _inWaterCollidersNonAlloc = new Collider[1];
 
         public CharacterPhysicsLogic(Character character, Rigidbody rigidbody, CapsuleCollider collider) : base(character, rigidbody, collider)
         {
@@ -94,12 +93,8 @@ namespace NoMoreFishAndChips.Entities
         
         private void InWaterFixedTick()
         {
-            float radius = Vector3.Distance(_collider.bounds.center, _collider.bounds.min) * 0.5f;
-
             // If we are overlapping a collider on the water mask, we are in water
-            bool inWater = Physics.OverlapSphereNonAlloc(_collider.bounds.center, radius, _inWaterCollidersNonAlloc, _sharedSettings.ContactDetection.WaterMask) > 0;
-
-            if (inWater)
+            if (_context.EnvironmentGameplayReferences.Ocean.InWater(_collider))
             {
                 _timeInWater += Time.fixedDeltaTime;
             }

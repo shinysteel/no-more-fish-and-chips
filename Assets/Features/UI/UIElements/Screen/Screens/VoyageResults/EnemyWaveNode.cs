@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace NoMoreFishAndChips.UI
 {
-    public class WaveNode : MonoBehaviour, ITypedPoolable
+    public class EnemyWaveNode : MonoBehaviour, ITypedPoolable
     {
         [SerializeField] private Image _image;
 

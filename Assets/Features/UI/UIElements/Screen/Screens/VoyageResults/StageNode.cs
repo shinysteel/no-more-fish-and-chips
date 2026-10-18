@@ -21,7 +21,7 @@ namespace NoMoreFishAndChips.UI
         private VoyageManager _voyageManager;
         private LocalisationManager _localisationManager;
 
-        private List<WaveNode> _wavesNodes = new();
+        private List<EnemyWaveNode> _wavesNodes = new();
 
         private void Awake()
         {
@@ -32,7 +32,7 @@ namespace NoMoreFishAndChips.UI
 
         public void OnReturnedToPool()
         {
-            foreach (WaveNode node in _wavesNodes)
+            foreach (EnemyWaveNode node in _wavesNodes)
             {
                 _poolManager.ReturnTypedPoolable(node);
             }   
@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.UI
 
             for (int i = 0; i < data.Waves.Length; i++)
             {
-                WaveNode node = _poolManager.GetTypedPoolable<WaveNode>(new SpawnParams() { Parent = _wavesContainer });
+                EnemyWaveNode node = _poolManager.GetTypedPoolable<EnemyWaveNode>(new SpawnParams() { Parent = _wavesContainer });
 
                 bool complete = context.VoyageRunner.VoyageResult == VoyageResult.Victory
                     || stageIndex < context.VoyageRunner.StageIndex

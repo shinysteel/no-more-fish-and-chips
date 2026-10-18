@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6187346844252105012}
   - component: {fileID: 880282924018561216}
   m_Layer: 5
-  m_Name: WaveNode
+  m_Name: EnemyWaveNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

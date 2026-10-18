@@ -17,11 +17,9 @@ namespace NoMoreFishAndChips.Entities
         [SerializeField] private float _groundCastRadius = 0.125f;
         [SerializeField] private float _groundCastDistance = 0.05f;
         [SerializeField] private LayerMask _groundMask;
-        [SerializeField] private LayerMask _waterMask;
 
         public float GroundCastRadius => _groundCastRadius;
         public float GroundCastDistance => _groundCastDistance;
         public LayerMask GroundMask => _groundMask;
-        public LayerMask WaterMask => _waterMask;
     }
 }

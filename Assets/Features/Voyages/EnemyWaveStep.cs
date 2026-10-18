@@ -6,7 +6,7 @@ using EntityId = NoMoreFishAndChips.Entities.EntityId;
 namespace NoMoreFishAndChips.Voyages
 {
     [Serializable]
-    public class WaveStep
+    public class EnemyWaveStep
     {
         [SerializeField] private EntityId _entityId;
         [SerializeField] private int _count;
