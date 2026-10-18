@@ -36,7 +36,7 @@ namespace NoMoreFishAndChips.Environments
 
         private void Awake()
         {
-            _material = _meshRenderer.material;
+            // _material = _meshRenderer.material;
 
             _defaultCurrentSpeed = _currentSpeed;
         }

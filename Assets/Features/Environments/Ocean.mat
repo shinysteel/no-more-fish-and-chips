@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ocean
-  m_Shader: {fileID: 4800000, guid: 7a44a040ab7f9a54280f0cf4d37ff3cd, type: 3}
+  m_Shader: {fileID: 4800000, guid: de0459f629c103548a45d59d6a0ac619, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -130,6 +130,9 @@ Material:
     - _SwirlScale: 100
     - _SwirlSpeed: 0.1
     - _SwirlStep: 0.5
+    - _TessMax: 25
+    - _TessMin: 10
+    - _TessPhongStrength: 0.5
     - _TessValue: 16
     - _VoronoiAngle: 59.1
     - _VoronoiScale: 54.9
@@ -137,6 +140,10 @@ Material:
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 0
+    - _waveAmplitude: 0.05
+    - _waveLength: 2
+    - _waveSpeed: 1
+    - _waveSteepness: 4
     m_Colors:
     - _BaseColor: {r: 0.39169088, g: 0.7294118, b: 0.76862746, a: 0.5882353}
     - _Color: {r: 0.39169085, g: 0.7294118, b: 0.76862746, a: 0.5882353}
@@ -147,6 +154,8 @@ Material:
     - _ShadowColor: {r: 0.3127447, g: 0.5783885, b: 0.6603774, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _WaterColor: {r: 0.39215684, g: 0.7294118, b: 0.7686275, a: 0}
+    - _direction: {r: 1, g: 0, b: 0, a: 0}
+    - _waveDirection: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &4896138043718193945
