@@ -12,7 +12,7 @@ using UnityEngine;
 namespace NoMoreFishAndChips.Entities
 {
     // Maybe it's not so obvious that Entity is linked to the GameplayState, but for now they aren't used in any other state
-    public abstract class Entity : GameplayBehaviour, ISurface
+    public abstract class Entity : GameplayBehaviour, ISurface, IFloatable
     {
         private EntityManager _entityManager;
 
@@ -37,6 +37,7 @@ namespace NoMoreFishAndChips.Entities
         public EntityPhysicsLogic EntityPhysicsLogic => GetLogic<EntityPhysicsLogic>();
 
         SurfaceType ISurface.SurfaceType => _entityDefinitionData.SurfaceType;
+        Rigidbody IFloatable.Rigidbody => _rigidbody;
 
         protected override void Awake()
         {
@@ -129,6 +130,11 @@ namespace NoMoreFishAndChips.Entities
             {
                 logic.FixedTick();
             }
+        }
+
+        bool IFloatable.CanFloat()
+        {
+            return isSpawned && isOwner;
         }
 
         public void SetNetHealth(int health)

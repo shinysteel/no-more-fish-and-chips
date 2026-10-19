@@ -6,6 +6,7 @@ using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
@@ -142,42 +143,30 @@ namespace NoMoreFishAndChips.Environments
 
         private void OnTriggerStay(Collider collider)
         {
-            if (Utils.Physics.ColliderTryGetComponent(collider, out Entity entity))
+            if (Utils.Physics.ColliderTryGetComponent(collider, out IFloatable floatable))
             {
-                if (!entity.isSpawned)
+                if (!floatable.CanFloat())
                 {
                     return;
                 }
 
-                if (!entity.isOwner)
+                if (floatable is Island)
                 {
-                    return;
+                    CurrentOnTriggerStay(floatable, true);
                 }
-
-                float height = SampleHeight(collider.transform.position);
-
-                if (collider.bounds.min.y > height)
+                else
                 {
-                    return;
-                }
+                    float height = SampleHeight(collider.transform.position);
 
-                BuoyancyOnTriggerStay(collider, height, entity);
-                CurrentEntityOnTriggerStay(entity);
-                DragOnTriggerStay(collider, entity);
-            }
-            else if (Utils.Physics.ColliderTryGetComponent(collider, out Island island))
-            {
-                if (!island.isSpawned)
-                {
-                    return;
-                }
+                    if (collider.bounds.min.y > height)
+                    {
+                        return;
+                    }
 
-                if (!island.isOwner)
-                {
-                    return;
+                    BuoyancyOnTriggerStay(collider, height, floatable.Rigidbody);
+                    CurrentOnTriggerStay(floatable, false);
+                    DragOnTriggerStay(collider, floatable.Rigidbody);
                 }
-
-                CurrentRigidbodyOnTriggerStay(island.Rigidbody, true);
             }
         }
 
@@ -187,48 +176,43 @@ namespace NoMoreFishAndChips.Environments
             return Mathf.Clamp01(depth / collider.bounds.size.y);
         }
 
-        private void BuoyancyOnTriggerStay(Collider collider, float height, Entity entity)
+        private void BuoyancyOnTriggerStay(Collider collider, float height, Rigidbody rigidbody)
         {
             // More mass = more force
-            float strength = entity.EntityPhysicsLogic.Rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
+            float strength = rigidbody.mass * Physics.gravity.magnitude / _submergePercent;
             float factor = GetBuoyancyFactor(collider, height);
             Vector3 force = Vector3.up * strength * factor;
 
             // Push the entity upwards to simulate floating
-            entity.EntityPhysicsLogic.Rigidbody.AddForce(force, ForceMode.Force);
+            rigidbody.AddForce(force, ForceMode.Force);
         }
 
         // Current is referring to motion in water
-        private void CurrentEntityOnTriggerStay(Entity entity)
+        private void CurrentOnTriggerStay(IFloatable floatable, bool allowKinematic)
         {
-            if (entity is Character && !entity.EntityDefeatLogic.IsDefeated)
+            if (floatable is Character character && !character.EntityDefeatLogic.IsDefeated)
             {
                 return;
             }
 
-            CurrentRigidbodyOnTriggerStay(entity.EntityPhysicsLogic.Rigidbody, false);
-        }
-
-        private void CurrentRigidbodyOnTriggerStay(Rigidbody rigidbody, bool allowKinematic)
-        {
             if (_currentSpeed == 0f)
             {
                 return;
             }
 
-            if (rigidbody.isKinematic && !allowKinematic)
+            if (floatable.Rigidbody.isKinematic && !allowKinematic)
             {
                 return;
             }
 
-            rigidbody.MovePosition(rigidbody.position + Vector3.back * _currentSpeed * Time.fixedDeltaTime);
+            floatable.Rigidbody.MovePosition(floatable.Rigidbody.position + Vector3.back * _currentSpeed * Time.fixedDeltaTime);
         }
 
-        private void DragOnTriggerStay(Collider collider, Entity entity)
+        private void DragOnTriggerStay(Collider collider, Rigidbody rigidbody)
         {
             // Drag stops the entity being 'launched' from buoyancy, and slows it down on the XZ plane
-            entity.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.Scale(-entity.EntityPhysicsLogic.Rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
-            entity.EntityPhysicsLogic.Rigidbody.AddTorque(-entity.EntityPhysicsLogic.Rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
+            rigidbody.AddForce(Vector3.Scale(-rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
+            rigidbody.AddTorque(-rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
         }
     }
 }

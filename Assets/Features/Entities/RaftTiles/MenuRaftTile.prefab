@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1940801192194619890
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4852987599716700799}
+    m_Modifications:
+    - target: {fileID: 198306788300191764, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 198306788300191764, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198306788300191764, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198306788300191764, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 687738294189826734, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+      propertyPath: m_Name
+      value: WoodenRaftTileModel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+--- !u!4 &1742781592285495782 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 198306788300191764, guid: 19cceff12153e71458572bef642c9b5b, type: 3}
+  m_PrefabInstance: {fileID: 1940801192194619890}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2600128242991404689
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3594507156527767859, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 3594507156527767859, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8420347017716335235, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      propertyPath: m_Name
+      value: MenuRaftTile
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1742781592285495782}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8420347017716335235, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 6791807067776535290}
+  m_SourcePrefab: {fileID: 100100000, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+--- !u!54 &1582949206964402082 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 3594507156527767859, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+  m_PrefabInstance: {fileID: 2600128242991404689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4852987599716700799 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7443540192571147502, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+  m_PrefabInstance: {fileID: 2600128242991404689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5822756447610868754 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8420347017716335235, guid: 1b7d8d28308257248ae096c188eb6202, type: 3}
+  m_PrefabInstance: {fileID: 2600128242991404689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6791807067776535290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5822756447610868754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880b5a61c68872248bdf6177b1f3ff66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Floatable
+  _rigidbody: {fileID: 1582949206964402082}

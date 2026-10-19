@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 using ShinyOwl.Common.Utils;
 using ShinyOwl.Common;
 using NoMoreFishAndChips.Voyages;
+using NoMoreFishAndChips.Environments;
 
 using EntityId = NoMoreFishAndChips.Entities.EntityId;
+using Object = UnityEngine.Object;
 
 namespace NoMoreFishAndChips.States
 {
@@ -30,6 +32,7 @@ namespace NoMoreFishAndChips.States
 
         private FixedCameraMode _fixedCameraMode;
 
+        private EnvironmentVoyageResultsReferences _voyageResultsReferences;
         private VoyageResultsScreen _voyageResultsScreen;
         private HumanModel _voyageResultsHumanModel;
 
@@ -93,6 +96,8 @@ namespace NoMoreFishAndChips.States
 
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneMode.Additive, LoadSceneContext.Local);
 
+                _voyageResultsReferences = Object.FindFirstObjectByType<EnvironmentVoyageResultsReferences>();
+
                 _voyageResultsHumanModel = (HumanModel)_entityManager.GetModel(EntityId.RaftPlayer, new SpawnParams() { Position = new Vector3(0f, 0.125f, 0f), Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), SpawnScene = SpawnScene.Scene(EScene.EnvironmentVoyageResults) });
 
                 if (_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem != null)
@@ -149,6 +154,11 @@ namespace NoMoreFishAndChips.States
         public override void Tick()
         {
             base.Tick();
+
+            if (_voyageResultsHumanModel != null)
+            {
+                _voyageResultsHumanModel.transform.position = _voyageResultsReferences.TileGameObject.transform.position;
+            }
 
             if (_networkManager.IsServer)
             {
