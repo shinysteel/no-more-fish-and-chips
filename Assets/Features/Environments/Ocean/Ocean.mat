@@ -92,6 +92,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _CurrentSpeed: 0.001
+    - _CurrentTime: 0
     - _Cutoff: 0.5
     - _DeepSpeed: 0.001
     - _DepthDistance: 0.5
@@ -134,6 +135,8 @@ Material:
     - _TessMin: 10
     - _TessPhongStrength: 0.5
     - _TessValue: 16
+    - _TestSpeed: 0.1
+    - _VertexTimeMultiplier: 0.05
     - _VoronoiAngle: 59.1
     - _VoronoiScale: 54.9
     - _WaterAlpha: 1
@@ -173,6 +176,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.39169088, g: 0.7294118, b: 0.76862746, a: 0.5882353}
     - _Color: {r: 0.39169085, g: 0.7294118, b: 0.76862746, a: 0.5882353}
+    - _CurrentDirection: {r: 0, g: -1, b: 0, a: 0}
     - _DepthColor: {r: 0.7746884, g: 0.87478125, b: 0.8867924, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FoamColor: {r: 0.59607846, g: 0.84313726, b: 0.81442237, a: 0}

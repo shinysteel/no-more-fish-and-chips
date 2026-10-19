@@ -20,6 +20,3 @@ MonoBehaviour:
     - _entityId: 103
       _count: 2
       _interval: 2
-    - _entityId: 107
-      _count: 2
-      _interval: 2

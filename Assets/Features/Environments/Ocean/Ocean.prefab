@@ -198,7 +198,9 @@ MonoBehaviour:
   _submergePercent: 0.5
   _linearDrag: {x: 6, y: 4, z: 6}
   _angularDrag: 2.5
+  _currentDirection: {x: 0, y: -1}
   _currentSpeed: 1
+  _vertexTimeMultiplier: 0.05
 --- !u!65 &3658764556947136265
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -219,7 +221,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 10, y: 0.175, z: 10}
-  m_Center: {x: 0, y: -0.04375, z: 0}
+  m_Center: {x: 0, y: -0.065625, z: 0}
 --- !u!33 &372357591314843154
 MeshFilter:
   m_ObjectHideFlags: 0

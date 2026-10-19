@@ -19,17 +19,20 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField, Range(0f, 1f)] private float _submergePercent = 0.5f;
         [SerializeField] private Vector3 _linearDrag = new Vector3(5f, 1f, 5f);
         [SerializeField] private float _angularDrag = 2.5f;
-        [SerializeField] private float _currentSpeed = 0.5f;
+        [SerializeField] private Vector2 _currentDirection = Vector2.down;
+        [SerializeField] private float _currentSpeed = 1f;
+        [SerializeField] private float _vertexTimeMultiplier = 0.1f;
 
         private GameplayContext _context;
 
         private Material _material;
 
+        private float _currentTime;
         private float _defaultCurrentSpeed;
 
         private Tween _speedTween;
 
-        private const string FoamTileTimeName = "_FoamTileTime";
+        private const string CurrentTimeName = "_CurrentTime";
 
         public const float DefaultSetCurrentDuration = 2.5f;
 
@@ -37,7 +40,7 @@ namespace NoMoreFishAndChips.Environments
 
         private void Awake()
         {
-            // _material = _meshRenderer.material;
+            _material = _meshRenderer.material;
 
             _defaultCurrentSpeed = _currentSpeed;
         }
@@ -61,15 +64,14 @@ namespace NoMoreFishAndChips.Environments
 
         private void Update()
         {
-            // FoamTileTimeUpdate();
+            CurrentTimeUpdate();
         }
 
-        private void FoamTileTimeUpdate()
+        private void CurrentTimeUpdate()
         {
-            // Current speed influences how fast 'time' increases
-            float time = _material.GetFloat(FoamTileTimeName);
-            time += _currentSpeed * 2f * Time.deltaTime;
-            _material.SetFloat(FoamTileTimeName, time);
+            // Current speed influences how fast 'time' increases. The 2f is here so that to keep the visual fast without affecting entities
+            _currentTime += _currentSpeed * 2f * Time.deltaTime;
+            _material.SetFloat(CurrentTimeName, _currentTime);
         }
 
         // Adjusts current speed to what it should be over a duration
@@ -95,6 +97,8 @@ namespace NoMoreFishAndChips.Environments
         {
             Vector3 localPosition = transform.InverseTransformPoint(position);
             Vector2 targetPosition = new Vector2(localPosition.x, localPosition.z);
+
+            targetPosition -= _currentTime * _vertexTimeMultiplier * _currentDirection;
 
             // Since Gerstner waves offset vertices horizontally, we need to use fixed-point iteration to approximate the original position
             Vector2 originalPosition = targetPosition;
