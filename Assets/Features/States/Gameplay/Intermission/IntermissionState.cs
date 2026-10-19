@@ -97,7 +97,7 @@ namespace NoMoreFishAndChips.States
                 ? _context.Raft.Queries.Axes[Axis.Vertical].Lines[bounds.Min].MinEdge.Node.Tile.Cell
                 : -Vector2Int.one;
 
-            Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(cell) + Vector3.left * _config.IslandOffset;
+            Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(cell) + Vector3.left * _config.IslandOffset + Vector3.up * 0.125f;
 
             _island = _networkManager.Spawn(_config.IslandPrefab, new SpawnParams() { Position = position });
 
