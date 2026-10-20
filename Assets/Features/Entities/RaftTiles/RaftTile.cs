@@ -141,9 +141,12 @@ namespace NoMoreFishAndChips.Entities
                 position(_ocean);
             }
             // TileDefeatModule takes over when defeated
-            else if (isOwner && isFullySpawned && !EntityDefeatLogic.IsDefeated)
+            else
             {
-                position(_context.Ocean);   
+                if (_context != null && !EntityDefeatLogic.IsDefeated)
+                {
+                    position(_context.Ocean);
+                }
             }
         }
 

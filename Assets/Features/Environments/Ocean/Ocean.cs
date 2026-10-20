@@ -28,11 +28,13 @@ namespace NoMoreFishAndChips.Environments
 
         private Material _material;
 
+        private SyncVar<float> _netOceanTime = new SyncVar<float>(ownerAuth: true);
         private SyncVar<float> _netCurrentTime = new SyncVar<float>(ownerAuth: true);
         private float _currentSpeed;
 
         private Tween _speedTween;
 
+        private const string OceanTimeName = "_OceanTime";
         private const string CurrentTimeName = "_CurrentTime";
 
         public const float SetCurrentDuration = 2.5f;
@@ -62,8 +64,10 @@ namespace NoMoreFishAndChips.Environments
         {
             base.OnSpawned();
 
+            HandleNetOceanTimeChanged(_netOceanTime.value);
             HandleNetCurrentTimeChanged(_netCurrentTime.value);
 
+            _netOceanTime.onChanged += HandleNetOceanTimeChanged;
             _netCurrentTime.onChanged += HandleNetCurrentTimeChanged;
         }
 
@@ -71,7 +75,13 @@ namespace NoMoreFishAndChips.Environments
         {
             base.OnDespawned();
 
+            _netOceanTime.onChanged -= HandleNetOceanTimeChanged;
             _netCurrentTime.onChanged -= HandleNetCurrentTimeChanged;
+        }
+
+        private void HandleNetOceanTimeChanged(float time)
+        {
+            _material.SetFloat(OceanTimeName, time);
         }
 
         private void HandleNetCurrentTimeChanged(float time)
@@ -81,16 +91,17 @@ namespace NoMoreFishAndChips.Environments
 
         private void Update()
         {
-            if (isOwner && isFullySpawned)
+            if (!isFullySpawned)
             {
-                CurrentTimeUpdate();
+                HandleNetOceanTimeChanged(Time.time);   
             }
-        }
+            else if (isOwner)
+            {
+                _netOceanTime.value += Time.deltaTime;
 
-        private void CurrentTimeUpdate()
-        {
-            // Current speed influences how fast 'time' increases. The 2f is here so that to keep the visual fast without affecting entities
-            _netCurrentTime.value += _currentSpeed * 2f * Time.deltaTime;
+                // Current speed influences how fast 'time' increases. The 2f is here so that to keep the visual fast without affecting entities
+                _netCurrentTime.value += _currentSpeed * 2f * Time.deltaTime;
+            }
         }
 
         // Adjusts current speed to what it should be over a duration
@@ -122,6 +133,7 @@ namespace NoMoreFishAndChips.Environments
             // Since Gerstner waves offset vertices horizontally, we need to use fixed-point iteration to approximate the original position
             Vector2 originalPosition = targetPosition;
             int iterations = 3;
+            float oceanTime = isFullySpawned ? _netOceanTime.value : Time.time;
 
             for (int i = 0; i < iterations; i++)
             {
@@ -130,7 +142,7 @@ namespace NoMoreFishAndChips.Environments
                 foreach (OceanWaveData data in _waveDatas)
                 {
                     float number = 2f * Mathf.PI / data.Length;
-                    float phase = Vector2.Dot(originalPosition, data.Direction) * number - Time.time * data.Speed;
+                    float phase = Vector2.Dot(originalPosition, data.Direction) * number - oceanTime * data.Speed;
                     offset += data.Direction * data.Steepness * data.Amplitude * Mathf.Cos(phase);
                 }
 
@@ -142,7 +154,7 @@ namespace NoMoreFishAndChips.Environments
             foreach (OceanWaveData data in _waveDatas)
             {
                 float number = 2f * Mathf.PI / data.Length;
-                float phase = Vector2.Dot(originalPosition, data.Direction) * number - Time.time * data.Speed;
+                float phase = Vector2.Dot(originalPosition, data.Direction) * number - oceanTime * data.Speed;
                 height += data.Amplitude * Mathf.Sin(phase) * transform.lossyScale.y;
             }
 

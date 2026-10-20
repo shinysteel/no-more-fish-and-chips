@@ -10,6 +10,7 @@ using ShinyOwl.Common;
 using NUnit.Framework;
 using UnityEngine.Pool;
 using System.Collections.Generic;
+using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -35,6 +36,11 @@ namespace NoMoreFishAndChips.Entities
 
             _netCell.onChanged += HandleNetCellChanged;
             _netRotations.onChanged += HandleNetRotationsChanged;
+        }
+
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
 
             _context.Raft.OnTileChanged += HandleTileChanged;
         }
