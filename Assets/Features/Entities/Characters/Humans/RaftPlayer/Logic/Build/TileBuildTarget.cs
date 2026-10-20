@@ -103,9 +103,10 @@ namespace NoMoreFishAndChips.Entities
         private void RefreshPreview()
         {
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_cell);
-            position.y = -0.125f;
             _previewModel.transform.position = position;
-            _previewModel.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);            
+            PreviewTick();
+
+            _previewModel.SetColor(CanBuild() ? _settings.ValidColor : _settings.InvalidColor);
         }
 
         public override void Tick()
@@ -115,7 +116,16 @@ namespace NoMoreFishAndChips.Entities
 
         private void PreviewTick()
         {
-            float y = _tile != null ? _tile.transform.position.y - 0.25f : -0.125f;
+            float y;
+                
+            if (_tile != null)
+            {
+                y = _tile.transform.position.y - 0.25f;
+            }
+            else
+            {
+                y = _context.Ocean.SampleHeight(_previewModel.transform.position) - 0.125f;
+            }
 
             Vector3 position = _previewModel.transform.position;
             position.y = y;

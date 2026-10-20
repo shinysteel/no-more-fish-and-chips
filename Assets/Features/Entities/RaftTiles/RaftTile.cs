@@ -105,8 +105,7 @@ namespace NoMoreFishAndChips.Entities
         private void HandleNetCellChanged(Vector2Int cell)
         {
             Vector3 position = _context.Raft.Queries.TileCellToWorldPosition(_netCell.value);
-            position.y = 0.125f;
-
+            position.y = _context.Ocean.SampleHeight(position) + 0.125f;
             transform.position = position;
         }
 
@@ -131,9 +130,9 @@ namespace NoMoreFishAndChips.Entities
         {
             void position(Ocean ocean)
             {
-                Vector3 targetPosition = _rigidbody.position;
-                targetPosition.y = ocean.SampleHeight(_rigidbody.position) + 0.125f;
-                _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.BobSpeed * Time.fixedDeltaTime));
+                Vector3 position = _rigidbody.position;
+                position.y = ocean.SampleHeight(_rigidbody.position) + 0.125f;
+                _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, position, TileDefinitionData.BobSpeed * Time.fixedDeltaTime));
             }
 
             if (_ocean != null)
