@@ -30,7 +30,7 @@ namespace NoMoreFishAndChips.Entities
 
             SpawnDroppedItemRpc(NetItemInstance.Create(itemInstance), _player.transform.position, direction, _sharedSettings.Strength);
 
-            AudioManager.PlaySoundRpc(SoundId.DroppedItemDrop, 0f);
+            AudioManager.PlaySoundRpc(SoundId.DroppedItemDrop, _player.transform.position, 0f);
         }
 
         [ServerRpc(requireOwnership: false)]

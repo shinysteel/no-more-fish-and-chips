@@ -640,7 +640,7 @@ namespace NoMoreFishAndChips.Entities
                     _seabird.EntityPhysicsLogic.Rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
                 }
 
-                _audioManager.PlaySound(SoundId.SeagullSquawk, 0f);
+                _audioManager.PlaySound(SoundId.SeagullSquawk, _seabird.transform.position, 0f);
             }));
 
             _seabird.SquawkStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>

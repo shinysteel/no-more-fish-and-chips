@@ -93,7 +93,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 _context.Raft.AddStructureScaffoldRpc(_cell, _entityId, _rotations);
 
-                AudioManager.PlaySoundRpc(SoundId.StructureScaffoldPlace, 0f);
+                AudioManager.PlaySoundRpc(SoundId.StructureScaffoldPlace, _position, 0f);
             }
         }
 

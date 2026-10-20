@@ -83,7 +83,7 @@ namespace NoMoreFishAndChips.Entities
 
         private void Jump()
         {
-            AudioManager.PlaySoundRpc(SoundId.WaveCounterJump, 0f);
+            AudioManager.PlaySoundRpc(SoundId.WaveCounterJump, transform.position, 0f);
 
             _sequence.Complete();
 
@@ -105,7 +105,7 @@ namespace NoMoreFishAndChips.Entities
         { 
             _hitboxManager.SpawnHitbox(DefinitionData.SlamHitboxData, this, new SpawnParams() { Position = transform.position });
 
-            AudioManager.PlaySoundRpc(SoundId.WaveCounterSlam, 0f);
+            AudioManager.PlaySoundRpc(SoundId.WaveCounterSlam, transform.position, 0f);
         }
     }
 }

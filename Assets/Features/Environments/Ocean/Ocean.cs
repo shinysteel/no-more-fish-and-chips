@@ -24,8 +24,6 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private float _currentOnSpeed = 1f;
         [SerializeField] private float _vertexTimeMultiplier = 0.1f;
 
-        private GameplayContext _context;
-
         private Material _material;
 
         private SyncVar<float> _netOceanTime = new SyncVar<float>(ownerAuth: true);

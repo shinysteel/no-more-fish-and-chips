@@ -16,5 +16,6 @@ MonoBehaviour:
   _volume: 0.75
   _minPitch: 0.9
   _maxPitch: 1.1
+  _spatialBlend: 0
   _audioClips:
   - {fileID: 8300000, guid: ffe96d9373030b34fae5a52acf419859, type: 3}

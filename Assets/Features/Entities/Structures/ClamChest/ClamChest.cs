@@ -152,7 +152,7 @@ namespace NoMoreFishAndChips.Entities
 
                 _openTween = Tween.LocalRotation(_hingeTransform, endValue: Quaternion.AngleAxis(-90f, Vector3.right), duration: OpenDuration);
 
-                _audioManager.PlaySound(SoundId.ClamChestOpen, 0f);
+                _audioManager.PlaySound(SoundId.ClamChestOpen, transform.position, 0f);
             }
             else
             {
@@ -160,7 +160,7 @@ namespace NoMoreFishAndChips.Entities
 
                 _closeTween = Tween.LocalRotation(_hingeTransform, endValue: Quaternion.identity, duration: OpenDuration, ease: Ease.InQuad);
 
-                _audioManager.PlaySound(SoundId.ClamChestClose, 0f);
+                _audioManager.PlaySound(SoundId.ClamChestClose, transform.position, 0f);
             }
         }
     }

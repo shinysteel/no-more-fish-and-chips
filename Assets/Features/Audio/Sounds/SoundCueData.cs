@@ -8,11 +8,13 @@ public class SoundCueData : ScriptableObject
     [SerializeField] private float _volume = 1f;
     [SerializeField] private float _minPitch = 0.9f;
     [SerializeField] private float _maxPitch = 1.1f;
+    [SerializeField, Range(0f, 1f)] private float _spatialBlend = 1f;
     [SerializeField] private AudioClip[] _audioClips = new AudioClip[0];
 
     public SoundId Id => _id;
     public float Volume => _volume;
     public float MinPitch => _minPitch;
     public float MaxPitch => _maxPitch;
+    public float SpatialBlend => _spatialBlend;
     public AudioClip[] AudioClips => _audioClips;
 }

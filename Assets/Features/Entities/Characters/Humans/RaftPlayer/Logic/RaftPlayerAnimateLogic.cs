@@ -60,7 +60,7 @@ namespace NoMoreFishAndChips.Entities
 
             _waterIdleStateAnimationEvents = new StateAnimationEvents(WaterIdleStateName, true)
             {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanSwim, 0f))
+                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f))
             };
 
             _waterSwimStateAnimationEvents = new StateAnimationEvents(WaterSwimStateName, true)
@@ -69,10 +69,10 @@ namespace NoMoreFishAndChips.Entities
                 {
                     if (_player.Hotbar.SelectedSlot.InventoryItem == null)
                     {
-                        _audioManager.PlaySound(SoundId.HumanSwim, 0f);
+                        _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f);
                     }
                 }),
-                new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim, 0f)),
+                new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f)),
             };
 
             _jumpStateAnimationEvents = new StateAnimationEvents(JumpStateName, false)
@@ -84,7 +84,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 new StateAnimationEvent(0f, () =>
                 {
-                    _audioManager.PlaySound(SoundId.PaddleSwing, 0f);
+                    _audioManager.PlaySound(SoundId.PaddleSwing, _player.transform.position, 0f);
                     _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
                 }),
                 new StateAnimationEvent(0.66f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
@@ -94,7 +94,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 new StateAnimationEvent(0.2f, () =>
                 {
-                    _audioManager.PlaySound(SoundId.SpearJab, 0f);
+                    _audioManager.PlaySound(SoundId.SpearJab, _player.transform.position, 0f);
                     _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
                 }),
                 new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
@@ -104,7 +104,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 new StateAnimationEvent(0.2f, () =>
                 {
-                    _audioManager.PlaySound(SoundId.SpearJab, 0f);
+                    _audioManager.PlaySound(SoundId.SpearJab, _player.transform.position, 0f);
                     _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
                 }),
                 new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
@@ -112,7 +112,7 @@ namespace NoMoreFishAndChips.Entities
 
             _buildStateAnimationEvents = new StateAnimationEvents(BuildStateName, true)
             {
-                new StateAnimationEvent(0.5f, () => _audioManager.PlaySound(SoundId.HammerBuild, 0f))
+                new StateAnimationEvent(0.5f, () => _audioManager.PlaySound(SoundId.HammerBuild, _player.transform.position, 0f))
             };
         }
 
@@ -136,7 +136,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (id != SoundId.None)
             {
-                _audioManager.PlaySound(id, 0f);
+                _audioManager.PlaySound(id, _player.transform.position, 0f);
             }
         }
 
@@ -160,7 +160,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (id != SoundId.None)
             {
-                _audioManager.PlaySound(id, 0f);
+                _audioManager.PlaySound(id, _player.transform.position, 0f);
             }
         }
 

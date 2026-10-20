@@ -63,7 +63,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 _context.Raft.AddTileScaffoldRpc(_cell, _entityId, _rotations);
 
-                AudioManager.PlaySoundRpc(SoundId.ScaffoldRaftTilePlace, 0f);
+                AudioManager.PlaySoundRpc(SoundId.ScaffoldRaftTilePlace, _position, 0f);
             }
         } 
 

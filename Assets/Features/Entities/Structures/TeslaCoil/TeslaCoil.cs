@@ -79,7 +79,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 if (previous < thresholds[i] && current >= thresholds[i])
                 {
-                    _audioManager.PlaySound(SoundId.TeslaCharge, (thresholds[i] - thresholds[0]) * DefinitionData.ChargeSettings.PitchMultiplier);
+                    _audioManager.PlaySound(SoundId.TeslaCharge, transform.position, (thresholds[i] - thresholds[0]) * DefinitionData.ChargeSettings.PitchMultiplier);
 
                     break;
                 }
@@ -87,7 +87,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (previous < 1f && current == 1f)
             {
-                _audioManager.PlaySound(SoundId.TeslaCharged, 0f);
+                _audioManager.PlaySound(SoundId.TeslaCharged, transform.position, 0f);
             }
         }
 
@@ -180,7 +180,7 @@ namespace NoMoreFishAndChips.Entities
 
             entity.Hit(DefinitionData.ElectrocuteSettings.Hit, (entity.transform.position - position).normalized);
 
-            _audioManager.PlaySound(SoundId.TeslaElectrocute, 0f);
+            _audioManager.PlaySound(SoundId.TeslaElectrocute, transform.position, 0f);
 
             _netElectrocuteEntity.value = entity;
 

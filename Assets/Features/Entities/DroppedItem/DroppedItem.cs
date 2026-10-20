@@ -151,7 +151,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (_context.LocalPlayer.Inventory.TryAddItem(InventoryChangeParams.Create(_netItemInstance), false, out _, out _, out _))
             {
-                _audioManager.PlaySound(SoundId.DroppedItemPickup, 0f);
+                _audioManager.PlaySound(SoundId.DroppedItemPickup, transform.position, 0f);
 
                 DespawnRpc();
             }

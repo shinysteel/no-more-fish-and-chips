@@ -15,11 +15,15 @@ namespace NoMoreFishAndChips.Audio
             _poolManager = GameManager.Instance.Get<PoolManager>();
         }
 
-        public void Initialise(SoundCueData data, float pitchOffset)
+        public void Initialise(SoundCueData data, Vector3 position, float pitchOffset)
         {
+            transform.position = position;
+
             _audioSource.volume = data.Volume;
 
             _audioSource.pitch = Random.Range(data.MinPitch, data.MaxPitch) + pitchOffset;
+
+            _audioSource.spatialBlend = data.SpatialBlend;
 
             _audioSource.clip = data.AudioClips[Random.Range(0, data.AudioClips.Length)];
 

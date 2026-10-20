@@ -80,7 +80,7 @@ namespace NoMoreFishAndChips.UI
 
             if (_openSoundId != SoundId.None)
             {
-                _audioManager.PlaySound(_openSoundId, 0f);
+                _audioManager.PlaySound(_openSoundId, Vector3.zero, 0f);
             }
         }
 

@@ -227,7 +227,7 @@ namespace NoMoreFishAndChips.Entities
                     _netMarkerHandle = _context.EnvironmentMarker.CreateNetMarker(_tentacle.transform.position + _tentacle.transform.forward * 1.25f, _tentacle.transform.rotation, new Vector3(0.5f, 1f, 1.5f), 0f);
                 }
 
-                _audioManager.PlaySound(SoundId.TentacleCharge, 0f);
+                _audioManager.PlaySound(SoundId.TentacleCharge, _tentacle.transform.position, 0f);
             }));
 
             _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(0.33f, () =>
@@ -239,7 +239,7 @@ namespace NoMoreFishAndChips.Entities
                     RemoveMarker();
                 }
 
-                _audioManager.PlaySound(SoundId.TentacleSlam, 0f);
+                _audioManager.PlaySound(SoundId.TentacleSlam, _tentacle.transform.position, 0f);
             }));
 
             _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
