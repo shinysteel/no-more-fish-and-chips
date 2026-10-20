@@ -147,15 +147,18 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
+        [ObserversRpc]
+        private void AnimateHurtRpc()
+        {
+            EntityEffectsLogic.AnimateHurt();
+        }
+
         protected override void HitLocal(Hit hit, Vector3 direction)
         {
             base.HitLocal(hit, direction);
 
             // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
-            if (isFullySpawned)
-            {
-                EntityEffectsLogic.AnimateHurt();
-            }
+            AnimateHurtRpc();
         }
 
         public void SetPosition(Vector3 position)
