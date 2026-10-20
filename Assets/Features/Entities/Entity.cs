@@ -134,7 +134,7 @@ namespace NoMoreFishAndChips.Entities
 
         bool IFloatable.CanFloat()
         {
-            return isSpawned && isOwner;
+            return isOwner && isFullySpawned;
         }
 
         public void SetNetHealth(int health)

@@ -152,7 +152,7 @@ namespace NoMoreFishAndChips.Entities
             base.HitLocal(hit, direction);
 
             // Manual AnimateHurt, since RaftPlayers aren't damageable but we still want to show it
-            if (isSpawned)
+            if (isFullySpawned)
             {
                 EntityEffectsLogic.AnimateHurt();
             }

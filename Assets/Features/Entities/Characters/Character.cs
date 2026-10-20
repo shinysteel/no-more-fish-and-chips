@@ -37,7 +37,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.HitLocal(hit, direction);
 
-            if (isSpawned)
+            if (isFullySpawned)
             {
                 CharacterActLogic.ChangePoise(-hit.PoiseDamage);
             }

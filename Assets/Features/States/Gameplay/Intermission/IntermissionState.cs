@@ -103,13 +103,13 @@ namespace NoMoreFishAndChips.States
 
             if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
             {
-                _context.EnvironmentGameplayReferences.Ocean.SetCurrent(false, 0f);
+                _context.Ocean.SetCurrent(false, 0f);
 
                 _subStateMachine.ChangeState(EIntermissionState.Dock);
             }
             else
             {
-                _island.transform.position += Vector3.forward * (3f + Ocean.DefaultSetCurrentDuration * 0.5f);
+                _island.transform.position += Vector3.forward * (3f + Ocean.SetCurrentDuration * 0.5f);
 
                 _subStateMachine.ChangeState(EIntermissionState.Arrive);
             }

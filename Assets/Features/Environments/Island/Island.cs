@@ -11,7 +11,7 @@ namespace NoMoreFishAndChips.Environments
 
         bool IFloatable.CanFloat()
         {
-            return isSpawned && isOwner;
+            return isOwner && isFullySpawned;
         }
     }
 }

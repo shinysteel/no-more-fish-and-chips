@@ -10,6 +10,7 @@ public class GameplayStateConfig : ScriptableObject
 {
     [SerializeField] private IntermissionStateConfig _intermissionStateConfig;
     [SerializeField] private StageStateConfig _stageStateConfig;
+    [SerializeField] private Ocean _oceanPrefab;
     [SerializeField] private Raft _raftPrefab;
     [SerializeField] private VoyageRunner _voyageRunnerPrefab;
     [SerializeField] private DrowningSpawner _drowningSpawnerPrefab;
@@ -19,6 +20,7 @@ public class GameplayStateConfig : ScriptableObject
 
     public IntermissionStateConfig IntermissionStageConfig => _intermissionStateConfig;
     public StageStateConfig StageStateConfig => _stageStateConfig;
+    public Ocean OceanPrefab => _oceanPrefab;
     public Raft RaftPrefab => _raftPrefab;
     public VoyageRunner VoyageRunnerPrefab => _voyageRunnerPrefab;
     public DrowningSpawner DrowningSpawnerPrefab => _drowningSpawnerPrefab;

@@ -32,11 +32,11 @@ namespace NoMoreFishAndChips.States
 
         private void Arrive()
         {
-            _context.EnvironmentGameplayReferences.Ocean.SetCurrent(false, Ocean.DefaultSetCurrentDuration);
-
             if (_networkManager.IsServer)
             {
-                Tween.Delay(Ocean.DefaultSetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
+                _context.Ocean.SetCurrent(false, Ocean.SetCurrentDuration);
+
+                Tween.Delay(Ocean.SetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
             }
         }
     }

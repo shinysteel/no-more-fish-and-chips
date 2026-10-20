@@ -107,7 +107,7 @@ namespace NoMoreFishAndChips.Entities
             // Otherwise, determine how to approach the raft
             else
             {
-                _tentacle.CharacterNavigateLogic.StartNavigation(_context.EnvironmentGameplayReferences.Ocean, DetermineTargetPosition(),
+                _tentacle.CharacterNavigateLogic.StartNavigation(_context.Ocean, DetermineTargetPosition(),
                     onTrySetPath: (bool set) =>
                     {
                         if (!set)

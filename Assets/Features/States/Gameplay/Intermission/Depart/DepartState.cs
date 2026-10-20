@@ -30,7 +30,10 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            _context.EnvironmentGameplayReferences.Ocean.SetCurrent(true, Ocean.DefaultSetCurrentDuration);
+            if (_networkManager.IsServer)
+            {
+                _context.Ocean.SetCurrent(true, Ocean.SetCurrentDuration);
+            }
         }
 
         public override void Tick()

@@ -20,6 +20,9 @@ namespace NoMoreFishAndChips.Entities
 {
     public abstract class RaftTile : Entity, IInteractable
     {
+        // Manual reference for offline tiles
+        [SerializeField] private Ocean _ocean;
+
         private NetworkManager _networkManager;
         private UIManager _uiManager;
         private EnvironmentManager _environmentManager;
@@ -121,25 +124,27 @@ namespace NoMoreFishAndChips.Entities
         {
             base.FixedUpdate();
 
-            if (!isSpawned || _context == null)
-            {
-                return;
-            }
-            
             PositionFixedUpdate();
         }
 
         private void PositionFixedUpdate()
         {
-            // TileDefeatModule takes over when defeated
-            if (EntityDefeatLogic.IsDefeated)
+            void position(Ocean ocean)
             {
-                return;
+                Vector3 targetPosition = _rigidbody.position;
+                targetPosition.y = ocean.SampleHeight(_rigidbody.position) + 0.125f;
+                _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.BobSpeed * Time.fixedDeltaTime));
             }
 
-            Vector3 targetPosition = _rigidbody.position;
-            targetPosition.y = _context.EnvironmentGameplayReferences.Ocean.SampleHeight(_rigidbody.position) + 0.125f;
-            _rigidbody.MovePosition(Vector3.MoveTowards(_rigidbody.position, targetPosition, TileDefinitionData.BobSpeed * Time.fixedDeltaTime));
+            if (_ocean != null)
+            {
+                position(_ocean);
+            }
+            // TileDefeatModule takes over when defeated
+            else if (isOwner && isFullySpawned && !EntityDefeatLogic.IsDefeated)
+            {
+                position(_context.Ocean);   
+            }
         }
 
         bool IInteractable.CanPrompt() => CanPrompt();
@@ -149,7 +154,7 @@ namespace NoMoreFishAndChips.Entities
 
         protected virtual bool CanPrompt()
         {
-            return isSpawned && _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
+            return isFullySpawned && _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
         }
 
         protected virtual WorldUI CreatePromptUI()

@@ -94,7 +94,7 @@ namespace NoMoreFishAndChips.Entities
         private void InWaterFixedTick()
         {
             // If we are overlapping a collider on the water mask, we are in water
-            if (_context.EnvironmentGameplayReferences.Ocean.InWater(_collider))
+            if (_context.Ocean.InWater(_collider))
             {
                 _timeInWater += Time.fixedDeltaTime;
             }

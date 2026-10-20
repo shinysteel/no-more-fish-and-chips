@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
 {
-    public class Ocean : MonoBehaviour, IRequiresGameplayContext, IPathFindable
+    public class Ocean : GameplayBehaviour, IPathFindable
     {
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private BoxCollider _boxCollider;
@@ -21,35 +21,21 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private Vector3 _linearDrag = new Vector3(5f, 1f, 5f);
         [SerializeField] private float _angularDrag = 2.5f;
         [SerializeField] private Vector2 _currentDirection = Vector2.down;
-        [SerializeField] private float _currentSpeed = 1f;
+        [SerializeField] private float _currentOnSpeed = 1f;
         [SerializeField] private float _vertexTimeMultiplier = 0.1f;
 
         private GameplayContext _context;
 
         private Material _material;
 
-        private float _currentTime;
-        private float _defaultCurrentSpeed;
+        private SyncVar<float> _netCurrentTime = new SyncVar<float>(ownerAuth: true);
+        private float _currentSpeed;
 
         private Tween _speedTween;
 
         private const string CurrentTimeName = "_CurrentTime";
 
-        public const float DefaultSetCurrentDuration = 2.5f;
-
-        bool IRequiresGameplayContext.IsContextInitialised => _context != null;
-
-        private void Awake()
-        {
-            _material = _meshRenderer.material;
-
-            _defaultCurrentSpeed = _currentSpeed;
-        }
-
-        void IRequiresGameplayContext.InitialiseContext(GameplayContext context)
-        {
-            _context = context;
-        }
+        public const float SetCurrentDuration = 2.5f;
 
         bool IPathFindable.IsTraversable(Vector2Int cell)
         {
@@ -63,23 +49,55 @@ namespace NoMoreFishAndChips.Environments
             return !_context.Raft.Structures.ContainsKey(cell);
         }
 
+        protected override void Awake()
+        {
+            base.Awake();
+
+            _material = _meshRenderer.material;
+
+            _currentSpeed = _currentOnSpeed;
+        }
+
+        protected override void OnSpawned()
+        {
+            base.OnSpawned();
+
+            HandleNetCurrentTimeChanged(_netCurrentTime.value);
+
+            _netCurrentTime.onChanged += HandleNetCurrentTimeChanged;
+        }
+
+        protected override void OnDespawned()
+        {
+            base.OnDespawned();
+
+            _netCurrentTime.onChanged -= HandleNetCurrentTimeChanged;
+        }
+
+        private void HandleNetCurrentTimeChanged(float time)
+        {
+            _material.SetFloat(CurrentTimeName, time);
+        }
+
         private void Update()
         {
-            CurrentTimeUpdate();
+            if (isOwner && isFullySpawned)
+            {
+                CurrentTimeUpdate();
+            }
         }
 
         private void CurrentTimeUpdate()
         {
             // Current speed influences how fast 'time' increases. The 2f is here so that to keep the visual fast without affecting entities
-            _currentTime += _currentSpeed * 2f * Time.deltaTime;
-            _material.SetFloat(CurrentTimeName, _currentTime);
+            _netCurrentTime.value += _currentSpeed * 2f * Time.deltaTime;
         }
 
         // Adjusts current speed to what it should be over a duration
         public void SetCurrent(bool on, float duration)        
         {
             float startCurrentSpeed = _currentSpeed;
-            float endCurrentSpeed = on ? _defaultCurrentSpeed : 0f;
+            float endCurrentSpeed = on ? _currentOnSpeed : 0f;
 
             if (startCurrentSpeed == endCurrentSpeed)
             {
@@ -99,7 +117,7 @@ namespace NoMoreFishAndChips.Environments
             Vector3 localPosition = transform.InverseTransformPoint(position);
             Vector2 targetPosition = new Vector2(localPosition.x, localPosition.z);
 
-            targetPosition -= _currentTime * _vertexTimeMultiplier * _currentDirection;
+            targetPosition -= _netCurrentTime.value * _vertexTimeMultiplier * _currentDirection;
 
             // Since Gerstner waves offset vertices horizontally, we need to use fixed-point iteration to approximate the original position
             Vector2 originalPosition = targetPosition;

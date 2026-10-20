@@ -101,6 +101,7 @@ Material:
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
+    - _Float0: 0.25
     - _FoamRotateSpeed: 0.5
     - _FoamScale: 100
     - _FoamTileSpeed: 0.005
@@ -135,7 +136,9 @@ Material:
     - _TessMin: 10
     - _TessPhongStrength: 0.5
     - _TessValue: 16
+    - _TestSize: 0.1
     - _TestSpeed: 0.1
+    - _TestValue: 0
     - _VertexTimeMultiplier: 0.05
     - _VoronoiAngle: 59.1
     - _VoronoiScale: 54.9
@@ -183,6 +186,7 @@ Material:
     - _HorizonColor: {r: 0.9098039, g: 1, b: 0.5803921, a: 0}
     - _ShadowColor: {r: 0.3127447, g: 0.5783885, b: 0.6603774, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TestOffset: {r: 0, g: 0, b: 0, a: 0}
     - _WaterColor: {r: 0.39215684, g: 0.7294118, b: 0.7686275, a: 0}
     - _Wave1Direction: {r: 0, g: -1, b: 0, a: 0}
     - _Wave2Direction: {r: 0.866, g: 0.5, b: 0, a: 0}

@@ -32,7 +32,6 @@ namespace NoMoreFishAndChips.States
 
         private FixedCameraMode _fixedCameraMode;
 
-        private EnvironmentVoyageResultsReferences _voyageResultsReferences;
         private VoyageResultsScreen _voyageResultsScreen;
         private HumanModel _voyageResultsHumanModel;
 
@@ -81,9 +80,12 @@ namespace NoMoreFishAndChips.States
             base.Enter();
 
             // Understand that clients can join at any point
-            _context.EnvironmentGameplayReferences.Ocean.SetCurrent(false, 0f);
+            if (_networkManager.IsServer)
+            {
+                _context.Ocean.SetCurrent(false, 0f);
 
-            _startTimer = 0f;
+                _startTimer = 0f;
+            }
 
             HandleVoyageResultChanged(_context.VoyageRunner.VoyageResult);
         }
@@ -96,9 +98,9 @@ namespace NoMoreFishAndChips.States
 
                 await _sceneManager.LoadSceneAsync(EScene.EnvironmentVoyageResults, LoadSceneMode.Additive, LoadSceneContext.Local);
 
-                _voyageResultsReferences = Object.FindFirstObjectByType<EnvironmentVoyageResultsReferences>();
+                EnvironmentVoyageResultsReferences references = Object.FindFirstObjectByType<EnvironmentVoyageResultsReferences>();
 
-                _voyageResultsHumanModel = (HumanModel)_entityManager.GetModel(EntityId.RaftPlayer, new SpawnParams() { Position = new Vector3(0f, 0.125f, 0f), Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), SpawnScene = SpawnScene.Scene(EScene.EnvironmentVoyageResults) });
+                _voyageResultsHumanModel = (HumanModel)_entityManager.GetModel(EntityId.RaftPlayer, new SpawnParams() { Rotation = Quaternion.LookRotation(Vector3.back, Vector3.up), Parent = references.TileGameObject.transform });
 
                 if (_context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem != null)
                 {
@@ -154,11 +156,6 @@ namespace NoMoreFishAndChips.States
         public override void Tick()
         {
             base.Tick();
-
-            if (_voyageResultsHumanModel != null)
-            {
-                _voyageResultsHumanModel.transform.position = _voyageResultsReferences.TileGameObject.transform.position;
-            }
 
             if (_networkManager.IsServer)
             {
