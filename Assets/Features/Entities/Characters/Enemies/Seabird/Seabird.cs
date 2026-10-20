@@ -108,16 +108,6 @@ namespace NoMoreFishAndChips.Entities
         protected override void Update()
         {
             base.Update();
-
-            int environmentState = _stateMachine.CurrentStateEnum switch
-            {
-                ESeabirdState.Ground => 0,
-                ESeabirdState.Air or ESeabirdState.Arrive => 1,
-                ESeabirdState.Water => 2,
-                _ => -1
-            };
-
-            _entityModel.Animator.SetInteger(EnvironmentStateIntName, environmentState);
             
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
             _squawkStateAnimationEvents.Tick(info);
@@ -125,6 +115,16 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner && isFullySpawned)
             {
+                int environmentState = _stateMachine.CurrentStateEnum switch
+                {
+                    ESeabirdState.Ground => 0,
+                    ESeabirdState.Air or ESeabirdState.Arrive => 1,
+                    ESeabirdState.Water => 2,
+                    _ => -1
+                };
+
+                _entityModel.Animator.SetInteger(EnvironmentStateIntName, environmentState);
+
                 _stateMachine.Tick();
             }
         }
