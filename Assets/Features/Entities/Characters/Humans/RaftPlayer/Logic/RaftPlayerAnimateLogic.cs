@@ -10,18 +10,18 @@ namespace NoMoreFishAndChips.Entities
     {
         private AudioManager _audioManager;
 
-        private StateAnimationEvents _groundRunStateAnimationEvents;
-        private StateAnimationEvents _waterIdleStateAnimationEvents;
-        private StateAnimationEvents _waterSwimStateAnimationEvents;
-        private StateAnimationEvents _jumpStateAnimationEvents;
-        private StateAnimationEvents _buildStateAnimationEvents;
-        private StateAnimationEvents _paddleSwingStateAnimationEvents;
-        private StateAnimationEvents _spearJab1StateAnimationEvents;
-        private StateAnimationEvents _spearJab2StateAnimationEvents;
+        private AnimatorStateTracker _groundRunAnimatorStateTracker;
+        private AnimatorStateTracker _waterIdleAnimatorStateTracker;
+        private AnimatorStateTracker _waterSwimAnimatorStateTracker;
+        private AnimatorStateTracker _jumpAnimatorStateTracker;
+        private AnimatorStateTracker _buildAnimatorStateTracker;
+        private AnimatorStateTracker _paddleSwingAnimatorStateTracker;
+        private AnimatorStateTracker _spearJab1AnimatorStateTracker;
+        private AnimatorStateTracker _spearJab2AnimatorStateTracker;
 
-        public StateAnimationEvents PaddleSwingStateAnimationEvents => _paddleSwingStateAnimationEvents;
-        public StateAnimationEvents SpearJab1StateAnimationEvents => _spearJab1StateAnimationEvents;
-        public StateAnimationEvents SpearJab2StateAnimationEvents => _spearJab2StateAnimationEvents;
+        public AnimatorStateTracker PaddleSwingAnimatorStateTracker => _paddleSwingAnimatorStateTracker;
+        public AnimatorStateTracker SpearJab1AnimatorStateTracker => _spearJab1AnimatorStateTracker;
+        public AnimatorStateTracker SpearJab2AnimatorStateTracker => _spearJab2AnimatorStateTracker;
 
         private const string BaseLayerName = "Base Layer";
         private const string AttackLayerName = "Attack Layer";
@@ -52,68 +52,52 @@ namespace NoMoreFishAndChips.Entities
         {
             _audioManager = GameManager.Instance.Get<AudioManager>();
 
-            _groundRunStateAnimationEvents = new StateAnimationEvents(GroundRunStateName, true)
-            {
-                new StateAnimationEvent(0.1f, PlayFootstepSound),
-                new StateAnimationEvent(0.6f, PlayFootstepSound)
-            };
+            _groundRunAnimatorStateTracker = new AnimatorStateTracker(GroundRunStateName, true);
+            _groundRunAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.1f, PlayFootstepSound));
+            _groundRunAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.6f, PlayFootstepSound));
 
-            _waterIdleStateAnimationEvents = new StateAnimationEvents(WaterIdleStateName, true)
-            {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f))
-            };
+            _waterIdleAnimatorStateTracker = new AnimatorStateTracker(WaterIdleStateName, true);
+            _waterIdleAnimatorStateTracker.AddEvent(new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f)));
 
-            _waterSwimStateAnimationEvents = new StateAnimationEvents(WaterSwimStateName, true)
+            _waterSwimAnimatorStateTracker = new AnimatorStateTracker(WaterSwimStateName, true);
+            _waterSwimAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.2f, () =>
             {
-                new StateAnimationEvent(0.2f, () =>
+                if (_player.Hotbar.SelectedSlot.InventoryItem == null)
                 {
-                    if (_player.Hotbar.SelectedSlot.InventoryItem == null)
-                    {
-                        _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f);
-                    }
-                }),
-                new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f)),
-            };
+                    _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f);
+                }
+            }));
+            _waterSwimAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.7f, () => _audioManager.PlaySound(SoundId.HumanSwim, _player.transform.position, 0f)));
 
-            _jumpStateAnimationEvents = new StateAnimationEvents(JumpStateName, false)
-            {
-                new StateAnimationEvent(0f, PlayJumpSound)
-            };
+            _jumpAnimatorStateTracker = new AnimatorStateTracker(JumpStateName, false);
+            _jumpAnimatorStateTracker.AddEvent(new StateAnimationEvent(0f, PlayJumpSound));
 
-            _paddleSwingStateAnimationEvents = new StateAnimationEvents(PaddleSwingStateName, false)
+            _paddleSwingAnimatorStateTracker = new AnimatorStateTracker(PaddleSwingStateName, false);
+            _paddleSwingAnimatorStateTracker.AddEvent(new StateAnimationEvent(0f, () =>
             {
-                new StateAnimationEvent(0f, () =>
-                {
-                    _audioManager.PlaySound(SoundId.PaddleSwing, _player.transform.position, 0f);
-                    _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
-                }),
-                new StateAnimationEvent(0.66f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
-            };
+                _audioManager.PlaySound(SoundId.PaddleSwing, _player.transform.position, 0f);
+                _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
+            }));
+            _paddleSwingAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.66f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false)));
 
-            _spearJab1StateAnimationEvents = new StateAnimationEvents(SpearJab1StateName, false)
+            _spearJab1AnimatorStateTracker = new AnimatorStateTracker(SpearJab1StateName, false);
+            _spearJab1AnimatorStateTracker.AddEvent(new StateAnimationEvent(0.2f, () =>
             {
-                new StateAnimationEvent(0.2f, () =>
-                {
-                    _audioManager.PlaySound(SoundId.SpearJab, _player.transform.position, 0f);
-                    _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
-                }),
-                new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
-            };
+                _audioManager.PlaySound(SoundId.SpearJab, _player.transform.position, 0f);
+                _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
+            }));
+            _spearJab1AnimatorStateTracker.AddEvent(new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false)));
 
-            _spearJab2StateAnimationEvents = new StateAnimationEvents(SpearJab2StateName, false)
+            _spearJab2AnimatorStateTracker = new AnimatorStateTracker(SpearJab2StateName, false);
+            _spearJab2AnimatorStateTracker.AddEvent(new StateAnimationEvent(0.2f, () =>
             {
-                new StateAnimationEvent(0.2f, () =>
-                {
-                    _audioManager.PlaySound(SoundId.SpearJab, _player.transform.position, 0f);
-                    _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
-                }),
-                new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false))
-            };
+                _audioManager.PlaySound(SoundId.SpearJab, _player.transform.position, 0f);
+                _player.HumanModel.RightArmItemModel?.SetTrailEmitting(true);
+            }));
+            _spearJab2AnimatorStateTracker.AddEvent(new StateAnimationEvent(0.8f, () => _player.HumanModel.RightArmItemModel?.SetTrailEmitting(false)));
 
-            _buildStateAnimationEvents = new StateAnimationEvents(BuildStateName, true)
-            {
-                new StateAnimationEvent(0.5f, () => _audioManager.PlaySound(SoundId.HammerBuild, _player.transform.position, 0f))
-            };
+            _buildAnimatorStateTracker = new AnimatorStateTracker(BuildStateName, true);
+            _buildAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.5f, () => _audioManager.PlaySound(SoundId.HammerBuild, _player.transform.position, 0f)));
         }
 
         private void PlayJumpSound()
@@ -183,20 +167,20 @@ namespace NoMoreFishAndChips.Entities
 
             AnimatorStateInfo baseLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(0);
 
-            _groundRunStateAnimationEvents.Tick(baseLayerInfo);
-            _waterIdleStateAnimationEvents.Tick(baseLayerInfo);
-            _waterSwimStateAnimationEvents.Tick(baseLayerInfo);
-            _jumpStateAnimationEvents.Tick(baseLayerInfo);
+            _groundRunAnimatorStateTracker.Tick(baseLayerInfo);
+            _waterIdleAnimatorStateTracker.Tick(baseLayerInfo);
+            _waterSwimAnimatorStateTracker.Tick(baseLayerInfo);
+            _jumpAnimatorStateTracker.Tick(baseLayerInfo);
 
             AnimatorStateInfo attackLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(2);
 
-            _paddleSwingStateAnimationEvents.Tick(attackLayerInfo);
-            _spearJab1StateAnimationEvents.Tick(attackLayerInfo);
-            _spearJab2StateAnimationEvents.Tick(attackLayerInfo);
+            _paddleSwingAnimatorStateTracker.Tick(attackLayerInfo);
+            _spearJab1AnimatorStateTracker.Tick(attackLayerInfo);
+            _spearJab2AnimatorStateTracker.Tick(attackLayerInfo);
 
             AnimatorStateInfo channelLayerInfo = _player.EntityModel.Animator.GetCurrentAnimatorStateInfo(3);
 
-            _buildStateAnimationEvents.Tick(channelLayerInfo);
+            _buildAnimatorStateTracker.Tick(channelLayerInfo);
         }
 
         public void Jump()

@@ -220,7 +220,7 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _tentacle.DefinitionData.SlamSettings;
 
-            _tentacle.SlamChargeStateAnimationEvents.Add(new StateAnimationEvent(0f, () =>
+            _tentacle.SlamChargeAnimatorStateTracker.AddEvent(new StateAnimationEvent(0f, () =>
             {
                 if (_tentacle.isOwner)
                 {
@@ -230,7 +230,7 @@ namespace NoMoreFishAndChips.Entities
                 _audioManager.PlaySound(SoundId.TentacleCharge, _tentacle.transform.position, 0f);
             }));
 
-            _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(0.33f, () =>
+            _tentacle.SlamImpactAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.33f, () =>
             {
                 if (_tentacle.isOwner)
                 {
@@ -242,7 +242,7 @@ namespace NoMoreFishAndChips.Entities
                 _audioManager.PlaySound(SoundId.TentacleSlam, _tentacle.transform.position, 0f);
             }));
 
-            _tentacle.SlamImpactStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
+            _tentacle.SlamImpactAnimatorStateTracker.AddEvent(new StateAnimationEvent(1f, () =>
             {
                 if (_tentacle.isOwner)
                 {
@@ -262,8 +262,12 @@ namespace NoMoreFishAndChips.Entities
         {
             base.Tick();
 
-            _netMarkerHandle?.SetPosition(_tentacle.transform.position + _tentacle.transform.forward);
-            _netMarkerHandle?.SetRotation(_tentacle.transform.rotation);
+            if (_netMarkerHandle != null)
+            {
+                _netMarkerHandle.SetPosition(_tentacle.transform.position + _tentacle.transform.forward);
+                _netMarkerHandle.SetRotation(_tentacle.transform.rotation);
+                _netMarkerHandle.SetBlend(Mathf.Min(_stateTimer / _settings.ChargeDuration, 1f));
+            }
 
             if (_stateTimer - Time.deltaTime < _settings.ChargeDuration && _stateTimer >= _settings.ChargeDuration)
             {

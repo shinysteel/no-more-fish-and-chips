@@ -12,11 +12,11 @@ namespace NoMoreFishAndChips.Entities
     {
         private StateMachine<ETentacleState> _stateMachine;
 
-        private StateAnimationEvents _slamChargeStateAnimationEvents;
-        public StateAnimationEvents SlamChargeStateAnimationEvents => _slamChargeStateAnimationEvents;
+        private AnimatorStateTracker _slamChargeAnimatorStateTracker;
+        public AnimatorStateTracker SlamChargeAnimatorStateTracker => _slamChargeAnimatorStateTracker;
 
-        private StateAnimationEvents _slamImpactStateAnimationEvents;
-        public StateAnimationEvents SlamImpactStateAnimationEvents => _slamImpactStateAnimationEvents;
+        private AnimatorStateTracker _slamImpactAnimatorStateTracker;
+        public AnimatorStateTracker SlamImpactAnimatorStateTracker => _slamImpactAnimatorStateTracker;
 
         private Vector3 _slamDirection;
         public Vector3 SlamDirection => _slamDirection;
@@ -35,9 +35,9 @@ namespace NoMoreFishAndChips.Entities
             base.Awake();
             
             // canLoop is set to false so that an SFX only plays once
-            _slamChargeStateAnimationEvents = new StateAnimationEvents(SlamChargeStateName, false);
+            _slamChargeAnimatorStateTracker = new AnimatorStateTracker(SlamChargeStateName, false);
 
-            _slamImpactStateAnimationEvents = new StateAnimationEvents(SlamImpactStateName, false);
+            _slamImpactAnimatorStateTracker = new AnimatorStateTracker(SlamImpactStateName, false);
             
             _stateMachine = new();
 
@@ -94,8 +94,8 @@ namespace NoMoreFishAndChips.Entities
 
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
 
-            _slamChargeStateAnimationEvents.Tick(info);
-            _slamImpactStateAnimationEvents.Tick(info);
+            _slamChargeAnimatorStateTracker.Tick(info);
+            _slamImpactAnimatorStateTracker.Tick(info);
 
             if (isOwner && isFullySpawned)
             {

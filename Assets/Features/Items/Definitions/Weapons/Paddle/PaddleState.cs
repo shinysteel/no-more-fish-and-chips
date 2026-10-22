@@ -108,7 +108,7 @@ namespace NoMoreFishAndChips.Items
         {
             base.Initialise(player);
 
-            _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(EPaddleState.None)));
+            _player.AnimateLogic.PaddleSwingAnimatorStateTracker.AddEvent(new StateAnimationEvent(1f, () => _parentStateMachine.ChangeState(EPaddleState.None)));
         }
 
         public override void Enter()

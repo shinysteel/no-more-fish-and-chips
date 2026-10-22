@@ -36,9 +36,9 @@ namespace NoMoreFishAndChips.Items
         {
             base.Initialise(player);
 
-            _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(new StateAnimationEvent(0.5f, () => _canCombo = true));
-            _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(new StateAnimationEvent(1f, () => ResolveJab(0)));
-            _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(new StateAnimationEvent(1f, () => ResolveJab(1)));
+            _player.AnimateLogic.SpearJab1AnimatorStateTracker.AddEvent(new StateAnimationEvent(0.5f, () => _canCombo = true));
+            _player.AnimateLogic.SpearJab1AnimatorStateTracker.AddEvent(new StateAnimationEvent(1f, () => ResolveJab(0)));
+            _player.AnimateLogic.SpearJab2AnimatorStateTracker.AddEvent(new StateAnimationEvent(1f, () => ResolveJab(1)));
         }
 
         public override void Enter()

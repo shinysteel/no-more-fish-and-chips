@@ -16,10 +16,10 @@ namespace NoMoreFishAndChips.Entities
 
         private RaycastHit[] _glideHitsNonAlloc = new RaycastHit[2];
 
-        private StateAnimationEvents _squawkStateAnimationEvents;
-        private StateAnimationEvents _airFlapStateAnimationEvents;
+        private AnimatorStateTracker _squawkAnimatorStateTracker;
+        private AnimatorStateTracker _airFlapAnimatorStateTracker;
 
-        public StateAnimationEvents SquawkStateAnimationEvents => _squawkStateAnimationEvents;
+        public AnimatorStateTracker SquawkAnimatorStateTracker => _squawkAnimatorStateTracker;
 
         private const string EnvironmentStateIntName = "EnvironmentState";
         public const string IsFlappingBoolName = "IsFlapping";
@@ -36,12 +36,10 @@ namespace NoMoreFishAndChips.Entities
 
             _audioManager = GameManager.Instance.Get<AudioManager>();
 
-            _squawkStateAnimationEvents = new StateAnimationEvents(SquawkStateName, false);
+            _squawkAnimatorStateTracker = new AnimatorStateTracker(SquawkStateName, false);
 
-            _airFlapStateAnimationEvents = new StateAnimationEvents(AirFlapStateName, true)
-            {
-                new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullFlap, transform.position, 0f))
-            };
+            _airFlapAnimatorStateTracker = new AnimatorStateTracker(AirFlapStateName, true);
+            _airFlapAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.3f, () => _audioManager.PlaySound(SoundId.SeagullFlap, transform.position, 0f)));
 
             _stateMachine = new();
 
@@ -110,8 +108,8 @@ namespace NoMoreFishAndChips.Entities
             base.Update();
             
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
-            _squawkStateAnimationEvents.Tick(info);
-            _airFlapStateAnimationEvents.Tick(info);
+            _squawkAnimatorStateTracker.Tick(info);
+            _airFlapAnimatorStateTracker.Tick(info);
 
             if (isOwner && isFullySpawned)
             {

@@ -51,8 +51,8 @@ namespace NoMoreFishAndChips.Entities
         private SyncVar<float> _netRageBlend = new SyncVar<float>(ownerAuth: true);
         private SyncVar<float> _netExplodeBlend = new SyncVar<float>(ownerAuth: true);
 
-        private StateAnimationEvents _closedStateAnimationEvents;
-        private StateAnimationEvents _openedStateAnimationEvents;
+        private AnimatorStateTracker _closedAnimatorStateTracker;
+        private AnimatorStateTracker _openedAnimatorStateTracker;
 
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
@@ -228,17 +228,13 @@ namespace NoMoreFishAndChips.Entities
             _uiManager = GameManager.Instance.Get<UIManager>();
             _itemManager = GameManager.Instance.Get<ItemManager>();
 
-            _closedStateAnimationEvents = new StateAnimationEvents(ClosedStateName, false)
-            {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamClose, Vector3.zero, 0f))
-            };
+            _closedAnimatorStateTracker = new AnimatorStateTracker(ClosedStateName, false);
+            _closedAnimatorStateTracker.AddEvent(new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamClose, Vector3.zero, 0f)));
 
-            _openedStateAnimationEvents = new StateAnimationEvents(OpenedStateName, false)
-            {
-                new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamOpen, Vector3.zero, 0f))
-            };
+            _openedAnimatorStateTracker = new AnimatorStateTracker(OpenedStateName, false);
+            _openedAnimatorStateTracker.AddEvent(new StateAnimationEvent(0f, () => _audioManager.PlaySound(SoundId.GiantClamOpen, Vector3.zero, 0f)));
 
-            _closedStateAnimationEvents.Skip();
+            _closedAnimatorStateTracker.Skip();
 
             _inventory.SetLayouts(DefinitionData.InventoryLayout, DefinitionData.InventoryLayout);
 
@@ -408,8 +404,8 @@ namespace NoMoreFishAndChips.Entities
             base.Update();
 
             AnimatorStateInfo info = _entityModel.Animator.GetCurrentAnimatorStateInfo(0);
-            _closedStateAnimationEvents.Tick(info);
-            _openedStateAnimationEvents.Tick(info);
+            _closedAnimatorStateTracker.Tick(info);
+            _openedAnimatorStateTracker.Tick(info);
 
             if (isOwner)
             {

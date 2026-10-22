@@ -632,7 +632,7 @@ namespace NoMoreFishAndChips.Entities
 
             _settings = _seabird.DefinitionData.GroundSettings.SquawkSettings;
 
-            _seabird.SquawkStateAnimationEvents.Add(new StateAnimationEvent(0.3f, () =>
+            _seabird.SquawkAnimatorStateTracker.AddEvent(new StateAnimationEvent(0.3f, () =>
             {
                 if (_seabird.isOwner)
                 {
@@ -643,7 +643,7 @@ namespace NoMoreFishAndChips.Entities
                 _audioManager.PlaySound(SoundId.SeagullSquawk, _seabird.transform.position, 0f);
             }));
 
-            _seabird.SquawkStateAnimationEvents.Add(new StateAnimationEvent(1f, () =>
+            _seabird.SquawkAnimatorStateTracker.AddEvent(new StateAnimationEvent(1f, () =>
             {
                 if (_seabird.isOwner)
                 {

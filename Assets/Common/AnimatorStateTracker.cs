@@ -6,32 +6,7 @@ using System.Collections;
 
 namespace ShinyOwl.Common
 {
-    public class StateAnimationEvent : IComparable<StateAnimationEvent>
-    {
-        private float _normalisedTime;
-        private Action _method;
-
-        public float NormalisedTime => _normalisedTime;
-        public Action Method => _method;
-
-        public StateAnimationEvent(float normalisedTime, Action method)
-        {
-            SetNormalisedTime(normalisedTime);
-            _method = method;
-        }
-
-        public void SetNormalisedTime(float time)
-        {
-            _normalisedTime = Mathf.Clamp(time, 0f, 1f);
-        }
-
-        public int CompareTo(StateAnimationEvent other)
-        {
-            return _normalisedTime.CompareTo(other._normalisedTime);
-        }
-    }
-
-    public class StateAnimationEvents : IEnumerable<StateAnimationEvent>
+    public class AnimatorStateTracker
     {
         private string _stateName;
         private bool _canLoop;
@@ -43,24 +18,15 @@ namespace ShinyOwl.Common
 
         private bool _isSkipped;
 
-        public StateAnimationEvents(string stateName, bool canLoop)
+        public event Action<float> OnNormalisedTimeChanged;
+
+        public AnimatorStateTracker(string stateName, bool canLoop)
         {
             _stateName = stateName;
             _canLoop = canLoop;
         }
 
-        // Implementing IEnumerator allows us to initialise the class with values
-        public IEnumerator<StateAnimationEvent> GetEnumerator()
-        {
-            return _events.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void Add(StateAnimationEvent animationEvent)
+        public void AddEvent(StateAnimationEvent animationEvent)
         {
             _events.Add(animationEvent);
 
@@ -108,6 +74,8 @@ namespace ShinyOwl.Common
 
             // Executes events once their normalised time has exceeded
             invokeEvents(normalisedTime);
+
+            OnNormalisedTimeChanged?.Invoke(normalisedTime);
 
             void invokeEvents(float normalisedTime)
             {

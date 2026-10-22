@@ -39,23 +39,23 @@ namespace NoMoreFishAndChips.Entities
                 return;
             }
 
-            _player.AnimateLogic.PaddleSwingStateAnimationEvents.Add(
+            _player.AnimateLogic.PaddleSwingAnimatorStateTracker.AddEvent(
                 new StateAnimationEvent(0f, () =>
                 {
                     _hitboxManager.SpawnHitbox(_sharedSettings.PaddleSwingHitboxData, _player, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation });
                     _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _sharedSettings.PaddleLungeStrength, ForceMode.Impulse);
                 }));
 
-            _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(
+            _player.AnimateLogic.SpearJab1AnimatorStateTracker.AddEvent(
                 new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _sharedSettings.SpearLungeStrength, ForceMode.Impulse)));
 
-            _player.AnimateLogic.SpearJab1StateAnimationEvents.Add(
+            _player.AnimateLogic.SpearJab1AnimatorStateTracker.AddEvent(
                 new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_sharedSettings.SpearJabHitboxData, _player, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
-            _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(
+            _player.AnimateLogic.SpearJab2AnimatorStateTracker.AddEvent(
                 new StateAnimationEvent(0.2f, () => _player.EntityPhysicsLogic.Rigidbody.AddForce(_player.transform.forward * _sharedSettings.SpearLungeStrength, ForceMode.Impulse)));
 
-            _player.AnimateLogic.SpearJab2StateAnimationEvents.Add(
+            _player.AnimateLogic.SpearJab2AnimatorStateTracker.AddEvent(
                 new StateAnimationEvent(0.4f, () => _hitboxManager.SpawnHitbox(_sharedSettings.SpearJabHitboxData, _player, new SpawnParams() { Position = _player.transform.position, Rotation = _player.transform.rotation })));
 
             _paddleStateMachine = new();
