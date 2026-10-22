@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe3218cb87c5e24baf3725071f8ce34, type: 3}
   m_Name: NightEnvironmentTimeData
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.EnvironmentTimeData
+  _time: 3
   _lightRotation: {x: 50, y: 30, z: 0}
   _lightColor: {r: 0.2712264, g: 0.31431836, b: 0.5, a: 1}
   _horizonColor: {r: 0, g: 0, b: 0, a: 0}

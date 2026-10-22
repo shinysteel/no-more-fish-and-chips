@@ -53,7 +53,8 @@ MonoBehaviour:
   _directChildren: []
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
-  _dawnData: {fileID: 11400000, guid: 99e3b21e0809e314ab95cbf84ea500e6, type: 2}
-  _dayData: {fileID: 11400000, guid: 01390b392781ca941904ae3eef78f16a, type: 2}
-  _nightData: {fileID: 11400000, guid: c27e29cf239a6784d8c10407931ef6fc, type: 2}
-  _duskData: {fileID: 11400000, guid: fea43fa8ec5527a4ea15ac9e76384cbd, type: 2}
+  _datas:
+  - {fileID: 11400000, guid: 99e3b21e0809e314ab95cbf84ea500e6, type: 2}
+  - {fileID: 11400000, guid: 01390b392781ca941904ae3eef78f16a, type: 2}
+  - {fileID: 11400000, guid: fea43fa8ec5527a4ea15ac9e76384cbd, type: 2}
+  - {fileID: 11400000, guid: c27e29cf239a6784d8c10407931ef6fc, type: 2}

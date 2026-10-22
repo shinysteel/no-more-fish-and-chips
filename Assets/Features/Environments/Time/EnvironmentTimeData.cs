@@ -5,6 +5,7 @@ namespace NoMoreFishAndChips.Environments
     [CreateAssetMenu(fileName = "EnvironmentTimeData", menuName = "Data/Environments/EnvironmentTimeData")]
     public class EnvironmentTimeData : ScriptableObject
     {
+        [SerializeField] private ETime _time;
         [SerializeField] private Vector3 _lightRotation;
         [SerializeField] private Color _lightColor;
         [SerializeField] private Color _horizonColor;
@@ -12,6 +13,7 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private float _ambientIntensity = 1f;
         [SerializeField] private Texture2D _skyGradient;
 
+        public ETime Time => _time;
         public Vector3 LightRotation => _lightRotation;
         public Color LightColor => _lightColor;
         public Color HorizonColor => _horizonColor;

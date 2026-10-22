@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe3218cb87c5e24baf3725071f8ce34, type: 3}
   m_Name: DuskEnvironmentTimeData
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.EnvironmentTimeData
+  _time: 2
   _lightRotation: {x: 150, y: 150, z: 0}
   _lightColor: {r: 0.7075472, g: 0.4269387, b: 0.1702118, a: 1}
   _horizonColor: {r: 1, g: 0.6007149, b: 0.5803922, a: 0}
