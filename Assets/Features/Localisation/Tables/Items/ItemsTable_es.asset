@@ -114,6 +114,14 @@ MonoBehaviour:
     m_Localized: Un tesoro brillante de una almeja gigante.
     m_Metadata:
       m_Items: []
+  - m_Id: 62582007496273920
+    m_Localized: "Bala de ca\xF1\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Localized: "Todo ca\xF1\xF3n necesita balas de ca\xF1\xF3n."
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

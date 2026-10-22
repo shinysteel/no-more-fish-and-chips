@@ -373,7 +373,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -382,6 +382,28 @@ TextureImporter:
       bones: []
       spriteID: 1fa16512000fef740be83c8823207993
       internalID: 368438823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: items_cannonball
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 63
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f0e23337ebd77f42aec1f799c5a24b5
+      internalID: 1215184806
       vertices: []
       indices: 
       edges: []
@@ -413,6 +435,7 @@ TextureImporter:
       item_sharkFin: 1553281493
       item_shellFragment: -281940220
       item_toothSpear: -129897675
+      items_cannonball: 1215184806
       items_pearl: 368438823
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

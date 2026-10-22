@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1411205394435
-    m_Localized: Un mezzo per lanciare i pesci
+    m_Localized: Un mezzo per lanciare il pesce
     m_Metadata:
       m_Items: []
   - m_Id: 1411205394436
@@ -112,6 +112,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 37710964566880256
     m_Localized: Un tesoro luccicante da una vongola gigante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007496273920
+    m_Localized: Palla di cannone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Localized: Ogni cannone ha bisogno di palle di cannone
     m_Metadata:
       m_Items: []
   references:

@@ -111,6 +111,14 @@ MonoBehaviour:
     m_Key: items.pearlDescription
     m_Metadata:
       m_Items: []
+  - m_Id: 62582007496273920
+    m_Key: items.cannonballName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Key: items.cannonballDescription
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

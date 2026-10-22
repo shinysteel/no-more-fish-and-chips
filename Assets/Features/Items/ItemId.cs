@@ -16,6 +16,7 @@ namespace NoMoreFishAndChips.Items
         ToothSpear = 9, 
         MakoTooth = 10,
         ShellFragment = 11,
-        Pearl = 12
+        Pearl = 12,
+        Cannonball = 13
     }
 }

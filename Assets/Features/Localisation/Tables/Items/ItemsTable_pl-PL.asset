@@ -114,6 +114,14 @@ MonoBehaviour:
     m_Localized: "B\u0142yszcz\u0105cy skarb z olbrzymiej ma\u0142\u017Cy"
     m_Metadata:
       m_Items: []
+  - m_Id: 62582007496273920
+    m_Localized: Kula armatnia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Localized: "Ka\u017Cda armata potrzebuje kul armatnich"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

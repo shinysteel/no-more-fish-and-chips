@@ -114,6 +114,14 @@ MonoBehaviour:
     m_Localized: "Ein gl\xE4nzender Schatz aus einer Riesenmuschel"
     m_Metadata:
       m_Items: []
+  - m_Id: 62582007496273920
+    m_Localized: Kanonenkugel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Localized: Jede Kanone braucht Kanonenkugeln.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

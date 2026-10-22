@@ -114,6 +114,14 @@ MonoBehaviour:
     m_Localized: A shiny treasure from a Giant Clam
     m_Metadata:
       m_Items: []
+  - m_Id: 62582007496273920
+    m_Localized: Cannonball
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Localized: Every cannon needs cannonballs
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

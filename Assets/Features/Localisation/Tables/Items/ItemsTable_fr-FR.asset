@@ -114,6 +114,14 @@ MonoBehaviour:
     m_Localized: "Un tr\xE9sor brillant provenant d'un b\xE9nitier g\xE9ant"
     m_Metadata:
       m_Items: []
+  - m_Id: 62582007496273920
+    m_Localized: Boulet de canon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 62582007521439744
+    m_Localized: Chaque canon a besoin de boulets de canon.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
