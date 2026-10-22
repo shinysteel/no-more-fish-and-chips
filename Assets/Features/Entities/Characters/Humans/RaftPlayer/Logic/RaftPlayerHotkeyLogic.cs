@@ -117,8 +117,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (!_uiManager.IsLayerInUse(UILayer.Panels))
             {
-                ExecuteItemAction(ActionHotkey.LeftClick);
-                
+                ExecuteAction(ActionHotkey.LeftClick);
             }
             else if (_player.GrabbedInventoryItemLogic.GrabbedInventoryItem == null)
             {
@@ -130,16 +129,18 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        private void ExecuteItemAction(ActionHotkey hotkey)
+        private void ExecuteAction(ActionHotkey hotkey)
         {
-            if (_player.Hotbar.SelectedSlot.InventoryItem == null)
+            ActionData actionData = _player.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ActionDatas.FirstOrDefault(data => data.Hotkey == hotkey);
+
+            if (actionData != null)
             {
-                return;
+                actionData.Execute(_context);
             }
-
-            ActionData actionData = _player.Hotbar.SelectedSlot.InventoryItem.ItemInstance.Data.ActionDatas.FirstOrDefault(data => data.Hotkey == hotkey);
-
-            actionData?.Execute(_context);
+            else
+            {
+                _player.InteractLogic.Interact(hotkey);
+            }
         }
 
         /// <summary>
@@ -236,7 +237,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (!_uiManager.IsLayerInUse(UILayer.Panels))
             {
-                ExecuteItemAction(ActionHotkey.RightClick);
+                ExecuteAction(ActionHotkey.RightClick);
             }
             else if (_player.GrabbedInventoryItemLogic.GrabbedInventoryItem != null)
             {

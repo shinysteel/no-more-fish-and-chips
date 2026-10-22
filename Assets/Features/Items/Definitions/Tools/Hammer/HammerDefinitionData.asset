@@ -21,6 +21,7 @@ MonoBehaviour:
   _spriteAssetName: item_hammer
   _maxStack: 1
   _recipe:
+    _duration: 0.5
     _requirements:
     - _itemId: 1
       _count: 1
@@ -29,5 +30,5 @@ MonoBehaviour:
   _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
   _model: {fileID: 2038800490088435018, guid: e1c5006468e0dec4ca29d0478123d316, type: 3}
   _actionDatas:
-  - {fileID: 11400000, guid: 555eb5b1268aa3b4baf2e08a1e6e71d8, type: 2}
   - {fileID: 11400000, guid: b81f3743d0b140a44bb0052430656351, type: 2}
+  _holdOffset: {x: 0, y: 0, z: 0}

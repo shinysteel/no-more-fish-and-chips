@@ -21,8 +21,9 @@ MonoBehaviour:
   _spriteAssetName: item_palmSeed
   _maxStack: 3
   _recipe:
+    _duration: 0.5
     _requirements: []
   _shape: {fileID: 11400000, guid: b87a2e1f7cd586940af0f1731cbf0e20, type: 2}
   _model: {fileID: 293557747621957965, guid: 70eb0a17808b0cc44810f5284b20b202, type: 3}
-  _actionDatas:
-  - {fileID: 11400000, guid: 2ee48c93dd4c8714c89711a580fdf25e, type: 2}
+  _actionDatas: []
+  _holdOffset: {x: 0, y: 0, z: 0}
