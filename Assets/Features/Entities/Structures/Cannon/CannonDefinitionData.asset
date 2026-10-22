@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18d2e7c5edf7554bbe972b3518a578f, type: 3}
+  m_Name: CannonDefinitionData
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.CannonDefinitionData
+  _nameTerm: -934310889
+  _descriptionTerm: -900756457
+  _sprite: {fileID: 21300000, guid: 5e81be222d8e1f34ab4ade9786d8c24a, type: 3}
+  _rarity: 0
+  _id: 305
+  _alliance: 0
+  _surfaceType: 5
+  _dropTables:
+  - {fileID: 11400000, guid: b2ab1d4392fb6424e867dad43e916e07, type: 2}
+  _entityDefeatSharedSettings: {fileID: 11400000, guid: 4d6268f574805274586387a8befa046c, type: 2}
+  _entityLifecycleSharedSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
+  _entityPhysicsSharedSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
+  _entityHealthSettings:
+    _health: 1
+    _isDamageable: 1
+  _shape: {fileID: 11400000, guid: a8bf96d7ef50b8e4ebb6526417767bd9, type: 2}
+  _buildRecipe:
+    _duration: 1
+    _requirements:
+    - _itemId: 1
+      _count: 2
+    - _itemId: 4
+      _count: 2
+  _isScaffold: 0

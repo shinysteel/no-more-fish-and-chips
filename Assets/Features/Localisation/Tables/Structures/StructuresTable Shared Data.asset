@@ -47,6 +47,14 @@ MonoBehaviour:
     m_Key: structures.teslaCoilDescription
     m_Metadata:
       m_Items: []
+  - m_Id: 102171120658378752
+    m_Key: structures.cannonName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102171120691933184
+    m_Key: structures.cannonDescription
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

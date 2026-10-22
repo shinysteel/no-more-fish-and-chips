@@ -29,6 +29,7 @@ namespace NoMoreFishAndChips.Entities
         ClamChest = 301,
         Planter = 302,
         StructureScaffold = 303,
-        TeslaCoil = 304
+        TeslaCoil = 304,
+        Cannon = 305
     }
 }

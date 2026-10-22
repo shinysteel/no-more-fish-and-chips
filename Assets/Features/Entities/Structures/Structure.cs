@@ -64,14 +64,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (isOwner)
             {
-                Vector2 structurePosition = cell;
-
-                if (!StructureDefinitionData.IsScaffold)
-                {
-                    structurePosition += _shape.TrueBounds.center - Vector2.one * 0.5f;
-                }
-
-                Vector3 position = _context.Raft.Queries.StructurePositionToWorldPosition(structurePosition);
+                Vector3 position = _context.Raft.Queries.StructurePositionToWorldPosition(cell);
 
                 // Find the highest Y to sit on - without this it can be stuck in the tile                
                 float? y = null;

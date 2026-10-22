@@ -50,6 +50,14 @@ MonoBehaviour:
     m_Localized: Carica una devastante scossa elettrica
     m_Metadata:
       m_Items: []
+  - m_Id: 102171120658378752
+    m_Localized: Cannone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102171120691933184
+    m_Localized: Spazzate via i nemici con le palle di cannone
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

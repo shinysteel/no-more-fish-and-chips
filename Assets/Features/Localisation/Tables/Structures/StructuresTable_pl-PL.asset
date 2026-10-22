@@ -50,6 +50,14 @@ MonoBehaviour:
     m_Localized: "\u0141aduje niszczycielski wstrz\u0105s elektryczny"
     m_Metadata:
       m_Items: []
+  - m_Id: 102171120658378752
+    m_Localized: Armata
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102171120691933184
+    m_Localized: "Wysadzaj wrog\xF3w kulami armatnimi"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
