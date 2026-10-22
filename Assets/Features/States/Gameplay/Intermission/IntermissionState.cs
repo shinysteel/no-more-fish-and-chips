@@ -104,7 +104,7 @@ namespace NoMoreFishAndChips.States
             if (!_lobbyManager.CurrentLobby.GetBool(Lobby.StartedKey))
             {
                 ETime time = Random.value <= 0.5f ? ETime.Dawn : ETime.Day;
-                _context.EnvironmentTime.SetTime(time);
+                _context.EnvironmentTime.SetTime(time, 0f);
 
                 _context.Ocean.SetCurrent(false, 0f);
 
@@ -112,8 +112,6 @@ namespace NoMoreFishAndChips.States
             }
             else
             {
-                _context.EnvironmentTime.ProgressTime();
-
                 _island.transform.position += Vector3.forward * (3f + Ocean.SetCurrentDuration * 0.5f);
 
                 _subStateMachine.ChangeState(EIntermissionState.Arrive);

@@ -8,16 +8,24 @@ namespace NoMoreFishAndChips.Environments
 
         private Material _material;
 
-        private const string GradientName = "_Gradient";
+        private const string CurrentGradientName = "_CurrentGradient";
+        private const string NextGradientName = "_NextGradient";
+        private const string GradientBlendName = "_GradientBlend";
 
         private void Awake()
         {
             _material = _meshRenderer.material;
         }
 
-        public void SetGradient(Texture2D texture)
+        public void SetGradientTextures(Texture2D currentTexture, Texture2D nextTexture)
         {
-            _material.SetTexture(GradientName, texture);
+            _material.SetTexture(CurrentGradientName, currentTexture);
+            _material.SetTexture(NextGradientName, nextTexture);
+        }
+
+        public void SetGradientBlend(float blend)
+        {
+            _material.SetFloat(GradientBlendName, blend);
         }
     }
 }

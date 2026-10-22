@@ -28,6 +28,8 @@ namespace NoMoreFishAndChips.States
             base.Enter();
 
             Tween.Delay(_config.ArriveDelay, Arrive);
+
+            _context.EnvironmentTime.ProgressTime(_config.ArriveDelay);
         }
 
         private void Arrive()
