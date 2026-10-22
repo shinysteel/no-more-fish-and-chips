@@ -163,7 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e055d3165f2aac418613db7b6a905e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.EnvironmentGameplayReferences
-  _ocean: {fileID: 0}
+  _light: {fileID: 1854806182}
+  _sky: {fileID: 2622508643222990040}
 --- !u!1 &383852721
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +446,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ee753609a1a2504685a6798f3fcbc1e, type: 3}
+--- !u!114 &2622508643222990040 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 364816537417361361, guid: 6ee753609a1a2504685a6798f3fcbc1e, type: 3}
+  m_PrefabInstance: {fileID: 2622508643222990039}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac6e4c7bc4d969499a2e91d7dc108c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.Sky
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

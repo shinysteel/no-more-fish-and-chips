@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe3218cb87c5e24baf3725071f8ce34, type: 3}
+  m_Name: DayEnvironmentTimeData
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Environments.EnvironmentTimeData
+  _lightRotation: {x: 50, y: 30, z: 0}
+  _lightColor: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  _horizonColor: {r: 0.9098039, g: 1, b: 0.5803922, a: 0}
+  _horizonEmission: 0.5
+  _skyGradient: {fileID: 2800000, guid: 9045ab853b7bdf94f83f823a6de04644, type: 3}

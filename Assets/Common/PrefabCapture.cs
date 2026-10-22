@@ -264,6 +264,8 @@ namespace ShinyOwl.Common
             importer.textureType = TextureImporterType.Sprite;
             importer.spriteImportMode = SpriteImportMode.Single;
             importer.SaveAndReimport();
+
+            Selection.activeObject = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
     }
 }

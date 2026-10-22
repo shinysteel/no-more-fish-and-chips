@@ -34,6 +34,8 @@ namespace NoMoreFishAndChips.Environments
 
         private const string OceanTimeName = "_OceanTime";
         private const string CurrentTimeName = "_CurrentTime";
+        private const string HorizonColorName = "_HorizonColor";
+        private const string HorizonEmissionName = "_HorizonEmission";
 
         public const float SetCurrentDuration = 2.5f;
 
@@ -241,6 +243,12 @@ namespace NoMoreFishAndChips.Environments
             // Drag stops the entity being 'launched' from buoyancy, and slows it down on the XZ plane
             rigidbody.AddForce(Vector3.Scale(-rigidbody.linearVelocity, _linearDrag), ForceMode.Acceleration);
             rigidbody.AddTorque(-rigidbody.angularVelocity * _angularDrag, ForceMode.Acceleration);
+        }
+
+        public void SetHorizon(Color color, float emission)
+        {
+            _material.SetColor(HorizonColorName, color);
+            _material.SetFloat(HorizonEmissionName, emission);
         }
     }
 }

@@ -16,6 +16,7 @@ public class GameplayStateConfig : ScriptableObject
     [SerializeField] private DrowningSpawner _drowningSpawnerPrefab;
     [SerializeField] private SalvageSpawner _salvageSpawnerPrefab;
     [SerializeField] private EnvironmentMarker _environmentMarkerPrefab;
+    [SerializeField] private EnvironmentTime _environmentTimePrefab;
     [SerializeField] private GameplayEnvironment _gameplayEnvironmentPrefab;
 
     public IntermissionStateConfig IntermissionStageConfig => _intermissionStateConfig;
@@ -26,5 +27,6 @@ public class GameplayStateConfig : ScriptableObject
     public DrowningSpawner DrowningSpawnerPrefab => _drowningSpawnerPrefab;
     public SalvageSpawner SalvageSpawnerPrefab => _salvageSpawnerPrefab;
     public EnvironmentMarker EnvironmentMarkerPrefab => _environmentMarkerPrefab;
+    public EnvironmentTime EnvironmentTimePrefab => _environmentTimePrefab;
     public GameplayEnvironment GameplayEnvironmentPrefab => _gameplayEnvironmentPrefab;
 }

@@ -36,10 +36,11 @@ namespace NoMoreFishAndChips.States
         public Raft Raft { get; private set; }
         public VoyageRunner VoyageRunner { get; private set; }
         public EnvironmentMarker EnvironmentMarker { get; private set; }
+        public EnvironmentTime EnvironmentTime { get; private set; }
         public EnvironmentGameplayReferences EnvironmentGameplayReferences { get; private set; }
         public GameplayScreen GameplayScreen { get; private set; }
         
-        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Ocean ocean, Raft raft, VoyageRunner voyageRunner, EnvironmentMarker environmentMarker, EnvironmentGameplayReferences references, GameplayScreen gameplayScreen)
+        public GameplayContext(List<RaftPlayer> players, RaftPlayer localPlayer, Ocean ocean, Raft raft, VoyageRunner voyageRunner, EnvironmentMarker environmentMarker, EnvironmentTime environmentTime, EnvironmentGameplayReferences references, GameplayScreen gameplayScreen)
         {
             Players = players;
             LocalPlayer = localPlayer;
@@ -47,6 +48,7 @@ namespace NoMoreFishAndChips.States
             Raft = raft;
             VoyageRunner = voyageRunner;
             EnvironmentMarker = environmentMarker;
+            EnvironmentTime = environmentTime;
             EnvironmentGameplayReferences = references;
             GameplayScreen = gameplayScreen;
         }
@@ -189,6 +191,7 @@ namespace NoMoreFishAndChips.States
                 Raft raft = null;
                 VoyageRunner voyageRunner = null;
                 EnvironmentMarker environmentMarker = null;
+                EnvironmentTime environmentTime = null;
 
                 if (_networkManager.IsServer)
                 {
@@ -196,6 +199,7 @@ namespace NoMoreFishAndChips.States
                     raft = _networkManager.Spawn(_config.RaftPrefab);
                     voyageRunner = _networkManager.Spawn(_config.VoyageRunnerPrefab);
                     environmentMarker = _networkManager.Spawn(_config.EnvironmentMarkerPrefab);
+                    environmentTime = _networkManager.Spawn(_config.EnvironmentTimePrefab);
 
                     _networkManager.Spawn(_config.DrowningSpawnerPrefab);
                     _networkManager.Spawn(_config.SalvageSpawnerPrefab);
@@ -209,6 +213,8 @@ namespace NoMoreFishAndChips.States
                         raft ??= Object.FindFirstObjectByType<Raft>();
                         voyageRunner ??= Object.FindFirstObjectByType<VoyageRunner>();
                         environmentMarker ??= Object.FindFirstObjectByType<EnvironmentMarker>();
+                        environmentTime ??= Object.FindFirstObjectByType<EnvironmentTime>();
+
                         await Task.Yield();
                     }
                 }
@@ -218,7 +224,7 @@ namespace NoMoreFishAndChips.States
 
                 _gameplayScreen = await _uiManager.CreateScreenUIAsync(_uiManager.Config.GameplayScreenPrefab, UILayer.Screens);
 
-                _context = new GameplayContext(_players, localPlayer, ocean, raft, voyageRunner, environmentMarker, references, _gameplayScreen);
+                _context = new GameplayContext(_players, localPlayer, ocean, raft, voyageRunner, environmentMarker, environmentTime, references, _gameplayScreen);
 
                 // Manually initialise context components to dictate order
                 InitialiseComponent(ocean);
