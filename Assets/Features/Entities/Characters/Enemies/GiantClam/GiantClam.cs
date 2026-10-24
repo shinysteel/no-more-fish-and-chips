@@ -14,7 +14,6 @@ using UnityEngine;
 using NoMoreFishAndChips.Items;
 using System.Threading.Tasks;
 using NoMoreFishAndChips.Hitboxes;
-using NoMoreFishAndChips.Interactions;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 using System.Collections.Generic;

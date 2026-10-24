@@ -7,7 +7,6 @@ using PurrNet;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
-using NoMoreFishAndChips.Interactions;
 using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities

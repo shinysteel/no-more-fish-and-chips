@@ -4,7 +4,7 @@ using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
     public class FeedGiantClamInteraction : GameplayInteraction
     {

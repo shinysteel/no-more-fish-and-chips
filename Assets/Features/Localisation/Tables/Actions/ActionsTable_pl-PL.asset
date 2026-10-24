@@ -50,6 +50,14 @@ MonoBehaviour:
     m_Localized: Naprawa
     m_Metadata:
       m_Items: []
+  - m_Id: 3250579428438016
+    m_Localized: "Obci\u0105\u017Cenie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3254299050471424
+    m_Localized: "Cz\u0142owiek"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

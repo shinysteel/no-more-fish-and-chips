@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips
 {
     public interface IInteractable
     {

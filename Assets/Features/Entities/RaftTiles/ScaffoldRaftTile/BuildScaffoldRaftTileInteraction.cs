@@ -4,7 +4,7 @@ using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
     public class BuildScaffoldRaftTileInteraction : BuildInteraction
     {

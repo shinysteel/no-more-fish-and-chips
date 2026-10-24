@@ -9,7 +9,6 @@ using System;
 using System.Linq;
 using UnityEngine.Pool;
 using NoMoreFishAndChips.Environments;
-using NoMoreFishAndChips.Interactions;
 using ShinyOwl.Common.Utils;
 using NoMoreFishAndChips.Rendering;
 
@@ -116,8 +115,13 @@ namespace NoMoreFishAndChips.Entities
         
         public void Interact(ActionHotkey hotkey)
         {
-            Interaction interaction = _promptInteractable.Interactions.FirstOrDefault(interaction => interaction.Hotkey == hotkey);
+            if (_promptInteractable == null)
+            {
+                return;
+            }
 
+            Interaction interaction = _promptInteractable.Interactions.FirstOrDefault(interaction => interaction.Hotkey == hotkey);
+            
             if (interaction?.CanInteract() ?? false)
             {
                 interaction.Interact();

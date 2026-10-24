@@ -3,16 +3,16 @@ using NoMoreFishAndChips.Environments;
 using NoMoreFishAndChips.Localisation;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Environments
 {
-    public class ViewVoyageBoardInteraction : Interaction
+    public class VoyageBoardViewInteraction : Interaction
     {
         private VoyageBoard _board;
 
         public override ActionHotkey Hotkey => ActionHotkey.FKey;
         public override LocalisationTerm Term => LocalisationTerm.ActionsView;
 
-        public ViewVoyageBoardInteraction(VoyageBoard board) : base()
+        public VoyageBoardViewInteraction(VoyageBoard board) : base()
         {
             _board = board;
         }

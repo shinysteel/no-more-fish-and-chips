@@ -1,6 +1,5 @@
 using ShinyOwl.Common.Structures;
 using UnityEngine;
-using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Entities
 {

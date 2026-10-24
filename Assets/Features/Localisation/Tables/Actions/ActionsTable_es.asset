@@ -50,6 +50,14 @@ MonoBehaviour:
     m_Localized: Reparar
     m_Metadata:
       m_Items: []
+  - m_Id: 3250579428438016
+    m_Localized: Carga
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3254299050471424
+    m_Localized: Hombre
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

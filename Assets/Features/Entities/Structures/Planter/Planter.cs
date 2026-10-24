@@ -2,7 +2,6 @@ using NoMoreFishAndChips.UI;
 using UnityEngine;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Environments;
-using NoMoreFishAndChips.Interactions;
 using System.Collections.Generic;
 using NoMoreFishAndChips.States;
 
@@ -11,6 +10,7 @@ namespace NoMoreFishAndChips.Entities
     public class Planter : Structure<PlanterDefinitionData>, IInteractable
     {
         Vector3 IInteractable.Position => transform.position;
+        IEnumerable<Renderer> IInteractable.Renderers => _entityModel.MeshRenderers;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
         private List<Interaction> _interactions = new();
         List<Interaction> IInteractable.Interactions => _interactions;
@@ -19,7 +19,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.InitialiseContext(context);
 
-            _interactions.Add(new PlantInteraction(this, _context));
+            _interactions.Add(new PlanterPlantInteraction(this, _context));
         }
     }
 }

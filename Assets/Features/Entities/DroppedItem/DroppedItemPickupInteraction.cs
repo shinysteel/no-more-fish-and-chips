@@ -7,9 +7,9 @@ using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
-    public class PickupDroppedItemInteraction : GameplayInteraction
+    public class DroppedItemPickupInteraction : GameplayInteraction
     {
         private AudioManager _audioManager;
 
@@ -18,7 +18,7 @@ namespace NoMoreFishAndChips.Interactions
         public override ActionHotkey Hotkey => ActionHotkey.FKey;
         public override LocalisationTerm Term => LocalisationTerm.ActionsPickup;
 
-        public PickupDroppedItemInteraction(DroppedItem item, GameplayContext context) : base(context)
+        public DroppedItemPickupInteraction(DroppedItem item, GameplayContext context) : base(context)
         {
             _audioManager = GameManager.Instance.Get<AudioManager>();
 

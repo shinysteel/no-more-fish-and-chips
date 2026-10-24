@@ -3,7 +3,7 @@ using UnityEngine;
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Localisation;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips
 {
     [CreateAssetMenu(fileName = "IInteractableSettings", menuName = "Settings/IInteractableSettings")]
     public class IInteractableSettings : ScriptableObject

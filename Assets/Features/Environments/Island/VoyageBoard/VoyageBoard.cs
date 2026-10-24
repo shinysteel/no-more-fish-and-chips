@@ -2,7 +2,6 @@ using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Environments
 {
@@ -31,7 +30,7 @@ namespace NoMoreFishAndChips.Environments
 
             _voyageBoardPanelInstance = new PanelInstance<VoyageBoardPanel>(_uiManager.Config.VoyageBoardPanelPrefab);
 
-            _interactions = new List<Interaction>() { new ViewVoyageBoardInteraction(this) };
+            _interactions = new List<Interaction>() { new VoyageBoardViewInteraction(this) };
         }
     }
 }

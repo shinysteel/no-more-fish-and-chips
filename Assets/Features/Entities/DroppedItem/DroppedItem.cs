@@ -10,7 +10,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using NoMoreFishAndChips.UI;
 using NoMoreFishAndChips.Audio;
-using NoMoreFishAndChips.Interactions;
 using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
@@ -91,7 +90,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.InitialiseContext(context);
 
-            _interactions.Add(new PickupDroppedItemInteraction(this, _context));
+            _interactions.Add(new DroppedItemPickupInteraction(this, _context));
         }
 
         protected override void OnDespawned()

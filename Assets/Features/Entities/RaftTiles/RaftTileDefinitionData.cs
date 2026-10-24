@@ -3,7 +3,6 @@ using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.States;
 using System;
 using UnityEngine;
-using NoMoreFishAndChips.Interactions;
 using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities

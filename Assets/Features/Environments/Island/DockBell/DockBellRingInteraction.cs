@@ -5,9 +5,9 @@ using NoMoreFishAndChips.Localisation;
 using NoMoreFishAndChips.Networking;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Environments
 {
-    public class RingDockBellInteraction : Interaction
+    public class DockBellRingInteraction : Interaction
     {
         private NetworkManager _networkManager;
 
@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Interactions
         public override ActionHotkey Hotkey => ActionHotkey.FKey;
         public override LocalisationTerm Term => LocalisationTerm.ActionsRing;
 
-        public RingDockBellInteraction(DockBell bell) : base()
+        public DockBellRingInteraction(DockBell bell) : base()
         {
             _networkManager = GameManager.Instance.Get<NetworkManager>();
 

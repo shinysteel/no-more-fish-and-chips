@@ -4,16 +4,16 @@ using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
-    public class OpenClamChestInteraction : GameplayInteraction
+    public class ClamChestOpenInteraction : GameplayInteraction
     {
         private ClamChest _chest;
 
         public override ActionHotkey Hotkey => ActionHotkey.FKey;
         public override LocalisationTerm Term => LocalisationTerm.ActionsOpen;
 
-        public OpenClamChestInteraction(ClamChest chest, GameplayContext context) : base(context)
+        public ClamChestOpenInteraction(ClamChest chest, GameplayContext context) : base(context)
         {
             _chest = chest;
         }

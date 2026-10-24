@@ -10,7 +10,6 @@ using ShinyOwl.Common.Structures;
 using UnityEngine;
 using NoMoreFishAndChips.Audio;
 using System.Collections.Generic;
-using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -60,7 +59,7 @@ namespace NoMoreFishAndChips.Entities
 
             _clamChestPanelInstance = new PanelInstance<ClamChestPanel>(_uiManager.Config.ClamChestPanelPrefab);
 
-            _interactions.Add(new OpenClamChestInteraction(this, _context));
+            _interactions.Add(new ClamChestOpenInteraction(this, _context));
 
             foreach (RaftPlayer player in context.Players)
             {

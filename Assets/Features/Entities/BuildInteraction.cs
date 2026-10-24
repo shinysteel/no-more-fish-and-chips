@@ -4,7 +4,7 @@ using NoMoreFishAndChips.Localisation;
 using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
     public abstract class BuildInteraction : GameplayInteraction
     {

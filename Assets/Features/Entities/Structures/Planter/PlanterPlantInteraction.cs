@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.Environments;
+using NoMoreFishAndChips.Inventories;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Localisation;
 using NoMoreFishAndChips.Pools;
@@ -7,9 +8,9 @@ using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.UI;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
-    public class PlantInteraction : GameplayInteraction
+    public class PlanterPlantInteraction : GameplayInteraction
     {
         private PoolManager _poolManager;
         private EnvironmentManager _environmentManager;
@@ -21,7 +22,7 @@ namespace NoMoreFishAndChips.Interactions
         public override ActionHotkey Hotkey => ActionHotkey.LeftClick;
         public override LocalisationTerm Term => LocalisationTerm.ActionsPlant;
 
-        public PlantInteraction(Planter planter, GameplayContext context) : base(context)
+        public PlanterPlantInteraction(Planter planter, GameplayContext context) : base(context)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
@@ -40,11 +41,6 @@ namespace NoMoreFishAndChips.Interactions
             prompt.SetupInteract(Hotkey, Term);
             prompt.SetupRequirement(_context, _planter.DefinitionData.PlantRecipe);
             return prompt;
-        }
-
-        public override bool CanInteract()
-        {
-            return _context.LocalPlayer.Inventory.CanRemoveItems(_planter.DefinitionData.PlantRecipe.ToChangeParams(), out _);
         }
 
         public override void Interact()

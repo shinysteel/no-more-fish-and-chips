@@ -9,9 +9,9 @@ using NoMoreFishAndChips.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
-    public class RepairRaftTileInteraction : GameplayInteraction
+    public class RaftTileRepairInteraction : GameplayInteraction
     {
         private PoolManager _poolManager;
         private EnvironmentManager _environmentManager;
@@ -23,7 +23,7 @@ namespace NoMoreFishAndChips.Interactions
         public override ActionHotkey Hotkey => ActionHotkey.LeftClick;
         public override LocalisationTerm Term => LocalisationTerm.ActionsRepair;
 
-        public RepairRaftTileInteraction(RaftTile tile, GameplayContext context) : base(context)
+        public RaftTileRepairInteraction(RaftTile tile, GameplayContext context) : base(context)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();

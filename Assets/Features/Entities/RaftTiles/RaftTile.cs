@@ -13,7 +13,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NoMoreFishAndChips.Interactions;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
@@ -62,7 +61,7 @@ namespace NoMoreFishAndChips.Entities
             HandleNetCellChanged(_netCell.value);
             _netCell.onChanged += HandleNetCellChanged;
 
-            _interactions.Add(new RepairRaftTileInteraction(this, _context));
+            _interactions.Add(new RaftTileRepairInteraction(this, _context));
         }
 
         protected override void OnDespawned()

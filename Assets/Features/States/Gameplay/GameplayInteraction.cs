@@ -1,7 +1,7 @@
 using NoMoreFishAndChips.States;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.States
 {
     public abstract class GameplayInteraction : Interaction
     {

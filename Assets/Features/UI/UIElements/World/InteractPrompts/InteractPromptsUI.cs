@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using NoMoreFishAndChips.Interactions;
 using UnityEngine.Pool;
 using NoMoreFishAndChips.Pools;
 

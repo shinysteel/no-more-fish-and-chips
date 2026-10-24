@@ -47,6 +47,14 @@ MonoBehaviour:
     m_Key: actions.feed
     m_Metadata:
       m_Items: []
+  - m_Id: 3250579428438016
+    m_Key: actions.load
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3254299050471424
+    m_Key: actions.man
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

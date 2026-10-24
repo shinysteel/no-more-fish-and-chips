@@ -5,7 +5,7 @@ using NoMoreFishAndChips.States;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NoMoreFishAndChips.Interactions
+namespace NoMoreFishAndChips.Entities
 {
     public class BuildStructureScaffoldInteraction : BuildInteraction
     {

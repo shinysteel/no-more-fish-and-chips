@@ -1,4 +1,3 @@
-using NoMoreFishAndChips.Interactions;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.UI;
 using NUnit.Framework;

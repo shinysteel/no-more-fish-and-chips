@@ -7,7 +7,6 @@ using NoMoreFishAndChips.UI;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
-using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Environments
 {
@@ -27,7 +26,7 @@ namespace NoMoreFishAndChips.Environments
         {
             _meshRenderers = GetComponentsInChildren<MeshRenderer>();
 
-            _interactions = new List<Interaction>() { new RingDockBellInteraction(this) };
+            _interactions = new List<Interaction>() { new DockBellRingInteraction(this) };
         }
     }
 }

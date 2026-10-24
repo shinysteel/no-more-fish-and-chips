@@ -36,3 +36,9 @@ MonoBehaviour:
     - _itemId: 4
       _count: 2
   _isScaffold: 0
+  _iInteractableSettings: {fileID: 11400000, guid: b1f20c090e67fc14c926e0138b1979e3, type: 2}
+  _loadRecipe:
+    _duration: 0.5
+    _requirements:
+    - _itemId: 13
+      _count: 1
