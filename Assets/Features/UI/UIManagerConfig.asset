@@ -37,3 +37,4 @@ MonoBehaviour:
   _floatingTextUIPrefab: {fileID: 4961070204941342720, guid: dfffacb4c447dd5499a214b4a682f50c, type: 3}
   _contextActionsUIPrefab: {fileID: 2642306162668298758, guid: fd157d30362da6348b1b5cad13ee0af2, type: 3}
   _healthBarUIPrefab: {fileID: 3724570907756451487, guid: a1036283d119c064f96b3c3eb9c6f243, type: 3}
+  _structurePlaceRuleUIPrefab: {fileID: 9058235147649997895, guid: c5eb991b44f46e141b72c39f4b48134d, type: 3}

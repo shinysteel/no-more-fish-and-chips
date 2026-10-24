@@ -73,6 +73,7 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private FloatingTextUI _floatingTextUIPrefab;
         [SerializeField] private ContextActionsUI _contextActionsUIPrefab;
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
+        [SerializeField] private StructurePlaceRuleUI _structurePlaceRuleUIPrefab;
 
         public InteractPromptsUI InteractPromptsUIPrefab => _interactPromptsUIPrefab;
         public ProgressBarUI ProgressBarUIPrefab => _progressBarUIPrefab;
@@ -80,5 +81,6 @@ namespace NoMoreFishAndChips.UI
         public FloatingTextUI FloatingTextUIPrefab => _floatingTextUIPrefab;
         public ContextActionsUI ContextActionsUIPrefab => _contextActionsUIPrefab;
         public HealthBarUI HealthBarUIPrefab => _healthBarUIPrefab;
+        public StructurePlaceRuleUI StructurePlaceRuleUIPrefab => _structurePlaceRuleUIPrefab;
     }
 }

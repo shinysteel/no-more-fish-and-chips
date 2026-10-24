@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ShinyOwl.Common.Utils;
 using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.UI;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -16,6 +17,7 @@ namespace NoMoreFishAndChips.Entities
     {
         private EntityManager _entityManager;
         private EnvironmentManager _environmentManager;
+        private UIManager _uiManager;
 
         private Structure _structure;
         private BoolGrid _shape;
@@ -28,13 +30,41 @@ namespace NoMoreFishAndChips.Entities
 
         private class PreviewProp
         {
+            private EnvironmentManager _environmentManager;
+            private UIManager _uiManager;
+
             public Vector2Int Cell { get; private set; }
             public Prop Prop { get; private set; }
+            public StructurePlaceRuleUI PlaceRuleUI { get; private set; }
 
-            public PreviewProp(Vector2Int cell, Prop prop)
+            public PreviewProp(Vector2Int cell, Prop prop, StructurePlaceRuleUI ui)
             {
+                _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+                _uiManager = GameManager.Instance.Get<UIManager>();
+
                 Cell = cell;
                 Prop = prop;
+                PlaceRuleUI = ui;
+            }
+
+            public void Dispose()
+            {
+                _environmentManager.ReturnProp(Prop);
+
+                if (PlaceRuleUI != null)
+                {
+                    _uiManager.DestroyWorldUI(PlaceRuleUI);
+                }
+            }
+
+            public void SetPropPosition(Vector3 position)
+            {
+                Prop.transform.position = position;
+                
+                if (PlaceRuleUI != null)
+                {
+                    PlaceRuleUI.transform.position = position + Vector3.up * 0.125f;
+                }
             }
         }
 
@@ -42,6 +72,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _entityManager = GameManager.Instance.Get<EntityManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
+            _uiManager = GameManager.Instance.Get<UIManager>();
 
             _structure = (Structure)_entityManager.GetPrefab(_entityId);
             _shape = _structure.StructureDefinitionData.Shape;
@@ -59,9 +90,9 @@ namespace NoMoreFishAndChips.Entities
         {
             _entityManager.ReturnModel(_previewModel);
 
-            foreach (PreviewProp prop in _previewProps)
+            foreach (PreviewProp preview in _previewProps)
             {
-                _environmentManager.ReturnProp(prop.Prop);
+                preview.Dispose();
             }
 
             if (_context.Raft != null)
@@ -184,7 +215,7 @@ namespace NoMoreFishAndChips.Entities
 
             foreach (PreviewProp preview in _previewProps)
             {
-                _environmentManager.ReturnProp(preview.Prop);
+                preview.Dispose();
             }
 
             _previewProps.Clear();
@@ -193,7 +224,16 @@ namespace NoMoreFishAndChips.Entities
             {
                 Vector2Int structureCell = _cell + cell;
                 Prop prop = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Scale = new Vector3(0.51f, 0.26f, 0.51f) });
-                _previewProps.Add(new PreviewProp(structureCell, prop));
+
+                StructurePlaceRuleUI ui = null;
+
+                if (_waterMask != null)
+                {
+                    ui = _uiManager.CreateWorldUI(_uiManager.Config.StructurePlaceRuleUIPrefab, Vector3.zero);
+                    ui.Setup(!_waterMask[cell] || !_structure.StructureDefinitionData.EnforceWaterMask, _waterMask[cell]);
+                }
+                
+                _previewProps.Add(new PreviewProp(structureCell, prop, ui));
             });
         }
 
@@ -211,7 +251,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 Vector3 propPosition = _context.Raft.Queries.StructureCellToWorldPosition(preview.Cell);
                 propPosition.y = preview.Prop.transform.position.y;
-                preview.Prop.transform.position = propPosition;
+                preview.SetPropPosition(propPosition);
             }
 
             Color color = CanBuild() ? _settings.ValidColor : _settings.InvalidColor;
@@ -262,7 +302,7 @@ namespace NoMoreFishAndChips.Entities
             {
                 Vector3 propPosition = preview.Prop.transform.position;
                 propPosition.y = modelPosition.y - 0.125f;
-                preview.Prop.transform.position = propPosition;
+                preview.SetPropPosition(propPosition);
             }
         }
 
@@ -286,6 +326,11 @@ namespace NoMoreFishAndChips.Entities
 
                 if (_context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile))
                 {
+                    if (_waterMask != null && _structure.StructureDefinitionData.EnforceWaterMask && _waterMask[kvp.Key])
+                    {
+                        return false;
+                    }
+
                     if (tile.TileDefinitionData.IsScaffold)
                     {
                         return false;
