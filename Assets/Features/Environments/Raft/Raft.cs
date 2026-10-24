@@ -194,13 +194,6 @@ namespace NoMoreFishAndChips.Environments
                 {
                     return;
                 }
-
-                Vector2Int tileCell = _queries.StructureCellToTileCell(structureCell);
-
-                if (!_tiles.ContainsKey(tileCell))
-                {
-                    return;
-                }
             }
 
             StructureScaffold structure = (StructureScaffold)CreateStructure(cell, EntityId.StructureScaffold, prefab.EntityDefinitionData.EntityHealthSettings.Health, 0);

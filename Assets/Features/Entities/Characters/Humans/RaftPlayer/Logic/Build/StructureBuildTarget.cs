@@ -19,6 +19,7 @@ namespace NoMoreFishAndChips.Entities
 
         private Structure _structure;
         private BoolGrid _shape;
+        private BoolGrid _waterMask;
 
         private Dictionary<Vector2Int, RaftTile> _overlappingTiles = new();
 
@@ -44,6 +45,7 @@ namespace NoMoreFishAndChips.Entities
 
             _structure = (Structure)_entityManager.GetPrefab(_entityId);
             _shape = _structure.StructureDefinitionData.Shape;
+            _waterMask = _structure.StructureDefinitionData.WaterMask;
 
             _previewModel = _entityManager.GetModel(entityId, new SpawnParams() { Scale = Vector3.one * 1.01f });
 
@@ -81,6 +83,7 @@ namespace NoMoreFishAndChips.Entities
             _rotations = rotations;
 
             _shape = _structure.StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _rotations);
+            _waterMask = _structure.StructureDefinitionData.WaterMask?.GetTransformed(Vector2Int.zero, _rotations);
 
             RefreshCell();
             RefreshData();
@@ -281,9 +284,19 @@ namespace NoMoreFishAndChips.Entities
 
                 Vector2Int tileCell = _context.Raft.Queries.StructureCellToTileCell(structureCell);
 
-                if (!_context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile) || tile.TileDefinitionData.IsScaffold)
+                if (_context.Raft.Tiles.TryGetValue(tileCell, out RaftTile tile))
                 {
-                    return false;
+                    if (tile.TileDefinitionData.IsScaffold)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_waterMask != null && !_waterMask[kvp.Key])
+                    {
+                        return false;
+                    }
                 }
             }
 

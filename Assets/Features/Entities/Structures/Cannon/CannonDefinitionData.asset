@@ -28,6 +28,7 @@ MonoBehaviour:
     _health: 1
     _isDamageable: 1
   _shape: {fileID: 11400000, guid: a8bf96d7ef50b8e4ebb6526417767bd9, type: 2}
+  _waterMask: {fileID: 11400000, guid: 168fbe6ca7ed7eb4cac34e3ad151baab, type: 2}
   _buildRecipe:
     _duration: 1
     _requirements:
