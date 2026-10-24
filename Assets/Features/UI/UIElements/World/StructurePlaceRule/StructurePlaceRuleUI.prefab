@@ -305,6 +305,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2473419787412463619}
     m_Modifications:
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableEntryReference.m_KeyId
+      value: 110918804437299200
+      objectReference: {fileID: 0}
+    - target: {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+      propertyPath: m_StringReference.m_TableReference.m_TableCollectionName
+      value: GUID:d81b3ed4ebb8a774e8572d1461a0acae
+      objectReference: {fileID: 0}
     - target: {fileID: 4898527889385909063, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_text
       value: or
@@ -323,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3652e302dbda2184d8a2aa2725984909, type: 2}
     - target: {fileID: 6722119670988573049, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_Name
-      value: SlashText
+      value: OrText
       objectReference: {fileID: 0}
     - target: {fileID: 8746915969032943170, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
       propertyPath: m_AnchorMax.x
@@ -393,8 +401,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 638246094296984513, guid: dfffba3074a50d94f97a3f2fb6ae8a69, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
