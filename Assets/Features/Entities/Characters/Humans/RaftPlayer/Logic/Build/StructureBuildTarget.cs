@@ -232,19 +232,26 @@ namespace NoMoreFishAndChips.Entities
 
             Vector3 modelPosition = _previewModel.transform.position;
 
-            float? y = null;
+            float y = int.MinValue;
 
             foreach (RaftTile tile in _overlappingTiles.Values)
             {
-                if (tile == null)
+                // Tile can be null, since this collection keeps track of all potential overlaps
+                if (tile != null)
                 {
-                    continue;
+                    y = Mathf.Max(y, tile.transform.position.y);
                 }
-                
-                y = Mathf.Max(y ?? int.MinValue, tile.transform.position.y);
+            }
+            
+            if (y == int.MinValue)
+            {
+                foreach (Vector2Int cell in _overlappingTiles.Keys)
+                {
+                    y = Mathf.Max(y, _context.Ocean.SampleHeight(_context.Raft.Queries.TileCellToWorldPosition(cell)) + 0.125f);
+                }
             }
 
-            modelPosition.y = y ?? 0.125f;
+            modelPosition.y = y;
 
             _previewModel.transform.position = modelPosition;
 
