@@ -7,8 +7,9 @@ using NoMoreFishAndChips.Localisation;
 
 namespace NoMoreFishAndChips.UI
 {
-    public class InteractPromptUI : WorldUI
+    public class InteractPrompt : MonoBehaviour, ITypedPoolable
     {
+        [SerializeField] protected RectTransform _rectTransform;
         [SerializeField] private ActionHotkeyView _actionHotkeyView;
         [SerializeField] private TextMeshProUGUI _actionText;
 
@@ -24,5 +25,11 @@ namespace NoMoreFishAndChips.UI
             _actionHotkeyView.Set(hotkey);
             _actionText.text = _localisationManager.GetString(term);
         }
+
+        public void OnTakenFromPool()
+        { }
+
+        public void OnReturnedToPool()
+        { }
     }
 }

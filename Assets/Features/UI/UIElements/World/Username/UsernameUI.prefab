@@ -56,9 +56,6 @@ PrefabInstance:
       insertIndex: 1
       addedObject: {fileID: 3503339305074441582}
     - targetCorrespondingSourceObject: {fileID: 6818615869069319518, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 2532271566705146808}
-    - targetCorrespondingSourceObject: {fileID: 6818615869069319518, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 39117138412021859}
     - targetCorrespondingSourceObject: {fileID: 6818615869069319518, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
@@ -71,6 +68,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1879057675564774594}
   m_SourcePrefab: {fileID: 100100000, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
+--- !u!114 &1108425883851750378 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4929566381804087409, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
+  m_PrefabInstance: {fileID: 5406780218645353371}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560544515410939589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefc8acff722413449cd2b93b91bed7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.InstantUIAnimation
 --- !u!1 &1560544515410939589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6818615869069319518, guid: aed9fb2fbe0b19845812ff366b54284d, type: 3}
@@ -88,22 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3da365e88ff7a743882197bb1933ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.UsernameUI
-  _uiAnimation: {fileID: 2532271566705146808}
+  _uiAnimation: {fileID: 1108425883851750378}
   _rectTransform: {fileID: 7455695796736891083}
   _canvasGroup: {fileID: 4465642585249566765}
   _text: {fileID: 3849260849758265801}
---- !u!114 &2532271566705146808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560544515410939589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cefc8acff722413449cd2b93b91bed7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.InstantUIAnimation
 --- !u!114 &39117138412021859
 MonoBehaviour:
   m_ObjectHideFlags: 0

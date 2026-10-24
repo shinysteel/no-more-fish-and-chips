@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips
 {
-    public interface ICreatable
+    public interface ICreatableData
     {
         DefinitionData DefinitionData { get; }
         Recipe BuildRecipe { get; }

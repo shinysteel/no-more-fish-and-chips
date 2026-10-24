@@ -14,8 +14,10 @@ using UnityEngine;
 using NoMoreFishAndChips.Items;
 using System.Threading.Tasks;
 using NoMoreFishAndChips.Hitboxes;
+using NoMoreFishAndChips.Interactions;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+using System.Collections.Generic;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -45,17 +47,22 @@ namespace NoMoreFishAndChips.Entities
 
         private int _openCount;
 
-        private PanelInstance<GiantClamsMouthPanel> _giantClamPanelInstance;
+        private PanelInstance<GiantClamsMouthPanel> _giantClamsMouthPanelInstance;
+        public PanelInstance<GiantClamsMouthPanel> GiantClamsMouthPanelInstance;
 
         private SyncVar<bool> _netCanOpenInventory = new SyncVar<bool>(ownerAuth: true);
         private SyncVar<float> _netRageBlend = new SyncVar<float>(ownerAuth: true);
         private SyncVar<float> _netExplodeBlend = new SyncVar<float>(ownerAuth: true);
+
+        public bool CanOpenInventory => _netCanOpenInventory.value;
 
         private AnimatorStateTracker _closedAnimatorStateTracker;
         private AnimatorStateTracker _openedAnimatorStateTracker;
 
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+        private List<Interaction> _interactions = new();
+        List<Interaction> IInteractable.Interactions => _interactions;
 
         private const string RageBlendName = "_RageBlend";
         private const string ExplodeBlendName = "_ExplodeBlend";
@@ -271,7 +278,7 @@ namespace NoMoreFishAndChips.Entities
 
             _networkManager.AddListener(this);
 
-            _giantClamPanelInstance = new PanelInstance<GiantClamsMouthPanel>(_uiManager.Config.GiantClamsMouthPanelPrefab);
+            _giantClamsMouthPanelInstance = new PanelInstance<GiantClamsMouthPanel>(_uiManager.Config.GiantClamsMouthPanelPrefab);
 
             if (!isOwner)
             {
@@ -304,6 +311,8 @@ namespace NoMoreFishAndChips.Entities
         public override void InitialiseContext(GameplayContext context)
         {
             base.InitialiseContext(context);
+
+            _interactions.Add(new FeedGiantClamInteraction(this, _context));
 
             foreach (RaftPlayer player in _context.Players)
             {
@@ -375,7 +384,7 @@ namespace NoMoreFishAndChips.Entities
         {
             if (!canOpenInventory)
             {
-                _giantClamPanelInstance.Hide();
+                _giantClamsMouthPanelInstance.Hide();
             }
         }
 
@@ -424,28 +433,6 @@ namespace NoMoreFishAndChips.Entities
             {
                 _stateMachine.ChangeState(EState.None);
             }
-        }
-
-        bool IInteractable.CanPrompt()
-        {
-            return _netCanOpenInventory.value;
-        }
-
-        WorldUI IInteractable.CreatePromptUI()
-        {
-            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey, DefinitionData.IInteractableSettings.Term);
-            return ui;
-        }
-
-        bool IInteractable.CanInteract()
-        {
-            return _netCanOpenInventory.value;
-        }
-
-        void IInteractable.Interact()
-        {
-            _giantClamPanelInstance.Toggle((GiantClamsMouthPanel panel) => panel.Setup(_context, this, _inventory));
         }
 
         void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)

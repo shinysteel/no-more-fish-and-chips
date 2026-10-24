@@ -1,25 +1,37 @@
+using NoMoreFishAndChips.Interactions;
 using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.UI;
+using NUnit.Framework;
 using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
+using System.Collections.Generic;
+using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class ScaffoldRaftTile : RaftTile
+    public class ScaffoldRaftTile : RaftTile, IBuildable
     {
-        private UIManager _uiManager;
         private EntityManager _entityManager;
 
         private SyncVar<EntityId> _netBuildId = new SyncVar<EntityId>(ownerAuth: true);
         private SyncVar<int> _netBuildRotations = new SyncVar<int>(ownerAuth: true);
 
+        private List<Interaction> _interactions = new();
+        public override List<Interaction> Interactions => _interactions;
+
         protected override void Awake()
         {
             base.Awake();
 
-            _uiManager = GameManager.Instance.Get<UIManager>();
             _entityManager = GameManager.Instance.Get<EntityManager>();
+        }
+
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _interactions.Add(new BuildScaffoldRaftTileInteraction(this, _context));
         }
 
         public void SetNetBuildId(EntityId id)
@@ -32,24 +44,7 @@ namespace NoMoreFishAndChips.Entities
             _netBuildRotations.value = rotations;
         }
 
-        protected override bool CanPrompt()
-        {
-            return isFullySpawned && _context != null && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
-        }
-
-        protected override WorldUI CreatePromptUI()
-        {
-            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey, TileDefinitionData.IInteractableSettings.Term);
-            return ui;
-        }
-
-        protected override bool CanInteract()
-        {
-            return true;
-        }
-
-        protected override void Interact()
+        void IBuildable.Build()
         {
             RaftTile prefab = (RaftTile)_entityManager.GetPrefab(_netBuildId.value);
 

@@ -13,6 +13,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NoMoreFishAndChips.Interactions;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
@@ -23,17 +24,11 @@ namespace NoMoreFishAndChips.Entities
         // Manual reference for offline tiles
         [SerializeField] private Ocean _ocean;
 
-        private NetworkManager _networkManager;
-        private UIManager _uiManager;
-        private EnvironmentManager _environmentManager;
-
         protected SyncVar<Vector2Int> _netCell = new SyncVar<Vector2Int>(ownerAuth: true);
         private SyncVar<int> _netRotations = new SyncVar<int>(ownerAuth: true);
 
         public Vector2Int Cell => _netCell.value;
         public int Rotations => _netRotations.value;
-
-        private Prop _previewProp;
 
         public RaftTileDefinitionData TileDefinitionData => (RaftTileDefinitionData)_entityDefinitionData;
 
@@ -41,19 +36,12 @@ namespace NoMoreFishAndChips.Entities
 
         Vector3 IInteractable.Position => transform.position;
         IInteractableSettings IInteractable.IInteractableSettings => TileDefinitionData.IInteractableSettings;
+        private List<Interaction> _interactions = new();
+        public virtual List<Interaction> Interactions => _interactions;
 
         protected override EntityLogicFactory CreateLogicFactory()
         {
             return new RaftTileLogicFactory();
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
-            _uiManager = GameManager.Instance.Get<UIManager>();
-            _environmentManager = GameManager.Instance.Get<EnvironmentManager>();
         }
 
         protected override void OnSpawned()
@@ -73,13 +61,18 @@ namespace NoMoreFishAndChips.Entities
 
             HandleNetCellChanged(_netCell.value);
             _netCell.onChanged += HandleNetCellChanged;
+
+            _interactions.Add(new RepairRaftTileInteraction(this, _context));
         }
 
         protected override void OnDespawned()
         {   
             base.OnDespawned();
 
-            ((IInteractable)this).HidePreview();
+            foreach (Interaction interaction in _interactions)
+            {
+                interaction.HidePreview();
+            }
             
             EntityHealthLogic.OnChanged -= HandleHealthChanged;
             _netRotations.onChanged -= HandleNetRotationsChanged;
@@ -147,67 +140,6 @@ namespace NoMoreFishAndChips.Entities
                     position(_context.Ocean);
                 }
             }
-        }
-
-        bool IInteractable.CanPrompt() => CanPrompt();
-        WorldUI IInteractable.CreatePromptUI() => CreatePromptUI();
-        bool IInteractable.CanInteract() => CanInteract();
-        void IInteractable.Interact() => Interact();
-
-        protected virtual bool CanPrompt()
-        {
-            return _context != null && EntityHealthLogic.CurrentHealth < EntityHealthLogic.MaxHealth && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
-        }
-
-        protected virtual WorldUI CreatePromptUI()
-        {
-            RequirementPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.RequirementPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(TileDefinitionData.IInteractableSettings.Hotkey, TileDefinitionData.IInteractableSettings.Term);
-            ui.SetupRequirement(_context, TileDefinitionData.RepairRecipe);
-            return ui;
-        }
-
-        protected virtual bool CanInteract()
-        {
-            return _context.LocalPlayer.Inventory.CanRemoveItems(TileDefinitionData.RepairRecipe.ToChangeParams(), out _);
-        }
-
-        protected virtual void Interact()
-        {
-            List<InventoryChangeParams> parameters = TileDefinitionData.RepairRecipe.ToChangeParams();
-
-            if (!_context.LocalPlayer.Inventory.CanRemoveItems(parameters, out _))
-            {
-                return;
-            }
-
-            _context.LocalPlayer.RaftPlayerActLogic.StartChannel(TileDefinitionData.RepairRecipe.Duration, ChannelAnimation.Build, () =>
-            {
-                _context.LocalPlayer.Inventory.TryRemoveItems(parameters);
-                EntityHealthLogic.ChangeHealth(1);
-            });
-        }
-
-        void IInteractable.ShowPreview()
-        {
-            _previewProp = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = new Vector3(0f, -0.125f, 0f), Scale = new Vector3(1.01f, 0.26f, 1.01f), Parent = transform });
-        }
-
-        void IInteractable.SetPreviewColor(Color color)
-        {
-            _previewProp.SetColor(color);
-        }
-
-        void IInteractable.HidePreview()
-        {
-            // We need to check for null, some Interacts of RaftTile destroy it
-            if (_previewProp == null)
-            {
-                return;
-            }
-
-            _environmentManager.ReturnProp(_previewProp);
-            _previewProp = null;
         }
     }
 }

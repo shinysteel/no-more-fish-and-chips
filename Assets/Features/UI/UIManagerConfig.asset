@@ -31,8 +31,7 @@ MonoBehaviour:
   _voyageBoardPanelPrefab: {fileID: 7883409537600940444, guid: fb5251541f123564099a9a0cf5e12970, type: 3}
   _cursorsUIPrefab: {fileID: 3344945000103229724, guid: e558a1cf45d47a047b893283dd78e7a1, type: 3}
   _fadeOverlayPrefab: {fileID: 4268870267594725696, guid: 68b24e3a49028ef41bd8f9738adc3633, type: 3}
-  _interactPromptUIPrefab: {fileID: 4809291724522747272, guid: 21ba440f752f83d4b936e1581a93220f, type: 3}
-  _requirementPromptUIPrefab: {fileID: 4361571962402563503, guid: 6c8be37aac96c9942a22adc77a709a9d, type: 3}
+  _interactPromptsUIPrefab: {fileID: 430424278811368841, guid: 219c358bcf24d1e41868aac44f247f21, type: 3}
   _progressBarUIPrefab: {fileID: 5449527504232588373, guid: 95f73c6e792a5e140a4a3b503d275dc5, type: 3}
   _usernameUIPrefab: {fileID: 3503339305074441582, guid: 0872c66262e07f7419f4e17513aaa39a, type: 3}
   _floatingTextUIPrefab: {fileID: 4961070204941342720, guid: dfffacb4c447dd5499a214b4a682f50c, type: 3}

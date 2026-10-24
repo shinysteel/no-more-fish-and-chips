@@ -6,7 +6,7 @@ using ShinyOwl.Common.Structures;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public abstract class StructureDefinitionData : EntityDefinitionData, IBuildable
+    public abstract class StructureDefinitionData : EntityDefinitionData, IBuildableData
     {
         [SerializeField] private BoolGrid _shape;
         [SerializeField] private Recipe _buildRecipe;
@@ -16,7 +16,7 @@ namespace NoMoreFishAndChips.Entities
         public Recipe BuildRecipe => _buildRecipe;
         public bool IsScaffold => _isScaffold;
 
-        DefinitionData ICreatable.DefinitionData => this;
-        EntityDefinitionData IBuildable.EntityDefinitionData => this;
+        DefinitionData ICreatableData.DefinitionData => this;
+        EntityDefinitionData IBuildableData.EntityDefinitionData => this;
     }
 }

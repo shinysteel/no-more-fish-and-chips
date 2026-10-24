@@ -38,12 +38,12 @@ namespace NoMoreFishAndChips.Audio
             }
         }
 
-        void IPoolable.OnReturnedToPool()
+        public void OnReturnedToPool()
         {
             _audioSource.clip = null;
         }
 
-        void IPoolable.OnTakenFromPool()
+        public void OnTakenFromPool()
         { }
     }
 }

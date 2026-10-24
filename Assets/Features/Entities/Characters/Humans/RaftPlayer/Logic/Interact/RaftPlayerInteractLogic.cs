@@ -9,10 +9,11 @@ using System;
 using System.Linq;
 using UnityEngine.Pool;
 using NoMoreFishAndChips.Environments;
-
-using Object = UnityEngine.Object;
+using NoMoreFishAndChips.Interactions;
 using ShinyOwl.Common.Utils;
 using NoMoreFishAndChips.Rendering;
+
+using Object = UnityEngine.Object;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -28,7 +29,8 @@ namespace NoMoreFishAndChips.Entities
         private List<NearbyInteractable> _nearbyInteractables = new();
 
         private IInteractable _promptInteractable;
-        private WorldUI _promptUI;
+        private List<Interaction> _promptInteractions = new();
+        private InteractPromptsUI _promptsUI;
         private OutlineHandle _promptOutlineHandle;
 
         private Collider[] _interactableCollidersNonAlloc = new Collider[MaxOverlaps];
@@ -92,36 +94,34 @@ namespace NoMoreFishAndChips.Entities
 
         private void ClearPrompts()
         {
-            if (_promptUI != null)
+            if (_promptsUI != null)
             {
-                _uiManager.DestroyWorldUI(_promptUI);
+                _uiManager.DestroyWorldUI(_promptsUI);
             }
 
             if (_promptInteractable != null)
             {
-                _promptInteractable.HidePreview();
+                foreach (Interaction interaction in _promptInteractable.Interactions)
+                {
+                    interaction.HidePreview();
+                }
             }
 
             _promptOutlineHandle?.Remove();
 
-            _promptUI = null;
+            _promptsUI = null;
             _promptInteractable = null;
             _promptOutlineHandle = null;
         }
         
         public void Interact(ActionHotkey hotkey)
         {
-            if (_promptInteractable?.IInteractableSettings.Hotkey != hotkey)
-            {
-                return;
-            }
+            Interaction interaction = _promptInteractable.Interactions.FirstOrDefault(interaction => interaction.Hotkey == hotkey);
 
-            if (!_promptInteractable.CanInteract())
+            if (interaction?.CanInteract() ?? false)
             {
-                return;
+                interaction.Interact();
             }
-
-            _promptInteractable.Interact();
         }
 
         public override void Tick()
@@ -227,16 +227,31 @@ namespace NoMoreFishAndChips.Entities
                 if (_promptInteractable == null)
                 {
                     _promptInteractable = _nearbyInteractables[0].Interactable;
-                    _promptUI = _promptInteractable.CreatePromptUI();
+                    _promptsUI = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptsUIPrefab, Vector3.zero);
 
-                    _promptInteractable.ShowPreview();
-                    _promptInteractable.SetPreviewColor(_promptInteractable.CanInteract() ? _sharedSettings.ValidColor : _sharedSettings.InvalidColor);
+                    foreach (Interaction interaction in _promptInteractable.Interactions)
+                    {
+                        interaction.ShowPreview();
+                        interaction.SetPreviewColor(interaction.CanInteract() ? _sharedSettings.ValidColor : _sharedSettings.InvalidColor);
+                    }
 
                     if (_promptInteractable.Renderers != null)
                     {
                         _promptOutlineHandle = _renderingManager.CreateOutline(_promptInteractable.Renderers);
                     }
                 }
+
+                _promptInteractions.Clear();
+
+                foreach (Interaction interaction in _promptInteractable.Interactions)
+                {
+                    if (interaction.CanPrompt())
+                    {
+                        _promptInteractions.Add(interaction);
+                    }
+                }
+
+                _promptsUI.SetInteractionsNonAlloc(_promptInteractions);
             }
         }
 
@@ -244,7 +259,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _animateTimer += Time.deltaTime;
 
-            if (_promptUI == null)
+            if (_promptsUI == null)
             {
                 return;
             }
@@ -256,7 +271,7 @@ namespace NoMoreFishAndChips.Entities
             Vector3 offset = Vector3.up * (amplitude * Mathf.Sin(frequency * (_animateTimer - phaseShift)) + verticalShift);
 
             // Bob up and down slightly above the interactable
-            _promptUI.transform.position = _promptInteractable.Position + offset;
+            _promptsUI.transform.position = _promptInteractable.Position + offset;
         }
 
         private bool CanPrompt(IInteractable interactable, Collider collider, out float angle, out float distance)
@@ -269,7 +284,7 @@ namespace NoMoreFishAndChips.Entities
                 return false;
             }
 
-            if (!interactable.CanPrompt())
+            if (interactable.Interactions.All(interaction => !interaction.CanPrompt()))
             {
                 return false;
             }

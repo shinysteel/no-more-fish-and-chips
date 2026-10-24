@@ -13,7 +13,7 @@ using NoMoreFishAndChips.Items;
 
 namespace NoMoreFishAndChips.UI
 {
-    public abstract class RecipesPanel<T> : Panel where T : ICreatable
+    public abstract class RecipesPanel<T> : Panel where T : ICreatableData
     {
         [SerializeField] private ScrollRect _blueprintsScrollRect;
 

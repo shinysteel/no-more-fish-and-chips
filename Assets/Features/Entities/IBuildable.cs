@@ -1,11 +1,9 @@
-using NoMoreFishAndChips.Items;
-using NoMoreFishAndChips.States;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public interface IBuildable : ICreatable
+    public interface IBuildable
     {
-        EntityDefinitionData EntityDefinitionData { get; }
+        void Build();
     }
 }

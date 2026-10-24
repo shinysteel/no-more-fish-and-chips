@@ -23,8 +23,8 @@ MonoBehaviour:
     m_Key: actions.build
     m_Metadata:
       m_Items: []
-  - m_Id: 1423536648192
-    m_Key: actions.fix
+  - m_Id: 3026797153579008
+    m_Key: actions.repair
     m_Metadata:
       m_Items: []
   - m_Id: 1423536648193

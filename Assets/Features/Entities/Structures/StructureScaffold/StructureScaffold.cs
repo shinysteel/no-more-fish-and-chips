@@ -7,10 +7,12 @@ using PurrNet;
 using ShinyOwl.Common;
 using System.Collections.Generic;
 using UnityEngine;
+using NoMoreFishAndChips.Interactions;
+using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class StructureScaffold : Structure<StructureScaffoldDefinitionData>, IInteractable
+    public class StructureScaffold : Structure<StructureScaffoldDefinitionData>, IInteractable, IBuildable
     {
         private PoolManager _poolManager;
         private EntityManager _entityManager;
@@ -22,12 +24,13 @@ namespace NoMoreFishAndChips.Entities
 
         private List<Prop> _tapeProps = new();
         private List<Prop> _standardProps = new();
-        private List<Prop> _previewProps = new();
         private List<ColliderProxy> _colliderProxies = new();
 
         private Vector3 _iInteractablePositionOffset;
         Vector3 IInteractable.Position => transform.position + _iInteractablePositionOffset;
         IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+        private List<Interaction> _interactions = new();
+        List<Interaction> IInteractable.Interactions => _interactions;
 
         protected override void Awake()
         {
@@ -61,6 +64,13 @@ namespace NoMoreFishAndChips.Entities
             _iInteractablePositionOffset = position - transform.position;
         }
 
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _interactions.Add(new BuildStructureScaffoldInteraction(this, _context));
+        }
+
         protected override void OnDespawned()
         {
             base.OnDespawned();
@@ -69,7 +79,10 @@ namespace NoMoreFishAndChips.Entities
 
             _netBuildRotations.onChanged -= HandleNetBuildRotationsChanged;
 
-            ((IInteractable)this).HidePreview();
+            foreach (Interaction interaction in _interactions)
+            {
+                interaction.HidePreview();
+            }
 
             foreach (ColliderProxy proxy in _colliderProxies)
             {
@@ -188,54 +201,11 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        bool IInteractable.CanPrompt()
-        {
-            return isFullySpawned && _context != null && _context.LocalPlayer.Hotbar.SelectedSlot.InventoryItem?.ItemInstance.Data.ItemId == ItemId.Hammer;
-        }
-
-        WorldUI IInteractable.CreatePromptUI()
-        {
-            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey, DefinitionData.IInteractableSettings.Term);
-            return ui;
-        }
-
-        bool IInteractable.CanInteract()
-        {
-            return true;
-        }
-
-        void IInteractable.Interact()
+        void IBuildable.Build()
         {
             Structure prefab = (Structure)_entityManager.GetPrefab(_netBuildId.value);
 
             _context.LocalPlayer.RaftPlayerActLogic.StartChannel(prefab.StructureDefinitionData.BuildRecipe.Duration, ChannelAnimation.Build, () => _context.Raft.SetStructureRpc(_netCell.value, _netBuildId.value, prefab.EntityDefinitionData.EntityHealthSettings.Health, _netBuildRotations.value));
-        }
-
-        void IInteractable.ShowPreview()
-        {
-            _shape.ForEachTrue((Vector2Int cell) =>
-            {
-                Vector3 position = new Vector3(cell.x, 0f, cell.y) * 0.5f + Vector3.up * 0.075f;
-                Vector3 scale = new Vector3(0.51f, 0.15f, 0.51f);
-                _previewProps.Add(_environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = position, Scale = scale, Parent = transform }));
-            });
-        }
-
-        void IInteractable.SetPreviewColor(Color color)
-        { 
-            foreach (Prop prop in _previewProps)
-            {
-                prop.SetColor(color);
-            }
-        }
-
-        void IInteractable.HidePreview()
-        { 
-            foreach (Prop prop in _previewProps)
-            {
-                _environmentManager.ReturnProp(prop);
-            }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace NoMoreFishAndChips.UI
         private LocalisationManager _localisationManager;
         private PoolManager _poolManager;
 
-        private ICreatable _creatable;
+        private ICreatableData _creatable;
         private Action _onCreatePressed;
 
         private List<BlueprintRequirementEntry> _requirementEntries = new();
@@ -39,7 +39,7 @@ namespace NoMoreFishAndChips.UI
             _buildButton.onClick.AddListener(CreatePressed);
         }
 
-        public void Setup(ICreatable creatable, Action onCreatePressed)
+        public void Setup(ICreatableData creatable, Action onCreatePressed)
         {
             _creatable = creatable;
             _onCreatePressed = onCreatePressed;

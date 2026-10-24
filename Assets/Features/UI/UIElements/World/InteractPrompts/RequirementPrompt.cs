@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace NoMoreFishAndChips.UI
 {
-    public class RequirementPromptUI : InteractPromptUI
+    public class RequirementPrompt : InteractPrompt
     {
         [SerializeField] private Transform _itemsContainer;
 

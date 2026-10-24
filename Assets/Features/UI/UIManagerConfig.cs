@@ -67,16 +67,14 @@ namespace NoMoreFishAndChips.UI
         public FadeOverlay FadeOverlayPrefab => _fadeOverlayPrefab;
 
         [Header("WorldUI")]
-        [SerializeField] private InteractPromptUI _interactPromptUIPrefab;
-        [SerializeField] private RequirementPromptUI _requirementPromptUIPrefab;
+        [SerializeField] private InteractPromptsUI _interactPromptsUIPrefab;
         [SerializeField] private ProgressBarUI _progressBarUIPrefab;
         [SerializeField] private UsernameUI _usernameUIPrefab;
         [SerializeField] private FloatingTextUI _floatingTextUIPrefab;
         [SerializeField] private ContextActionsUI _contextActionsUIPrefab;
         [SerializeField] private HealthBarUI _healthBarUIPrefab;
 
-        public InteractPromptUI InteractPromptUIPrefab => _interactPromptUIPrefab;
-        public RequirementPromptUI RequirementPromptUIPrefab => _requirementPromptUIPrefab;
+        public InteractPromptsUI InteractPromptsUIPrefab => _interactPromptsUIPrefab;
         public ProgressBarUI ProgressBarUIPrefab => _progressBarUIPrefab;
         public UsernameUI UsernameUIPrefab => _usernameUIPrefab;
         public FloatingTextUI FloatingTextUIPrefab => _floatingTextUIPrefab;

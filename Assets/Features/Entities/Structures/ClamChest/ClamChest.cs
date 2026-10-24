@@ -10,6 +10,7 @@ using ShinyOwl.Common.Structures;
 using UnityEngine;
 using NoMoreFishAndChips.Audio;
 using System.Collections.Generic;
+using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -23,6 +24,7 @@ namespace NoMoreFishAndChips.Entities
         private AudioManager _audioManager;
 
         private PanelInstance<ClamChestPanel> _clamChestPanelInstance;
+        public PanelInstance<ClamChestPanel> ClamChestPanelInstance => _clamChestPanelInstance;
 
         // The count of players who have this chest open
         private int _openCount;
@@ -36,8 +38,10 @@ namespace NoMoreFishAndChips.Entities
         private const float OpenDuration = 0.4f;
 
         Vector3 IInteractable.Position => transform.position;
-        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
         IEnumerable<Renderer> IInteractable.Renderers => _entityModel.MeshRenderers;
+        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+        private List<Interaction> _interactions = new();
+        List<Interaction> IInteractable.Interactions => _interactions;
 
         protected override void Awake()
         {
@@ -55,6 +59,8 @@ namespace NoMoreFishAndChips.Entities
             base.InitialiseContext(context);
 
             _clamChestPanelInstance = new PanelInstance<ClamChestPanel>(_uiManager.Config.ClamChestPanelPrefab);
+
+            _interactions.Add(new OpenClamChestInteraction(this, _context));
 
             foreach (RaftPlayer player in context.Players)
             {
@@ -79,28 +85,6 @@ namespace NoMoreFishAndChips.Entities
         public override void LoadJsonData(string json)
         {
             _ = JsonConvert.DeserializeObject<InventorySave>(json).LoadToAsync(_inventory);
-        }
-
-        bool IInteractable.CanPrompt()
-        {
-            return true;
-        }
-
-        WorldUI IInteractable.CreatePromptUI()
-        {
-            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey, DefinitionData.IInteractableSettings.Term);
-            return ui;
-        }
-
-        bool IInteractable.CanInteract()
-        {
-            return true;
-        }
-
-        void IInteractable.Interact()
-        {
-            _clamChestPanelInstance.Toggle((ClamChestPanel panel) => panel.Setup(_context, this, _inventory));
         }
 
         void INetworkManagerListener.OnNetBehaviourSpawned(NetBehaviour behaviour)

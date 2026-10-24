@@ -5,7 +5,6 @@ namespace NoMoreFishAndChips.UI
 {
     public class HealthBarUI : WorldUI
     {
-        [SerializeField] private Image _backgroundImage;
         [SerializeField] private Image _fillImage;
 
         [SerializeField] private Gradient _fillGradient;

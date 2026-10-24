@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Items
 {
-    public interface ICraftable : ICreatable
+    public interface ICraftable : ICreatableData
     {
         void Craft(GameplayContext context);
     }

@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Entities;
 using NoMoreFishAndChips.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Environments
 {
@@ -14,10 +15,13 @@ namespace NoMoreFishAndChips.Environments
         private MeshRenderer[] _meshRenderers;
 
         private PanelInstance<VoyageBoardPanel> _voyageBoardPanelInstance;
+        public PanelInstance<VoyageBoardPanel> VoyageBoardPanelInstance => _voyageBoardPanelInstance;
         
         Vector3 IInteractable.Position => transform.position;
-        IInteractableSettings IInteractable.IInteractableSettings => _iInteractableSettings;
         IEnumerable<Renderer> IInteractable.Renderers => _meshRenderers;
+        IInteractableSettings IInteractable.IInteractableSettings => _iInteractableSettings;
+        private List<Interaction> _interactions;
+        List<Interaction> IInteractable.Interactions => _interactions;
 
         private void Awake()
         {
@@ -26,28 +30,8 @@ namespace NoMoreFishAndChips.Environments
             _meshRenderers = GetComponentsInChildren<MeshRenderer>();
 
             _voyageBoardPanelInstance = new PanelInstance<VoyageBoardPanel>(_uiManager.Config.VoyageBoardPanelPrefab);
-        }
 
-        bool IInteractable.CanInteract()
-        {
-            return true;
-        }
-
-        bool IInteractable.CanPrompt()
-        {
-            return true;
-        }
-
-        WorldUI IInteractable.CreatePromptUI()
-        {
-            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(_iInteractableSettings.Hotkey, _iInteractableSettings.Term);
-            return ui;
-        }
-
-        void IInteractable.Interact()
-        {
-            _voyageBoardPanelInstance.Toggle(null);
+            _interactions = new List<Interaction>() { new ViewVoyageBoardInteraction(this) };
         }
     }
 }

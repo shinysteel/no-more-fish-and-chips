@@ -26,10 +26,6 @@ MonoBehaviour:
     m_Localized: Construir
     m_Metadata:
       m_Items: []
-  - m_Id: 1423536648192
-    m_Localized: Consertar
-    m_Metadata:
-      m_Items: []
   - m_Id: 1423536648193
     m_Localized: Abrir
     m_Metadata:
@@ -48,6 +44,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1423540842499
     m_Localized: Alimentar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3026797153579008
+    m_Localized: Reparar
     m_Metadata:
       m_Items: []
   references:

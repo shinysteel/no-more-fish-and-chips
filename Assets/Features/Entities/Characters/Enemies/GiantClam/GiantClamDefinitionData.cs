@@ -2,6 +2,7 @@ using NoMoreFishAndChips.Hitboxes;
 using ShinyOwl.Common.Structures;
 using System;
 using UnityEngine;
+using NoMoreFishAndChips.Interactions;
 
 namespace NoMoreFishAndChips.Entities
 {

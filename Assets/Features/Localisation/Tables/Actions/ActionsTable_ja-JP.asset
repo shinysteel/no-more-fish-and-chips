@@ -26,10 +26,6 @@ MonoBehaviour:
     m_Localized: "\u5EFA\u3066\u308B"
     m_Metadata:
       m_Items: []
-  - m_Id: 1423536648192
-    m_Localized: "\u4FEE\u7406"
-    m_Metadata:
-      m_Items: []
   - m_Id: 1423536648193
     m_Localized: "\u958B\u3051\u308B"
     m_Metadata:
@@ -48,6 +44,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1423540842499
     m_Localized: "\u990C"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3026797153579008
+    m_Localized: "\u4FEE\u7406"
     m_Metadata:
       m_Items: []
   references:

@@ -10,6 +10,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using NoMoreFishAndChips.UI;
 using NoMoreFishAndChips.Audio;
+using NoMoreFishAndChips.Interactions;
+using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -41,7 +43,6 @@ namespace NoMoreFishAndChips.Entities
         private const int MaxItemModels = 3;
 
         Vector3 IInteractable.Position => transform.position;
-        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
         IEnumerable<Renderer> IInteractable.Renderers 
         { 
             get
@@ -55,6 +56,9 @@ namespace NoMoreFishAndChips.Entities
                 }
             }
         }
+        IInteractableSettings IInteractable.IInteractableSettings => DefinitionData.IInteractableSettings;
+        private List<Interaction> _interactions = new();
+        List<Interaction> IInteractable.Interactions => _interactions;
 
         protected override void Awake()
         {
@@ -81,6 +85,13 @@ namespace NoMoreFishAndChips.Entities
             HandleNetItemInstanceChanged(_netItemInstance);
 
             _netItemInstance.onChanged += HandleNetItemInstanceChanged;
+        }
+
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            _interactions.Add(new PickupDroppedItemInteraction(this, _context));
         }
 
         protected override void OnDespawned()
@@ -130,35 +141,8 @@ namespace NoMoreFishAndChips.Entities
             DespawnRpc();
         }
 
-        bool IInteractable.CanPrompt()
-        {
-            return _context != null;
-        }
-        
-        WorldUI IInteractable.CreatePromptUI()
-        {
-            InteractPromptUI ui = _uiManager.CreateWorldUI(_uiManager.Config.InteractPromptUIPrefab, Vector3.zero);
-            ui.SetupInteract(DefinitionData.IInteractableSettings.Hotkey, DefinitionData.IInteractableSettings.Term);
-            return ui;
-        }
-
-        bool IInteractable.CanInteract()
-        {
-            return isFullySpawned && _context != null && _context.LocalPlayer.Inventory.CanAddItem(InventoryChangeParams.Create(_netItemInstance), out _, out _, out _);
-        }
-
-        void IInteractable.Interact()
-        {
-            if (_context.LocalPlayer.Inventory.TryAddItem(InventoryChangeParams.Create(_netItemInstance), false, out _, out _, out _))
-            {
-                _audioManager.PlaySound(SoundId.DroppedItemPickup, transform.position, 0f);
-
-                DespawnRpc();
-            }
-        }
-
         [ServerRpc]
-        private void DespawnRpc()
+        public void DespawnRpc()
         {
             _entityManager.Despawn(this);
         }

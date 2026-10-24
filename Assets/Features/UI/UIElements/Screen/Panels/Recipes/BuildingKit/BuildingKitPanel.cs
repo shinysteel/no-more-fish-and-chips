@@ -9,7 +9,7 @@ using System;
 
 namespace NoMoreFishAndChips.UI
 {
-    public class BuildingKitPanel : RecipesPanel<IBuildable>
+    public class BuildingKitPanel : RecipesPanel<IBuildableData>
     {
         private EntityManager _entityManager;
 
@@ -35,13 +35,13 @@ namespace NoMoreFishAndChips.UI
             }
         }
 
-        protected override IEnumerable<IBuildable> GetCreatables()
+        protected override IEnumerable<IBuildableData> GetCreatables()
         {
-            return _entityManager.GetPrefabs<RaftTile>().Where(tile => tile.TileDefinitionData.BuildRecipe.Requirements.Length > 0).Select(tile => (IBuildable)tile.TileDefinitionData)
+            return _entityManager.GetPrefabs<RaftTile>().Where(tile => tile.TileDefinitionData.BuildRecipe.Requirements.Length > 0).Select(tile => (IBuildableData)tile.TileDefinitionData)
                 .Concat(_entityManager.GetPrefabs<Structure>().Where(structure => structure.StructureDefinitionData.BuildRecipe.Requirements.Length > 0).Select(structure => structure.StructureDefinitionData));
         }
 
-        protected override void CreatePressed(IBuildable buildable)
+        protected override void CreatePressed(IBuildableData buildable)
         {
             _context.LocalPlayer.BuildLogic.SetBuildTarget(buildable.EntityDefinitionData.Id);
 

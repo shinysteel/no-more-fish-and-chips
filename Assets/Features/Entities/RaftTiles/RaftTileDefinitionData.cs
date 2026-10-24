@@ -3,12 +3,13 @@ using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.States;
 using System;
 using UnityEngine;
+using NoMoreFishAndChips.Interactions;
 using Random = UnityEngine.Random;
 
 namespace NoMoreFishAndChips.Entities
 {
     [CreateAssetMenu(fileName = "RaftTileDefinitionData", menuName = "Data/Entities/RaftTileDefinitionData")]
-    public class RaftTileDefinitionData : EntityDefinitionData, IBuildable
+    public class RaftTileDefinitionData : EntityDefinitionData, IBuildableData
     {
         [SerializeField] private Recipe _buildRecipe;
         [SerializeField] private IInteractableSettings _iInteractableSettings;
@@ -26,7 +27,7 @@ namespace NoMoreFishAndChips.Entities
 
         public RaftTileDefeatSharedSettings TileDefeatSharedSettings => (RaftTileDefeatSharedSettings)_entityDefeatSharedSettings;
 
-        DefinitionData ICreatable.DefinitionData => this;
-        EntityDefinitionData IBuildable.EntityDefinitionData => this;
+        DefinitionData ICreatableData.DefinitionData => this;
+        EntityDefinitionData IBuildableData.EntityDefinitionData => this;
     }
 }

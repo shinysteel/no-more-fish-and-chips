@@ -26,10 +26,6 @@ MonoBehaviour:
     m_Localized: Build
     m_Metadata:
       m_Items: []
-  - m_Id: 1423536648192
-    m_Localized: Fix
-    m_Metadata:
-      m_Items: []
   - m_Id: 1423536648193
     m_Localized: Open
     m_Metadata:
@@ -48,6 +44,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 1423540842499
     m_Localized: Feed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3026797153579008
+    m_Localized: Repair
     m_Metadata:
       m_Items: []
   references:
