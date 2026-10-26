@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7d9fd81b1767a842961121447017a74, type: 3}
+  m_Name: SalvageHookDefinitionData
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.SalvageHookDefinitionData
+  _nameTerm: -850865062
+  _descriptionTerm: -863447974
+  _sprite: {fileID: 21300000, guid: dc152bac20406e840980f1085232682c, type: 3}
+  _rarity: 0
+  _id: 306
+  _alliance: 0
+  _surfaceType: 1
+  _dropTables:
+  - {fileID: 11400000, guid: 768e930d7ea8e08408253a2237777f6a, type: 2}
+  _entityDefeatSharedSettings: {fileID: 11400000, guid: 4d6268f574805274586387a8befa046c, type: 2}
+  _entityLifecycleSharedSettings: {fileID: 11400000, guid: 6a93d339f0cea4e4f98636516b21a396, type: 2}
+  _entityPhysicsSharedSettings: {fileID: 11400000, guid: 31822d5b0305d6d4f951bc24fd46789b, type: 2}
+  _entityHealthSettings:
+    _health: 1
+    _isDamageable: 1
+  _shape: {fileID: 11400000, guid: a065d1ca66be3fb418d98b07bdb81fa8, type: 2}
+  _waterMask: {fileID: 11400000, guid: 72991ed9694940b44a8f6c190e55df09, type: 2}
+  _enforceWaterMask: 1
+  _buildRecipe:
+    _duration: 2
+    _requirements:
+    - _itemId: 4
+      _count: 6
+  _isScaffold: 0

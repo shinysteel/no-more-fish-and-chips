@@ -58,6 +58,14 @@ MonoBehaviour:
     m_Localized: Blast foes away with cannonballs
     m_Metadata:
       m_Items: []
+  - m_Id: 102919076378406912
+    m_Localized: Salvage Hook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102919076407767040
+    m_Localized: Retrieves salvage from the seafloor
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

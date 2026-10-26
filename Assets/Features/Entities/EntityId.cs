@@ -30,6 +30,7 @@ namespace NoMoreFishAndChips.Entities
         Planter = 302,
         StructureScaffold = 303,
         TeslaCoil = 304,
-        Cannon = 305
+        Cannon = 305,
+        SalvageHook = 306
     }
 }

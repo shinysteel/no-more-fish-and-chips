@@ -58,6 +58,14 @@ MonoBehaviour:
     m_Localized: "Detone os inimigos com balas de canh\xE3o!"
     m_Metadata:
       m_Items: []
+  - m_Id: 102919076378406912
+    m_Localized: Gancho de salvamento
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102919076407767040
+    m_Localized: Recupera objetos encontrados no fundo do mar.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

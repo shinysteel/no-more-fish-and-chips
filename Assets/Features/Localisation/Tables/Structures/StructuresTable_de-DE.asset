@@ -58,6 +58,14 @@ MonoBehaviour:
     m_Localized: Vernichte deine Feinde mit Kanonenkugeln!
     m_Metadata:
       m_Items: []
+  - m_Id: 102919076378406912
+    m_Localized: Bergungshaken
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102919076407767040
+    m_Localized: Bergt Bergungsgut vom Meeresboden
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

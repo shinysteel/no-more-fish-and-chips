@@ -58,6 +58,15 @@ MonoBehaviour:
     m_Localized: Repoussez vos ennemis avec des boulets de canon !
     m_Metadata:
       m_Items: []
+  - m_Id: 102919076378406912
+    m_Localized: "Crochet de r\xE9cup\xE9ration"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 102919076407767040
+    m_Localized: "R\xE9cup\xE8re les ressources r\xE9cup\xE9r\xE9es au fond de la
+      mer"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
