@@ -10,14 +10,14 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 9
-		Day: 29
-		Hour: 12
-		Minute: 5
-		Second: 42
-		Millisecond: 461
+		Month: 10
+		Day: 26
+		Hour: 18
+		Minute: 7
+		Second: 7
+		Millisecond: 946
 	}
-	Creator: "Blockbench 5.2.1"
+	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "5.2.1"
+			P: "Original|ApplicationVersion", "KString", "", "", "5.2.2"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.2.1"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.2.2"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-09-29 02:05:42:461"
+CreationTime: "2026-10-26 08:07:07:946"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1875609664 {
+	Document: 584828091 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 73063728, "Model::dock_bell", "Null" {
+	Model: 78773460, "Model::dock_bell", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79991720, "Model::bell", "Null" {
+	Model: 76025114, "Model::bell", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -296,7 +296,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75387319, "Model::rope", "Null" {
+	Model: 70643518, "Model::rope", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -310,7 +310,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 76082887, "Model::pole", "Mesh" {
+	Model: 72692366, "Model::pole", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -325,7 +325,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77930261, "Geometry::pole", "Mesh" {
+	Geometry: 75093387, "Geometry::pole", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,93.75,3.125,3.125,93.75,-6.25,3.125,0,3.125,3.125,0,-6.25,-6.25,93.75,-6.25,-6.25,93.75,3.125,-6.25,0,-6.25,-6.25,0,3.125
 		}
@@ -376,7 +376,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79946889, "Model::pole_1", "Mesh" {
+	Model: 79999076, "Model::pole_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -391,7 +391,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79054457, "Geometry::pole_1", "Mesh" {
+	Geometry: 73442135, "Geometry::pole_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,93.75,3.125,3.125,93.75,-28.125,3.125,84.375,3.125,3.125,84.375,-28.125,-3.125,93.75,-28.125,-3.125,93.75,3.125,-3.125,84.375,-28.125,-3.125,84.375,3.125
 		}
@@ -442,7 +442,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78059528, "Model::rope_1", "Mesh" {
+	Model: 73261365, "Model::rope_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -457,7 +457,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77508610, "Geometry::rope_1", "Mesh" {
+	Geometry: 74386070, "Geometry::rope_1", "Mesh" {
 		Vertices: *24 {
 			a: 0,93.75,-28.125,0,93.75,-28.125,0,21.875,-28.125,0,21.875,-28.125,-3.125,93.75,-28.125,-3.125,93.75,-28.125,-3.125,21.875,-28.125,-3.125,21.875,-28.125
 		}
@@ -508,7 +508,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77316502, "Model::bell_1", "Mesh" {
+	Model: 70258395, "Model::bell_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -523,7 +523,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71737216, "Geometry::bell_1", "Mesh" {
+	Geometry: 73118869, "Geometry::bell_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,93.75,-21.875,3.125,93.75,-31.25,3.125,81.25,-21.875,3.125,81.25,-31.25,-6.25,93.75,-31.25,-6.25,93.75,-21.875,-6.25,81.25,-31.25,-6.25,81.25,-21.875
 		}
@@ -574,7 +574,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74936046, "Model::bell_2", "Mesh" {
+	Model: 74920336, "Model::bell_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -589,7 +589,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79978023, "Geometry::bell_2", "Mesh" {
+	Geometry: 70217876, "Geometry::bell_2", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,84.375,-18.75,3.125,84.375,-34.375,3.125,81.25,-18.75,3.125,81.25,-34.375,-9.375,84.375,-34.375,-9.375,84.375,-18.75,-9.375,81.25,-34.375,-9.375,81.25,-18.75
 		}
@@ -640,7 +640,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 79908782, "Material::DockBell.png", "" {
+	Material: 71199376, "Material::DockBell.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -651,7 +651,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 78079920, "Texture::DockBell.png", "" {
+	Texture: 73319599, "Texture::DockBell.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::DockBell.png"
@@ -663,7 +663,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 78797099, "Video::DockBell.png", "Clip" {
+	Video: 76121600, "Video::DockBell.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Island\DockBell\DockBell.png"
@@ -680,64 +680,64 @@ Objects:  {
 Connections:  {
 
 	;Model::dock_bell, Model::RootNode
-	C: "OO",73063728,0
+	C: "OO",78773460,0
 
 	;Model::bell, Model::dock_bell
-	C: "OO",79991720,73063728
+	C: "OO",76025114,78773460
 
 	;Model::rope, Model::dock_bell
-	C: "OO",75387319,73063728
+	C: "OO",70643518,78773460
 
 	;Model::pole, Model::dock_bell
-	C: "OO",76082887,73063728
+	C: "OO",72692366,78773460
 
 	;Geometry::pole, Model::pole
-	C: "OO",77930261,76082887
+	C: "OO",75093387,72692366
 
 	;Material::DockBell.png, Model::pole
-	C: "OO",79908782,76082887
+	C: "OO",71199376,72692366
 
 	;Model::pole_1, Model::dock_bell
-	C: "OO",79946889,73063728
+	C: "OO",79999076,78773460
 
 	;Geometry::pole_1, Model::pole_1
-	C: "OO",79054457,79946889
+	C: "OO",73442135,79999076
 
 	;Material::DockBell.png, Model::pole_1
-	C: "OO",79908782,79946889
+	C: "OO",71199376,79999076
 
 	;Model::rope_1, Model::rope
-	C: "OO",78059528,75387319
+	C: "OO",73261365,70643518
 
 	;Geometry::rope_1, Model::rope_1
-	C: "OO",77508610,78059528
+	C: "OO",74386070,73261365
 
 	;Material::DockBell.png, Model::rope_1
-	C: "OO",79908782,78059528
+	C: "OO",71199376,73261365
 
 	;Model::bell_1, Model::bell
-	C: "OO",77316502,79991720
+	C: "OO",70258395,76025114
 
 	;Geometry::bell_1, Model::bell_1
-	C: "OO",71737216,77316502
+	C: "OO",73118869,70258395
 
 	;Material::DockBell.png, Model::bell_1
-	C: "OO",79908782,77316502
+	C: "OO",71199376,70258395
 
 	;Model::bell_2, Model::bell
-	C: "OO",74936046,79991720
+	C: "OO",74920336,76025114
 
 	;Geometry::bell_2, Model::bell_2
-	C: "OO",79978023,74936046
+	C: "OO",70217876,74920336
 
 	;Material::DockBell.png, Model::bell_2
-	C: "OO",79908782,74936046
+	C: "OO",71199376,74920336
 
 	;Texture::DockBell.png, Material::DockBell.png
-	C: "OP",78079920,79908782, "DiffuseColor"
+	C: "OP",73319599,71199376, "DiffuseColor"
 
 	;Video::DockBell.png, Texture::DockBell.png
-	C: "OO",78797099,78079920
+	C: "OO",76121600,73319599
 }
 
 ; Takes section
