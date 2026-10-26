@@ -10,14 +10,14 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 9
-		Day: 25
-		Hour: 16
-		Minute: 21
-		Second: 59
-		Millisecond: 457
+		Month: 10
+		Day: 26
+		Hour: 17
+		Minute: 51
+		Second: 45
+		Millisecond: 6
 	}
-	Creator: "Blockbench 5.2.1"
+	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "5.2.1"
+			P: "Original|ApplicationVersion", "KString", "", "", "5.2.2"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.2.1"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.2.2"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-09-25 06:21:59:457"
+CreationTime: "2026-10-26 07:51:45:006"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 36499742 {
+	Document: 858332110 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 78598877, "Model::tesla_coil", "Null" {
+	Model: 79673079, "Model::tesla_coil", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 77160917, "Model::side", "Mesh" {
+	Model: 75448574, "Model::side", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72938781, "Geometry::side", "Mesh" {
+	Geometry: 71954897, "Geometry::side", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,15.625,3.125,3.125,15.625,-6.25,3.125,0,3.125,3.125,0,-6.25,-3.125,15.625,-6.25,-3.125,15.625,3.125,-3.125,0,-6.25,-3.125,0,3.125
 		}
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70369000, "Model::side_1", "Mesh" {
+	Model: 78539057, "Model::side_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71159801, "Geometry::side_1", "Mesh" {
+	Geometry: 77626986, "Geometry::side_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,15.625,3.125,3.125,15.625,-3.125,3.125,0,3.125,3.125,0,-3.125,-6.25,15.625,-3.125,-6.25,15.625,3.125,-6.25,0,-3.125,-6.25,0,3.125
 		}
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72903670, "Model::side_2", "Mesh" {
+	Model: 77742539, "Model::side_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -429,7 +429,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73160087, "Geometry::side_2", "Mesh" {
+	Geometry: 79413880, "Geometry::side_2", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,15.625,3.125,6.25,15.625,-3.125,6.25,0,3.125,6.25,0,-3.125,-3.125,15.625,-3.125,-3.125,15.625,3.125,-3.125,0,-3.125,-3.125,0,3.125
 		}
@@ -480,7 +480,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76604171, "Model::side_3", "Mesh" {
+	Model: 70649853, "Model::side_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -495,7 +495,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78717044, "Geometry::side_3", "Mesh" {
+	Geometry: 74302229, "Geometry::side_3", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,15.625,6.25,3.125,15.625,-3.125,3.125,0,6.25,3.125,0,-3.125,-3.125,15.625,-3.125,-3.125,15.625,6.25,-3.125,0,-3.125,-3.125,0,6.25
 		}
@@ -546,7 +546,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72615805, "Model::base", "Mesh" {
+	Model: 70227597, "Model::base", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79451239, "Geometry::base", "Mesh" {
+	Geometry: 70182831, "Geometry::base", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,12.5,15.625,15.625,12.5,-15.625,15.625,0,15.625,15.625,0,-15.625,-15.625,12.5,-15.625,-15.625,12.5,15.625,-15.625,0,-15.625,-15.625,0,15.625
 		}
@@ -612,7 +612,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70262337, "Model::rod", "Mesh" {
+	Model: 71114275, "Model::rod", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -627,7 +627,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70700361, "Geometry::rod", "Mesh" {
+	Geometry: 76965836, "Geometry::rod", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,50,9.375,6.25,50,-3.125,6.25,25,9.375,6.25,25,-3.125,-6.25,50,-3.125,-6.25,50,9.375,-6.25,25,-3.125,-6.25,25,9.375
 		}
@@ -678,7 +678,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78528290, "Model::rod_1", "Mesh" {
+	Model: 72208570, "Model::rod_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -693,7 +693,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75607362, "Geometry::rod_1", "Mesh" {
+	Geometry: 73165239, "Geometry::rod_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,87.5,3.125,3.125,87.5,-3.125,3.125,37.5,3.125,3.125,37.5,-3.125,-3.125,87.5,-3.125,-3.125,87.5,3.125,-3.125,37.5,-3.125,-3.125,37.5,3.125
 		}
@@ -744,7 +744,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78861202, "Model::coil", "Mesh" {
+	Model: 79161651, "Model::coil", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -759,7 +759,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79008934, "Geometry::coil", "Mesh" {
+	Geometry: 73077347, "Geometry::coil", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,6.25,12.5,12.5,6.25,-12.5,12.5,-3.125,12.5,12.5,-3.125,-12.5,-12.5,6.25,-12.5,-12.5,6.25,12.5,-12.5,-3.125,-12.5,-12.5,-3.125,12.5
 		}
@@ -810,7 +810,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76686358, "Model::coil_1", "Mesh" {
+	Model: 79466393, "Model::coil_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -825,7 +825,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75711081, "Geometry::coil_1", "Mesh" {
+	Geometry: 75328389, "Geometry::coil_1", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,6.25,9.375,12.5,6.25,-12.5,12.5,0,9.375,12.5,0,-12.5,-9.375,6.25,-12.5,-9.375,6.25,9.375,-9.375,0,-12.5,-9.375,0,9.375
 		}
@@ -876,7 +876,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77619572, "Model::coil_2", "Mesh" {
+	Model: 79994318, "Model::coil_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -891,7 +891,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71176593, "Geometry::coil_2", "Mesh" {
+	Geometry: 76367525, "Geometry::coil_2", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,3.125,6.25,12.5,3.125,-12.5,12.5,0,6.25,12.5,0,-12.5,-6.25,3.125,-12.5,-6.25,3.125,6.25,-6.25,0,-12.5,-6.25,0,6.25
 		}
@@ -942,7 +942,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79162625, "Model::top", "Mesh" {
+	Model: 77449429, "Model::top", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -957,7 +957,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78775705, "Geometry::top", "Mesh" {
+	Geometry: 73767221, "Geometry::top", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,43.75,6.25,6.25,43.75,-6.25,6.25,31.25,6.25,6.25,31.25,-6.25,-6.25,43.75,-6.25,-6.25,43.75,6.25,-6.25,31.25,-6.25,-6.25,31.25,6.25
 		}
@@ -1008,7 +1008,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78536917, "Model::rod_2", "Mesh" {
+	Model: 74995443, "Model::rod_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1023,7 +1023,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71164451, "Geometry::rod_2", "Mesh" {
+	Geometry: 78877916, "Geometry::rod_2", "Mesh" {
 		Vertices: *24 {
 			a: 9.375,50,9.375,9.375,50,-6.25,9.375,25,9.375,9.375,25,-6.25,-6.25,50,-6.25,-6.25,50,9.375,-6.25,25,-6.25,-6.25,25,9.375
 		}
@@ -1074,7 +1074,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 76684936, "Material::TeslaCoil.png", "" {
+	Material: 76321571, "Material::TeslaCoil.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -1085,7 +1085,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 75361045, "Texture::TeslaCoil.png", "" {
+	Texture: 76901575, "Texture::TeslaCoil.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::TeslaCoil.png"
@@ -1097,7 +1097,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 76108685, "Video::TeslaCoil.png", "Clip" {
+	Video: 75050162, "Video::TeslaCoil.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\TeslaCoil\TeslaCoil.png"
@@ -1106,7 +1106,7 @@ Objects:  {
 		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\TeslaCoil\TeslaCoil.png"
 		RelativeFilename: "TeslaCoil.png"
 	}
-	Material: 73003500, "Material::TeslaCoilChargeMask.png", "" {
+	Material: 72145129, "Material::TeslaCoilChargeMask.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -1117,7 +1117,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 77151287, "Texture::TeslaCoilChargeMask.png", "" {
+	Texture: 75067734, "Texture::TeslaCoilChargeMask.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::TeslaCoilChargeMask.png"
@@ -1129,7 +1129,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 77657210, "Video::TeslaCoilChargeMask.png", "Clip" {
+	Video: 70403503, "Video::TeslaCoilChargeMask.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\TeslaCoil\TeslaCoilChargeMask.png"
@@ -1146,127 +1146,127 @@ Objects:  {
 Connections:  {
 
 	;Model::tesla_coil, Model::RootNode
-	C: "OO",78598877,0
+	C: "OO",79673079,0
 
 	;Model::side, Model::tesla_coil
-	C: "OO",77160917,78598877
+	C: "OO",75448574,79673079
 
 	;Geometry::side, Model::side
-	C: "OO",72938781,77160917
+	C: "OO",71954897,75448574
 
 	;Material::TeslaCoil.png, Model::side
-	C: "OO",76684936,77160917
+	C: "OO",76321571,75448574
 
 	;Model::side_1, Model::tesla_coil
-	C: "OO",70369000,78598877
+	C: "OO",78539057,79673079
 
 	;Geometry::side_1, Model::side_1
-	C: "OO",71159801,70369000
+	C: "OO",77626986,78539057
 
 	;Material::TeslaCoil.png, Model::side_1
-	C: "OO",76684936,70369000
+	C: "OO",76321571,78539057
 
 	;Model::side_2, Model::tesla_coil
-	C: "OO",72903670,78598877
+	C: "OO",77742539,79673079
 
 	;Geometry::side_2, Model::side_2
-	C: "OO",73160087,72903670
+	C: "OO",79413880,77742539
 
 	;Material::TeslaCoil.png, Model::side_2
-	C: "OO",76684936,72903670
+	C: "OO",76321571,77742539
 
 	;Model::side_3, Model::tesla_coil
-	C: "OO",76604171,78598877
+	C: "OO",70649853,79673079
 
 	;Geometry::side_3, Model::side_3
-	C: "OO",78717044,76604171
+	C: "OO",74302229,70649853
 
 	;Material::TeslaCoil.png, Model::side_3
-	C: "OO",76684936,76604171
+	C: "OO",76321571,70649853
 
 	;Model::base, Model::tesla_coil
-	C: "OO",72615805,78598877
+	C: "OO",70227597,79673079
 
 	;Geometry::base, Model::base
-	C: "OO",79451239,72615805
+	C: "OO",70182831,70227597
 
 	;Material::TeslaCoil.png, Model::base
-	C: "OO",76684936,72615805
+	C: "OO",76321571,70227597
 
 	;Model::rod, Model::tesla_coil
-	C: "OO",70262337,78598877
+	C: "OO",71114275,79673079
 
 	;Geometry::rod, Model::rod
-	C: "OO",70700361,70262337
+	C: "OO",76965836,71114275
 
 	;Material::TeslaCoil.png, Model::rod
-	C: "OO",76684936,70262337
+	C: "OO",76321571,71114275
 
 	;Model::rod_1, Model::tesla_coil
-	C: "OO",78528290,78598877
+	C: "OO",72208570,79673079
 
 	;Geometry::rod_1, Model::rod_1
-	C: "OO",75607362,78528290
+	C: "OO",73165239,72208570
 
 	;Material::TeslaCoil.png, Model::rod_1
-	C: "OO",76684936,78528290
+	C: "OO",76321571,72208570
 
 	;Model::coil, Model::tesla_coil
-	C: "OO",78861202,78598877
+	C: "OO",79161651,79673079
 
 	;Geometry::coil, Model::coil
-	C: "OO",79008934,78861202
+	C: "OO",73077347,79161651
 
 	;Material::TeslaCoil.png, Model::coil
-	C: "OO",76684936,78861202
+	C: "OO",76321571,79161651
 
 	;Model::coil_1, Model::tesla_coil
-	C: "OO",76686358,78598877
+	C: "OO",79466393,79673079
 
 	;Geometry::coil_1, Model::coil_1
-	C: "OO",75711081,76686358
+	C: "OO",75328389,79466393
 
 	;Material::TeslaCoil.png, Model::coil_1
-	C: "OO",76684936,76686358
+	C: "OO",76321571,79466393
 
 	;Model::coil_2, Model::tesla_coil
-	C: "OO",77619572,78598877
+	C: "OO",79994318,79673079
 
 	;Geometry::coil_2, Model::coil_2
-	C: "OO",71176593,77619572
+	C: "OO",76367525,79994318
 
 	;Material::TeslaCoil.png, Model::coil_2
-	C: "OO",76684936,77619572
+	C: "OO",76321571,79994318
 
 	;Model::top, Model::tesla_coil
-	C: "OO",79162625,78598877
+	C: "OO",77449429,79673079
 
 	;Geometry::top, Model::top
-	C: "OO",78775705,79162625
+	C: "OO",73767221,77449429
 
 	;Material::TeslaCoil.png, Model::top
-	C: "OO",76684936,79162625
+	C: "OO",76321571,77449429
 
 	;Model::rod_2, Model::tesla_coil
-	C: "OO",78536917,78598877
+	C: "OO",74995443,79673079
 
 	;Geometry::rod_2, Model::rod_2
-	C: "OO",71164451,78536917
+	C: "OO",78877916,74995443
 
 	;Material::TeslaCoil.png, Model::rod_2
-	C: "OO",76684936,78536917
+	C: "OO",76321571,74995443
 
 	;Texture::TeslaCoil.png, Material::TeslaCoil.png
-	C: "OP",75361045,76684936, "DiffuseColor"
+	C: "OP",76901575,76321571, "DiffuseColor"
 
 	;Video::TeslaCoil.png, Texture::TeslaCoil.png
-	C: "OO",76108685,75361045
+	C: "OO",75050162,76901575
 
 	;Texture::TeslaCoilChargeMask.png, Material::TeslaCoilChargeMask.png
-	C: "OP",77151287,73003500, "DiffuseColor"
+	C: "OP",75067734,72145129, "DiffuseColor"
 
 	;Video::TeslaCoilChargeMask.png, Texture::TeslaCoilChargeMask.png
-	C: "OO",77657210,77151287
+	C: "OO",70403503,75067734
 }
 
 ; Takes section
