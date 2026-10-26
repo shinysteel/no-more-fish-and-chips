@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7d9fd81b1767a842961121447017a74, type: 3}
-  m_Name: SalvageHookDefinitionData
+  m_Name: SalvageClawDefinitionData
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.SalvageHookDefinitionData
-  _nameTerm: -850865062
-  _descriptionTerm: -863447974
+  _nameTerm: 176850542
+  _descriptionTerm: 214599278
   _sprite: {fileID: 21300000, guid: dc152bac20406e840980f1085232682c, type: 3}
   _rarity: 0
   _id: 306

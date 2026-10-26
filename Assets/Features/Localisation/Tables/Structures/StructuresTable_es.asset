@@ -58,11 +58,11 @@ MonoBehaviour:
     m_Localized: "\xA1Haz volar a tus enemigos por los aires con balas de ca\xF1\xF3n!"
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076378406912
-    m_Localized: Gancho de salvamento
+  - m_Id: 103572268959232000
+    m_Localized: Garra de salvamento
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076407767040
+  - m_Id: 103572268988592128
     m_Localized: Recupera objetos rescatados del fondo marino.
     m_Metadata:
       m_Items: []

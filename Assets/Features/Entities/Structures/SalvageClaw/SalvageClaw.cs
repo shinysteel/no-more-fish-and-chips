@@ -2,6 +2,6 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class SalvageHook : Structure<SalvageHookDefinitionData>
+    public class SalvageClaw : Structure<SalvageClawDefinitionData>
     { }
 }

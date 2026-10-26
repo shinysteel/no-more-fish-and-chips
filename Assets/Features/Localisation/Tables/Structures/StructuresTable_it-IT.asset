@@ -58,11 +58,11 @@ MonoBehaviour:
     m_Localized: Spazzate via i nemici con le palle di cannone
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076378406912
-    m_Localized: Gancio di recupero
+  - m_Id: 103572268959232000
+    m_Localized: Artiglio di Recupero
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076407767040
+  - m_Id: 103572268988592128
     m_Localized: Recupera materiali di recupero dal fondale marino
     m_Metadata:
       m_Items: []

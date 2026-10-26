@@ -55,12 +55,12 @@ MonoBehaviour:
     m_Key: structures.cannonDescription
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076378406912
-    m_Key: structures.salvageHookName
+  - m_Id: 103572268959232000
+    m_Key: structures.salvageClawName
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076407767040
-    m_Key: structures.salvageHookDescription
+  - m_Id: 103572268988592128
+    m_Key: structures.salvageClawDescription
     m_Metadata:
       m_Items: []
   m_Metadata:

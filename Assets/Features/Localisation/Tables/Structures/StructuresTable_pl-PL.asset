@@ -58,11 +58,11 @@ MonoBehaviour:
     m_Localized: "Wysadzaj wrog\xF3w kulami armatnimi"
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076378406912
-    m_Localized: Hak ratowniczy
+  - m_Id: 103572268959232000
+    m_Localized: Pazur ratowniczy
     m_Metadata:
       m_Items: []
-  - m_Id: 102919076407767040
+  - m_Id: 103572268988592128
     m_Localized: "Wydobywa \u0142upy z dna morskiego"
     m_Metadata:
       m_Items: []

@@ -12,10 +12,10 @@ FBXHeaderExtension:  {
 		Year: 2026
 		Month: 10
 		Day: 26
-		Hour: 14
-		Minute: 15
-		Second: 28
-		Millisecond: 80
+		Hour: 17
+		Minute: 44
+		Second: 4
+		Millisecond: 657
 	}
 	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-10-26 04:15:28:080"
+CreationTime: "2026-10-26 07:44:04:657"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1601922014 {
+	Document: 1312515971 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 74890501, "Model::salvage_hook", "Null" {
+	Model: 77604094, "Model::salvage_claw", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 71779964, "Model::base", "Mesh" {
+	Model: 75780062, "Model::base", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73020804, "Geometry::base", "Mesh" {
+	Geometry: 74410749, "Geometry::base", "Mesh" {
 		Vertices: *24 {
 			a: 25,37.5,25,25,37.5,-25,25,0,25,25,0,-25,-25,37.5,-25,-25,37.5,25,-25,0,-25,-25,0,25
 		}
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70200582, "Model::stand", "Mesh" {
+	Model: 78108000, "Model::stand", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77746426, "Geometry::stand", "Mesh" {
+	Geometry: 72461013, "Geometry::stand", "Mesh" {
 		Vertices: *24 {
 			a: 28.125,43.75,6.25,28.125,43.75,-6.25,28.125,6.25,6.25,28.125,6.25,-6.25,21.875,43.75,-6.25,21.875,43.75,6.25,21.875,6.25,-6.25,21.875,6.25,6.25
 		}
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76379902, "Model::stand_1", "Mesh" {
+	Model: 71525776, "Model::stand_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -429,7 +429,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72326330, "Geometry::stand_1", "Mesh" {
+	Geometry: 70047732, "Geometry::stand_1", "Mesh" {
 		Vertices: *24 {
 			a: 25,43.75,6.25,25,43.75,-6.25,25,6.25,6.25,25,6.25,-6.25,18.75,43.75,-6.25,18.75,43.75,6.25,18.75,6.25,-6.25,18.75,6.25,6.25
 		}
@@ -480,7 +480,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77341707, "Model::stand_2", "Mesh" {
+	Model: 79458113, "Model::stand_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -495,7 +495,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72559240, "Geometry::stand_2", "Mesh" {
+	Geometry: 72301520, "Geometry::stand_2", "Mesh" {
 		Vertices: *24 {
 			a: 25,50,3.125,25,50,-3.125,25,12.5,3.125,25,12.5,-3.125,18.75,50,-3.125,18.75,50,3.125,18.75,12.5,-3.125,18.75,12.5,3.125
 		}
@@ -546,7 +546,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76163849, "Model::stand_3", "Mesh" {
+	Model: 76216298, "Model::stand_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72616175, "Geometry::stand_3", "Mesh" {
+	Geometry: 73307521, "Geometry::stand_3", "Mesh" {
 		Vertices: *24 {
 			a: 25,50,3.125,25,50,-3.125,25,12.5,3.125,25,12.5,-3.125,18.75,50,-3.125,18.75,50,3.125,18.75,12.5,-3.125,18.75,12.5,3.125
 		}
@@ -612,7 +612,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74344245, "Model::wheel", "Mesh" {
+	Model: 74794320, "Model::wheel", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -627,7 +627,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79661901, "Geometry::wheel", "Mesh" {
+	Geometry: 70825726, "Geometry::wheel", "Mesh" {
 		Vertices: *24 {
 			a: 34.375,50,25,34.375,50,-25,34.375,0,25,34.375,0,-25,15.625,50,-25,15.625,50,25,15.625,0,-25,15.625,0,25
 		}
@@ -678,7 +678,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79916840, "Model::rod", "Mesh" {
+	Model: 78064166, "Model::rod", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -693,7 +693,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72133829, "Geometry::rod", "Mesh" {
+	Geometry: 77331656, "Geometry::rod", "Mesh" {
 		Vertices: *24 {
 			a: 9.375,9.375,9.375,9.375,9.375,-6.25,9.375,-6.25,9.375,9.375,-6.25,-6.25,-3.125,9.375,-6.25,-3.125,9.375,9.375,-3.125,-6.25,-6.25,-3.125,-6.25,9.375
 		}
@@ -744,7 +744,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77636705, "Model::rod_1", "Mesh" {
+	Model: 79510099, "Model::rod_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -759,7 +759,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75890174, "Geometry::rod_1", "Mesh" {
+	Geometry: 79117364, "Geometry::rod_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,9.375,6.25,3.125,9.375,-9.375,3.125,-6.25,6.25,3.125,-6.25,-9.375,-9.375,9.375,-9.375,-9.375,9.375,6.25,-9.375,-6.25,-9.375,-9.375,-6.25,6.25
 		}
@@ -810,7 +810,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76651840, "Model::base_1", "Mesh" {
+	Model: 74473276, "Model::base_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -825,7 +825,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77207954, "Geometry::base_1", "Mesh" {
+	Geometry: 73553169, "Geometry::base_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,6.25,18.75,18.75,6.25,-18.75,18.75,0,18.75,18.75,0,-18.75,-18.75,6.25,-18.75,-18.75,6.25,18.75,-18.75,0,-18.75,-18.75,0,18.75
 		}
@@ -876,7 +876,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72194077, "Model::stand_4", "Mesh" {
+	Model: 72381743, "Model::stand_4", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -891,7 +891,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74593749, "Geometry::stand_4", "Mesh" {
+	Geometry: 77564331, "Geometry::stand_4", "Mesh" {
 		Vertices: *24 {
 			a: 31.25,12.5,6.25,31.25,12.5,-6.25,31.25,0,6.25,31.25,0,-6.25,-12.5,12.5,-6.25,-12.5,12.5,6.25,-12.5,0,-6.25,-12.5,0,6.25
 		}
@@ -942,7 +942,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76442878, "Model::stand_5", "Mesh" {
+	Model: 74761006, "Model::stand_5", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -957,7 +957,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73565374, "Geometry::stand_5", "Mesh" {
+	Geometry: 78956230, "Geometry::stand_5", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,9.375,6.25,12.5,9.375,-56.25,12.5,0,6.25,12.5,0,-56.25,6.25,9.375,-56.25,6.25,9.375,6.25,6.25,0,-56.25,6.25,0,6.25
 		}
@@ -1008,7 +1008,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77342938, "Model::stand_6", "Mesh" {
+	Model: 77136935, "Model::stand_6", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1023,7 +1023,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70929031, "Geometry::stand_6", "Mesh" {
+	Geometry: 78508817, "Geometry::stand_6", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,12.5,6.25,15.625,12.5,-6.25,15.625,0,6.25,15.625,0,-6.25,3.125,12.5,-6.25,3.125,12.5,6.25,3.125,0,-6.25,3.125,0,6.25
 		}
@@ -1074,7 +1074,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74086290, "Model::rope", "Mesh" {
+	Model: 73314652, "Model::rope", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1089,7 +1089,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78532654, "Geometry::rope", "Mesh" {
+	Geometry: 75112529, "Geometry::rope", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,12.5,3.125,12.5,12.5,0,12.5,-50,3.125,12.5,-50,0,9.375,12.5,0,9.375,12.5,3.125,9.375,-50,0,9.375,-50,3.125
 		}
@@ -1140,7 +1140,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73071896, "Model::claw", "Mesh" {
+	Model: 70670155, "Model::claw", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1155,7 +1155,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74464735, "Geometry::claw", "Mesh" {
+	Geometry: 79311144, "Geometry::claw", "Mesh" {
 		Vertices: *24 {
 			a: 28.125,12.5,3.125,28.125,12.5,0,28.125,6.25,3.125,28.125,6.25,0,15.625,12.5,0,15.625,12.5,3.125,15.625,6.25,0,15.625,6.25,3.125
 		}
@@ -1206,7 +1206,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73264430, "Model::claw_1", "Mesh" {
+	Model: 78707161, "Model::claw_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1221,7 +1221,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71775791, "Geometry::claw_1", "Mesh" {
+	Geometry: 75780501, "Geometry::claw_1", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,3.125,21.875,12.5,0,21.875,6.25,3.125,21.875,6.25,0,9.375,12.5,0,9.375,12.5,3.125,9.375,6.25,0,9.375,6.25,3.125
 		}
@@ -1272,7 +1272,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79232982, "Model::claw_2", "Mesh" {
+	Model: 75177160, "Model::claw_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1287,7 +1287,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77124360, "Geometry::claw_2", "Mesh" {
+	Geometry: 74001195, "Geometry::claw_2", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,0,21.875,6.25,12.5,21.875,6.25,0,18.75,12.5,0,18.75,12.5,12.5,18.75,6.25,0,18.75,6.25,12.5
 		}
@@ -1338,7 +1338,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78959266, "Model::claw_3", "Mesh" {
+	Model: 71354233, "Model::claw_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1353,7 +1353,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71294476, "Geometry::claw_3", "Mesh" {
+	Geometry: 79281843, "Geometry::claw_3", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,6.25,21.875,12.5,-6.25,21.875,6.25,6.25,21.875,6.25,-6.25,18.75,12.5,-6.25,18.75,12.5,6.25,18.75,6.25,-6.25,18.75,6.25,6.25
 		}
@@ -1404,7 +1404,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72747092, "Model::claw_4", "Mesh" {
+	Model: 74273727, "Model::claw_4", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1419,7 +1419,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77611110, "Geometry::claw_4", "Mesh" {
+	Geometry: 78292392, "Geometry::claw_4", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1470,7 +1470,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77978368, "Model::claw_5", "Mesh" {
+	Model: 77469849, "Model::claw_5", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1485,7 +1485,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73211783, "Geometry::claw_5", "Mesh" {
+	Geometry: 70206463, "Geometry::claw_5", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1536,7 +1536,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70403235, "Model::claw_6", "Mesh" {
+	Model: 76236763, "Model::claw_6", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1551,7 +1551,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72344642, "Geometry::claw_6", "Mesh" {
+	Geometry: 76592935, "Geometry::claw_6", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1602,7 +1602,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74159884, "Model::claw_7", "Mesh" {
+	Model: 72091351, "Model::claw_7", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1617,7 +1617,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73534446, "Geometry::claw_7", "Mesh" {
+	Geometry: 70716337, "Geometry::claw_7", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1668,7 +1668,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75310807, "Model::claw_8", "Mesh" {
+	Model: 70782383, "Model::claw_8", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1683,7 +1683,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70406626, "Geometry::claw_8", "Mesh" {
+	Geometry: 78691092, "Geometry::claw_8", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,21.875,-3.125,18.75,21.875,-3.125,18.75,12.5,-3.125,18.75,12.5,-3.125,9.375,21.875,-3.125,9.375,21.875,-3.125,9.375,12.5,-3.125,9.375,12.5,-3.125
 		}
@@ -1734,7 +1734,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75682956, "Model::claw_9", "Mesh" {
+	Model: 74467006, "Model::claw_9", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1749,7 +1749,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78832019, "Geometry::claw_9", "Mesh" {
+	Geometry: 71780327, "Geometry::claw_9", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,21.875,3.125,15.625,21.875,-6.25,15.625,12.5,3.125,15.625,12.5,-6.25,15.625,21.875,-6.25,15.625,21.875,3.125,15.625,12.5,-6.25,15.625,12.5,3.125
 		}
@@ -1800,7 +1800,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74633285, "Model::rope_1", "Mesh" {
+	Model: 71193429, "Model::rope_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1815,7 +1815,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71498506, "Geometry::rope_1", "Mesh" {
+	Geometry: 79620820, "Geometry::rope_1", "Mesh" {
 		Vertices: *24 {
 			a: 1.5625,31.25,0,1.5625,31.25,-3.125,1.5625,0,0,1.5625,0,-3.125,-1.5625,31.25,-3.125,-1.5625,31.25,0,-1.5625,0,-3.125,-1.5625,0,0
 		}
@@ -1866,7 +1866,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73579820, "Model::wheel_1", "Mesh" {
+	Model: 77423486, "Model::wheel_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1881,7 +1881,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76851139, "Geometry::wheel_1", "Mesh" {
+	Geometry: 79072751, "Geometry::wheel_1", "Mesh" {
 		Vertices: *24 {
 			a: -21.875,31.25,12.5,-21.875,31.25,-12.5,-21.875,6.25,12.5,-21.875,6.25,-12.5,-25,31.25,-12.5,-25,31.25,12.5,-25,6.25,-12.5,-25,6.25,12.5
 		}
@@ -1932,7 +1932,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73458939, "Model::wheel_2", "Mesh" {
+	Model: 78926321, "Model::wheel_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -1947,7 +1947,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73597615, "Geometry::wheel_2", "Mesh" {
+	Geometry: 72624945, "Geometry::wheel_2", "Mesh" {
 		Vertices: *24 {
 			a: -21.875,21.875,3.125,-21.875,21.875,-3.125,-21.875,15.625,3.125,-21.875,15.625,-3.125,-25,21.875,-3.125,-25,21.875,3.125,-25,15.625,-3.125,-25,15.625,3.125
 		}
@@ -1998,7 +1998,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75566022, "Model::handle", "Mesh" {
+	Model: 71391752, "Model::handle", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -2013,7 +2013,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71966285, "Geometry::handle", "Mesh" {
+	Geometry: 77054422, "Geometry::handle", "Mesh" {
 		Vertices: *24 {
 			a: -18.75,9.375,-9.375,-18.75,9.375,-12.5,-18.75,6.25,-9.375,-18.75,6.25,-12.5,-25,9.375,-12.5,-25,9.375,-9.375,-25,6.25,-12.5,-25,6.25,-9.375
 		}
@@ -2064,7 +2064,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 77253474, "Material::SalvageHook.png", "" {
+	Material: 73942167, "Material::SalvageClaw.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -2075,26 +2075,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 73147043, "Texture::SalvageHook.png", "" {
+	Texture: 75202513, "Texture::SalvageClaw.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::SalvageHook.png"
-		Media: "Video::SalvageHook.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageHook\SalvageHook.png"
-		RelativeFilename: "SalvageHook.png"
+		TextureName: "Texture::SalvageClaw.png"
+		Media: "Video::SalvageClaw.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageHook.png"
+		RelativeFilename: "SalvageClaw.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 71391644, "Video::SalvageHook.png", "Clip" {
+	Video: 73411318, "Video::SalvageClaw.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageHook\SalvageHook.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageHook.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageHook\SalvageHook.png"
-		RelativeFilename: "SalvageHook.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageHook.png"
+		RelativeFilename: "SalvageClaw.png"
 	}
 }
 
@@ -2103,257 +2103,257 @@ Objects:  {
 
 Connections:  {
 
-	;Model::salvage_hook, Model::RootNode
-	C: "OO",74890501,0
+	;Model::salvage_claw, Model::RootNode
+	C: "OO",77604094,0
 
-	;Model::base, Model::salvage_hook
-	C: "OO",71779964,74890501
+	;Model::base, Model::salvage_claw
+	C: "OO",75780062,77604094
 
 	;Geometry::base, Model::base
-	C: "OO",73020804,71779964
+	C: "OO",74410749,75780062
 
-	;Material::SalvageHook.png, Model::base
-	C: "OO",77253474,71779964
+	;Material::SalvageClaw.png, Model::base
+	C: "OO",73942167,75780062
 
-	;Model::stand, Model::salvage_hook
-	C: "OO",70200582,74890501
+	;Model::stand, Model::salvage_claw
+	C: "OO",78108000,77604094
 
 	;Geometry::stand, Model::stand
-	C: "OO",77746426,70200582
+	C: "OO",72461013,78108000
 
-	;Material::SalvageHook.png, Model::stand
-	C: "OO",77253474,70200582
+	;Material::SalvageClaw.png, Model::stand
+	C: "OO",73942167,78108000
 
-	;Model::stand_1, Model::salvage_hook
-	C: "OO",76379902,74890501
+	;Model::stand_1, Model::salvage_claw
+	C: "OO",71525776,77604094
 
 	;Geometry::stand_1, Model::stand_1
-	C: "OO",72326330,76379902
+	C: "OO",70047732,71525776
 
-	;Material::SalvageHook.png, Model::stand_1
-	C: "OO",77253474,76379902
+	;Material::SalvageClaw.png, Model::stand_1
+	C: "OO",73942167,71525776
 
-	;Model::stand_2, Model::salvage_hook
-	C: "OO",77341707,74890501
+	;Model::stand_2, Model::salvage_claw
+	C: "OO",79458113,77604094
 
 	;Geometry::stand_2, Model::stand_2
-	C: "OO",72559240,77341707
+	C: "OO",72301520,79458113
 
-	;Material::SalvageHook.png, Model::stand_2
-	C: "OO",77253474,77341707
+	;Material::SalvageClaw.png, Model::stand_2
+	C: "OO",73942167,79458113
 
-	;Model::stand_3, Model::salvage_hook
-	C: "OO",76163849,74890501
+	;Model::stand_3, Model::salvage_claw
+	C: "OO",76216298,77604094
 
 	;Geometry::stand_3, Model::stand_3
-	C: "OO",72616175,76163849
+	C: "OO",73307521,76216298
 
-	;Material::SalvageHook.png, Model::stand_3
-	C: "OO",77253474,76163849
+	;Material::SalvageClaw.png, Model::stand_3
+	C: "OO",73942167,76216298
 
-	;Model::wheel, Model::salvage_hook
-	C: "OO",74344245,74890501
+	;Model::wheel, Model::salvage_claw
+	C: "OO",74794320,77604094
 
 	;Geometry::wheel, Model::wheel
-	C: "OO",79661901,74344245
+	C: "OO",70825726,74794320
 
-	;Material::SalvageHook.png, Model::wheel
-	C: "OO",77253474,74344245
+	;Material::SalvageClaw.png, Model::wheel
+	C: "OO",73942167,74794320
 
-	;Model::rod, Model::salvage_hook
-	C: "OO",79916840,74890501
+	;Model::rod, Model::salvage_claw
+	C: "OO",78064166,77604094
 
 	;Geometry::rod, Model::rod
-	C: "OO",72133829,79916840
+	C: "OO",77331656,78064166
 
-	;Material::SalvageHook.png, Model::rod
-	C: "OO",77253474,79916840
+	;Material::SalvageClaw.png, Model::rod
+	C: "OO",73942167,78064166
 
-	;Model::rod_1, Model::salvage_hook
-	C: "OO",77636705,74890501
+	;Model::rod_1, Model::salvage_claw
+	C: "OO",79510099,77604094
 
 	;Geometry::rod_1, Model::rod_1
-	C: "OO",75890174,77636705
+	C: "OO",79117364,79510099
 
-	;Material::SalvageHook.png, Model::rod_1
-	C: "OO",77253474,77636705
+	;Material::SalvageClaw.png, Model::rod_1
+	C: "OO",73942167,79510099
 
-	;Model::base_1, Model::salvage_hook
-	C: "OO",76651840,74890501
+	;Model::base_1, Model::salvage_claw
+	C: "OO",74473276,77604094
 
 	;Geometry::base_1, Model::base_1
-	C: "OO",77207954,76651840
+	C: "OO",73553169,74473276
 
-	;Material::SalvageHook.png, Model::base_1
-	C: "OO",77253474,76651840
+	;Material::SalvageClaw.png, Model::base_1
+	C: "OO",73942167,74473276
 
-	;Model::stand_4, Model::salvage_hook
-	C: "OO",72194077,74890501
+	;Model::stand_4, Model::salvage_claw
+	C: "OO",72381743,77604094
 
 	;Geometry::stand_4, Model::stand_4
-	C: "OO",74593749,72194077
+	C: "OO",77564331,72381743
 
-	;Material::SalvageHook.png, Model::stand_4
-	C: "OO",77253474,72194077
+	;Material::SalvageClaw.png, Model::stand_4
+	C: "OO",73942167,72381743
 
-	;Model::stand_5, Model::salvage_hook
-	C: "OO",76442878,74890501
+	;Model::stand_5, Model::salvage_claw
+	C: "OO",74761006,77604094
 
 	;Geometry::stand_5, Model::stand_5
-	C: "OO",73565374,76442878
+	C: "OO",78956230,74761006
 
-	;Material::SalvageHook.png, Model::stand_5
-	C: "OO",77253474,76442878
+	;Material::SalvageClaw.png, Model::stand_5
+	C: "OO",73942167,74761006
 
-	;Model::stand_6, Model::salvage_hook
-	C: "OO",77342938,74890501
+	;Model::stand_6, Model::salvage_claw
+	C: "OO",77136935,77604094
 
 	;Geometry::stand_6, Model::stand_6
-	C: "OO",70929031,77342938
+	C: "OO",78508817,77136935
 
-	;Material::SalvageHook.png, Model::stand_6
-	C: "OO",77253474,77342938
+	;Material::SalvageClaw.png, Model::stand_6
+	C: "OO",73942167,77136935
 
-	;Model::rope, Model::salvage_hook
-	C: "OO",74086290,74890501
+	;Model::rope, Model::salvage_claw
+	C: "OO",73314652,77604094
 
 	;Geometry::rope, Model::rope
-	C: "OO",78532654,74086290
+	C: "OO",75112529,73314652
 
-	;Material::SalvageHook.png, Model::rope
-	C: "OO",77253474,74086290
+	;Material::SalvageClaw.png, Model::rope
+	C: "OO",73942167,73314652
 
-	;Model::claw, Model::salvage_hook
-	C: "OO",73071896,74890501
+	;Model::claw, Model::salvage_claw
+	C: "OO",70670155,77604094
 
 	;Geometry::claw, Model::claw
-	C: "OO",74464735,73071896
+	C: "OO",79311144,70670155
 
-	;Material::SalvageHook.png, Model::claw
-	C: "OO",77253474,73071896
+	;Material::SalvageClaw.png, Model::claw
+	C: "OO",73942167,70670155
 
-	;Model::claw_1, Model::salvage_hook
-	C: "OO",73264430,74890501
+	;Model::claw_1, Model::salvage_claw
+	C: "OO",78707161,77604094
 
 	;Geometry::claw_1, Model::claw_1
-	C: "OO",71775791,73264430
+	C: "OO",75780501,78707161
 
-	;Material::SalvageHook.png, Model::claw_1
-	C: "OO",77253474,73264430
+	;Material::SalvageClaw.png, Model::claw_1
+	C: "OO",73942167,78707161
 
-	;Model::claw_2, Model::salvage_hook
-	C: "OO",79232982,74890501
+	;Model::claw_2, Model::salvage_claw
+	C: "OO",75177160,77604094
 
 	;Geometry::claw_2, Model::claw_2
-	C: "OO",77124360,79232982
+	C: "OO",74001195,75177160
 
-	;Material::SalvageHook.png, Model::claw_2
-	C: "OO",77253474,79232982
+	;Material::SalvageClaw.png, Model::claw_2
+	C: "OO",73942167,75177160
 
-	;Model::claw_3, Model::salvage_hook
-	C: "OO",78959266,74890501
+	;Model::claw_3, Model::salvage_claw
+	C: "OO",71354233,77604094
 
 	;Geometry::claw_3, Model::claw_3
-	C: "OO",71294476,78959266
+	C: "OO",79281843,71354233
 
-	;Material::SalvageHook.png, Model::claw_3
-	C: "OO",77253474,78959266
+	;Material::SalvageClaw.png, Model::claw_3
+	C: "OO",73942167,71354233
 
-	;Model::claw_4, Model::salvage_hook
-	C: "OO",72747092,74890501
+	;Model::claw_4, Model::salvage_claw
+	C: "OO",74273727,77604094
 
 	;Geometry::claw_4, Model::claw_4
-	C: "OO",77611110,72747092
+	C: "OO",78292392,74273727
 
-	;Material::SalvageHook.png, Model::claw_4
-	C: "OO",77253474,72747092
+	;Material::SalvageClaw.png, Model::claw_4
+	C: "OO",73942167,74273727
 
-	;Model::claw_5, Model::salvage_hook
-	C: "OO",77978368,74890501
+	;Model::claw_5, Model::salvage_claw
+	C: "OO",77469849,77604094
 
 	;Geometry::claw_5, Model::claw_5
-	C: "OO",73211783,77978368
+	C: "OO",70206463,77469849
 
-	;Material::SalvageHook.png, Model::claw_5
-	C: "OO",77253474,77978368
+	;Material::SalvageClaw.png, Model::claw_5
+	C: "OO",73942167,77469849
 
-	;Model::claw_6, Model::salvage_hook
-	C: "OO",70403235,74890501
+	;Model::claw_6, Model::salvage_claw
+	C: "OO",76236763,77604094
 
 	;Geometry::claw_6, Model::claw_6
-	C: "OO",72344642,70403235
+	C: "OO",76592935,76236763
 
-	;Material::SalvageHook.png, Model::claw_6
-	C: "OO",77253474,70403235
+	;Material::SalvageClaw.png, Model::claw_6
+	C: "OO",73942167,76236763
 
-	;Model::claw_7, Model::salvage_hook
-	C: "OO",74159884,74890501
+	;Model::claw_7, Model::salvage_claw
+	C: "OO",72091351,77604094
 
 	;Geometry::claw_7, Model::claw_7
-	C: "OO",73534446,74159884
+	C: "OO",70716337,72091351
 
-	;Material::SalvageHook.png, Model::claw_7
-	C: "OO",77253474,74159884
+	;Material::SalvageClaw.png, Model::claw_7
+	C: "OO",73942167,72091351
 
-	;Model::claw_8, Model::salvage_hook
-	C: "OO",75310807,74890501
+	;Model::claw_8, Model::salvage_claw
+	C: "OO",70782383,77604094
 
 	;Geometry::claw_8, Model::claw_8
-	C: "OO",70406626,75310807
+	C: "OO",78691092,70782383
 
-	;Material::SalvageHook.png, Model::claw_8
-	C: "OO",77253474,75310807
+	;Material::SalvageClaw.png, Model::claw_8
+	C: "OO",73942167,70782383
 
-	;Model::claw_9, Model::salvage_hook
-	C: "OO",75682956,74890501
+	;Model::claw_9, Model::salvage_claw
+	C: "OO",74467006,77604094
 
 	;Geometry::claw_9, Model::claw_9
-	C: "OO",78832019,75682956
+	C: "OO",71780327,74467006
 
-	;Material::SalvageHook.png, Model::claw_9
-	C: "OO",77253474,75682956
+	;Material::SalvageClaw.png, Model::claw_9
+	C: "OO",73942167,74467006
 
-	;Model::rope_1, Model::salvage_hook
-	C: "OO",74633285,74890501
+	;Model::rope_1, Model::salvage_claw
+	C: "OO",71193429,77604094
 
 	;Geometry::rope_1, Model::rope_1
-	C: "OO",71498506,74633285
+	C: "OO",79620820,71193429
 
-	;Material::SalvageHook.png, Model::rope_1
-	C: "OO",77253474,74633285
+	;Material::SalvageClaw.png, Model::rope_1
+	C: "OO",73942167,71193429
 
-	;Model::wheel_1, Model::salvage_hook
-	C: "OO",73579820,74890501
+	;Model::wheel_1, Model::salvage_claw
+	C: "OO",77423486,77604094
 
 	;Geometry::wheel_1, Model::wheel_1
-	C: "OO",76851139,73579820
+	C: "OO",79072751,77423486
 
-	;Material::SalvageHook.png, Model::wheel_1
-	C: "OO",77253474,73579820
+	;Material::SalvageClaw.png, Model::wheel_1
+	C: "OO",73942167,77423486
 
-	;Model::wheel_2, Model::salvage_hook
-	C: "OO",73458939,74890501
+	;Model::wheel_2, Model::salvage_claw
+	C: "OO",78926321,77604094
 
 	;Geometry::wheel_2, Model::wheel_2
-	C: "OO",73597615,73458939
+	C: "OO",72624945,78926321
 
-	;Material::SalvageHook.png, Model::wheel_2
-	C: "OO",77253474,73458939
+	;Material::SalvageClaw.png, Model::wheel_2
+	C: "OO",73942167,78926321
 
-	;Model::handle, Model::salvage_hook
-	C: "OO",75566022,74890501
+	;Model::handle, Model::salvage_claw
+	C: "OO",71391752,77604094
 
 	;Geometry::handle, Model::handle
-	C: "OO",71966285,75566022
+	C: "OO",77054422,71391752
 
-	;Material::SalvageHook.png, Model::handle
-	C: "OO",77253474,75566022
+	;Material::SalvageClaw.png, Model::handle
+	C: "OO",73942167,71391752
 
-	;Texture::SalvageHook.png, Material::SalvageHook.png
-	C: "OP",73147043,77253474, "DiffuseColor"
+	;Texture::SalvageClaw.png, Material::SalvageClaw.png
+	C: "OP",75202513,73942167, "DiffuseColor"
 
-	;Video::SalvageHook.png, Texture::SalvageHook.png
-	C: "OO",71391644,73147043
+	;Video::SalvageClaw.png, Texture::SalvageClaw.png
+	C: "OO",73411318,75202513
 }
 
 ; Takes section
