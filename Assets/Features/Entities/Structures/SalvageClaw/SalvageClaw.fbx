@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2026
 		Month: 10
-		Day: 26
+		Day: 27
 		Hour: 17
-		Minute: 44
-		Second: 4
-		Millisecond: 657
+		Minute: 41
+		Second: 23
+		Millisecond: 989
 	}
 	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-10-26 07:44:04:657"
+CreationTime: "2026-10-27 07:41:23:989"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1312515971 {
+	Document: 2027852469 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 77604094, "Model::salvage_claw", "Null" {
+	Model: 71832787, "Model::salvage_claw", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,13 +282,13 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 75780062, "Model::base", "Mesh" {
+	Model: 70329009, "Model::base", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",25,0,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,0,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74410749, "Geometry::base", "Mesh" {
+	Geometry: 72483341, "Geometry::base", "Mesh" {
 		Vertices: *24 {
 			a: 25,37.5,25,25,37.5,-25,25,0,25,25,0,-25,-25,37.5,-25,-25,37.5,25,-25,0,-25,-25,0,25
 		}
@@ -348,13 +348,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78108000, "Model::stand", "Mesh" {
+	Model: 74800359, "Model::stand", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",12.5,37.5,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",-12.5,37.5,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72461013, "Geometry::stand", "Mesh" {
+	Geometry: 71497736, "Geometry::stand", "Mesh" {
 		Vertices: *24 {
 			a: 28.125,43.75,6.25,28.125,43.75,-6.25,28.125,6.25,6.25,28.125,6.25,-6.25,21.875,43.75,-6.25,21.875,43.75,6.25,21.875,6.25,-6.25,21.875,6.25,6.25
 		}
@@ -414,13 +414,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71525776, "Model::stand_1", "Mesh" {
+	Model: 79278855, "Model::stand_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",-9.375,37.5,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",-34.375,37.5,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -429,7 +429,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70047732, "Geometry::stand_1", "Mesh" {
+	Geometry: 78395926, "Geometry::stand_1", "Mesh" {
 		Vertices: *24 {
 			a: 25,43.75,6.25,25,43.75,-6.25,25,6.25,6.25,25,6.25,-6.25,18.75,43.75,-6.25,18.75,43.75,6.25,18.75,6.25,-6.25,18.75,6.25,6.25
 		}
@@ -480,13 +480,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79458113, "Model::stand_2", "Mesh" {
+	Model: 76589296, "Model::stand_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",-9.375,81.25,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",-34.375,81.25,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -495,7 +495,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72301520, "Geometry::stand_2", "Mesh" {
+	Geometry: 71428339, "Geometry::stand_2", "Mesh" {
 		Vertices: *24 {
 			a: 25,50,3.125,25,50,-3.125,25,12.5,3.125,25,12.5,-3.125,18.75,50,-3.125,18.75,50,3.125,18.75,12.5,-3.125,18.75,12.5,3.125
 		}
@@ -546,13 +546,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76216298, "Model::stand_3", "Mesh" {
+	Model: 79484677, "Model::stand_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",15.625,81.25,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",-9.375,81.25,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73307521, "Geometry::stand_3", "Mesh" {
+	Geometry: 71038817, "Geometry::stand_3", "Mesh" {
 		Vertices: *24 {
 			a: 25,50,3.125,25,50,-3.125,25,12.5,3.125,25,12.5,-3.125,18.75,50,-3.125,18.75,50,3.125,18.75,12.5,-3.125,18.75,12.5,3.125
 		}
@@ -612,13 +612,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74794320, "Model::wheel", "Mesh" {
+	Model: 74852620, "Model::wheel", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",0,62.5,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",-25,62.5,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -627,7 +627,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70825726, "Geometry::wheel", "Mesh" {
+	Geometry: 79147496, "Geometry::wheel", "Mesh" {
 		Vertices: *24 {
 			a: 34.375,50,25,34.375,50,-25,34.375,0,25,34.375,0,-25,15.625,50,-25,15.625,50,25,15.625,0,-25,15.625,0,25
 		}
@@ -678,13 +678,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78064166, "Model::rod", "Mesh" {
+	Model: 70990274, "Model::rod", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",6.25,87.5,-26.5625
+			P: "Lcl Translation", "Lcl Translation", "", "A",-18.75,87.5,23.4375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -693,7 +693,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77331656, "Geometry::rod", "Mesh" {
+	Geometry: 73694565, "Geometry::rod", "Mesh" {
 		Vertices: *24 {
 			a: 9.375,9.375,9.375,9.375,9.375,-6.25,9.375,-6.25,9.375,9.375,-6.25,-6.25,-3.125,9.375,-6.25,-3.125,9.375,9.375,-3.125,-6.25,-6.25,-3.125,-6.25,9.375
 		}
@@ -744,13 +744,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79510099, "Model::rod_1", "Mesh" {
+	Model: 72638616, "Model::rod_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",43.75,87.5,-23.4375
+			P: "Lcl Translation", "Lcl Translation", "", "A",18.75,87.5,26.5625
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -759,7 +759,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79117364, "Geometry::rod_1", "Mesh" {
+	Geometry: 71873728, "Geometry::rod_1", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,9.375,6.25,3.125,9.375,-9.375,3.125,-6.25,6.25,3.125,-6.25,-9.375,-9.375,9.375,-9.375,-9.375,9.375,6.25,-9.375,-6.25,-9.375,-9.375,-6.25,6.25
 		}
@@ -810,13 +810,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74473276, "Model::base_1", "Mesh" {
+	Model: 70353706, "Model::base_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",25,37.5,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,37.5,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -825,7 +825,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73553169, "Geometry::base_1", "Mesh" {
+	Geometry: 74303119, "Geometry::base_1", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,6.25,18.75,18.75,6.25,-18.75,18.75,0,18.75,18.75,0,-18.75,-18.75,6.25,-18.75,-18.75,6.25,18.75,-18.75,0,-18.75,-18.75,0,18.75
 		}
@@ -876,13 +876,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72381743, "Model::stand_4", "Mesh" {
+	Model: 70837057, "Model::stand_4", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",15.625,131.25,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",-9.375,131.25,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -891,7 +891,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77564331, "Geometry::stand_4", "Mesh" {
+	Geometry: 74295335, "Geometry::stand_4", "Mesh" {
 		Vertices: *24 {
 			a: 31.25,12.5,6.25,31.25,12.5,-6.25,31.25,0,6.25,31.25,0,-6.25,-12.5,12.5,-6.25,-12.5,12.5,6.25,-12.5,0,-6.25,-12.5,0,6.25
 		}
@@ -942,13 +942,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74761006, "Model::stand_5", "Mesh" {
+	Model: 70982429, "Model::stand_5", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",15.625,131.25,-37.5
+			P: "Lcl Translation", "Lcl Translation", "", "A",-9.375,131.25,12.5
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -957,7 +957,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78956230, "Geometry::stand_5", "Mesh" {
+	Geometry: 73588073, "Geometry::stand_5", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,9.375,6.25,12.5,9.375,-56.25,12.5,0,6.25,12.5,0,-56.25,6.25,9.375,-56.25,6.25,9.375,6.25,6.25,0,-56.25,6.25,0,6.25
 		}
@@ -1008,13 +1008,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77136935, "Model::stand_6", "Mesh" {
+	Model: 76002062, "Model::stand_6", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",15.625,131.25,-100
+			P: "Lcl Translation", "Lcl Translation", "", "A",-9.375,131.25,-50
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1023,7 +1023,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78508817, "Geometry::stand_6", "Mesh" {
+	Geometry: 70483365, "Geometry::stand_6", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,12.5,6.25,15.625,12.5,-6.25,15.625,0,6.25,15.625,0,-6.25,3.125,12.5,-6.25,3.125,12.5,6.25,3.125,0,-6.25,3.125,0,6.25
 		}
@@ -1074,13 +1074,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73314652, "Model::rope", "Mesh" {
+	Model: 77491536, "Model::rope", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",14.0625,118.75,-101.5625
+			P: "Lcl Translation", "Lcl Translation", "", "A",-10.9375,118.75,-51.5625
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1089,7 +1089,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75112529, "Geometry::rope", "Mesh" {
+	Geometry: 71058026, "Geometry::rope", "Mesh" {
 		Vertices: *24 {
 			a: 12.5,12.5,3.125,12.5,12.5,0,12.5,-50,3.125,12.5,-50,0,9.375,12.5,0,9.375,12.5,3.125,9.375,-50,0,9.375,-50,3.125
 		}
@@ -1140,13 +1140,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70670155, "Model::claw", "Mesh" {
+	Model: 77266042, "Model::claw", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",10.9375,46.875,-101.5625
+			P: "Lcl Translation", "Lcl Translation", "", "A",-14.0625,46.875,-51.5625
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1155,7 +1155,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79311144, "Geometry::claw", "Mesh" {
+	Geometry: 73335568, "Geometry::claw", "Mesh" {
 		Vertices: *24 {
 			a: 28.125,12.5,3.125,28.125,12.5,0,28.125,6.25,3.125,28.125,6.25,0,15.625,12.5,0,15.625,12.5,3.125,15.625,6.25,0,15.625,6.25,3.125
 		}
@@ -1206,13 +1206,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78707161, "Model::claw_1", "Mesh" {
+	Model: 75308033, "Model::claw_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",1.5625,46.875,-101.5625
+			P: "Lcl Translation", "Lcl Translation", "", "A",-23.4375,46.875,-51.5625
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1221,7 +1221,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75780501, "Geometry::claw_1", "Mesh" {
+	Geometry: 78429421, "Geometry::claw_1", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,3.125,21.875,12.5,0,21.875,6.25,3.125,21.875,6.25,0,9.375,12.5,0,9.375,12.5,3.125,9.375,6.25,0,9.375,6.25,3.125
 		}
@@ -1272,13 +1272,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75177160, "Model::claw_2", "Mesh" {
+	Model: 75349333, "Model::claw_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",4.6875,46.875,-98.4375
+			P: "Lcl Translation", "Lcl Translation", "", "A",-20.3125,46.875,-48.4375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1287,7 +1287,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74001195, "Geometry::claw_2", "Mesh" {
+	Geometry: 71253672, "Geometry::claw_2", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,0,21.875,6.25,12.5,21.875,6.25,0,18.75,12.5,0,18.75,12.5,12.5,18.75,6.25,0,18.75,6.25,12.5
 		}
@@ -1338,13 +1338,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71354233, "Model::claw_3", "Mesh" {
+	Model: 77194911, "Model::claw_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",4.6875,46.875,-107.8125
+			P: "Lcl Translation", "Lcl Translation", "", "A",-20.3125,46.875,-57.8125
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1353,7 +1353,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79281843, "Geometry::claw_3", "Mesh" {
+	Geometry: 77236941, "Geometry::claw_3", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,6.25,21.875,12.5,-6.25,21.875,6.25,6.25,21.875,6.25,-6.25,18.75,12.5,-6.25,18.75,12.5,6.25,18.75,6.25,-6.25,18.75,6.25,6.25
 		}
@@ -1404,13 +1404,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74273727, "Model::claw_4", "Mesh" {
+	Model: 70596459, "Model::claw_4", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",4.6875,40.625,-98.4375
+			P: "Lcl Translation", "Lcl Translation", "", "A",-20.3125,40.625,-48.4375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1419,7 +1419,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78292392, "Geometry::claw_4", "Mesh" {
+	Geometry: 77617827, "Geometry::claw_4", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1470,13 +1470,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77469849, "Model::claw_5", "Mesh" {
+	Model: 79622894, "Model::claw_5", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",4.6875,40.625,-123.4375
+			P: "Lcl Translation", "Lcl Translation", "", "A",-20.3125,40.625,-73.4375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1485,7 +1485,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70206463, "Geometry::claw_5", "Mesh" {
+	Geometry: 76543892, "Geometry::claw_5", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1536,13 +1536,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76236763, "Model::claw_6", "Mesh" {
+	Model: 71845851, "Model::claw_6", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",-7.8125,40.625,-110.9375
+			P: "Lcl Translation", "Lcl Translation", "", "A",-32.8125,40.625,-60.9375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1551,7 +1551,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76592935, "Geometry::claw_6", "Mesh" {
+	Geometry: 74101419, "Geometry::claw_6", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1602,13 +1602,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72091351, "Model::claw_7", "Mesh" {
+	Model: 72009689, "Model::claw_7", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",17.1875,40.625,-110.9375
+			P: "Lcl Translation", "Lcl Translation", "", "A",-7.8125,40.625,-60.9375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1617,7 +1617,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70716337, "Geometry::claw_7", "Mesh" {
+	Geometry: 71941580, "Geometry::claw_7", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,12.5,12.5,21.875,12.5,9.375,21.875,3.125,12.5,21.875,3.125,9.375,18.75,12.5,9.375,18.75,12.5,12.5,18.75,3.125,9.375,18.75,3.125,12.5
 		}
@@ -1668,13 +1668,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 70782383, "Model::claw_8", "Mesh" {
+	Model: 74151014, "Model::claw_8", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",10.9375,46.875,-96.875
+			P: "Lcl Translation", "Lcl Translation", "", "A",-14.0625,46.875,-46.875
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1683,7 +1683,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78691092, "Geometry::claw_8", "Mesh" {
+	Geometry: 70135031, "Geometry::claw_8", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,21.875,-3.125,18.75,21.875,-3.125,18.75,12.5,-3.125,18.75,12.5,-3.125,9.375,21.875,-3.125,9.375,21.875,-3.125,9.375,12.5,-3.125,9.375,12.5,-3.125
 		}
@@ -1734,13 +1734,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74467006, "Model::claw_9", "Mesh" {
+	Model: 78059540, "Model::claw_9", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",9.375,46.875,-98.4375
+			P: "Lcl Translation", "Lcl Translation", "", "A",-15.625,46.875,-48.4375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1749,7 +1749,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 71780327, "Geometry::claw_9", "Mesh" {
+	Geometry: 70874387, "Geometry::claw_9", "Mesh" {
 		Vertices: *24 {
 			a: 15.625,21.875,3.125,15.625,21.875,-6.25,15.625,12.5,3.125,15.625,12.5,-6.25,15.625,21.875,-6.25,15.625,21.875,3.125,15.625,12.5,-6.25,15.625,12.5,3.125
 		}
@@ -1800,13 +1800,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71193429, "Model::rope_1", "Mesh" {
+	Model: 72061800, "Model::rope_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",25,112.5,0
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,112.5,50
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",-45,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1815,7 +1815,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79620820, "Geometry::rope_1", "Mesh" {
+	Geometry: 74017488, "Geometry::rope_1", "Mesh" {
 		Vertices: *24 {
 			a: 1.5625,31.25,0,1.5625,31.25,-3.125,1.5625,0,0,1.5625,0,-3.125,-1.5625,31.25,-3.125,-1.5625,31.25,0,-1.5625,0,-3.125,-1.5625,0,0
 		}
@@ -1866,13 +1866,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77423486, "Model::wheel_1", "Mesh" {
+	Model: 78658161, "Model::wheel_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",78.125,0,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",53.125,0,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1881,7 +1881,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79072751, "Geometry::wheel_1", "Mesh" {
+	Geometry: 74331679, "Geometry::wheel_1", "Mesh" {
 		Vertices: *24 {
 			a: -21.875,31.25,12.5,-21.875,31.25,-12.5,-21.875,6.25,12.5,-21.875,6.25,-12.5,-25,31.25,-12.5,-25,31.25,12.5,-25,6.25,-12.5,-25,6.25,12.5
 		}
@@ -1932,13 +1932,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78926321, "Model::wheel_2", "Mesh" {
+	Model: 77044400, "Model::wheel_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",75,0,-25
+			P: "Lcl Translation", "Lcl Translation", "", "A",50,0,25
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -1947,7 +1947,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72624945, "Geometry::wheel_2", "Mesh" {
+	Geometry: 79773977, "Geometry::wheel_2", "Mesh" {
 		Vertices: *24 {
 			a: -21.875,21.875,3.125,-21.875,21.875,-3.125,-21.875,15.625,3.125,-21.875,15.625,-3.125,-25,21.875,-3.125,-25,21.875,3.125,-25,15.625,-3.125,-25,15.625,3.125
 		}
@@ -1998,13 +1998,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 71391752, "Model::handle", "Mesh" {
+	Model: 70228027, "Model::handle", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",81.25,21.875,-14.0625
+			P: "Lcl Translation", "Lcl Translation", "", "A",56.25,21.875,35.9375
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -2013,7 +2013,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77054422, "Geometry::handle", "Mesh" {
+	Geometry: 71226148, "Geometry::handle", "Mesh" {
 		Vertices: *24 {
 			a: -18.75,9.375,-9.375,-18.75,9.375,-12.5,-18.75,6.25,-9.375,-18.75,6.25,-12.5,-25,9.375,-12.5,-25,9.375,-9.375,-25,6.25,-12.5,-25,6.25,-9.375
 		}
@@ -2064,7 +2064,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 73942167, "Material::SalvageClaw.png", "" {
+	Material: 79311541, "Material::SalvageClaw.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -2075,25 +2075,25 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 75202513, "Texture::SalvageClaw.png", "" {
+	Texture: 79130049, "Texture::SalvageClaw.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::SalvageClaw.png"
 		Media: "Video::SalvageClaw.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageHook.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageClaw.png"
 		RelativeFilename: "SalvageClaw.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 73411318, "Video::SalvageClaw.png", "Clip" {
+	Video: 75336893, "Video::SalvageClaw.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageHook.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageClaw.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageHook.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\SalvageClaw\SalvageClaw.png"
 		RelativeFilename: "SalvageClaw.png"
 	}
 }
@@ -2104,256 +2104,256 @@ Objects:  {
 Connections:  {
 
 	;Model::salvage_claw, Model::RootNode
-	C: "OO",77604094,0
+	C: "OO",71832787,0
 
 	;Model::base, Model::salvage_claw
-	C: "OO",75780062,77604094
+	C: "OO",70329009,71832787
 
 	;Geometry::base, Model::base
-	C: "OO",74410749,75780062
+	C: "OO",72483341,70329009
 
 	;Material::SalvageClaw.png, Model::base
-	C: "OO",73942167,75780062
+	C: "OO",79311541,70329009
 
 	;Model::stand, Model::salvage_claw
-	C: "OO",78108000,77604094
+	C: "OO",74800359,71832787
 
 	;Geometry::stand, Model::stand
-	C: "OO",72461013,78108000
+	C: "OO",71497736,74800359
 
 	;Material::SalvageClaw.png, Model::stand
-	C: "OO",73942167,78108000
+	C: "OO",79311541,74800359
 
 	;Model::stand_1, Model::salvage_claw
-	C: "OO",71525776,77604094
+	C: "OO",79278855,71832787
 
 	;Geometry::stand_1, Model::stand_1
-	C: "OO",70047732,71525776
+	C: "OO",78395926,79278855
 
 	;Material::SalvageClaw.png, Model::stand_1
-	C: "OO",73942167,71525776
+	C: "OO",79311541,79278855
 
 	;Model::stand_2, Model::salvage_claw
-	C: "OO",79458113,77604094
+	C: "OO",76589296,71832787
 
 	;Geometry::stand_2, Model::stand_2
-	C: "OO",72301520,79458113
+	C: "OO",71428339,76589296
 
 	;Material::SalvageClaw.png, Model::stand_2
-	C: "OO",73942167,79458113
+	C: "OO",79311541,76589296
 
 	;Model::stand_3, Model::salvage_claw
-	C: "OO",76216298,77604094
+	C: "OO",79484677,71832787
 
 	;Geometry::stand_3, Model::stand_3
-	C: "OO",73307521,76216298
+	C: "OO",71038817,79484677
 
 	;Material::SalvageClaw.png, Model::stand_3
-	C: "OO",73942167,76216298
+	C: "OO",79311541,79484677
 
 	;Model::wheel, Model::salvage_claw
-	C: "OO",74794320,77604094
+	C: "OO",74852620,71832787
 
 	;Geometry::wheel, Model::wheel
-	C: "OO",70825726,74794320
+	C: "OO",79147496,74852620
 
 	;Material::SalvageClaw.png, Model::wheel
-	C: "OO",73942167,74794320
+	C: "OO",79311541,74852620
 
 	;Model::rod, Model::salvage_claw
-	C: "OO",78064166,77604094
+	C: "OO",70990274,71832787
 
 	;Geometry::rod, Model::rod
-	C: "OO",77331656,78064166
+	C: "OO",73694565,70990274
 
 	;Material::SalvageClaw.png, Model::rod
-	C: "OO",73942167,78064166
+	C: "OO",79311541,70990274
 
 	;Model::rod_1, Model::salvage_claw
-	C: "OO",79510099,77604094
+	C: "OO",72638616,71832787
 
 	;Geometry::rod_1, Model::rod_1
-	C: "OO",79117364,79510099
+	C: "OO",71873728,72638616
 
 	;Material::SalvageClaw.png, Model::rod_1
-	C: "OO",73942167,79510099
+	C: "OO",79311541,72638616
 
 	;Model::base_1, Model::salvage_claw
-	C: "OO",74473276,77604094
+	C: "OO",70353706,71832787
 
 	;Geometry::base_1, Model::base_1
-	C: "OO",73553169,74473276
+	C: "OO",74303119,70353706
 
 	;Material::SalvageClaw.png, Model::base_1
-	C: "OO",73942167,74473276
+	C: "OO",79311541,70353706
 
 	;Model::stand_4, Model::salvage_claw
-	C: "OO",72381743,77604094
+	C: "OO",70837057,71832787
 
 	;Geometry::stand_4, Model::stand_4
-	C: "OO",77564331,72381743
+	C: "OO",74295335,70837057
 
 	;Material::SalvageClaw.png, Model::stand_4
-	C: "OO",73942167,72381743
+	C: "OO",79311541,70837057
 
 	;Model::stand_5, Model::salvage_claw
-	C: "OO",74761006,77604094
+	C: "OO",70982429,71832787
 
 	;Geometry::stand_5, Model::stand_5
-	C: "OO",78956230,74761006
+	C: "OO",73588073,70982429
 
 	;Material::SalvageClaw.png, Model::stand_5
-	C: "OO",73942167,74761006
+	C: "OO",79311541,70982429
 
 	;Model::stand_6, Model::salvage_claw
-	C: "OO",77136935,77604094
+	C: "OO",76002062,71832787
 
 	;Geometry::stand_6, Model::stand_6
-	C: "OO",78508817,77136935
+	C: "OO",70483365,76002062
 
 	;Material::SalvageClaw.png, Model::stand_6
-	C: "OO",73942167,77136935
+	C: "OO",79311541,76002062
 
 	;Model::rope, Model::salvage_claw
-	C: "OO",73314652,77604094
+	C: "OO",77491536,71832787
 
 	;Geometry::rope, Model::rope
-	C: "OO",75112529,73314652
+	C: "OO",71058026,77491536
 
 	;Material::SalvageClaw.png, Model::rope
-	C: "OO",73942167,73314652
+	C: "OO",79311541,77491536
 
 	;Model::claw, Model::salvage_claw
-	C: "OO",70670155,77604094
+	C: "OO",77266042,71832787
 
 	;Geometry::claw, Model::claw
-	C: "OO",79311144,70670155
+	C: "OO",73335568,77266042
 
 	;Material::SalvageClaw.png, Model::claw
-	C: "OO",73942167,70670155
+	C: "OO",79311541,77266042
 
 	;Model::claw_1, Model::salvage_claw
-	C: "OO",78707161,77604094
+	C: "OO",75308033,71832787
 
 	;Geometry::claw_1, Model::claw_1
-	C: "OO",75780501,78707161
+	C: "OO",78429421,75308033
 
 	;Material::SalvageClaw.png, Model::claw_1
-	C: "OO",73942167,78707161
+	C: "OO",79311541,75308033
 
 	;Model::claw_2, Model::salvage_claw
-	C: "OO",75177160,77604094
+	C: "OO",75349333,71832787
 
 	;Geometry::claw_2, Model::claw_2
-	C: "OO",74001195,75177160
+	C: "OO",71253672,75349333
 
 	;Material::SalvageClaw.png, Model::claw_2
-	C: "OO",73942167,75177160
+	C: "OO",79311541,75349333
 
 	;Model::claw_3, Model::salvage_claw
-	C: "OO",71354233,77604094
+	C: "OO",77194911,71832787
 
 	;Geometry::claw_3, Model::claw_3
-	C: "OO",79281843,71354233
+	C: "OO",77236941,77194911
 
 	;Material::SalvageClaw.png, Model::claw_3
-	C: "OO",73942167,71354233
+	C: "OO",79311541,77194911
 
 	;Model::claw_4, Model::salvage_claw
-	C: "OO",74273727,77604094
+	C: "OO",70596459,71832787
 
 	;Geometry::claw_4, Model::claw_4
-	C: "OO",78292392,74273727
+	C: "OO",77617827,70596459
 
 	;Material::SalvageClaw.png, Model::claw_4
-	C: "OO",73942167,74273727
+	C: "OO",79311541,70596459
 
 	;Model::claw_5, Model::salvage_claw
-	C: "OO",77469849,77604094
+	C: "OO",79622894,71832787
 
 	;Geometry::claw_5, Model::claw_5
-	C: "OO",70206463,77469849
+	C: "OO",76543892,79622894
 
 	;Material::SalvageClaw.png, Model::claw_5
-	C: "OO",73942167,77469849
+	C: "OO",79311541,79622894
 
 	;Model::claw_6, Model::salvage_claw
-	C: "OO",76236763,77604094
+	C: "OO",71845851,71832787
 
 	;Geometry::claw_6, Model::claw_6
-	C: "OO",76592935,76236763
+	C: "OO",74101419,71845851
 
 	;Material::SalvageClaw.png, Model::claw_6
-	C: "OO",73942167,76236763
+	C: "OO",79311541,71845851
 
 	;Model::claw_7, Model::salvage_claw
-	C: "OO",72091351,77604094
+	C: "OO",72009689,71832787
 
 	;Geometry::claw_7, Model::claw_7
-	C: "OO",70716337,72091351
+	C: "OO",71941580,72009689
 
 	;Material::SalvageClaw.png, Model::claw_7
-	C: "OO",73942167,72091351
+	C: "OO",79311541,72009689
 
 	;Model::claw_8, Model::salvage_claw
-	C: "OO",70782383,77604094
+	C: "OO",74151014,71832787
 
 	;Geometry::claw_8, Model::claw_8
-	C: "OO",78691092,70782383
+	C: "OO",70135031,74151014
 
 	;Material::SalvageClaw.png, Model::claw_8
-	C: "OO",73942167,70782383
+	C: "OO",79311541,74151014
 
 	;Model::claw_9, Model::salvage_claw
-	C: "OO",74467006,77604094
+	C: "OO",78059540,71832787
 
 	;Geometry::claw_9, Model::claw_9
-	C: "OO",71780327,74467006
+	C: "OO",70874387,78059540
 
 	;Material::SalvageClaw.png, Model::claw_9
-	C: "OO",73942167,74467006
+	C: "OO",79311541,78059540
 
 	;Model::rope_1, Model::salvage_claw
-	C: "OO",71193429,77604094
+	C: "OO",72061800,71832787
 
 	;Geometry::rope_1, Model::rope_1
-	C: "OO",79620820,71193429
+	C: "OO",74017488,72061800
 
 	;Material::SalvageClaw.png, Model::rope_1
-	C: "OO",73942167,71193429
+	C: "OO",79311541,72061800
 
 	;Model::wheel_1, Model::salvage_claw
-	C: "OO",77423486,77604094
+	C: "OO",78658161,71832787
 
 	;Geometry::wheel_1, Model::wheel_1
-	C: "OO",79072751,77423486
+	C: "OO",74331679,78658161
 
 	;Material::SalvageClaw.png, Model::wheel_1
-	C: "OO",73942167,77423486
+	C: "OO",79311541,78658161
 
 	;Model::wheel_2, Model::salvage_claw
-	C: "OO",78926321,77604094
+	C: "OO",77044400,71832787
 
 	;Geometry::wheel_2, Model::wheel_2
-	C: "OO",72624945,78926321
+	C: "OO",79773977,77044400
 
 	;Material::SalvageClaw.png, Model::wheel_2
-	C: "OO",73942167,78926321
+	C: "OO",79311541,77044400
 
 	;Model::handle, Model::salvage_claw
-	C: "OO",71391752,77604094
+	C: "OO",70228027,71832787
 
 	;Geometry::handle, Model::handle
-	C: "OO",77054422,71391752
+	C: "OO",71226148,70228027
 
 	;Material::SalvageClaw.png, Model::handle
-	C: "OO",73942167,71391752
+	C: "OO",79311541,70228027
 
 	;Texture::SalvageClaw.png, Material::SalvageClaw.png
-	C: "OP",75202513,73942167, "DiffuseColor"
+	C: "OP",79130049,79311541, "DiffuseColor"
 
 	;Video::SalvageClaw.png, Texture::SalvageClaw.png
-	C: "OO",73411318,75202513
+	C: "OO",75336893,79130049
 }
 
 ; Takes section

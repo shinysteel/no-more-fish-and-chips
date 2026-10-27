@@ -60,11 +60,18 @@ namespace NoMoreFishAndChips.Entities
             _shape = StructureDefinitionData.Shape.GetTransformed(Vector2Int.zero, _netRotations.value);
         }
 
-        private void HandleNetCellChanged(Vector2Int cell)
+        private void HandleNetCellChanged(Vector2Int changeCell)
         {
             if (isOwner)
             {
-                Vector3 position = _context.Raft.Queries.StructurePositionToWorldPosition(cell);
+                Vector2 structurePosiiton = changeCell;
+                
+                if (!StructureDefinitionData.IsScaffold)
+                {
+                    structurePosiiton += _shape.TrueBounds.center - Vector2.one * 0.5f;
+                }
+
+                Vector3 position = _context.Raft.Queries.StructurePositionToWorldPosition(structurePosiiton);
 
                 // Find the highest Y to sit on - without this it can be stuck in the tile                
                 float? y = null;
