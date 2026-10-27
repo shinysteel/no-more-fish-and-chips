@@ -26,29 +26,12 @@ MonoBehaviour:
     m_Localized: "Un article que vous pouvez r\xE9cup\xE9rer"
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Goop Tile
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: "Une plaque de substance gluante qui flotte d'une mani\xE8re ou
-      d'une autre."
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: Carreaux de bois
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: "Un fagot de b\xFBches sur lequel on peut se tenir debout"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: "Tuile m\xE9tallique"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: "Une plateforme bien prot\xE9g\xE9e"
     m_Metadata:
       m_Items: []
   references:

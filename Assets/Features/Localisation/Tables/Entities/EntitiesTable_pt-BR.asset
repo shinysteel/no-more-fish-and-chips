@@ -26,28 +26,12 @@ MonoBehaviour:
     m_Localized: "Um item que voc\xEA pode pegar"
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Goop Tile
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: Uma placa de gosma que de alguma forma flutua.
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: Azulejo de madeira
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: "Um feixe de toras onde voc\xEA pode ficar em p\xE9."
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: Azulejo de metal
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: Uma plataforma bem protegida
     m_Metadata:
       m_Items: []
   references:

@@ -26,28 +26,12 @@ MonoBehaviour:
     m_Localized: "\u4F60\u53EF\u4EE5\u64BF\u5230\u7684\u7269\u54C1"
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Goop Tile
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: "\u4E00\u584A\u4E0D\u77E5\u4F55\u6545\u6F02\u6D6E\u5728\u6C34\u9762\u4E0A\u7684\u9ECF\u7CCA\u7CCA\u7684\u6771\u897F"
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: "\u6728\u74E6"
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: "\u4E00\u6346\u53EF\u4EE5\u7AD9\u7ACB\u7684\u6728\u982D"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: "\u91D1\u5C6C\u74E6"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: "\u4E00\u500B\u53D7\u5230\u826F\u597D\u4FDD\u8B77\u7684\u5E73\u53F0"
     m_Metadata:
       m_Items: []
   references:

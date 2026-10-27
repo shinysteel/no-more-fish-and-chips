@@ -26,28 +26,12 @@ MonoBehaviour:
     m_Localized: Un objeto que puedes recoger
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Azulejo Goop
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: Un trozo de sustancia viscosa que de alguna manera flota
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: Azulejo de madera
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: "Un mont\xF3n de troncos sobre los que puedes pararte"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: "Baldosa met\xE1lica"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: Una plataforma bien protegida
     m_Metadata:
       m_Items: []
   references:

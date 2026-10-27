@@ -26,28 +26,12 @@ MonoBehaviour:
     m_Localized: "Ein Gegenstand, den Sie aufheben k\xF6nnen"
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Goop Tile
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: Ein Klumpen Schleim, der irgendwie schwebt
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: Holzfliese
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: "Ein B\xFCndel Baumst\xE4mme, auf dem man stehen kann"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: Metallfliese
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: "Eine gut gesch\xFCtzte Plattform"
     m_Metadata:
       m_Items: []
   references:

@@ -15,28 +15,12 @@ MonoBehaviour:
   m_TableCollectionName: EntitiesTable
   m_TableCollectionNameGuidString: e740bbc75b49c7f4abeb28a9dcbb639a
   m_Entries:
-  - m_Id: 33911836066017280
-    m_Key: entities.goopTileName
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Key: entities.goopTileDescription
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Key: entities.woodenTileName
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Key: entities.woodenTileDescription
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Key: entities.metalTileName
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Key: entities.metalTileDescription
     m_Metadata:
       m_Items: []
   - m_Id: 187037290496

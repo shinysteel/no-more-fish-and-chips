@@ -26,28 +26,12 @@ MonoBehaviour:
     m_Localized: An item you can pick up
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Goop Tile
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: A slab of goop that somehow floats
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: Wooden Tile
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: A bundle of logs you can stand on
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: Metal Tile
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: A well protected platform
     m_Metadata:
       m_Items: []
   references:

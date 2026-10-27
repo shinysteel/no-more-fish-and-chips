@@ -26,28 +26,12 @@ MonoBehaviour:
     m_Localized: Un oggetto che puoi raccogliere
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: Piastrelle di melma
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: Una lastra di melma che in qualche modo galleggia
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: Piastrelle di legno
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: Un fascio di tronchi su cui puoi stare in piedi
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: Piastrelle in metallo
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: Una piattaforma ben protetta
     m_Metadata:
       m_Items: []
   references:

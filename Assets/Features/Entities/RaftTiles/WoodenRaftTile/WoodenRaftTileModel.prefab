@@ -49,6 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
-  _id: 202
+  _id: 201
   _animator: {fileID: 0}
   _networkAnimator: {fileID: 0}

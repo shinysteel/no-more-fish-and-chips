@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 09677f019338abf48adf344e632b476e, type: 3}
       propertyPath: m_Name
-      value: TileScaffoldModel
+      value: ScaffoldRaftTileModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -49,6 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
-  _id: 204
+  _id: 202
   _animator: {fileID: 0}
   _networkAnimator: {fileID: 0}

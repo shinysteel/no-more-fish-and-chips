@@ -26,29 +26,12 @@ MonoBehaviour:
     m_Localized: "Przedmiot, kt\xF3ry mo\u017Cesz podnie\u015B\u0107"
     m_Metadata:
       m_Items: []
-  - m_Id: 33911836066017280
-    m_Localized: "P\u0142ytka Goop"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766016
-    m_Localized: "Kawa\u0142ek mazi, kt\xF3ry w jaki\u015B spos\xF3b unosi si\u0119
-      na wodzie"
-    m_Metadata:
-      m_Items: []
   - m_Id: 33911836103766017
     m_Localized: "P\u0142ytka drewniana"
     m_Metadata:
       m_Items: []
   - m_Id: 33911836103766018
     m_Localized: "P\u0119czek k\u0142\xF3d, na kt\xF3rym mo\u017Cesz stan\u0105\u0107"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766019
-    m_Localized: "P\u0142ytka metalowa"
-    m_Metadata:
-      m_Items: []
-  - m_Id: 33911836103766020
-    m_Localized: Dobrze zabezpieczona platforma
     m_Metadata:
       m_Items: []
   references:
