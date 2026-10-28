@@ -338,7 +338,12 @@ namespace NoMoreFishAndChips.Entities
                 }
                 else
                 {
-                    if (_waterMask != null && !_waterMask[kvp.Key])
+                    if (_waterMask == null)
+                    {
+                        return false;
+                    }
+
+                    if (!_waterMask[kvp.Key])
                     {
                         return false;
                     }
