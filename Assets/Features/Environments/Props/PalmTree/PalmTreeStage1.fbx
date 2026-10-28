@@ -10,14 +10,14 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2026
-		Month: 6
-		Day: 6
-		Hour: 23
+		Month: 10
+		Day: 28
+		Hour: 13
 		Minute: 25
-		Second: 2
-		Millisecond: 211
+		Second: 35
+		Millisecond: 625
 	}
-	Creator: "Blockbench 5.1.4"
+	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "5.1.4"
+			P: "Original|ApplicationVersion", "KString", "", "", "5.2.2"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.1.4"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "5.2.2"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-06-06 13:25:02:211"
+CreationTime: "2026-10-28 03:25:35:625"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1809597780 {
+	Document: 36961188 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 74617590, "Model::palm_tree_stage1", "Null" {
+	Model: 76811844, "Model::palm_tree_stage1", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72719363, "Model::top", "Mesh" {
+	Model: 72977694, "Model::top", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,9 +297,9 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75452947, "Geometry::top", "Mesh" {
+	Geometry: 79304326, "Geometry::top", "Mesh" {
 		Vertices: *24 {
-			a: 6.25,15.625,-3.125,6.25,15.625,-3.125,6.25,3.125,-3.125,6.25,3.125,-3.125,-9.375,15.625,-3.125,-9.375,15.625,-3.125,-9.375,3.125,-3.125,-9.375,3.125,-3.125
+			a: 3.125,15.625,-3.125,3.125,15.625,-3.125,3.125,3.125,-3.125,3.125,3.125,-3.125,-6.25,15.625,-3.125,-6.25,15.625,-3.125,-6.25,3.125,-3.125,-6.25,3.125,-3.125
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -320,7 +320,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0,0.5,0.3125,0.5,0.3125,0.75,0,0.75,0,0.5,0,0.5,0,0.75,0,0.75,0.3125,0.5,0.625,0.5,0.625,0.75,0.3125,0.75,0.3125,0.5,0.3125,0.5,0.3125,0.75,0.3125,0.75,0.3125,0.75,0,0.75,0,0.75,0.3125,0.75,0.625,0.75,0.3125,0.75,0.3125,0.75,0.625,0.75
+				a: 0.4375,0.34375,0.4609375,0.34375,0.4609375,0.375,0.4375,0.375,0.4375,0.34375,0.4375,0.34375,0.4375,0.375,0.4375,0.375,0.4609375,0.34375,0.484375,0.34375,0.484375,0.375,0.4609375,0.375,0.4609375,0.34375,0.4609375,0.34375,0.4609375,0.375,0.4609375,0.375,0.4609375,0.375,0.4375,0.375,0.4375,0.375,0.4609375,0.375,0.484375,0.375,0.4609375,0.375,0.4609375,0.375,0.484375,0.375
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76014175, "Model::stem", "Mesh" {
+	Model: 78320932, "Model::stem", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75909482, "Geometry::stem", "Mesh" {
+	Geometry: 70839308, "Geometry::stem", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,6.25,0,3.125,6.25,-3.125,3.125,0,0,3.125,0,-3.125,0,6.25,-3.125,0,6.25,0,0,0,-3.125,0,0,0
 		}
@@ -386,7 +386,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.0625,0.8125,0.125,0.8125,0.125,0.9375,0.0625,0.9375,0,0.8125,0.0625,0.8125,0.0625,0.9375,0,0.9375,0.1875,0.8125,0.25,0.8125,0.25,0.9375,0.1875,0.9375,0.125,0.8125,0.1875,0.8125,0.1875,0.9375,0.125,0.9375,0.125,1,0.0625,1,0.0625,0.9375,0.125,0.9375,0.1875,0.9375,0.125,0.9375,0.125,1,0.1875,1
+				a: 0.6328125,0.53125,0.640625,0.53125,0.640625,0.546875,0.6328125,0.546875,0.625,0.53125,0.6328125,0.53125,0.6328125,0.546875,0.625,0.546875,0.6484375,0.53125,0.65625,0.53125,0.65625,0.546875,0.6484375,0.546875,0.640625,0.53125,0.6484375,0.53125,0.6484375,0.546875,0.640625,0.546875,0.640625,0.5546875,0.6328125,0.5546875,0.6328125,0.546875,0.640625,0.546875,0.6484375,0.546875,0.640625,0.546875,0.640625,0.5546875,0.6484375,0.5546875
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 74136020, "Material::PalmTreeStage1.png", "" {
+	Material: 72417022, "Material::PalmTree.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -425,26 +425,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 77895939, "Texture::PalmTreeStage1.png", "" {
+	Texture: 75060685, "Texture::PalmTree.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::PalmTreeStage1.png"
-		Media: "Video::PalmTreeStage1.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Environments\Props\PalmTree\PalmTreeStage1.png"
-		RelativeFilename: "PalmTreeStage1.png"
+		TextureName: "Texture::PalmTree.png"
+		Media: "Video::PalmTree.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\PalmTree\PalmTree.png"
+		RelativeFilename: "PalmTree.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 74326572, "Video::PalmTreeStage1.png", "Clip" {
+	Video: 78000832, "Video::PalmTree.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Environments\Props\PalmTree\PalmTreeStage1.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\PalmTree\PalmTree.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\fish-flingers\Assets\Features\Environments\Props\PalmTree\PalmTreeStage1.png"
-		RelativeFilename: "PalmTreeStage1.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\PalmTree\PalmTree.png"
+		RelativeFilename: "PalmTree.png"
 	}
 }
 
@@ -454,31 +454,31 @@ Objects:  {
 Connections:  {
 
 	;Model::palm_tree_stage1, Model::RootNode
-	C: "OO",74617590,0
+	C: "OO",76811844,0
 
 	;Model::top, Model::palm_tree_stage1
-	C: "OO",72719363,74617590
+	C: "OO",72977694,76811844
 
 	;Geometry::top, Model::top
-	C: "OO",75452947,72719363
+	C: "OO",79304326,72977694
 
-	;Material::PalmTreeStage1.png, Model::top
-	C: "OO",74136020,72719363
+	;Material::PalmTree.png, Model::top
+	C: "OO",72417022,72977694
 
 	;Model::stem, Model::palm_tree_stage1
-	C: "OO",76014175,74617590
+	C: "OO",78320932,76811844
 
 	;Geometry::stem, Model::stem
-	C: "OO",75909482,76014175
+	C: "OO",70839308,78320932
 
-	;Material::PalmTreeStage1.png, Model::stem
-	C: "OO",74136020,76014175
+	;Material::PalmTree.png, Model::stem
+	C: "OO",72417022,78320932
 
-	;Texture::PalmTreeStage1.png, Material::PalmTreeStage1.png
-	C: "OP",77895939,74136020, "DiffuseColor"
+	;Texture::PalmTree.png, Material::PalmTree.png
+	C: "OP",75060685,72417022, "DiffuseColor"
 
-	;Video::PalmTreeStage1.png, Texture::PalmTreeStage1.png
-	C: "OO",74326572,77895939
+	;Video::PalmTree.png, Texture::PalmTree.png
+	C: "OO",78000832,75060685
 }
 
 ; Takes section
