@@ -1,3 +1,5 @@
+using NoMoreFishAndChips.Inventories;
+using NoMoreFishAndChips.Items;
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.Pools;
 using NoMoreFishAndChips.States;
@@ -5,6 +7,7 @@ using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -83,19 +86,57 @@ namespace NoMoreFishAndChips.UI
 
         private void Send()
         {
-            if (_inputField.text == string.Empty)
+            string text = _inputField.text;
+
+            if (text == string.Empty)
             {
                 return;
             }
 
-            _networkManager.SendToAll(new ChatMessage() { Username = _networkManager.LocalPurrnetPlayer.Username, Message = _inputField.text });
+            if (!text.StartsWith('/'))
+            {
+                _networkManager.SendToAll(new ChatMessage() { Username = _networkManager.LocalPurrnetPlayer.Username, Message = text });
+            }
+            else
+            {
+                ProcessCommand(text);
+            }
+        }
+
+        private void ProcessCommand(string command)
+        {
+            string[] arguments = command.Split(' ');
+
+            switch (arguments[0])
+            {
+                case "/give":
+                    if (arguments.Length != 3)
+                    {
+                        return;
+                    }
+
+                    if (!Enum.TryParse(arguments[1], true, out ItemId id))
+                    {
+                        return;
+                    }
+
+                    if (!int.TryParse(arguments[2], out int count))
+                    {
+                        return;
+                    }
+
+                    InventoryChangeParams parameters = new InventoryChangeParams() { ItemId = id, Count = count };
+                    bool result = _context.LocalPlayer.Inventory.TryAddItem(parameters, true, out _, out _, out _);
+
+                    break;
+            }
         }
 
         public void Setup(GameplayContext context)
         {
             _context = context;
         }
-
+        
         protected override void Subscribe(bool asServer)
         {
             _networkManager.Subscribe<ChatMessage>(HandleChatMessage, asServer);
