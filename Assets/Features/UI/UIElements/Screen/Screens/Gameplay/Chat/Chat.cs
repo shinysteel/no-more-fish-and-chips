@@ -1,17 +1,17 @@
 using NoMoreFishAndChips.Networking;
-using PurrNet;
-using UnityEngine;
-using System.Collections.Generic;
 using NoMoreFishAndChips.Pools;
-using ShinyOwl.Common.Utils;
-using UnityEngine.UI;
 using NoMoreFishAndChips.States;
-using ShinyOwl.Common;
-using TMPro;
-using UnityEngine.EventSystems;
-using System.Threading.Tasks;
 using PrimeTween;
-
+using PurrNet;
+using ShinyOwl.Common;
+using ShinyOwl.Common.Utils;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.UI
@@ -23,13 +23,19 @@ namespace NoMoreFishAndChips.UI
         [SerializeField] private CanvasGroup _scrollBarCanvasGroup;
         [SerializeField] private CanvasGroup _inputContainerCanvasGroup;
         [SerializeField] private TMP_InputField _inputField;
+        [SerializeField] private Button _sendButton;
+        [SerializeField] private Color _usernameColor;
 
         private NetworkManager _networkManager;
         private PoolManager _poolManager;
 
         private GameplayContext _context;
 
+        private List<ChatMessageView> _messageViews = new();
+
         public bool InUse => _inputField.isFocused;
+
+        private const int MaxMessageViews = 20;
 
         protected override void Awake()
         {
@@ -40,6 +46,8 @@ namespace NoMoreFishAndChips.UI
 
             _inputField.onSubmit.AddListener(HandleInputFieldSubmit);
             _inputField.onEndEdit.AddListener(HandleInputFieldEndEdit);
+
+            _sendButton.onClick.AddListener(SendPressed);
         }
 
         private void HandleInputFieldSubmit(string text)
@@ -49,19 +57,12 @@ namespace NoMoreFishAndChips.UI
                 return;
             }
 
-            if (text == string.Empty)
-            {
-                return;
-            }
-
-            _networkManager.SendToAll(new ChatMessage() { Text = $"{_networkManager.LocalPurrnetPlayer.Username}: {text}" });
+            Send();
         }
         
         private void HandleInputFieldEndEdit(string text)
         {
-            _inputField.text = string.Empty;
-
-            async Task unselectAsync()
+            async Task handleAsync()
             {
                 // We need to wait one frame, since Unity reselects the input field in this frame for some reason
                 await Task.Yield();
@@ -72,7 +73,22 @@ namespace NoMoreFishAndChips.UI
                 _inputContainerCanvasGroup.alpha = 0f;
             }
 
-            _ = unselectAsync();
+            _ = handleAsync();
+        }
+
+        private void SendPressed()
+        {
+            Send();
+        }
+
+        private void Send()
+        {
+            if (_inputField.text == string.Empty)
+            {
+                return;
+            }
+
+            _networkManager.SendToAll(new ChatMessage() { Username = _networkManager.LocalPurrnetPlayer.Username, Message = _inputField.text });
         }
 
         public void Setup(GameplayContext context)
@@ -92,8 +108,19 @@ namespace NoMoreFishAndChips.UI
 
         private void HandleChatMessage(PlayerID id, ChatMessage message, bool asServer)
         {
+            string code = ColorUtility.ToHtmlStringRGB(_usernameColor);
+            string text = $"<color=#{code}>{message.Username}</color>: {message.Message}";
+
             ChatMessageView view = _poolManager.GetTypedPoolable<ChatMessageView>(new SpawnParams() { Parent = _messageViewContainer });
-            view.Setup(this, message);
+            view.Setup(this, text);
+
+            _messageViews.Add(view);
+
+            if (_messageViews.Count > MaxMessageViews)
+            {
+                _poolManager.ReturnTypedPoolable(_messageViews[0]);
+                _messageViews.RemoveAt(0);
+            }
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(_messageViewContainer);
             
@@ -112,6 +139,7 @@ namespace NoMoreFishAndChips.UI
         {
             if (!_inputField.isFocused && _context.LocalPlayer.InputLogic.OpenChat)
             {
+                _inputField.text = string.Empty;
                 _inputField.Select();
 
                 _scrollBarCanvasGroup.alpha = 1f;

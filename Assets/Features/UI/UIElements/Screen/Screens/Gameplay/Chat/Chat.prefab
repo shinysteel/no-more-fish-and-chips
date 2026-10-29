@@ -106,6 +106,8 @@ MonoBehaviour:
   _scrollBarCanvasGroup: {fileID: 4511885586903220600}
   _inputContainerCanvasGroup: {fileID: 3571856164550136840}
   _inputField: {fileID: 5531307293270947705}
+  _sendButton: {fileID: 1450693923110329260}
+  _usernameColor: {r: 0.2784314, g: 1, b: 0.92941177, a: 0}
 --- !u!114 &3127380871283741936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +263,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+--- !u!114 &1450693923110329260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1114104877503737930, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
+  m_PrefabInstance: {fileID: 1970322725577485286}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!224 &7957882745382125558 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8441973474860913680, guid: c1d790d768281bb4eb74c419b3171766, type: 3}
@@ -275,12 +288,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 8148574109077388416}
     m_Modifications:
     - target: {fileID: 1122390650595267883, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
+      propertyPath: m_text
+      value: "\u200B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122390650595267883, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_fontSize
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1122390650595267883, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_fontSizeMax
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122390650595267883, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122390650595267883, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1478032187939443147, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_Pivot.x
@@ -347,6 +372,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3447479281563712230, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3447479281563712230, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_fontSize
       value: 24
       objectReference: {fileID: 0}
@@ -372,15 +401,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7879685598394311772, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -148
+      value: -62
       objectReference: {fileID: 0}
     - target: {fileID: 7879685598394311772, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -64
+      value: -21
       objectReference: {fileID: 0}
     - target: {fileID: 8380434467735798919, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
       propertyPath: m_Name
       value: InputField
+      objectReference: {fileID: 0}
+    - target: {fileID: 9206437724099553073, guid: a1ef6fd38ff13214ea9357ecb75ec8ba, type: 3}
+      propertyPath: m_CharacterLimit
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -433,6 +466,18 @@ PrefabInstance:
     - target: {fileID: 3115652616341350098, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_Spacing
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941829643475028699, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
+      propertyPath: m_Inertia
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941829643475028699, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3941829643475028699, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
+      propertyPath: m_ScrollSensitivity
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3941829643475028699, guid: 7462bfbf2a27565458d33a853d943108, type: 3}
       propertyPath: m_VerticalScrollbarVisibility
@@ -551,7 +596,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &7699020581122393399 stripped
 MonoBehaviour:

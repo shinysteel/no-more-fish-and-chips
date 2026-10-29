@@ -5,6 +5,7 @@ namespace NoMoreFishAndChips.UI
 {
     public struct ChatMessage : IPackedAuto
     {
-        public string Text;
+        public string Username;
+        public string Message;
     }
 }

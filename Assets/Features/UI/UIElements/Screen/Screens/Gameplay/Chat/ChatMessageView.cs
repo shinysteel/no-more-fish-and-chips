@@ -17,11 +17,11 @@ namespace NoMoreFishAndChips.UI
 
         private const float Duration = 5f;
 
-        public void Setup(Chat chat, ChatMessage message)
+        public void Setup(Chat chat, string text)
         {
             _chat = chat;
 
-            _text.text = message.Text;
+            _text.text = text;
 
             _timer = 0f;
             _alpha = 1f;
