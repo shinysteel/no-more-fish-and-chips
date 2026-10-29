@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3663784600132207089}
   - component: {fileID: 1043918285738701198}
   - component: {fileID: 4423364759664201533}
+  - component: {fileID: 604192256332495791}
   m_Layer: 5
   m_Name: ChatMessageView
   m_TagString: Untagged
@@ -52,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.UI.ChatMessageView
   _text: {fileID: 7415587498775461770}
+  _canvasGroup: {fileID: 604192256332495791}
 --- !u!222 &1043918285738701198
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -81,7 +83,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -90,6 +92,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &604192256332495791
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8639088346810283226}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &139682920829855706
 PrefabInstance:
   m_ObjectHideFlags: 0

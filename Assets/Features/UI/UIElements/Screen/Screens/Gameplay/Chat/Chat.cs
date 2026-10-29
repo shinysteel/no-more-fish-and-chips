@@ -29,12 +29,6 @@ namespace NoMoreFishAndChips.UI
 
         private GameplayContext _context;
 
-        private List<ChatMessage> _messages = new();
-        private List<ChatMessageView> _messageViews = new();
-
-        private Tween _scrollBarTween;
-        private Tween _inputContainerTween;
-
         public bool InUse => _inputField.isFocused;
 
         protected override void Awake()
@@ -74,11 +68,8 @@ namespace NoMoreFishAndChips.UI
 
                 EventSystem.current.SetSelectedGameObject(null);
 
-                _scrollBarTween.Stop();
-                _scrollBarTween = Tween.Alpha(_scrollBarCanvasGroup, endValue: 0f, duration: 0.1f);
-                
-                _inputContainerTween.Stop();
-                _inputContainerTween = Tween.Alpha(_inputContainerCanvasGroup, endValue: 0f, duration: 0.1f);
+                _scrollBarCanvasGroup.alpha = 0f;
+                _inputContainerCanvasGroup.alpha = 0f;
             }
 
             _ = unselectAsync();
@@ -101,12 +92,8 @@ namespace NoMoreFishAndChips.UI
 
         private void HandleChatMessage(PlayerID id, ChatMessage message, bool asServer)
         {
-            _messages.Add(message);
-
-            Utils.Collections.ResizeList(_messageViews, _messages.Count,
-                createElement: () => _poolManager.GetTypedPoolable<ChatMessageView>(new SpawnParams() { Parent = _messageViewContainer }),
-                removeElement: (ChatMessageView view) => _poolManager.ReturnTypedPoolable(view),
-                processElement: (ChatMessageView view, int index) => view.Setup(_messages[index]));
+            ChatMessageView view = _poolManager.GetTypedPoolable<ChatMessageView>(new SpawnParams() { Parent = _messageViewContainer });
+            view.Setup(this, message);
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(_messageViewContainer);
             
@@ -127,11 +114,8 @@ namespace NoMoreFishAndChips.UI
             {
                 _inputField.Select();
 
-                _scrollBarTween.Stop();
-                _scrollBarTween = Tween.Alpha(_scrollBarCanvasGroup, endValue: 1f, duration: 0.1f);
-
-                _inputContainerTween.Stop();
-                _inputContainerTween = Tween.Alpha(_inputContainerCanvasGroup, endValue: 1f, duration: 0.1f);
+                _scrollBarCanvasGroup.alpha = 1f;
+                _inputContainerCanvasGroup.alpha = 1f;
             }
         }
     }
