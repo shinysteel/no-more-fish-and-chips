@@ -8,20 +8,21 @@ using UnityEngine.UI;
 using NoMoreFishAndChips.States;
 using ShinyOwl.Common;
 using TMPro;
+using UnityEngine.EventSystems;
+using System.Threading.Tasks;
+using PrimeTween;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
-using UnityEngine.EventSystems;
-using Unity.VisualScripting;
-using System.Threading.Tasks;
 
 namespace NoMoreFishAndChips.UI
 {
     public class Chat : PurrBehaviour
     {
-        [SerializeField] private CanvasGroup _backgroundCanvasGroup;
-        [SerializeField] private TMP_InputField _inputField;
-        [SerializeField] private CanvasGroup _messagesCanvasGroup;
+        [SerializeField] private ScrollRect _messagesScrollRect;
         [SerializeField] private RectTransform _messageViewContainer;
+        [SerializeField] private CanvasGroup _scrollBarCanvasGroup;
+        [SerializeField] private CanvasGroup _inputContainerCanvasGroup;
+        [SerializeField] private TMP_InputField _inputField;
 
         private NetworkManager _networkManager;
         private PoolManager _poolManager;
@@ -30,6 +31,9 @@ namespace NoMoreFishAndChips.UI
 
         private List<ChatMessage> _messages = new();
         private List<ChatMessageView> _messageViews = new();
+
+        private Tween _scrollBarTween;
+        private Tween _inputContainerTween;
 
         public bool InUse => _inputField.isFocused;
 
@@ -69,6 +73,12 @@ namespace NoMoreFishAndChips.UI
                 await Task.Yield();
 
                 EventSystem.current.SetSelectedGameObject(null);
+
+                _scrollBarTween.Stop();
+                _scrollBarTween = Tween.Alpha(_scrollBarCanvasGroup, endValue: 0f, duration: 0.1f);
+                
+                _inputContainerTween.Stop();
+                _inputContainerTween = Tween.Alpha(_inputContainerCanvasGroup, endValue: 0f, duration: 0.1f);
             }
 
             _ = unselectAsync();
@@ -99,13 +109,29 @@ namespace NoMoreFishAndChips.UI
                 processElement: (ChatMessageView view, int index) => view.Setup(_messages[index]));
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(_messageViewContainer);
+            
+            async Task scrollAsync()
+            {
+                await Task.Yield();
+                await Task.Yield();
+
+                _messagesScrollRect.verticalNormalizedPosition = 0f;
+            }
+
+            _ = scrollAsync();
         }
 
         private void Update()
         {
-            if (_context.LocalPlayer.InputLogic.ToggleChat)
+            if (!_inputField.isFocused && _context.LocalPlayer.InputLogic.OpenChat)
             {
                 _inputField.Select();
+
+                _scrollBarTween.Stop();
+                _scrollBarTween = Tween.Alpha(_scrollBarCanvasGroup, endValue: 1f, duration: 0.1f);
+
+                _inputContainerTween.Stop();
+                _inputContainerTween = Tween.Alpha(_inputContainerCanvasGroup, endValue: 1f, duration: 0.1f);
             }
         }
     }

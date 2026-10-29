@@ -27,7 +27,7 @@ namespace NoMoreFishAndChips.Entities
         private bool _fivePressed;
         private bool _rotateItem;
         private bool _dropItem;
-        private bool _toggleChat;
+        private bool _openChat;
         private bool _toggleSettings;
         private bool _toggleFishingBag;
         private bool _toggleCraftingKit;
@@ -49,7 +49,7 @@ namespace NoMoreFishAndChips.Entities
         public bool FivePressed => _fivePressed;
         public bool RotateItem => _rotateItem;
         public bool DropItem => _dropItem;
-        public bool ToggleChat => _toggleChat;
+        public bool OpenChat => _openChat;
         public bool ToggleSettings => _toggleSettings;
         public bool ToggleFishingBag => _toggleFishingBag;
         public bool ToggleCraftingKit => _toggleCraftingKit;
@@ -72,26 +72,51 @@ namespace NoMoreFishAndChips.Entities
                 _netMousePositionNormalised.value = new Vector2(Mathf.Clamp01(_mouse.x / Screen.width), Mathf.Clamp01(_mouse.y / Screen.height));
             }
 
-            _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")), 1f);
-            _jump = Input.GetKeyDown(KeyCode.Space);
-            _scroll = Input.GetAxis("Mouse ScrollWheel");
-            _shiftHeld = Input.GetKey(KeyCode.LeftShift);
-            _leftClickPressed = Input.GetMouseButtonDown(0);
-            _leftClickHeld = Input.GetMouseButton(0);
-            _rightClickPressed = Input.GetMouseButtonDown(1);
-            _fKey = Input.GetKeyDown(KeyCode.F);
-            _rKey = Input.GetKeyDown(KeyCode.R);
-            _onePressed = Input.GetKeyDown(KeyCode.Alpha1);
-            _twoPressed = Input.GetKeyDown(KeyCode.Alpha2);
-            _threePressed = Input.GetKeyDown(KeyCode.Alpha3);
-            _fourPressed = Input.GetKeyDown(KeyCode.Alpha4);
-            _fivePressed = Input.GetKeyDown(KeyCode.Alpha5);
-            _rotateItem = Input.GetKeyDown(KeyCode.R);
-            _dropItem = Input.GetKeyDown(KeyCode.Q);
-            _toggleChat = Input.GetKeyDown(KeyCode.Return);
-            _toggleSettings = Input.GetKeyDown(KeyCode.Escape);
-            _toggleFishingBag = Input.GetKeyDown(KeyCode.E);
-            _toggleCraftingKit = Input.GetKeyDown(KeyCode.C);
+            if (!_context.GameplayScreen.Chat.InUse)
+            {
+                _moveDirection = Vector3.ClampMagnitude(new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")), 1f);
+                _jump = Input.GetKeyDown(KeyCode.Space);
+                _scroll = Input.GetAxis("Mouse ScrollWheel");
+                _shiftHeld = Input.GetKey(KeyCode.LeftShift);
+                _leftClickPressed = Input.GetMouseButtonDown(0);
+                _leftClickHeld = Input.GetMouseButton(0);
+                _rightClickPressed = Input.GetMouseButtonDown(1);
+                _fKey = Input.GetKeyDown(KeyCode.F);
+                _rKey = Input.GetKeyDown(KeyCode.R);
+                _onePressed = Input.GetKeyDown(KeyCode.Alpha1);
+                _twoPressed = Input.GetKeyDown(KeyCode.Alpha2);
+                _threePressed = Input.GetKeyDown(KeyCode.Alpha3);
+                _fourPressed = Input.GetKeyDown(KeyCode.Alpha4);
+                _fivePressed = Input.GetKeyDown(KeyCode.Alpha5);
+                _rotateItem = Input.GetKeyDown(KeyCode.R);
+                _dropItem = Input.GetKeyDown(KeyCode.Q);
+                _openChat = Input.GetKeyDown(KeyCode.Return);
+                _toggleSettings = Input.GetKeyDown(KeyCode.Escape);
+                _toggleFishingBag = Input.GetKeyDown(KeyCode.E);
+                _toggleCraftingKit = Input.GetKeyDown(KeyCode.C);
+            }
+            else
+            {
+                _moveDirection = Vector3.zero;
+                _jump = false;
+                _scroll = 0f;
+                _leftClickPressed = false;
+                _leftClickHeld = false;
+                _rightClickPressed = false;
+                _fKey = false;
+                _rKey = false;
+                _onePressed = false;
+                _twoPressed = false;
+                _threePressed = false;
+                _fourPressed = false;
+                _fivePressed = false;
+                _rotateItem = false;
+                _dropItem = false;
+                _openChat = false;
+                _toggleSettings = false;
+                _toggleFishingBag = false;
+                _toggleCraftingKit = false;
+            }
         }
 
         public bool TryGetScroll(out float scroll)
