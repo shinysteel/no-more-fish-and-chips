@@ -20,11 +20,8 @@ namespace NoMoreFishAndChips.Entities
         private Channel _channel;
         private float _channelTimer;
 
-        public override bool CanAct => 
-            base.CanAct 
-            && !_inCutscene 
-            && _channel == null 
-            && !_context.GameplayScreen.Chat.InUse;
+        public override bool CanAct => base.CanAct && !_inCutscene && _channel == null && !_context.GameplayScreen.Chat.InUse;
+        public bool CanTogglePanels => !_context.GameplayScreen.Chat.InUse;
 
         private class Channel
         {

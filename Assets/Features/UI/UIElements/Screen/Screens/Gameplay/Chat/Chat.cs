@@ -10,6 +10,9 @@ using ShinyOwl.Common;
 using TMPro;
 
 using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+using UnityEngine.EventSystems;
+using Unity.VisualScripting;
+using System.Threading.Tasks;
 
 namespace NoMoreFishAndChips.UI
 {
@@ -59,6 +62,16 @@ namespace NoMoreFishAndChips.UI
         private void HandleInputFieldEndEdit(string text)
         {
             _inputField.text = string.Empty;
+
+            async Task unselectAsync()
+            {
+                // We need to wait one frame, since Unity reselects the input field in this frame for some reason
+                await Task.Yield();
+
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+
+            _ = unselectAsync();
         }
 
         public void Setup(GameplayContext context)
