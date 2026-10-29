@@ -217,11 +217,31 @@ namespace NoMoreFishAndChips.Networking
         {
             _purrnetNetworkManager.TryGetModule(asServer, out T module);
             return module;
-        }
+        } 
 
-        public void Send<T>(PlayerID playerId, T data, Channel method = Channel.ReliableUnordered)
+        public void Send<T>(PlayerID playerId, T data, Channel method = Channel.ReliableOrdered)
         {
             _purrnetNetworkManager.Send(playerId, data, method);
+        }
+
+        public void SendToServer<T>(T data, Channel method = Channel.ReliableOrdered)
+        {
+            _purrnetNetworkManager.SendToServer(data, method);
+        }
+
+        public void SendToAll<T>(T data, Channel method = Channel.ReliableOrdered)
+        {
+            _purrnetNetworkManager.SendToAll(data, method);
+        }
+
+        public void RegisterEvents(RegisterEventsDelegate subscribe, RegisterEventsDelegate unsubscribe)
+        {
+            _purrnetNetworkManager.RegisterEvents(subscribe, unsubscribe);
+        }
+
+        public void UnregisterEvents(RegisterEventsDelegate subscribe, RegisterEventsDelegate unsubscribe)
+        {
+            _purrnetNetworkManager.UnregisterEvents(subscribe, unsubscribe);
         }
 
         public void Subscribe<T>(PlayerBroadcastDelegate<T> callback, bool asServer) where T : new()
@@ -229,9 +249,9 @@ namespace NoMoreFishAndChips.Networking
             _purrnetNetworkManager.Subscribe(callback, asServer);
         }
 
-        public void Unsubscribe<T>(PlayerBroadcastDelegate<T> callback) where T : new()
+        public void Unsubscribe<T>(PlayerBroadcastDelegate<T> callback, bool asServer) where T : new()
         {
-            _purrnetNetworkManager.Unsubscribe(callback);
+            _purrnetNetworkManager.Unsubscribe(callback, asServer);
         }
 
         public void KickPlayer(PlayerID playerId)

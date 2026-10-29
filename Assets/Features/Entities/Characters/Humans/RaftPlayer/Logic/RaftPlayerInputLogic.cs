@@ -27,6 +27,7 @@ namespace NoMoreFishAndChips.Entities
         private bool _fivePressed;
         private bool _rotateItem;
         private bool _dropItem;
+        private bool _toggleChat;
         private bool _toggleSettings;
         private bool _toggleFishingBag;
         private bool _toggleCraftingKit;
@@ -48,6 +49,7 @@ namespace NoMoreFishAndChips.Entities
         public bool FivePressed => _fivePressed;
         public bool RotateItem => _rotateItem;
         public bool DropItem => _dropItem;
+        public bool ToggleChat => _toggleChat;
         public bool ToggleSettings => _toggleSettings;
         public bool ToggleFishingBag => _toggleFishingBag;
         public bool ToggleCraftingKit => _toggleCraftingKit;
@@ -86,6 +88,7 @@ namespace NoMoreFishAndChips.Entities
             _fivePressed = Input.GetKeyDown(KeyCode.Alpha5);
             _rotateItem = Input.GetKeyDown(KeyCode.R);
             _dropItem = Input.GetKeyDown(KeyCode.Q);
+            _toggleChat = Input.GetKeyDown(KeyCode.Return);
             _toggleSettings = Input.GetKeyDown(KeyCode.Escape);
             _toggleFishingBag = Input.GetKeyDown(KeyCode.E);
             _toggleCraftingKit = Input.GetKeyDown(KeyCode.C);

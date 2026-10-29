@@ -16,6 +16,7 @@ namespace NoMoreFishAndChips.UI
     {
         [SerializeField] private HotbarView _hotbarView;
         [SerializeField] private ItemActionsView _itemActionsView;
+        [SerializeField] private Chat _chat;
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _fishingBagButton;
         [SerializeField] private Button _craftingKitButton;
@@ -28,6 +29,8 @@ namespace NoMoreFishAndChips.UI
         private PanelInstance<SettingsPanel> _settingsPanelInstance;
         private PanelInstance<FishingBagPanel> _fishingBagPanelInstance;
         private PanelInstance<CraftingKitPanel> _craftingKitPanelInstance;
+
+        public Chat Chat => _chat;
 
         private void Awake()
         {
@@ -46,9 +49,10 @@ namespace NoMoreFishAndChips.UI
         {
             _context = context;
 
-            _hotbarView.Setup(context);
-            _itemActionsView.Setup(context);
-            _waveMeter.Setup(context);
+            _hotbarView.Setup(_context);
+            _itemActionsView.Setup(_context);
+            _chat.Setup(_context);
+            _waveMeter.Setup(_context);
         }
 
         private void Update()

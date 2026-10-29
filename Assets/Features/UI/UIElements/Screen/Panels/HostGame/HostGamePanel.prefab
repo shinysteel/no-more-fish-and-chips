@@ -350,7 +350,7 @@ PrefabInstance:
       addedObject: {fileID: 1383259789907637528}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3802163686133970347, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 8187131346093847541}
   m_SourcePrefab: {fileID: 100100000, guid: b2445ca03474c9642b1410dde0e1ffcc, type: 3}
 --- !u!224 &2847296123000186317 stripped
@@ -390,6 +390,7 @@ MonoBehaviour:
   _rectTransform: {fileID: 2847296123000186317}
   _canvasGroup: {fileID: 8274985416250388057}
   _closeButton: {fileID: 8415506949629255069}
+  _openSoundId: 0
   _saveEntryContainer: {fileID: 4960882422270720803}
 --- !u!225 &8274985416250388057 stripped
 CanvasGroup:

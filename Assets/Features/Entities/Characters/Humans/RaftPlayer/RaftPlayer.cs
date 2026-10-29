@@ -147,16 +147,6 @@ namespace NoMoreFishAndChips.Entities
             }
         }
 
-        protected override void Update()
-        {
-            base.Update();
-
-            if (Input.GetKeyDown(KeyCode.Z))
-            {
-                _inventory.TryAddItem(new InventoryChangeParams() { ItemId = ItemId.Cannonball, Count = 1 }, false, out _, out _, out _);
-            }
-        }
-
         [ObserversRpc]
         private void AnimateHurtRpc()
         {
