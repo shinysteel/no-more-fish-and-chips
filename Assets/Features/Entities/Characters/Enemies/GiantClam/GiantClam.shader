@@ -1,13 +1,12 @@
-// Made with Amplify Shader Editor v1.9.9.8
+// Made with Amplify Shader Editor v1.9.9.12
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "Custom/GiantClam"
 {
 	Properties
 	{
 		[HideInInspector] _Cutoff("Alpha Cutoff", Range(0, 1)) = 0.5
-		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		_MainTex( "MainTex", 2D ) = "white" {}
-		_Color( "Color", Color ) = ( 1, 1, 1, 0 )
+		_Color( "Color", Color ) = ( 1, 1, 1, 1 )
 		_DefeatBlend( "DefeatBlend", Range( 0, 1 ) ) = 0
 		_HurtBlend( "HurtBlend", Range( 0, 1 ) ) = 0
 		_RageBlend( "RageBlend", Range( 0, 1 ) ) = 0
@@ -33,6 +32,8 @@ Shader "Custom/GiantClam"
 
 		[ToggleOff(_SPECULARHIGHLIGHTS_OFF)] _SpecularHighlights("Specular Highlights", Float) = 1.0
 		[ToggleOff] _EnvironmentReflections("Environment Reflections", Float) = 1.0
+		[ToggleOff] _ScreenSpaceReflections("Screen Space Reflections", Float) = 1.0
+		[ToggleOff] _ScreenSpaceReflectionsContributeTransparent("Screen Space Reflections Contribute Transparent", Float) = 1.0
 		[HideInInspector][ToggleUI] _ReceiveShadows("Receive Shadows", Float) = 1.0
 
 		[HideInInspector] _QueueOffset("_QueueOffset", Float) = 0
@@ -43,7 +44,6 @@ Shader "Custom/GiantClam"
         [HideInInspector][NoScaleOffset] unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
 
 		//[HideInInspector][ToggleUI] _AddPrecomputedVelocity("Add Precomputed Velocity", Float) = 1
-
 		//[HideInInspector] _XRMotionVectorsPass("_XRMotionVectorsPass", Float) = 1
 
 		[HideInInspector] _AlphaClip("__clip", Float) = 1.0
@@ -51,13 +51,18 @@ Shader "Custom/GiantClam"
 
 	SubShader
 	{
-		LOD 0
+		PackageRequirements
+		{
+			"com.unity.render-pipelines.universal": "[17.0,18.0]"
+		}
 
 		
 
 		
 
 		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="TransparentCutout" "Queue"="AlphaTest" "UniversalMaterialType"="Lit" }
+
+	LOD 0
 
 		Cull Back
 		ZWrite On
@@ -72,12 +77,10 @@ Shader "Custom/GiantClam"
 		#pragma prefer_hlslcc gles
 		// ensure rendering platforms toggle list is visible
 
-		#if ( SHADER_TARGET > 35 ) && defined( SHADER_API_GLES3 )
-			#error For WebGL2/GLES3, please set your shader target to 3.5 via SubShader options. URP shaders in ASE use target 4.5 by default.
-		#endif
-
 		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 		#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Filtering.hlsl"
+
+		#define ASE_ADJUST_CLIP_POSITION( x ) x
 
 		#ifndef ASE_TESS_FUNCS
 		#define ASE_TESS_FUNCS
@@ -212,7 +215,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -222,20 +225,42 @@ Shader "Custom/GiantClam"
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
+			#if ( UNITY_VERSION >= 60010000 )
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_ATLAS
+			#endif
+
+			#if defined(UNITY_PLATFORM_META_QUEST) && ( UNITY_VERSION >= 60050000 )
+            #pragma multi_compile _ META_QUEST_LIGHTUNROLL
+            #endif
+
 			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+			#if ( UNITY_VERSION >= 60030000 )
 			#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
+			#endif
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile _ _LIGHT_LAYERS
 			#pragma multi_compile_fragment _ _LIGHT_COOKIES
+			#if ( UNITY_VERSION >= 60010000 )
 			#pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+			#else
+			#pragma multi_compile _ _FORWARD_PLUS
+			#endif
+
+            #if defined(UNITY_PLATFORM_META_QUEST) && ( UNITY_VERSION >= 60050000 )
+            #pragma multi_compile _ META_QUEST_ORTHO_PROJ
+            #pragma multi_compile _ META_QUEST_NO_SPOTLIGHTS_LIGHT_LOOP
+            #endif
 
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ SHADOWS_SHADOWMASK
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
 			#pragma multi_compile _ LIGHTMAP_ON
-			#pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
+			#if ( UNITY_VERSION >= 60010000 )
+			#pragma multi_compile _ LIGHTMAP_BICUBIC_SAMPLING
+			#endif
+			#if ( UNITY_VERSION >= 60030000 )
 			#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
+			#endif
 			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
 			#pragma multi_compile _ USE_LEGACY_LIGHTMAPS
 
@@ -254,7 +279,11 @@ Shader "Custom/GiantClam"
 
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+			#if ( UNITY_VERSION >= 60010000 )
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+			#else
+			#pragma multi_compile_fog
+			#endif
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
@@ -281,12 +310,17 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
 				#define ASE_SV_DEPTH SV_Depth
 				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			#if ( UNITY_VERSION < 60010000 )
+				#define USE_CLUSTER_LIGHT_LOOP USE_FORWARD_PLUS
+				#define CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK FORWARD_PLUS_SUBTRACTIVE_LIGHT_CHECK
 			#endif
 
 			struct Attributes
@@ -397,6 +431,11 @@ Shader "Custom/GiantClam"
 				input.normalOS = input.normalOS;
 				input.tangentOS = input.tangentOS;
 
+				#ifdef ASE_CUSTOM_MOTION_VECTOR
+					// Declared so the Motion Vector output port surfaces on the master node; only consumed by the motion vector passes.
+					float3 aseCustomMotionVector = float3(0, 0, 0);
+				#endif
+
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 				VertexNormalInputs normalInput = GetVertexNormalInputs( input.normalOS, input.tangentOS );
 
@@ -417,7 +456,7 @@ Shader "Custom/GiantClam"
 					#endif
 				#endif
 
-				output.positionCS = vertexInput.positionCS;
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( vertexInput.positionCS );
 				output.positionWS = vertexInput.positionWS;
 				output.normalWS = normalInput.normalWS;
 				output.tangentWS = float4( normalInput.tangentWS, ( input.tangentOS.w > 0.0 ? 1.0 : -1.0 ) * GetOddNegativeScale() );
@@ -533,11 +572,15 @@ Shader "Custom/GiantClam"
 			#endif
 
 			half4 frag ( PackedVaryings input
-						#if defined( ASE_DEPTH_WRITE_ON )
+						#if defined( ASE_WRITE_DEPTH )
 						,out float outputDepth : ASE_SV_DEPTH
 						#endif
 						#ifdef _WRITE_RENDERING_LAYERS
+						#if ( UNITY_VERSION >= 60020000 )
 						, out uint outRenderingLayers : SV_Target1
+						#else
+						, out float4 outRenderingLayers : SV_Target1
+						#endif
 						#endif
 						 ) : SV_Target
 			{
@@ -587,17 +630,17 @@ Shader "Custom/GiantClam"
 				float4 lerpResult23 = lerp( temp_output_26_0 , float4( color21.rgb , 0.0 ) , ( _RageBlend * 0.5 ));
 				float4 color20 = IsGammaSpace() ? float4( 1, 1, 1, 0 ) : float4( 1, 1, 1, 0 );
 				float4 lerpResult18 = lerp( lerpResult23 , float4( color20.rgb , 0.0 ) , _ExplodeBlend);
-				float4 color11_g6 = lerpResult18;
-				float4 color4_g6 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g6 = lerp( color11_g6 , float4( color4_g6.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g6 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g6 = ( color11_g6 * float4( color3_g6.rgb , 0.0 ) );
-				float4 lerpResult14_g6 = lerp( lerpResult12_g6 , defeatColor17_g6 , _DefeatBlend);
+				float4 color11_g7 = lerpResult18;
+				float4 color4_g7 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g7 = lerp( color11_g7 , float4( color4_g7.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g7 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g7 = ( color11_g7 * float4( color3_g7.rgb , 0.0 ) );
+				float4 lerpResult14_g7 = lerp( lerpResult12_g7 , defeatColor17_g7 , _DefeatBlend);
 				
 				float3 temp_cast_5 = (_ExplodeBlend).xxx;
 				
 
-				float3 BaseColor = lerpResult14_g6.rgb;
+				float3 BaseColor = lerpResult14_g7.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -615,7 +658,7 @@ Shader "Custom/GiantClam"
 				float3 Transmission = 1;
 				float3 Translucency = 1;
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -665,8 +708,12 @@ Shader "Custom/GiantClam"
 					float3 SH = input.lightmapUVOrVertexSH.xyz;
 				#endif
 
-				#if defined(_SCREEN_SPACE_IRRADIANCE)
-					inputData.bakedGI = SAMPLE_GI(_ScreenSpaceIrradiance, input.positionCS.xy);
+				#if defined(_SCREEN_SPACE_IRRADIANCE) && ( UNITY_VERSION >= 60030000 )
+					#if ( UNITY_VERSION >= 60060000 )
+						inputData.bakedGI = SAMPLE_GI(_ScreenSpaceIrradiance, input.positionCS.xy, inputData.normalWS));
+					#else
+						inputData.bakedGI = SAMPLE_GI(_ScreenSpaceIrradiance, input.positionCS.xy);
+					#endif
 				#elif defined(DYNAMICLIGHTMAP_ON)
 					inputData.bakedGI = SAMPLE_GI(input.lightmapUVOrVertexSH.xy, input.dynamicLightmapUV.xy, SH, inputData.normalWS);
 					inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUVOrVertexSH.xy);
@@ -839,12 +886,17 @@ Shader "Custom/GiantClam"
 					#endif
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
 				#ifdef _WRITE_RENDERING_LAYERS
+					#if ( UNITY_VERSION >= 60020000 )
 					outRenderingLayers = EncodeMeshRenderingLayer();
+					#else
+					uint renderingLayers = GetMeshRenderingLayer();
+					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
+					#endif
 				#endif
 
 				#if defined( ASE_OPAQUE_KEEP_ALPHA )
@@ -878,11 +930,11 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
-			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+			#pragma multi_compile _ _CASTING_PUNCTUAL_LIGHT_SHADOW // @diogo: removed _vertex for POM node
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -917,7 +969,7 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
@@ -1026,7 +1078,7 @@ Shader "Custom/GiantClam"
 					float3 lightDirectionWS = _LightDirection;
 				#endif
 
-				float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+				float4 positionCS = ASE_ADJUST_CLIP_POSITION( TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS)) );
 
 				//code for UNITY_REVERSED_Z is moved into Shadows.hlsl from 6000.0.22 and or higher
 				positionCS = ApplyShadowClamping(positionCS);
@@ -1120,7 +1172,7 @@ Shader "Custom/GiantClam"
 			#endif
 
 			half4 frag(	PackedVaryings input
-						#if defined( ASE_DEPTH_WRITE_ON )
+						#if defined( ASE_WRITE_DEPTH )
 						,out float outputDepth : ASE_SV_DEPTH
 						#endif
 						 ) : SV_Target
@@ -1151,7 +1203,7 @@ Shader "Custom/GiantClam"
 					float AlphaClipThresholdShadow = 0.5;
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -1167,7 +1219,7 @@ Shader "Custom/GiantClam"
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
@@ -1197,7 +1249,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -1234,7 +1286,7 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
@@ -1334,7 +1386,7 @@ Shader "Custom/GiantClam"
 
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 
-				output.positionCS = vertexInput.positionCS;
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( vertexInput.positionCS );
 				output.positionWS = vertexInput.positionWS;
 				return output;
 			}
@@ -1423,7 +1475,7 @@ Shader "Custom/GiantClam"
 			#endif
 
 			half4 frag(	PackedVaryings input
-						#if defined( ASE_DEPTH_WRITE_ON )
+						#if defined( ASE_WRITE_DEPTH )
 						,out float outputDepth : ASE_SV_DEPTH
 						#endif
 						 ) : SV_Target
@@ -1449,9 +1501,11 @@ Shader "Custom/GiantClam"
 				
 
 				float Alpha = temp_output_26_0.a;
-				float AlphaClipThreshold = _Cutoff;
+				#if defined( _ALPHATEST_ON )
+					float AlphaClipThreshold = _Cutoff;
+				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -1463,7 +1517,7 @@ Shader "Custom/GiantClam"
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
@@ -1488,7 +1542,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 			#pragma shader_feature EDITOR_VISUALIZATION
@@ -1744,17 +1798,17 @@ Shader "Custom/GiantClam"
 				float4 lerpResult23 = lerp( temp_output_26_0 , float4( color21.rgb , 0.0 ) , ( _RageBlend * 0.5 ));
 				float4 color20 = IsGammaSpace() ? float4( 1, 1, 1, 0 ) : float4( 1, 1, 1, 0 );
 				float4 lerpResult18 = lerp( lerpResult23 , float4( color20.rgb , 0.0 ) , _ExplodeBlend);
-				float4 color11_g6 = lerpResult18;
-				float4 color4_g6 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g6 = lerp( color11_g6 , float4( color4_g6.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g6 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g6 = ( color11_g6 * float4( color3_g6.rgb , 0.0 ) );
-				float4 lerpResult14_g6 = lerp( lerpResult12_g6 , defeatColor17_g6 , _DefeatBlend);
+				float4 color11_g7 = lerpResult18;
+				float4 color4_g7 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g7 = lerp( color11_g7 , float4( color4_g7.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g7 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g7 = ( color11_g7 * float4( color3_g7.rgb , 0.0 ) );
+				float4 lerpResult14_g7 = lerp( lerpResult12_g7 , defeatColor17_g7 , _DefeatBlend);
 				
 				float3 temp_cast_5 = (_ExplodeBlend).xxx;
 				
 
-				float3 BaseColor = lerpResult14_g6.rgb;
+				float3 BaseColor = lerpResult14_g7.rgb;
 				float3 Emission = temp_cast_5;
 				float Alpha = temp_output_26_0.a;
 				#if defined( _ALPHATEST_ON )
@@ -1799,7 +1853,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -2032,15 +2086,15 @@ Shader "Custom/GiantClam"
 				float4 lerpResult23 = lerp( temp_output_26_0 , float4( color21.rgb , 0.0 ) , ( _RageBlend * 0.5 ));
 				float4 color20 = IsGammaSpace() ? float4( 1, 1, 1, 0 ) : float4( 1, 1, 1, 0 );
 				float4 lerpResult18 = lerp( lerpResult23 , float4( color20.rgb , 0.0 ) , _ExplodeBlend);
-				float4 color11_g6 = lerpResult18;
-				float4 color4_g6 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g6 = lerp( color11_g6 , float4( color4_g6.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g6 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g6 = ( color11_g6 * float4( color3_g6.rgb , 0.0 ) );
-				float4 lerpResult14_g6 = lerp( lerpResult12_g6 , defeatColor17_g6 , _DefeatBlend);
+				float4 color11_g7 = lerpResult18;
+				float4 color4_g7 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g7 = lerp( color11_g7 , float4( color4_g7.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g7 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g7 = ( color11_g7 * float4( color3_g7.rgb , 0.0 ) );
+				float4 lerpResult14_g7 = lerp( lerpResult12_g7 , defeatColor17_g7 , _DefeatBlend);
 				
 
-				float3 BaseColor = lerpResult14_g6.rgb;
+				float3 BaseColor = lerpResult14_g7.rgb;
 				float Alpha = temp_output_26_0.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = _Cutoff;
@@ -2079,7 +2133,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -2122,7 +2176,7 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
@@ -2225,7 +2279,7 @@ Shader "Custom/GiantClam"
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 				VertexNormalInputs normalInput = GetVertexNormalInputs( input.normalOS, input.tangentOS );
 
-				output.positionCS = vertexInput.positionCS;
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( vertexInput.positionCS );
 				output.positionWS = vertexInput.positionWS;
 				output.normalWS = normalInput.normalWS;
 				output.tangentWS = float4( normalInput.tangentWS, ( input.tangentOS.w > 0.0 ? 1.0 : -1.0 ) * GetOddNegativeScale() );
@@ -2324,11 +2378,15 @@ Shader "Custom/GiantClam"
 
 			void frag(	PackedVaryings input
 						, out half4 outNormalWS : SV_Target0
-						#if defined( ASE_DEPTH_WRITE_ON )
+						#if defined( ASE_WRITE_DEPTH )
 						,out float outputDepth : ASE_SV_DEPTH
 						#endif
 						#ifdef _WRITE_RENDERING_LAYERS
+						#if ( UNITY_VERSION >= 60020000 )
 						, out uint outRenderingLayers : SV_Target1
+						#else
+						, out float4 outRenderingLayers : SV_Target1
+						#endif
 						#endif
 						 )
 			{
@@ -2371,7 +2429,7 @@ Shader "Custom/GiantClam"
 					float AlphaClipThreshold = _Cutoff;
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -2383,7 +2441,7 @@ Shader "Custom/GiantClam"
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
@@ -2408,7 +2466,12 @@ Shader "Custom/GiantClam"
 				#endif
 
 				#ifdef _WRITE_RENDERING_LAYERS
+					#if ( UNITY_VERSION >= 60020000 )
 					outRenderingLayers = EncodeMeshRenderingLayer();
+					#else
+					uint renderingLayers = GetMeshRenderingLayer();
+					outRenderingLayers = float4( EncodeMeshRenderingLayer( renderingLayers ), 0, 0, 0 );
+					#endif
 				#endif
 			}
 			ENDHLSL
@@ -2442,7 +2505,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -2451,15 +2514,21 @@ Shader "Custom/GiantClam"
 			#pragma exclude_renderers glcore gles3 
 
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+			#if ( UNITY_VERSION >= 60000058 )
 			#pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+			#endif
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
 			#pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
 			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+			#if ( UNITY_VERSION >= 60030000 )
 			#pragma multi_compile_fragment _ _SCREEN_SPACE_IRRADIANCE
+			#endif
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
 			#pragma multi_compile_fragment _ _RENDER_PASS_ENABLED
+			#if ( UNITY_VERSION >= 60010000 )
 			#pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+			#endif
 
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
@@ -2467,8 +2536,12 @@ Shader "Custom/GiantClam"
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
 			#pragma multi_compile _ USE_LEGACY_LIGHTMAPS
 			#pragma multi_compile _ LIGHTMAP_ON
-			#pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
+			#if ( UNITY_VERSION >= 60010000 )
+			#pragma multi_compile _ LIGHTMAP_BICUBIC_SAMPLING
+			#endif
+			#if ( UNITY_VERSION >= 60030000 )
 			#pragma multi_compile_fragment _ REFLECTION_PROBE_ROTATION
+			#endif
 			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
 
 			#pragma vertex vert
@@ -2501,6 +2574,10 @@ Shader "Custom/GiantClam"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#if ( UNITY_VERSION >= 60030016 && UNITY_VERSION < 60040000 ) || ( UNITY_VERSION >= 60040010 )
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/GBufferOutputFormat.hlsl"
+			#endif
+
 			#if defined(LOD_FADE_CROSSFADE)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
@@ -2512,7 +2589,7 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
@@ -2599,7 +2676,11 @@ Shader "Custom/GiantClam"
 			sampler2D _MainTex;
 
 
+			#if ( UNITY_VERSION >= 60010000 )
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/GBufferOutput.hlsl"
+			#else
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
+			#endif
 
 			
 			PackedVaryings VertexFunction( Attributes input  )
@@ -2630,6 +2711,11 @@ Shader "Custom/GiantClam"
 				input.normalOS = input.normalOS;
 				input.tangentOS = input.tangentOS;
 
+				#ifdef ASE_CUSTOM_MOTION_VECTOR
+					// Declared so the Motion Vector output port surfaces on the master node; only consumed by the motion vector passes.
+					float3 aseCustomMotionVector = float3(0, 0, 0);
+				#endif
+
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 				VertexNormalInputs normalInput = GetVertexNormalInputs( input.normalOS, input.tangentOS );
 
@@ -2650,7 +2736,7 @@ Shader "Custom/GiantClam"
 					#endif
 				#endif
 
-				output.positionCS = vertexInput.positionCS;
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( vertexInput.positionCS );
 				output.positionWS = vertexInput.positionWS;
 				output.normalWS = normalInput.normalWS;
 				output.tangentWS = float4( normalInput.tangentWS, ( input.tangentOS.w > 0.0 ? 1.0 : -1.0 ) * GetOddNegativeScale() );
@@ -2765,8 +2851,12 @@ Shader "Custom/GiantClam"
 			}
 			#endif
 
+		#if ( UNITY_VERSION >= 60010000 )
 			GBufferFragOutput frag ( PackedVaryings input
-								#if defined( ASE_DEPTH_WRITE_ON )
+		#else
+			FragmentOutput frag ( PackedVaryings input
+		#endif
+								#if defined( ASE_WRITE_DEPTH )
 								,out float outputDepth : ASE_SV_DEPTH
 								#endif
 								 )
@@ -2811,17 +2901,17 @@ Shader "Custom/GiantClam"
 				float4 lerpResult23 = lerp( temp_output_26_0 , float4( color21.rgb , 0.0 ) , ( _RageBlend * 0.5 ));
 				float4 color20 = IsGammaSpace() ? float4( 1, 1, 1, 0 ) : float4( 1, 1, 1, 0 );
 				float4 lerpResult18 = lerp( lerpResult23 , float4( color20.rgb , 0.0 ) , _ExplodeBlend);
-				float4 color11_g6 = lerpResult18;
-				float4 color4_g6 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
-				float4 lerpResult12_g6 = lerp( color11_g6 , float4( color4_g6.rgb , 0.0 ) , _HurtBlend);
-				float4 color3_g6 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
-				float4 defeatColor17_g6 = ( color11_g6 * float4( color3_g6.rgb , 0.0 ) );
-				float4 lerpResult14_g6 = lerp( lerpResult12_g6 , defeatColor17_g6 , _DefeatBlend);
+				float4 color11_g7 = lerpResult18;
+				float4 color4_g7 = IsGammaSpace() ? float4( 1, 0.4901961, 0.4901961, 0 ) : float4( 1, 0.2050788, 0.2050788, 0 );
+				float4 lerpResult12_g7 = lerp( color11_g7 , float4( color4_g7.rgb , 0.0 ) , _HurtBlend);
+				float4 color3_g7 = IsGammaSpace() ? float4( 0.772549, 0.772549, 0.772549, 0 ) : float4( 0.5583404, 0.5583404, 0.5583404, 0 );
+				float4 defeatColor17_g7 = ( color11_g7 * float4( color3_g7.rgb , 0.0 ) );
+				float4 lerpResult14_g7 = lerp( lerpResult12_g7 , defeatColor17_g7 , _DefeatBlend);
 				
 				float3 temp_cast_5 = (_ExplodeBlend).xxx;
 				
 
-				float3 BaseColor = lerpResult14_g6.rgb;
+				float3 BaseColor = lerpResult14_g7.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -2839,7 +2929,7 @@ Shader "Custom/GiantClam"
 				float3 Transmission = 1;
 				float3 Translucency = 1;
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -2885,8 +2975,12 @@ Shader "Custom/GiantClam"
 					float3 SH = input.lightmapUVOrVertexSH.xyz;
 				#endif
 
-				#if defined(_SCREEN_SPACE_IRRADIANCE)
-					inputData.bakedGI = SAMPLE_GI(_ScreenSpaceIrradiance, input.positionCS.xy);
+				#if defined(_SCREEN_SPACE_IRRADIANCE) && ( UNITY_VERSION >= 60030000 )
+					#if ( UNITY_VERSION >= 60060000 )
+						inputData.bakedGI = SAMPLE_GI(_ScreenSpaceIrradiance, input.positionCS.xy, inputData.normalWS));
+					#else
+						inputData.bakedGI = SAMPLE_GI(_ScreenSpaceIrradiance, input.positionCS.xy);
+					#endif
 				#elif defined(DYNAMICLIGHTMAP_ON)
 					inputData.bakedGI = SAMPLE_GI(input.lightmapUVOrVertexSH.xy, input.dynamicLightmapUV.xy, SH, inputData.normalWS);
 					inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUVOrVertexSH.xy);
@@ -2938,9 +3032,13 @@ Shader "Custom/GiantClam"
 				half4 color;
 				MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI, inputData.shadowMask);
 
+			#if ( UNITY_VERSION >= 60010000 )
 				color.rgb = GlobalIllumination(brdfData, (BRDFData)0, 0,
                               inputData.bakedGI, Occlusion, inputData.positionWS,
                               inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
+			#else
+				color.rgb = GlobalIllumination(brdfData, inputData.bakedGI, Occlusion, inputData.positionWS, inputData.normalWS, inputData.viewDirectionWS);
+			#endif
 
 				color.a = Alpha;
 
@@ -2948,11 +3046,15 @@ Shader "Custom/GiantClam"
 					color.rgb *= color.a;
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
+			#if ( UNITY_VERSION >= 60010000 )
 				return PackGBuffersBRDFData(brdfData, inputData, Smoothness, Emission + color.rgb, Occlusion);
+			#else
+				return BRDFDataToGbuffer(brdfData, inputData, Smoothness, Emission + color.rgb, Occlusion);
+			#endif
 			}
 
 			ENDHLSL
@@ -2976,7 +3078,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -3013,7 +3115,7 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
@@ -3120,7 +3222,7 @@ Shader "Custom/GiantClam"
 
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 
-				output.positionCS = vertexInput.positionCS;
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( vertexInput.positionCS );
 				output.positionWS = vertexInput.positionWS;
 				return output;
 			}
@@ -3209,7 +3311,7 @@ Shader "Custom/GiantClam"
 			#endif
 
 			half4 frag( PackedVaryings input
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 				,out float outputDepth : ASE_SV_DEPTH
 				#endif
 				 ) : SV_Target
@@ -3230,7 +3332,7 @@ Shader "Custom/GiantClam"
 					surfaceDescription.AlphaClipThreshold = _Cutoff;
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -3238,7 +3340,7 @@ Shader "Custom/GiantClam"
 					clip(surfaceDescription.Alpha - surfaceDescription.AlphaClipThreshold);
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
@@ -3265,7 +3367,7 @@ Shader "Custom/GiantClam"
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -3302,7 +3404,7 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
@@ -3409,7 +3511,7 @@ Shader "Custom/GiantClam"
 
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 
-				output.positionCS = vertexInput.positionCS;
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( vertexInput.positionCS );
 				output.positionWS = vertexInput.positionWS;
 				return output;
 			}
@@ -3498,7 +3600,7 @@ Shader "Custom/GiantClam"
 			#endif
 
 			half4 frag( PackedVaryings input
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 				,out float outputDepth : ASE_SV_DEPTH
 				#endif
 				 ) : SV_Target
@@ -3519,7 +3621,7 @@ Shader "Custom/GiantClam"
 					surfaceDescription.AlphaClipThreshold = _Cutoff;
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -3527,7 +3629,7 @@ Shader "Custom/GiantClam"
 					clip(surfaceDescription.Alpha - surfaceDescription.AlphaClipThreshold);
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
@@ -3550,11 +3652,12 @@ Shader "Custom/GiantClam"
 			#define ASE_GEOMETRY
 			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
+			#define ASE_TIME_BASED_MOTION_VECTORS
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#define _EMISSION
-			#define ASE_VERSION 19908
+			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
 
@@ -3594,12 +3697,16 @@ Shader "Custom/GiantClam"
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
-			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
+			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
 				#define ASE_SV_DEPTH SV_DepthLessEqual
 				#define ASE_SV_POSITION_QUALIFIERS linear noperspective centroid
 			#else
 				#define ASE_SV_DEPTH SV_Depth
 				#define ASE_SV_POSITION_QUALIFIERS
+			#endif
+
+			#if ( UNITY_VERSION < 60010000 )
+				#define APPLICATION_SPACE_WARP_MOTION APLICATION_SPACE_WARP_MOTION
 			#endif
 
 			struct Attributes
@@ -3617,7 +3724,7 @@ Shader "Custom/GiantClam"
 
 			struct PackedVaryings
 			{
-				float4 positionCS : SV_POSITION;
+				ASE_SV_POSITION_QUALIFIERS float4 positionCS : SV_POSITION;
 				float4 positionCSNoJitter : TEXCOORD0;
 				float4 previousPositionCSNoJitter : TEXCOORD1;
 				float3 positionWS : TEXCOORD2;
@@ -3669,12 +3776,12 @@ Shader "Custom/GiantClam"
 
 
 			
-			PackedVaryings VertexFunction( Attributes input  )
+			// Applies the graph's vertex stage at a given time so the motion vector pass can
+			// evaluate the current frame and re-evaluate the previous frame (procedural / time-based animation).
+			Attributes ASEApplyVertexModification( Attributes input, float3 timeParameters, inout PackedVaryings output, out float3 customMotionVector  )
 			{
-				PackedVaryings output = (PackedVaryings)0;
-				UNITY_SETUP_INSTANCE_ID(input);
-				UNITY_TRANSFER_INSTANCE_ID(input, output);
-				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+				float3 currentTimeParameters = _TimeParameters.xyz;
+				_TimeParameters.xyz = timeParameters;
 
 				output.ase_texcoord3.xy = input.ase_texcoord.xy;
 				
@@ -3695,28 +3802,58 @@ Shader "Custom/GiantClam"
 					input.positionOS.xyz += vertexValue;
 				#endif
 
+				customMotionVector = float3(0, 0, 0);
+
+				_TimeParameters.xyz = currentTimeParameters;
+				return input;
+			}
+
+			PackedVaryings VertexFunction( Attributes input )
+			{
+				PackedVaryings output = (PackedVaryings)0;
+				UNITY_SETUP_INSTANCE_ID(input);
+				UNITY_TRANSFER_INSTANCE_ID(input, output);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+				Attributes defaultInput = input;
+				float3 currentMotionVector;
+				input = ASEApplyVertexModification( input, _TimeParameters.xyz, output, currentMotionVector );
+
 				VertexPositionInputs vertexInput = GetVertexPositionInputs( input.positionOS.xyz );
 
 				#if defined(APPLICATION_SPACE_WARP_MOTION)
-					output.positionCSNoJitter = mul(_NonJitteredViewProjMatrix, mul(UNITY_MATRIX_M, input.positionOS));
-					output.positionCS = output.positionCSNoJitter;
+					float4 positionCSNoJitter = mul(_NonJitteredViewProjMatrix, mul(UNITY_MATRIX_M, input.positionOS));
+					float4 positionCS = positionCSNoJitter;
 				#else
-					output.positionCS = vertexInput.positionCS;
-					output.positionCSNoJitter = mul(_NonJitteredViewProjMatrix, mul(UNITY_MATRIX_M, input.positionOS));
+					float4 positionCS = vertexInput.positionCS;
+					float4 positionCSNoJitter = mul(_NonJitteredViewProjMatrix, mul(UNITY_MATRIX_M, input.positionOS));
 				#endif
 
-				float4 prevPos = ( unity_MotionVectorsParams.x == 1 ) ? float4( input.positionOld, 1 ) : input.positionOS;
-
+				// Custom output and automatic time-based motion are mutually exclusive.
+				#if defined(ASE_CUSTOM_MOTION_VECTOR)
+					float3 prevPositionOS = ( unity_MotionVectorsParams.x == 1 ) ? input.positionOld : input.positionOS.xyz;
+					prevPositionOS -= currentMotionVector;
+				#else
+					float3 prevPositionOS = ( unity_MotionVectorsParams.x == 1 ) ? input.positionOld : defaultInput.positionOS.xyz;
+					#ifdef ASE_TIME_BASED_MOTION_VECTORS
+						Attributes prevInput = defaultInput;
+						prevInput.positionOS.xyz = prevPositionOS;
+						PackedVaryings prevOutput = (PackedVaryings)0;
+						float3 prevMotionVector;
+						prevInput = ASEApplyVertexModification( prevInput, _LastTimeParameters.xyz, prevOutput, prevMotionVector );
+						prevPositionOS = prevInput.positionOS.xyz;
+					#endif
+				#endif
 				#if _ADD_PRECOMPUTED_VELOCITY
-					prevPos = prevPos - float4(input.alembicMotionVector, 0);
+					prevPositionOS -= input.alembicMotionVector;
 				#endif
+				float4 previousPositionCSNoJitter = mul( _PrevViewProjMatrix, mul( UNITY_PREV_MATRIX_M, float4( prevPositionOS, 1 ) ) );
 
-				output.previousPositionCSNoJitter = mul( _PrevViewProjMatrix, mul( UNITY_PREV_MATRIX_M, prevPos ) );
-
+				output.positionCS = ASE_ADJUST_CLIP_POSITION( positionCS );
+				output.positionCSNoJitter = ASE_ADJUST_CLIP_POSITION( positionCSNoJitter );
+				output.previousPositionCSNoJitter = ASE_ADJUST_CLIP_POSITION( previousPositionCSNoJitter );
 				output.positionWS = vertexInput.positionWS;
 
-				// removed in ObjectMotionVectors.hlsl found in unity 6000.0.23 and higher
-				//ApplyMotionVectorZBias( output.positionCS );
 				return output;
 			}
 
@@ -3726,7 +3863,7 @@ Shader "Custom/GiantClam"
 			}
 
 			half4 frag(	PackedVaryings input
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 				,out float outputDepth : ASE_SV_DEPTH
 				#endif
 				 ) : SV_Target
@@ -3748,7 +3885,7 @@ Shader "Custom/GiantClam"
 					float AlphaClipThreshold = _Cutoff;
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					input.positionCS.z = input.positionCS.z;
 				#endif
 
@@ -3767,7 +3904,7 @@ Shader "Custom/GiantClam"
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
-				#if defined( ASE_DEPTH_WRITE_ON )
+				#if defined( ASE_WRITE_DEPTH )
 					outputDepth = input.positionCS.z;
 				#endif
 
@@ -3783,51 +3920,53 @@ Shader "Custom/GiantClam"
 	
 	}
 	
+
+	
+
 	CustomEditor "UnityEditor.ShaderGraphLitGUI"
 	FallBack "Hidden/Shader Graph/FallbackError"
 	
 	Fallback Off
 }
-
 /*ASEBEGIN
-Version=19908
-Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;16;-2144,208;Inherit;False;Property;_Color;Color;1;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;15;-2208,0;Inherit;True;Property;_MainTex;MainTex;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;False;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;26;-1872,0;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;18;-816,0;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;20;-1072,64;Inherit;False;Constant;_ExplodeColor;ExplodeColor;4;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;19;-1136,288;Inherit;False;Property;_ExplodeBlend;ExplodeBlend;6;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;23;-1280,0;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;21;-1536,64;Inherit;False;Constant;_RageColor;RageColor;4;0;Create;True;0;0;0;False;0;False;1,0.4901961,0.4901961,0;0,0,0,0;True;True;0;6;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT3;5
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;24;-1472,288;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;22;-1760,288;Inherit;False;Property;_RageBlend;RageBlend;5;0;Create;True;0;0;0;False;0;False;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;28;-1680,80;Inherit;False;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;29;-624,0;Inherit;False;EntitySharedFunction;2;;6;bba81a4d50c2d334faf160bd55f4ce44;0;1;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;0;-288,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;6;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;0;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;1;-288,0;Float;False;True;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;Custom/GiantClam;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;21;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=TransparentCutout=RenderType;Queue=AlphaTest=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;51;Category;0;0;  Instanced Terrain Normals;1;0;Lighting Model;0;0;Workflow;1;0;Surface;0;0;  Keep Alpha;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Alpha Clipping;2;639182165063992922;  Use Shadow Threshold;0;0;Fragment Normal Space;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;Receive Shadows;2;0;Specular Highlights;2;0;Environment Reflections;2;0;Receive SSAO;1;0;Motion Vectors;1;0;  Add Precomputed Velocity;0;0;  XR Motion Vectors;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position;1;0;Debug Display;1;0;Clear Coat;0;0;0;12;False;True;True;True;True;True;True;True;True;True;True;False;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;2;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;3;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;4;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;5;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;6;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;False;True;1;LightMode=DepthNormals;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;7;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;1;LightMode=UniversalGBuffer;False;True;12;d3d11;gles;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;switch2;webgpu;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;8;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;9;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;10;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;MotionVectors;0;10;MotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;False;False;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=MotionVectors;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null;11;0,0;Float;False;False;-1;3;UnityEditor.ShaderGraphLitGUI;0;15;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;XRMotionVectors;0;11;XRMotionVectors;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;14;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;True;1;False;;255;False;;1;False;;7;False;;3;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;False;True;1;LightMode=XRMotionVectors;False;False;0;;0;0;Standard;0;False;0
-WireConnection;26;0;15;0
-WireConnection;26;1;16;0
-WireConnection;18;0;23;0
-WireConnection;18;1;20;5
-WireConnection;18;2;19;0
-WireConnection;23;0;26;0
-WireConnection;23;1;21;5
-WireConnection;23;2;24;0
-WireConnection;24;0;22;0
-WireConnection;28;0;26;0
-WireConnection;29;2;18;0
-WireConnection;1;0;29;0
-WireConnection;1;2;19;0
-WireConnection;1;6;28;3
+Version=19912
+{"type":"AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor","id":15,"pos":[-2208,0],"params":["Inherit","True","Property","_MainTex","MainTex","0","0","Create","True","0","0","0","False","0","False","","-1","None","None","True","0","False","white","Auto","False","Object","-1","Auto","Texture2D","False","8","0","SAMPLER2D","","False","1","FLOAT2","0,0","False","2","FLOAT","0","False","3","FLOAT2","0,0","False","4","FLOAT2","0,0","False","5","FLOAT","1","False","6","FLOAT","0","False","7","SAMPLERSTATE","","False","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":16,"pos":[-2144,208],"params":["Inherit","False","Property","_Color","Color","1","0","Create","True","0","0","0","False","0","False","Object","-1","","1,1,1,1","0,0,0,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":26,"pos":[-1872,0],"params":["Inherit","False","2","2","0","COLOR","0,0,0,0","False","1","COLOR","0,0,0,0","False","1","COLOR","0"]}
+{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":18,"pos":[-816,0],"params":["Inherit","False","3","0","COLOR","0,0,0,0","False","1","COLOR","0,0,0,0","False","2","FLOAT","0","False","1","COLOR","0"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":20,"pos":[-1072,64],"params":["Inherit","False","Constant","_ExplodeColor","ExplodeColor","4","0","Create","True","0","0","0","False","0","False","Object","-1","","1,1,1,0","0,0,0,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":19,"pos":[-1136,288],"params":["Inherit","False","Property","_ExplodeBlend","ExplodeBlend","6","0","Create","True","0","0","0","False","0","False","Object","-1","","0","0","0","1","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.LerpOp, AmplifyShaderEditor","id":23,"pos":[-1280,0],"params":["Inherit","False","3","0","COLOR","0,0,0,0","False","1","COLOR","0,0,0,0","False","2","FLOAT","0","False","1","COLOR","0"]}
+{"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":21,"pos":[-1536,64],"params":["Inherit","False","Constant","_RageColor","RageColor","4","0","Create","True","0","0","0","False","0","False","Object","-1","","1,0.4901961,0.4901961,0","0,0,0,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":24,"pos":[-1472,288],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0.5","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RangedFloatNode, AmplifyShaderEditor","id":22,"pos":[-1760,288],"params":["Inherit","False","Property","_RageBlend","RageBlend","5","0","Create","True","0","0","0","False","0","False","Object","-1","","0","0","0","1","0","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":28,"pos":[-1680,80],"params":["Inherit","False","COLOR","1","0","COLOR","0,0,0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
+{"type":"AmplifyShaderEditor.FunctionNode, AmplifyShaderEditor","id":30,"pos":[-624,0],"params":["Inherit","False","CharacterSharedFunction","2","","7","bba81a4d50c2d334faf160bd55f4ce44","0","1","2","COLOR","0,0,0,0","False","1","COLOR","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":0,"pos":[-288,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ExtraPrePass","0","0","ExtraPrePass","6","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","0","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","0","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":1,"pos":[-288,0],"params":["Float","False","True","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","Custom/GiantClam","94348b07e5e8bab40bd6c8a1e3df54cd","True","Forward","0","1","Forward","22","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=TransparentCutout=RenderType","Queue=AlphaTest=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","1","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","1","LightMode=UniversalForward","False","False","0","","0","0","Standard","52","Category","0","0","  Instanced Terrain Normals","1","0","Lighting Model","0","0","Workflow","1","0","Surface","0","0","  Keep Alpha","0","0","  Refraction Model","0","0","  Blend","0","0","Two Sided","1","0","Alpha Clipping","2","639182165063992922","  Use Shadow Threshold","0","0","Fragment Normal Space","0","0","Forward Only","0","0","Transmission","0","0","  Transmission Shadow","0.5,False,","0","Translucency","0","0","  Translucency Strength","1,False,","0","  Normal Distortion","0.5,False,","0","  Scattering","2,False,","0","  Direct","0.9,False,","0","  Ambient","0.1,False,","0","  Shadow","0.5,False,","0","Cast Shadows","1","0","Receive Shadows","2","0","Specular Highlights","2","0","Environment Reflections","2","0","Receive SSAO","1","0","Motion Vectors","1","0","  Additional Motion Vectors","1","0","  Alembic Motion Vectors","0","0","  XR Motion Vectors","0","0","GPU Instancing","1","0","LOD CrossFade","1","0","Built-in Fog","1","0","_FinalColorxAlpha","0","0","Meta Pass","1","0","Override Baked GI","0","0","Extra Pre Pass","0","0","Tessellation","0","0","  Phong","0","0","  Strength","0.5,False,","0","  Type","0","0","  Tess","16,False,","0","  Min","10,False,","0","  Max","25,False,","0","  Edge Length","16,False,","0","  Max Displacement","25,False,","0","Write Depth","0","0","  Conservative","0","0","Vertex Position","1","0","Debug Display","1","0","Clear Coat","0","0","0","12","False","True","True","True","True","True","True","True","True","True","True","False","False","","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":2,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ShadowCaster","0","2","ShadowCaster","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","True","False","False","False","False","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","True","3","False","","False","False","True","1","LightMode=ShadowCaster","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":3,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","DepthOnly","0","3","DepthOnly","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","True","True","False","False","False","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","False","False","False","True","1","LightMode=DepthOnly","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":4,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","Meta","0","4","Meta","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","2","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","LightMode=Meta","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":5,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","Universal2D","0","5","Universal2D","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","1","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","1","LightMode=Universal2D","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":6,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","DepthNormals","0","6","DepthNormals","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","0","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","False","","True","3","False","","False","False","True","1","LightMode=DepthNormals","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":7,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","GBuffer","0","7","GBuffer","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","1","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","1","LightMode=UniversalGBuffer","False","True","12","d3d11","gles","metal","vulkan","xboxone","xboxseries","playstation","ps4","ps5","switch","switch2","webgpu","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":8,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","SceneSelectionPass","0","8","SceneSelectionPass","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","2","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","LightMode=SceneSelectionPass","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":9,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ScenePickingPass","0","9","ScenePickingPass","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","LightMode=Picking","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":10,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","MotionVectors","0","10","MotionVectors","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","False","False","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","LightMode=MotionVectors","False","False","0","","0","0","Standard","0","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":11,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","XRMotionVectors","0","11","XRMotionVectors","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","True","1","False","","255","False","","1","False","","7","False","","3","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","False","False","False","False","True","1","LightMode=XRMotionVectors","False","False","0","","0","0","Standard","0","False","0"]}
+{"wire":[26,0,15,0]}
+{"wire":[26,1,16,0]}
+{"wire":[18,0,23,0]}
+{"wire":[18,1,20,5]}
+{"wire":[18,2,19,0]}
+{"wire":[23,0,26,0]}
+{"wire":[23,1,21,5]}
+{"wire":[23,2,24,0]}
+{"wire":[24,0,22,0]}
+{"wire":[28,0,26,0]}
+{"wire":[30,2,18,0]}
+{"wire":[1,0,30,0]}
+{"wire":[1,2,19,0]}
+{"wire":[1,6,28,3]}
 ASEEND*/
-//CHKSM=330921C0A9FA35A7FEC8D9B72D218A196897E4CE
+//CHKSM=E780814A962976B655AF9EC8667AF731D2272565
