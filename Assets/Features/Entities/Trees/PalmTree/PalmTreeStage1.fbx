@@ -12,10 +12,10 @@ FBXHeaderExtension:  {
 		Year: 2026
 		Month: 10
 		Day: 30
-		Hour: 13
-		Minute: 22
-		Second: 31
-		Millisecond: 662
+		Hour: 23
+		Minute: 49
+		Second: 37
+		Millisecond: 421
 	}
 	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-10-30 03:22:31:662"
+CreationTime: "2026-10-30 13:49:37:421"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1728408493 {
+	Document: 1900649773 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 78364833, "Model::palm_tree_stage1", "Null" {
+	Model: 73348725, "Model::palm_tree_stage1", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 79477570, "Model::top", "Mesh" {
+	Model: 76525630, "Model::top", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79314465, "Geometry::top", "Mesh" {
+	Geometry: 70941883, "Geometry::top", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,15.625,-3.125,3.125,15.625,-3.125,3.125,3.125,-3.125,3.125,3.125,-3.125,-6.25,15.625,-3.125,-6.25,15.625,-3.125,-6.25,3.125,-3.125,-6.25,3.125,-3.125
 		}
@@ -320,7 +320,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.4375,0.4375,0.4609375,0.4375,0.4609375,0.46875,0.4375,0.46875,0.4375,0.4375,0.4375,0.4375,0.4375,0.46875,0.4375,0.46875,0.4609375,0.4375,0.484375,0.4375,0.484375,0.46875,0.4609375,0.46875,0.4609375,0.4375,0.4609375,0.4375,0.4609375,0.46875,0.4609375,0.46875,0.4609375,0.46875,0.4375,0.46875,0.4375,0.46875,0.4609375,0.46875,0.484375,0.46875,0.4609375,0.46875,0.4609375,0.46875,0.484375,0.46875
+				a: 0.0078125,0.671875,0.03125,0.671875,0.03125,0.703125,0.0078125,0.703125,0.0078125,0.671875,0.0078125,0.671875,0.0078125,0.703125,0.0078125,0.703125,0.03125,0.671875,0.0546875,0.671875,0.0546875,0.703125,0.03125,0.703125,0.03125,0.671875,0.03125,0.671875,0.03125,0.703125,0.03125,0.703125,0.03125,0.703125,0.0078125,0.703125,0.0078125,0.703125,0.03125,0.703125,0.0546875,0.703125,0.03125,0.703125,0.03125,0.703125,0.0546875,0.703125
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72329647, "Model::stem", "Mesh" {
+	Model: 71502012, "Model::stem", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 75379346, "Geometry::stem", "Mesh" {
+	Geometry: 73897002, "Geometry::stem", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,6.25,0,3.125,6.25,-3.125,3.125,0,0,3.125,0,-3.125,0,6.25,-3.125,0,6.25,0,0,0,-3.125,0,0,0
 		}
@@ -386,7 +386,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.6328125,0.625,0.640625,0.625,0.640625,0.640625,0.6328125,0.640625,0.625,0.625,0.6328125,0.625,0.6328125,0.640625,0.625,0.640625,0.6484375,0.625,0.65625,0.625,0.65625,0.640625,0.6484375,0.640625,0.640625,0.625,0.6484375,0.625,0.6484375,0.640625,0.640625,0.640625,0.640625,0.6484375,0.6328125,0.6484375,0.6328125,0.640625,0.640625,0.640625,0.6484375,0.640625,0.640625,0.640625,0.640625,0.6484375,0.6484375,0.6484375
+				a: 0.4453125,0.71875,0.453125,0.71875,0.453125,0.734375,0.4453125,0.734375,0.4375,0.71875,0.4453125,0.71875,0.4453125,0.734375,0.4375,0.734375,0.4609375,0.71875,0.46875,0.71875,0.46875,0.734375,0.4609375,0.734375,0.453125,0.71875,0.4609375,0.71875,0.4609375,0.734375,0.453125,0.734375,0.453125,0.7421875,0.4453125,0.7421875,0.4453125,0.734375,0.453125,0.734375,0.4609375,0.734375,0.453125,0.734375,0.453125,0.7421875,0.4609375,0.7421875
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 79293736, "Material::PalmTree.png", "" {
+	Material: 74640311, "Material::PalmTree.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -425,28 +425,28 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 77740329, "Texture::PalmTree.png", "" {
+	Texture: 72083994, "Texture::PalmTree.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::PalmTree.png"
 		Media: "Video::PalmTree.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTree.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Trees\PalmTree\PalmTree.png"
 		RelativeFilename: "PalmTree.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 72792549, "Video::PalmTree.png", "Clip" {
+	Video: 76430796, "Video::PalmTree.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTree.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Trees\PalmTree\PalmTree.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTree.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Trees\PalmTree\PalmTree.png"
 		RelativeFilename: "PalmTree.png"
 	}
-	Material: 75888357, "Material::PalmTreeWindMask.png", "" {
+	Material: 72879532, "Material::PalmTreeWindMask.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -457,25 +457,25 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 71457932, "Texture::PalmTreeWindMask.png", "" {
+	Texture: 77704282, "Texture::PalmTreeWindMask.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::PalmTreeWindMask.png"
 		Media: "Video::PalmTreeWindMask.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTreeWindMask.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Trees\PalmTree\PalmTreeWindMask.png"
 		RelativeFilename: "PalmTreeWindMask.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 73961434, "Video::PalmTreeWindMask.png", "Clip" {
+	Video: 75017292, "Video::PalmTreeWindMask.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTreeWindMask.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Trees\PalmTree\PalmTreeWindMask.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTreeWindMask.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Trees\PalmTree\PalmTreeWindMask.png"
 		RelativeFilename: "PalmTreeWindMask.png"
 	}
 }
@@ -486,37 +486,37 @@ Objects:  {
 Connections:  {
 
 	;Model::palm_tree_stage1, Model::RootNode
-	C: "OO",78364833,0
+	C: "OO",73348725,0
 
 	;Model::top, Model::palm_tree_stage1
-	C: "OO",79477570,78364833
+	C: "OO",76525630,73348725
 
 	;Geometry::top, Model::top
-	C: "OO",79314465,79477570
+	C: "OO",70941883,76525630
 
 	;Material::PalmTree.png, Model::top
-	C: "OO",79293736,79477570
+	C: "OO",74640311,76525630
 
 	;Model::stem, Model::palm_tree_stage1
-	C: "OO",72329647,78364833
+	C: "OO",71502012,73348725
 
 	;Geometry::stem, Model::stem
-	C: "OO",75379346,72329647
+	C: "OO",73897002,71502012
 
 	;Material::PalmTree.png, Model::stem
-	C: "OO",79293736,72329647
+	C: "OO",74640311,71502012
 
 	;Texture::PalmTree.png, Material::PalmTree.png
-	C: "OP",77740329,79293736, "DiffuseColor"
+	C: "OP",72083994,74640311, "DiffuseColor"
 
 	;Video::PalmTree.png, Texture::PalmTree.png
-	C: "OO",72792549,77740329
+	C: "OO",76430796,72083994
 
 	;Texture::PalmTreeWindMask.png, Material::PalmTreeWindMask.png
-	C: "OP",71457932,75888357, "DiffuseColor"
+	C: "OP",77704282,72879532, "DiffuseColor"
 
 	;Video::PalmTreeWindMask.png, Texture::PalmTreeWindMask.png
-	C: "OO",73961434,71457932
+	C: "OO",75017292,77704282
 }
 
 ; Takes section

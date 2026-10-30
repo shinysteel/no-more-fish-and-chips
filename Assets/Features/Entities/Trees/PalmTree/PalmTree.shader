@@ -7,6 +7,8 @@ Shader "Custom/PalmTree"
 		[HideInInspector] _Cutoff("Alpha Cutoff", Range(0, 1)) = 0.5
 		_MainTex( "MainTex", 2D ) = "white" {}
 		_Color( "Color", Color ) = ( 1, 1, 1, 1 )
+		_WindMask( "WindMask", 2D ) = "white" {}
+		_WindStrength( "WindStrength", Vector ) = ( 0.05, 0.025, 0.05, 0 )
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -302,7 +304,9 @@ Shader "Custom/PalmTree"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_VERT_TEXTURE_COORDINATES0
 
 
 			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
@@ -356,8 +360,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -390,6 +396,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -401,6 +408,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord7.xy = input.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -412,7 +428,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -944,6 +960,7 @@ Shader "Custom/PalmTree"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
@@ -974,8 +991,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1008,6 +1027,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -1022,6 +1042,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.ase_texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord1.xy = input.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1033,7 +1062,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
 				#else
@@ -1256,6 +1285,7 @@ Shader "Custom/PalmTree"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
@@ -1286,8 +1316,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1320,6 +1352,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -1331,6 +1364,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.ase_texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord1.xy = input.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1342,7 +1384,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -1541,7 +1583,9 @@ Shader "Custom/PalmTree"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MetaInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_VERT_TEXTURE_COORDINATES0
 
 
 			struct Attributes
@@ -1570,8 +1614,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1604,6 +1650,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -1615,6 +1662,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord3.xy = input.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1626,7 +1682,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -1833,6 +1889,7 @@ Shader "Custom/PalmTree"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
@@ -1855,8 +1912,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1889,6 +1948,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -1900,6 +1960,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID( input, output );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( output );
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.ase_texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord1.xy = input.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1911,7 +1980,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -2109,7 +2178,9 @@ Shader "Custom/PalmTree"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_VERT_TEXTURE_COORDINATES0
 
 
 			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
@@ -2142,8 +2213,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2176,6 +2249,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -2187,6 +2261,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord3.xy = input.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2197,7 +2280,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -2517,7 +2600,9 @@ Shader "Custom/PalmTree"
 				#define ENABLE_TERRAIN_PERPIXEL_NORMAL
 			#endif
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
+			#define ASE_NEEDS_VERT_TEXTURE_COORDINATES0
 
 
 			#if defined(ASE_WRITE_DEPTH_CONSERVATIVE) && (SHADER_TARGET >= 45)
@@ -2566,8 +2651,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2600,6 +2687,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -2617,6 +2705,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord7.xy = input.texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2627,7 +2724,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -3026,6 +3123,7 @@ Shader "Custom/PalmTree"
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
@@ -3056,8 +3154,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3090,6 +3190,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -3109,6 +3210,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.ase_texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord1.xy = input.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3120,7 +3230,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -3310,6 +3420,7 @@ Shader "Custom/PalmTree"
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
@@ -3340,8 +3451,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3374,6 +3487,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -3393,6 +3507,15 @@ Shader "Custom/PalmTree"
 				UNITY_TRANSFER_INSTANCE_ID(input, output);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.ase_texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord1.xy = input.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3404,7 +3527,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -3598,6 +3721,7 @@ Shader "Custom/PalmTree"
 
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MotionVectorsCommon.hlsl"
 
+			#define ASE_NEEDS_VERT_POSITION
 			#define ASE_NEEDS_TEXTURE_COORDINATES0
 
 
@@ -3638,8 +3762,10 @@ Shader "Custom/PalmTree"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _WindMask_ST;
 			float4 _MainTex_ST;
 			float4 _Color;
+			float3 _WindStrength;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3672,6 +3798,7 @@ Shader "Custom/PalmTree"
 				int _PassValue;
 			#endif
 
+			sampler2D _WindMask;
 			sampler2D _MainTex;
 
 
@@ -3683,6 +3810,15 @@ Shader "Custom/PalmTree"
 				float3 currentTimeParameters = _TimeParameters.xyz;
 				_TimeParameters.xyz = timeParameters;
 
+				float mulTime28 = _TimeParameters.x * 1.5;
+				float3 break55 = ( input.positionOS.xyz * float3( 2,2,2 ) );
+				float temp_output_35_0 = ( mulTime28 + ( ( break55.x + break55.y ) + break55.z ) );
+				float temp_output_38_0 = ( ( 2.0 * PI ) / 3.0 );
+				float4 appendResult25 = (float4(sin( temp_output_35_0 ) , sin( ( temp_output_35_0 + temp_output_38_0 ) ) , sin( ( temp_output_35_0 + ( temp_output_38_0 * 2.0 ) ) ) , 0.0));
+				float2 uv_WindMask = input.ase_texcoord.xy * _WindMask_ST.xy + _WindMask_ST.zw;
+				float4 tex2DNode17 = tex2Dlod( _WindMask, float4( uv_WindMask, 0, 0.0) );
+				float4 vertexOffset22 = ( ( ( appendResult25 * float4( _WindStrength , 0.0 ) ) * tex2DNode17.r ) * tex2DNode17.g );
+				
 				output.ase_texcoord3.xy = input.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3694,7 +3830,7 @@ Shader "Custom/PalmTree"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = vertexOffset22.xyz;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					input.positionOS.xyz = vertexValue;
@@ -3830,10 +3966,38 @@ Shader "Custom/PalmTree"
 }
 /*ASEBEGIN
 Version=19912
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":62,"pos":[-3880,-152],"params":["Inherit","False","2860","483","Wind","26","25","27","41","43","42","44","28","34","30","55","54","32","50","17","48","52","22","56","58","35","60","61","38","37","45","51","","1,1,1,1","0","0"]}
+{"type":"AmplifyShaderEditor.PosVertexDataNode, AmplifyShaderEditor","id":32,"pos":[-3832,80],"params":["Inherit","False","0","0","5","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":54,"pos":[-3640,80],"params":["Inherit","False","2","2","0","FLOAT3","0,0,0","False","1","FLOAT3","2,2,2","False","1","FLOAT3","0"]}
+{"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":55,"pos":[-3480,80],"params":["Inherit","False","FLOAT3","1","0","FLOAT3","0,0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
+{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":30,"pos":[-3352,80],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RelayNode, AmplifyShaderEditor","id":58,"pos":[-3352,192],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.PiNode, AmplifyShaderEditor","id":37,"pos":[-3048,192],"params":["Inherit","False","1","0","FLOAT","2","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleTimeNode, AmplifyShaderEditor","id":28,"pos":[-3320,-104],"params":["Inherit","False","1","0","FLOAT","1.5","False","5","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
+{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":34,"pos":[-3224,80],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RelayNode, AmplifyShaderEditor","id":60,"pos":[-2952,-16],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.RelayNode, AmplifyShaderEditor","id":61,"pos":[-2952,96],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleDivideOpNode, AmplifyShaderEditor","id":38,"pos":[-2856,192],"params":["Inherit","False","2","0","FLOAT","0","False","1","FLOAT","3","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":45,"pos":[-2696,192],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","2","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":43,"pos":[-2536,-16],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":44,"pos":[-2536,96],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":35,"pos":[-3088,-104],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":27,"pos":[-2408,-104],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":41,"pos":[-2408,-16],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":42,"pos":[-2408,96],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":25,"pos":[-2272,-104],"params":["Inherit","False","FLOAT4","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT4","0"]}
+{"type":"AmplifyShaderEditor.Vector3Node, AmplifyShaderEditor","id":51,"pos":[-2272,64],"params":["Inherit","False","Property","_WindStrength","WindStrength","3","0","Create","True","0","0","0","False","0","False","Object","-1","","0.05,0.025,0.05","0.05,0.025,0.05","0","4","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":50,"pos":[-2048,-104],"params":["Inherit","False","2","2","0","FLOAT4","0,0,0,0","False","1","FLOAT3","0,0,0","False","1","FLOAT4","0"]}
+{"type":"AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor","id":17,"pos":[-1888,8],"params":["Inherit","True","Property","_WindMask","WindMask","2","0","Create","True","0","0","0","False","0","False","","-1","None","None","True","0","False","white","Auto","False","Object","-1","Auto","Texture2D","False","8","0","SAMPLER2D","","False","1","FLOAT2","0,0","False","2","FLOAT","0","False","3","FLOAT2","0,0","False","4","FLOAT2","0,0","False","5","FLOAT","1","False","6","FLOAT","0","False","7","SAMPLERSTATE","","False","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":48,"pos":[-1584,-104],"params":["Inherit","False","2","2","0","FLOAT4","0,0,0,0","False","1","FLOAT","0","False","1","FLOAT4","0"]}
+{"type":"AmplifyShaderEditor.RelayNode, AmplifyShaderEditor","id":56,"pos":[-1552,8],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.ColorNode, AmplifyShaderEditor","id":14,"pos":[-768,144],"params":["Inherit","False","Property","_Color","Color","1","0","Create","True","0","0","0","False","0","False","Object","-1","","1,1,1,1","0,0,0,0","True","True","0","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
 {"type":"AmplifyShaderEditor.SamplerNode, AmplifyShaderEditor","id":13,"pos":[-840,-72],"params":["Inherit","True","Property","_MainTex","MainTex","0","0","Create","True","0","0","0","False","0","False","","-1","None","None","True","0","False","white","Auto","False","Object","-1","Auto","Texture2D","False","8","0","SAMPLER2D","","False","1","FLOAT2","0,0","False","2","FLOAT","0","False","3","FLOAT2","0,0","False","4","FLOAT2","0,0","False","5","FLOAT","1","False","6","FLOAT","0","False","7","SAMPLERSTATE","","False","6","COLOR","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT3","5"]}
+{"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":52,"pos":[-1424,-104],"params":["Inherit","False","2","2","0","FLOAT4","0,0,0,0","False","1","FLOAT","0","False","1","FLOAT4","0"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":15,"pos":[-536,-72],"params":["Inherit","False","2","2","0","COLOR","0,0,0,0","False","1","COLOR","0,0,0,0","False","1","COLOR","0"]}
+{"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":22,"pos":[-1264,-104],"params":["Inherit","False","vertexOffset","-1","True","1","0","FLOAT4","0,0,0,0","False","1","FLOAT4","0"]}
 {"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":16,"pos":[-368,0],"params":["Inherit","False","COLOR","1","0","COLOR","0,0,0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
+{"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":23,"pos":[-432,120],"params":["Inherit","False","22","vertexOffset","1","0","OBJECT","","False","1","FLOAT4","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":0,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ExtraPrePass","0","0","ExtraPrePass","6","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","0","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","0","False","False","0","","0","0","Standard","0","False","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":2,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ShadowCaster","0","2","ShadowCaster","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","True","False","False","False","False","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","True","3","False","","False","False","True","1","LightMode=ShadowCaster","False","False","0","","0","0","Standard","0","False","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":3,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","DepthOnly","0","3","DepthOnly","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","True","True","False","False","False","0","False","","False","False","False","False","False","False","False","False","False","True","1","False","","False","False","False","True","1","LightMode=DepthOnly","False","False","0","","0","0","Standard","0","False","0"]}
@@ -3845,11 +4009,43 @@ Version=19912
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":9,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ScenePickingPass","0","9","ScenePickingPass","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","LightMode=Picking","False","False","0","","0","0","Standard","0","False","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":10,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","MotionVectors","0","10","MotionVectors","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","False","False","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","True","1","LightMode=MotionVectors","False","False","0","","0","0","Standard","0","False","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":11,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","XRMotionVectors","0","11","XRMotionVectors","0","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","True","1","False","","255","False","","1","False","","7","False","","3","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","False","False","False","False","True","1","LightMode=XRMotionVectors","False","False","0","","0","0","Standard","0","False","0"]}
-{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":1,"pos":[-240,-72],"params":["Float","False","True","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","Custom/PalmTree","94348b07e5e8bab40bd6c8a1e3df54cd","True","Forward","0","1","Forward","22","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=TransparentCutout=RenderType","Queue=AlphaTest=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","0","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","1","LightMode=UniversalForward","False","False","0","","0","0","Standard","52","Category","0","0","  Instanced Terrain Normals","1","0","Lighting Model","0","0","Workflow","1","0","Surface","0","0","  Keep Alpha","0","0","  Refraction Model","0","0","  Blend","0","0","Two Sided","1","0","Alpha Clipping","2","639289616960056138","  Use Shadow Threshold","0","0","Fragment Normal Space","0","0","Forward Only","0","0","Transmission","0","0","  Transmission Shadow","0.5,False,","0","Translucency","0","0","  Translucency Strength","1,False,","0","  Normal Distortion","0.5,False,","0","  Scattering","2,False,","0","  Direct","0.9,False,","0","  Ambient","0.1,False,","0","  Shadow","0.5,False,","0","Cast Shadows","1","0","Receive Shadows","2","0","Specular Highlights","2","0","Environment Reflections","2","0","Receive SSAO","1","0","Motion Vectors","1","0","  Additional Motion Vectors","1","0","  Alembic Motion Vectors","0","0","  XR Motion Vectors","0","0","GPU Instancing","1","0","LOD CrossFade","1","0","Built-in Fog","1","0","_FinalColorxAlpha","0","0","Meta Pass","1","0","Override Baked GI","0","0","Extra Pre Pass","0","0","Tessellation","0","0","  Phong","0","0","  Strength","0.5,False,","0","  Type","0","0","  Tess","16,False,","0","  Min","10,False,","0","  Max","25,False,","0","  Edge Length","16,False,","0","  Max Displacement","25,False,","0","Write Depth","0","0","  Conservative","0","0","Vertex Position","1","0","Debug Display","1","0","Clear Coat","0","0","0","12","False","True","True","True","True","True","True","True","True","True","True","False","False","","False","0"]}
+{"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":1,"pos":[-240,-72],"params":["Float","False","True","-1","3","UnityEditor.ShaderGraphLitGUI","0","15","Custom/PalmTree","94348b07e5e8bab40bd6c8a1e3df54cd","True","Forward","0","1","Forward","22","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=TransparentCutout=RenderType","Queue=AlphaTest=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","0","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","False","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","1","LightMode=UniversalForward","False","False","0","","0","0","Standard","52","Category","0","0","  Instanced Terrain Normals","1","0","Lighting Model","0","0","Workflow","1","0","Surface","0","0","  Keep Alpha","0","0","  Refraction Model","0","0","  Blend","0","0","Two Sided","1","0","Alpha Clipping","2","639289616960056138","  Use Shadow Threshold","0","0","Fragment Normal Space","0","0","Forward Only","0","0","Transmission","0","0","  Transmission Shadow","0.5,False,","0","Translucency","0","0","  Translucency Strength","1,False,","0","  Normal Distortion","0.5,False,","0","  Scattering","2,False,","0","  Direct","0.9,False,","0","  Ambient","0.1,False,","0","  Shadow","0.5,False,","0","Cast Shadows","1","0","Receive Shadows","2","0","Specular Highlights","2","0","Environment Reflections","2","0","Receive SSAO","1","0","Motion Vectors","1","0","  Additional Motion Vectors","1","0","  Alembic Motion Vectors","0","0","  XR Motion Vectors","0","0","GPU Instancing","1","0","LOD CrossFade","1","0","Built-in Fog","1","0","_FinalColorxAlpha","0","0","Meta Pass","1","0","Override Baked GI","0","0","Extra Pre Pass","0","0","Tessellation","0","0","  Phong","0","0","  Strength","0.5,False,","0","  Type","0","0","  Tess","8,False,","0","  Min","10,False,","0","  Max","25,False,","0","  Edge Length","16,False,","0","  Max Displacement","25,False,","0","Write Depth","0","0","  Conservative","0","0","Vertex Position","1","0","Debug Display","1","0","Clear Coat","0","0","0","12","False","True","True","True","True","True","True","True","True","True","True","False","False","","False","0"]}
+{"wire":[54,0,32,0]}
+{"wire":[55,0,54,0]}
+{"wire":[30,0,55,0]}
+{"wire":[30,1,55,1]}
+{"wire":[58,0,55,2]}
+{"wire":[34,0,30,0]}
+{"wire":[34,1,58,0]}
+{"wire":[60,0,35,0]}
+{"wire":[61,0,35,0]}
+{"wire":[38,0,37,0]}
+{"wire":[45,0,38,0]}
+{"wire":[43,0,60,0]}
+{"wire":[43,1,38,0]}
+{"wire":[44,0,61,0]}
+{"wire":[44,1,45,0]}
+{"wire":[35,0,28,0]}
+{"wire":[35,1,34,0]}
+{"wire":[27,0,35,0]}
+{"wire":[41,0,43,0]}
+{"wire":[42,0,44,0]}
+{"wire":[25,0,27,0]}
+{"wire":[25,1,41,0]}
+{"wire":[25,2,42,0]}
+{"wire":[50,0,25,0]}
+{"wire":[50,1,51,0]}
+{"wire":[48,0,50,0]}
+{"wire":[48,1,17,1]}
+{"wire":[56,0,17,2]}
+{"wire":[52,0,48,0]}
+{"wire":[52,1,56,0]}
 {"wire":[15,0,13,0]}
 {"wire":[15,1,14,0]}
+{"wire":[22,0,52,0]}
 {"wire":[16,0,15,0]}
 {"wire":[1,0,15,0]}
 {"wire":[1,6,16,3]}
+{"wire":[1,8,23,0]}
 ASEEND*/
-//CHKSM=0CA62C09DF17354D1596FB28086CEBE88687A7C2
+//CHKSM=FF8687E5DF4743D57C946D56150A44E036DC45E2
