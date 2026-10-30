@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1283950999248857589
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1193588190720011820}
+    m_Modifications:
+    - target: {fileID: 646443345734593454, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 646443345734593454, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 646443345734593454, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659592490585003184, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+      propertyPath: m_Name
+      value: Model
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+--- !u!4 &1813018180144104027 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 646443345734593454, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+  m_PrefabInstance: {fileID: 1283950999248857589}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6185441974515955140 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4901772463201590321, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+  m_PrefabInstance: {fileID: 1283950999248857589}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
+--- !u!1001 &7503039238319426310
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7721295033288368967, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+      propertyPath: m_Name
+      value: PalmTree
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696552368452363562, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696552368452363562, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696552368452363562, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8696552368452363562, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1813018180144104027}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7721295033288368967, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: -6548184327936174321}
+  m_SourcePrefab: {fileID: 100100000, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+--- !u!1 &218330587759175745 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7721295033288368967, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+  m_PrefabInstance: {fileID: 7503039238319426310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6548184327936174321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218330587759175745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e480b81a7dfd7224d85d39b536c6706d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.PalmTree
+  _isSetup: 0
+  _prefabId: -2147483648
+  _componentIndex: -2147483648
+  _shouldBePooled: 0
+  _parent: {fileID: 0}
+  _invertedPathToNearestParent: 
+  _directChildren: []
+  _networkRules: {fileID: 0}
+  _visitiblityRules: {fileID: 0}
+  _entityDefinitionData: {fileID: 11400000, guid: eb6d3fa825487734c83fa57b2c624318, type: 2}
+  _entityModel: {fileID: 6185441974515955140}
+  _rigidbody: {fileID: 5061763726467894257}
+  _collider: {fileID: 627354838335498340}
+--- !u!65 &627354838335498340 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 6959444102987703138, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+  m_PrefabInstance: {fileID: 7503039238319426310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1193588190720011820 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8696552368452363562, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+  m_PrefabInstance: {fileID: 7503039238319426310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &5061763726467894257 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 3323332329103638775, guid: b382f885e9376b14888fbe8e9fc7f624, type: 3}
+  m_PrefabInstance: {fileID: 7503039238319426310}
+  m_PrefabAsset: {fileID: 0}

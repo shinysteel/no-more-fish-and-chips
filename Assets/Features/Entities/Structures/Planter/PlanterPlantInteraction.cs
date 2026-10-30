@@ -50,7 +50,7 @@ namespace NoMoreFishAndChips.Entities
 
         public override void ShowPreview()
         {
-            _previewProp = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = new Vector3(0f, 0.1875f, 0f), Parent = _planter.transform });
+            _previewProp = _environmentManager.GetProp(PropId.BoxSelect, new SpawnParams() { Position = new Vector3(0f, 0.275f, 0f), Scale = new Vector3(0.1f, 0.2f, 0.1f), Parent = _planter.transform });
         }
 
         public override void SetPreviewColor(Color color)

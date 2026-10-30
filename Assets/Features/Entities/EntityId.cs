@@ -29,6 +29,9 @@ namespace NoMoreFishAndChips.Entities
         StructureScaffold = 303,
         TeslaCoil = 304,
         Cannon = 305,
-        SalvageClaw = 306
+        SalvageClaw = 306,
+
+        // Trees
+        PalmTree = 401,
     }
 }

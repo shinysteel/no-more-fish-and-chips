@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2026
 		Month: 10
-		Day: 28
+		Day: 30
 		Hour: 13
-		Minute: 25
-		Second: 33
-		Millisecond: 350
+		Minute: 21
+		Second: 58
+		Millisecond: 42
 	}
 	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-10-28 03:25:33:350"
+CreationTime: "2026-10-30 03:21:58:042"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 892959922 {
+	Document: 1957614325 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -98,7 +98,7 @@ References:
 
 Definitions:  {
 	Version: 100
-	Count: 17
+	Count: 20
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -194,7 +194,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "Material" {
-		Count: 1
+		Count: 2
 		PropertyTemplate: "FbxSurfaceLambert" {
 			Properties70:  {
 				P: "ShadingModel", "KString", "", "", "Lambert"
@@ -218,7 +218,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "Texture" {
-		Count: 1
+		Count: 2
 		PropertyTemplate: "FbxFileTexture" {
 			Properties70:  {
 				P: "TextureTypeUse", "enum", "", "",0
@@ -241,7 +241,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "Video" {
-		Count: 1
+		Count: 2
 		PropertyTemplate: "FbxVideo" {
 			Properties70:  {
 				P: "ImageSequence", "bool", "", "",0
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 78358641, "Model::palm_tree_stage3", "Null" {
+	Model: 75972151, "Model::palm_tree_stage3", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 71088516, "Model::trunk", "Mesh" {
+	Model: 78615857, "Model::trunk", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 72328170, "Geometry::trunk", "Mesh" {
+	Geometry: 78348618, "Geometry::trunk", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,25,9.375,6.25,25,-6.25,6.25,-25,9.375,6.25,-25,-6.25,-9.375,25,-6.25,-9.375,25,9.375,-9.375,-25,-6.25,-9.375,-25,9.375
 		}
@@ -320,7 +320,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.5390625,0.6796875,0.578125,0.6796875,0.578125,0.8046875,0.5390625,0.8046875,0.5,0.6796875,0.5390625,0.6796875,0.5390625,0.8046875,0.5,0.8046875,0.6171875,0.6796875,0.65625,0.6796875,0.65625,0.8046875,0.6171875,0.8046875,0.578125,0.6796875,0.6171875,0.6796875,0.6171875,0.8046875,0.578125,0.8046875,0.578125,0.84375,0.5390625,0.84375,0.5390625,0.8046875,0.578125,0.8046875,0.6171875,0.8046875,0.578125,0.8046875,0.578125,0.84375,0.6171875,0.84375
+				a: 0.5390625,0.7734375,0.578125,0.7734375,0.578125,0.8984375,0.5390625,0.8984375,0.5,0.7734375,0.5390625,0.7734375,0.5390625,0.8984375,0.5,0.8984375,0.6171875,0.7734375,0.65625,0.7734375,0.65625,0.8984375,0.6171875,0.8984375,0.578125,0.7734375,0.6171875,0.7734375,0.6171875,0.8984375,0.578125,0.8984375,0.578125,0.9375,0.5390625,0.9375,0.5390625,0.8984375,0.578125,0.8984375,0.6171875,0.8984375,0.578125,0.8984375,0.578125,0.9375,0.6171875,0.9375
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77044494, "Model::trunk_1", "Mesh" {
+	Model: 76963371, "Model::trunk_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78533070, "Geometry::trunk_1", "Mesh" {
+	Geometry: 73737493, "Geometry::trunk_1", "Mesh" {
 		Vertices: *24 {
 			a: 6.25,31.25,12.5,6.25,31.25,-6.25,6.25,0,12.5,6.25,0,-6.25,-12.5,31.25,-6.25,-12.5,31.25,12.5,-12.5,0,-6.25,-12.5,0,12.5
 		}
@@ -386,7 +386,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.546875,0.5546875,0.59375,0.5546875,0.59375,0.6328125,0.546875,0.6328125,0.5,0.5546875,0.546875,0.5546875,0.546875,0.6328125,0.5,0.6328125,0.640625,0.5546875,0.6875,0.5546875,0.6875,0.6328125,0.640625,0.6328125,0.59375,0.5546875,0.640625,0.5546875,0.640625,0.6328125,0.59375,0.6328125,0.59375,0.6796875,0.546875,0.6796875,0.546875,0.6328125,0.59375,0.6328125,0.640625,0.6328125,0.59375,0.6328125,0.59375,0.6796875,0.640625,0.6796875
+				a: 0.546875,0.6484375,0.59375,0.6484375,0.59375,0.7265625,0.546875,0.7265625,0.5,0.6484375,0.546875,0.6484375,0.546875,0.7265625,0.5,0.7265625,0.640625,0.6484375,0.6875,0.6484375,0.6875,0.7265625,0.640625,0.7265625,0.59375,0.6484375,0.640625,0.6484375,0.640625,0.7265625,0.59375,0.7265625,0.59375,0.7734375,0.546875,0.7734375,0.546875,0.7265625,0.59375,0.7265625,0.640625,0.7265625,0.59375,0.7265625,0.59375,0.7734375,0.640625,0.7734375
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 75091610, "Model::trunk_2", "Mesh" {
+	Model: 78478463, "Model::trunk_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -429,7 +429,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 79148842, "Geometry::trunk_2", "Mesh" {
+	Geometry: 74575715, "Geometry::trunk_2", "Mesh" {
 		Vertices: *24 {
 			a: 0,25,12.5,0,25,0,0,-25,12.5,0,-25,0,-12.5,25,0,-12.5,25,12.5,-12.5,-25,0,-12.5,-25,12.5
 		}
@@ -452,7 +452,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.53125,0.3984375,0.5625,0.3984375,0.5625,0.5234375,0.53125,0.5234375,0.5,0.3984375,0.53125,0.3984375,0.53125,0.5234375,0.5,0.5234375,0.59375,0.3984375,0.625,0.3984375,0.625,0.5234375,0.59375,0.5234375,0.5625,0.3984375,0.59375,0.3984375,0.59375,0.5234375,0.5625,0.5234375,0.5625,0.5546875,0.53125,0.5546875,0.53125,0.5234375,0.5625,0.5234375,0.59375,0.5234375,0.5625,0.5234375,0.5625,0.5546875,0.59375,0.5546875
+				a: 0.53125,0.4921875,0.5625,0.4921875,0.5625,0.6171875,0.53125,0.6171875,0.5,0.4921875,0.53125,0.4921875,0.53125,0.6171875,0.5,0.6171875,0.59375,0.4921875,0.625,0.4921875,0.625,0.6171875,0.59375,0.6171875,0.5625,0.4921875,0.59375,0.4921875,0.59375,0.6171875,0.5625,0.6171875,0.5625,0.6484375,0.53125,0.6484375,0.53125,0.6171875,0.5625,0.6171875,0.59375,0.6171875,0.5625,0.6171875,0.5625,0.6484375,0.59375,0.6484375
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -480,7 +480,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 73220839, "Model::trunk_3", "Mesh" {
+	Model: 72456900, "Model::trunk_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -495,7 +495,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 74410046, "Geometry::trunk_3", "Mesh" {
+	Geometry: 70340086, "Geometry::trunk_3", "Mesh" {
 		Vertices: *24 {
 			a: 3.125,25,9.375,3.125,25,-3.125,3.125,0,9.375,3.125,0,-3.125,-9.375,25,-3.125,-9.375,25,9.375,-9.375,0,-3.125,-9.375,0,9.375
 		}
@@ -518,7 +518,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.03125,0.28125,0.0625,0.28125,0.0625,0.34375,0.03125,0.34375,0,0.28125,0.03125,0.28125,0.03125,0.34375,0,0.34375,0.09375,0.28125,0.125,0.28125,0.125,0.34375,0.09375,0.34375,0.0625,0.28125,0.09375,0.28125,0.09375,0.34375,0.0625,0.34375,0.0625,0.375,0.03125,0.375,0.03125,0.34375,0.0625,0.34375,0.09375,0.34375,0.0625,0.34375,0.0625,0.375,0.09375,0.375
+				a: 0.03125,0.375,0.0625,0.375,0.0625,0.4375,0.03125,0.4375,0,0.375,0.03125,0.375,0.03125,0.4375,0,0.4375,0.09375,0.375,0.125,0.375,0.125,0.4375,0.09375,0.4375,0.0625,0.375,0.09375,0.375,0.09375,0.4375,0.0625,0.4375,0.0625,0.46875,0.03125,0.46875,0.03125,0.4375,0.0625,0.4375,0.09375,0.4375,0.0625,0.4375,0.0625,0.46875,0.09375,0.46875
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -546,7 +546,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78678444, "Model::crown", "Mesh" {
+	Model: 76388985, "Model::crown", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76108182, "Geometry::crown", "Mesh" {
+	Geometry: 70187318, "Geometry::crown", "Mesh" {
 		Vertices: *24 {
 			a: 50,40.625,0,50,40.625,0,50,-34.375,0,50,-34.375,0,-50,40.625,0,-50,40.625,0,-50,-34.375,0,-50,-34.375,0
 		}
@@ -584,7 +584,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0,0.375,0.25,0.375,0.25,0.5625,0,0.5625,0,0.375,0,0.375,0,0.5625,0,0.5625,0.25,0.375,0.5,0.375,0.5,0.5625,0.25,0.5625,0.25,0.375,0.25,0.375,0.25,0.5625,0.25,0.5625,0.25,0.5625,0,0.5625,0,0.5625,0.25,0.5625,0.5,0.5625,0.25,0.5625,0.25,0.5625,0.5,0.5625
+				a: 0,0.46875,0.25,0.46875,0.25,0.65625,0,0.65625,0,0.46875,0,0.46875,0,0.65625,0,0.65625,0.25,0.46875,0.5,0.46875,0.5,0.65625,0.25,0.65625,0.25,0.46875,0.25,0.46875,0.25,0.65625,0.25,0.65625,0.25,0.65625,0,0.65625,0,0.65625,0.25,0.65625,0.5,0.65625,0.25,0.65625,0.25,0.65625,0.5,0.65625
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -612,7 +612,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 74638149, "Model::crown_1", "Mesh" {
+	Model: 76461098, "Model::crown_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -627,7 +627,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70210879, "Geometry::crown_1", "Mesh" {
+	Geometry: 72906554, "Geometry::crown_1", "Mesh" {
 		Vertices: *24 {
 			a: 0,40.625,50,0,40.625,-50,0,-34.375,50,0,-34.375,-50,0,40.625,-50,0,40.625,50,0,-34.375,-50,0,-34.375,50
 		}
@@ -650,7 +650,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0.25,0.5625,0.25,0.5625,0.25,0.75,0.25,0.75,0,0.5625,0.25,0.5625,0.25,0.75,0,0.75,0.5,0.5625,0.5,0.5625,0.5,0.75,0.5,0.75,0.25,0.5625,0.5,0.5625,0.5,0.75,0.25,0.75,0.25,1,0.25,1,0.25,0.75,0.25,0.75,0.25,0.75,0.25,0.75,0.25,1,0.25,1
+				a: 0.25,0.65625,0.25,0.65625,0.25,0.84375,0.25,0.84375,0,0.65625,0.25,0.65625,0.25,0.84375,0,0.84375,0.5,0.65625,0.5,0.65625,0.5,0.84375,0.5,0.84375,0.25,0.65625,0.5,0.65625,0.5,0.84375,0.25,0.84375,0.25,1.09375,0.25,1.09375,0.25,0.84375,0.25,0.84375,0.25,0.84375,0.25,0.84375,0.25,1.09375,0.25,1.09375
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -678,7 +678,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 76325649, "Material::PalmTree.png", "" {
+	Material: 77984431, "Material::PalmTree.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -689,26 +689,58 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 78220419, "Texture::PalmTree.png", "" {
+	Texture: 76076049, "Texture::PalmTree.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::PalmTree.png"
 		Media: "Video::PalmTree.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\PalmTree\PalmTree.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTree.png"
 		RelativeFilename: "PalmTree.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 73189554, "Video::PalmTree.png", "Clip" {
+	Video: 73015128, "Video::PalmTree.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\PalmTree\PalmTree.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTree.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Environments\Props\PalmTree\PalmTree.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTree.png"
 		RelativeFilename: "PalmTree.png"
+	}
+	Material: 74942062, "Material::PalmTreeWindMask.png", "" {
+		Version: 102
+		ShadingModel: "lambert"
+		MultiLayer: 0
+		Properties70:  {
+			P: "Emissive", "Vector3D", "Vector", "",0,0,0
+			P: "Ambient", "Vector3D", "Vector", "",0.2,0.2,0.2
+			P: "Diffuse", "Vector3D", "Vector", "",0.8,0.8,0.8
+			P: "Opacity", "double", "Number", "",1
+		}
+	}
+	Texture: 73428948, "Texture::PalmTreeWindMask.png", "" {
+		Type: "TextureVideoClip"
+		Version: 202
+		TextureName: "Texture::PalmTreeWindMask.png"
+		Media: "Video::PalmTreeWindMask.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTreeWindMask.png"
+		RelativeFilename: "PalmTreeWindMask.png"
+		ModelUVTranslation: 0,0
+		ModelUVScaling: 1,1
+		Texture_Alpha_Source: "None"
+		Cropping: 0,0,0,0
+	}
+	Video: 74035274, "Video::PalmTreeWindMask.png", "Clip" {
+		Type: "Clip"
+		Properties70:  {
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTreeWindMask.png"
+		}
+		UseMipMap: 0
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\PalmTree\PalmTreeWindMask.png"
+		RelativeFilename: "PalmTreeWindMask.png"
 	}
 }
 
@@ -718,67 +750,73 @@ Objects:  {
 Connections:  {
 
 	;Model::palm_tree_stage3, Model::RootNode
-	C: "OO",78358641,0
+	C: "OO",75972151,0
 
 	;Model::trunk, Model::palm_tree_stage3
-	C: "OO",71088516,78358641
+	C: "OO",78615857,75972151
 
 	;Geometry::trunk, Model::trunk
-	C: "OO",72328170,71088516
+	C: "OO",78348618,78615857
 
 	;Material::PalmTree.png, Model::trunk
-	C: "OO",76325649,71088516
+	C: "OO",77984431,78615857
 
 	;Model::trunk_1, Model::palm_tree_stage3
-	C: "OO",77044494,78358641
+	C: "OO",76963371,75972151
 
 	;Geometry::trunk_1, Model::trunk_1
-	C: "OO",78533070,77044494
+	C: "OO",73737493,76963371
 
 	;Material::PalmTree.png, Model::trunk_1
-	C: "OO",76325649,77044494
+	C: "OO",77984431,76963371
 
 	;Model::trunk_2, Model::palm_tree_stage3
-	C: "OO",75091610,78358641
+	C: "OO",78478463,75972151
 
 	;Geometry::trunk_2, Model::trunk_2
-	C: "OO",79148842,75091610
+	C: "OO",74575715,78478463
 
 	;Material::PalmTree.png, Model::trunk_2
-	C: "OO",76325649,75091610
+	C: "OO",77984431,78478463
 
 	;Model::trunk_3, Model::palm_tree_stage3
-	C: "OO",73220839,78358641
+	C: "OO",72456900,75972151
 
 	;Geometry::trunk_3, Model::trunk_3
-	C: "OO",74410046,73220839
+	C: "OO",70340086,72456900
 
 	;Material::PalmTree.png, Model::trunk_3
-	C: "OO",76325649,73220839
+	C: "OO",77984431,72456900
 
 	;Model::crown, Model::palm_tree_stage3
-	C: "OO",78678444,78358641
+	C: "OO",76388985,75972151
 
 	;Geometry::crown, Model::crown
-	C: "OO",76108182,78678444
+	C: "OO",70187318,76388985
 
 	;Material::PalmTree.png, Model::crown
-	C: "OO",76325649,78678444
+	C: "OO",77984431,76388985
 
 	;Model::crown_1, Model::palm_tree_stage3
-	C: "OO",74638149,78358641
+	C: "OO",76461098,75972151
 
 	;Geometry::crown_1, Model::crown_1
-	C: "OO",70210879,74638149
+	C: "OO",72906554,76461098
 
 	;Material::PalmTree.png, Model::crown_1
-	C: "OO",76325649,74638149
+	C: "OO",77984431,76461098
 
 	;Texture::PalmTree.png, Material::PalmTree.png
-	C: "OP",78220419,76325649, "DiffuseColor"
+	C: "OP",76076049,77984431, "DiffuseColor"
 
 	;Video::PalmTree.png, Texture::PalmTree.png
-	C: "OO",73189554,78220419
+	C: "OO",73015128,76076049
+
+	;Texture::PalmTreeWindMask.png, Material::PalmTreeWindMask.png
+	C: "OP",73428948,74942062, "DiffuseColor"
+
+	;Video::PalmTreeWindMask.png, Texture::PalmTreeWindMask.png
+	C: "OO",74035274,73428948
 }
 
 ; Takes section
