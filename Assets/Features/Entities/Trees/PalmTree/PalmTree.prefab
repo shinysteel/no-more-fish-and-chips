@@ -34,17 +34,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 646443345734593454, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
   m_PrefabInstance: {fileID: 1283950999248857589}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6185441974515955140 stripped
+--- !u!114 &9080513911997559871 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4901772463201590321, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8058617499084070346, guid: 3acd9a89763d5b645973c0b0ebc55813, type: 3}
   m_PrefabInstance: {fileID: 1283950999248857589}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65596f22ce32b814fbe4b968aa38d103, type: 3}
+  m_Script: {fileID: 11500000, guid: 37fd4d67ff62b224f9c06a51ebd89820, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.EntityModel
+  m_EditorClassIdentifier: Assembly-CSharp::NoMoreFishAndChips.Entities.TreeModel
 --- !u!1001 &7503039238319426310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   _networkRules: {fileID: 0}
   _visitiblityRules: {fileID: 0}
   _entityDefinitionData: {fileID: 11400000, guid: eb6d3fa825487734c83fa57b2c624318, type: 2}
-  _entityModel: {fileID: 6185441974515955140}
+  _entityModel: {fileID: 9080513911997559871}
   _rigidbody: {fileID: 5061763726467894257}
   _collider: {fileID: 627354838335498340}
 --- !u!65 &627354838335498340 stripped

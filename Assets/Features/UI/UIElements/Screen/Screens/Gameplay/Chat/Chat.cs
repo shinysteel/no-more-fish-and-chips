@@ -122,7 +122,7 @@ namespace NoMoreFishAndChips.UI
 
                     if (!int.TryParse(arguments[2], out int count))
                     {
-                        return;
+                        count = 1;
                     }
 
                     InventoryChangeParams parameters = new InventoryChangeParams() { ItemId = id, Count = count };
