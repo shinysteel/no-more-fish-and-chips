@@ -1,5 +1,6 @@
 using NoMoreFishAndChips.States;
 using PurrNet;
+using ShinyOwl.Common;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
@@ -28,7 +29,7 @@ namespace NoMoreFishAndChips.Entities
 
             if (isOwner)
             {
-                _stageInterval = TreeDefinitionData.GrowthDuration / TreeModel.StageGameObjects.Length;
+                _stageInterval = TreeDefinitionData.GrowthDuration / (TreeModel.StageGameObjects.Length - 1);
             }
 
             _netStageIndex.onChanged += HandleNetStageIndexChanged;

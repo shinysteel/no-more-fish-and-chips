@@ -110,7 +110,7 @@ namespace NoMoreFishAndChips.UI
             switch (arguments[0])
             {
                 case "/give":
-                    if (arguments.Length != 3)
+                    if (arguments.Length < 2 || arguments.Length > 3)
                     {
                         return;
                     }
@@ -120,9 +120,11 @@ namespace NoMoreFishAndChips.UI
                         return;
                     }
 
-                    if (!int.TryParse(arguments[2], out int count))
+                    int count = 1;
+
+                    if (arguments.Length == 3 && !int.TryParse(arguments[2], out count))
                     {
-                        count = 1;
+                        return;
                     }
 
                     InventoryChangeParams parameters = new InventoryChangeParams() { ItemId = id, Count = count };
