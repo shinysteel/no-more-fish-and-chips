@@ -26,14 +26,6 @@ MonoBehaviour:
     m_Localized: Puede almacenar cosas como una almeja.
     m_Metadata:
       m_Items: []
-  - m_Id: 42798570824626176
-    m_Localized: Plantador
-    m_Metadata:
-      m_Items: []
-  - m_Id: 42798570853986304
-    m_Localized: Una caja para cultivar cualquier semilla que encuentres
-    m_Metadata:
-      m_Items: []
   - m_Id: 72039784476143616
     m_Localized: Contador de ondas
     m_Metadata:
@@ -64,6 +56,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 103572268988592128
     m_Localized: Recupera objetos rescatados del fondo marino.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898427097088
+    m_Localized: "Plantador de \xE1rboles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898456457216
+    m_Localized: "Una caja para cultivar \xE1rboles."
     m_Metadata:
       m_Items: []
   references:

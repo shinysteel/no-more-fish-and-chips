@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2026
 		Month: 10
-		Day: 28
-		Hour: 11
-		Minute: 13
-		Second: 8
-		Millisecond: 521
+		Day: 30
+		Hour: 15
+		Minute: 40
+		Second: 47
+		Millisecond: 747
 	}
 	Creator: "Blockbench 5.2.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2026-10-28 01:13:08:521"
+CreationTime: "2026-10-30 05:40:47:747"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 653910477 {
+	Document: 1113911279 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,7 +268,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Model: 74204836, "Model::planter", "Null" {
+	Model: 74907193, "Model::tree_planter", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -282,7 +282,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Model: 72663819, "Model::base", "Mesh" {
+	Model: 76282060, "Model::base", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -297,7 +297,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 78266632, "Geometry::base", "Mesh" {
+	Geometry: 78184487, "Geometry::base", "Mesh" {
 		Vertices: *24 {
 			a: 0,18.75,50,0,18.75,0,0,0,50,0,0,0,-50,18.75,0,-50,18.75,50,-50,0,0,-50,0,50
 		}
@@ -348,7 +348,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 77673251, "Model::side", "Mesh" {
+	Model: 77772750, "Model::side", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -363,7 +363,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 76132577, "Geometry::side", "Mesh" {
+	Geometry: 73834032, "Geometry::side", "Mesh" {
 		Vertices: *24 {
 			a: 0,6.25,-12.5,0,6.25,-18.75,0,0,-12.5,0,0,-18.75,-50,6.25,-18.75,-50,6.25,-12.5,-50,0,-18.75,-50,0,-12.5
 		}
@@ -414,7 +414,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 78593631, "Model::side_1", "Mesh" {
+	Model: 73967427, "Model::side_1", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -429,7 +429,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 73883070, "Geometry::side_1", "Mesh" {
+	Geometry: 75655567, "Geometry::side_1", "Mesh" {
 		Vertices: *24 {
 			a: 0,6.25,-15.625,0,6.25,-21.875,0,0,-15.625,0,0,-21.875,-50,6.25,-21.875,-50,6.25,-15.625,-50,0,-21.875,-50,0,-15.625
 		}
@@ -480,7 +480,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 76588105, "Model::side_2", "Mesh" {
+	Model: 75390903, "Model::side_2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -495,7 +495,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 77648246, "Geometry::side_2", "Mesh" {
+	Geometry: 75017089, "Geometry::side_2", "Mesh" {
 		Vertices: *24 {
 			a: 18.75,6.25,-37.5,18.75,6.25,-75,18.75,0,-37.5,18.75,0,-75,12.5,6.25,-75,12.5,6.25,-37.5,12.5,0,-75,12.5,0,-37.5
 		}
@@ -546,7 +546,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 79042407, "Model::side_3", "Mesh" {
+	Model: 70817959, "Model::side_3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -561,7 +561,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Geometry: 70076571, "Geometry::side_3", "Mesh" {
+	Geometry: 72592985, "Geometry::side_3", "Mesh" {
 		Vertices: *24 {
 			a: 21.875,6.25,-37.5,21.875,6.25,-75,21.875,0,-37.5,21.875,0,-75,15.625,6.25,-75,15.625,6.25,-37.5,15.625,0,-75,15.625,0,-37.5
 		}
@@ -612,7 +612,7 @@ Objects:  {
 			}
 		}
 	}
-	Material: 77614687, "Material::Planter.png", "" {
+	Material: 78329474, "Material::TreePlanter.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -623,26 +623,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 76068951, "Texture::Planter.png", "" {
+	Texture: 73655137, "Texture::TreePlanter.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::Planter.png"
-		Media: "Video::Planter.png"
-		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\Planter\Planter.png"
-		RelativeFilename: "Planter.png"
+		TextureName: "Texture::TreePlanter.png"
+		Media: "Video::TreePlanter.png"
+		FileName: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\TreePlanter\TreePlanter.png"
+		RelativeFilename: "TreePlanter.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 74069117, "Video::Planter.png", "Clip" {
+	Video: 79736269, "Video::TreePlanter.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\Planter\Planter.png"
+			P: "Path", "KString", "XRefUrl", "", "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\TreePlanter\TreePlanter.png"
 		}
 		UseMipMap: 0
-		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\Planter\Planter.png"
-		RelativeFilename: "Planter.png"
+		Filename: "C:\Users\User\OneDrive\Desktop\GitHub Projects\no-more-fish-and-chips\Assets\Features\Entities\Structures\TreePlanter\TreePlanter.png"
+		RelativeFilename: "TreePlanter.png"
 	}
 }
 
@@ -651,59 +651,59 @@ Objects:  {
 
 Connections:  {
 
-	;Model::planter, Model::RootNode
-	C: "OO",74204836,0
+	;Model::tree_planter, Model::RootNode
+	C: "OO",74907193,0
 
-	;Model::base, Model::planter
-	C: "OO",72663819,74204836
+	;Model::base, Model::tree_planter
+	C: "OO",76282060,74907193
 
 	;Geometry::base, Model::base
-	C: "OO",78266632,72663819
+	C: "OO",78184487,76282060
 
-	;Material::Planter.png, Model::base
-	C: "OO",77614687,72663819
+	;Material::TreePlanter.png, Model::base
+	C: "OO",78329474,76282060
 
-	;Model::side, Model::planter
-	C: "OO",77673251,74204836
+	;Model::side, Model::tree_planter
+	C: "OO",77772750,74907193
 
 	;Geometry::side, Model::side
-	C: "OO",76132577,77673251
+	C: "OO",73834032,77772750
 
-	;Material::Planter.png, Model::side
-	C: "OO",77614687,77673251
+	;Material::TreePlanter.png, Model::side
+	C: "OO",78329474,77772750
 
-	;Model::side_1, Model::planter
-	C: "OO",78593631,74204836
+	;Model::side_1, Model::tree_planter
+	C: "OO",73967427,74907193
 
 	;Geometry::side_1, Model::side_1
-	C: "OO",73883070,78593631
+	C: "OO",75655567,73967427
 
-	;Material::Planter.png, Model::side_1
-	C: "OO",77614687,78593631
+	;Material::TreePlanter.png, Model::side_1
+	C: "OO",78329474,73967427
 
-	;Model::side_2, Model::planter
-	C: "OO",76588105,74204836
+	;Model::side_2, Model::tree_planter
+	C: "OO",75390903,74907193
 
 	;Geometry::side_2, Model::side_2
-	C: "OO",77648246,76588105
+	C: "OO",75017089,75390903
 
-	;Material::Planter.png, Model::side_2
-	C: "OO",77614687,76588105
+	;Material::TreePlanter.png, Model::side_2
+	C: "OO",78329474,75390903
 
-	;Model::side_3, Model::planter
-	C: "OO",79042407,74204836
+	;Model::side_3, Model::tree_planter
+	C: "OO",70817959,74907193
 
 	;Geometry::side_3, Model::side_3
-	C: "OO",70076571,79042407
+	C: "OO",72592985,70817959
 
-	;Material::Planter.png, Model::side_3
-	C: "OO",77614687,79042407
+	;Material::TreePlanter.png, Model::side_3
+	C: "OO",78329474,70817959
 
-	;Texture::Planter.png, Material::Planter.png
-	C: "OP",76068951,77614687, "DiffuseColor"
+	;Texture::TreePlanter.png, Material::TreePlanter.png
+	C: "OP",73655137,78329474, "DiffuseColor"
 
-	;Video::Planter.png, Texture::Planter.png
-	C: "OO",74069117,76068951
+	;Video::TreePlanter.png, Texture::TreePlanter.png
+	C: "OO",79736269,73655137
 }
 
 ; Takes section

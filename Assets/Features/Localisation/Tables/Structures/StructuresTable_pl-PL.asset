@@ -26,14 +26,6 @@ MonoBehaviour:
     m_Localized: "Mo\u017Cna przechowywa\u0107 rzeczy tak jak ma\u0142\u017C"
     m_Metadata:
       m_Items: []
-  - m_Id: 42798570824626176
-    m_Localized: Sadzarka
-    m_Metadata:
-      m_Items: []
-  - m_Id: 42798570853986304
-    m_Localized: "Pude\u0142ko do uprawy wszelkich znalezionych nasion"
-    m_Metadata:
-      m_Items: []
   - m_Id: 72039784476143616
     m_Localized: Licznik fal
     m_Metadata:
@@ -64,6 +56,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 103572268988592128
     m_Localized: "Wydobywa \u0142upy z dna morskiego"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898427097088
+    m_Localized: Sadzarka drzew
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898456457216
+    m_Localized: Skrzynka do uprawy drzew
     m_Metadata:
       m_Items: []
   references:

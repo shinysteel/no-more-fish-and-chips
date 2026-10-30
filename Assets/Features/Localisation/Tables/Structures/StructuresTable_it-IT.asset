@@ -26,14 +26,6 @@ MonoBehaviour:
     m_Localized: "Pu\xF2 contenere cose proprio come una conchiglia"
     m_Metadata:
       m_Items: []
-  - m_Id: 42798570824626176
-    m_Localized: Piantatrice
-    m_Metadata:
-      m_Items: []
-  - m_Id: 42798570853986304
-    m_Localized: Una scatola per coltivare qualsiasi seme tu trovi
-    m_Metadata:
-      m_Items: []
   - m_Id: 72039784476143616
     m_Localized: Contatore di onde
     m_Metadata:
@@ -64,6 +56,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 103572268988592128
     m_Localized: Recupera materiali di recupero dal fondale marino
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898427097088
+    m_Localized: Piantatore di alberi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898456457216
+    m_Localized: Una scatola per coltivare alberi
     m_Metadata:
       m_Items: []
   references:

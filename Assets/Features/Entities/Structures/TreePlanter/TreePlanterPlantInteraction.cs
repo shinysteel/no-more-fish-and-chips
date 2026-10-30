@@ -10,19 +10,19 @@ using UnityEngine;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class PlanterPlantInteraction : GameplayInteraction
+    public class TreePlanterPlantInteraction : GameplayInteraction
     {
         private PoolManager _poolManager;
         private EnvironmentManager _environmentManager;
 
-        private Planter _planter;
+        private TreePlanter _planter;
 
         private Prop _previewProp;
 
         public override ActionHotkey Hotkey => ActionHotkey.LeftClick;
         public override LocalisationTerm Term => LocalisationTerm.ActionsPlant;
 
-        public PlanterPlantInteraction(Planter planter, GameplayContext context) : base(context)
+        public TreePlanterPlantInteraction(TreePlanter planter, GameplayContext context) : base(context)
         {
             _poolManager = GameManager.Instance.Get<PoolManager>();
             _environmentManager = GameManager.Instance.Get<EnvironmentManager>();

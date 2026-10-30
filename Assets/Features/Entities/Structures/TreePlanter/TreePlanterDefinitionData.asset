@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 419eb266b201445418d8dae4d22db66c, type: 3}
-  m_Name: PlanterDefinitionData
+  m_Name: TreePlanterDefinitionData
   m_EditorClassIdentifier: Assembly-CSharp::FishFlingers.Entities.SaplingPlanterDefinitionData
-  _nameTerm: -897745646
-  _descriptionTerm: -868385518
+  _nameTerm: 1947234474
+  _descriptionTerm: 1984983210
   _sprite: {fileID: 21300000, guid: 6080eb884ac174f46afa310591450636, type: 3}
   _rarity: 0
   _id: 302

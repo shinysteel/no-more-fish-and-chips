@@ -7,7 +7,7 @@ using NoMoreFishAndChips.States;
 
 namespace NoMoreFishAndChips.Entities
 {
-    public class Planter : Structure<PlanterDefinitionData>, IInteractable
+    public class TreePlanter : Structure<TreePlanterDefinitionData>, IInteractable
     {
         Vector3 IInteractable.Position => transform.position;
         IEnumerable<Renderer> IInteractable.Renderers => _entityModel.MeshRenderers;
@@ -19,7 +19,7 @@ namespace NoMoreFishAndChips.Entities
         {
             base.InitialiseContext(context);
 
-            _interactions.Add(new PlanterPlantInteraction(this, _context));
+            _interactions.Add(new TreePlanterPlantInteraction(this, _context));
         }
     }
 }

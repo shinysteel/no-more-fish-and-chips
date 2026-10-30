@@ -26,14 +26,6 @@ MonoBehaviour:
     m_Localized: Peut contenir des choses comme une palourde
     m_Metadata:
       m_Items: []
-  - m_Id: 42798570824626176
-    m_Localized: Planteur
-    m_Metadata:
-      m_Items: []
-  - m_Id: 42798570853986304
-    m_Localized: "Une bo\xEEte pour faire pousser toutes les graines que vous trouverez"
-    m_Metadata:
-      m_Items: []
   - m_Id: 72039784476143616
     m_Localized: Compteur d'ondes
     m_Metadata:
@@ -63,8 +55,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 103572268988592128
-    m_Localized: "R\xE9cup\xE8re les ressources r\xE9cup\xE9r\xE9es au fond de la
-      mer"
+    m_Localized: "R\xE9cup\xE8re les d\xE9bris du fond marin"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898427097088
+    m_Localized: Planteur d'arbres
+    m_Metadata:
+      m_Items: []
+  - m_Id: 104990898456457216
+    m_Localized: "Une bo\xEEte pour faire pousser des arbres"
     m_Metadata:
       m_Items: []
   references:
