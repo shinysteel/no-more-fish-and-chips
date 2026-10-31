@@ -3,14 +3,11 @@ using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
-using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
-
 namespace NoMoreFishAndChips.Entities
 {
     public abstract class Tree : Entity
     {
         private StateManager _stateManager;
-        private NetworkManager _networkManager;
 
         private SyncVar<int> _netStageIndex = new SyncVar<int>(ownerAuth: true);
         private float _stageInterval;
@@ -24,7 +21,6 @@ namespace NoMoreFishAndChips.Entities
             base.Awake();
 
             _stateManager = GameManager.Instance.Get<StateManager>();
-            _networkManager = GameManager.Instance.Get<NetworkManager>();
         }
 
         protected override void OnEarlySpawn()
@@ -92,12 +88,15 @@ namespace NoMoreFishAndChips.Entities
         {
             base.FixedUpdate();
 
-            SwayFixedUpdate();
+            if (isOwner)
+            {
+                SwayFixedUpdate();
+            }
         }
 
         private void SwayFixedUpdate()
         {
-            Quaternion rotation = Quaternion.AngleAxis(Mathf.Sin(_networkManager.ServerTime) * TreeDefinitionData.SwayRoll, Vector3.forward);
+            Quaternion rotation = Quaternion.AngleAxis(Mathf.Sin(Time.time) * TreeDefinitionData.SwayRoll, Vector3.forward);
             EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
         }
     }
