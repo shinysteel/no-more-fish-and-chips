@@ -1,9 +1,10 @@
 using NoMoreFishAndChips.Networking;
 using NoMoreFishAndChips.States;
+using PurrNet;
+using ShinyOwl.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
 
 namespace NoMoreFishAndChips.Environments
@@ -12,7 +13,7 @@ namespace NoMoreFishAndChips.Environments
     {
         [SerializeField] private EnvironmentTimeData[] _datas;
 
-        private ETime _time = ETime.Day;
+        private SyncVar<ETime> _netTime = new SyncVar<ETime>(initialValue: ETime.Day, ownerAuth: true);
 
         private Dictionary<ETime, EnvironmentTimeData> _timeDataMap = new();
 
@@ -26,22 +27,39 @@ namespace NoMoreFishAndChips.Environments
             }
         }
 
+        public override void InitialiseContext(GameplayContext context)
+        {
+            base.InitialiseContext(context);
+
+            if (_netTime.value != ETime.Day)
+            {
+                _ = TransitionTimeAsync(ETime.Day, _netTime.value, 0f);
+            }
+        }
+
         public void ProgressTime(float duration)
         {
-            SetTime((ETime)(((int)_time + 1) % Enum.GetValues(typeof(ETime)).Length), duration);
+            SetTime((ETime)(((int)_netTime.value + 1) % Enum.GetValues(typeof(ETime)).Length), duration);
         }
 
         public void SetTime(ETime time, float duration)
         {
-            ETime previous = _time;
+            TransitionTimeRpc(_netTime.value, time, duration);
 
-            _time = time;
-
-            _ = TransitionData(_timeDataMap[previous], _timeDataMap[_time], duration);
+            _netTime.value = time;
         }
 
-        private async Task TransitionData(EnvironmentTimeData fromData, EnvironmentTimeData toData, float duration)
+        [ObserversRpc]
+        private void TransitionTimeRpc(ETime fromTime, ETime toTime, float duration)
         {
+            _ = TransitionTimeAsync(fromTime, toTime, duration);
+        }
+
+        private async Task TransitionTimeAsync(ETime fromTime, ETime toTime, float duration)
+        {
+            EnvironmentTimeData fromData = _timeDataMap[fromTime];
+            EnvironmentTimeData toData = _timeDataMap[toTime];
+
             float timer = 0f;
 
             Quaternion lightStartRotation = Quaternion.Euler(fromData.LightRotation);

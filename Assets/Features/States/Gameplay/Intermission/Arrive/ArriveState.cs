@@ -27,19 +27,19 @@ namespace NoMoreFishAndChips.States
         {
             base.Enter();
 
-            Tween.Delay(_config.ArriveDelay, Arrive);
+            if (_networkManager.IsServer)
+            {
+                _context.EnvironmentTime.ProgressTime(_config.ArriveDelay);
 
-            _context.EnvironmentTime.ProgressTime(_config.ArriveDelay);
+                Tween.Delay(_config.ArriveDelay, Arrive);
+            }
         }
 
         private void Arrive()
         {
-            if (_networkManager.IsServer)
-            {
-                _context.Ocean.SetCurrent(false, Ocean.SetCurrentDuration);
+            _context.Ocean.SetCurrent(false, Ocean.SetCurrentDuration);
 
-                Tween.Delay(Ocean.SetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));
-            }
+            Tween.Delay(Ocean.SetCurrentDuration, () => _parentStateMachine.ChangeState(EIntermissionState.Dock));   
         }
     }
 }
