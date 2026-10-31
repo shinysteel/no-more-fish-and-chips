@@ -69,7 +69,7 @@ namespace NoMoreFishAndChips.Networking
         private const string IsSubscribedClientName = "_isSubscribedClient";
         public bool IsSubscribedClient => (bool)typeof(PurrNet.NetworkManager).GetField(IsSubscribedClientName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_purrnetNetworkManager);
 
-        public float ServerTime => _purrnetNetworkManager.tickModule.TickToTime(_purrnetNetworkManager.tickModule.localTick);
+        public float ServerTime => _purrnetNetworkManager.tickModule.PreciseTickToTime(_purrnetNetworkManager.tickModule.syncedPreciseTick);
 
         public static readonly Vector3 HiddenSpawnPosition = new Vector3(0f, -15f, 0f);
 

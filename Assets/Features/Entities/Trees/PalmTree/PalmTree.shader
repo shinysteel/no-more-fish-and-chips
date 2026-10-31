@@ -201,6 +201,7 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#pragma shader_feature_local_fragment _RECEIVE_SHADOWS_OFF
 			#pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
@@ -211,7 +212,6 @@ Shader "Custom/PalmTree"
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -918,12 +918,12 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -1245,12 +1245,12 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -1548,10 +1548,10 @@ Shader "Custom/PalmTree"
 
 			HLSLPROGRAM
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -1856,10 +1856,10 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -2132,12 +2132,12 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -2509,6 +2509,7 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#pragma shader_feature_local_fragment _RECEIVE_SHADOWS_OFF
 			#pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
@@ -2518,7 +2519,6 @@ Shader "Custom/PalmTree"
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -3085,10 +3085,10 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -3382,10 +3382,10 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -3678,12 +3678,12 @@ Shader "Custom/PalmTree"
 			HLSLPROGRAM
 
 			#define ASE_GEOMETRY
+			#pragma shader_feature_local _ALPHATEST_ON
 			#define _NORMAL_DROPOFF_TS 1
 			#define ASE_TIME_BASED_MOTION_VECTORS
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#pragma multi_compile_fragment _ DEBUG_DISPLAY
-			#pragma shader_feature_local _ALPHATEST_ON
 			#define ASE_VERSION 19912
 			#define ASE_SRP_VERSION 170300
 
@@ -3966,7 +3966,6 @@ Shader "Custom/PalmTree"
 }
 /*ASEBEGIN
 Version=19912
-{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":62,"pos":[-3880,-152],"params":["Inherit","False","2860","483","Wind","26","25","27","41","43","42","44","28","34","30","55","54","32","50","17","48","52","22","56","58","35","60","61","38","37","45","51","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.PosVertexDataNode, AmplifyShaderEditor","id":32,"pos":[-3832,80],"params":["Inherit","False","0","0","5","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":54,"pos":[-3640,80],"params":["Inherit","False","2","2","0","FLOAT3","0,0,0","False","1","FLOAT3","2,2,2","False","1","FLOAT3","0"]}
 {"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":55,"pos":[-3480,80],"params":["Inherit","False","FLOAT3","1","0","FLOAT3","0,0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
@@ -3982,9 +3981,9 @@ Version=19912
 {"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":43,"pos":[-2536,-16],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":44,"pos":[-2536,96],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SimpleAddOpNode, AmplifyShaderEditor","id":35,"pos":[-3088,-104],"params":["Inherit","False","2","2","0","FLOAT","0","False","1","FLOAT","0","False","1","FLOAT","0"]}
-{"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":27,"pos":[-2408,-104],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":41,"pos":[-2408,-16],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":42,"pos":[-2408,96],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
+{"type":"AmplifyShaderEditor.SinOpNode, AmplifyShaderEditor","id":27,"pos":[-2408,-104],"params":["Inherit","False","1","0","FLOAT","0","False","1","FLOAT","0"]}
 {"type":"AmplifyShaderEditor.DynamicAppendNode, AmplifyShaderEditor","id":25,"pos":[-2272,-104],"params":["Inherit","False","FLOAT4","4","0","FLOAT","0","False","1","FLOAT","0","False","2","FLOAT","0","False","3","FLOAT","0","False","1","FLOAT4","0"]}
 {"type":"AmplifyShaderEditor.Vector3Node, AmplifyShaderEditor","id":51,"pos":[-2272,64],"params":["Inherit","False","Property","_WindStrength","WindStrength","3","0","Create","True","0","0","0","False","0","False","Object","-1","","0.05,0.025,0.05","0.05,0.025,0.05","0","4","FLOAT3","0","FLOAT","1","FLOAT","2","FLOAT","3"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":50,"pos":[-2048,-104],"params":["Inherit","False","2","2","0","FLOAT4","0,0,0,0","False","1","FLOAT3","0,0,0","False","1","FLOAT4","0"]}
@@ -3996,6 +3995,7 @@ Version=19912
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":52,"pos":[-1424,-104],"params":["Inherit","False","2","2","0","FLOAT4","0,0,0,0","False","1","FLOAT","0","False","1","FLOAT4","0"]}
 {"type":"AmplifyShaderEditor.SimpleMultiplyOpNode, AmplifyShaderEditor","id":15,"pos":[-536,-72],"params":["Inherit","False","2","2","0","COLOR","0,0,0,0","False","1","COLOR","0,0,0,0","False","1","COLOR","0"]}
 {"type":"AmplifyShaderEditor.RegisterLocalVarNode, AmplifyShaderEditor","id":22,"pos":[-1264,-104],"params":["Inherit","False","vertexOffset","-1","True","1","0","FLOAT4","0,0,0,0","False","1","FLOAT4","0"]}
+{"type":"AmplifyShaderEditor.CommentaryNode, AmplifyShaderEditor","id":62,"pos":[-3880,-152],"params":["Inherit","False","2860","483","Wind","26","25","27","41","43","42","44","28","34","30","55","54","32","50","17","48","52","22","56","58","35","60","61","38","37","45","51","","1,1,1,1","0","0"]}
 {"type":"AmplifyShaderEditor.BreakToComponentsNode, AmplifyShaderEditor","id":16,"pos":[-368,0],"params":["Inherit","False","COLOR","1","0","COLOR","0,0,0,0","False","16","FLOAT","0","FLOAT","1","FLOAT","2","FLOAT","3","FLOAT","4","FLOAT","5","FLOAT","6","FLOAT","7","FLOAT","8","FLOAT","9","FLOAT","10","FLOAT","11","FLOAT","12","FLOAT","13","FLOAT","14","FLOAT","15"]}
 {"type":"AmplifyShaderEditor.GetLocalVarNode, AmplifyShaderEditor","id":23,"pos":[-432,120],"params":["Inherit","False","22","vertexOffset","1","0","OBJECT","","False","1","FLOAT4","0"]}
 {"type":"AmplifyShaderEditor.TemplateMultiPassMasterNode, AmplifyShaderEditor","id":0,"pos":[0,0],"params":["Float","False","False","-1","3","UnityEditor.ShaderGraphLitGUI","0","1","New Amplify Shader","94348b07e5e8bab40bd6c8a1e3df54cd","True","ExtraPrePass","0","0","ExtraPrePass","6","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","0","False","","False","False","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","4","RenderPipeline=UniversalPipeline","RenderType=Opaque=RenderType","Queue=Geometry=Queue=0","UniversalMaterialType=Lit","True","5","True","14","all","0","False","True","1","1","False","","0","False","","0","1","False","","0","False","","False","False","False","False","False","False","False","False","False","False","False","False","True","0","False","","False","True","True","True","True","True","0","False","","False","False","False","False","False","False","False","True","False","0","False","","255","False","","255","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","0","False","","False","True","1","False","","True","3","False","","True","True","0","False","","0","False","","False","True","0","False","False","0","","0","0","Standard","0","False","0"]}
@@ -4027,9 +4027,9 @@ Version=19912
 {"wire":[44,1,45,0]}
 {"wire":[35,0,28,0]}
 {"wire":[35,1,34,0]}
-{"wire":[27,0,35,0]}
 {"wire":[41,0,43,0]}
 {"wire":[42,0,44,0]}
+{"wire":[27,0,35,0]}
 {"wire":[25,0,27,0]}
 {"wire":[25,1,41,0]}
 {"wire":[25,2,42,0]}
@@ -4048,4 +4048,4 @@ Version=19912
 {"wire":[1,6,16,3]}
 {"wire":[1,8,23,0]}
 ASEEND*/
-//CHKSM=FF8687E5DF4743D57C946D56150A44E036DC45E2
+//CHKSM=BD9FCD493A4EABF632994BE075766AB5BED8621E

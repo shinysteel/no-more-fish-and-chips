@@ -6,8 +6,9 @@ using PrimeTween;
 using PurrNet;
 using ShinyOwl.Common;
 using ShinyOwl.Common.Utils;
-using System.Runtime.CompilerServices;
 using UnityEngine;
+
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
 
 namespace NoMoreFishAndChips.Environments
 {
@@ -24,9 +25,10 @@ namespace NoMoreFishAndChips.Environments
         [SerializeField] private float _currentOnSpeed = 1f;
         [SerializeField] private float _vertexTimeMultiplier = 0.1f;
 
+        private NetworkManager _networkManager;
+
         private Material _material;
 
-        private SyncVar<float> _netOceanTime = new SyncVar<float>(ownerAuth: true);
         private SyncVar<float> _netCurrentTime = new SyncVar<float>(ownerAuth: true);
         private float _currentSpeed;
 
@@ -55,6 +57,8 @@ namespace NoMoreFishAndChips.Environments
         {
             base.Awake();
 
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+
             _material = _meshRenderer.material;
 
             _currentSpeed = _currentOnSpeed;
@@ -64,10 +68,8 @@ namespace NoMoreFishAndChips.Environments
         {
             base.OnSpawned();
 
-            HandleNetOceanTimeChanged(_netOceanTime.value);
             HandleNetCurrentTimeChanged(_netCurrentTime.value);
 
-            _netOceanTime.onChanged += HandleNetOceanTimeChanged;
             _netCurrentTime.onChanged += HandleNetCurrentTimeChanged;
         }
 
@@ -75,13 +77,7 @@ namespace NoMoreFishAndChips.Environments
         {
             base.OnDespawned();
 
-            _netOceanTime.onChanged -= HandleNetOceanTimeChanged;
             _netCurrentTime.onChanged -= HandleNetCurrentTimeChanged;
-        }
-
-        private void HandleNetOceanTimeChanged(float time)
-        {
-            _material.SetFloat(OceanTimeName, time);
         }
 
         private void HandleNetCurrentTimeChanged(float time)
@@ -91,14 +87,10 @@ namespace NoMoreFishAndChips.Environments
 
         private void Update()
         {
-            if (!isFullySpawned)
-            {
-                HandleNetOceanTimeChanged(Time.time);   
-            }
-            else if (isOwner)
-            {
-                _netOceanTime.value += Time.deltaTime;
+            _material.SetFloat(OceanTimeName, isFullySpawned ? _networkManager.ServerTime : Time.time);
 
+            if (isOwner && isFullySpawned)
+            {
                 // Current speed influences how fast 'time' increases. The 2f is here so that to keep the visual fast without affecting entities
                 _netCurrentTime.value += _currentSpeed * 2f * Time.deltaTime;
             }
@@ -133,7 +125,7 @@ namespace NoMoreFishAndChips.Environments
             // Since Gerstner waves offset vertices horizontally, we need to use fixed-point iteration to approximate the original position
             Vector2 originalPosition = targetPosition;
             int iterations = 3;
-            float oceanTime = isFullySpawned ? _netOceanTime.value : Time.time;
+            float oceanTime = isFullySpawned ? _networkManager.ServerTime : Time.time;
 
             for (int i = 0; i < iterations; i++)
             {

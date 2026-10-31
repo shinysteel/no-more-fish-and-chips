@@ -3,11 +3,14 @@ using PurrNet;
 using ShinyOwl.Common;
 using UnityEngine;
 
+using NetworkManager = NoMoreFishAndChips.Networking.NetworkManager;
+
 namespace NoMoreFishAndChips.Entities
 {
     public abstract class Tree : Entity
     {
         private StateManager _stateManager;
+        private NetworkManager _networkManager;
 
         private SyncVar<int> _netStageIndex = new SyncVar<int>(ownerAuth: true);
         private float _stageInterval;
@@ -21,6 +24,15 @@ namespace NoMoreFishAndChips.Entities
             base.Awake();
 
             _stateManager = GameManager.Instance.Get<StateManager>();
+            _networkManager = GameManager.Instance.Get<NetworkManager>();
+        }
+
+        protected override void OnEarlySpawn()
+        {
+            // Without using OnEarlySpawn timing, we can briefly see all the stages active
+            _netStageIndex.onChanged += HandleNetStageIndexChanged;
+
+            HandleNetStageIndexChanged(_netStageIndex.value);
         }
 
         protected override void OnSpawned()
@@ -31,10 +43,6 @@ namespace NoMoreFishAndChips.Entities
             {
                 _stageInterval = TreeDefinitionData.GrowthDuration / (TreeModel.StageGameObjects.Length - 1);
             }
-
-            _netStageIndex.onChanged += HandleNetStageIndexChanged;
-
-            HandleNetStageIndexChanged(_netStageIndex.value);
         }
 
         protected override void OnDespawned()
@@ -78,6 +86,19 @@ namespace NoMoreFishAndChips.Entities
             {
                 _netStageIndex.value = index;
             }
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            SwayFixedUpdate();
+        }
+
+        private void SwayFixedUpdate()
+        {
+            Quaternion rotation = Quaternion.AngleAxis(Mathf.Sin(_networkManager.ServerTime) * TreeDefinitionData.SwayRoll, Vector3.forward);
+            EntityPhysicsLogic.Rigidbody.MoveRotation(rotation);
         }
     }
 }
