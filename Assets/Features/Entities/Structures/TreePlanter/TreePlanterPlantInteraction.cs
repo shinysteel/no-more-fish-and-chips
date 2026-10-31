@@ -47,7 +47,7 @@ namespace NoMoreFishAndChips.Entities
         {
             _context.LocalPlayer.Inventory.TryRemoveItems(_planter.DefinitionData.PlantRecipe.ToChangeParams());
 
-            _planter.Plant();
+            _planter.PlantRpc();
         }
 
         public override void ShowPreview()

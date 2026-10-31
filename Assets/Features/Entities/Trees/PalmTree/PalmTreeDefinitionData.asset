@@ -26,3 +26,5 @@ MonoBehaviour:
   _entityHealthSettings:
     _health: 1
     _isDamageable: 1
+  _growthDuration: 60
+  _swayRoll: 2.5

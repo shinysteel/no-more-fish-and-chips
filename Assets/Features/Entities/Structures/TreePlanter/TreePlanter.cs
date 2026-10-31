@@ -5,6 +5,7 @@ using NoMoreFishAndChips.Environments;
 using System.Collections.Generic;
 using NoMoreFishAndChips.States;
 using NoMoreFishAndChips.Networking;
+using PurrNet;
 
 namespace NoMoreFishAndChips.Entities
 {
@@ -32,7 +33,8 @@ namespace NoMoreFishAndChips.Entities
             _interactions.Add(new TreePlanterPlantInteraction(this, _context));
         }
 
-        public void Plant()
+        [ServerRpc(requireOwnership: false)]
+        public void PlantRpc()
         {
             Vector3 position = transform.position + Vector3.up * 0.1875f;
             

@@ -95,7 +95,7 @@ namespace NoMoreFishAndChips.UI
 
             if (!text.StartsWith('/'))
             {
-                _networkManager.SendToAll(new ChatMessage() { Username = _networkManager.LocalPurrnetPlayer.Username, Message = text });
+                _networkManager.SendToServer(new ChatMessage() { Username = _networkManager.LocalPurrnetPlayer.Username, Message = text });
             }
             else
             {
@@ -151,31 +151,39 @@ namespace NoMoreFishAndChips.UI
 
         private void HandleChatMessage(PlayerID id, ChatMessage message, bool asServer)
         {
-            string code = ColorUtility.ToHtmlStringRGB(_usernameColor);
-            string text = $"<color=#{code}>{message.Username}</color>: {message.Message}";
-
-            ChatMessageView view = _poolManager.GetTypedPoolable<ChatMessageView>(new SpawnParams() { Parent = _messageViewContainer });
-            view.Setup(this, text);
-
-            _messageViews.Add(view);
-
-            if (_messageViews.Count > MaxMessageViews)
+            if (asServer)
             {
-                _poolManager.ReturnTypedPoolable(_messageViews[0]);
-                _messageViews.RemoveAt(0);
+                // Only the server can run SendToAll
+                _networkManager.SendToAll(message);
             }
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_messageViewContainer);
-            
-            async Task scrollAsync()
+            else
             {
-                await Task.Yield();
-                await Task.Yield();
+                string code = ColorUtility.ToHtmlStringRGB(_usernameColor);
+                string text = $"<color=#{code}>{message.Username}</color>: {message.Message}";
 
-                _messagesScrollRect.verticalNormalizedPosition = 0f;
+                ChatMessageView view = _poolManager.GetTypedPoolable<ChatMessageView>(new SpawnParams() { Parent = _messageViewContainer });
+                view.Setup(this, text);
+
+                _messageViews.Add(view);
+
+                if (_messageViews.Count > MaxMessageViews)
+                {
+                    _poolManager.ReturnTypedPoolable(_messageViews[0]);
+                    _messageViews.RemoveAt(0);
+                }
+
+                LayoutRebuilder.ForceRebuildLayoutImmediate(_messageViewContainer);
+
+                async Task scrollAsync()
+                {
+                    await Task.Yield();
+                    await Task.Yield();
+
+                    _messagesScrollRect.verticalNormalizedPosition = 0f;
+                }
+
+                _ = scrollAsync();
             }
-
-            _ = scrollAsync();
         }
 
         private void Update()
